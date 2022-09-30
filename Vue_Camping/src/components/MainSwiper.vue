@@ -33,7 +33,7 @@
   
   <style>
     .swiper {
-        width: 100%;
+        width: 100vw;
         height: 650px;
     }
 
