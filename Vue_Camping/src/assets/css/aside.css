@@ -1,0 +1,46 @@
+aside {
+    width: 20%;
+    height: 100vh;
+    background-color: rgba(250,241,230,0.7);
+    position:fixed;
+    display: flex;
+    align-items: center;
+    transform: translateX(calc( -100% + 40px));
+    transition-duration: 1s;
+}
+.aside-button {
+    width:calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.aside-button > div {
+    width:100%;
+    text-align: center;
+    padding:10px;
+    cursor: pointer;
+    color:gray;
+    font-weight: 500;
+    transition-duration: 0.5s;
+}
+.aside-button > div:hover {
+    color:black;
+    font-weight: bold;
+}
+
+.aside-title {
+    height: 100%;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.aside-title > span {
+    font-size: 1rem;
+    font-weight: bold;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+}
+aside:hover {
+    transform: translateX(0);
+}
