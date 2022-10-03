@@ -134,7 +134,9 @@
 <script>
 import MaterialBadge from "@/components/MaterialBadge.vue";
 export default{
-    
+    components : {
+        MaterialBadge
+    },
     data : function(){
       return {
         wishSex : [],

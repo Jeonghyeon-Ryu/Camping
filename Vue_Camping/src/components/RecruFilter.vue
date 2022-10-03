@@ -1,7 +1,5 @@
 <template>
-<div >
-    <form id="recru-form" role="form">
-
+    <div >
         <div class="recru-search-box">
             <span>희망 동행자</span>
             <div class="recru-search-sex">
@@ -69,8 +67,7 @@
             <button type="button" class="btn bg-gradient-light btn-md false"
                     @click="sendFileter">검색</button>
         </div>
-    </form>
-</div>
+    </div>
 </template>
 <script>
     

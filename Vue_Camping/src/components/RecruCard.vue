@@ -4,7 +4,7 @@
   <!-- 카드 헤더 -->
   <div class="recru-card-header" >
       <div class="card-header-img">
-          <img src="require(`@/assets/img/{{recruCard.filename}}`)" alt="camping gear">
+          <img src="`{{recruCard.filename}}`" alt="camping gear">
       </div>
       <div class = "card-header-text" > 모집중 </div >
   </div>

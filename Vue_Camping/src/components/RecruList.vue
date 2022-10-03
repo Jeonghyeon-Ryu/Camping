@@ -42,7 +42,7 @@
                 filterStatus : false,
                 recruPosts : [
                                 {
-                                gear_img : 'gear04.jpg',
+                                gear_img : '../assets/img/gear04.jpg',
                                 title : 'tnwjdfasfd',
                                 my_gear : '4인용텐트',
                                 need_gear : '타프',
