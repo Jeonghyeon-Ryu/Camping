@@ -21,6 +21,7 @@
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.title">
                     <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
+                    <!-- <router-link tag="RouterCard" v-bind:to="{name:recruCard,params:{recruCard:'recruInfo'}}"></router-link> -->
                 </div>
             </div>      
         </div>
