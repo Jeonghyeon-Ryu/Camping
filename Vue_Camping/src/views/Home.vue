@@ -1,9 +1,10 @@
 <template>
   <MainSwiper></MainSwiper>
-  <CampRegister></CampRegister>
+  <RecruList></RecruList>
 </template>
 
 <script setup>
   import MainSwiper from '../components/MainSwiper.vue';
-  import CampRegister from '../components/CampRegister.vue';
+import RecruList from '@/components/RecruList.vue';
+
 </script>
