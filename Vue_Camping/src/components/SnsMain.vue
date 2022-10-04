@@ -7,40 +7,85 @@
     </div>
     <div class="sns-img-container">
       <div class="sns-img">
-        <div class="sns-write-number" style="display :none;">1111</div>
-        <img src="이미지1.jfif">
+        <input type="text" v-bind:value="snsWriteNumber1"  style="display :none;">
+        <img v-bind:src="snsMaingImg1">
       </div>
       <div class="sns-img">
-        <div class="sns-write-number" style="display :none;">222</div>
-        <img src="이미지2.jfif">
+        <input type="text" v-bind:value="snsWriteNumber2"  style="display :none;">
+        <img v-bind:src="snsMaingImg2">
       </div>
       <div class="sns-img">
-        <div class="sns-write-number" style="display :none;">333</div>
-        <img src="이미지3.jfif">
+        <input type="text" v-bind:value="snsWriteNumber3"  style="display :none;">
+        <img v-bind:src="snsMaingImg3">
       </div>
       <div class="sns-img">
-        <div class="sns-write-number" style="display :none;">4444</div>
-        <img src="이미지4.jfif">
+        <input type="text" v-bind:value="snsWriteNumber4"  style="display :none;">
+        <img v-bind:src="snsMaingImg4">
       </div>
       <div class="sns-img">
-        <div class="sns-write-number" style="display :none;">5555</div>
-        <img src="이미지5.jfif">
+        <input type="text" v-bind:value="snsWriteNumber5"  style="display :none;">
+        <img v-bind:src="snsMaingImg5">
       </div>
       <div class="sns-img">
-        <div class="sns-write-number" style="display :none;">6666</div>
-        <img src="이미지6.jfif">
+        <input type="text" v-bind:value="snsWriteNumber6"  style="display :none;">
+        <img v-bind:src="snsMaingImg6">
+      </div>
+      <div class="sns-img">
+        <input type="text" v-bind:value="snsWriteNumber7"  style="display :none;">
+        <img v-bind:src="snsMaingImg7">
+      </div>
+      <div class="sns-img">
+        <input type="text" v-bind:value="snsWriteNumber8"  style="display :none;">
+        <img v-bind:src="snsMaingImg8">
+      </div>
+      <div class="sns-img">
+        <input type="text" v-bind:value="snsWriteNumber9"  style="display :none;">
+        <img v-bind:src="snsMaingImg9">
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import img1 from "@/assets/img/이미지1.jpg"
+  import img2 from "@/assets/img/이미지2.jpg"
+  import img3 from "@/assets/img/이미지3.jpg"
+  import img4 from "@/assets/img/이미지4.jpg"
+  import img5 from "@/assets/img/이미지5.jpg"
+  import img6 from "@/assets/img/이미지6.jpg"
+  import img7 from "@/assets/img/이미지7.jpg"
+  import img8 from "@/assets/img/이미지8.jpg"
+  import img9 from "@/assets/img/이미지9.jpg"
+
   export default{
-   data : function(){
- 
-   }  
+    data : ()=>{
+      return {     
+        snsWriteNumber1 : '1111',   
+        snsWriteNumber2 : '2222',
+        snsWriteNumber3 : '3333',
+        snsWriteNumber4 : '4444',
+        snsWriteNumber5 : '5555',
+        snsWriteNumber6 : '6666',  
+        snsWriteNumber7 : '7777',
+        snsWriteNumber8 : '8888',
+        snsWriteNumber9 : '9999',  
+        snsMaingImg1 : img1,
+        snsMaingImg2 : img2,
+        snsMaingImg3 : img3,
+        snsMaingImg4 : img4,
+        snsMaingImg5 : img5,
+        snsMaingImg6 : img6,
+        snsMaingImg7 : img7,
+        snsMaingImg8 : img8,
+        snsMaingImg9 : img9
+
+        
+      }
+    },
+    methods : {
+     
+    }
   }
- 
  </script>
 
 

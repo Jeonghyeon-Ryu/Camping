@@ -4,18 +4,20 @@
 
 
 <script>
-export default{
-  components : {},
-  data : ()=>{
-    return {
-      
-      
+  export default{
+    components : {},
+    data : ()=>{
+      return {        
+        snsWriteId : '',
+        snsWriteText : ''
+
+        
+      }
+    },
+    methods : {
+     
     }
-  },
-  methods : {
-    
   }
-}
 </script>
 
 <style scoped>

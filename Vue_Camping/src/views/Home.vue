@@ -1,9 +1,9 @@
 <template>
   <MainSwiper></MainSwiper>
-  <CampRegister></CampRegister>
-  <SnsMain></SnsMain>
-  <SnsWrtie></SnsWrtie>
-  <SnsMyFeed></SnsMyFeed>
+  <!-- <CampRegister></CampRegister> -->
+  <!-- <SnsMain></SnsMain> -->
+  <!-- <SnsWrtie></SnsWrtie> -->
+  <!-- <SnsMyFeed></SnsMyFeed> -->
   <SnsFeedDetail></SnsFeedDetail>
 </template>
 

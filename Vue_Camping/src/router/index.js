@@ -11,18 +11,6 @@ const routes = [
   // name: 'About',
   // component: () => import ('../views/About.vue'),
   // },
-  {
-    path : '/',
-    name : 'snsMainView',
-    component : () =>
-    import("../components/snsMainView.vue"),
-  },
-  {
-    path : '/',
-    name : 'snsWriteView',
-    component : () =>
-    import("../components/snsWriteView.vue"),
-  },
 ]
 
 const router = createRouter({
