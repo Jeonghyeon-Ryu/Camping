@@ -10,13 +10,9 @@ export default {
   props : ['search'],
   data() {
     return {
-      markerPositions1: [
-        [33.452278, 126.567803],
-        [33.452671, 126.574792],
-        [33.451744, 126.572441],
-      ],
       markers: [],
       infowindow: null,
+      map: ''
     };
   },
   mounted() {
@@ -42,8 +38,12 @@ export default {
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
       let ps = new kakao.maps.services.Places();
-      console.log(this.search);
-      ps.keywordSearch(this.search,this.placesSearchCB);
+      console.log(this.search)
+      if(this.search!='' && this.search!=undefined){
+        ps.keywordSearch(this.search,this.placesSearchCB);
+      } else {
+        ps.keywordSearch("카카오",this.placesSearchCB);
+      }
     },
     changeSize(size) {
       const container = document.getElementById("map");
