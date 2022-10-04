@@ -20,8 +20,6 @@
               <input type='file' id='btnAtt' multiple='multiple' />
             </div>
           </div>
-
-
         </div>
       </div>
 
