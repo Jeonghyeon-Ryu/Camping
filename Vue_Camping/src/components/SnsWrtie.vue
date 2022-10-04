@@ -30,11 +30,16 @@
         </div>
       </div>
 
+      
+      
+      
+      
+      
       <div class="sns-write-form">
         <div class="sns-write-form-id-form">
           <div class="sns-write-form-id">
             <div class="sns-write-id">
-              <img src="이미지6.jfif">
+               <img :src='snsWriteIdImg' alt=" "> 
             </div>
           </div>
           <div class="sns-write-form-id">
@@ -44,7 +49,7 @@
           </div>
         </div>
         <div class="sns-write-context">
-          <textarea placeholder="게시글 내용을 입력해주세요"></textarea>
+          <textarea v-model="snsWriteText"></textarea>
 
         </div>
         <div class="sns-write-location">
@@ -53,17 +58,29 @@
 
         </div>
       </div>
+      
     </div>
   </div>
   </div>
 </template>
 
 <script>
- export default{
-  data : function(){
+import img1 from "@/assets/img/이미지1.jpg"
+  export default{
+    components : {},
+    data : ()=>{
+      return {        
+        snsWriteId : '작성자id',
+        snsWriteText : '내용을 입력하세요',
+        snsWriteIdImg : img1
 
-  }  
- }
+        
+      }
+    },
+    methods : {
+     
+    }
+  }
 
 </script>
 
@@ -140,6 +157,7 @@
       position: absolute;
       background-color: rgba(228, 239, 231, 0.7);
       /* border: none; */
+      
       right: 10px;
       margin-right: 10px;
       color: rgb(255, 255, 255);
