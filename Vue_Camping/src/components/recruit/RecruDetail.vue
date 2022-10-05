@@ -8,7 +8,7 @@
                         <RecruDetailImage></RecruDetailImage>
                     </div>
                     <div id="map" class="recru-detail-map ">
-                        지도
+                        <RecruMap/>
                     </div>
                 </div>
                 <div class="recru-detail-col">
@@ -97,12 +97,14 @@
 <script>
     import EntryStandByCard from './EntryStandByCard.vue';
     import EntryCard from './EntryCard.vue';
-import RecruDetailImage from './RecruDetailImage.vue';
+    import RecruDetailImage from './RecruDetailImage.vue';
+    import RecruMap from './RecruMap.vue';
     export default{
         components :{
     EntryStandByCard,
     EntryCard,
-    RecruDetailImage
+    RecruDetailImage,
+    RecruMap
 },
         data:function(){
             return{
@@ -250,6 +252,7 @@ import RecruDetailImage from './RecruDetailImage.vue';
     /* 장비사진, 지도 크기 */
     .recru-detail-img, .recru-detail-info ,.recru-detail-map{ 
         height: 400px;
+        width: 90%;
         min-width: 400px;
         margin: 30px 10px;
         display: block;
