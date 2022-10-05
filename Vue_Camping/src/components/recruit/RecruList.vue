@@ -43,7 +43,7 @@
                 filterStatus : false,
                 recruPosts : [
                                 {
-                                gear_img : '../assets/img/gear04.jpg',
+                                gear_img : '@/assets/img/gear04.jpg',
                                 title : 'tnwjdfasfd',
                                 my_gear : '4인용텐트',
                                 need_gear : '타프',
@@ -51,7 +51,7 @@
                                 camping_point : '순천만'
                                 },
                                 {
-                                gear_img : '../assets/img/gear06.jpg',
+                                gear_img : '@/assets/img/gear06.jpg',
                                 title : '수정된222',
                                 my_gear : '4인용텐트222',
                                 need_gear : '타프',
@@ -59,7 +59,7 @@
                                 camping_point : '순천만'
                                 },
                                 {
-                                gear_img : '../assets/img/gear06.jpg',
+                                gear_img : '@/assets/img/gear06.jpg',
                                 title : '수정된23322sssssssadsdasddddddddddddddasdsaddsdsds',
                                 my_gear : '4인용텐트 길게 길게 글을 쓰면 어떻게 될까요 dffff  fffff ff fff ffffffffffffffffffff222',
                                 need_gear : '타프만 필요한가 가진건 아무것도 없고 캠핑에 대해 아는 것도 일도 없는 생초보라 지식가득 장비 가득 고인물을 원합니다 츄라이 츄라이',

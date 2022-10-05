@@ -1,10 +1,10 @@
 <template>
-  <MainSwiper></MainSwiper>
-  <RecruDetail></RecruDetail>
+
+  <RecruDetail2></RecruDetail2>
 </template>
 
 <script setup>
-  import MainSwiper from '../components/MainSwiper.vue';
-import RecruDetail from '@/components/RecruDetail.vue';
+
+import RecruDetail2 from '@/components/recruit/RecruDetail2.vue';
 
 </script>
