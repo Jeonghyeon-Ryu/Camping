@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-     import Swal from 'sweetalert2';
+    import Swal from 'sweetalert2';
     export default{
         props:{
             entryCard : Object
@@ -61,7 +61,7 @@
                     showCancelButton: true,              
                 }).then(result => {
                     if(result.isConfirmed){
-                        Swal.fire('동행을 수락하였습니다.','함께 여행을 떠나요!','success');
+                        Swal.fire('동행을 거절하였습니다.','다음에 함께해요','');
                     }
                 })
             }

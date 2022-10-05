@@ -5,6 +5,7 @@
                 <div class="recru-detail-col">
                     <div class="recru-detail-img" >
                         <img src='@/assets/img/camping_gear01.jpg'>
+                        <RecruDetailImage></RecruDetailImage>
                     </div>
                     <div id="map" class="recru-detail-map ">
                         지도
@@ -96,11 +97,13 @@
 <script>
     import EntryStandByCard from './EntryStandByCard.vue';
     import EntryCard from './EntryCard.vue';
+import RecruDetailImage from './RecruDetailImage.vue';
     export default{
         components :{
-            EntryStandByCard,
-            EntryCard
-        },
+    EntryStandByCard,
+    EntryCard,
+    RecruDetailImage
+},
         data:function(){
             return{
                 user : {
