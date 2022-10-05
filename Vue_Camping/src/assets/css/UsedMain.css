@@ -1,0 +1,210 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#container {
+  margin: 0 auto;
+  margin-top: 2%;
+  width: 100%;
+  padding: 1%;
+}
+
+#container2 {
+  width: 100%;
+  flex-direction: column;
+}
+
+.used-headd {
+  display: flex;
+  flex-direction: column;
+}
+
+.used-head ul,
+.used-head li {
+  list-style: none;
+  float: left;
+}
+
+ul {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+label {
+  width: 100px;
+  display: inline-block;
+  text-align: center;
+  line-height: 40px;
+}
+
+h2 {
+  padding: 20px;
+}
+
+.used-filter {
+  width: 70%;
+  min-width: 400px;
+  padding: 10px;
+  /* background-color: rgb(150, 192, 168); */
+  box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.used-filter-ul input,
+.used-filter-ul select {
+  width: 140px;
+  height: 40px;
+  padding: 10px;
+}
+
+.used-search {
+  text-align: center;
+  flex-direction: column;
+}
+
+.used-searchbox input {
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  font-size: 1.2em;
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 7px;
+  box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px;
+}
+
+.used-search {
+  display: flex;
+  flex-direction: column;
+}
+
+.used-searchbox {
+  display: flex;
+  justify-content: center;
+  padding: 3%;
+  padding-bottom: 1%;
+  /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png'); */
+}
+
+.used-searchbox>div {
+  width:55%;
+  height:fit-content;
+  position:relative;
+}
+.used-searchbox img {
+  width: 50px;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.used-selected {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+/*본문*/
+.used-body {
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  text-align: right;
+}
+
+.sellbutton {
+  margin-top: -200px;
+  padding: 10px;
+  float: right;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 70%;
+  margin: 0 auto;
+  padding: 10px;
+
+}
+
+/* .cards::after {
+  display: block;
+  content:"";
+  width: 380px;
+  margin: 10px;
+} */
+.card {
+  width: 380px;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+  box-shadow: #f5f5f5 1px 1px 5px 0.5px;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.card-pic {
+  margin: 0 auto;
+  width: 350px;
+  height: 200px;
+  overflow: hidden;
+
+  border: 1px solid #e6e6e6;
+}
+
+.card-pic img {
+  width: 100%;
+}
+
+.card-info {
+  margin: 0 auto;
+  padding: 10px;
+  width: 300px;
+  height: 120px;
+  /* border: 1px solid gray; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-right {
+  text-align: right;
+}
+
+span {
+  text-align: center;
+  font-weight: bold;
+  color: #747474;
+  padding: 10px;
+  background-color: #e6e6e6;
+  border-radius: 6px;
+  margin: 10px;
+}
+
+.used-foote {
+  position: fixed;
+  right: 5vw;
+  bottom: 4vw;
+}
+
+.used-foote button {
+  width: 60px;
+  padding: 10px;
+  border: none;
+  border-radius: 90px;
+  background-color: rgb(81, 131, 81);
+  box-shadow: #dadada 1px 1px 3px 0.5px;
+  color: white;
+  font-size: 1em;
+  /* position:fixed; */
+}
+.used-foote button:hover {
+  cursor:pointer;
+} 

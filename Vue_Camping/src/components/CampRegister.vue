@@ -11,7 +11,7 @@
         <label>사진등록
           <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
         </label>
-      </div>
+      </div>np
       <form class="camp-register-form" action="" onsubmit="return false">
         <label>캠핑장 이름<input type="text" class="camp-register-name"></label>
         <label>주소
