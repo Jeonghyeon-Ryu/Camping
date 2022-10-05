@@ -1,10 +1,12 @@
 <template>
 
-  <RecruDetail2></RecruDetail2>
+  <RecruDetail></RecruDetail>
+  <RecruList></RecruList>
 </template>
 
 <script setup>
 
-import RecruDetail2 from '@/components/recruit/RecruDetail2.vue';
+  import RecruDetail from '@/components/recruit/RecruDetail.vue';
+import RecruList from '@/components/recruit/RecruList.vue';
 
 </script>

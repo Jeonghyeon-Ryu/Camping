@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">      
+    <div class="recru-list-container">      
         <div id="recru-list-header">
             <h2>캠핑 동행 모집</h2>
         </div>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         <!-- 리스트 -->
-        <div class="container mt-5">
+        <div class="container">
             <!-- 카드 -->
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.title">
@@ -28,9 +28,9 @@
     </div>
 </template>
 <script>
-    import KeywordSearch from "./KeywordSearch.vue";
-    import RecruFilter from "./RecruFilter.vue";
-    import RecruCard from "./RecruCard.vue";
+    import KeywordSearch from "@/components/KeywordSearch.vue";
+    import RecruFilter from "@/components/recruit/RecruFilter.vue";
+    import RecruCard from "@/components/recruit/RecruCard.vue";
 
     export default{
         components: {
@@ -84,6 +84,9 @@
     list-style: none;
     font-style: none;
     box-sizing: border-box;
+  }
+  .recru-list-container{
+    margin-top: 150px;
   }
     /* 카드 목록 */
   .recru-card-box{
