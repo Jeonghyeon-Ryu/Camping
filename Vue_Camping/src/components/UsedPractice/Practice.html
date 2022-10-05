@@ -2,149 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>주소검색</title>
-<style>
-#insert_list #drop_the_text input{
-  background: #343a40;
-  background-image: url(/assets/img/bg9.jpg);
-  background-position: 5px center;
-  padding-left: 40px;
-  border: 1px solid #2e3238;
-  width: 100%;
-  height: 30px;
-  box-sizing: border-box;
-  outline: none;
-  border-radius: 3px;
-}
-</style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-
-<H2>주소검색</H2>
-<div>
-    <select id="sido">
-        <option>시/도</option>
-        <option>서울특별시</option>
-        <option>경기도</option>
-        <option>인천광역시</option>
-        <option>부산광역시</option>
-        <option>대구광역시</option>
-        <option>울산광역시</option>
-        <option>대전광역시</option>
-        <option>광주광역시</option>
-    </select>
-
-    <select id="gugun">
-        <option>시/군/구</option>
-    </select>
-</div>
-<p id="addr"></p>
-
-
-<div id="drop_the_text">
-    <input type="text" placeholder="Add List" id="write_list">
-  </div>
-
-
-
-<script>
-  let sd = ['', '서울특별시', '경기도', '인천광역시', '부산광역시','대구광역시','울산광역시','대전광역시','광주광역시'];
-    let sgg = [
-                ['시/군/구'],
-                    ['시/군/구','강남구','강서구','서초구','송파구'],
-                    ['시/군/구','광명시','구리시','성남시','수원시','고양시'],
-                    ['시/군/구', '연수구', '남동구'],
-                    ['시/군/구', '동래구', '해운대구','기장군']
-                    ['시/군/구', '중구','수성구','북구','남구','동구','서구']
-                ];
-    // let ymd= [[ ['- 읍/면/동 -'] ],
-    //                     [[' 읍/면/동 '],
-    //                         [[' 읍/면/동 '], ['논현동'],['대치동'],['삼성동'] ],
-    //                         [[' 읍/면/동 '], ['반포동'], ['방배동'], ['양재동'] ],
-    //                         [ ['가락동', '석촌동', '잠실동'] ] ],
-    //                     [[' 읍/면/동 '],
-    //                         ['1'],
-    //                         ['2'],
-    //                         ['3'],
-    //                         ['4'],
-    //                         ['5'] ],
-    //                     [[' 읍/면/동 '],
-    //                         ['a'],
-    //                         ['b'],
-    //                         ['c']],
-    //                     [[' 읍/면/동 '],
-    //                         ['가'],
-    //                         ['나'],
-    //                         ['다'] ]
-    // ]
-
-    // 변수선언
-    let sido = document.getElementById('sido')
-    let gugun = document.getElementById('gugun')
-    let dong = document.getElementById('dong');
-
-    sido.addEventListener('change', makegu)
-
-    function makegu(){
-        // 현재 선택한 시도의 index값을 알아냄
-        let sidx = sido.selectedIndex;
-
-        // 이미 등록된 목록은 제거
-        // ex 서울시를 고르면 서울시에 해당하는 구군이 나오고
-        // 또다른시를 고르면 그시에맞는 구가나올텐데 서울시의 구또한 같이 나오게된다.
-        // 이를 방지하기위해 또다른시를 고른다면 while문을 추가해 전에 있던 시의 구/군을 제거해줘야한다.
-        while(gugun.lastChild){ // 구군목록에 option태그가 있는가 ?
-            gugun.removeChild(gugun.lastChild);
+    <form name=form method=post action=$PHP_SELF>
+        <select name='city' onchange="change(this.selectedIndex);"  class=input >
+        <option value='전체'>전체</option>
+        <option value='서울'>서울특별시</option>
+        <option value='부산'>부산광역시</option>
+        <option value='대구'>대구광역시</option>
+        <option value='인천'>인천광역시</option>
+        <option value='광주'>광주광역시</option>
+        <option value='대전'>대전광역시</option>
+        <option value='울산'>울산광역시</option>
+        <option value='경기'>경기도</option>
+        <option value='강원'>강원도</option>
+        <option value='충북'>충청북도</option>
+        <option value='충남'>충청남도</option>
+        <option value='전북'>전라북도</option>
+        <option value='전남'>전라남도</option>
+        <option value='경북'>경상북도</option>
+        <option value='경남'>경상남도</option>
+        <option value='제주'>제주도</option>
+        </select>
+        <select name='county'  class=select>
+        <option value=''>전체</option>
+        </select>
+    </form> 
+    <script>
+        var cnt = new Array();
+        cnt[0] = new Array('전체');
+        cnt[1] = new Array('전체','강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구');
+        cnt[2] = new Array('전체','강서구','금정구','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구','기장군');
+        cnt[3] = new Array('전체','남구','달서구','동구','북구','서구','수성구','중구','달성군');
+        cnt[4] = new Array('전체','계양구','남구','남동구','동구','부평구','서구','연수구','중구','강화군','옹진군');
+        cnt[5] = new Array('전체','광산구','남구','동구','북구','서구');
+        cnt[6] = new Array('전체','대덕구','동구','서구','유성구','중구');
+        cnt[7] = new Array('전체','남구','동구','북구','중구','울주군');
+        cnt[8] = new Array('전체','고양시','과천시','광명시','구리시','군포시','남양주시','동두천시','부천시','성남시','수원시','시흥시','안산시','안양시','오산시','의왕시','의정부시','평택시','하남시','가평군','광주시','김포시','안성시','양주군','양평군','여주군','연천군','용인시','이천군','파주시','포천시','화성시');
+        cnt[9] = new Array('전체','강릉시','동해시','삼척시','속초시','원주시','춘천시','태백시','고성군','양구군','양양군','영월군','인제군','정선군','철원군','평창군','홍천군','화천군','황성군');
+        cnt[10] = new Array('전체','제천시','청주시','충주시','괴산군','단양군','보은군','영동군','옥천군','음성군','진천군','청원군');
+        cnt[11] = new Array('전체','공주시','보령시','서산시','아산시','천안시','금산군','논산군','당진군','부여군','서천군','연기군','예산군','청양군','태안군','홍성군');
+        cnt[12] = new Array('전체','군산시','김제시','남원시','익산시','전주시','정읍시','고창군','무주군','부안군','순창군','완주군','임실군','장수군','진안군');
+        cnt[13] = new Array('전체','광양시','나주시','목포시','순천시','여수시','여천시','강진군','고흥군','곡성군','구례군','담양군','무안군','보성군','신안군','여천군','영광군','영암군','완도군','장성군','장흥군','진도군','함평군','해남군','화순군');
+        cnt[14] = new Array('전체','경산시','경주시','구미시','김천시','문겅시','상주시','안동시','영주시','영천시','포항시','고령군','군위군','봉화군','성주군','영덕군','영양군','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군');
+        cnt[15] = new Array('전체','거제시','김해시','마산시','밀양시','사천시','울산시','진주시','진해시','창원시','통영시','거창군','고성군','남해군','산청군','양산시','의령군','창녕군','하동군','함안군','함양군','합천군');
+        cnt[16] = new Array('전체','서귀포시','제주시','남제주군','북제주군');
+        function change(add) {
+        sel=document.form.county
+        /* 옵션메뉴삭제 */
+        for (i=sel.length-1; i>=0; i--){
+            sel.options[i] = null
+            }
+        /* 옵션박스추가 */
+        for (i=0; i < cnt[add].length;i++){                     
+                            sel.options[i] = new Option(cnt[add][i], cnt[add][i]);
+            }         
         }
-        // 선택한 시도에 대한 구군목록을 배열에서 가져와서
-        // 구군select에 목록option으로 추가함
-        // <select><option>강남구</option></select>
-        // ex 위의 배열들을 변수 초기화할때 맞춰서 초기화해놨다.
-        // 시/도 의 서울시의 배열위치가 1이라면 구/군의 서울시에 해당하는 구/군의 배열도 1이 되게
-        for (let gg of sgg[sidx]){
-            let opt = document.createElement('option');
-            let txt = document.createTextNode(gg);
-            opt.appendChild(txt)
-            gugun.appendChild(opt);
-        }
-    }
-
-    // 두번째 SELECT 요소에 이벤트핸들러 등록
-    // 첫번째 항목에서 선택한 항목값과
-    // 두번째 항목에서 선택한 값을 이용해서 읍면동 출력
-    //포인트 0 : 핸들러명 - makedong
-    //포인트 1 : 변수명 of 배열명[시도][구군]
-    gugun.addEventListener('change', makedong);
-
-    function makedong() {
-        let sidx = sido.selectedIndex;
-        let gidx = gugun.selectedIndex;
-
-        while(dong.lastChild) {
-            dong.removeChild(dong.lastChild)
-        }
-
-        for ( let dg of ymd[sidx][gidx]){
-            let opt = document.createElement('option')
-            let txt = document.createTextNode(dg)
-            opt.appendChild(txt);
-            dong.appendChild(opt);
-        }
-    }
-
-    // 세번째 select 요소에 이벤트핸들러 등록
-    // 선택한 주소 ( 시도/구군/읍면동 ) 를 p요소를 이용해서 출력
-    dong.addEventListener('change', showaddr);
-    let addr = document.getElementById('addr')
-
-    function showaddr() {
-        let ymdong = ' ';
-        if (dong.value != '/읍/면/동' ) ymdong = dong.value;
-        let result = sido.value + ' ' + gugun.value + ' ' + dong.value;
-
-        addr.innerHTML='당신이 선택한 주소는 <b>' + result +'</b>';
-    }
-</script>
-
+        // 
+    </script>
 </body>
 </html>

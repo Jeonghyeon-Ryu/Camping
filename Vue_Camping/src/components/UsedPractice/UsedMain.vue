@@ -10,7 +10,7 @@
             <li>
               <label for="inputCate">카테고리</label>
               <select v-model="myGearType" selected>
-                <option value disabled>카테고리를 선택하세요</option>
+                <option value='' disabled>카테고리를 선택하세요</option>
                 <option value="텐트">텐트</option>
                 <option value="타프">타프</option>
                 <option value="가구">가구</option>
@@ -25,7 +25,30 @@
             </li>
             <li>
               <label for="inputPlace">지역</label>
-              <input type="text" id="inputPlace" placeholder="상품명을 등록해주세요">
+              <form name=form method=post action=$PHP_SELF>
+                <select v-model="citySelect" name='city' onchange="change(this.selectedIndex);"  class=input >
+                  <option value='전체'>전체</option>
+                  <option value='서울'>서울특별시</option>
+                  <option value='부산'>부산광역시</option>
+                  <option value='대구'>대구광역시</option>
+                  <option value='인천'>인천광역시</option>
+                  <option value='광주'>광주광역시</option>
+                  <option value='대전'>대전광역시</option>
+                  <option value='울산'>울산광역시</option>
+                  <option value='경기'>경기도</option>
+                  <option value='강원'>강원도</option>
+                  <option value='충북'>충청북도</option>
+                  <option value='충남'>충청남도</option>
+                  <option value='전북'>전라북도</option>
+                  <option value='전남'>전라남도</option>
+                  <option value='경북'>경상북도</option>
+                  <option value='경남'>경상남도</option>
+                  <option value='제주'>제주도</option>
+                </select>
+                <select name='county'  class=select>
+                  <option value=''>전체</option>
+                </select>
+              </form> 
             </li>
             <li>
               <label for="inputPrice">가격범위</label>
@@ -40,12 +63,13 @@
         <div class="used-search">
           <div class="used-searchbox">
             <div>
-              <input type="text">
-              <img v-bind:src="searchImg">
+              <input type="text" placeholder="어떤 물건을 찾으시나요?">
+              <img v-on:click='searchBtn()' v-bind:src="searchImg">
            </div>
           </div>
           <div id="used-selected">
-            <span>{{myGearType}}</span><span>대구광역시</span><span>달서구</span><span>0~100,000</span>
+            <span v-if="myGearType.value != null">{{myGearType}}</span><span disabled="true">{{myGearType}}</span>
+            <span>{{citySelect}}</span><span>달서구</span><span>0~100,000</span>
           </div>
         </div>
       </div>
@@ -79,6 +103,7 @@
     data(){
       return{
         myGearType: '',
+        citySelect: '',
         cardImg : img1,
         searchImg : img2,
         usedCards : [{
@@ -140,10 +165,18 @@
       },
       usedInsert: function(){
         this.$router.push({name : 'usedInsert'})
+      },
+      searchBtn: function(){
+        SubmitEvent()
+      },
+      usedSelected: function(){
+        
+      }
+
       }
     }
     
-  }
+
 </script>
 <style scoped src="@/assets/css/UsedMain.css">
   
