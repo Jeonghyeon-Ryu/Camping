@@ -27,7 +27,7 @@
 <script>
   
 </script>  
-<style>
+<style scoped>
         #container2{
           margin: 0 auto;
           width: 70%;
