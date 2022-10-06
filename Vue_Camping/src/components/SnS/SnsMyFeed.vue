@@ -1,35 +1,17 @@
 <template>
     <div class="sns-container">
     <div class="sns-searchbox">
-      <input type="text" v-model="snsSearch">
-      <input type="button" value="X">
-      <p class="result"></p>
+      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
+      <button @click="doSearch" style="display: none;">조회</button>
+      <!-- <input type="button" @click="doClear" value="X"> -->
     </div>
     <div class="sns-img-container">
+      <div class="sns-img-row-conatiner" :key="snsImg.No" v-for="snsImg in snsImgs">
       <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber1"  style="display :none;">
-        <img v-bind:src="snsMaingImg1">
+        <input type="text" :value="snsImg.No" style="display :none;">
+        <img v-bind:src="snsImg.Img">
       </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber2"  style="display :none;">
-        <img v-bind:src="snsMaingImg2">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber3"  style="display :none;">
-        <img v-bind:src="snsMaingImg3">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber4"  style="display :none;">
-        <img v-bind:src="snsMaingImg4">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber5"  style="display :none;">
-        <img v-bind:src="snsMaingImg5">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber6"  style="display :none;">
-        <img v-bind:src="snsMaingImg6">
-      </div>
+    </div>   
     </div>
   </div>
 </template>
@@ -42,35 +24,39 @@
   import img4 from "@/assets/img/이미지4.jpg"
   import img5 from "@/assets/img/이미지5.jpg"
   import img6 from "@/assets/img/이미지6.jpg"
-  import img7 from "@/assets/img/투샷.jpg"
-  import img8 from "@/assets/img/본체현민.jpg"
+
   
   export default{
     data : ()=>{
       return {    
         snsSearch : '검색어를 입력하세요.', 
-        snsWriteNumber1 : '1111',   
-        snsWriteNumber2 : '2222',
-        snsWriteNumber3 : '3333',
-        snsWriteNumber4 : '4444',
-        snsWriteNumber5 : '5555',
-        snsWriteNumber6 : '6666', 
 
-        snsMaingImg1 : img1,
-        snsMaingImg2 : img2,
-        snsMaingImg3 : img3,
-        snsMaingImg4 : img4,
-        snsMaingImg5 : img5,
-        snsMaingImg6 : img6,
-        snsMaingImg7 : img7,
-        snsMaingImg8 : img8
+        searchText : '',
+
+        snsImgs : [
+          {Img : img1, Name : 'snsMaingImg1', No : '1111'},
+          {Img : img2, Name : 'snsMaingImg2', No : '2222'},
+          {Img : img3, Name : 'snsMaingImg3', No : '3333'},
+          {Img : img4, Name : 'snsMaingImg4', No : '4444'},
+          {Img : img5, Name : 'snsMaingImg5', No : '5555'},
+          {Img : img6, Name : 'snsMaingImg6', No : '6666'},
         
+      ]
+
       }
     },
-    methods : {
-     
-    }
+     //검색
+     methods : {
+      doSearch(){
+        console.log(this.searchText)
+      },
+      checkEnter(event){
+        if(event.keyCode == 13) {
+          this.doSearch()
+        }
+      }
   }
+}
  </script>
 
 
