@@ -6,6 +6,8 @@
   <!-- <UsedInsert></UsedInsert> -->
   <!-- <UsedUpdate></UsedUpdate> -->
   <!-- <UsedDetail></UsedDetail> -->
+  <!-- <RecruMap></RecruMap> -->
+  <!-- <RecruDetail></RecruDetail> -->
 </template>
 
 <script setup>
@@ -16,4 +18,7 @@
   import UsedInsert from '../components/UsedPractice/UsedInsert.vue';
   import UsedUpdate from '../components/UsedPractice/UsedUpdate.vue';
   import UsedDetail from '../components/UsedPractice/UsedDetail.vue';
+  import RecruDetail from '@/components/recruit/RecruDetail.vue';
+  import RecruList from '@/components/recruit/RecruList.vue';
+  import RecruMap from '../components/recruit/RecruMap.vue';
 </script>

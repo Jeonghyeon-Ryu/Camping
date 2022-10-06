@@ -89,8 +89,12 @@
     top:13px; 
 }
 .camp-register-kakaomap {
+    display:none;
     left:100%;
     position:absolute;
+}
+.active {
+    display:block !important;
 }
 .camp-register-form label input {
     width:50%;

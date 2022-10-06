@@ -17,7 +17,7 @@
         <label>주소
           <input @keyup.enter="campAddress()" type="text" class="camp-register-address">
           <img @click="campAddress()" class="address-search-button" src="../assets/img/icons/search-20.png"/>
-          <div v-if="search!=''" class="camp-register-kakaomap"><KakaoMap :search="search"></KakaoMap></div>
+          <div class="camp-register-kakaomap"><KakaoMap :search="search"></KakaoMap></div>
         </label>
         <label>사이트 수<input type="text" class="camp-register-site"></label>
         <label>가격<input type="text" class="camp-register-price"></label>
@@ -51,8 +51,7 @@
     data(){
       return {
         images : [],
-        imagesUrl : [],
-        search: ''
+        imagesUrl : []
       }
     },
     components:{
@@ -94,10 +93,15 @@
       },
       campAddress(){
         let search = document.querySelector('.camp-register-address').value;
+        let kakaoContainer = document.querySelector('.camp-register-kakaomap');
         console.log(search);
         if(search==null || search==''){
           alert('검색할 장소를 입력하세여');
+          kakaoContainer.classList.remove('active');
         } else {
+          if(!kakaoContainer.classList.contains('active')){
+            kakaoContainer.classList.toggle('active');
+          }
           this.search = search;
         }
         
