@@ -9,7 +9,7 @@
 <body>
     <form name=form method=post action=$PHP_SELF>
         <select name='city' onchange="change(this.selectedIndex);"  class=input >
-        <option value='전체'>전체</option>
+        <option value='전체'>전체 </option>
         <option value='서울'>서울특별시</option>
         <option value='부산'>부산광역시</option>
         <option value='대구'>대구광역시</option>
@@ -50,6 +50,7 @@
         cnt[14] = new Array('전체','경산시','경주시','구미시','김천시','문겅시','상주시','안동시','영주시','영천시','포항시','고령군','군위군','봉화군','성주군','영덕군','영양군','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군');
         cnt[15] = new Array('전체','거제시','김해시','마산시','밀양시','사천시','울산시','진주시','진해시','창원시','통영시','거창군','고성군','남해군','산청군','양산시','의령군','창녕군','하동군','함안군','함양군','합천군');
         cnt[16] = new Array('전체','서귀포시','제주시','남제주군','북제주군');
+
         function change(add) {
         sel=document.form.county
         /* 옵션메뉴삭제 */

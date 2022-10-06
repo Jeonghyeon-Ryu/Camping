@@ -25,9 +25,9 @@
             </li>
             <li>
               <label for="inputPlace">지역</label>
-              <form name=form method=post action=$PHP_SELF>
+              <form name=form>
                 <select v-model="citySelect" name='city' onchange="change(this.selectedIndex);"  class=input >
-                  <option value='전체'>전체</option>
+                  <option value=''>전체</option>
                   <option value='서울'>서울특별시</option>
                   <option value='부산'>부산광역시</option>
                   <option value='대구'>대구광역시</option>
