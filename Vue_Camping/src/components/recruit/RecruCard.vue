@@ -4,7 +4,7 @@
   <!-- 카드 헤더 -->
   <div class="recru-card-header" >
       <div class="card-header-img">
-          <img src="`{{recruCard.filename}}`" alt="camping gear">
+          <img v-bind:src="recruCard.filename" alt="camping gear">
       </div>
       <div class = "card-header-text" > 모집중 </div >
   </div>
@@ -22,27 +22,20 @@
     <p class="card-body-spot"><span>도착지 :</span> {{recruCard.camping_point}}</p>
   </div>
   <div class = "recru-card-wish" > 
-    <img v-if="isHeart" src='../assets/img/heart.png' @click="changeHeart" alt="찜한 카드">
-    <img v-if="!isHeart" src='../assets/img/noheart.png' @click="changeHeart" alt="찜한 카드">
+    <img v-if="isHeart" src='@/assets/img/heart.png' @click="changeHeart" alt="찜한 카드">
+    <img v-if="!isHeart" src='@/assets/img/noheart.png' @click="changeHeart" alt="찜한 카드">
   </div>
 </div>  
 </template>
-
+import img1 @/asset
 <script>
+
 export default{
     name : "RecruList",
-    // props : [recruCard],
+    props : {recruCard : Object},
     data : function(){
       return {
-        isHeart : true,
-        myHeart : require('../assets/img/heart.png'),
-        recruCard :{
-            filename:'',
-            my_gear:'',
-            need_gear:'',
-            go_date:'',
-            camping_point:''
-        },
+        isHeart : true, 
         myHeart : 'heart.png'
       }
     },

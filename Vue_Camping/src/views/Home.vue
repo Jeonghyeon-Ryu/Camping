@@ -1,10 +1,13 @@
 <template>
-  <MainSwiper></MainSwiper>
+
   <RecruDetail></RecruDetail>
+  <!-- <RecruMap></RecruMap> -->
 </template>
 
 <script setup>
-  import MainSwiper from '../components/MainSwiper.vue';
-import RecruDetail from '@/components/RecruDetail.vue';
+
+  import RecruDetail from '@/components/recruit/RecruDetail.vue';
+import RecruList from '@/components/recruit/RecruList.vue';
+import RecruMap from '../components/recruit/RecruMap.vue';
 
 </script>
