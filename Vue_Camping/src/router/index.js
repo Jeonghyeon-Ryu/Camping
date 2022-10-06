@@ -11,16 +11,6 @@ const routes = [
   // name: 'About',
   // component: () => import ('../views/About.vue'),
   // },
-  ,{
-    path: '/usedDetail',
-    name: 'usedDetail',
-    component: () => import('@/components/UsedPractice/UsedDetail.vue'),
-   }
-   ,{
-    path: '/usedInsert',
-    name: 'usedInsert',
-    component: () => import('@/components/UsedPractice/UsedInsert.vue')
-   }
 ]
 
 const router = createRouter({
