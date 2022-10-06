@@ -1,26 +1,92 @@
 <template>
+ <div class="sns-container">
+    <div class="sns-searchbox">
+      <input type="text" placeholder="검색어를 입력해주세요.">
+      <input type="button" value="X">
+    </div>
+    <div class="sns-write-container">
+      <div class="sns-write-button">
+        <span class="sns-button-background">새 게시물 작성</span>
+        <input type="button" value="게시글 공유">
+      </div>
+      <div class="sns-write-form-container">
+        <div class="sns-write-form">
+          <div class="sns-upload-img">
 
+
+            <div class="sns-image-preview">
+              <div class="sns-img-upload-button">
+              <div id='att_zone' data-placeholder='파일을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'></div>
+            </div>
+            <div class="sns-img-upload-button">
+              <label for="btnAtt">업로드</label>
+              <input type='file' id='btnAtt' multiple='multiple' />
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+
+      
+      
+      
+      
+      
+      <div class="sns-write-form">
+        <div class="sns-write-form-id-form">
+          <div class="sns-write-form-id">
+            <div class="sns-write-id">
+               <img :src='snsWriteIdImg' alt=" "> 
+            </div>
+          </div>
+          <div class="sns-write-form-id">
+            <div class="sns-write-id">
+              <input type="text" value="작성자 id">
+            </div>
+          </div>
+        </div>
+        <div class="sns-write-context">
+          <textarea v-model="snsWriteText"></textarea>
+
+        </div>
+        <div class="sns-write-location">
+          <input type="button" value="위치추가">
+          <p class="result"></p>
+
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </div>
 </template>
 
-
 <script>
-export default{
-  components : {},
-  data : ()=>{
-    return {
-      
-      
+import img1 from "@/assets/img/이미지1.jpg"
+  export default{
+    components : {},
+    data : ()=>{
+      return {        
+        snsWriteId : '작성자id',
+        snsWriteText : '내용을 입력하세요',
+        snsWriteIdImg : img1
+
+        
+      }
+    },
+    methods : {
+     
     }
-  },
-  methods : {
-    
   }
-}
+
 </script>
 
-<style scoped>
+<style scope>
 /* 공통 부분 */
-* {
+    * {
       margin: 0;
       padding: 0;
       list-style: none;
@@ -91,6 +157,7 @@ export default{
       position: absolute;
       background-color: rgba(228, 239, 231, 0.7);
       /* border: none; */
+      
       right: 10px;
       margin-right: 10px;
       color: rgb(255, 255, 255);

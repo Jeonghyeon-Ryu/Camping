@@ -1,7 +1,14 @@
 <template>
+
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
-  <UsedMain></UsedMain>
+  <!-- <SnsMain></SnsMain> -->
+  <!-- <SnsWrtie></SnsWrtie> -->
+  <!-- <SnsMyFeed></SnsMyFeed> -->
+  <!-- <SnsFeedDetail></SnsFeedDetail> -->
+  <!-- <MainSwiper></MainSwiper> -->
+  <!-- <CampRegister></CampRegister> -->
+  <!-- <UsedMain></UsedMain> -->
   <!-- <UsedReview></UsedReview> -->
   <!-- <UsedInsert></UsedInsert> -->
   <!-- <UsedUpdate></UsedUpdate> -->
@@ -13,6 +20,10 @@
 <script setup>
   import MainSwiper from '../components/MainSwiper.vue';
   import CampRegister from '../components/CampRegister.vue';
+  import SnsWrtie from '@/components/SnsWrtie.vue';
+  import SnsMain from '../components/SnsMain.vue';
+  import SnsMyFeed from '@/components/SnsMyFeed.vue';
+  import SnsFeedDetail from '@/components/SnsFeedDetail.vue';
   import UsedMain from '../components/UsedPractice/UsedMain.vue';
   import UsedReview from '../components/UsedPractice/UsedReview.vue';
   import UsedInsert from '../components/UsedPractice/UsedInsert.vue';
