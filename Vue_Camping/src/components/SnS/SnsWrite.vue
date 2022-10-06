@@ -1,26 +1,106 @@
 <template>
+ <div class="sns-container">
+    <div class="sns-searchbox">
+      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
+      <button @click="doSearch" style="display: none;">조회</button>
+      <!-- <input type="button" @click="doClear" value="X"> -->
+    </div>
+    <div class="sns-write-container">
+      <div class="sns-write-button">
+        <span class="sns-button-background">새 게시물 작성</span>
+        <input type="button" @click="doPost" value="게시글 공유">
+      </div>
+      <div class="sns-write-form-container">
+        <div class="sns-write-form">
+          <div class="sns-upload-img">
 
+
+            <div class="sns-image-preview">
+              <div class="sns-img-upload-button">
+              <div id='att_zone' data-placeholder='파일을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'></div>
+            </div>
+            <div class="sns-img-upload-button">
+              <label for="btnAtt">업로드</label>
+              <input type='file' id='btnAtt' multiple='multiple' />
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+      
+      <div class="sns-write-form">
+        <div class="sns-write-form-id-form">
+          <div class="sns-write-form-id">
+            <div class="sns-write-id">
+               <img :src='snsWriteIdImg' alt=" "> 
+            </div>
+          </div>
+          <div class="sns-write-form-id">
+            <div class="sns-write-id">
+              <input type="text" value="작성자 id">
+            </div>
+          </div>
+        </div>
+        <div class="sns-write-context">
+          <textarea v-model="snsWriteText" placeholder="내용을 입력하세요"></textarea>
+
+        </div>
+        <div class="sns-write-location">
+          <input type="button" value="위치추가">
+          <p class="result"></p>
+
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </div>
 </template>
 
-
 <script>
-export default{
-  components : {},
-  data : ()=>{
-    return {
-      
-      
+import img1 from "@/assets/img/이미지1.jpg"
+import { continueStatement } from "@babel/types"
+  export default{
+    components : {},
+    data : ()=>{
+      return {        
+        snsWriteId : '작성자id',
+        snsWriteText : '',
+        snsWriteIdImg : img1,
+        searchText : '',
+
+        
+      }
+    },
+    //검색
+    methods : {
+      doSearch(){
+        console.log(this.searchText)
+      },
+      checkEnter(event){
+        if(event.keyCode == 13) {
+          this.doSearch()
+        }
+      },
+
+      //게시글 공유
+      //-텍스트
+      doPost(){
+        console.log(this.snsWriteText)
+      },
+      //-사진
+     
     }
-  },
-  methods : {
-    
   }
-}
+
 </script>
 
-<style scoped>
+<style scope>
 /* 공통 부분 */
-* {
+    * {
       margin: 0;
       padding: 0;
       list-style: none;
@@ -44,18 +124,18 @@ export default{
       margin-top: 10px;
     }
 
-    .sns-searchbox input[type=text] {
+    .sns-searchbox input[type=search] {
       padding: 15px;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-
+/* 
     .sns-searchbox input[type=button] {
       padding: 15px;
       border: none;
       border-radius: 5px;
       background-color: rgb(255, 255, 255);
-    }
+    } */
 
     .sns-write-container {
       width: 100vw;
@@ -91,6 +171,7 @@ export default{
       position: absolute;
       background-color: rgba(228, 239, 231, 0.7);
       /* border: none; */
+      
       right: 10px;
       margin-right: 10px;
       color: rgb(255, 255, 255);
@@ -152,8 +233,6 @@ export default{
       font-weight: bold;
     }
 
-
-
     /* 시도3 */
     #att_zone {
       margin-top: 14px;
@@ -170,9 +249,6 @@ export default{
       color: #999;
       font-size: .9em;
     }
-
-
-
 
     /* 파일첨부꾸미기 */
     .sns-image-preview input[type="file"] {
