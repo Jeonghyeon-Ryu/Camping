@@ -9,12 +9,13 @@
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <UsedMain></UsedMain> -->
-  <!-- <UsedReview></UsedReview> -->
-  <!-- <UsedInsert></UsedInsert> -->
+  <UsedReview></UsedReview>
+  <UsedInsert></UsedInsert>
   <!-- <UsedUpdate></UsedUpdate> -->
   <!-- <UsedDetail></UsedDetail> -->
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
+
 </template>
 
 <script setup>
