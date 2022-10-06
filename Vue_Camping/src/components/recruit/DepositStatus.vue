@@ -71,7 +71,10 @@ export default {
 
 <style scoped>
   .deposit-progress{
+    width: 100%;
     height: 120px;
+    min-width: 300px;
+    margin: auto 0;
   }
   .container{
   width: 100%;
