@@ -20,8 +20,6 @@
               <input type='file' id='btnAtt' multiple='multiple' />
             </div>
           </div>
-
-
         </div>
       </div>
 
@@ -39,7 +37,7 @@
           </div>
         </div>
         <div class="sns-write-context">
-          <textarea placeholder="게시글 내용을 입력해주세요"></textarea>
+          <textarea placeholder={{snsWriteText}}></textarea>
 
         </div>
         <div class="sns-write-location">
@@ -59,7 +57,9 @@
     components : {},
     data : ()=>{
       return {        
-        snsWriteId : ''
+        snsWriteId : '',
+        snsWriteText : ''
+
         
       }
     },
