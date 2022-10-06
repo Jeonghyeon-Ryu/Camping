@@ -88,6 +88,10 @@
                     </div>
                 </div>
             </div>
+            <div class="recru-detail-sol deposit-status-box">
+                <h3>보증금 상태</h3>
+                <DepositStatus></DepositStatus>
+            </div>
         </div>        
     </div>
                 
@@ -99,12 +103,14 @@
     import EntryCard from './EntryCard.vue';
     import RecruDetailImage from './RecruDetailImage.vue';
     import RecruMap from './RecruMap.vue';
+    import DepositStatus from './DepositStatus.vue';
     export default{
         components :{
     EntryStandByCard,
     EntryCard,
     RecruDetailImage,
-    RecruMap
+    RecruMap,
+    DepositStatus
 },
         data:function(){
             return{
@@ -184,6 +190,7 @@
     /* 컨테이너 */
     .recru-detail-container{
         margin-top: 150px;
+        margin-bottom: 150px;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -280,5 +287,15 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+    }
+
+    /* 보증금 상태 */
+    .deposit-status-box{
+        padding: 20px;
+        border: 5px solid rgba(228,239,231,0.7);
+        margin: 20px 0;
+    }
+    .deposit-status-box h3{
+        margin-bottom: 20px;
     }
 </style>
