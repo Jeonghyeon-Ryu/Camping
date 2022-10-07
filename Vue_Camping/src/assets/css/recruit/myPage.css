@@ -26,17 +26,17 @@
 
     /* 상태 */
     .entry-mypage-status{
+        display: flex;
         margin: auto 0;
         margin-left: auto;
     }
     .status-box{
-        min-width: 100px;
-        padding: 5px;
+        font-size: small;
+        width: 100px;
+        padding: 2px;
         border: 2px solid ;
-        color: rgb(6,68,32);
-        background: none;
-        border-radius: 8px;
-        margin: 10px;
+        border-radius: 2px;
+        margin: 20px 0 0 10px;
     }
     .entry-mypage-btn{
         min-width: 110px;

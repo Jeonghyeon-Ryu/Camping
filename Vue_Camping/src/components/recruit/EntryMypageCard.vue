@@ -7,13 +7,13 @@
                 </div>
                 <div class="col">
                     <div class="recru-mini-title row">
-                        <h3>{{recruTitle}}</h3>
+                        <h3>{{recruInfo.recru_title}}</h3>
                     </div>
                     <div class="recru-mini-contents">
-                        <p>마감일 : 2022/01/02</p>
-                        <p>여행날짜 : 2022/11/07 ~ 2022/11/09</p>
-                        <p>출발지 : 대구 중구 예담로</p>
-                        <p>도착지 : 부산 담담캠핑장</p>
+                        <p>마감일 : {{recruInfo.closing_date}}</p>
+                        <p>여행날짜 : {{recruInfo.go_date}} ~ {{recruInfo.come_date}}</p>
+                        <p>출발지 : {{recruInfo.starting_point}}</p>
+                        <p>도착지 : {{recruInfo.camping_point}}</p>
                     </div>
                 </div>
             </div>
@@ -21,20 +21,31 @@
     </div>
 </template>
 <script>
+import RecruPost from "@/assets/rectuitInfo/RecruPost.js";
+
 export default{
-    props :{entryInfo : Object},
+    props :{recruId : String},
+    components : {
+        RecruPost
+    },
     data: function(){
         return{
-            recruTitle : ''
+            recruInfo : {},
         }
     },
     created : function(){
-        this.getRecruInfo();
+        this.getEntryRecru();
     },
     methods :{
-        getRecruInfo : function(){
+        getEntryRecru(){
+            console.log('==')
             //서버에서 신청 대상 모집글 정보를 가져오는 메서드
-            this.recruTitle = '서버에서 신청 대상 모집글 정보를 가져오는 메서드'
+            for(let i=0 ; i<RecruPost.data.length; i++){
+                if((RecruPost.data[i]["recru_id"] == this.recruId)){
+                    this.recruInfo = RecruPost.data[i];
+                    console.log(this.recruInfo)
+                }
+            }
         }
     }
 }

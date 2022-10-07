@@ -13,6 +13,10 @@
         <li v-bind:class="depositLv2"></li>
         <li v-bind:class="depositLv3">
           <button v-if="!isPayed && depositLv==2" @click="sendMoney">입금</button>
+          <!-- 모달 -->
+          <div v-show="is_show">
+            <SendMoney></SendMoney>
+          </div>
           <p v-if="isPayed && depositLv==2">여행준비 중..</p>  
         </li>
         <li v-bind:class="depositLv4">
@@ -21,11 +25,20 @@
         </li>
         <li></li>
       </ul>
+    </div>
   </div>
- </div>
 </template>
 <script>
+import EntryPost from '@/assets/rectuitInfo/EntryPost.js';
+import SendMoney from './SendMoney.vue';
+
 export default {
+  props : {entryId : ''},
+  components : {
+    EntryPost,
+    SendMoney,
+    SendMoney
+},
   data () {
     return {
       depositLv :'2',
@@ -37,7 +50,9 @@ export default {
       depositLv1 : '',
       depositLv2 : '',
       depositLv3 : '',
-      depositLv4 : ''
+      depositLv4 : '',
+      openSendMoney : false,
+      is_show : false
     }
   },
   mounted(){
@@ -63,7 +78,7 @@ export default {
   },
   methods :{
     sendMoney(){
-      
+      this.is_show = !is_show;
     }
   }
 }

@@ -1,0 +1,43 @@
+export default{
+  "name" : "entryPost",
+  "data" : [{
+      "deposit_id":"1",
+      "member_id":"1",
+      "recru_id":"1",
+      "deposit_status":"0",
+      "price":"10,000",
+      "in_date":"2022/10/18",
+      "return_method":"0",
+      "return_date":"22/02/02"
+  },
+  {
+    "deposit_id":"1",
+    "member_id":"1",
+    "recru_id":"2",
+    "deposit_status":"0",
+    "price":"10,000",
+    "in_date":"2021/11/22",
+    "return_method":"0",
+    "return_date":"21/12/02"
+  },
+  {
+    "deposit_id":"1",
+    "member_id":"2",
+    "recru_id":"3",
+    "deposit_status":"1",
+    "price":"10,000",
+    "in_date":"2022/10/18",
+    "return_method":"0",
+    "return_date":"22/02/02"
+  },
+  {
+    "deposit_id":"1",
+    "member_id":"3",
+    "recru_id":"4",
+    "deposit_status":"2",
+    "price":"10,000",
+    "in_date":"2022/10/18",
+    "return_method":"0",
+    "return_date":"22/02/02"
+  }]
+}

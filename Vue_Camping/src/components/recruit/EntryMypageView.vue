@@ -5,12 +5,12 @@
             <h2>캠핑 동행 관리</h2>
         </div>
         <div v-for="entryPost in EntryList" :key="entryPost.entryId" class="entry-mypage-mini-box" >
+            <div class="entry-mypage-status">
+                <p class="entry-recru-status status-box">모집완료</p>
+                <p class="entry-status status-box">취소대기</p>
+            </div>
             <div class="row">
-                <EntryMypageCard v-bind:entryInfo="entryPost"></EntryMypageCard>
-                <div class="entry-mypage-status">
-                    <h3 class="entry-recru-status status-box">모집완료</h3>
-                    <h3 class="entry-status status-box">취소대기</h3>
-                </div>
+                <EntryMypageCard v-bind:recruId="entryPost.recru_id"></EntryMypageCard>
                 <div class="entry-mypage-btn">
                         <button class="entry-review-btn">동행자 평가</button>
                         <button class="entry-status-btn">여행완료</button>
