@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <div id="container2">
+    <form id="container2">
       <div id="used-head">
         <h4>거래후기 작성하기</h4>
         <h1>거래는 어떠셨나요?</h1>
@@ -22,15 +22,15 @@
           </span>
         </div>
       <div id="used-foot">
-        <form class="used-desc">
-            <textarea class="used-text" placeholder="후기를 입력하세요"></textarea>
-        </form>
-        <div class="submit-area">
-          <button class="dealcomplete" type="submit">작성 완료</button>
-        </div>
+        <div class="used-desc">
+            <textarea name="used_text" class="used-text" placeholder="후기를 입력하세요"></textarea>
+            <div class="submit-area">
+              <button class="dealcomplete" @click.prevent="confirm()">작성 완료</button>
+            </div>
+          </div>
       </div>  
       </div>
-    </div>
+    </form>
   </div>
 </template>
 <script>
@@ -44,15 +44,20 @@
         usedContent: '1회 쓰고 보관만 했습니다 상태 굿'
       }
     },
-    method: {
+    methods: {
       drawStar: function(){
         const drawStar = (target) => {
         document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
-      }
+        }
+      },
+      confirm: function(){
+        let fetchData = {};
+            new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
+            console.log(fetchData);
     }
   }
 } 
 </script>  
 
-<style scoped src="@/assets/css/review.css">
+<style scoped src="@/assets/css/used/UsedReview.css">
 </style>  

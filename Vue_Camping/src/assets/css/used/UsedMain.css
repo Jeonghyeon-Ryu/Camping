@@ -15,6 +15,7 @@
   flex-direction: column;
 }
 
+/*상단*/
 .used-headd {
   display: flex;
   flex-direction: column;

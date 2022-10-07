@@ -44,5 +44,5 @@
      }
   }
 </script>
-<style scoped src="@/assets/css/UsedMain.css">
+<style scoped src="@/assets/css/used/UsedMain.css">
 </style>

@@ -28,7 +28,7 @@
             <li>
               <label for="inputCate">카테고리</label>
               <select v-model="myGearType" selected>
-                <option value='' disabled>카테고리를 선택하세요</option>
+                <option value='' disabled>카테고리 선택</option>
                 <option value="텐트">텐트</option>
                 <option value="타프">타프</option>
                 <option value="가구">가구</option>
@@ -45,6 +45,7 @@
               <label for="inputPlace">지역</label>
               <form name=form>
                 <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
+                  <option value diabled>시/도</option> 
                   <option value='전체'>전체</option>
                   <option value='서울특별시'>서울특별시</option>
                   <option value='부산광역시'>부산광역시</option>
@@ -64,6 +65,7 @@
                   <option value='제주도'>제주도</option>
                 </select>
                 <select v-model="regionSelect2" name='county' id="citySelect">
+                  <option value disabled>시/군/구</option>
                   <option value='전체'>전체</option>
                 </select>
               </form> 
@@ -126,14 +128,14 @@
         },
         {
           used_img : '',
-          used_name : '4인용 텐트',
+          used_name : '5인용 텐트',
           used_place : '대구광역시 서구',
           used_price : '￦100,000',
           used_status : '거래중'
         },
         {
           used_img : '',
-          used_name : '4인용 텐트',
+          used_name : '6인용 텐트',
           used_place : '대구광역시 서구',
           used_price : '￦100,000',
           used_status : '거래중'
@@ -218,6 +220,6 @@
   }
 
 </script>
-<style scoped src="@/assets/css/UsedMain.css">
+<style scoped src="@/assets/css/used/UsedMain.css">
   
 </style>
