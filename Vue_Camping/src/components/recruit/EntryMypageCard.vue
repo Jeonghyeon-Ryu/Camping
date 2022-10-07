@@ -38,12 +38,10 @@ export default{
     },
     methods :{
         getEntryRecru(){
-            console.log('==')
             //서버에서 신청 대상 모집글 정보를 가져오는 메서드
             for(let i=0 ; i<RecruPost.data.length; i++){
                 if((RecruPost.data[i]["recru_id"] == this.recruId)){
                     this.recruInfo = RecruPost.data[i];
-                    console.log(this.recruInfo)
                 }
             }
         }

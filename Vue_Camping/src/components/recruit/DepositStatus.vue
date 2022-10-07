@@ -5,7 +5,7 @@
         <li v-bind:class="progressName1"><span>모집완료</span></li>
         <li v-bind:class="progressName2"><span>입금확인</span></li>
         <li v-bind:class="progressName3"><span>반환동의</span></li>
-        <li v-bind:class="progressName4"><span>입금확인</span></li>
+        <li v-bind:class="progressName4"><span>반환확인</span></li>
       </ul>
     </div>
     <div class="container">
@@ -14,7 +14,7 @@
         <li v-bind:class="depositLv3">
           <button v-if="!isPayed && depositLv==2" @click="sendMoney">입금</button>
           <!-- 모달 -->
-          <div v-show="is_show">
+          <div v-show="openSendMoney">
             <SendMoney></SendMoney>
           </div>
           <p v-if="isPayed && depositLv==2">여행준비 중..</p>  
@@ -31,17 +31,19 @@
 <script>
 import EntryPost from '@/assets/rectuitInfo/EntryPost.js';
 import SendMoney from './SendMoney.vue';
+import DepositPost from '@/assets/rectuitInfo/DepositPost.js';
 
 export default {
-  props : {entryId : ''},
+  props : {depositId : String}, //deposit
   components : {
     EntryPost,
     SendMoney,
-    SendMoney
+    DepositPost
 },
   data () {
     return {
-      depositLv :'2',
+      depositInfo : {},   //deposit vo
+      depositStatus : '', //
       isPayed : true,
       progressName1 : 'gray',
       progressName2 : 'gray',
@@ -52,11 +54,20 @@ export default {
       depositLv3 : '',
       depositLv4 : '',
       openSendMoney : false,
-      is_show : false
+
     }
   },
-  mounted(){
-    switch(this.depositLv) {
+  created(){
+     //보증 정보.. 나중엔 props로 받고 지우자 (임의로 recruId로 받아온 것 -> 틀린식)
+    for(let i=0 ; i<DepositPost.data.length; i++){
+      if((DepositPost.data[i]["recru_id"] === this.depositId)){
+          this.depositInfo = DepositPost.data[i];
+          console.log(this.depositInfo)
+      }
+    }
+    
+    //보증금 상태에 따라 active 설정을 준다
+    switch(this.depositInfo.deposit_status) {
       case '4': 
         this.depositLv4='active';
         this.depositLv3='active';
@@ -75,10 +86,12 @@ export default {
       case '1':  
         this.progressName1='active';
     }
+
+    this.is
   },
   methods :{
     sendMoney(){
-      this.is_show = !is_show;
+      this.openSendMoney = !this.openSendMoney;
     }
   }
 }
