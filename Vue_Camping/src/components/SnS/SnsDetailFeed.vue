@@ -116,30 +116,11 @@
                 </div>
               </div>
             </div>
-
-
-            <!-- <div class="sns-detail-comment-form">
-            <div class="sns-comment-write-id-container">
-            <div class="sns-comment-write-id">
-              <img v-bind:src="snsMaingImg4">
-            </div>
-            <div class="sns-comment-write-id">
-              <input type="text" value="댓글작성자id">
-            </div>
           </div>
-            <div class="sns-comment-container">
-              <div class="sns-comment">
-                <div class="sns-comment-write-context">
-          <textarea v-model="snsCommentWriteText" placeholder="집에가고싶네요"></textarea>
-
-        </div>
-              </div>
-              <div class="sns-comment-date">
-                <input type="text" value="2022/09/30">
-              </div>
-            </div>
-          </div> -->
-
+          <hr />
+          <div class="sns-write-comment-container">
+            <textarea placeholder="댓글을 작성하세요"></textarea>
+            <button type="submit" >게시</button>
           </div>
         </div>
       </div>
@@ -455,12 +436,6 @@ export default {
   width: 100%;
 }
 
-.sns-detail-comment-form-container {
-
-  flex-wrap: wrap;
-  justify-content: left;
-}
-
 .sns-comment-write-id-container {
   display: flex;
   flex-wrap: wrap;
@@ -558,7 +533,7 @@ export default {
   margin-top: 5px;
   width: 24vw;
   height: 30px;
-  border: 1px solid;
+  border: none;
   resize: none;
   border-radius: 5px;
   margin-left: 15px;
@@ -572,5 +547,39 @@ export default {
 
 .sns-comment-date input:focus {
   outline: none;
+}
+
+.sns-write-comment-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  width: 100%;
+  min-width: 285px;
+}
+
+.sns-write-comment-container textarea {
+  margin-top: 5px;
+  width: 24vw;
+  height: 30px;
+  border: none;
+  resize: none;
+  border-radius: 5px;
+  margin-left: 15px;
+}
+
+.sns-write-comment-container textarea:focus {
+  outline: none;
+}
+
+.sns-write-comment-container button{
+  cursor: pointer;
+  background-color: #337ab7;
+  border: 1px solid #2e6da4;
+  border-radius: 5px;
+  font-weight: bold;
+  color: azure;
+  padding: 2px;
+  margin-left: 3%;
+
 }
 </style>
