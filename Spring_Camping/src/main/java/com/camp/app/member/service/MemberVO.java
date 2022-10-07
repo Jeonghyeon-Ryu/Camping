@@ -22,9 +22,4 @@ public class MemberVO {
 	private String socialEmail;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regdate;
-	
-	public MemberVO(String memberEmail, String password) {
-		this.memberEmail = memberEmail;
-		this.password = password;
-	}
 }

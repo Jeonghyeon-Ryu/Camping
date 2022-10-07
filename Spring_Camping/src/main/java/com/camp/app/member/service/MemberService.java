@@ -1,5 +1,8 @@
 package com.camp.app.member.service;
 
-public class MemberService {
+import org.springframework.stereotype.Service;
 
+@Service
+public interface MemberService {
+	public MemberVO login(MemberVO member);
 }
