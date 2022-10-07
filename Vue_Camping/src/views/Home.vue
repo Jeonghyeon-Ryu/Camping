@@ -17,7 +17,7 @@
   <!-- <UsedDetail></UsedDetail> -->
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
-  <!-- <UserManage></UserManage> -->
+
 
 </template>
 
@@ -37,6 +37,6 @@
   import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
   import SnsSearch from '@/components/SnS/SnsSearch.vue';
   import SnsWrite from '@/components/SnS/SnsWrite.vue';
-  import UserManage from '@/components/Admin/UserManage.vue';
+
   import SnsReport from '@/components/SnS/SnsReport.vue';
 </script>
