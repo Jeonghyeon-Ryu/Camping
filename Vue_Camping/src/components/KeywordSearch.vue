@@ -20,7 +20,7 @@ export default{
     methods : {
         search : function(srhKeyword){
             alert(srhKeyword)
-            this.$parent.loadPage(srhKeyword)
+            //this.$parent.loadPage(srhKeyword)
         }
     }
 }
