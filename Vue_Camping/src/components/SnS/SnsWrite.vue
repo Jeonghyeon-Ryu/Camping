@@ -12,24 +12,30 @@
       </div>
       <div class="sns-write-form-container">
         <div class="sns-write-form">
-          <div class="sns-upload-img">
 
-
-            <div class="sns-image-preview">
-              <div class="sns-img-upload-button">
-              <div id='att_zone' data-placeholder='파일을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'></div>
+          <div class="sns-upload-image-container">
+            <div class="sns-upload-image-preview">
+              
+            
+            <!-- <div class="sns-img-preview"> -->
+              <label>업로드
+                <input type="file" multiple @change="changeImage($event)" @dragenter.prevent @dragover.prevent @drop.prevent="dropImage($event)" style="display:none;">
+                <div class="sss" data-placeholder='파일을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'>
+                
+                  <div v-for="(img,index) of imagesUrl" :id="index" class="sns-image-preview">
+                <img :src="img"/>
+                <input type="button" value="X" @click="deletePreview($event)" class="sns-image-preview-delete-button"/>
+              </div>
             </div>
-            <div class="sns-img-upload-button">
-              <label for="btnAtt">업로드</label>
-              <input type='file' id='btnAtt' multiple='multiple' />
+          </label>
+
+              
+            <!-- </div> -->
+              </div>
             </div>
           </div>
-
-
-
-
-        </div>
-      </div>
+        
+      
       
       <div class="sns-write-form">
         <div class="sns-write-form-id-form">
@@ -54,14 +60,13 @@
 
         </div>
       </div>
-      
     </div>
-  </div>
+    </div>
   </div>
 </template>
 
 <script>
-import img1 from "@/assets/img/이미지1.jpg"
+import img1 from "@/assets/img/sns/이미지1.jpg"
 import { continueStatement } from "@babel/types"
   export default{
     components : {},
@@ -71,6 +76,8 @@ import { continueStatement } from "@babel/types"
         snsWriteText : '',
         snsWriteIdImg : img1,
         searchText : '',
+        images : [],
+        imagesUrl : []
 
         
       }
@@ -92,6 +99,40 @@ import { continueStatement } from "@babel/types"
         console.log(this.snsWriteText)
       },
       //-사진
+      changeImage(e) {
+        this.images = e.target.files;
+        for(let file of this.images){
+          this.imageLoader(file);
+        }
+      },
+      imageLoader(file) {
+        this.imagesUrl.push(URL.createObjectURL(file));
+      },
+      dropImage(e) {
+        let files = {};
+        e.preventDefault();
+        e.stopPropagation();
+        let dt = e.dataTransfer;
+        files = dt.files;
+        for(let f of files){
+          this.imageLoader(f);
+        }
+      },
+      deletePreview(e) {
+        let parentDiv = e.target.parentElement;
+        let tempimages = [];
+        let tempimagesUrl = [];
+
+        for(let i=0; i<this.images.length; i++){
+          if(i != parentDiv.getAttribute('id')) {
+            tempimages.push(this.images[i]);
+            tempimagesUrl.push(this.imagesUrl[i]);
+          }
+        }
+        this.images = tempimages;
+        this.imagesUrl = tempimagesUrl;
+      },
+
      
     }
   }
@@ -211,6 +252,8 @@ import { continueStatement } from "@babel/types"
       border: none;
     }
 
+    .sns-write-id input:focus {outline: none;}
+
     .sns-write-context textarea {
       margin-top: 5px;
       width: 28vw;
@@ -233,7 +276,103 @@ import { continueStatement } from "@babel/types"
       font-weight: bold;
     }
 
-    /* 시도3 */
+
+/*  */
+
+
+    /* .sns-upload-image-container{
+      width: 50%;
+      position: absolute;
+      width: 0;
+      height: 0;
+      padding: 0;
+      /* overflow: hidden; 
+      border: 0;
+    }  */
+/* 파일첨부꾸미기 */
+     /* .sns-upload-image-preview{
+      position: absolute;
+      width: 0;
+      height: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+    }  */
+
+    /* 업로드 */
+    /* .label {
+      display: inline-block;
+      padding: 10px 20px;
+      color: #fff;
+      vertical-align: middle;
+      background-color: #337ab7;
+      cursor: pointer;
+      border: 1px solid #2e6da4;
+      border-radius: 5px;
+    } */
+/*  */
+
+
+
+  /* .sns-image-preview input[type=file]{
+    display:inline-block;
+    position:relative;
+    width:150px;
+    height:120px;
+    margin:5px;
+    border:1px solid #00f;
+    z-index:1;
+  } */
+
+/* 맞나모르겟으뮤 */
+  .sss{
+	width: 660px;
+	min-height:150px;
+	padding:10px;
+	border:1px dotted #00f;
+}
+  .sss:empty:before{
+	content : attr(data-placeholder);
+	color : #999;
+	font-size:.9em;
+}
+
+  .sns-image-preview img {
+    width:100%;
+    height:100%;
+    z-index:none;
+  }
+  .sns-image-preview-delete-button {
+    width:30px;
+    height:30px;
+    position:absolute;
+    font-size:24px;
+    right:0px;
+    bottom:0px;
+    z-index:999;
+    background-color:rgba(255,255,255,0.1);
+    color:#f00;
+    border:none;
+    cursor:pointer;
+  }
+
+  .sns-upload-image-preview label {
+      display: inline-block;
+      padding: 10px 20px;
+      color: #fff;
+      vertical-align: middle;
+      background-color: #337ab7;
+      cursor: pointer;
+      border: 1px solid #2e6da4;
+      border-radius: 5px;
+    }
+
+  .sns-img-preview input{
+
+  }
+
+/* 
+    시도3
     #att_zone {
       margin-top: 14px;
       width: 503px;
@@ -251,15 +390,21 @@ import { continueStatement } from "@babel/types"
     }
 
     /* 파일첨부꾸미기 */
-    .sns-image-preview input[type="file"] {
+    /* .sns-upload-image-preview{
       position: absolute;
       width: 0;
       height: 0;
       padding: 0;
       overflow: hidden;
       border: 0;
+    } */
+
+/* 
+    .sns-img-upload-button{
+
     }
 
+    
     .sns-image-preview label {
       display: inline-block;
       padding: 10px 20px;
@@ -271,7 +416,26 @@ import { continueStatement } from "@babel/types"
       border-radius: 5px;
     }
 
-    /* named upload */
+
+
+    .image-preview-delete-button {
+    width:30px;
+    height:30px;
+    position:absolute;
+    font-size:24px;
+    right:0px;
+    bottom:0px;
+    z-index:999;
+    background-color:rgba(255,255,255,0.1);
+    color:#f00;
+    border:none;
+    cursor:pointer;
+  }
+
+
+
+
+    named upload
     .sns-image-preview #att_zone {
       display: inline-block;
       height: 100%;
@@ -284,24 +448,5 @@ import { continueStatement } from "@babel/types"
       border: 1px solid #ebebeb;
       border-radius: 5px;
 
-    }
-
-
-    /* 시도2 */
-    /* #multiple-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-.image {
-    display: block;
-    width: 100%;
-}
-.image-label {
-    position: relative;
-    bottom: 22px;
-    left: 5px;
-    color: white;
-    text-shadow: 2px 2px 2px black;
-} */
+    } */ 
   </style>

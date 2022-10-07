@@ -18,15 +18,15 @@
 </template>
 
 <script>
-  import img1 from "@/assets/img/이미지1.jpg"
-  import img2 from "@/assets/img/이미지2.jpg"
-  import img3 from "@/assets/img/이미지3.jpg"
-  import img4 from "@/assets/img/이미지4.jpg"
-  import img5 from "@/assets/img/이미지5.jpg"
-  import img6 from "@/assets/img/이미지6.jpg"
-  import img7 from "@/assets/img/이미지7.jpg"
-  import img8 from "@/assets/img/이미지8.jpg"
-  import img9 from "@/assets/img/이미지9.jpg"
+  import img1 from "@/assets/img/sns/이미지1.jpg"
+  import img2 from "@/assets/img/sns/이미지2.jpg"
+  import img3 from "@/assets/img/sns/이미지3.jpg"
+  import img4 from "@/assets/img/sns/이미지4.jpg"
+  import img5 from "@/assets/img/sns/이미지5.jpg"
+  import img6 from "@/assets/img/sns/이미지6.jpg"
+  import img7 from "@/assets/img/sns/이미지7.jpg"
+  import img8 from "@/assets/img/sns/이미지8.jpg"
+  import img9 from "@/assets/img/sns/이미지9.jpg"
 
   export default{
     data : ()=>{

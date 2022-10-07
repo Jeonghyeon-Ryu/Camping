@@ -25,7 +25,7 @@
     },
     setup() {
       return {
-        modules: [ Autoplay, Navigation],
+        modules: [ Autoplay, Navigation ],
       };
     },
   };
