@@ -52,7 +52,7 @@
                                 <option value="냉난방">냉난방</option>
                                 <option value="기타">기타</option>
                             </select>
-                            <input type="number" class="gear-num recru-mygear-num" placeholder="수량">
+                            <input type="number" class="gear-num recru-mygear-num" placeholder="수량" min="1">
                             <input type="file" class="btn btn-sm recru-mygear-img" style="margin:0 5px;max-width:210px;">
                         </li>
                     </ul>
@@ -77,7 +77,7 @@
                                 <option value="airCon">냉난방</option>
                                 <option value="etc">기타</option>
                             </select>
-                            <input type="number" class="recru-needgear-num gear-num" placeholder="수량">
+                            <input type="number" class="recru-needgear-num gear-num" placeholder="수량" min="1">
                             <input type="file" class="btn btn-sm recru-needgear-img" style="margin:0 5px;max-width:210px;">
                         </li>
                     </ul>
@@ -117,7 +117,7 @@
                             <label>도착지<input type="text" v-model="recruInfo.camping_spot"></label>
                         </li>
                         <li class="recru-info-number">
-                            <label>모집인원 <input type="number" v-model="recruInfo.recru_num"></label>
+                            <label>모집인원 <input type="number" v-model="recruInfo.recru_num" min="1" de></label>
                         </li>
                         <li class="recru-info-day">
                             <label>여행 날짜 <input type="date" class="select-date" v-model="recruInfo.go_date"></label> 
@@ -195,7 +195,7 @@ export default{
                             +"<option value='airCon'>냉난방</option>"
                             +"<option value='etc'>기타</option>"
                         +"</select>"
-                        +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' placeholder='수량'>"
+                        +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' placeholder='수량' min='1'>"
                         +"<input type='file' class='btn btn-sm' style='margin:0 5px;max-width:210px;'>"
                         +"<button type='button' class='btn btn-sm btn-outline-danger' >삭제</button>";
             li.innerHTML = str;

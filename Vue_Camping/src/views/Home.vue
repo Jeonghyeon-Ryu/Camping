@@ -22,6 +22,8 @@
   <DepositMypage></DepositMypage>
   <!-- <RecruInsert></RecruInsert> -->
   <!-- <SendMoney></SendMoney> -->
+  <!-- <EntryInsert></EntryInsert> -->
+
 </template>
 
 <script setup>
@@ -30,5 +32,7 @@ import EntryMypageCard from '../components/recruit/EntryMypageCard.vue';
 import EntryMypage from '@/components/recruit/EntryMypageView.vue';
 import DepositMypage from '../components/recruit/DepositMypageView.vue';
 import RecruInsert from '@/components/recruit/RecruInsert.vue'
-import SendMoney from '@/components/recruit/SendMoney.vue';;
+import SendMoney from '@/components/recruit/SendMoney.vue';
+import ModalView from '@/components/recruit/ModalView.vue';
+import EntryInsert from '@/components/recruit/EntryInsert.vue';;
 </script>

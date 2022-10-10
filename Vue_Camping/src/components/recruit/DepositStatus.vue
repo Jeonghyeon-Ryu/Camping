@@ -12,16 +12,19 @@
       <ul class="deposit-progressbar">
         <li v-bind:class="depositLv2"></li>
         <li v-bind:class="depositLv3">
-          <button v-if="!isPayed && depositLv==2" @click="sendMoney">입금</button>
-          <!-- 모달 -->
-          <div v-show="openSendMoney">
-            <SendMoney></SendMoney>
-          </div>
-          <p v-if="isPayed && depositLv==2">여행준비 중..</p>  
+          
+            <button v-if="!isPayed && depositInfo.deposit_status==='2'" @click="sendMoney">입금</button>
+            <!-- 모달 -->
+            <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
+              <SendMoney></SendMoney>
+            </ModalView>
+
+            <p v-if="isPayed && depositInfo.deposit_status==='2'">여행준비 중</p>  
+      
         </li>
         <li v-bind:class="depositLv4">
-          <button v-if="depositLv==3">확인</button> 
-          <button v-if="depositLv==3">노쇼</button>
+          <button v-if="depositInfo.deposit_id==='3'">확인</button> 
+          <button v-if="depositInfo.deposit_id==='3'">노쇼</button>
         </li>
         <li></li>
       </ul>
@@ -32,15 +35,17 @@
 import EntryPost from '@/assets/rectuitInfo/EntryPost.js';
 import SendMoney from './SendMoney.vue';
 import DepositPost from '@/assets/rectuitInfo/DepositPost.js';
+import ModalView from './ModalView.vue';
 
 export default {
   props : {depositId : String}, //deposit
   components : {
     EntryPost,
     SendMoney,
-    DepositPost
-},
-  data () {
+    DepositPost,
+    ModalView
+  },
+  data :function() {
     return {
       depositInfo : {},   //deposit vo
       depositStatus : '', //
@@ -53,8 +58,7 @@ export default {
       depositLv2 : '',
       depositLv3 : '',
       depositLv4 : '',
-      openSendMoney : false,
-
+      isModalViewed : false
     }
   },
   created(){
@@ -86,12 +90,16 @@ export default {
       case '1':  
         this.progressName1='active';
     }
-
-    this.is
+    //보증금 입금 유무에 따라 버튼 상태를 바꾼다
+    if(this.depositInfo.in_date ==''){
+      this.isPayed =false;
+    }else{
+      this.isPayed = true;
+    }
   },
-  methods :{
-    sendMoney(){
-      this.openSendMoney = !this.openSendMoney;
+  methods : {
+    sendMoney : function(){
+      this.isModalViewed = !this.isModalViewed;
     }
   }
 }
