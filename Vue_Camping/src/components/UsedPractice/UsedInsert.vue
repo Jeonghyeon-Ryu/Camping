@@ -1,8 +1,9 @@
 <template>
   <div id="container">
     <form id="container2">
-      <h2>게시물 등록하기</h2>
+      <!-- <h3>상품 등록</h3> -->
         <div class="used-heads">
+          <!-- 사진 -->
           <div class="used-pics">
             <h3>상품 사진</h3>
             <div class="used-pic">
@@ -12,28 +13,26 @@
                 </label>
               </div>
             </div>
-            <div class="uploadarea" @click="upload">
-              사진 추가하기 
-            </div>
           </div>
+          <!-- 상품 -->
           <div class="used-info">
             <ul>
               <li>
                 <label for="inputWriter">작성자</label>
-                {{used_writer}}
+                <p>{{used_writer}}</p>
               </li>
               <li>
-                <label for="inputName">상품명</label>
-                <input type="text" name="used_name" id="inputName" placeholder="상품명을 등록해주세요">
+                <label for="inputName">상품명<span class="essential">*</span></label>
+                <input type="text" name="used_name" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20">
               </li>
               <li>
-                <label for="inputPrice">가격</label>
-                <input type="text" name="used_price" id="inputPrice" placeholder="가격을 입력하세요">
+                <label for="inputPrice">가격<span class="essential">*</span></label>
+                <input type="text" name="used_price" id="inputPrice" placeholder="가격을 숫자로 입력하세요" >
               </li>
               <hr>
               <li>
                 <label for="inputCate">카테고리</label>
-                <select name="used_cate" v-model="myGearType">
+                <select name="used_cate" id="used_cate" v-model="myGearType">
                   <option value='' disabled>카테고리 선택</option>
                   <option value="텐트">텐트</option>
                   <option value="타프">타프</option>
@@ -48,18 +47,7 @@
               </select>
               </li>
                 <li>
-                  <label for="align">상태</label>
-                  <div id="align">
-                  <input type="radio" id="radio1" name="used_sangtae" value=0>
-                  <label for="radio1">상</label>
-                  <input type="radio" id="radio2" name="used_sangtae" value=1>
-                  <label for="radio2">중</label>
-                  <input type="radio" id="radio3" name="used_sangtae" value=1>
-                  <label for="radio3">하</label>
-                  </div>
-                </li>
-                <li>
-                  <label for="inputPlace">지역</label>
+                  <label for="inputPlace">지역<span class="essential">*</span></label>
                   <form name="used_place">
                     <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
                       <option value diabled>시/도</option> 
@@ -87,16 +75,28 @@
                     </select>
                   </form> 
               </li>
-              <hr>
               <li>
-                <h3>상품 설명</h3>
+                  <label for="align">상태</label>
+                  <div id="align">
+                  <input type="radio" id="radio1" name="used_sangtae" value=1 checked>
+                  <label for="radio1">상</label>
+                  <input type="radio" id="radio2" name="used_sangtae" value=2>
+                  <label for="radio2">중</label>
+                  <input type="radio" id="radio3" name="used_sangtae" value=3>
+                  <label for="radio3">하</label>
+                  </div>
+                </li>
+              <hr>
+              <li id="textbox">
+                <label for="used_content">상품설명</label>
                 <div class="used-desc">
-                  <textarea name="used_content" class="used_content" placeholder="상품에 대한 설명을 입력해주세요"></textarea>
+                  <textarea name="used_content" class="used_content" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
                 </div>
               </li>
             </ul>
           </div>
         </div>
+        <!-- 작성버튼 -->
         <div class="used-foot">
               <button @click.prevent="confirm()">작성 완료</button>
         </div>

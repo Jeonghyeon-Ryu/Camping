@@ -94,9 +94,10 @@
       </div>
 
       <!--하단-->
-      <div class="used-foote">
-        <button v-on:click='usedInsert()'>+</button>
-      </div>
+    </div>
+    <div class="used-foote">
+      <button v-on:click='usedInsert()'>+</button>
+      <button v-on:click='usedInsert()'>♥</button>
     </div>
   </div>
 </template>

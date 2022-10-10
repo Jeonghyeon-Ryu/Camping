@@ -1,36 +1,50 @@
 <template>
   <div id="container">
     <form id="container2">
-      <h2>게시물 상세보기</h2>
         <div class="used-heads">
             <div class="used-pic">
                 <img v-bind:src="used_pic">
             </div>
           <div class="used-info">
             <ul>
-              <li>
-                <label for="inputWriter">작성자</label>
-                {{used_writer}}
-              </li>
-              <hr>
               <li><h2>{{used_name}}</h2></li>
               <li><h3>￦{{used_price}}</h3></li>
               <hr>
-              <li>
-                카테고리 : {{myGearType}}
-              </li>
-              <li>상태 : {{used_sangtae}}</li>
-              <li>
-                거래지역 : {{used_place}}
-                <!-- 입력된주소를 지도로불러오기??? -->
-              </li>
+              <div class="used-info2">
+                <div class="used-info3">
+                  <li>
+                    카테고리 : {{myGearType}}
+                  </li>
+                  <li>상태 : {{used_sangtae}}</li>
+                  <li>
+                    거래지역 : {{used_place}}
+                  </li>
+                </div>
+                <div class="used-report">
+                  <!-- 신고기능가져오기 -->
+                  <p @click="report()">신고하기</p>
+                </div>
+              </div>
             </ul>
           </div>
         </div>
+        <hr class="horizontal_line">
         <div class="used-foot">
-          <h3>상품 설명</h3>
           <div class="used-desc">
-            {{used_content}}
+            <p><b>상품 설명</b></p>
+            <hr class="horizontal-line">
+            <div class="used-content">
+              {{used_content}}
+            </div>
+          </div>
+          <div class="vertical_line"></div>
+          <div class="used-writer">
+                  <img v-bind:src="used_pic">
+                  {{used_writer}}
+                </div>
+          <div class="info-buttons">
+                  <button type="button" class="like-button">찜하기</button>
+                  <button type="button" class="chat-button">채팅하기</button>
           </div>
         </div>
       </form>
@@ -45,11 +59,11 @@
         used_pic : img1,
         used_writer : 'campingGo',
         myGearType : '텐트',
-        used_name : '4인용텐트',
+        used_name : '4인용 텐트',
         used_price : '100,000',
         used_sangtae : '상',
         used_place : '대구광역시 서구 내당동',
-        used_content : '1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ '    
+        used_content : '1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ '    
       }
     },
     methods: {
@@ -69,3 +83,4 @@
 <style scoped src="@/assets/css/used/UsedDetail.css">
 
 </style>
+<!-- 사진 슬라이드. 판매자 게시물 출력,찜버튼/채팅버튼 -->

@@ -6,11 +6,11 @@
 }
 #container{
   width: 100%;
-  margin-top: 7%;
+  margin-top: 10%;
   padding: 2%;
 }
 #container2{
-  width: 90%;
+  width: 75%;
   margin: 0 auto;
 }
 h2, h3, h4{
@@ -21,8 +21,7 @@ ul{
 }
 .used-heads{
   width: 100%;
-  padding: 2%;
-  /*background-color: #e6e6e6;*/
+  margin: 0 auto;
   display: flex;
 }
 /*사진*/
@@ -30,8 +29,8 @@ ul{
   display:none;
 }
 .used-pics{
-  width: 70%;
-
+  width: 60%;
+  height: 700px;
   flex-wrap: nowrap;
 }
 .used-pic{
@@ -43,41 +42,100 @@ ul{
 }
 /*정보*/
 .used-info{
-  width: 35%;
+  width: 40%;
+  height: 80%;
   padding: 2%;
   flex-wrap: nowrap;
 }
-.used-info input, select{
-  width: 150px;
+.used-info textarea:focus{
+  outline: none;
+}
+.used-info input:focus{
+  outline: none;
+  border-bottom: 1px solid black;
+}
+.used-info hr{
+  margin: 3% 0 3% 0;
+  height: 0.5px;
+  border: none;
+  background-color: #e6e6e6;
+}
+.used-info p{
+  line-height: 40px;
+  font-weight: bold;
+}
+.used-info li{
+  display: flex;
+  justify-content:space-between
+}
+.used-info label{
+  margin-left: 15px;
+  padding: 2px;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 40px;
+  color: #1b482d
+}
+.used-info input{
+  width: 60%;
+  height: 35px;
+  padding: 5px;
+  border: 1px solid #b6b6b6;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  text-align: right;
+}
+.used-info select{
+  width: 250px;
   height: 30px;
   padding: 5px;
   margin: 5px;
 }
+#districtSelect, #citySelect{
+  width: 120px;
+}
+/*설명textarea*/
+#textbox{
+  display:flex;
+  flex-direction: column;
+}
 .used_content{
-  width: 500px;
+  width: 95%;
   height: 170px;
-  padding: 2%;
-  border: none;
-  background-color: #e6e6e6;
+  padding: 4%;
+  border: 1px solid #e6e6e6;
   resize: none;
+  font-size: 1.2em;
+  margin-left: 15px;
+}
+.used_content:focus{
+  border: 1px solid black;
 }
 /* 하단*/
 .used-foot{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: #f9f9f9;
+  border-top: 1px solid #efefef;
   padding: 10px;
   text-align: center;
 }
 .used-foot button{
-  width: 10%;
-  height: 50px;
+  margin-left: 58%;
+  width: 120px;
+  height: 45px;
   padding: 10px;
   text-align: center;
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: 1em;
+  /* font-weight: bold; */
   color: white;
   border: 1px solid #eeeeee;
-  border-radius: 6px;
+  border-radius: 2px;
   box-shadow: 1px 1px 6px 0.2px #e6e6e6;
-  background-color: green;
+  background-color: rgb(115, 197, 122);
   cursor: pointer
 }
 
@@ -104,7 +162,7 @@ ul{
   vertical-align: middle;
   cursor: pointer;
   background-color: #f5f5f5;
-  width: 50px;
+  width: 82.5px;
   height: 30px;
   padding: 5px;
 }
@@ -113,4 +171,12 @@ ul{
   outline: 0;
   color: rgb(255, 255, 255);
   background-color: rgb(115, 197, 122);
+}
+
+/* 필수정보 */
+.essential{
+
+  padding: 1px;
+  color:red;
+  font-weight: bold;
 }

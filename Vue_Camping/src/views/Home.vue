@@ -11,11 +11,13 @@
   <!-- <UsedMain></UsedMain> -->
   <!-- <UsedReview></UsedReview> -->
   <!-- <UsedInsert></UsedInsert> -->
-  <UsedUpdate></UsedUpdate>
+  <!-- <UsedUpdate></UsedUpdate> -->
   <!-- <UsedDetail></UsedDetail> -->
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
-
+  <!-- <UsedLike></UsedLike> -->
+ <ChatRoom></ChatRoom>
+ <!-- <ChatList></ChatList> -->
 </template>
 
 <script setup>
@@ -25,4 +27,7 @@
   import UsedDetail from '@/components/UsedPractice/UsedDetail.vue';
   import UsedUpdate from '@/components/UsedPractice/UsedUpdate.vue';
   import CampRegister from '@/components/CampRegister.vue';
+import UsedLike from '@/components/UsedPractice/UsedLike.vue';
+import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
+import ChatList from '@/components/UsedPractice/ChatList.vue';
 </script>
