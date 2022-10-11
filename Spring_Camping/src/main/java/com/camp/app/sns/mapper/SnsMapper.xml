@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.sns.mapper.SnsMapper">
+	<select id="getSnsList"
+		resultType="com.camp.app.sns.service.SnsVO">
+		SELECT * FROM sns
+	</select>
+	
+	<select id="getHashTag" resultType="String">
+		SELECT hashtag from sns
+	</select>
+	
+	<select id="getNickName" resultType="String">
+		SELECT nickname from sns
+	</select>
+	
+	<insert id="insert" parameterType="SnsVO">
+		<selectKey keyProperty="writeNo" resultType="Integer"
+			order="BEFORE">
+			SELECT NVL(MAX(write_no),0)+1 FROM sns
+		</selectKey>
+
+		INSERT INTO sns VALUES(
+		#{writeNo},
+		#{content},
+		#{location},
+		#{place},
+		#{hashtag},
+		SYSDATE,
+		0,
+		#{nickname},
+		#{implement}
+		)
+	</insert>
+
+	<select id="writeNo" resultType="Integer">
+		SELECT COUNT(*) FROM sns
+	</select>
+</mapper>
