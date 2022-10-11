@@ -4,13 +4,13 @@
         </div>
         <div class="recru-input-box">
             <h3>Camping Recruitment</h3>
-            <form id="recru-form" role="form" >
+            <form id="recru-form" role="form" method="post">
                 <div class="recru-info-box">
                     <div class="recru-info-car">
                         <p>차량 유무</p>
                         <div class="in-level">
-                            <label><input type="radio" v-model="recruInfo.my_car" value="1">있음</label>
-                            <label><input type="radio" v-model="recruInfo.my_car" value="0">없음</label>
+                            <label><input type="radio" v-model="recruInfo.myCar" value="1">있음</label>
+                            <label><input type="radio" v-model="recruInfo.myCar" value="0">없음</label>
                         </div>
                     </div>
                 </div>
@@ -18,15 +18,15 @@
                     <p>희망 동행자</p>
                     <div class="in-level">
                         <div class="recru-info-sex">
-                            <label><input type="radio" v-model="recruInfo.wish_sex" value="0">남</label>
-                            <label><input type="radio" v-model="recruInfo.wish_sex" value="1">여</label>
-                            <label><input type="radio" v-model="recruInfo.wish_sex" value="2" checked>무관</label>
+                            <label><input type="radio" v-model="recruInfo.wishSex" value="1">남</label>
+                            <label><input type="radio" v-model="recruInfo.wishSex" value="2">여</label>
+                            <label><input type="radio" v-model="recruInfo.wishSex" value="0" checked>무관</label>
                         </div>
                         <div class="recru-info-age">
-                            <label><input type="checkbox" v-model="recruInfo.wish_age" value="2">20대</label>
-                            <label><input type="checkbox" v-model="recruInfo.wish_age" value="3">30대</label>
-                            <label><input type="checkbox" v-model="recruInfo.wish_age" value="4">40대</label>
-                            <label><input type="checkbox" v-model="recruInfo.wish_age" value="5">50대 이상</label>
+                            <label><input type="checkbox" class="wishAge" value="2">20대</label>
+                            <label><input type="checkbox" class="wishAge" value="3">30대</label>
+                            <label><input type="checkbox" class="wishAge" value="4">40대</label>
+                            <label><input type="checkbox" class="wishAge" value="5">50대 이상</label>
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     <ul @click="removeGear" id="recru-mygear-body">
                         <li><input type="text" class="recru-mygear-name" placeholder="장비 이름">
                             <select class="recru-mygear-type">
-                                <option selected disabled>장비 분류</option>
+                                <option value="" selected disabled>장비 분류</option>
                                 <option value="텐트">텐트</option>
                                 <option value="타프">타프</option>
                                 <option value="가구">가구</option>
@@ -86,10 +86,10 @@
                 <hr>
                 <div class="recru-info-box">
                     <div class="recru-info-title">
-                        <label><span>제목 </span><input type="text" v-model="recruInfo.recru_title"></label>
+                        <label><span>제목 </span><input type="text" v-model="recruInfo.recruTitle"></label>
                     </div>
                     <div class="recru-info-content">
-                        <label><span>내용</span> <textarea v-model="recruInfo.recru_content" cols="30" rows="5"></textarea></label>
+                        <label><span>내용</span> <textarea v-model="recruInfo.recruContent" cols="30" rows="5"></textarea></label>
                     </div>
                 </div>
                 <hr>
@@ -97,8 +97,8 @@
                     <div class="recru-info-mynote">
                         <div>
                             <span>나의 노트</span>
-                            <ul v-for="note in myNote" v-bind:key="myNote.note_id">
-                                <li class="recru-mynote-select"><input type="radio" v-model="recruInfo.note_id">{{note.note_title}}</li>
+                            <ul v-for="note in myNote" v-bind:key="myNote.noteId">
+                                <li class="recru-mynote-select"><input type="radio" v-model="recruInfo.noteId">{{note.noteTitle}}</li>
                             </ul>
                         </div>
                         <div>
@@ -111,24 +111,26 @@
                     <span>여행정보</span>
                     <ul class="recru-box-name">
                         <li class="recru-info-startP">
-                            <label>출발지<input type="text" v-model="recruInfo.starting_spot"></label>
+                            <label>출발지<input type="text" v-model="recruInfo.startingSpot"></label>
                         </li>
                         <li class="recru-info-campP">
-                            <label>도착지<input type="text" v-model="recruInfo.camping_spot"></label>
+                            <label>도착지<input type="text" v-model="recruInfo.campingSpot"></label>
                         </li>
                         <li class="recru-info-number">
                             <label>모집인원 <input type="number" v-model="recruInfo.recru_num" min="1" de></label>
                         </li>
                         <li class="recru-info-day">
-                            <label>여행 날짜 <input type="date" class="select-date" v-model="recruInfo.go_date"></label> 
-                            ~ <input type="date" class="select-date" v-model="recruInfo.come_date">
+                            <label>여행 날짜 <input type="date" class="select-date" v-model="recruInfo.goDate"></label> 
+                            ~ <input type="date" class="select-date" v-model="recruInfo.comeDate">
                         </li>
                     </ul>
                 </div>
                 <div class="recru-info-last">
-                    <label><span>마감일</span> <input type="date" v-model="recruInfo.close_date" class="select-date"></label>
+                    <label><span>마감일</span> <input type="date" v-model="recruInfo.closeDate" class="select-date"></label>
+                </div>
+                <div class="recru-info-btn" style="text-align: center;">
                     <button class="btn bg-gradient-success btn-md"
-                            v-on:click.prevent="uploadContent">등록</button>
+                    v-on:click.prevent="uploadContent">등록</button>
                 </div>
             
             </form>
@@ -137,36 +139,35 @@
 </template>
 
 <script>
-import MaterialBadge from "@/components/MaterialBadge.vue";
+import Swal from 'sweetalert2';
 export default{
-    components : {
-        MaterialBadge
-    },
     data : function(){
       return {
-        recruInfo : {   wish_sex : '',
-                        wish_age : [],
-                        my_car : '',
-                        my_gear : '',
-                        need_gear :'',
-                        gear_img:[],
-                        recru_title : '',
-                        recru_content :'',
-                        note_id: 0,
-                        starting_spot: '',
-                        camping_spot: '',
-                        recru_num : 0,
-                        go_date : '',
-                        come_date : '',
-                        close_date: '',
-                        },
+        recruInfo : {  
+            writer : 'user2',
+            wishSex : 0,
+            wishAge : '',
+            myCar : 0,
+            myGear : '',
+            needGear :'',
+            recruTitle : '',
+            recruContent :'',
+            noteId: 0,
+            startingSpot: '',
+            campingSpot: '',
+            recruNum : 0,
+            goDate : '',
+            comeDate : '',
+            closeDate: '',
+            },
+        gearImg:[],
         myNote:[{
-            note_id : 1,
-            note_title : '노트제목입니다'
+            noteId : 1,
+            noteTitle : '노트제목입니다'
             },
             {
-            note_id : 2,
-            note_title : '노트제목입니다'
+            noteId : 2,
+            noteTitle : '노트제목입니다'
         }]
       }
     },
@@ -174,7 +175,21 @@ export default{
         uploadContent : function(event){
                 this.setGearList('mygear');
                 this.setGearList('needgear');
+                this.getWishAge();
                 console.log(this.recruInfo);
+
+                let recruVO = this.recruInfo;
+                //서버를 통해 insert
+                fetch('http://localhost:8088/java/recru',{
+                    method : "POST",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(recruVO )
+                })
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+
+                }).catch(err=>console.log(err))
             },
         addGear : function(menu){                
             const box = document.getElementById(menu);
@@ -197,7 +212,7 @@ export default{
                         +"</select>"
                         +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' placeholder='수량' min='1'>"
                         +"<input type='file' class='btn btn-sm' style='margin:0 5px;max-width:210px;'>"
-                        +"<button type='button' class='btn btn-sm btn-outline-danger' >삭제</button>";
+                        +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
             li.innerHTML = str;
             box.appendChild(li);
         },
@@ -212,12 +227,17 @@ export default{
             let gearNum = document.querySelectorAll('.recru-'+menu+'-num');
             let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
             for(let i=1 ; i<gearNames.length ; i++){
+                if(gearNames[i].value===''){
+                    Swal.fire('장비 이름을 입력해주세요','보유한 장비가 없는 경우 x 버튼을 눌러 지워주세요','warning');
+                    gearNames[i].focus();
+                    return;
+                }
                 gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
             }
             if(menu==='mygear'){
-                this.recruInfo.my_gear = gearList;
+                this.recruInfo.myGear = gearList;
             }else{
-                this.recruInfo.need_gear = gearList;
+                this.recruInfo.needGear = gearList;
             }
         },
         writeNewNote : function(){
@@ -225,9 +245,16 @@ export default{
         },
         getGearList : function(){
             alert
+        },
+        getWishAge : function(){
+            let ages = document.querySelectorAll('.wishAge');
+            this.wishAge = ages[0];
+            for(let i=1; i<ages.length;i++){
+                this.wishAge +=(','+ ages[i]);
+            }
+            console.log(this.wishAge)
         }
-    },
-    
+    }
 }
 </script>
 
@@ -241,7 +268,7 @@ export default{
 }
 .recru-input-back{
     height: 1000px;
-    width: 800px;
+    width: 600px;
     margin : 1rem;
     flex-direction: column;
     justify-content: center;
@@ -252,7 +279,8 @@ export default{
 /* 입력폼 박스 */
 .recru-input-box{
     position: absolute;
-    left: 20vw;
+    left: 25vw;
+    min-width: 600px;
     padding: 20px;
     border-radius: 20px;
     backdrop-filter:saturate(100%) blur(30px) ;
@@ -280,6 +308,7 @@ export default{
 #recru-form hr{
     margin: 10px;
 }
+
 /* 들여쓰기 */
 .in-level{
     margin-left: 20px;

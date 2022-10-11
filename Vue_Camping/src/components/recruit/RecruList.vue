@@ -20,8 +20,9 @@
             <!-- 카드 -->
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.title">
-                    <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
-                    <!-- <router-link tag="RouterCard" v-bind:to="{name:recruCard,params:{recruCard:'recruInfo'}}"></router-link> -->
+                    <router-link tag="RouterCard" v-bind:to="{name:'recruDetail',params:{recruId:'recruInfo.id'}}">
+                        <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
+                    </router-link>
                 </div>
             </div>      
         </div>
@@ -41,38 +42,24 @@
         data : function(){
             return{
                 filterStatus : false,
-                recruPosts : [
-                                {
-                                gear_img : '@/assets/img/gear04.jpg',
-                                title : 'tnwjdfasfd',
-                                my_gear : '4인용텐트',
-                                need_gear : '타프',
-                                go_date : '2022/11/11',
-                                camping_point : '순천만'
-                                },
-                                {
-                                gear_img : '@/assets/img/gear06.jpg',
-                                title : '수정된222',
-                                my_gear : '4인용텐트222',
-                                need_gear : '타프',
-                                go_date : '2022/11/11',
-                                camping_point : '순천만'
-                                },
-                                {
-                                gear_img : '@/assets/img/gear06.jpg',
-                                title : '수정된23322sssssssadsdasddddddddddddddasdsaddsdsds',
-                                my_gear : '4인용텐트 길게 길게 글을 쓰면 어떻게 될까요 dffff  fffff ff fff ffffffffffffffffffff222',
-                                need_gear : '타프만 필요한가 가진건 아무것도 없고 캠핑에 대해 아는 것도 일도 없는 생초보라 지식가득 장비 가득 고인물을 원합니다 츄라이 츄라이',
-                                go_date : '2022/11/11',
-                                camping_point : '순천만'
-                                }
-                             ]
+                recruPosts : [ ]
             }
+        },
+        created(){
+            // 서버에서 전체 리스트 가져오기
+            fetch("http://localhost:8088/java/recru")
+            .then((response) =>response.json()) 
+            .then(data => { 
+                console.log(data);
+                this.recruPosts = data;  
+
+            }).catch(err=>console.log(err));
         },
         methods: {
             toggleFilter : function(){
                 this.filterStatus = !this.filterStatus;
-            }
+            },
+            searchList : function()
         }
     }
 </script>

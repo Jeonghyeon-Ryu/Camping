@@ -122,6 +122,7 @@ import EntryInsert from '@/components/recruit/EntryInsert.vue';
 import ModalView from '@/components/recruit/ModalView.vue';
 import Swal from 'sweetalert2';
 export default{
+    name : "RecruDetail",
     components :{
         EntryStandByCard,
         EntryCard,
