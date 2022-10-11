@@ -31,10 +31,12 @@
   import RecruDetail from '@/components/recruit/RecruDetail.vue';
   import RecruList from '@/components/recruit/RecruList.vue';
   import RecruMap from '../components/recruit/RecruMap.vue';
-  import SnsMain from '@/components/SnS/SnsMain.vue';
-  import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
-  import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
-  import SnsSearch from '@/components/SnS/SnsSearch.vue';
-  import SnsWrite from '@/components/SnS/SnsWrite.vue';
   import SnsReport from '@/components/SnS/SnsReport.vue';
+import SnsMain from '@/components/SnS/SnsMain.vue';
+import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
+import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
+import SnsSearch from '@/components/SnS/SnsSearch.vue';
+import SnsWrite from '@/components/SnS/SnsWrite.vue';
+import UserManage from '@/components/Admin/UserManage.vue';
+
 </script>

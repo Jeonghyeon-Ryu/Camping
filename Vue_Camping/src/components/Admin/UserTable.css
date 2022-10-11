@@ -1,0 +1,33 @@
+.table {
+    --gridTemplate : 40px;
+    width:90vw;
+    overflow: auto;
+}
+.table-header {
+    display:grid;
+    grid-template-columns: var(--gridTemplate);
+    /* grid-template-columns: 40px 1fr 1fr 1fr; */
+    padding:10px 2.5px 10px 2.5px;
+    background: rgb(250,241,230);
+    border-radius: 20px;
+    align-items: center;
+}
+.table-header .table-column{
+    display:flex;
+}
+.table-header input[type="checkbox"],.table-body input[type="checkbox"] {
+    height:15px;
+}
+.table-body {
+    height: 30px;
+    display:grid;
+    grid-template-columns: var(--gridTemplate);
+    padding : 2.5px;
+    align-items: center;
+}
+.table-body .table-column {
+    display:flex;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
