@@ -3,9 +3,11 @@
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <SnsMain></SnsMain> -->
-  <!-- <SnsWrtie></SnsWrtie> -->
+  <!-- <SnsDetailFeed></SnsDetailFeed> -->
   <!-- <SnsMyFeed></SnsMyFeed> -->
-  <!-- <SnsFeedDetail></SnsFeedDetail> -->
+  <!-- <SnsSearch></SnsSearch> -->
+  <!-- <SnsWrite></SnsWrite> -->
+  <!-- <SnsReport></SnsReport> -->
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <UsedMain></UsedMain> -->
@@ -16,17 +18,29 @@
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
   <!-- <UsedLike></UsedLike> -->
- <ChatRoom></ChatRoom>
+ <!-- <ChatRoom></ChatRoom> -->
  <!-- <ChatList></ChatList> -->
 </template>
 
+
 <script setup>
-  import UsedMain from '@/components/UsedPractice/UsedMain.vue';
-  import UsedReview from '@/components/UsedPractice/UsedReview.vue';
-  import UsedInsert from '@/components/UsedPractice/UsedInsert.vue';
-  import UsedDetail from '@/components/UsedPractice/UsedDetail.vue';
-  import UsedUpdate from '@/components/UsedPractice/UsedUpdate.vue';
-  import CampRegister from '@/components/CampRegister.vue';
+  import MainSwiper from '../components/MainSwiper.vue';
+  import CampRegister from '../components/CampRegister.vue';
+  import UsedMain from '../components/UsedPractice/UsedMain.vue';
+  import UsedReview from '../components/UsedPractice/UsedReview.vue';
+  import UsedInsert from '../components/UsedPractice/UsedInsert.vue';
+  import UsedUpdate from '../components/UsedPractice/UsedUpdate.vue';
+  import UsedDetail from '../components/UsedPractice/UsedDetail.vue';
+  import RecruDetail from '@/components/recruit/RecruDetail.vue';
+  import RecruList from '@/components/recruit/RecruList.vue';
+  import RecruMap from '../components/recruit/RecruMap.vue';
+  import SnsReport from '@/components/SnS/SnsReport.vue';
+import SnsMain from '@/components/SnS/SnsMain.vue';
+import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
+import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
+import SnsSearch from '@/components/SnS/SnsSearch.vue';
+import SnsWrite from '@/components/SnS/SnsWrite.vue';
+import UserManage from '@/components/Admin/UserManage.vue';
 import UsedLike from '@/components/UsedPractice/UsedLike.vue';
 import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
 import ChatList from '@/components/UsedPractice/ChatList.vue';

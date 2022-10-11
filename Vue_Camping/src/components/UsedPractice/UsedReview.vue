@@ -58,6 +58,5 @@
   }
 } 
 </script>  
-
 <style scoped src="@/assets/css/used/UsedReview.css">
 </style>  

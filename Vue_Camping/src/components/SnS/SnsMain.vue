@@ -1,89 +1,64 @@
 <template>
   <div class="sns-container">
     <div class="sns-searchbox">
-      <input type="text" placeholder="검색어를 입력하세요">
-      <input type="button" value="X">
-      <p class="result"></p>
+      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
+      <button @click="doSearch" style="display: none;">조회</button>
+      <!-- <input type="button" @click="doClear" value="X"> -->
     </div>
+    
     <div class="sns-img-container">
+      <div class="sns-img-row-container" :key="snsImg.No" v-for="snsImg in snsImgs">
       <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber1"  style="display :none;">
-        <img v-bind:src="snsMaingImg1">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber2"  style="display :none;">
-        <img v-bind:src="snsMaingImg2">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber3"  style="display :none;">
-        <img v-bind:src="snsMaingImg3">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber4"  style="display :none;">
-        <img v-bind:src="snsMaingImg4">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber5"  style="display :none;">
-        <img v-bind:src="snsMaingImg5">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber6"  style="display :none;">
-        <img v-bind:src="snsMaingImg6">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber7"  style="display :none;">
-        <img v-bind:src="snsMaingImg7">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber8"  style="display :none;">
-        <img v-bind:src="snsMaingImg8">
-      </div>
-      <div class="sns-img">
-        <input type="text" v-bind:value="snsWriteNumber9"  style="display :none;">
-        <img v-bind:src="snsMaingImg9">
-      </div>
+        <input type="text" :value="snsImg.No" style="display :none;">
+        <img v-bind:src="snsImg.Img">
+      </div> 
+    </div>     
     </div>
   </div>
 </template>
 
 <script>
-  import img1 from "@/assets/img/이미지1.jpg"
-  import img2 from "@/assets/img/이미지2.jpg"
-  import img3 from "@/assets/img/이미지3.jpg"
-  import img4 from "@/assets/img/이미지4.jpg"
-  import img5 from "@/assets/img/이미지5.jpg"
-  import img6 from "@/assets/img/이미지6.jpg"
-  import img7 from "@/assets/img/이미지7.jpg"
-  import img8 from "@/assets/img/이미지8.jpg"
-  import img9 from "@/assets/img/이미지9.jpg"
+  import img1 from "@/assets/img/sns/이미지1.jpg"
+  import img2 from "@/assets/img/sns/이미지2.jpg"
+  import img3 from "@/assets/img/sns/이미지3.jpg"
+  import img4 from "@/assets/img/sns/이미지4.jpg"
+  import img5 from "@/assets/img/sns/이미지5.jpg"
+  import img6 from "@/assets/img/sns/이미지6.jpg"
+  import img7 from "@/assets/img/sns/이미지7.jpg"
+  import img8 from "@/assets/img/sns/이미지8.jpg"
+  import img9 from "@/assets/img/sns/이미지9.jpg"
 
   export default{
     data : ()=>{
       return {     
-        snsWriteNumber1 : '1111',   
-        snsWriteNumber2 : '2222',
-        snsWriteNumber3 : '3333',
-        snsWriteNumber4 : '4444',
-        snsWriteNumber5 : '5555',
-        snsWriteNumber6 : '6666',  
-        snsWriteNumber7 : '7777',
-        snsWriteNumber8 : '8888',
-        snsWriteNumber9 : '9999',  
-        snsMaingImg1 : img1,
-        snsMaingImg2 : img2,
-        snsMaingImg3 : img3,
-        snsMaingImg4 : img4,
-        snsMaingImg5 : img5,
-        snsMaingImg6 : img6,
-        snsMaingImg7 : img7,
-        snsMaingImg8 : img8,
-        snsMaingImg9 : img9
 
+        searchText : '',
+
+        snsImgs : [
+          {Img : img1, Name : 'snsMaingImg1', No : '1111'},
+          {Img : img2, Name : 'snsMaingImg2', No : '2222'},
+          {Img : img3, Name : 'snsMaingImg3', No : '3333'},
+          {Img : img4, Name : 'snsMaingImg4', No : '4444'},
+          {Img : img5, Name : 'snsMaingImg5', No : '5555'},
+          {Img : img6, Name : 'snsMaingImg6', No : '6666'},
+          {Img : img7, Name : 'snsMaingImg7', No : '7777'},
+          {Img : img8, Name : 'snsMaingImg8', No : '8888'},
+          {Img : img9, Name : 'snsMaingImg9', No : '9999'},
+        
+      ]
         
       }
     },
+    //검색
     methods : {
-     
+      doSearch(){
+        console.log(this.searchText)
+      },
+      checkEnter(event){
+        if(event.keyCode == 13) {
+          this.doSearch()
+        }
+      },
     }
   }
  </script>
@@ -125,21 +100,21 @@
     margin-top: 10px;
   }
 
-  .sns-searchbox input[type=text] {
+  .sns-searchbox input[type=search] {
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
 
-  .sns-searchbox input[type=button] {
+  /* .sns-searchbox input[type=button] {
     padding: 15px;
     border: none;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
-  }
+  } */
 
   .sns-img-container {
-    width: 70vw;
+    width: 70%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

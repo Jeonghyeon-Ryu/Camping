@@ -9,7 +9,7 @@
 
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.0.123:1521:xe"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@130.162.152.13:1521:xe"></property>
 		<property name="username" value="camper"></property>
 		<property name="password" value="camper"></property>
 	</bean>
