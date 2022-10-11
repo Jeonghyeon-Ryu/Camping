@@ -3,10 +3,11 @@
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <SnsMain></SnsMain> -->
-  <!-- <SnsDetailFeed></SnsDetailFeed> -->
-  <!-- <SnsMyFeed></SnsMyFeed> -->
+  <SnsDetailFeed></SnsDetailFeed>
+  <SnsMyFeed></SnsMyFeed>
   <!-- <SnsSearch></SnsSearch> -->
   <!-- <SnsWrite></SnsWrite> -->
+  <!-- <SnsReport></SnsReport> -->
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <UsedMain></UsedMain> -->
@@ -16,6 +17,7 @@
   <!-- <UsedDetail></UsedDetail> -->
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
+
 </template>
 
 <script setup>
@@ -29,6 +31,7 @@
   import RecruDetail from '@/components/recruit/RecruDetail.vue';
   import RecruList from '@/components/recruit/RecruList.vue';
   import RecruMap from '../components/recruit/RecruMap.vue';
+  import SnsReport from '@/components/SnS/SnsReport.vue';
 import SnsMain from '@/components/SnS/SnsMain.vue';
 import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
 import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
