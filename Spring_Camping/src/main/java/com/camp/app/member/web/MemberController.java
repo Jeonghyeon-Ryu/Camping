@@ -2,15 +2,15 @@ package com.camp.app.member.web;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.camp.app.member.service.AuthVO;
@@ -21,7 +21,6 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.Certification;
 import com.siot.IamportRestClient.response.IamportResponse;
 
-@SessionAttributes("email")
 @RestController
 @CrossOrigin
 public class MemberController {
@@ -52,7 +51,7 @@ public class MemberController {
 		return auth;
 	}
 	
-	@PutMapping("/member")
+	@PostMapping("/member")
 	public boolean signup(@RequestParam MemberVO member) {
 		int result = service.signup(member);
 		if(result>0) {
@@ -63,12 +62,16 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public boolean login(@RequestParam MemberVO member, Model model) {
+	public boolean login(@RequestBody MemberVO member, HttpSession session) {
+//		MemberVO input = new MemberVO();
+//		input.setEmail(member.get("email"));
+//		input.setPassword(member.get("password"));
 		MemberVO result = service.login(member);
+		System.out.println(result);
 		if(result == null) {
 			return false;
 		} else {
-			model.addAttribute("email", result.getEmail());
+			session.setAttribute("member", result);
 			return true;
 		}
 	}
