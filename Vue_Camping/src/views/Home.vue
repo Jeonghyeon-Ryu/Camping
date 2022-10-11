@@ -3,8 +3,8 @@
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <SnsMain></SnsMain> -->
-  <SnsDetailFeed></SnsDetailFeed>
-  <SnsMyFeed></SnsMyFeed>
+  <!-- <SnsDetailFeed></SnsDetailFeed> -->
+  <!-- <SnsMyFeed></SnsMyFeed> -->
   <!-- <SnsSearch></SnsSearch> -->
   <!-- <SnsWrite></SnsWrite> -->
   <!-- <SnsReport></SnsReport> -->
@@ -17,8 +17,11 @@
   <!-- <UsedDetail></UsedDetail> -->
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
-
+  <!-- <UsedLike></UsedLike> -->
+ <!-- <ChatRoom></ChatRoom> -->
+ <!-- <ChatList></ChatList> -->
 </template>
+
 
 <script setup>
   import MainSwiper from '../components/MainSwiper.vue';
@@ -38,5 +41,7 @@ import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
 import SnsSearch from '@/components/SnS/SnsSearch.vue';
 import SnsWrite from '@/components/SnS/SnsWrite.vue';
 import UserManage from '@/components/Admin/UserManage.vue';
-
+import UsedLike from '@/components/UsedPractice/UsedLike.vue';
+import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
+import ChatList from '@/components/UsedPractice/ChatList.vue';
 </script>

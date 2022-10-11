@@ -15,15 +15,25 @@
   flex-direction: column;
 }
 
+/*상단*/
 .used-headd {
   display: flex;
   flex-direction: column;
 }
 
+
 .used-head ul,
 .used-head li {
   list-style: none;
-  float: left;
+  display: flex;
+}
+
+.used-filter-ul {
+  display: flex;
+}
+
+.used-filter li {
+  display: flex;
 }
 
 ul {
@@ -38,18 +48,18 @@ label {
   line-height: 40px;
 }
 
-h2 {
+.used-title h2 {
   padding: 20px;
 }
 
 .used-filter {
-  width: 70%;
+  width: 65%;
   min-width: 400px;
   padding: 10px;
   /* background-color: rgb(150, 192, 168); */
   box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px;
   margin: 0 auto;
-  text-align: center;
+  /* text-align: center; */
   display: flex;
   justify-content: center;
 }
@@ -62,10 +72,17 @@ h2 {
 }
 
 .used-search {
+  display: flex;
   text-align: center;
   flex-direction: column;
 }
-
+.used-searchbox {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3%;
+  padding-bottom: 1%;
+  /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png'); */
+}
 .used-searchbox input {
   width: 100%;
   height: 60px;
@@ -75,26 +92,14 @@ h2 {
   border: 1px solid #e6e6e6;
   border-radius: 7px;
   box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px;
+  margin-bottom: 2%;
 }
-
-.used-search {
-  display: flex;
-  flex-direction: column;
-}
-
-.used-searchbox {
-  display: flex;
-  justify-content: center;
-  padding: 3%;
-  padding-bottom: 1%;
-  /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png'); */
-}
-
 .used-searchbox>div {
-  width:55%;
-  height:fit-content;
-  position:relative;
+  width: 55%;
+  height: fit-content;
+  position: relative;
 }
+
 .used-searchbox img {
   width: 50px;
   position: absolute;
@@ -105,7 +110,27 @@ h2 {
 .used-selected {
   display: flex;
   flex-wrap: wrap;
-  padding: 20px;
+  width: 70%;
+  height: 65px;
+  padding-top: 20px;
+  margin: 0 auto;
+}
+
+.used-selected ul {
+  display: flex;
+  margin: 0 auto;
+  height: 40px;
+}
+
+.used-selected li {
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.6em;
+  color: #747474;
+  padding: 7px;
+  background-color: #ebebeb;
+  border-radius: 6px;
+  margin: 5px;
 }
 
 /*본문*/
@@ -113,24 +138,19 @@ h2 {
   display: flex;
   margin-top: 20px;
   flex-direction: column;
-  text-align: right;
 }
 
-.sellbutton {
-  margin-top: -200px;
-  padding: 10px;
-  float: right;
-}
-
+/*본문-카드*/
 .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 70%;
+  width: 90%;
   margin: 0 auto;
   padding: 10px;
 
 }
+
 /* .cards::after {
   display: block;
   content:"";
@@ -146,11 +166,11 @@ h2 {
   position: relative;
 }
 
-.card > .like img{
-  width: 40px;
-  position:absolute;
-  right: 25px;
-  top: 25px;
+.card>.like img {
+  width: 30px;
+  position: absolute;
+  right: 30px;
+  top: 27px;
 }
 
 .card:hover {
@@ -172,46 +192,35 @@ h2 {
 
 .card-info {
   margin: 0 auto;
-  padding: 10px;
+  padding-top: 20px;
   width: 300px;
   height: 120px;
   /* border: 1px solid gray; */
-  display: flex;
-  justify-content: space-between;
 }
 
-.info-right {
-  text-align: right;
-}
-
-span {
-  text-align: center;
-  font-weight: bold;
-  color: #747474;
-  padding: 10px;
-  background-color: #e6e6e6;
-  border-radius: 6px;
-  margin: 10px;
-}
-
+/*하단 글쓰기 플로팅 버튼*/
 .used-foote {
   position: fixed;
   right: 5vw;
   bottom: 4vw;
+  display: flex;
+  flex-direction: column;
 }
 
 .used-foote button {
   width: 60px;
   height: 60px;
   padding: 10px;
+  margin: 3px;
   border: none;
   border-radius: 50%;
   background-color: rgb(81, 131, 81);
   box-shadow: #dadada 1px 1px 3px 0.5px;
   color: white;
-  font-size: 0.1em;
+  font-size: 1.2em;
   /* position:fixed; */
 }
+
 .used-foote button:hover {
-  cursor:pointer;
-} 
+  cursor: pointer;
+}
