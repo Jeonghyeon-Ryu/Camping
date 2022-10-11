@@ -74,7 +74,8 @@ ul{
   font-weight: bold;
   display: inline-block;
   line-height: 40px;
-  color: #1b482d
+  color: #1b482d;
+  min-width: 80px;
 }
 .used-info input{
   width: 60%;
@@ -88,7 +89,7 @@ ul{
 }
 .used-info select{
   width: 250px;
-  height: 30px;
+  height: 35px;
   padding: 5px;
   margin: 5px;
 }
@@ -145,10 +146,12 @@ ul{
   white-space: nowrap;
   font-size: 0;
   margin: 5px;
+  display: flex;
 }
 
 #align input {
   display: none;
+  flex-wrap: wrap;
 }
 
 #align label {
@@ -162,9 +165,10 @@ ul{
   vertical-align: middle;
   cursor: pointer;
   background-color: #f5f5f5;
-  width: 82.5px;
-  height: 30px;
+  width: 83.4px;
+  height: 33px;
   padding: 5px;
+  line-height: 25px;
 }
 
 #align input:checked+label {

@@ -23,11 +23,11 @@
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
-                <input type="text" name="used_name" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20">
+                <input type="text" name="used_name" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20" autofocus>
               </li>
               <li>
                 <label for="inputPrice">가격<span class="essential">*</span></label>
-                <input type="text" name="used_price" id="inputPrice" placeholder="가격을 숫자로 입력하세요" >
+                <input type="text" name="used_price" id="inputPrice" placeholder="가격을 숫자로 입력하세요" @keyup="inputNumberFormat(this)" >
               </li>
               <hr>
               <li>
@@ -145,7 +145,6 @@
                     opt.innerHTML = cityList[i];
                     sigu.appendChild(opt);
        }
-
       }
     }
   }
@@ -153,3 +152,8 @@
 <style scoped src="@/assets/css/used/UsedInsert.css">
 
 </style>
+<!-- 
+  사진: 미리보기
+  상품명: 글자수 20자 제한
+  가격: 숫자 천단위구분기호/숫자만입력 
+  상품설명: 글자수제한 /글자카운트?-->

@@ -8,7 +8,7 @@
   <!-- <SnsFeedDetail></SnsFeedDetail> -->
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
-  <!-- <UsedMain></UsedMain> -->
+  <UsedMain></UsedMain>
   <!-- <UsedReview></UsedReview> -->
   <!-- <UsedInsert></UsedInsert> -->
   <!-- <UsedUpdate></UsedUpdate> -->

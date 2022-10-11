@@ -2,9 +2,9 @@
   <div id="container">
     <form id="container2">
         <div class="used-heads">
-            <div class="used-pic">
+          <div class="used-pic">
                 <img v-bind:src="used_pic">
-            </div>
+          </div>
           <div class="used-info">
             <ul>
               <li><h2>{{used_name}}</h2></li>
@@ -12,6 +12,14 @@
               <hr>
               <div class="used-info2">
                 <div class="used-info3">
+                <div class="used-cnt">
+                  ❤ {{used_like}} 👁‍🗨 {{used_cnt}}
+                </div>
+                <div class="used-report">
+                  <!-- 신고기능가져오기 -->
+                  <p @click="report()">신고하기</p>
+                </div>
+              </div>
                   <li>
                     카테고리 : {{myGearType}}
                   </li>
@@ -19,11 +27,6 @@
                   <li>
                     거래지역 : {{used_place}}
                   </li>
-                </div>
-                <div class="used-report">
-                  <!-- 신고기능가져오기 -->
-                  <p @click="report()">신고하기</p>
-                </div>
               </div>
             </ul>
           </div>
@@ -41,7 +44,10 @@
           <div class="used-writer">
                   <img v-bind:src="used_pic">
                   {{used_writer}}
-                </div>
+            <div class="used-writer-post">
+              <!-- 올린게시물정보 -->
+            </div>
+          </div>
           <div class="info-buttons">
                   <button type="button" class="like-button">찜하기</button>
                   <button type="button" class="chat-button">채팅하기</button>
@@ -56,6 +62,8 @@
   export default {
     data(){
       return{
+        used_like: '6',
+        used_cnt: '30',
         used_pic : img1,
         used_writer : 'campingGo',
         myGearType : '텐트',
