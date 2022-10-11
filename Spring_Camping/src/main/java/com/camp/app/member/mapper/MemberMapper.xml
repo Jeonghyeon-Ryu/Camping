@@ -1,7 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.camp.app.member.mapper.MemberMapper">
-	<select id="findById" parameterType="Integer" resultType="MemberVO">
+	<select id="findAll">
+		SELECT * FROM member
+	</select>
+	<select id="findByEmail" parameterType="String" resultType="MemberVO">
 		SELECT * FROM member WHERE member_id = #{memberId}
 	</select>
+	<select id="count" resultType="Integer">
+		SELECT COUNT(*) FROM member
+	</select>
+	<select id="existsByEmail" parameterType="String" resultType="boolean">
+		SELECT COUNT(*)
+		FROM member
+		WHERE email = #{email}
+	</select>
+	<select id="existsByNickname" parameterType="String" resultType="boolean">
+		SELECT COUNT(*)
+		FROM member
+		WHERE nickname = #{nickname}
+	</select>
+	<select id="findByEmailAndPassword" parameterType="MemberVO" resultType="MemberVO">
+		SELECT * FROM member
+		WHERE email=#{email} AND password=#{password}
+	</select>
+	<insert id="insert" parameterType="MemberVO">
+		INSERT INTO member VALUES(
+			#{email},
+			#{socialEmail},
+			#{password},
+			#{nickname},
+			#{name},
+			#{birth},
+			#{sex},
+			#{phoneNumber},
+			#{profileInfo},
+			SYSDATE,
+			SYSDATE,
+			1,
+			1
+		)
+	</insert>
+	<update id="update" parameterType="MemberVO">
+		UPDATE member SET 
+			updated=SYSDATE
+			<if test="socialEmail != null">, social_email=#{socialEmail}</if>
+			<if test="password != null">, password=#{password}</if>
+			<if test="nickname != null">, nickname=#{nickname}</if>
+			<if test="name != null">, name =#{name}</if>
+			<if test="birth != null">, birth =#{birth}</if>
+			<if test="sex != null">, sex =#{sex}</if>
+			<if test="phoneNumber != null">, phone_number =#{phoneNumber}</if>
+			<if test="profileInfo != null">, profile_info =#{profileInfo}</if>
+			<if test="status != null">, status =#{status}</if>
+		WHERE email=#{email}
+	</update>
 </mapper>

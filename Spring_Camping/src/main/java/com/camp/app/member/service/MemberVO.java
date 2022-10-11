@@ -8,18 +8,20 @@ import lombok.Data;
 
 @Data
 public class MemberVO {
-	private int memberId;
-	private String memberEmail;
+	// 12개
+	private String email;
+	private String socialEmail;
 	private String password;
 	private String nickname;
-	private String member_name;
+	private String name;
 	private String birth;
-	private int sex;
-	private int phoneNumber;
+	private String sex;
+	private String phoneNumber;
 	private String profileInfo;
-	private int memberStatus;
-	private int memberAuth;
-	private String socialEmail;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date regdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date updated;
+	private int status;
+	private int auth;
 }

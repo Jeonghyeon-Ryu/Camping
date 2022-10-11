@@ -1,6 +1,14 @@
 <template>
     <div class="recru-detail-container">
         <div class="recru-detail-box ">            
+            <div class="recru-detail-row">
+                <div class="recru-detail-title">
+                    <h2>{{recruPost.title}}</h2>
+                </div>
+                <div class="recru-detail-status" :class="recru_status">
+                    <p>{{recruStatus}}</p>
+                </div>
+            </div>
             <div class="recru-detail-row recru-detail-post">
                 <div class="recru-detail-col">
                     <div class="recru-detail-img" >
@@ -12,9 +20,7 @@
                     </div>
                 </div>
                 <div class="recru-detail-col">
-                    <div class="recru-detail-title">
-                        <h2>{{recruPost.title}}</h2>
-                    </div>
+                    
                     <div class="recru-detail-user">
                         <img src="@/assets/img/bg9.jpg" name="profile_img" alt="profile img">
                         <p><span>{{recruPost.writer}}</span></p>
@@ -60,13 +66,17 @@
             </div>
             <div class="recru-detail-row">
                 <div class="recru-entry-btn">
-                    <button>동행 신청</button>
-                    <button>신청 취소</button>
+                    <!-- 모집자/신청자가 아닌 경우 -->
+                    <button type="button" @click="isModalViewed=true">동행 신청</button>
+                    <!-- 신청자인 경우 -->
+                    <button type="button" @click="entryDelete">신청 취소</button>
                 </div>
                 <div class="recru-writer-btn">
-                    <button>수정</button>
-                    <button>삭제</button>
+                    <!-- 모집자(작성자)인 경우 -->
+                    <button type="button" @click="recruUpdate">수정</button>
+                    <button type="button" @click="recruDelete">삭제</button>
                 </div>
+               
             </div>
             <div class="recru-detail-sol recru-entry-post">
                 <h3>함께해요 신청 내역</h3>
@@ -88,26 +98,43 @@
                     </div>
                 </div>
             </div>
+            <div class="recru-detail-sol deposit-status-box">
+                <h3>보증금 상태</h3>
+                <DepositStatus></DepositStatus>
+            </div>
         </div>        
+         <!-- 버튼 모달창 -->
+         <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
+            <EntryInsert @close-modal="isModalViewed=false"></EntryInsert>
+        </ModalView>
     </div>
-                
+    
 
 </template>
 
 <script>
-    import EntryStandByCard from './EntryStandByCard.vue';
-    import EntryCard from './EntryCard.vue';
-    import RecruDetailImage from './RecruDetailImage.vue';
-    import RecruMap from './RecruMap.vue';
-    export default{
-        components :{
-    EntryStandByCard,
-    EntryCard,
-    RecruDetailImage,
-    RecruMap
-},
+import EntryStandByCard from '@/components/recruit/EntryStandByCard.vue';
+import EntryCard from '@/components/recruit/EntryCard.vue';
+import RecruDetailImage from '@/components/recruit/RecruDetailImage.vue';
+import RecruMap from '@/components/recruit/RecruMap.vue';
+import DepositStatus from '@/components/recruit/DepositStatus.vue';
+import EntryInsert from '@/components/recruit/EntryInsert.vue';
+import ModalView from '@/components/recruit/ModalView.vue';
+import Swal from 'sweetalert2';
+export default{
+    components :{
+        EntryStandByCard,
+        EntryCard,
+        RecruDetailImage,
+        RecruMap,
+        DepositStatus,
+        EntryInsert,
+        ModalView
+    },
         data:function(){
             return{
+                recruStatus : '모집중',
+                recru_status : 'recru_status_ing',
                 user : {
                     sex : '남',
                     birth : new Date()
@@ -151,7 +178,12 @@
                     entry_gear: '텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 ',
                     entry_date: new Date()
                 }],
-                entryCount : 0
+                entryCount : 2,
+                isModalViewed : false,
+                recru_entry : {
+                    entry_car : '',
+                    entry_gear : []
+                }
             }
         },
         computed : {
@@ -169,6 +201,13 @@
                 return age;
 
             }
+        },
+        methods :{
+            showEntryInsert(){
+                this.isModalViewed = !this.isModalViewed;
+            }
+            
+        
         }
     }
 </script>
@@ -184,13 +223,14 @@
     /* 컨테이너 */
     .recru-detail-container{
         margin-top: 150px;
+        margin-bottom: 150px;
         width: 100%;
         display: flex;
         justify-content: center;
     }
     .recru-detail-box{
         width: 90%;
-        max-width: 1200px;
+        max-width: 1000px;
         padding: 10px;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
         text-align: left;
@@ -215,7 +255,19 @@
     }
      /* 제목 */
      .recru-detail-title{
-        margin: 20px 0 ;
+        margin: 20px 0 10px 50px;
+     }
+     /* 게시글 상태 */
+     .recru-detail-status{
+        margin: 25px 0 20px 10px;
+        padding: 3px;
+        border-radius: 5px;
+        font-size: small;
+        font-weight: bold;
+     }
+     .recru_status_ing{
+        background: rgb(255, 215, 221);
+        color: crimson;
      }
     /* 유저 프로필 */
     .recru-detail-user{
@@ -280,5 +332,15 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+    }
+
+    /* 보증금 상태 */
+    .deposit-status-box{
+        padding: 20px;
+        border: 5px solid rgba(228,239,231,0.7);
+        margin: 20px 0;
+    }
+    .deposit-status-box h3{
+        margin-bottom: 20px;
     }
 </style>
