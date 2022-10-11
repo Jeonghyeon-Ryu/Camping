@@ -7,6 +7,7 @@
   <!-- <SnsMyFeed></SnsMyFeed> -->
   <!-- <SnsSearch></SnsSearch> -->
   <!-- <SnsWrite></SnsWrite> -->
+  <!-- <SnsReport></SnsReport> -->
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <UsedMain></UsedMain> -->
@@ -22,11 +23,10 @@
  <!-- <RecruInsert></RecruInsert> -->
  <RecruList></RecruList>
 
-
 </template>
 
-<script setup>
 
+<script setup>
   import MainSwiper from '../components/MainSwiper.vue';
   import CampRegister from '../components/CampRegister.vue';
   import UsedMain from '../components/UsedPractice/UsedMain.vue';
