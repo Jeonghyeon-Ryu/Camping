@@ -8,7 +8,7 @@ public class CampImageVO {
 	private String originName;
 	private String storedName;
 	private String format;
-	private int size;
+	private long size;
 	private String path;
 	private int campId;
 }
