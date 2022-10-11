@@ -4,7 +4,7 @@
             <h2>캠핑 동행 모집</h2>
         </div>
         <!-- 검색 -->
-        <KeywordSearch v-bind:srhKeyword="srhKeyword"></KeywordSearch>
+        <KeywordSearch  @search(keyword)="console.log(keyword)"></KeywordSearch>
         <div style="text-align: center;">
             <!-- 필터버튼 -->
             <button @click="toggleFilter" class="btn badge badge-light bg-light badge-md false text-dark">필터</button>
@@ -59,7 +59,15 @@
             toggleFilter : function(){
                 this.filterStatus = !this.filterStatus;
             },
-            searchList : function()
+            searchList : function(){
+                fetch("http://localhost:8088/java/recru")
+                .then((response) =>response.json()) 
+                .then(data => { 
+                console.log(data);
+                this.recruPosts = data;  
+
+            }).catch(err=>console.log(err));
+            }
         }
     }
 </script>

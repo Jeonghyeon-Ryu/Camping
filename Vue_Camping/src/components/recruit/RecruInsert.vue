@@ -23,10 +23,10 @@
                             <label><input type="radio" v-model="recruInfo.wishSex" value="0" checked>무관</label>
                         </div>
                         <div class="recru-info-age">
-                            <label><input type="checkbox" class="wishAge" value="2">20대</label>
-                            <label><input type="checkbox" class="wishAge" value="3">30대</label>
-                            <label><input type="checkbox" class="wishAge" value="4">40대</label>
-                            <label><input type="checkbox" class="wishAge" value="5">50대 이상</label>
+                            <label><input type="checkbox" name="wishAge" value="2">20대</label>
+                            <label><input type="checkbox" name="wishAge" value="3">30대</label>
+                            <label><input type="checkbox" name="wishAge" value="4">40대</label>
+                            <label><input type="checkbox" name="wishAge" value="5">50대 이상</label>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                                 <option value="기타">기타</option>
                             </select>
                             <input type="number" class="gear-num recru-mygear-num" placeholder="수량" min="1">
-                            <input type="file" class="btn btn-sm recru-mygear-img" style="margin:0 5px;max-width:210px;">
+                            <input type="file" class="btn recru-mygear-img" name="mygear" ref="mygear" style="margin:0 5px;max-width:210px;" >
                         </li>
                     </ul>
                 </div>
@@ -78,7 +78,7 @@
                                 <option value="etc">기타</option>
                             </select>
                             <input type="number" class="recru-needgear-num gear-num" placeholder="수량" min="1">
-                            <input type="file" class="btn btn-sm recru-needgear-img" style="margin:0 5px;max-width:210px;">
+                            <input type="file" class="btn recru-needgear-img" name="mygear" ref="mygear" style="margin:0 5px;max-width:210px;">
                         </li>
                     </ul>
                 </div>
@@ -143,6 +143,7 @@ import Swal from 'sweetalert2';
 export default{
     data : function(){
       return {
+        wishAge :[],
         recruInfo : {  
             writer : 'user2',
             wishSex : 0,
@@ -160,7 +161,7 @@ export default{
             comeDate : '',
             closeDate: '',
             },
-        gearImg:[],
+        gearImg:'',
         myNote:[{
             noteId : 1,
             noteTitle : '노트제목입니다'
@@ -175,21 +176,22 @@ export default{
         uploadContent : function(event){
                 this.setGearList('mygear');
                 this.setGearList('needgear');
-                this.getWishAge();
+                this.setWishAge();
+                this.saveImage();
                 console.log(this.recruInfo);
 
                 let recruVO = this.recruInfo;
                 //서버를 통해 insert
-                fetch('http://localhost:8088/java/recru',{
-                    method : "POST",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(recruVO )
-                })
-                .then(Response => Response.json())  //json 파싱 
-                .then(data => { 
-                    console.log(data)
+                // fetch('http://localhost:8088/java/recru',{
+                //     method : "POST",
+                //     headers : {"Content-Type" : "application/json"},
+                //     body : JSON.stringify(recruVO )
+                // }) 
+                // .then(Response => Response.json())  //json 파싱 
+                // .then(data => { 
+                //     console.log(data)
 
-                }).catch(err=>console.log(err))
+                // }).catch(err=>console.log(err))
             },
         addGear : function(menu){                
             const box = document.getElementById(menu);
@@ -211,7 +213,7 @@ export default{
                             +"<option value='etc'>기타</option>"
                         +"</select>"
                         +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' placeholder='수량' min='1'>"
-                        +"<input type='file' class='btn btn-sm' style='margin:0 5px;max-width:210px;'>"
+                        +"<input type='file' class='btn "+menu+"-img' style='margin:0 5px;max-width:210px;' name='mygear' ref='mygear' >"
                         +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
             li.innerHTML = str;
             box.appendChild(li);
@@ -228,7 +230,7 @@ export default{
             let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
             for(let i=1 ; i<gearNames.length ; i++){
                 if(gearNames[i].value===''){
-                    Swal.fire('장비 이름을 입력해주세요','보유한 장비가 없는 경우 x 버튼을 눌러 지워주세요','warning');
+                    Swal.fire('장비 이름을 입력해주세요','입력하지 않을 경우 x 버튼을 눌러 지워주세요','warning');
                     gearNames[i].focus();
                     return;
                 }
@@ -240,20 +242,30 @@ export default{
                 this.recruInfo.needGear = gearList;
             }
         },
+        setWishAge : function(){
+            const query = 'input[name="wishAge"]:checked';
+            const selectedAges =  document.querySelectorAll(query);                
+
+            let result = '';
+            selectedAges.forEach((el) => {
+                result += el.value + ' ';
+            });
+            this.recruInfo.wishAge = result;
+        },
+        saveImage : function(file){
+            const gearImgData = new FormData();
+            for(let i=0;i<(this.recruInfo.myGear.length+this.recruInfo.needGear.length);i++){
+                gearImgData.append("mygear", this.mygear)
+            }
+            console.log(gearImgData)
+        },
         writeNewNote : function(){
             alert('노트쓰기 페이지로 연결하기')
         },
         getGearList : function(){
-            alert
-        },
-        getWishAge : function(){
-            let ages = document.querySelectorAll('.wishAge');
-            this.wishAge = ages[0];
-            for(let i=1; i<ages.length;i++){
-                this.wishAge +=(','+ ages[i]);
-            }
-            console.log(this.wishAge)
+            alert('장비가져오기');
         }
+        
     }
 }
 </script>

@@ -20,8 +20,8 @@
   <!-- <UsedLike></UsedLike> -->
  <!-- <ChatRoom></ChatRoom> -->
  <!-- <ChatList></ChatList> -->
- <!-- <RecruInsert></RecruInsert> -->
- <RecruList></RecruList>
+ <RecruInsert></RecruInsert>
+ <!-- <RecruList></RecruList> -->
 
 </template>
 
