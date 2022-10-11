@@ -5,9 +5,10 @@
   <!-- <SnsMain></SnsMain> -->
   <!-- <SnsDetailFeed></SnsDetailFeed> -->
   <!-- <SnsMyFeed></SnsMyFeed> -->
-  <!-- <SnsSearch></SnsSearch> -->
+  <SnsSearch></SnsSearch>
   <!-- <SnsWrite></SnsWrite> -->
   <!-- <SnsReport></SnsReport> -->
+  <!-- <SnsLocation></SnsLocation> -->
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <UsedMain></UsedMain> -->
@@ -35,11 +36,13 @@
   import RecruList from '@/components/recruit/RecruList.vue';
   import RecruMap from '../components/recruit/RecruMap.vue';
   import SnsReport from '@/components/SnS/SnsReport.vue';
-import SnsMain from '@/components/SnS/SnsMain.vue';
-import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
+  import SnsMain from '@/components/SnS/SnsMain.vue';
+  import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
 import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
 import SnsSearch from '@/components/SnS/SnsSearch.vue';
 import SnsWrite from '@/components/SnS/SnsWrite.vue';
+
+import SnsLocation from '@/components/SnS/SnsLocation.vue';
 import UserManage from '@/components/Admin/UserManage.vue';
 import UsedLike from '@/components/UsedPractice/UsedLike.vue';
 import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
