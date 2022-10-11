@@ -1,0 +1,85 @@
+     /* 공통 부분 */
+     * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-style: none;
+      box-sizing: border-box;
+  }
+  /* 카드 박스 */
+  .entry-card-box{
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+  }
+  .row{
+      display: flex;
+      flex-wrap: wrap;
+  }
+  .col{
+      display: block;
+  }
+  /* 프로필사진 */
+  .entry-card-img{
+      min-width: 50px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+  }
+  .entry-card-img img{
+      height: 50px;
+      min-width: 100%;
+  }
+  .entry-card-info{
+      width: 170px;
+      margin: 0 10px;
+      border: 1px solid lightgray;
+      border-radius: 3px;
+      background: white;
+  }
+  .entry-card-contents p{
+      margin: 5px 0;
+      font-size: smaller;
+    }
+    .entry-card-contents{
+        margin: 10px;
+        height: 180px;
+        overflow: hidden;
+    }
+  .entry-date{
+      color: gray;
+      font-size : small;
+  }
+  /* 버튼 */
+  .entry-yesno-btn{
+      display: flex;
+      justify-content: space-between;
+  }
+  
+  .entry-yesno-btn button{
+      padding: 5px;
+      border : none;
+      border-top: 1px solid lightgray;
+      background: none;
+      margin: 0;
+      width: 50%;
+  }
+  .accept-btn{
+      color : rgb(55, 135, 204);
+  }
+  .accept-btn:hover{
+    background: skyblue;
+    color: white;
+    box-shadow: 0 3px 3px #1a73e826, 0 3px 1px -2px #1a73e833, 0 1px 5px #1a73e826;
+    cursor: pointer;
+  }
+  .refuse-btn{
+      color: rgb(196, 43, 43);
+  }
+  .refuse-btn:hover{
+    background: gray;
+    color: white;
+    box-shadow: 0 3px 3px #34476726, 0 3px 1px -2px #34476733, 0 1px 5px #34476726;
+    cursor: pointer;
+}

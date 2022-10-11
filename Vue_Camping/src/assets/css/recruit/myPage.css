@@ -1,0 +1,64 @@
+ /* 공통부분 */
+ * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-style: none;
+    box-sizing: border-box;
+  }
+    .entry-mypage-container{
+        margin-top: 150px;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+    }
+    .entry-mypage-box{
+        width: 80%;
+    }
+    .entry-mypage-title h2{
+        text-align: left;
+        margin: 30px 0;
+    }
+    .row{
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    /* 상태 */
+    .entry-mypage-status{
+        display: flex;
+        margin: auto 0;
+        margin-left: auto;
+    }
+    .status-box{
+        font-size: small;
+        width: 100px;
+        padding: 2px;
+        border: 2px solid ;
+        border-radius: 2px;
+        margin: 20px 0 0 10px;
+    }
+    .entry-mypage-btn{
+        min-width: 110px;
+        margin: auto 0;
+        margin-left: auto;
+    }
+    .entry-mypage-btn button{
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        border: none;
+        margin: 5px;
+    }
+    .entry-mypage-btn button:hover{
+        background: skyblue;
+        color: white;
+        box-shadow: 0 3px 3px #1a73e826, 0 3px 1px -2px #1a73e833, 0 1px 5px #1a73e826;
+        cursor: pointer;
+    }
+    .entry-mypage-bar{
+        height: 30px;
+        width: 100%;
+        background:rgba(250,241,230,0.7) ;
+        display: block;
+    }

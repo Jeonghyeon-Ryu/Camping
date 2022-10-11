@@ -31,9 +31,6 @@ export default {
     font-style: none;
     box-sizing: border-box;
   }
-  body {
-    height:2000px;
-  }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
