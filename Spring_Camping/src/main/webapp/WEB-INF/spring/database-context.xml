@@ -8,10 +8,11 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@130.162.152.13:1521:xe"></property>
-		<property name="username" value="camper"></property>
-		<property name="password" value="camper"></property>
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
+		<property name="username" value="camper"/>
+		<property name="password" value="camper"/>
+		<property name="maximumPoolSize" value="3"/>
 	</bean>
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
