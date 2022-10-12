@@ -51,6 +51,8 @@
           <div class="info-buttons">
                   <button type="button" class="like-button">찜하기</button>
                   <button type="button" class="chat-button">채팅하기</button>
+                  <button type="button" class="delete-button" @click="usedDelete()">삭제하기</button>
+                  <button type="button" class="restrict-button">접근제한</button>       
           </div>
         </div>
       </form>
@@ -84,6 +86,9 @@
         let fetchData = {};
             new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
             console.log(fetchData);
+      },
+      usedDelete: function(){
+        
       }
     }
   }

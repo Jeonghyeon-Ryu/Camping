@@ -18,8 +18,7 @@
               <input type="text" name="search" placeholder="어떤 물건을 찾으시나요?">
               <img v-on:click='searchBtn()' v-bind:src="searchImg">
            </div>
-          </div>\
-
+          </div>
         </div>
       </div>
         <!-- 필터 -->
@@ -27,7 +26,7 @@
           <ul class="used-filter-ul">
             <li>
               <label for="inputCate">카테고리</label>
-              <select v-model="myGearType" name="category" selected>
+              <select v-model="myGearType" name="usedCategory" selected>
                 <option value='' disabled>카테고리 선택</option>
                 <option value="전체">전체</option>
                 <option value="텐트">텐트</option>
@@ -69,7 +68,7 @@
                   <option value='전체'>전체</option>
                 </select>
             </li>
-            <li>
+            <li>                          
               <label for="inputPrice">가격범위</label>
               <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="100">
               <p>~</p>
@@ -86,7 +85,7 @@
           <h2>중고거래</h2>
         </div>
         <div class="cards">
-          <div v-for="card in usedCards" :key="card.id">
+          <div v-for="card in usedList" :key="card.id">
             <UsedCard v-bind:usedCard="card"></UsedCard>
           </div>
         </div>
@@ -112,6 +111,7 @@
     },
     data(){
       return{
+        usedList: [],
         myGearType: '',
         regionSelect: '',
         regionSelect2: '',
@@ -119,64 +119,6 @@
         maxPrice: '',
         cardImg : img1,
         searchImg : img2,
-        usedCards : [{
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중',
-          used_write: '6시간 전'
-        },
-        {
-          used_img : '',
-          used_name : '5인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중',
-          used_write: '6시간 전'
-        },
-        {
-          used_img : '',
-          used_name : '6인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중',
-          used_write: '6시간 전'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중',
-          used_write: '6시간 전'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중',
-          used_write: '6시간 전'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중',
-          used_write: '6시간 전'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중',
-          used_write: '6시간 전'
-        }
-      ],
-        
       }
     },
     methods : {
@@ -191,7 +133,7 @@
         console.log();
             new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
             console.log(fetchData);
-        // form.submit();
+            document.querySelector('#container2').submit();
       },
       gearSelected: function(){
         this.myGearType = '';
@@ -227,6 +169,17 @@
        }
 
       }
+    },
+    //created-페이지 열자마자 실행
+    created(){
+      //전체조회
+      fetch('http://localhost:8088/java/used/usedMain') 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+                    this.usedList = data;
+                }).catch(err=>console.log(err))
+
     }
   }
 

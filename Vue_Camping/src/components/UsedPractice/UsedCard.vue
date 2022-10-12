@@ -10,16 +10,16 @@
             <div class="card-info">
                 <div class="card-top">
                 <ul class="card-info-l">
-                  <li><h3>{{usedCard.used_name}}</h3></li>
-                  <li><h4><span class="font-gray">{{usedCard.used_price}}</span></h4></li>
+                  <li><h3>{{usedCard.usedName}}</h3></li>
+                  <li><h4><span class="font-gray">￦ {{usedCard.usedPrice}}</span></h4></li>
                 </ul>
                 <ul class="card-info-r">
                   <li>{{usedCard.used_status}}</li>
                 </ul>      
                 </div>
                 <div class="card-bottom">
-                  <div class="card-place">{{usedCard.used_place}}</div>
-                  <div class="card-write"><span class="font-gray">{{usedCard.used_write}}</span></div>
+                  <div class="card-place">{{usedCard.usedPlace}}</div>
+                  <div class="card-write"><span class="font-gray">{{usedCard.usedWrite}}</span></div>
               </div>
             </div>
           </div>
