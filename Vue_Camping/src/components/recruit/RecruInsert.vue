@@ -23,10 +23,10 @@
                             <label><input type="radio" v-model="recruInfo.wishSex" value="0" checked>무관</label>
                         </div>
                         <div class="recru-info-age">
-                            <label><input type="checkbox" name="wishAge" value="2">20대</label>
-                            <label><input type="checkbox" name="wishAge" value="3">30대</label>
-                            <label><input type="checkbox" name="wishAge" value="4">40대</label>
-                            <label><input type="checkbox" name="wishAge" value="5">50대 이상</label>
+                            <label><input type="checkbox" name="wishAge" value="20대">20대</label>
+                            <label><input type="checkbox" name="wishAge" value="30대">30대</label>
+                            <label><input type="checkbox" name="wishAge" value="40대">40대</label>
+                            <label><input type="checkbox" name="wishAge" value="50대이상">50대 이상</label>
                         </div>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     <ul @click="removeGear" id="recru-mygear-body">
                         <li><input type="text" class="recru-mygear-name" placeholder="장비 이름">
                             <select class="recru-mygear-type">
-                                <option value="" selected disabled>장비 분류</option>
+                                <option value="기타" selected disabled>장비 분류</option>
                                 <option value="텐트">텐트</option>
                                 <option value="타프">타프</option>
                                 <option value="가구">가구</option>
@@ -65,17 +65,17 @@
                     <ul @click="removeGear" id="recru-needgear-body">
                         <li><input type="text" class="recru-needgear-name" placeholder="장비 이름">
                             <select class="recru-needgear-type">
-                                <option value='' selected disabled>장비분류</option>
-                                <option value="tent">텐트</option>
-                                <option value="tarp">타프</option>
-                                <option value="furniture">가구</option>
-                                <option value="bedding">침구</option>
-                                <option value="kitchenTool">조리도구</option>
-                                <option value="lamp">조명</option>
-                                <option value="storage">수납</option>
-                                <option value="tool">공구</option>
-                                <option value="airCon">냉난방</option>
-                                <option value="etc">기타</option>
+                                <option value="기타" selected disabled>장비 분류</option>
+                                <option value="텐트">텐트</option>
+                                <option value="타프">타프</option>
+                                <option value="가구">가구</option>
+                                <option value="침구">침구</option>
+                                <option value="조리도구">조리도구</option>
+                                <option value="조명">조명</option>
+                                <option value="수납">수납</option>
+                                <option value="공구">공구</option>
+                                <option value="냉난방">냉난방</option>
+                                <option value="기타">기타</option>
                             </select>
                             <input type="number" class="recru-needgear-num gear-num" placeholder="수량" min="1">
                             <input type="file" class="btn recru-needgear-img img" name="mygear" style="margin:0 5px;max-width:210px;">
@@ -111,10 +111,12 @@
                     <span>여행정보</span>
                     <ul class="recru-box-name">
                         <li class="recru-info-startP">
-                            <label>출발지<input type="text" v-model="recruInfo.startingSpot"></label>
+                            <label>출발지<input type="text" v-model="recruInfo.startingSpot" @click="searchAddr">
+                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
                         </li>
                         <li class="recru-info-campP">
-                            <label>도착지<input type="text" v-model="recruInfo.campingSpot"></label>
+                            <label >도착지<input type="text" v-model="recruInfo.campingSpot" @click="searchCamp">
+                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
                         </li>
                         <li class="recru-info-number">
                             <label>모집인원 <input type="number" v-model="recruInfo.recru_num" min="1" de></label>
@@ -138,11 +140,13 @@
 </template>
 
 <script>
-import { assertPipelineBareFunction } from '@babel/types';
 import Swal from 'sweetalert2';
+import img2 from "@/assets/img/search.png"
+
 export default{
     data : function(){
       return {
+        searchImg : img2,
         wishAge :[],
         recruInfo : {  
             writer : 'user2',
@@ -174,26 +178,29 @@ export default{
     },
     methods : {
         uploadContent : function(event){
-                this.setGearList('mygear');
-                this.setGearList('needgear');
-                this.setWishAge();
-                this.addFile(); //파일 배열에 이미지 넣기
-                console.log(this.recruInfo)
-                
-                let recruVO = this.recruInfo;
-                //서버를 통해 insert
-                fetch('http://localhost:8088/java/recru',{
-                    method : "POST",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(recruVO )
-                }) 
-                .then(Response => Response.json())  //json 파싱 
-                .then(data => { 
-                    console.log(data)
-                    this.fileUpload();  //이미지 업로드
-                }).catch(err=>console.log(err))
+            //서버에 업로드
+            // 장비와 희망연령을 string타입으로 변환
+            this.setGearList('mygear'); 
+            this.setGearList('needgear');
+            this.setWishAge();
+            //파일 배열에 이미지 넣기
+            this.addFile(); 
+            
+            let recruVO = this.recruInfo;
+            //서버를 통해 게시글 내용 insert
+            fetch('http://localhost:8088/java/recru',{
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(recruVO )
+            }) 
+            .then(Response => Response.json())  //json 파싱 
+            .then(data => { 
+                //이미지 업로드
+                this.fileUpload();  
+            }).catch(err=>console.log(err))
         },
         addFile : function(){
+            //파일 배열에 이미지 넣기
             const imgfiles = document.querySelectorAll('.img');
             this.files.length=1;
             imgfiles.forEach((imgfile) => {           
@@ -204,7 +211,8 @@ export default{
             console.log(this.files)
             
         },
-        fileUpload :  async function () {
+        fileUpload : async function () {
+            //서버에 이미지 업로드
             const formData = new FormData();
             this.files.forEach(file=>{
                 formData.append('files', file);
@@ -214,9 +222,9 @@ export default{
                     headers : {},
                     body : formData
                 }) 
-                .then(Response => Response.json())  //json 파싱 
+                .then(Response => Response.json())  
                 .then(data => { 
-                    console.log(data)
+                    console.log(date+" 파일 업로드 성공")
                 }).catch(err=>console.log(err))
         },
         addGear : function(menu){                
@@ -227,16 +235,16 @@ export default{
             let str = "<input type='text' class='"+menu+"-name' style='padding:5px;margin:3px;border:white;'>"
                         +" <select class='"+menu+"-type' style='padding:5px;margin:3px;border:white;'>"
                             +"<option selected disabled>장비 분류</option>"
-                            +"<option value='tent'>텐트</option>"
-                            +"<option value='tarp'>타프</option>"
-                            +"<option value='furniture'>가구</option>"
-                            +"<option value='bedding'>침구</option>"
-                            +"<option value='kitchenTool'>조리도구</option>"
-                            +"<option value='lamp'>조명</option>"
-                            +"<option value='storage'>수납</option>"
-                            +"<option value='tool'>공구</option>"
-                            +"<option value='airCon'>냉난방</option>"
-                            +"<option value='etc'>기타</option>"
+                            +"<option value='기타' value='텐트'>텐트</option>"
+                            +"<option value='타프'>타프</option>"
+                            +"<option value='가구'>가구</option>"
+                            +"<option value='침구'>침구</option>"
+                            +"<option value='조리도구'>조리도구</option>"
+                            +"<option value='조명'>조명</option>"
+                            +"<option value='수납'>수납</option>"
+                            +"<option value='공구'>공구</option>"
+                            +"<option value='냉난방'>냉난방</option>"
+                            +"<option value='기타'>기타</option>"
                         +"</select>"
                         +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' placeholder='수량' min='1'>"
                         +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
@@ -257,7 +265,6 @@ export default{
             for(let i=1 ; i<gearNames.length ; i++){
                 if(gearNames[i].value===''){
                     Swal.fire('장비 이름을 입력해주세요','입력하지 않을 경우 x 버튼을 눌러 지워주세요','warning');
-                    gearNames[i].focus();
                     return;
                 }
                 gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
@@ -273,102 +280,26 @@ export default{
             const selectedAges =  document.querySelectorAll(query);                
 
             let result = '';
-            selectedAges.forEach((el) => {
-                result += el.value + ' ';
+            selectedAges.forEach((age) => {
+                result += age.value + ' ';
             });
             this.recruInfo.wishAge = result;
-        },
-        saveImage : function(file){
-            const form = document.forms.namedItem('recru-form');
-            const samples = document.querySelectorAll('sample');
-            const blob = new Blob()
-            const formData = new FormData(form);
-            formData.append()
-            for(let i=0;i<(this.recruInfo.myGear.length+this.recruInfo.needGear.length);i++){
-                gearImgData.append("mygear", this.mygear)
-            }
-            console.log(gearImgData)
         },
         writeNewNote : function(){
             alert('노트쓰기 페이지로 연결하기')
         },
         getGearList : function(){
             alert('장비가져오기');
+        },
+        searchCamp : function(){
+            alert('도착지 검색')
+        },
+        searchAddr : function(){
+            alert('주소검색')
         }
         
     }
 }
 </script>
 
-<style scoped>
-.recru-input-container{
-    margin-top: 150px;
-    width: 100%;
-    display: flex;
-    position: relative;
-    padding: 10px;
-}
-.recru-input-back{
-    height: 1000px;
-    width: 600px;
-    margin : 1rem;
-    flex-direction: column;
-    justify-content: center;
-    background-image: url("@/assets/img/vue-mk-header.jpg"); 
-    background-size: cover;
-    border-radius: 20px;
-}
-/* 입력폼 박스 */
-.recru-input-box{
-    position: absolute;
-    left: 25vw;
-    min-width: 622px;
-    padding: 20px;
-    border-radius: 20px;
-    backdrop-filter:saturate(100%) blur(30px) ;
-    background-color:rgba(255, 255, 255, 0.8) !important ;
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%) !important;
-}
-#recru-form{
-    text-align: left;
-}
-#recru-form input,#recru-form select, #recru-form textarea{
-    padding: 5px;
-    margin: 3px;
-    border: white;
-}
-#recru-form input[type=number]{
-    width: 50px;
-}
-#recru-form p, #recru-form span{
-    margin: 10px 0;
-    font-weight: bold;
-}
-
-#recru-form hr{
-    margin: 10px;
-}
-
-/* 들여쓰기 */
-.in-level{
-    margin-left: 20px;
-}
-/* 제목 */
-.recru-input-box h3{
-    margin: 20px;
-}
-.recru-info-title input,.recru-info-content textarea{
-    width: 80%;
-}
-/* 노트 부분 */
-.recru-info-mynote{
-    display: flex;
-    justify-content: space-between;
-}
-.write-note-btn{
-    margin-right: 20px;
-}
-
-</style>
+<style scoped src="@/assets/css/recruit/recruInsert.css"/>

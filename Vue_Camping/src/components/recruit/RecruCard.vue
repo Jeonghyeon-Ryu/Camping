@@ -6,7 +6,7 @@
       <div class="card-header-img">
           <img :src="gearImg" alt="camping gear">
       </div>
-      <div class = "card-header-text" > 모집중 </div >
+      <div class = "card-header-text" > {{recruStatus}} </div >
   </div>
  
   <!--  카드 바디 -->
@@ -30,15 +30,17 @@
 <script>
 export default{
     name : "RecruCard",
-    props : {recruCard : Object},
+    props : {recruCard : Object, recruId : ''},
     data : function(){
       return {
-        isHeart : true, 
-        myHeart : 'heart.png'
+        isHeart : true
       }
     },
-    created(){
-      console.log(this.recruCard);
+    watch :{
+      //recruStatus
+    },
+    computed : {
+      //장비 리스트 형태 바꿔주기 (4인용텐트,텐트,3 => 4인용텐트(텐트)3개)
     },
     methods: {
       changeHeart : function(e){
@@ -129,6 +131,7 @@ export default{
     margin-top: 10px;
     height: 85%;
     transition: all 0.3s;
+    text-align: left;
   }
   .recru-card-body span{
     color: darkred;
@@ -137,6 +140,7 @@ export default{
     color: white;
     font-size: 22px;
     font-weight: bold;
+    margin-bottom: 10px;
   }
   .recru-card-body p{
     font-weight: bold;
@@ -156,12 +160,10 @@ export default{
   /* 카드 저장 아이콘 */
   .recru-card-wish{
     position: relative;
-    left: 45%;
+ 
     margin-bottom:5px;
   }
-  .recru-heart:hover{
-    background-color: aliceblue;
-    border-radius: 50%;
+  .recru-heart:active{
     padding: 5px;
   }
   .recru-card-wish img{

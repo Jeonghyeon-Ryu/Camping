@@ -10,7 +10,7 @@
 	</settings>
 	<typeAliases>
 	<!-- Package : Bean을 이용해서 찾음. -->
-		<package name="com.camp.app.member.service"/>
+		<package name="com.camp.app"/>
 	</typeAliases>
 	<typeHandlers>
 	<!-- java.sql.Timestamp 를 java.util.Date 형으로 변환 -->

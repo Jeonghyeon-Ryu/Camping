@@ -9,7 +9,7 @@
 
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@130.162.152.13:1521:xe"/>
 		<property name="username" value="camper"/>
 		<property name="password" value="camper"/>
 		<property name="maximumPoolSize" value="3"/>
@@ -21,6 +21,12 @@
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	</bean>
+	
+	<!-- MultipartResolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000000"/>
+		<property name="maxInMemorySize" value="1000000000"></property>
 	</bean>
 	
 	<mybatis-spring:scan base-package="com.camp.app.**.mapper"/>
