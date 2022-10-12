@@ -36,7 +36,7 @@
                         <br>
                         <h3 style="font-weight: bold;">이런 분</h3>
                         <p><span>성별  </span>{{recruPost.wish_sex}}</p>
-                        <p><span>연령대  </span>{{recruPost.wish_age}}</p>
+                        <p><span>연령대  </span>{{recruPost.wish_age}}대</p>
                         <br>
                         <h3 style="font-weight: bold;">함께 해요</h3>
                         <p><span>여행 예정 날짜  </span>{{recruPost.go_date}}</p>
@@ -189,18 +189,23 @@ export default{
         },
         computed : {
             userage(){
-                //let generation = '';
-
-                const today = new Date();
-                
+                //연령대 계산
+                const today = new Date();          
                 const birthDate = this.user.birth;
 
                 let age = today.getFullYear()
                         - birthDate.getFullYear()
                         + 1;
 
-                return age;
-
+                if(age<30){
+                    return '20대'
+                }else if(age<40){
+                    return '30대'
+                }else if(age<50){
+                    return '40대'
+                }else{
+                    return '50대 이상'
+                }
             }
         },
         methods :{

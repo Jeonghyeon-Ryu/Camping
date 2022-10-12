@@ -4,7 +4,7 @@
         </div>
         <div class="recru-input-box">
             <h3>Camping Recruitment</h3>
-            <form id="recru-form" role="form" method="post">
+            <form id="recru-form" role="form" method="post" enctype="multipart/form-data">
                 <div class="recru-info-box">
                     <div class="recru-info-car">
                         <p>차량 유무</p>
@@ -53,7 +53,7 @@
                                 <option value="기타">기타</option>
                             </select>
                             <input type="number" class="gear-num recru-mygear-num" placeholder="수량" min="1">
-                            <input type="file" class="btn recru-mygear-img" name="mygear" ref="mygear" style="margin:0 5px;max-width:210px;" >
+                            <input type="file" class="btn recru-mygear-img img" name="mygear"  style="margin:0 5px;max-width:210px;" >
                         </li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@
                     <ul @click="removeGear" id="recru-needgear-body">
                         <li><input type="text" class="recru-needgear-name" placeholder="장비 이름">
                             <select class="recru-needgear-type">
-                                <option value='' disabled>장비분류</option>
+                                <option value='' selected disabled>장비분류</option>
                                 <option value="tent">텐트</option>
                                 <option value="tarp">타프</option>
                                 <option value="furniture">가구</option>
@@ -78,7 +78,7 @@
                                 <option value="etc">기타</option>
                             </select>
                             <input type="number" class="recru-needgear-num gear-num" placeholder="수량" min="1">
-                            <input type="file" class="btn recru-needgear-img" name="mygear" ref="mygear" style="margin:0 5px;max-width:210px;">
+                            <input type="file" class="btn recru-needgear-img img" name="mygear" style="margin:0 5px;max-width:210px;">
                         </li>
                     </ul>
                 </div>
@@ -132,13 +132,13 @@
                     <button class="btn bg-gradient-success btn-md"
                     v-on:click.prevent="uploadContent">등록</button>
                 </div>
-            
             </form>
         </div>
     </div>
 </template>
 
 <script>
+import { assertPipelineBareFunction } from '@babel/types';
 import Swal from 'sweetalert2';
 export default{
     data : function(){
@@ -161,7 +161,7 @@ export default{
             comeDate : '',
             closeDate: '',
             },
-        gearImg:'',
+        files:[],
         myNote:[{
             noteId : 1,
             noteTitle : '노트제목입니다'
@@ -177,22 +177,48 @@ export default{
                 this.setGearList('mygear');
                 this.setGearList('needgear');
                 this.setWishAge();
-                this.saveImage();
-                console.log(this.recruInfo);
-
+                this.addFile(); //파일 배열에 이미지 넣기
+                console.log(this.recruInfo)
+                
                 let recruVO = this.recruInfo;
                 //서버를 통해 insert
-                // fetch('http://localhost:8088/java/recru',{
-                //     method : "POST",
-                //     headers : {"Content-Type" : "application/json"},
-                //     body : JSON.stringify(recruVO )
-                // }) 
-                // .then(Response => Response.json())  //json 파싱 
-                // .then(data => { 
-                //     console.log(data)
-
-                // }).catch(err=>console.log(err))
-            },
+                fetch('http://localhost:8088/java/recru',{
+                    method : "POST",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(recruVO )
+                }) 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+                    this.fileUpload();  //이미지 업로드
+                }).catch(err=>console.log(err))
+        },
+        addFile : function(){
+            const imgfiles = document.querySelectorAll('.img');
+            this.files.length=1;
+            imgfiles.forEach((imgfile) => {           
+                if(imgfile.value !=''){
+                    this.files.push(imgfile.files[0])
+                }
+            })
+            console.log(this.files)
+            
+        },
+        fileUpload :  async function () {
+            const formData = new FormData();
+            this.files.forEach(file=>{
+                formData.append('files', file);
+            })
+            fetch('http://localhost:8088/java/recruImg',{
+                    method : "POST",
+                    headers : {},
+                    body : formData
+                }) 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+                }).catch(err=>console.log(err))
+        },
         addGear : function(menu){                
             const box = document.getElementById(menu);
             const li = document.createElement('li');
@@ -213,7 +239,7 @@ export default{
                             +"<option value='etc'>기타</option>"
                         +"</select>"
                         +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' placeholder='수량' min='1'>"
-                        +"<input type='file' class='btn "+menu+"-img' style='margin:0 5px;max-width:210px;' name='mygear' ref='mygear' >"
+                        +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
                         +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
             li.innerHTML = str;
             box.appendChild(li);
@@ -253,7 +279,11 @@ export default{
             this.recruInfo.wishAge = result;
         },
         saveImage : function(file){
-            const gearImgData = new FormData();
+            const form = document.forms.namedItem('recru-form');
+            const samples = document.querySelectorAll('sample');
+            const blob = new Blob()
+            const formData = new FormData(form);
+            formData.append()
             for(let i=0;i<(this.recruInfo.myGear.length+this.recruInfo.needGear.length);i++){
                 gearImgData.append("mygear", this.mygear)
             }
@@ -292,7 +322,7 @@ export default{
 .recru-input-box{
     position: absolute;
     left: 25vw;
-    min-width: 600px;
+    min-width: 622px;
     padding: 20px;
     border-radius: 20px;
     backdrop-filter:saturate(100%) blur(30px) ;
@@ -336,6 +366,9 @@ export default{
 .recru-info-mynote{
     display: flex;
     justify-content: space-between;
+}
+.write-note-btn{
+    margin-right: 20px;
 }
 
 </style>

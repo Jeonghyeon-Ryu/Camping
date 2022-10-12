@@ -1,20 +1,22 @@
 <template>
     <div class="recru-list-container">      
-        <div id="recru-list-header">
-            <h2>캠핑 동행 모집</h2>
-        </div>
         <!-- 검색 -->
-        <KeywordSearch  @search(keyword)="console.log(keyword)"></KeywordSearch>
-        <div style="text-align: center;">
-            <!-- 필터버튼 -->
-            <button @click="toggleFilter" class="btn badge badge-light bg-light badge-md false text-dark">필터</button>
+        <div class="used-searchbox">
+            <div>
+              <input type="text" placeholder="어떤 물건을 찾으시나요?">
+                <img v-on:click='searchBtn()' v-bind:src="searchImg">
+              <div style="text-align: center;">
+                  <!-- 필터버튼 -->
+                  <button @click="toggleFilter" class="recru-filter-btn">필터</button>
+              </div>
+           </div>
         </div>
-            <!-- 필터 -->
-            <div id="recru-list-container" class="position-relative border-radius-xl overflow-hidden shadow-lg mb-7">
-                <div v-if="filterStatus">
-                    <RecruFilter/>
-                </div>
+        <!-- 필터 -->
+        <div id="recru-list-container" class="position-relative border-radius-xl overflow-hidden shadow-lg mb-7">
+            <div v-if="filterStatus">
+                <RecruFilter/>
             </div>
+        </div>
         <!-- 리스트 -->
         <div class="container">
             <!-- 카드 -->
@@ -29,20 +31,21 @@
     </div>
 </template>
 <script>
-    import KeywordSearch from "@/components/KeywordSearch.vue";
+
     import RecruFilter from "@/components/recruit/RecruFilter.vue";
     import RecruCard from "@/components/recruit/RecruCard.vue";
+    import img2 from "@/assets/img/search.png"
 
     export default{
         components: {
-            KeywordSearch,
             RecruFilter,
             RecruCard
         },
         data : function(){
             return{
                 filterStatus : false,
-                recruPosts : [ ]
+                recruPosts : [ ],
+                searchImg : img2
             }
         },
         created(){
@@ -71,6 +74,7 @@
         }
     }
 </script>
+<style scoped src="@/assets/css/used/UsedMain.css"/>
 <style scoped>
     /* 공통부분 */
     * {
@@ -81,13 +85,23 @@
     box-sizing: border-box;
   }
   .recru-list-container{
-    margin-top: 150px;
-  }
+      margin-top: 150px;
+    }
+
     /* 카드 목록 */
   .recru-card-box{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  /* 검색 및 필터 */
+  .recru-list-searchbox{
+    display: flex;
+    justify-content: center;
+  }
+  .recru-filter-btn{
+    width: 38px;
+    padding: 10px;
   }
 </style>
