@@ -14,7 +14,9 @@
                   <li><h4><span class="font-gray">￦ {{usedCard.usedPrice}}</span></h4></li>
                 </ul>
                 <ul class="card-info-r">
-                  <li>{{usedCard.used_status}}</li>
+                  <li><div v-if="usedCard.dealStatus==0" class="dealGreen">거래가능</div>
+                      <div v-if="usedCard.dealStatus==1" class="dealRed">거래중</div>
+                      <div v-if="usedCard.dealStatus==2" class="dealGray">거래완료</div></li>
                 </ul>      
                 </div>
                 <div class="card-bottom">
