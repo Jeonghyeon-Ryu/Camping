@@ -98,8 +98,7 @@ ul{
 }
 /*설명textarea*/
 #textbox{
-  display:flex;
-  flex-direction: column;
+  display:flex; 
 }
 .used_content{
   width: 95%;
