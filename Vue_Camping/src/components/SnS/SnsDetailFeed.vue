@@ -19,16 +19,21 @@
         </div>
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <input type="text" value="작성자id">
+            <input type="text" :value="snsItem.nickname">
+          </div>
+          <div class="sns-write-location">
+            <input type="text" :value="snsItem.location">
+          </div>
+          <div class="sns-write-place">
+            <input type="text" :value="snsItem.place">
           </div>
         </div>
         <!-- <div class="sns-write-form-id"> -->
         <div class="sns-control-button">
           <img v-bind:src="snsControlImg" @click="doSnsController">
-          <select disabled v-model="snsController" @change="doSelectController" name="choose-control-reason" value="게시글 관리">
-            <option value="글 수정">글 수정</option>
-            <option value="글 삭제">글 삭제</option>
-            <option value="비공개..?">비공개..?</option>
+          <select disabled @change="doSelectController($event)" name="choose-control-reason" value="게시글 관리">
+            <option value="글 수정" id="btn-update">글 수정</option>
+            <option value="글 삭제" id="btn-delete">글 삭제</option>
           </select>
         </div>
         <!-- </div> -->
@@ -44,7 +49,6 @@
               <swiper-slide><img v-bind:src="snsMaingImg4"></swiper-slide>
               <swiper-slide><img v-bind:src="snsMaingImg5"></swiper-slide>
               <swiper-slide><img v-bind:src="snsMaingImg6"></swiper-slide>
-
             </swiper>
             <!-- <input type="text" v-bind:value="snsWriteNumber1"  style="display :none;">
         <img v-bind:src="snsMaingImg6"> -->
@@ -66,12 +70,19 @@
         </div>
 
         <div class="sns-detail-form1">
-          <div class="sns-write-all-form-container">
+          <form class="sns-write-all-form-container" id="snsForm">
 
             <div class="sns-write-context">
-              <textarea v-model="snsWriteText" placeholder="글내용 글내용 #태그"></textarea>
+              <textarea placeholder="글내용 글내용" :value="snsItem.content"></textarea>
+              <input type="text" :value="snsItem.writeNo" style="display :none;" name="writeNo">
             </div>
-          </div>
+            <div class="sns-write-hashtag">
+              <textarea placeholder="#태그" :value="snsItem.hashtag"></textarea>
+            </div>
+            <div class="sns-write-date">
+              <input placeholder="2012/12/12" :value="snsItem.writeDate">
+            </div>
+          </form>
 
           <div class="sns-push-button-container">
 
@@ -120,7 +131,7 @@
           <hr />
           <div class="sns-write-comment-container">
             <textarea placeholder="댓글을 작성하세요"></textarea>
-            <button type="submit" >게시</button>
+            <button type="submit">게시</button>
           </div>
         </div>
       </div>
@@ -140,20 +151,17 @@
 <script>
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from "swiper/vue"
-import likeImg from "@/assets/img/used/heart.png"
-import dislikeImg from "@/assets/img/used/heart2.png"
+import likeImg from "@/assets/img/sns/heart.png"
+import dislikeImg from "@/assets/img/sns/heart2.png"
 import commentImage from "@/assets/img/sns/comment.png"
 import notify from "@/assets/img/sns/notify.png"
 import control from "@/assets/img/sns/snsControll.png"
-
 // // Import Swiper styles
 // import "swiper/css";
 // import "swiper/css/navigation";
 // import "swiper/css/pagination";
-
 // import required modules
 import { Navigation, Pagination } from "swiper";
-
 import img1 from "@/assets/img/sns/이미지1.jpg"
 import img2 from "@/assets/img/sns/이미지2.jpg"
 import img3 from "@/assets/img/sns/이미지3.jpg"
@@ -162,12 +170,24 @@ import img5 from "@/assets/img/sns/이미지5.jpg"
 import img6 from "@/assets/img/sns/이미지6.jpg"
 import SnsReport from "./SnsReport.vue"
 
-
-
 export default {
-  data: () => {
+  created: function () {
+    fetch('http://localhost:8087/java/snsGet/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsItem = result
+      })
+      .catch(err => console.log(err));
+    //서버에서 제대로 받아왔는지 확인.
+    console.log(this.snsItem);
+  },
+  data: function () {
     return {
+      writeNo: this.$route.params.writeNo,
+      snsItem: {},
       snsWriteText: "",
+      snsWriteHashtag: "",
+      snsWriteDate: "",
       snsCommentWriteText: "",
       // snsWriteNumber1: "1111",
       // snsWriteNumber2: "2222",
@@ -182,37 +202,27 @@ export default {
       snsMaingImg5: img5,
       snsMaingImg6: img6,
       searchText: "",
-
       //댓글정보
       comments: [
         { Img: img3, id: "eee", no: "22", text: "매참김밥양파매움", date: "2022/08/08" },
         { Img: img4, id: "qqq", no: "33", text: "매참김밥양파많이매움", date: "2022/08/09" }
       ],
-
       //댓글 이미지
       commentImg: commentImage,
       //좋아요
       heartImg: likeImg,
       heartImg2: dislikeImg,
       liked: true,
-
       //신고 이미지
       notifyImg: notify,
-
       //글수정삭제
       //이미지
       snsControlImg: control,
-      //선택문자
-      snsController : '글 수정',
+
       //수정삭제show
       snsControlshow: true,
-
-
-
-
       // //모달창
       // isModify : false,
-
       //이미지슬라이더
       // slide : [
       // snsMaingImg1: img1,
@@ -222,9 +232,7 @@ export default {
       // snsMaingImg5: img5,
       // snsMaingImg6: img6,
       // ]
-
     };
-
   },
   //검색
   methods: {
@@ -236,64 +244,96 @@ export default {
         this.doSearch();
       }
       // },
-
       // //모달창
       // modify : function(){
       //   this.isModify = true;
     },
-
     //좋아요
     hearted: function () {
       this.liked = !this.liked
     },
-
     //글 수정삭제 버튼
-    doSnsController(){
+    doSnsController() {
       //if안쓰고 active시키는방법인듯.. 싱기함...
       document.querySelector('.sns-control-button select').classList.toggle('active');
-      if(document.querySelector('.sns-control-button select').disabled){
-        document.querySelector('.sns-control-button select').disabled=false;
-      }else{
-        document.querySelector('.sns-control-button select').disabled=true;
+      if (document.querySelector('.sns-control-button select').disabled) {
+        document.querySelector('.sns-control-button select').disabled = false;
+      } else {
+        document.querySelector('.sns-control-button select').disabled = true;
       }
       // this.snsControlshow = !this.snsControlshow;
     },
+    // @click="getUpdate(snsItem.writeNo)"
     //글 수정삭제 컨트롤
-    doSelectController(){
-      console.log(this.snsController);      
-    }
-  },
-  components: {
-    SnsReport,
-    Swiper,
-    SwiperSlide,
+    doSelectController(e) {
+      console.log(e.target.value);
+      if (e.target.value == "글 수정") {
+        this.getUpdate()
+      } else if (e.target.value == "글 삭제") {
+        this.getDelete()
+      }
+    },
+    //글 수정
+    getUpdate() {
+      this.$router.push({ name: 'SnsRewrite', params: { writeNo: this.snsItem.writeNo } });
+      // console.log('글을 수정하겟음')
+      // fetch('http://localhost:8087/java/snsUpdate')
+      // console.log(result)
+      //   .then(result => console.log(result))
 
-  },
-  setup() {
-    return {
-      modules: [Navigation, Pagination],
-    };
-  },
-};
+    },
+    //글 삭제
+    getDelete() {
+      let snsInfo = [];
+      new FormData(document.querySelector('#snsForm')).forEach((value, key) => snsInfo[key] = value);
+
+      console.log(snsInfo);
+
+      fetch('http://localhost:8087/java/snsDelete?writeNo=' + snsInfo.writeNo, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+
+        },
+        body: JSON.stringify(snsInfo)
+      })
+        .then(result => result.text())
+        .then(result => console.log(result))
+        .catch(err => console.log(err))
+
+      if (confirm("삭제하시겠습니까?")) {
+        // window.location.href = ("/sns/detail/" + this.writeNo)
+        // console.log('글을 삭제하겟음')
+        // fetch('http://localhost:8087/java/snsDelete')
+        // console.log(result)
+        //   .then(result => console.log(result))
+      }
+    },
+    components: {
+      SnsReport,
+      Swiper,
+      SwiperSlide,
+
+    },
+    setup() {
+      return {
+        modules: [Navigation, Pagination],
+      };
+    }
+  }
+}
 </script>
 
 <style scoped>
-/* .sns-container{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  .sns-image{
-    
-    width: 30%;
-  } */
-/* 공통 부분 */
-* {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-style: none;
-  box-sizing: border-box;
+.sns-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.sns-image {
+
+  width: 30%;
 }
 
 .swiper {
@@ -302,6 +342,7 @@ export default {
 }
 
 .sns-container {
+  margin-top: 150px;
   width: 100vw;
   height: auto;
   display: flex;
@@ -399,26 +440,49 @@ export default {
   outline: none;
 }
 
-.sns-control-button{
+.sns-write-location input {
+  margin-top: 0.5vw;
+  padding: 0.3vw;
+  border: none;
+}
+
+.sns-write-location input:focus {
+  outline: none;
+}
+
+.sns-write-place input {
+  margin-top: 0.5vw;
+  padding: 0.3vw;
+  border: none;
+}
+
+.sns-write-place input:focus {
+  outline: none;
+}
+
+
+.sns-control-button {
   cursor: pointer;
   position: absolute;
   right: 0;
-  
+
 }
-.sns-control-button img{
+
+.sns-control-button img {
   cursor: pointer;
   position: absolute;
   right: 0;
 }
-.sns-control-button select{
-  
+
+.sns-control-button select {
+
   opacity: 0;
   transition: all 0.5s ease-in-out;
-  
+
   margin-right: 35px;
 }
 
-.active{
+.active {
   opacity: 1 !important;
   cursor: pointer;
 }
@@ -458,6 +522,38 @@ export default {
   height: 3vw;
   border-radius: 70%;
   margin-right: 1vw;
+}
+
+.sns-write-context textarea {
+  margin-top: 5px;
+  width: 90%;
+  height: 10vw;
+  border: none;
+  resize: none;
+  border-radius: 5px;
+  margin-left: 15px;
+}
+
+.sns-write-hashtag textarea {
+  margin-top: 5px;
+  width: 90%;
+  height: 5vw;
+  border: none;
+  resize: none;
+  border-radius: 5px;
+  margin-left: 15px;
+}
+
+.sns-write-date input {
+  margin-top: 5px;
+  width: 90%;
+  height: 15px;
+  border: none;
+  resize: none;
+  border-radius: 5px;
+  margin-left: 15px;
+  text-align: right;
+  margin-bottom: 8px;
 }
 
 .sns-push-button-container {
@@ -549,7 +645,7 @@ export default {
   outline: none;
 }
 
-.sns-write-comment-container{
+.sns-write-comment-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
@@ -571,7 +667,7 @@ export default {
   outline: none;
 }
 
-.sns-write-comment-container button{
+.sns-write-comment-container button {
   cursor: pointer;
   background-color: #337ab7;
   border: 1px solid #2e6da4;
