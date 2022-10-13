@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <form id="container2">
+    <form id="container2" method="post">
       <!-- <h3>상품 등록</h3> -->
         <div class="used-heads">
           <!-- 사진 -->
@@ -23,16 +23,16 @@
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
-                <input type="text" name="used_name" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20">
+                <input type="text" name="usedName" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20" autofocus>
               </li>
               <li>
                 <label for="inputPrice">가격<span class="essential">*</span></label>
-                <input type="text" name="used_price" id="inputPrice" placeholder="가격을 숫자로 입력하세요" >
+                <input type="text" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요">
               </li>
               <hr>
               <li>
                 <label for="inputCate">카테고리</label>
-                <select name="used_cate" id="used_cate" v-model="myGearType">
+                <select name="usedCategory" id="used_cate" v-model="myGearType">
                   <option value='' disabled>카테고리 선택</option>
                   <option value="텐트">텐트</option>
                   <option value="타프">타프</option>
@@ -48,8 +48,8 @@
               </li>
                 <li>
                   <label for="inputPlace">지역<span class="essential">*</span></label>
-                  <form name="used_place">
-                    <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
+                    <div class="usedPlace">
+                    <select name="usedPlace" v-model="regionSelect" id="districtSelect" @change="districtChange">
                       <option value diabled>시/도</option> 
                       <option value='전체'>전체</option>
                       <option value='서울특별시'>서울특별시</option>
@@ -69,20 +69,20 @@
                       <option value='경상남도'>경상남도</option>
                       <option value='제주도'>제주도</option>
                     </select>
-                    <select v-model="regionSelect2" name='county' id="citySelect">
+                    <select v-model="regionSelect2" name="usedPlace" id="citySelect">
                       <option value disabled>시/군/구</option>
                       <option value='전체'>전체</option>
                     </select>
-                  </form> 
+                  </div>
               </li>
               <li>
                   <label for="align">상태</label>
                   <div id="align">
-                  <input type="radio" id="radio1" name="used_sangtae" value=1 checked>
+                  <input type="radio" id="radio1" name="usedCondition" value=0 checked>
                   <label for="radio1">상</label>
-                  <input type="radio" id="radio2" name="used_sangtae" value=2>
+                  <input type="radio" id="radio2" name="usedCondition" value=1>
                   <label for="radio2">중</label>
-                  <input type="radio" id="radio3" name="used_sangtae" value=3>
+                  <input type="radio" id="radio3" name="usedCondition" value=2>
                   <label for="radio3">하</label>
                   </div>
                 </li>
@@ -90,7 +90,7 @@
               <li id="textbox">
                 <label for="used_content">상품설명</label>
                 <div class="used-desc">
-                  <textarea name="used_content" class="used_content" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
+                  <textarea name="usedContent" class="used_content" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
                 </div>
               </li>
             </ul>
@@ -122,10 +122,26 @@
       //   picUpload.click();
       // },
       confirm: function(){
+        const form = document.forms.namedItem('#container2')
+        let place = document.querySelector('#districtSelect'+'#citySelect')
         let fetchData = {};
         console.log();
             new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
+            // fetchData.append("usedPlace":place,"":)
             console.log(fetchData);
+            console.log(JSON.stringify(fetchData));
+
+            fetch('http://localhost:8088/java/used/usedInsert',{
+                    method : "POST",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(fetchData)
+                }) 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+
+                }).catch(err=>console.log(err))
+
       },
       //지역선택
       districtChange: function(){
@@ -145,10 +161,17 @@
                     opt.innerHTML = cityList[i];
                     sigu.appendChild(opt);
        }
-
       }
-    }
+    },
+
   }
 </script>
 <style scoped src="@/assets/css/used/UsedInsert.css">
+
+/* <!-- 사진: 미리보기
+  상품명: 글자수 20자 제한
+  가격: 숫자 천단위구분기호/숫자만입력 
+  상품설명: 글자수제한 /글자카운트?-->  */
+
 </style>
+
