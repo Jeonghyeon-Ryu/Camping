@@ -37,7 +37,8 @@
         cardImg : img1,
         heartImg : img2,
         heartImg2 : img3,
-        liked: true
+        liked: true,
+        usedId : this.$route.params.usedId
       }
     },
     props: {
