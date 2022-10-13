@@ -12,6 +12,7 @@
 	<!-- Package : Bean을 이용해서 찾음. -->
 		<package name="com.camp.app"/>
 		<package name="com.camp.app.member.service"/>
+		<package name="com.camp.app.sns.service"/>
 		<package name="com.camp.app.camp.service"/>
 	</typeAliases>
 	<typeHandlers>
