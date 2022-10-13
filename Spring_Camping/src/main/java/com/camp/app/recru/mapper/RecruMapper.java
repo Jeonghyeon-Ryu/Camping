@@ -14,4 +14,6 @@ public interface RecruMapper {
 	public List<RecruVO> findKeyword(String keyword);
 	//단건 조회
 	public RecruVO selectOne(String recruId);
+	//상태변경
+	public int changeStatus(RecruVO recru);
 }

@@ -30,7 +30,7 @@ export default{
         },
         data : function(){
             return{
-                memberId : 'admin@test.com',//세션에서 받을 로그인 정보
+                memberId : 'admi',//세션에서 받을 로그인 정보
                 EntryList : []
             }
         },
@@ -41,8 +41,8 @@ export default{
             loadData : function(){
                 //로그인한 유저의 아이디로 신청정보를 받아온다
                 const memberId= this.memberId;
-                fetch("http://localhost:8087/java/recru/entry",{
-                    method : "GET",
+                fetch(`http://localhost:8087/java/recru/entry/${memberId}`,{
+                    method : "post",
                     headers : {"Content-Type" : "application/json"},
                     body : JSON.stringify(memberId)
                 })

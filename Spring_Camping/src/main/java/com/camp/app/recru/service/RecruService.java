@@ -18,4 +18,6 @@ public interface RecruService {
 	public List<RecruVO> recruKeywordList(String keyword);
 	//단건조회
 	public RecruVO findOne(String recruId);
+	//상태변경
+	public int changeStatus(RecruVO recru);
 }

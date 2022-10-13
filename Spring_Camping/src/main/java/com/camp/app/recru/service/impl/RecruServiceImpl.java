@@ -46,5 +46,10 @@ public class RecruServiceImpl implements RecruService {
 	public RecruVO findOne(String recruId) {
 		return mapper.selectOne(recruId);
 	}
+	//상태변경
+	@Override
+	public int changeStatus(RecruVO recruVO) {
+		return mapper.changeStatus(recruVO);
+	}
 
 }
