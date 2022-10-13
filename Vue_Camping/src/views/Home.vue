@@ -24,7 +24,9 @@
  <!-- <RecruInsert></RecruInsert> -->
  <!-- <RecruList></RecruList> -->
  <!-- <CampList></CampList> -->
-<MynoteList></MynoteList>
+ <!-- <MynoteList></MynoteList> -->
+ <!-- <RecruInsert></RecruInsert> -->
+
 </template>
 
 
@@ -45,7 +47,6 @@
 import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
 import SnsSearch from '@/components/SnS/SnsSearch.vue';
 import SnsWrite from '@/components/SnS/SnsWrite.vue';
-
 import SnsLocation from '@/components/SnS/SnsLocation.vue';
 import UserManage from '@/components/Admin/UserManage.vue';
 import UsedLike from '@/components/UsedPractice/UsedLike.vue';

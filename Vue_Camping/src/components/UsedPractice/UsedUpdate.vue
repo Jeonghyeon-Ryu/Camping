@@ -1,8 +1,10 @@
 <template>
   <div id="container">
-    <form id="container2">
-      <h2>게시물 수정하기</h2>
+    <form id="container2" method="post">
+      <!-- <h3>상품 등록</h3> -->
         <div class="used-heads">
+          <div class="usedId" name="usedId"></div>
+          <!-- 사진 -->
           <div class="used-pics">
             <h3>상품 사진</h3>
             <div class="used-pic">
@@ -12,28 +14,26 @@
                 </label>
               </div>
             </div>
-            <div class="uploadarea" @click="upload">
-              사진 추가하기 
-            </div>
           </div>
+          <!-- 상품 -->
           <div class="used-info">
             <ul>
               <li>
                 <label for="inputWriter">작성자</label>
-                {{used_writer}}
+                <p>{{used_writer}}</p>
               </li>
               <li>
-                <label for="inputName">상품명</label>
-                <input type="text" name="used_name" id="inputName" placeholder="상품명을 등록해주세요">
+                <label for="inputName">상품명<span class="essential">*</span></label>
+                <input type="text" name="usedName" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20" autofocus :value="usedList.usedName">
               </li>
               <li>
-                <label for="inputPrice">가격</label>
-                <input type="text" name="used_price" id="inputPrice" placeholder="가격을 입력하세요">
+                <label for="inputPrice">가격<span class="essential">*</span></label>
+                <input type="number" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요" :value="usedList.usedPrice">
               </li>
               <hr>
               <li>
-                <label for="inputCate">카테고리</label>
-                <select name="used_cate" v-model="myGearType">
+                <label for="inputCate">카테고리<span class="essential">*</span></label>
+                <select name="usedCategory" id="used_cate" v-model="myGearType" :value="usedList.usedCategory">
                   <option value='' disabled>카테고리 선택</option>
                   <option value="텐트">텐트</option>
                   <option value="타프">타프</option>
@@ -48,20 +48,9 @@
               </select>
               </li>
                 <li>
-                  <label for="align">상태</label>
-                  <div id="align">
-                  <input type="radio" id="radio1" name="used_sangtae" value=0>
-                  <label for="radio1">상</label>
-                  <input type="radio" id="radio2" name="used_sangtae" value=1>
-                  <label for="radio2">중</label>
-                  <input type="radio" id="radio3" name="used_sangtae" value=1>
-                  <label for="radio3">하</label>
-                  </div>
-                </li>
-                <li>
-                  <label for="inputPlace">지역</label>
-                  <form name="used_place">
-                    <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
+                  <label for="inputPlace">지역<span class="essential">*</span></label>
+                    <div class="usedPlace">
+                    <select name="usedPlace" v-model="regionSelect" id="districtSelect" @change="districtChange" >
                       <option value diabled>시/도</option> 
                       <option value='전체'>전체</option>
                       <option value='서울특별시'>서울특별시</option>
@@ -81,40 +70,58 @@
                       <option value='경상남도'>경상남도</option>
                       <option value='제주도'>제주도</option>
                     </select>
-                    <select v-model="regionSelect2" name='county' id="citySelect">
+                    <select v-model="regionSelect2" name="usedPlace" id="citySelect">
                       <option value disabled>시/군/구</option>
                       <option value='전체'>전체</option>
                     </select>
-                  </form> 
+                  </div>
               </li>
-              <hr>
               <li>
-                <h3>상품 설명</h3>
+                  <label for="align">상태</label>
+                  <div id="align">
+                  <input type="radio" id="radio1" name="usedCondition" value=0 checked>
+                  <label for="radio1">상</label>
+                  <input type="radio" id="radio2" name="usedCondition" value=1>
+                  <label for="radio2">중</label>
+                  <input type="radio" id="radio3" name="usedCondition" value=2>
+                  <label for="radio3">하</label>
+                  </div>
+                </li>
+              <hr>
+              <li id="textbox">
+                <label for="used_content">상품설명<span class="essential">*</span></label>
                 <div class="used-desc">
-                  <textarea name="used_content" class="used_content">{{used_content}}</textarea>
+                  <textarea name="usedContent" class="used_content" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)" :value="usedList.usedContent"></textarea>
                 </div>
               </li>
             </ul>
           </div>
         </div>
+        <!-- 작성버튼 -->
         <div class="used-foot">
-              <button @click.prevent="confirm()">작성 완료</button>
+              <button @click.prevent="confirm()">수정 완료</button>
         </div>
       </form>
   </div>
 </template>
 <script>
   import district from "@/assets/district.js"
+  import Swal from 'sweetalert2';
 
   export default {
+    created(){
+      //created-페이지 열자마자 실행
+      fetch('http://localhost:8088/java/used/usedDetail/'+this.usedId) 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+                    this.usedList = data;
+                }).catch(err=>console.log(err))
+    },
     data(){
       return{
-        used_name: '4인용 텐트',
-        myGearType: '',
-        used_writer: 'campingGo',
-        regionSelect: '',
-        regionSelect2: '',
-        used_content: '1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ '
+        usedList : [],    
+        usedId : this.$route.params.usedId,
       }
     },
     methods: {
@@ -123,11 +130,51 @@
       //   const upload = document.querySelector('.uploadarea');
       //   picUpload.click();
       // },
+      // numOnly: function(){
+      //   let price = document.getElementById('inputPrice').value;
+      //   let st = /[^0-9]/g
+      //   if(st.test(price.value)){
+      //     console.log(price.value)
+      //     price.replace(st, "")
+      //   }
+      // },
       confirm: function(){
+        const form = document.forms.namedItem('#container2')
+        let place = document.querySelector('#districtSelect'+'#citySelect')
         let fetchData = {};
+
+        let name = document.getElementById('inputName').value;
+        let price = document.getElementById('inputPrice').value;
+        let category = document.getElementById('used_cate').value;
+        let content = document.querySelector('.used_content').value;
+
         console.log();
             new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
-            console.log(fetchData);
+            // fetchData.append("usedPlace":place,"":)
+            // console.log(fetchData);
+            // console.log(JSON.stringify(fetchData));
+        fetchData["usedId"] = this.usedId;
+        if(name === null || name.trim() === ""){
+          this.swName();
+        }else if(price == null || price.trim() === ""){
+          this.swPrice();
+        }else if(category == null || category.trim() === ""){
+          this.swCategory();
+        }else if(content == null || content.trim() === "" ||content.length < 10){
+          this.swContent();
+        }else{
+            fetch('http://localhost:8088/java/used/usedUpdate',{
+                    method : "PUT",
+                    // body : fetchData
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(fetchData)
+                }) 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+
+                }).catch(err=>console.log(err))
+        }
       },
       //지역선택
       districtChange: function(){
@@ -147,12 +194,72 @@
                     opt.innerHTML = cityList[i];
                     sigu.appendChild(opt);
        }
-
+      },
+      swName: function(){
+        Swal.fire({
+          title: '',
+          text: '상품명은 필수 입력 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        })
+      },
+      swPrice: function(){
+        Swal.fire({
+          title: '',
+          text: '가격은 필수 입력 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        })
+      },
+      swCategory: function(){
+        Swal.fire({
+          title: '',
+          text: '카테고리는 필수 선택 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        })
+      },
+      swPlace: function(){
+        Swal.fire({
+          title: '',
+          text: '거래지역은 필수 선택 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        })
+      },
+      swContent: function(){
+        Swal.fire({
+          title: '',
+          text: '상품설명을 10자 이상 작성해주세요',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+        })
       }
     }
+
   }
 </script>
 <style scoped src="@/assets/css/used/UsedInsert.css">
 
+/* <!-- 사진: 미리보기
+  상품명: 글자수 20자 제한
+  가격: 숫자 천단위구분기호/숫자만입력 
+  상품설명: 글자수제한 /글자카운트?-->  */
+
 </style>
-<!-- 입력된값을불러와야함~! -->
+
