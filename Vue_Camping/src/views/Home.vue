@@ -23,8 +23,8 @@
  <!-- <ChatList></ChatList> -->
  <!-- <RecruInsert></RecruInsert> -->
  <!-- <RecruList></RecruList> -->
- <CampList></CampList>
-
+ <!-- <CampList></CampList> -->
+<MynoteList></MynoteList>
 </template>
 
 
@@ -53,5 +53,6 @@ import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
 import ChatList from '@/components/UsedPractice/ChatList.vue';
 import RecruInsert from '@/components/recruit/RecruInsert.vue';
 import CampList from '@/components/Camping/CampList.vue';
+import MynoteList from '@/components/note/MynoteList.vue';
 
 </script>
