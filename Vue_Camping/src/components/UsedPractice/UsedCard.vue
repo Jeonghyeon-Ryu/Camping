@@ -8,12 +8,21 @@
               <img v-bind:src="cardImg">
             </div>
             <div class="card-info">
-                <ul>
-                  <li><h3>{{usedCard.used_name}}</h3></li>
-                  <li>{{usedCard.used_price}}</li>
-                  <li><h5>{{usedCard.used_place}}</h5></li>
-                  <li>{{usedCard.used_status}}</li>
+                <div class="card-top">
+                <ul class="card-info-l">
+                  <li><h3>{{usedCard.usedName}}</h3></li>
+                  <li><h4><span class="font-gray">￦ {{usedCard.usedPrice}}</span></h4></li>
                 </ul>
+                <ul class="card-info-r">
+                  <li><div v-if="usedCard.dealStatus==0" class="dealGreen">거래가능</div>
+                      <div v-if="usedCard.dealStatus==1" class="dealRed">거래중</div>
+                      <div v-if="usedCard.dealStatus==2" class="dealGray">거래완료</div></li>
+                </ul>      
+                </div>
+                <div class="card-bottom">
+                  <div class="card-place">{{usedCard.usedPlace}}</div>
+                  <div class="card-write"><span class="font-gray">{{usedCard.usedWrite}}</span></div>
+              </div>
             </div>
           </div>
 </template>

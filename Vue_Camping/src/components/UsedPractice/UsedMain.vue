@@ -1,7 +1,7 @@
 <template>
   <!--상단(필터, 검색)-->
   <div id="container">
-    <div id="container2">
+    <form id="container2">
       <div class="used-headd">
         <!--검색-->
         <div class="used-search">
@@ -15,11 +15,10 @@
           </div>
           <div class="used-searchbox">
             <div>
-              <input type="text" placeholder="어떤 물건을 찾으시나요?">
+              <input type="text" name="search" placeholder="어떤 물건을 찾으시나요?">
               <img v-on:click='searchBtn()' v-bind:src="searchImg">
            </div>
           </div>
-
         </div>
       </div>
         <!-- 필터 -->
@@ -27,8 +26,9 @@
           <ul class="used-filter-ul">
             <li>
               <label for="inputCate">카테고리</label>
-              <select v-model="myGearType" selected>
+              <select v-model="myGearType" name="usedCategory" selected>
                 <option value='' disabled>카테고리 선택</option>
+                <option value="전체">전체</option>
                 <option value="텐트">텐트</option>
                 <option value="타프">타프</option>
                 <option value="가구">가구</option>
@@ -43,7 +43,6 @@
             </li>
             <li>
               <label for="inputPlace">지역</label>
-              <form name=form>
                 <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
                   <option value diabled>시/도</option> 
                   <option value='전체'>전체</option>
@@ -68,13 +67,12 @@
                   <option value disabled>시/군/구</option>
                   <option value='전체'>전체</option>
                 </select>
-              </form> 
             </li>
-            <li>
+            <li>                          
               <label for="inputPrice">가격범위</label>
-              <input v-model="minPrice" type="number" id="inputPrice" placeholder="0">
+              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="100">
               <p>~</p>
-              <input v-model="maxPrice" type="number" id="inputPrice" placeholder="0">
+              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="100">
               <!-- <div id="slider"></div> -->
             </li>
           </ul>
@@ -87,18 +85,18 @@
           <h2>중고거래</h2>
         </div>
         <div class="cards">
-          <div v-for="card in usedCards" :key="card.id">
+          <div v-for="card in usedList" :key="card.id">
             <UsedCard v-bind:usedCard="card"></UsedCard>
           </div>
         </div>
       </div>
 
       <!--하단-->
-    </div>
-    <div class="used-foote">
-      <button v-on:click='usedInsert()'>+</button>
-      <button v-on:click='usedInsert()'>♥</button>
-    </div>
+      <div class="used-foote">
+        <button v-on:click='usedInsert()'>+</button>
+        <button v-on:click='usedInsert()'>♥</button>
+      </div>
+    </form>
   </div>
 </template>
 <script>
@@ -113,6 +111,7 @@
     },
     data(){
       return{
+        usedList: [],
         myGearType: '',
         regionSelect: '',
         regionSelect2: '',
@@ -120,57 +119,6 @@
         maxPrice: '',
         cardImg : img1,
         searchImg : img2,
-        usedCards : [{
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '5인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '6인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        }
-      ],
-        
       }
     },
     methods : {
@@ -181,7 +129,11 @@
         this.$router.push({name : 'usedInsert'})
       },
       searchBtn: function(){
-        SubmitEvent()
+        let fetchData = {};
+        console.log();
+            new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
+            console.log(fetchData);
+            document.querySelector('#container2').submit();
       },
       gearSelected: function(){
         this.myGearType = '';
@@ -217,6 +169,17 @@
        }
 
       }
+    },
+    //created-페이지 열자마자 실행
+    created(){
+      //전체조회
+      fetch('http://localhost:8088/java/used/usedMain') 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+                    this.usedList = data;
+                }).catch(err=>console.log(err))
+
     }
   }
 
