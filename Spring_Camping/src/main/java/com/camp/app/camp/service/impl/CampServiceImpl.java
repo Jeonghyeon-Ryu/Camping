@@ -88,7 +88,7 @@ public class CampServiceImpl implements CampService{
 			
 			image.setImageFormat(image.getOriginName().substring(image.getOriginName().lastIndexOf("."), image.getOriginName().length()));
 			image.setImageSize(file.getSize());
-			image.setImagePath(uploadPath);
+			image.setImagePath(directoryPath);
 			image.setCampId(resultCamp.getCampId());
 			
 			UUID uuid = UUID.randomUUID();
@@ -112,6 +112,10 @@ public class CampServiceImpl implements CampService{
 	@Override
 	public int getMaxCampImageId() {
 		return mapper.findMaxByCampImageId();
+	}
+	@Override
+	public List<CampImageVO> showCampImageByCampId(int campId) {
+		return mapper.findByCampIdToCampImage(campId);
 	}
 
 }

@@ -31,7 +31,7 @@
 		SELECT * FROM camp WHERE camp_id = #{campId}
 	</select>
 	<select id="findByCampIdToCampImage" parameterType="Integer" resultType="CampImageVO">
-		SELECT * FROM camp_image WHERE camp_id = #{campId]
+		SELECT * FROM camp_image WHERE camp_id = #{campId}
 	</select>
 	
 	<insert id="insertCamp" parameterType="CampVO">

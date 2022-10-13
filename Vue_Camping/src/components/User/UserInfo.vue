@@ -3,7 +3,7 @@
     <div class="my-info-left">
       <div class="my-info-left-top">
         <div class="profile-image">
-          <img :src="profile-image" />
+          <ImagePreviewOne :image="profile_image"></ImagePreviewOne>
         </div>
         <div class="nickname" v-text="nickname"></div>
         <div class="profile-intro" v-text="profile_intro">
@@ -19,7 +19,7 @@
       <form class="user-info-form">
         <div class="profile-image-modify">
           <div class="profile-image-preview">
-            <ImagePreview :images="profile_image"></ImagePreview>
+            <ImagePreviewOne v-if="profile-image!=[]" :image="profile_image"></ImagePreviewOne>
           </div>
           <label>사진변경
             <input @change="changeImage($event)" type="file" style="display:none;">
@@ -49,6 +49,7 @@
   import { functionTypeAnnotation } from '@babel/types';
 import ImagePreview from '../ImagePreview.vue';
 import Swal from 'sweetalert2';
+import ImagePreviewOne from '../ImagePreviewOne.vue';
   export default {
     data: function () {
         return {
@@ -61,7 +62,7 @@ import Swal from 'sweetalert2';
             phone_number: "010-0000-0000"
         };
     },
-    components: { ImagePreview },
+    components: { ImagePreview, ImagePreviewOne },
     methods: {
       changeImage : function(e) {
         this.profile_image = e.target.files;
