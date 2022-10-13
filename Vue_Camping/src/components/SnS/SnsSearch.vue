@@ -25,14 +25,35 @@
 </template>
 
 <script>
-import sns from "@/components/SnS/snsMember.js"
+// import sns from "@/components/SnS/snsMember.js"
 
 export default {
+
+  //DB연결
+  created : function(){
+    fetch('http://localhost:8087/java/hashtag')
+
+    .then(result => result.text())
+    .then(result => result.substring(2, result.length-2))
+    .then(result => {
+      console.log(result)
+      this.snsData.push(result)
+    })
+    .catch(err => console.log(err));
+
+  //   fetch('http://localhost:8087/java/snsnickname')
+  //   .then(result => result.text())
+  //   .then(result => {
+  //     console.log(result)
+  //   })
+  //   .catch(err => console.log(err));
+  },
+
   components: {},
   data: () => {
     return {
       searchText: '',
-      snsData: sns,
+      snsData: [],
       searchResult: [],
       searchId : [],
 
@@ -67,12 +88,12 @@ export default {
       for (let snsList of this.snsData) {
         // console.log(snsList.hashtag);
         //result2 = hashtag와 searchVal이 일치하는게있으면 0보다 같,크고 아니면 -1
-        let result2 = snsList.hashtag.indexOf(searchVal);
+        let result2 = snsList.indexOf(searchVal);
         // console.log(result2);
         if (result2 >= 0) {
           // console.log(snsList);
           //result3 = 나열된 해시태그들의 문자를 공백기준으로 각각 자른다
-          let results3 = snsList.hashtag.split(' ');
+          let results3 = snsList.split(' ');
           // console.log(results3);
 
 

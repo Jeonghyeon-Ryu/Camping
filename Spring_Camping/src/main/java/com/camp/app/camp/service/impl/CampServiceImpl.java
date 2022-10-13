@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.camp.app.camp.mapper.CampMapper;
 import com.camp.app.camp.service.CampImageVO;
+import com.camp.app.camp.service.CampModifyVO;
 import com.camp.app.camp.service.CampService;
 import com.camp.app.camp.service.CampVO;
 import com.camp.app.camp.service.InputCampVO;
@@ -88,7 +89,7 @@ public class CampServiceImpl implements CampService{
 			
 			image.setImageFormat(image.getOriginName().substring(image.getOriginName().lastIndexOf("."), image.getOriginName().length()));
 			image.setImageSize(file.getSize());
-			image.setImagePath(uploadPath);
+			image.setImagePath(directoryPath);
 			image.setCampId(resultCamp.getCampId());
 			
 			UUID uuid = UUID.randomUUID();
@@ -112,6 +113,26 @@ public class CampServiceImpl implements CampService{
 	@Override
 	public int getMaxCampImageId() {
 		return mapper.findMaxByCampImageId();
+	}
+	@Override
+	public List<CampImageVO> showCampImageByCampId(int campId) {
+		return mapper.findByCampIdToCampImage(campId);
+	}
+	
+	@Transactional
+	@Override
+	public boolean modifyCamp(CampModifyVO camp) {
+		int result = mapper.insertCampModify(camp);
+		
+		if(result > 0 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	@Override
+	public int getMaxCampModifyId() {
+		return mapper.findMaxByCampModifyId();
 	}
 
 }

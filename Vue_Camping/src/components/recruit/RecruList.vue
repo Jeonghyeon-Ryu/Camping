@@ -1,98 +1,225 @@
 <template>
     <div class="recru-list-container">      
-        <div id="recru-list-header">
-            <h2>캠핑 동행 모집</h2>
-        </div>
         <!-- 검색 -->
-        <KeywordSearch v-bind:srhKeyword="srhKeyword"></KeywordSearch>
-        <div style="text-align: center;">
-            <!-- 필터버튼 -->
-            <button @click="toggleFilter" class="btn badge badge-light bg-light badge-md false text-dark">필터</button>
+        <div class="used-searchbox">
+            <div>
+                <input type="text" placeholder="어떤 물건을 찾으시나요?">
+                <img v-bind:src="searchImg">
+            </div>
         </div>
-            <!-- 필터 -->
-            <div id="recru-list-container" class="position-relative border-radius-xl overflow-hidden shadow-lg mb-7">
-                <div v-if="filterStatus">
-                    <RecruFilter/>
+        <!-- 필터 -->
+        <form id="recru-filter-form" class="recru-list-filter row">
+            <div class="recru-filter-container row">
+                <div class="recru-filter-box col">
+                    <h3>희망 동행자</h3>
+                    <div class="recru-search-sex ">
+                        <label class="bold">나이</label>
+                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="1">남</label>
+                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="2">여</label>
+                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0" checked>무관</label>
+                    </div>
+                    <div class="recru-search-age col">
+                        <div class=" left">
+                            <label class="bold">연령대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="20대">20대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="30대">30대</label>
+                        </div>
+                        <div class="row left">
+                            <label><input type="checkbox" v-model="filter.wishAge" value="40대">40대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="50대이상">50대 이상</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="recru-filter-box col">
+                    <h3>여행정보</h3>
+                    <div class="recru-filter-trip">
+                        <div class="recru-search-startP">
+                            <span style="margin-left:6px">출발지 </span> 
+                            <select v-model="filter.regionSelect" id="districtSelect" name='city' @change="districtChange"> 
+                                <option value='' disabled>시/도</option> 
+                                <option value='전체'>전체</option>
+                                <option value='서울특별시'>서울특별시</option>
+                                <option value='부산광역시'>부산광역시</option>
+                                <option value='대구광역시'>대구광역시</option>
+                                <option value='인천광역시'>인천광역시</option>
+                                <option value='광주광역시'>광주광역시</option>
+                                <option value='대전광역시'>대전광역시</option>
+                                <option value='울산광역시'>울산광역시</option>
+                                <option value='경기도'>경기도</option>
+                                <option value='강원도'>강원도</option>
+                                <option value='충청북도'>충청북도</option>
+                                <option value='충청남도'>충청남도</option>
+                                <option value='전라북도'>전라북도</option>
+                                <option value='전라남도'>전라남도</option>
+                                <option value='경상북도'>경상북도</option>
+                                <option value='경상남도'>경상남도</option>
+                                <option value='제주도'>제주도</option>
+                            </select>
+                            <select v-model="filter.regionSelect2" name='county' id="citySelect" style="margin-left:3px">
+                                <option value='' selected disabled>시/군/구</option>
+                                <option value='전체'>전체</option>
+                            </select>
+                        </div>
+                        <div class="recru-search-campP">
+                            <label>도착지<input type="text" v-model="filter.campingSpot" @click="searchCamp">
+                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
+                        </div>
+                        <div class="recru-search-day">
+                            <label>출발날짜<input type="date" v-model="filter.goDate"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="recru-filter-box col">
+                    <div class="recru-mygear-header">
+                        <h3>보유한 장비</h3>
+                    </div>
+                    <div class="row left">
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="텐트">텐트</label>
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="타프">타프</label>
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="가구">가구</label>
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="침구">침구</label>
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="조리도구">조리도구</label>
+                    </div>
+                    <div class="row left">
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="조명">조명</label>
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="수납">수납</label>
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="공구">공구</label>
+                        <label><input type="checkbox" v-model="filter.searchMyGear" value="냉난방">냉난방</label>
+                        
+                    </div>
+                    <br>
+                    <div class="recru-mygear-header">
+                        <h3>필요해요</h3>
+                    </div>
+                    <div class="row left">
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="텐트">텐트</label>
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="타프">타프</label>
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="가구">가구</label>
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="침구">침구</label>
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="조리도구">조리도구</label>
+                    </div>
+                    <div class="row left">    
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="조명">조명</label>
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="수납">수납</label>
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="공구">공구</label>
+                        <label><input type="checkbox" v-model="filter.searchNeedGear" value="냉난방">냉난방</label>
+                    </div>
+                
+                </div>
+                <div class="recru-filter-btn-box row">
+                    <button type="submit" class="recru-filter-btn submit" @click.prevent="searchFileter">검색</button>
+                    <button type="reset" class="recru-filter-btn reset">초기화</button>
                 </div>
             </div>
+        </form>
+        <!-- 필터 결과-->
+        <div class="used-selected">
+            <ul>
+                <li v-if="filter.wishSex != ''" @click="deleteFilter">나이 : {{setWishAge}} X</li>
+                <li v-if="filter.wishAge != ''" @click="deleteFilter">희망 연령 : {{filter.wishAge}} X</li>
+                <li v-if="filter.regionSelect != null" @click="deleteFilter">출발지 : {{filter.regionSelect}} {{filter.regionSelect2}} X</li>
+                <li v-if="filter.campingSpot != ''" @click="deleteFilter">도착지 : {{filter.campingSpot}} X</li>
+                <li v-if="filter.goDate != ''" @click="deleteFilter">출발날짜 : {{filter.goDate}} X</li>
+                <li v-if="filter.searchMyGear != ''" @click="deleteFilter">나눌 수 있어요 : {{filter.searchMyGear}} X</li>
+                <li v-if="filter.searchNeedGear != ''" @click="deleteFilter">필요해요 : {{filter.searchNeedGear}} X</li>
+            </ul>
+        </div>
+
         <!-- 리스트 -->
         <div class="container">
             <!-- 카드 -->
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.title">
-                    <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
-                    <!-- <router-link tag="RouterCard" v-bind:to="{name:recruCard,params:{recruCard:'recruInfo'}}"></router-link> -->
+                    <router-link tag="div" v-bind:to="{name:'recruDetail',params:{recruId:'recruInfo.id'}}">
+                        <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
+                    </router-link>
                 </div>
             </div>      
         </div>
     </div>
 </template>
 <script>
-    import KeywordSearch from "@/components/KeywordSearch.vue";
+
     import RecruFilter from "@/components/recruit/RecruFilter.vue";
     import RecruCard from "@/components/recruit/RecruCard.vue";
+    import img2 from "@/assets/img/search.png"
+    import district from "@/assets/district.js"
 
     export default{
         components: {
-            KeywordSearch,
             RecruFilter,
             RecruCard
         },
         data : function(){
             return{
-                filterStatus : false,
-                recruPosts : [
-                                {
-                                gear_img : '@/assets/img/gear04.jpg',
-                                title : 'tnwjdfasfd',
-                                my_gear : '4인용텐트',
-                                need_gear : '타프',
-                                go_date : '2022/11/11',
-                                camping_point : '순천만'
-                                },
-                                {
-                                gear_img : '@/assets/img/gear06.jpg',
-                                title : '수정된222',
-                                my_gear : '4인용텐트222',
-                                need_gear : '타프',
-                                go_date : '2022/11/11',
-                                camping_point : '순천만'
-                                },
-                                {
-                                gear_img : '@/assets/img/gear06.jpg',
-                                title : '수정된23322sssssssadsdasddddddddddddddasdsaddsdsds',
-                                my_gear : '4인용텐트 길게 길게 글을 쓰면 어떻게 될까요 dffff  fffff ff fff ffffffffffffffffffff222',
-                                need_gear : '타프만 필요한가 가진건 아무것도 없고 캠핑에 대해 아는 것도 일도 없는 생초보라 지식가득 장비 가득 고인물을 원합니다 츄라이 츄라이',
-                                go_date : '2022/11/11',
-                                camping_point : '순천만'
-                                }
-                             ]
+                filter: {
+                    wishSex :'',
+                    wishAge :[],
+                    searchMyGear :[],
+                    searchNeedGear: [],
+                    startingSpot: '',
+                    campingSpot: '',
+                    goDate: ''
+                },
+                recruPosts : [ ],
+                searchImg : img2
             }
         },
+        created(){
+            this.loadDate();
+        },
         methods: {
-            toggleFilter : function(){
-                this.filterStatus = !this.filterStatus;
+            loadDate : function(){
+                // 서버에서 전체 리스트 가져오기
+                fetch("http://localhost:8088/java/recru")
+                .then((response) =>response.json()) 
+                .then(data => { 
+                    console.log(data);
+                    this.recruPosts = data;  
+
+                }).catch(err=>console.log(err));
+            },
+            districtChange: function(){
+                //지역선택
+                let sido = document.querySelector('#districtSelect');
+                let sigu = document.querySelector('#citySelect');
+                let sidoName = sido.value;
+                let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
+
+                sigu.options.length=1;  //저장내역 삭제
+
+                let cityIndex = cityArr.indexOf(sidoName);
+
+                let cityList = district.data[cityIndex][sidoName];  //도시배열
+                for(let i in cityList){
+                            var opt = document.createElement("option");
+                            opt.value = cityList[i];
+                            opt.innerHTML = cityList[i];
+                            sigu.appendChild(opt);
+                }
+            },
+            setWishAge : function(){
+                let result = '';
+                this.filter.wishAge.forEach((age) => {
+                    console.log(age.value)
+                    result += age.value + ' ';
+                });
+                return result;
+            },
+            searchList : function(){
+                fetch("http://localhost:8088/java/recru")
+                .then((response) =>response.json()) 
+                .then(data => { 
+                console.log(data);
+                this.recruPosts = data;  
+
+            }).catch(err=>console.log(err));
+            },
+            deleteFilter: function(e){
+                console.log(e.target)
             }
         }
     }
 </script>
-<style scoped>
-    /* 공통부분 */
-    * {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-style: none;
-    box-sizing: border-box;
-  }
-  .recru-list-container{
-    margin-top: 150px;
-  }
-    /* 카드 목록 */
-  .recru-card-box{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-</style>
+<style scoped src="@/assets/css/used/UsedMain.css"/>
+<style scoped src="@/assets/css/recruit/recruList.css"/>

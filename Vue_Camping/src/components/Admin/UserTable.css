@@ -2,6 +2,7 @@
     --gridTemplate : 40px;
     width:90vw;
     overflow: auto;
+    position:relative;
 }
 .table-header {
     display:grid;
@@ -30,4 +31,10 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.excel-export-container {
+    position:absolute;
+    right:5px;
+    top:5px;
 }

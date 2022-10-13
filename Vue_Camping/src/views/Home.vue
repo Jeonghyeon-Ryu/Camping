@@ -8,9 +8,10 @@
   <!-- <SnsSearch></SnsSearch> -->
   <!-- <SnsWrite></SnsWrite> -->
   <!-- <SnsReport></SnsReport> -->
+  <!-- <SnsLocation></SnsLocation> -->
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
-  <UsedMain></UsedMain>
+  <!-- <UsedMain></UsedMain> -->
   <!-- <UsedReview></UsedReview> -->
   <!-- <UsedInsert></UsedInsert> -->
   <!-- <UsedUpdate></UsedUpdate> -->
@@ -20,9 +21,11 @@
   <!-- <UsedLike></UsedLike> -->
  <!-- <ChatRoom></ChatRoom> -->
  <!-- <ChatList></ChatList> -->
-
  <!-- <RecruInsert></RecruInsert> -->
  <!-- <RecruList></RecruList> -->
+ <!-- <RecruInsert></RecruInsert> -->
+ <!-- <RecruList></RecruList> -->
+ <!-- <CampList></CampList> -->
 
 </template>
 
@@ -39,24 +42,17 @@
   import RecruList from '@/components/recruit/RecruList.vue';
   import RecruMap from '../components/recruit/RecruMap.vue';
   import SnsReport from '@/components/SnS/SnsReport.vue';
-import SnsMain from '@/components/SnS/SnsMain.vue';
-import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
+  import SnsMain from '@/components/SnS/SnsMain.vue';
+  import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
 import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
 import SnsSearch from '@/components/SnS/SnsSearch.vue';
 import SnsWrite from '@/components/SnS/SnsWrite.vue';
-<<<<<<< Updated upstream
+import SnsLocation from '@/components/SnS/SnsLocation.vue';
 import UserManage from '@/components/Admin/UserManage.vue';
 import UsedLike from '@/components/UsedPractice/UsedLike.vue';
 import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
 import ChatList from '@/components/UsedPractice/ChatList.vue';
-=======
+import RecruInsert from '@/components/recruit/RecruInsert.vue';
+import CampList from '@/components/Camping/CampList.vue';
 
-// import SnsLocation from '@/components/SnS/SnsLocation.vue';
-// import UserManage from '@/components/Admin/UserManage.vue';
-// import UsedLike from '@/components/UsedPractice/UsedLike.vue';
-// import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
-// import ChatList from '@/components/UsedPractice/ChatList.vue';
-// import RecruInsert from '@/components/recruit/RecruInsert.vue';
-
->>>>>>> Stashed changes
 </script>

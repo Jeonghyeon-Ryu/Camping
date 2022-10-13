@@ -22,7 +22,7 @@ import com.siot.IamportRestClient.response.Certification;
 import com.siot.IamportRestClient.response.IamportResponse;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(originPatterns = "*")
 public class MemberController {
 	
 	@Autowired
@@ -62,18 +62,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public boolean login(@RequestBody MemberVO member, HttpSession session) {
+	public MemberVO login(@RequestBody MemberVO member) {
 //		MemberVO input = new MemberVO();
 //		input.setEmail(member.get("email"));
 //		input.setPassword(member.get("password"));
-		MemberVO result = service.login(member);
-		System.out.println(result);
-		if(result == null) {
-			return false;
-		} else {
-			session.setAttribute("member", result);
-			return true;
-		}
+		
+		return service.login(member);
 	}
 	
 	@PostMapping("/logout")

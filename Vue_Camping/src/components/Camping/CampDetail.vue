@@ -31,28 +31,28 @@
                             <label>
                                 <input type="checkbox" name="toilet" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/toilet-50.png" />
+                                    <img src="@/assets/img/Camping/toilet.png" />
                                     <span>화장실</span>
                                 </div>
                             </label>
                             <label>
                                 <input type="checkbox" name="parking" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/parking-50.png">
+                                    <img src="@/assets/img/Camping/parking.png">
                                     <span>주차장</span>
                                 </div>
                             </label>
                             <label>
                                 <input type="checkbox" name="shower" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/shower-50.png" />
+                                    <img src="@/assets/img/Camping/shower.png" />
                                     <span>샤워장</span>
                                 </div>
                             </label>
                             <label>
                                 <input type="checkbox" name="disposal" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/disposal-50.png" />
+                                    <img src="@/assets/img/Camping/disposal.png" />
                                     <span>쓰레기장</span>
                                 </div>
                             </label>
@@ -60,7 +60,7 @@
                             <label>
                                 <input type="checkbox" name="deck" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/deck-50.png" />
+                                    <img src="@/assets/img/Camping/deck.png" />
                                     <span>데크</span>
                                 </div>
                             </label>
@@ -68,28 +68,28 @@
                             <label>
                                 <input type="checkbox" name="bbq" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/grill-50.png" />
+                                    <img src="@/assets/img/Camping/bbq.png" />
                                     <span>바비큐</span>
                                 </div>
                             </label>
                             <label>
                                 <input type="checkbox" name="pool" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/swimming-pool-50.png" />
+                                    <img src="@/assets/img/Camping/swim.png" />
                                     <span>수영장</span>
                                 </div>
                             </label>
                             <label>
                                 <input type="checkbox" name="cooking" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/spoon-50.png" />
+                                    <img src="@/assets/img/Camping/spoon.png" />
                                     <span>조리도구</span>
                                 </div>
                             </label>
                             <label>
                                 <input type="checkbox" name="lease" />
                                 <div class="icon-box">
-                                    <img src="@/assets/img/Camping/lease-50.png" />
+                                    <img src="@/assets/img/Camping/lease.png" />
                                     <span>장비대여</span>
                                 </div>
                             </label>

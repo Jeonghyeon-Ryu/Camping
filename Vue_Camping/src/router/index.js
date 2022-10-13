@@ -6,13 +6,6 @@ const routes = [
     name: 'Home',
     component: () => import('../views/Home.vue'),
    },
-  // {
-  // path: '/about',
-  // name: 'About',
-  // component: () => import ('../views/About.vue'),
-  // },
-
-
   {
     path: '/recru/detail',
     name: 'recruDetail',
@@ -35,9 +28,6 @@ const routes = [
     component: () => import('@/components/UsedPractice/UsedUpdate.vue'),
     props: true
    }
-
-
-
 ]
 
 const router = createRouter({
