@@ -1,0 +1,69 @@
+.recru-input-container{
+    margin-top: 150px;
+    width: 100%;
+    display: flex;
+    position: relative;
+    padding: 10px;
+}
+.recru-input-back{
+    height: 1000px;
+    width: 600px;
+    margin : 1rem;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("@/assets/img/vue-mk-header.jpg"); 
+    background-size: cover;
+    border-radius: 20px;
+}
+/* 입력폼 박스 */
+.recru-input-box{
+    position: absolute;
+    left: 25vw;
+    min-width: 622px;
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter:saturate(100%) blur(30px) ;
+    background-color:rgba(255, 255, 255, 0.8) !important ;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%) !important;
+}
+#recru-form{
+    text-align: left;
+}
+#recru-form input,#recru-form select, #recru-form textarea{
+    padding: 5px;
+    margin: 3px;
+    border: white;
+}
+#recru-form input[type=number]{
+    width: 50px;
+}
+#recru-form p, #recru-form span{
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#recru-form hr{
+    margin: 10px;
+}
+
+/* 들여쓰기 */
+.in-level{
+    margin-left: 20px;
+}
+/* 제목 */
+.recru-input-box h3{
+    margin: 20px;
+}
+.recru-info-title input,.recru-info-content textarea{
+    width: 80%;
+}
+/* 노트 부분 */
+.recru-info-mynote{
+    display: flex;
+    justify-content: space-between;
+}
+.write-note-btn{
+    margin-right: 20px;
+}

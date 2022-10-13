@@ -4,44 +4,52 @@
   <!-- 카드 헤더 -->
   <div class="recru-card-header" >
       <div class="card-header-img">
-          <img v-bind:src="recruCard.filename" alt="camping gear">
+          <img :src="gearImg" alt="camping gear">
       </div>
-      <div class = "card-header-text" > 모집중 </div >
+      <div class = "card-header-text" > {{recruStatus}} </div >
   </div>
+ 
   <!--  카드 바디 -->
-  
   <div class="recru-card-body">
     <div class="card-body-title">
-      <h1>{{recruCard.title}}</h1>
+      <h1>{{recruCard.recruTitle}}</h1>
     </div>
     <!--  카드 바디 내용 -->
-    <p class="card-body-my"><span>갖고있어요 :</span>{{recruCard.my_gear}} </p>
-    <p class="card-body-need"><span>필요해요 :</span>{{recruCard.need_gear}}</p>
+    <p class="card-body-my"><span>갖고있어요 :</span>{{recruCard.myGear}} </p>
+    <p class="card-body-need"><span>필요해요 :</span>{{recruCard.needGear}}</p>
     <hr style="margin:5px;">
-    <p class="card-body-go"><span>출발 :</span>{{recruCard.go_date}}</p>
-    <p class="card-body-spot"><span>도착지 :</span> {{recruCard.camping_point}}</p>
+    <p class="card-body-go"><span>출발 :</span>{{recruCard.goDate}}</p>
+    <p class="card-body-spot"><span>도착지 :</span> {{recruCard.campingPoint}}</p>
   </div>
   <div class = "recru-card-wish" > 
-    <img v-if="isHeart" src='@/assets/img/heart.png' @click="changeHeart" alt="찜한 카드">
-    <img v-if="!isHeart" src='@/assets/img/noheart.png' @click="changeHeart" alt="찜한 카드">
+    <img v-if="isHeart" class="recru-heart" src='@/assets/img/heart.png' @click.stop="changeHeart" alt="찜한 카드">
+    <img v-if="!isHeart" class="recru-heart" src='@/assets/img/noheart.png' @click.stop="changeHeart" alt="찜한 카드">
   </div>
 </div>  
 </template>
-import img1 @/asset
 <script>
-
 export default{
-    name : "RecruList",
-    props : {recruCard : Object},
+    name : "RecruCard",
+    props : {recruCard : Object, recruId : ''},
     data : function(){
       return {
-        isHeart : true, 
-        myHeart : 'heart.png'
+        isHeart : true
       }
     },
+    watch :{
+      //recruStatus
+    },
+    computed : {
+      //장비 리스트 형태 바꿔주기 (4인용텐트,텐트,3 => 4인용텐트(텐트)3개)
+    },
     methods: {
-      changeHeart : function(){
+      changeHeart : function(e){
+        e.preventDefault();
         this.isHeart=!this.isHeart;
+      },
+      gearImg : function(){
+        // import img from '~~~'해서 바인딩
+        return img;
       }
     }
 }
@@ -123,6 +131,7 @@ export default{
     margin-top: 10px;
     height: 85%;
     transition: all 0.3s;
+    text-align: left;
   }
   .recru-card-body span{
     color: darkred;
@@ -131,6 +140,7 @@ export default{
     color: white;
     font-size: 22px;
     font-weight: bold;
+    margin-bottom: 10px;
   }
   .recru-card-body p{
     font-weight: bold;
@@ -150,11 +160,11 @@ export default{
   /* 카드 저장 아이콘 */
   .recru-card-wish{
     position: relative;
-    left: 45%;
+ 
     margin-bottom:5px;
   }
-  .recru-card-wish:hover{
-    color: crimson;
+  .recru-heart:active{
+    padding: 5px;
   }
   .recru-card-wish img{
     width: 30px;

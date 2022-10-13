@@ -155,3 +155,4 @@
 <style scoped src="@/assets/css/used/UsedInsert.css">
 
 </style>
+<!-- 입력된값을불러와야함~! -->

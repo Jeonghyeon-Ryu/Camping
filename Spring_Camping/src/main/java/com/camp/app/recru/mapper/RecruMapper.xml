@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.recru.mapper.RecruMapper">
+	<!-- 신규 글 번호 찾기 -->
+	<select id="getMaxRecruId" resultType="Integer">
+		SELECT NVL(MAX(recru_id),0) FROM recruitment
+	</select>
+	<!-- 입력 -->
+	<insert id="insertRecru" parameterType="RecruVO">
+		<selectKey keyProperty="recruId" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(recru_id),0)+1 FROM recruitment
+		</selectKey>
+		INSERT INTO recruitment(
+				recru_id
+				,writer
+				,recru_title
+				<if test="recruContent !=null">
+				,recru_content
+				</if>
+				<if test="wishAge !=null">
+				,wish_age
+				</if>
+				,wish_sex
+				,car_yn	
+				<if test="myGear !=null">
+				,my_gear	
+				</if>
+				<if test="needGear !=null">
+				,need_gear	
+				</if>
+				,go_date	
+				,come_date	
+				,starting_point	
+				,camping_point	
+				<if test="noteId !=null">
+				,note_id	
+				</if>
+				,recru_num	
+				,closing_date	
+				)
+			VALUES(
+				#{recruId}
+				,#{writer}
+				,#{recruTitle}
+				<if test="recruContent !=null">
+				,#{recruContent}
+				</if>
+				<if test="wishAge !=null">
+				,#{wishAge}
+				</if>
+				,#{wishSex}
+				,#{carYn}
+				<if test="myGear !=null">
+				,#{myGear}
+				</if>
+				<if test="needGear !=null">
+				,#{needGear}
+				</if>
+				,#{goDate}
+				,#{comeDate}
+				,#{startingPoint}
+				,#{campingPoint}
+				<if test="noteId !=null">
+				,#{noteId}
+				</if>
+				,#{recruNum}
+				,#{closingDate}
+		)
+	</insert>
+	
+	<!-- 전체조회 -->
+	<select id="findAll" resultType ="RecruVO">
+		SELECT * FROM recruitment
+	</select>
+	
+	<!-- 검색조회 -->
+	<select id="findKeyword" parameterType="String" resultType="RecruVO">
+		SELECT * FROM recruitment
+			WHERE recru_title LIKE '%'||#{keyword#}||'%'
+				OR recru_content LIKE '%'||#{keyword#}||'%'
+				OR my_gear LIKE '%'||#{keyword#}||'%'
+				OR need_gear LIKE '%'||#{keyword#}||'%'
+	</select>
+	
+	<!-- 필터조회 -->
+	<select id="findFilter" parameterType="RecruVO" resultType="RecruVO">
+		SELECT * FROM recruitment
+		<where>
+			1=1
+			<if test="wishSex != null and !wishSex.equals('')">
+				AND wish_sex = #{ wishSex }
+			</if>
+			<if test="wishAge != null and !wishAge.equals('')">
+				AND wish_age = #{ wishAge }
+			</if>
+			<if test="carYn != null and !carYn.equals('')">
+				AND car_yn = #{ carYn }
+			</if>
+			<if test="myGear != null and !wish_age.equals('')">
+				AND my_gear LIKE '%'||#{myGear#}||'%'
+			</if>
+			<if test="wish_age != null and !wish_age.equals('')">
+				AND need_gear LIKE '%'||#{needGear#}||'%'
+			</if>
+		</where>
+	</select>
+	<!-- 단건조회 -->
+	<select id="selectOne" parameterType="RecruVO" resultType="RecruVO">
+		SELECT * FROM recruitment
+		<where>
+			<if test="writer != null and !writer.equals('')">
+				writer = #{ writer } AND
+			</if>
+			<if test="recruId != null">
+				recru_id = #{ recruId }
+			</if>
+		</where>
+	</select>
+	
+	<!-- 수정 : 글 수정 -->
+	
+	<!-- 수정 : 상태변경 -->
+	
+	<!-- 삭제 -->
+</mapper>
