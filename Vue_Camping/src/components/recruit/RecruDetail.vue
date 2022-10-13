@@ -185,7 +185,7 @@ export default{
             loadRecruData : function(){
                 // 서버에서 단건조회
                 let recruId = this.recruId;
-                fetch("http://localhost:8088/java/recru/"+recruId)
+                fetch("http://localhost:8087/java/recru/"+recruId)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     this.recruPost = data;  

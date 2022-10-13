@@ -204,7 +204,7 @@
             searchList : function(){
                 //키워드 검색 결과 받아오기
                 const keyword = this.keyword;
-                fetch("http://localhost:8087/java/recru/"+keyword,{
+                fetch("http://localhost:8087/java/recru/search/"+keyword,{
                     method : "POST",
                     headers : {"Content-Type" : "application/json"},
                     body : JSON.stringify(keyword)

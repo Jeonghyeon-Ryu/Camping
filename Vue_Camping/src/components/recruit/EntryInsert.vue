@@ -48,14 +48,15 @@
 <script>
 import Swal from 'sweetalert2';
 export default{
-    props : {recruId : String},
+    props : {recruId : Number},
     data : function(){
         return {
             recruEntry : {
                 recruId : '',
                 entryCar : '0',
                 entryGear : '',
-                memberId : 'admin@test.com' //작성자정보 -->세션에서 받아오기
+                memberId : 'admin@test.com', //작성자정보 -->세션에서 받아오기
+                nickname : 'amdmin'
             },
             memberId : ''
         }
@@ -117,7 +118,7 @@ export default{
             //신청 테이블에 인서트하기 
             let recruEntry = this.recruEntry;
             //서버를 통해 게시글 내용 insert
-            fetch('http://localhost:8087/java/entry',{
+            fetch('http://localhost:8087/java/recru/entry',{
                 method : "POST",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(recruEntry )

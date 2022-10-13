@@ -37,7 +37,7 @@ export default{
             const recruId = this.recruId;
             //서버에서 신청 대상 모집글 정보를 가져온다
             fetch(`http://localhost:8087/java/recru/entry/${recruId}`,{
-                    method : "GET",
+                    method : "POST",
                     headers : {"Content-Type" : "application/json"},
                     body : JSON.stringify(recruId)
                 })

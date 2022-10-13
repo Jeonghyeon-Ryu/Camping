@@ -36,8 +36,6 @@
 	<select id="myEntryList" parameterType="String" resultType="EntryVO">
 		SELECT *
 		FROM recru_entry
-		<where>
-			member_id=#{memberId};
-		</where>
+		WHERE member_id=#{memberId};
 	</select>
 </mapper>

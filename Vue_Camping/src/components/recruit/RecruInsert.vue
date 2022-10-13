@@ -164,6 +164,7 @@ export default{
             goDate : '',
             comeDate : '',
             closeDate: '',
+            nickname : 'admin'
             },
         files:[],
         myNote:[{
@@ -178,6 +179,19 @@ export default{
     },
     methods : {
         uploadContent : function(event){
+            const insertChk = document.querySelectorAll('input')
+            try{
+                insertChk.forEach( chk => {
+                    if(chk.value===''||chk.value==null){
+                        Swal.fire('입력을 확인해주세요','','warning');
+                        chk.focus();
+                        throw finish;
+                    }
+                })
+            }catch(Exeption){
+                if(Exeption !== 'finish') throw Exeption;
+                else return false;
+            }
             //서버에 업로드
             // 장비와 희망연령을 string타입으로 변환
             this.setGearList('mygear'); 
@@ -207,9 +221,7 @@ export default{
                 if(imgfile.value !=''){
                     this.files.push(imgfile.files[0])
                 }
-            })
-            console.log(this.files)
-            
+            })            
         },
         fileUpload : async function () {
             //서버에 이미지 업로드
@@ -246,7 +258,7 @@ export default{
                             +"<option value='냉난방'>냉난방</option>"
                             +"<option value='기타'>기타</option>"
                         +"</select>"
-                        +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' placeholder='수량' min='1'>"
+                        +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>"
                         +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
                         +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
             li.innerHTML = str;
@@ -292,10 +304,10 @@ export default{
             alert('장비가져오기');
         },
         searchCamp : function(){
-            alert('도착지 검색')
+            //alert('도착지 검색')
         },
         searchAddr : function(){
-            alert('주소검색')
+            //alert('주소검색')
         }
         
     }
