@@ -20,6 +20,10 @@
   <!-- <UsedLike></UsedLike> -->
  <!-- <ChatRoom></ChatRoom> -->
  <!-- <ChatList></ChatList> -->
+
+ <!-- <RecruInsert></RecruInsert> -->
+ <!-- <RecruList></RecruList> -->
+
 </template>
 
 
@@ -40,8 +44,19 @@ import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
 import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
 import SnsSearch from '@/components/SnS/SnsSearch.vue';
 import SnsWrite from '@/components/SnS/SnsWrite.vue';
+<<<<<<< Updated upstream
 import UserManage from '@/components/Admin/UserManage.vue';
 import UsedLike from '@/components/UsedPractice/UsedLike.vue';
 import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
 import ChatList from '@/components/UsedPractice/ChatList.vue';
+=======
+
+// import SnsLocation from '@/components/SnS/SnsLocation.vue';
+// import UserManage from '@/components/Admin/UserManage.vue';
+// import UsedLike from '@/components/UsedPractice/UsedLike.vue';
+// import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
+// import ChatList from '@/components/UsedPractice/ChatList.vue';
+// import RecruInsert from '@/components/recruit/RecruInsert.vue';
+
+>>>>>>> Stashed changes
 </script>

@@ -6,17 +6,17 @@
           <div class="used-pic">
                 <img v-bind:src="usedPic">
           </div>
-          <!-- 우측 상품정보 -->
+          <!-- 상품명, 가격 -->
           <div class="used-info">
             <ul>
-              <li><h2>{{usedName}}</h2></li>
-              <li><h3>￦{{usedPrice}}</h3></li>
+              <li><h2>{{usedList.usedName}}</h2></li>
+              <li><h3>￦{{usedList.usedPrice}}</h3></li>
               <hr>
               <!-- 좋아요, 조회수, 신고 -->
               <div class="used-info2">
                 <div class="used-info3">
                 <div class="used-cnt">
-                  ❤ {{usedLike}} 👁‍🗨 {{usedCnt}}
+                  ❤ {{usedList.usedLike}} 👁‍🗨 {{usedList.usedCnt}}
                 </div>
                 <div class="used-report">
                   <!-- 신고기능가져오기 -->
@@ -25,12 +25,18 @@
               </div>
               <!-- 상품정보2 -->
                   <li>
-                    카테고리 : {{usedCategory}}
+                    카테고리 : {{usedList.usedCategory}}
                   </li>
-                  <li>상태 : {{usedCondition}}</li>
+                  <li>상태 : {{usedList.usedCondition}}</li>
                   <li>
-                    거래지역 : {{usedPlace}}
+                    거래지역 : {{usedList.usedPlace}}
                   </li>
+                  <select name="dealStatus">
+                    <option value='' disabled selected>거래상태</option>
+                    <option value="거래가능">거래가능</option>
+                    <option value="거래중">거래중</option>
+                    <option value="거래완료">거래완료</option>
+                  </select>
               </div>
             </ul>
           </div>
@@ -42,14 +48,14 @@
             <p><b>상품 설명</b></p>
             <hr class="horizontal-line">
             <div class="used-content">
-              {{usedContent}}
+              {{usedList.usedContent}}
             </div>
           </div>
           <div class="vertical_line"></div>
           <!-- 작성자 정보-->
           <div class="used-writer">
-                  <img v-bind:src="used_pic">
-                  {{usedWriter}}
+                  <img v-bind:src="usedPic">
+                  {{usedList.usedWriter}}
             <div class="used-writer-post">
               <!-- 올린게시물정보(코드써야함) -->
             </div>
@@ -57,8 +63,9 @@
           <div class="info-buttons">
                   <button type="button" class="like-button">찜하기</button>
                   <button type="button" class="chat-button">채팅하기</button>
-                  <button type="button" class="delete-button" v-if="usedWriter==1" @click="usedDelete()">삭제하기</button>
-                  <button type="button" class="restrict-button" v-if="usedWriter==0">접근제한</button>       
+                  <button type="button" class="update-button" @click="usedUpdate()">수정하기</button>
+                  <button type="button" class="delete-button" @click="usedDelete()">삭제하기</button>
+                  <button type="button" class="restrict-button" >접근제한</button>       
           </div>
         </div>
       </form>
@@ -70,16 +77,8 @@
   export default {
     data(){
       return{
-        usedLike: '6',
-        usedCnt: '30',
-        usedPic : img1,
-        usedWriter : 'campingGo',
-        usedCategory : '텐트',
-        usedName : '4인용 텐트',
-        usedPrice : '100,000',
-        usedCondition : '상',
-        usedPlace : '대구광역시 서구 내당동',
-        usedContent : '1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ 1회 사용했습니다. 사용감 없고 깨끗해요 ! 오후 6시 이후 두류역이나 중앙로역에서 직거래 가능합니다. 택배거래도 가능하니 편하게 채팅 주세요 ~ '    
+        usedList : [],    
+        usedId : this.$route.params.usedId
       }
     },
     methods: {
@@ -93,14 +92,21 @@
             new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
             console.log(fetchData);
       },
+      usedUpdate: function(){
+        this.$router.push({name : 'usedUpdate'})
+      },
       usedDelete: function(){
         // 삭제하는메서드..?
       }
     },
     //created-페이지 열자마자 실행
     created(){
+      //클릭함수로 가져온 번호기반으로 게시글 전체 단건조회 메소드 실행
+      //메퍼.xml에 where= used_id {} --->>> 메퍼.xml
+      //여기다 함수 실행. 무슨 방식으로 가져올건지(put.get./// + url (/selectone),
+      // data L) 
       //내용조회
-      fetch('http://localhost:8088/java/used/usedDetail') 
+      fetch('http://localhost:8088/java/used/usedDetail/'+this.usedId) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data)
