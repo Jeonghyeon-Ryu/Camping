@@ -1,7 +1,6 @@
 package com.camp.app.member.service.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +66,4 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO login(MemberVO member) {
 		return mapper.findByEmailAndPassword(member);
 	}
-
-
 }
