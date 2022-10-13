@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camp.app.camp.service.CampImageVO;
+import com.camp.app.camp.service.CampModifyVO;
 import com.camp.app.camp.service.CampService;
 import com.camp.app.camp.service.CampVO;
 import com.camp.app.camp.service.InputCampVO;
@@ -45,6 +48,11 @@ public class CampController {
 	public List<CampImageVO> getCampImageList(@PathVariable("campId") int campId){
 		return service.showCampImageByCampId(campId);
 	}
+	@GetMapping("/campDetail/{campId}")
+	public CampVO showCampOne(@PathVariable int campId) {
+		System.out.println(campId);
+		return service.showCampOne(campId);
+	}
 	
 	@GetMapping("/showImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName){
@@ -68,5 +76,10 @@ public class CampController {
 		}
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
-	
+	@PostMapping("/campModify")
+	public boolean modifyCamp(CampModifyVO camp, HttpServletRequest req) {
+		camp.setEmail((String) req.getSession().getAttribute("email"));
+		camp.setCampModifyId(service.getMaxCampModifyId()+1);
+		return service.modifyCamp(camp);
+	}
 }
