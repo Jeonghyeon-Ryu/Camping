@@ -20,6 +20,9 @@
   <!-- <UsedLike></UsedLike> -->
  <!-- <ChatRoom></ChatRoom> -->
  <!-- <ChatList></ChatList> -->
+ <!-- <RecruInsert></RecruInsert> -->
+ <RecruList></RecruList>
+
 </template>
 
 
@@ -44,4 +47,6 @@ import UserManage from '@/components/Admin/UserManage.vue';
 import UsedLike from '@/components/UsedPractice/UsedLike.vue';
 import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
 import ChatList from '@/components/UsedPractice/ChatList.vue';
+import RecruInsert from '@/components/recruit/RecruInsert.vue';
+
 </script>
