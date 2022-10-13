@@ -1,0 +1,95 @@
+.entry-insert-container{
+  width: 400px;
+  text-align: left;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 3px -1px rgb(66, 66, 66), 0 3px 1px -2px rgb(58, 58, 58), 0 1px 5px rgb(64, 64, 64);
+}
+.entry-insert-gear input, .entry-insert-gear select {
+  padding:5px;
+  margin:3px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}
+.entry-insert-container span{
+  font-size: small;
+  color: gray;
+
+}
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.entry-insert-container hr{
+margin: 0 10px;
+}
+/* 제목 */
+.enrty-insert-title, .enrty-insert-content{   
+  margin: 15px;
+}
+.enrty-insert-title h3{
+  font-size: 17px;
+  padding-top:5px ;
+}
+/* 바디 */
+.entry-insert-content{
+  margin : 15px;
+}
+.entry-insert-car, .entry-insert-gear{
+  margin: 18px;
+}
+.entry-insert-car p, .entry-insert-gear p{
+  padding: 5px;
+}
+.entry-insert-car label{
+  margin: 0 10px;
+}
+/* 장비 삭제 버튼 */
+.gear-delete-btn{
+  border-radius:50%;
+  background-color :crimson;
+  border:none;
+  color:white;
+  margin-left:2px;
+  width:16px; 
+  height:16px;
+  cursor: pointer;
+}
+ /* 버튼 */
+ .add-gear-btn{
+  margin: 3px;
+
+ }
+ .entry-insert-btn{
+    display: flex;
+    justify-content: space-between;
+}
+.entry-insert-btn button{
+    padding: 10px;
+    border : none;
+    border-top: 1px solid lightgray;
+    background: none;
+    margin: 0;
+    width: 50%;
+}
+.accept-btn{
+    color : rgb(55, 135, 204);
+}
+.accept-btn:hover{
+  background: skyblue;
+  color: white;
+  box-shadow: 0 3px 3px #1a73e826, 0 3px 1px -2px #1a73e833, 0 1px 5px #1a73e826;
+  cursor: pointer;
+  border-radius: 0 0 0 10px ;
+}
+.refuse-btn{
+    color: gray;
+}
+.refuse-btn:hover{
+  background: gray;
+  color: white;
+  box-shadow: 0 3px 3px #34476726, 0 3px 1px -2px #34476733, 0 1px 5px #34476726;
+  cursor: pointer;
+  border-radius: 0 0 10px 0 ;
+}

@@ -3,9 +3,9 @@
         <div class="recru-detail-box ">            
             <div class="recru-detail-row">
                 <div class="recru-detail-title">
-                    <h2>{{recruPost.title}}</h2>
+                    <h2>{{recruPost.recruTitle}}</h2>
                 </div>
-                <div class="recru-detail-status" :class="recru_status">
+                <div class="recru-detail-status" :class="statusClass">
                     <p>{{recruStatus}}</p>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                     <div class="recru-detail-user">
                         <img src="@/assets/img/bg9.jpg" name="profile_img" alt="profile img">
                         <p><span>{{recruPost.writer}}</span></p>
-                        <p>{{recruPost.date}}</p>
+                        <p>{{yyyyMMddhhmmss(recruPost.writeDate) }}</p>
                         <button class="report-btn">신고</button>
                     </div>
                     <div class="recru-detail-contents">
@@ -32,28 +32,22 @@
                         <h3 style="font-weight: bold;">모집자 정보</h3>
                         <p><span>성별 </span>{{user.sex}}</p>
                         <p><span>연령대  </span>{{userage}}</p>
-                        <p><span>차량 유무 </span>{{recruPost.car_yn}}</p>
+                        <p><span>차량 유무 </span>{{recruPost.carYn}}</p>
                         <br>
                         <h3 style="font-weight: bold;">이런 분</h3>
-                        <p><span>성별  </span>{{recruPost.wish_sex}}</p>
-                        <p><span>연령대  </span>{{recruPost.wish_age}}대</p>
+                        <p><span>성별  </span>{{recruPost.wishSex}}</p>
+                        <p><span>연령대  </span>{{recruPost.wishAge}}대</p>
                         <br>
                         <h3 style="font-weight: bold;">함께 해요</h3>
-                        <p><span>여행 예정 날짜  </span>{{recruPost.go_date}}</p>
-                        <p><span>출발지역  </span>{{recruPost.starting_point}}</p>
-                        <p><span>도착지 </span>{{recruPost.camping_point}}</p>
-                        <p><span>모집 인원  </span>{{recruPost.recru_num}}</p>
+                        <p><span>여행 예정 날짜  </span>{{recruPost.goDate}} ~ {{recruPost.comeDate}}</p>
+                        <p><span>출발지역  </span>{{recruPost.startingPoint}}</p>
+                        <p><span>도착지 </span>{{recruPost.campingPoint}}</p>
+                        <p><span>모집 인원  </span>{{recruPost.recruNum}}</p>
                         <br>
                         <p><span>갖고있어요  </span></p>
                         <p><span>필요해요  </span></p>
                         <br>
-                        <p>
-                            모집내용 ~~~ 동산에는 사랑의 풀이 돋고 이상의 꽃이 피고 
-                            희망의 놀이 뜨고 열락의 새가 운다사랑의 풀이 없으면 
-                            인간은 사막이다 오아이스도 없는 사막이다 보이는 끝까지 
-                            찾아다녀도 목숨이 있는 때까지 방황하여도 보이는 것은 
-                            거친 모래뿐일 것이다
-                        </p>
+                        <p>{{recruPost.recruContent}}</p>
                         <br>
                         <p><span>모집기간</span></p>
                     </div>
@@ -64,6 +58,8 @@
                     {{notePost.id}}
                 </div>
             </div>
+
+            <!-- 게시글 관리 버튼 -->
             <div class="recru-detail-row">
                 <div class="recru-entry-btn">
                     <!-- 모집자/신청자가 아닌 경우 -->
@@ -73,6 +69,7 @@
                 </div>
                 <div class="recru-writer-btn">
                     <!-- 모집자(작성자)인 경우 -->
+                    <button type="button" @click="recruFinish">모집완료</button>
                     <button type="button" @click="recruUpdate">수정</button>
                     <button type="button" @click="recruDelete">삭제</button>
                 </div>
@@ -102,10 +99,11 @@
                 <h3>보증금 상태</h3>
                 <DepositStatus></DepositStatus>
             </div>
-        </div>        
-         <!-- 버튼 모달창 -->
+        </div>     
+
+         <!-- 동행신청 버튼 모달창 -->
          <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
-            <EntryInsert @close-modal="isModalViewed=false"></EntryInsert>
+            <EntryInsert v-bind:recruId="recruPost.recruId" @close-modal="isModalViewed=false"></EntryInsert>
         </ModalView>
     </div>
     
@@ -123,6 +121,9 @@ import ModalView from '@/components/recruit/ModalView.vue';
 import Swal from 'sweetalert2';
 export default{
     name : "RecruDetail",
+    props : {
+        recruId : String
+    },
     components :{
         EntryStandByCard,
         EntryCard,
@@ -134,51 +135,20 @@ export default{
     },
         data:function(){
             return{
+                recruPost : {},
                 recruStatus : '모집중',
-                recru_status : 'recru_status_ing',
+                statusClass:'recru_status_ing',
                 user : {
                     sex : '남',
                     birth : new Date()
                 },
-                recruPost:{
-                    title:'글제목',
-                    writer:'writerwriterwriter',
-                    date: '22/11/11 00:00:00',
-                    car_yn : '없음',
-                    wish_sex : '무관',
-                    wish_age : 20,
-                    goDate : new Date()+1,
-                    starting_point : '',
-                    camping_point: '',
-                    recru_num : 1,
-                    note_id : 0
-                },
+                recruPost:{},
                 notePost : {
                     id : 0,
                     member_id : 0,
                     note_contents : '노트 내용1'
                 },
-                entryPost : [{
-                    entry_id : 0,
-                    member_id : 0,
-                    entry_car : '없음',
-                    entry_gear: '텐트',
-                    entry_date: new Date()
-                },
-                {
-                    entry_id : 1,
-                    member_id : 1,
-                    entry_car : '없음',
-                    entry_gear: '텐트',
-                    entry_date: new Date()
-                },
-                {
-                    entry_id : 2,
-                    member_id : 2,
-                    entry_car : '없음',
-                    entry_gear: '텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 텐트 ',
-                    entry_date: new Date()
-                }],
+                entryPost : [],
                 entryCount : 2,
                 isModalViewed : false,
                 recru_entry : {
@@ -186,6 +156,9 @@ export default{
                     entry_gear : []
                 }
             }
+        },
+        created (){
+            this.loadRecruData()
         },
         computed : {
             userage(){
@@ -209,11 +182,62 @@ export default{
             }
         },
         methods :{
-            showEntryInsert(){
-                this.isModalViewed = !this.isModalViewed;
-            }
-            
+            loadRecruData : function(){
+                // 서버에서 단건조회
+                let recruId = this.recruId;
+                fetch("http://localhost:8088/java/recru/"+recruId)
+                .then((response) =>response.json()) 
+                .then(data => { 
+                    this.recruPost = data;  
+                    console.log(this.recruPost);
+
+                }).catch(err=>console.log(err));
+            }, 
+            loadDepositData : function(){
+                //보증금 상황 조회
+
+            },    
+            yyyyMMddhhmmss : function(value){
+                if(value == '') return '';
         
+                var js_date = new Date(value);
+
+                // 연도, 월, 일, 시, 분, 초 추출
+                var year = js_date.getFullYear();
+                var month = js_date.getMonth() + 1;
+                var day = js_date.getDate();
+                var hours = ('0' + js_date.getHours()).slice(-2); 
+                var minutes = ('0' + js_date.getMinutes()).slice(-2);
+                var seconds = ('0' + js_date.getSeconds()).slice(-2); 
+                
+
+                if(month < 10){
+                    month = '0' + month;
+                }
+                if(day < 10){
+                    day = '0' + day;
+                }
+
+                return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes  + ':' + seconds;
+            },
+            recruFinish : function(){
+                Swal.fire({
+                    title: '모집을 완료하시겠습니가?',
+                    text: '모집완료는 다시 되돌릴 수 없습니다.',
+                    icon: 'warning',
+                    
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    confirmButtonText: '모집완료', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                    
+                    }).then(result => {
+                    if (result.isConfirmed) { 
+
+                        Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success');
+                    }
+                    });
+               
+            }
         }
     }
 </script>

@@ -5,13 +5,13 @@
   <!-- <SnsMain></SnsMain> -->
   <!-- <SnsDetailFeed></SnsDetailFeed> -->
   <!-- <SnsMyFeed></SnsMyFeed> -->
-  <SnsSearch></SnsSearch>
+  <!-- <SnsSearch></SnsSearch> -->
   <!-- <SnsWrite></SnsWrite> -->
   <!-- <SnsReport></SnsReport> -->
   <!-- <SnsLocation></SnsLocation> -->
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
-  <UsedMain></UsedMain>
+  <!-- <UsedMain></UsedMain> -->
   <!-- <UsedReview></UsedReview> -->
   <!-- <UsedInsert></UsedInsert> -->
   <!-- <UsedUpdate></UsedUpdate> -->
@@ -23,6 +23,8 @@
  <!-- <ChatList></ChatList> -->
  <!-- <RecruInsert></RecruInsert> -->
  <RecruList></RecruList>
+<!-- <EntryMypageView></EntryMypageView> -->
+
 
 </template>
 
@@ -51,5 +53,6 @@ import UsedLike from '@/components/UsedPractice/UsedLike.vue';
 import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
 import ChatList from '@/components/UsedPractice/ChatList.vue';
 import RecruInsert from '@/components/recruit/RecruInsert.vue';
+import EntryMypageView from '@/components/recruit/EntryMypageView.vue';
 
 </script>

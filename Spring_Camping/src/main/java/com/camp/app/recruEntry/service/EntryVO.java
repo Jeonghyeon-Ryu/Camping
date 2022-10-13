@@ -21,4 +21,5 @@ public class EntryVO {
 	private Date entryDate;
 	private int entryStatus;		//신청상태 (0신청중,1수락,2거절,3취소대기(모집완료후),4취소완료)
 	private String memberId;
+	private String nickname;		
 }

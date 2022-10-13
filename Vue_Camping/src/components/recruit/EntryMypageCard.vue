@@ -21,13 +21,9 @@
     </div>
 </template>
 <script>
-import RecruPost from "@/assets/rectuitInfo/RecruPost.js";
 
 export default{
     props :{recruId : String},
-    components : {
-        RecruPost
-    },
     data: function(){
         return{
             recruInfo : {},
@@ -38,12 +34,18 @@ export default{
     },
     methods :{
         getEntryRecru(){
-            //서버에서 신청 대상 모집글 정보를 가져오는 메서드
-            for(let i=0 ; i<RecruPost.data.length; i++){
-                if((RecruPost.data[i]["recru_id"] == this.recruId)){
-                    this.recruInfo = RecruPost.data[i];
-                }
-            }
+            const recruId = this.recruId;
+            //서버에서 신청 대상 모집글 정보를 가져온다
+            fetch(`http://localhost:8087/java/recru/entry/${recruId}`,{
+                    method : "GET",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(recruId)
+                })
+                .then((response) =>response.json()) 
+                .then(data => { 
+                    console.log(data);
+                    this.recruInfo = data;  
+                }).catch(err=>console.log(err));
         }
     }
 }

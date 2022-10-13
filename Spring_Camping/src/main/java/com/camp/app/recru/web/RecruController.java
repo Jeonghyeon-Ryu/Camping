@@ -2,6 +2,8 @@ package com.camp.app.recru.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +24,9 @@ public class RecruController {
 	
 	//등록
 	@PostMapping("/recru")
-	public RecruVO recruInsert(@RequestBody RecruVO recru) {
-		service.insertRecru(recru);
-		return recru;
+	public RecruVO recruInsert(@RequestBody RecruVO recruVO) {
+		service.insertRecru(recruVO);
+		return recruVO;
 	}
 	//전체조회
 	@GetMapping("/recru")
@@ -32,8 +34,14 @@ public class RecruController {
 		return service.recruAllList();
 	}
 	//검색 조회
-	@GetMapping("/recru/{keyword}")
+	@PostMapping("/recru/{keyword}")
 	public List<RecruVO> recruSearchList(@PathVariable String keyword){
 		return service.recruKeywordList(keyword);
+	}
+	
+	//단건조회
+	@GetMapping("/recru/{recruId}")
+	public RecruVO selectOne(@PathVariable String recruId) {
+		return service.findOne(recruId);
 	}
 }

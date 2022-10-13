@@ -188,7 +188,7 @@ export default{
             
             let recruVO = this.recruInfo;
             //서버를 통해 게시글 내용 insert
-            fetch('http://localhost:8088/java/recru',{
+            fetch('http://localhost:8087/java/recru',{
                 method : "POST",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(recruVO )
@@ -217,14 +217,14 @@ export default{
             this.files.forEach(file=>{
                 formData.append('files', file);
             })
-            fetch('http://localhost:8088/java/recruImg',{
+            fetch('http://localhost:8087/java/recruImg',{
                     method : "POST",
                     headers : {},
                     body : formData
                 }) 
                 .then(Response => Response.json())  
                 .then(data => { 
-                    console.log(date+" 파일 업로드 성공")
+                    Swal.fire('등록 완료','캠핑 모집글이 등록되었습니다. 여행을 떠나요!','success');
                 }).catch(err=>console.log(err))
         },
         addGear : function(menu){                
