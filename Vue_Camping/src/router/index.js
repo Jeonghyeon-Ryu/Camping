@@ -9,9 +9,19 @@ const routes = [{
     component: () => import('../views/Home.vue'),
   },
   {
+    name: 'SnsMain',
+    path: '/sns',
+    component: () => import('../components/SnS/SnsMain.vue'),
+  },
+  {
     name: 'SnsDetail',
     path: '/sns/detail/:writeNo',
     component: () => import('../components/SnS/SnsDetailFeed.vue'),
+  },
+  {
+    name: 'SnsWrite',
+    path: '/sns/write',
+    component: () => import('../components/SnS/SnsWrite.vue'),
   },
   {
     name: 'SnsRewrite',
