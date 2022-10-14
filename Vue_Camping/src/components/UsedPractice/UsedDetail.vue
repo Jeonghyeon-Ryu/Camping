@@ -106,7 +106,7 @@
       //여기다 함수 실행. 무슨 방식으로 가져올건지(put.get./// + url (/selectone),
       // data L) 
       //내용조회
-      fetch('http://localhost:8088/java/used/usedDetail/'+this.usedId) 
+      fetch('http://localhost:8087/java/used/usedDetail/'+this.usedId) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data)

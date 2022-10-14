@@ -43,7 +43,7 @@ export default {
       topCategory: {
         "어디갈래?" : "/CampList",
         "같이갈래?" : "/",
-        "중고장터" : "/",
+        "중고장터" : "/used/usedMain",
         "후기피드" : "/",
         "나의노트" : "/"
       },

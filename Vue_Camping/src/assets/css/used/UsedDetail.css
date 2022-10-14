@@ -72,7 +72,7 @@ ul{
 }
 .info-buttons{
   width:  100%;
-  height: 8%;
+  height: 7%;
   position: fixed;
   bottom: 0px;
   right: 0px;
@@ -82,19 +82,27 @@ ul{
   border-top: 1px solid #efefef;
   padding-left: 70%;
 }
-.like-button, .chat-button{
-  width: 100px;
-  height: 50px;
+.like-button, .chat-button, .update-button, .delete-button, .restrict-button{
+  width: 95px;
+  height: 45px;
   border: none;
   font-weight: bold;
   color: white;
   margin-left: 10px;
+  box-shadow: 1px 1px 6px 0.2px #e6e6e6;
+  cursor:pointer;
 }
 .like-button{
   background-color: #7e7e7e;
 }
-.chat-button{
-  background-color: #2b7d49;
+.chat-button, .update-button{
+  background-color: #6bb486;
+}
+.delete-button{
+  background-color: rgba(221, 87, 63, 0.767);
+}
+.restrict-button{
+  background-color: black;
 }
 
 

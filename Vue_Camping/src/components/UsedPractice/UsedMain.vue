@@ -15,8 +15,8 @@
           </div>
           <div class="used-searchbox">
             <div>
-              <input type="text" name="search" placeholder="어떤 물건을 찾으시나요?">
-              <img v-on:click='searchBtn()' v-bind:src="searchImg">
+              <input type="text" name="search" placeholder="어떤 물건을 찾으시나요?" v-model="keyword" @keyup.enter="searchList()">
+              <img v-bind:src="searchImg" @click='searchList'>
            </div>
           </div>
         </div>
@@ -70,9 +70,9 @@
             </li>
             <li>                          
               <label for="inputPrice">가격범위</label>
-              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="100">
+              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
               <p>~</p>
-              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="100">
+              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
               <!-- <div id="slider"></div> -->
             </li>
           </ul>
@@ -84,15 +84,13 @@
         <div class="used-title">
           <h2>중고거래</h2>
         </div>
-        <!-- 라우터링크 -->
-        <!-- <router-link tag="div" v-bind:to="{name:'usedDetail',params:{usedId:'recruInfo.id'}}">
-          <UsedCard v-bind:usedCard="card"></UsedCard>
-        </router-link> -->
-        
-        <!-- 원래거 -->
+
+        <h2>{{recruMsg}}</h2>
         <div class="cards">
-          <div v-for="card in usedList" :key="card.id" @click="usedDetail(card.usedId)">
-            <UsedCard v-bind:usedCard="card"></UsedCard>
+          <div v-for="card in usedList" :key="card.id">
+            <router-link tag="div" v-bind:to="{name:'usedDetail',params : {usedId : card.usedId}}">
+              <UsedCard v-bind:usedCard="card"></UsedCard>
+            </router-link>
           </div>
         </div>
 
@@ -102,8 +100,11 @@
 
       <!--하단-->
       <div class="used-foote">
-        <button v-on:click='usedInsert()'>+</button>
-        <button v-on:click='usedInsert()'>♥</button>
+        <router-link tag="div" v-bind:to="{name:'usedInsert'}">
+          <button>+</button> 
+        </router-link>
+        <!-- <button v-on:click='usedInsert'>+</button>
+        <button v-on:click='usedInsert'>♥</button> -->
       </div>
     </form>
   </div>
@@ -120,6 +121,7 @@
     },
     data(){
       return{
+        keyword : '',
         usedList: [],
         myGearType: '',
         regionSelect: '',
@@ -141,13 +143,6 @@
         //클릭하면은 디테일 페이지로 넘겨 넘길때, 번호를 넘겨야해
         this.$router.push({name : 'usedDetail', params: {usedId:usedId }})
       
-      },
-      searchBtn: function(){
-        let fetchData = {};
-        console.log();
-            new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
-            console.log(fetchData);
-            document.querySelector('#container2').submit();
       },
       gearSelected: function(){
         this.myGearType = '';
@@ -181,12 +176,32 @@
                     sigu.appendChild(opt);
        }
 
+      },
+      searchList : function(event){
+        //키워드 검색 결과 받아오기
+        event.preventDefault();
+        const keyword = this.keyword;
+        fetch("http://localhost:8087/java/used/search/"+keyword,{
+          method : "POST",
+          headers : {"Content-Type" : "application/json"},
+          body : JSON.stringify(keyword)
+        })
+          .then((response) =>response.json()) 
+          .then(data => { 
+            console.log(data);
+            this.usedList = data;  
+            if(this.usedList.length<1){
+              this.recruMsg="검색 결과가 없습니다"
+            }else{
+               this.recruMsg="";
+            }
+          }).catch(err=>console.log(err));
       }
     },
     //created-페이지 열자마자 실행
     created(){
       //전체조회
-      fetch('http://localhost:8088/java/used/usedMain') 
+      fetch('http://localhost:8087/java/used/usedMain') 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data)
@@ -197,6 +212,4 @@
   }
 
 </script>
-<style scoped src="@/assets/css/used/UsedMain.css">
-  
-</style>
+<style scoped src="@/assets/css/used/UsedMain.css" />

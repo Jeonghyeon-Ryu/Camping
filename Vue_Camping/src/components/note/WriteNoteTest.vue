@@ -175,7 +175,7 @@
 
   </script>
   
-  <style>
+  <style scoped>
   .contenteditable { 
     width: 500px;
     border: 1px solid black;

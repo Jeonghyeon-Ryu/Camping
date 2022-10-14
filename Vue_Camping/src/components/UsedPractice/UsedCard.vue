@@ -1,12 +1,16 @@
 <template>
+  <!-- 카드 -->
   <div v-on:click='cardDetail()' class="card">
-            <div class="like">
+              <!-- 카드 좋아요 -->
+              <div class="like">
               <img v-if="liked" v-on:click='hearted()' v-bind:src="heartImg">
               <img v-if="!liked" v-on:click="hearted()" v-bind:src="heartImg2">
             </div>
+            <!-- 카드사진 -->
             <div class="card-pic">
               <img v-bind:src="cardImg">
             </div>
+            <!-- 카드정보 -->
             <div class="card-info">
                 <div class="card-top">
                 <ul class="card-info-l">
@@ -32,6 +36,8 @@
   import img3 from "@/assets/img/used/heart2.png"
 
   export default{
+    name: "UsedCard",
+    props : {usedCard : Object},
     data(){
       return{
         cardImg : img1,

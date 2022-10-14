@@ -71,6 +71,11 @@ const routes = [{
     path: '/CampModify/:campId',
     component: () => import('@/components/Camping/CampModify.vue'),
   },
+  {
+    path: '/used/usedMain',
+    name: 'usedMain',
+    component: () => import('@/components/UsedPractice/UsedMain.vue'),
+  }
 ]
 
 const router = createRouter({
