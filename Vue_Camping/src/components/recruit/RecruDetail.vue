@@ -60,14 +60,14 @@
             </div>
 
             <!-- 게시글 관리 버튼 -->
-            <div class="recru-detail-row">
-                <div class="recru-entry-btn">
+            <div class="recru-detail-row recru-detail-btn">
+                <div v-if="memberId!=recruPost.recruId" class="recru-entry-btn">
                     <!-- 모집자/신청자가 아닌 경우 -->
-                    <button type="button" @click="isModalViewed=true">동행 신청</button>
+                    <button class="btn badge" type="button" @click="isModalViewed=true">동행 신청</button>
                     <!-- 신청자인 경우 -->
                     <button type="button" @click="entryDelete">신청 취소</button>
                 </div>
-                <div class="recru-writer-btn">
+                <div v-if="memberId==recruPost.recruId" class="recru-writer-btn">
                     <!-- 모집자(작성자)인 경우 -->
                     <button type="button" @click="recruFinish">모집완료</button>
                     <button type="button" @click="recruUpdate">수정</button>
@@ -75,21 +75,23 @@
                 </div>
                
             </div>
+            <!-- 신청내역 : 글 작성자에게만 보임 -->
             <div class="recru-detail-sol recru-entry-post">
                 <h3>함께해요 신청 내역</h3>
                 <div class="recru-entry-list">
                     <div class="recru-detail-row">
-                        <div v-for="entryInfo in entryPost" :key="entryInfo.entry_id">
+                        <div v-for="entryInfo in StanbyEntryPost" :key="entryInfo.entryId">
                             <EntryStandByCard v-bind:entryCard="entryInfo"></EntryStandByCard>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- 신청 수락된 내역 :  -->
             <div class="recru-detail-sol recru-entry-post">
-                <h3>현재 동행자 ({{entryCount}}/{{recruPost.recru_num}})</h3>
+                <h3>현재 동행자 ({{entryCount}}/{{recruPost.recruNum}})</h3>
                 <div class="recru-entry-list">
                     <div class="recru-detail-row">
-                        <div v-for="entryInfo in entryPost" :key="entryInfo.entry_id">
+                        <div v-for="entryInfo in entryPost" :key="entryInfo.entryId">
                             <EntryCard v-bind:entryCard="entryInfo"></EntryCard>
                         </div>
                     </div>
@@ -100,7 +102,6 @@
                 <DepositStatus></DepositStatus>
             </div>
         </div>     
-
          <!-- 동행신청 버튼 모달창 -->
          <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
             <EntryInsert v-bind:recruId="recruPost.recruId" @close-modal="isModalViewed=false"></EntryInsert>
@@ -135,21 +136,24 @@ export default{
     },
         data:function(){
             return{
+                memberId : localStorage.getItem("email"),
                 recruPost : {},
-                recruStatus : '모집중',
+                recruStatus : '',
                 statusClass:'recru_status_ing',
                 user : {
                     sex : '남',
                     birth : new Date()
                 },
                 recruPost:{},
-                notePost : {
-                    id : 0,
-                    member_id : 0,
-                    note_contents : '노트 내용1'
+                notePost : {},
+                completeRecru : {
+                    recruId : 0, 
+                    recruStatus : 1,
+                    memberId : ''
                 },
+                StanbyEntryPost:[],
                 entryPost : [],
-                entryCount : 2,
+                entryCount : 0,
                 isModalViewed : false,
                 recru_entry : {
                     entry_car : '',
@@ -161,6 +165,15 @@ export default{
             this.loadRecruData()
         },
         computed : {
+            recruStatus(){
+                if (this.recruStatus==0){
+                    return '모집중'
+                }else if(this.recruStatus==1){
+                    return '모집완료'
+                }else{
+                    return '모집취소'
+                }
+            },
             userage(){
                 //연령대 계산
                 const today = new Date();          
@@ -179,6 +192,10 @@ export default{
                 }else{
                     return '50대 이상'
                 }
+            },
+            entryCount(){
+                //현재 동행자 수 계산
+                return this.entryPost.length;
             }
         },
         methods :{
@@ -190,7 +207,6 @@ export default{
                 .then(data => { 
                     this.recruPost = data;  
                     console.log(this.recruPost);
-
                 }).catch(err=>console.log(err));
             }, 
             loadDepositData : function(){
@@ -210,17 +226,13 @@ export default{
                 var minutes = ('0' + js_date.getMinutes()).slice(-2);
                 var seconds = ('0' + js_date.getSeconds()).slice(-2); 
                 
-
-                if(month < 10){
-                    month = '0' + month;
-                }
-                if(day < 10){
-                    day = '0' + day;
-                }
-
+                if(month < 10) {month = '0' + month;}
+                if(day < 10){day = '0' + day;}
+            
                 return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes  + ':' + seconds;
             },
             recruFinish : function(){
+                //모집 완료 버튼
                 Swal.fire({
                     title: '모집을 완료하시겠습니가?',
                     text: '모집완료는 다시 되돌릴 수 없습니다.',
@@ -230,11 +242,23 @@ export default{
                     confirmButtonText: '모집완료', // confirm 버튼 텍스트 지정
                     cancelButtonText: '취소', // cancel 버튼 텍스트 지정
                     
-                    }).then(result => {
-                    if (result.isConfirmed) { 
-
-                        Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success');
-                    }
+                    })
+                    .then(result => {
+                        //모집상태를 완료로 변경, 보증정보 insert
+                        if (result.isConfirmed) { 
+                            this.completeRecru.recruId = this.recruId;
+                            this.completeRecru.memberId = this.memberId;
+                            const completeRecru = this.completeRecru;
+                            fetch('http://localhost:8087/java/recru',{
+                                method : "PUT",
+                                headers : {"Content-Type" : "application/json"},
+                                body :  JSON.stringify(completeRecru)
+                            }) 
+                            .then(Response => Response.json())  
+                            .then(data => { 
+                                Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success');
+                            }).catch(err=>console.log(err))
+                        }
                     });
                
             }
@@ -348,7 +372,12 @@ export default{
     .recru-detail-info p {
         margin: 7px;
     }
-
+    /* 버튼 */
+    .recru-detail-btn{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
     /* 동행신청 내역 */
     .recru-entry-post{
         padding: 20px;

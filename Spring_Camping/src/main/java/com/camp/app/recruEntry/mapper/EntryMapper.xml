@@ -5,7 +5,7 @@
 	<!-- 등록 -->
 	<insert id="insertEntry" parameterType="EntryVO">
 		<selectKey keyProperty="entryId" resultType="Integer" order="BEFORE">
-			SELECT NVL(MAX(recru_id),0)+1 FROM recru_entry
+			SELECT NVL(MAX(entry_id),0)+1 FROM recru_entry
 		</selectKey>
 		INSERT INTO recru_entry(
 			entry_id,

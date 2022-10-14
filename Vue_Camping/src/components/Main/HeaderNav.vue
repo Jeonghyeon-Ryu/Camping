@@ -42,7 +42,7 @@ export default {
       currentCategory: 0,
       topCategory: {
         "어디갈래?" : "/CampList",
-        "같이갈래?" : "/",
+        "같이갈래?" : "/RecruList",
         "중고장터" : "/",
         "후기피드" : "/",
         "나의노트" : "/"
@@ -51,6 +51,13 @@ export default {
         {
           "캠핑장 리스트": "/CampList",
           "캠핑장 등록": "/CampRegister"
+        },
+        {
+          "같이 갈래?": "/RecruList",
+          "같이 가자!": "/recru/RecruInsert",
+          "나의 동행 모집글": "/recru/RecruMypage",
+          "나의 신청 목록": "/recru/EntryMypage",
+          "보증금 관리": "/recru/DepositMypage"
         },
       ],
     }

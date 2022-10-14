@@ -49,5 +49,3 @@ export default{
 </script>
 
 <style scoped src="@/assets/css/recruit/myPage.css" />
-<style scoped>
-</style>

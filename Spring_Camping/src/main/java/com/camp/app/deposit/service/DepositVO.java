@@ -14,14 +14,14 @@ import lombok.Data;
 public class DepositVO {
 
 	private int depositId;				
-	private int recruId;	
+	private int recruId;	//참가한 동행 모집 게시글ID
 	private int depositStatus;//보증금 상태(0미입금, 1입금완료, 2반환완료)
 	private int price;
 	@JsonFormat(pattern = "yyyyMMdd")
 	private Date inDate;	//보증금 입금일
-	private String returnMethod;	//반환방식
+	private String payMethod;	//결제방식
 	@JsonFormat(pattern = "yyyyMMdd")
 	private Date returnDate;	//반환일자
-	private String memeberId;	
+	private String memeberId;	//유저정보
 	
 }

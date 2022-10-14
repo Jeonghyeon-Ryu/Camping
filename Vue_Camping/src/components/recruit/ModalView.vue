@@ -10,7 +10,7 @@
 <script>
 export default{}
 </script>
-<style>
+<style scoped>
 /* Modal 컴포넌트를 감싸고 있는 부모 */
 .modal{
     z-index: 1000;
