@@ -3,8 +3,8 @@
         <!-- 검색 -->
         <div class="used-searchbox">
             <div>
-                <input type="text" placeholder="어떤 물건을 찾으시나요?">
-                <img v-bind:src="searchImg">
+                <input class="recru-search" type="text" placeholder="어떤 캠핑을 찾으시나요?" v-model="keyword" @keyup.enter="searchList">
+                <img v-bind:src="searchImg" @click="searchList">
             </div>
         </div>
         <!-- 필터 -->
@@ -21,8 +21,8 @@
                     <div class="recru-search-age col">
                         <div class=" left">
                             <label class="bold">연령대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="20대">20대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="30대">30대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="20대" name="test">20대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="30대" name="test">30대</label>
                         </div>
                         <div class="row left">
                             <label><input type="checkbox" v-model="filter.wishAge" value="40대">40대</label>
@@ -35,7 +35,7 @@
                     <div class="recru-filter-trip">
                         <div class="recru-search-startP">
                             <span style="margin-left:6px">출발지 </span> 
-                            <select v-model="filter.regionSelect" id="districtSelect" name='city' @change="districtChange"> 
+                            <select v-model="filter.regionSelect" id="recru-districtSelect" name='city' @change="districtChange"> 
                                 <option value='' disabled>시/도</option> 
                                 <option value='전체'>전체</option>
                                 <option value='서울특별시'>서울특별시</option>
@@ -55,7 +55,7 @@
                                 <option value='경상남도'>경상남도</option>
                                 <option value='제주도'>제주도</option>
                             </select>
-                            <select v-model="filter.regionSelect2" name='county' id="citySelect" style="margin-left:3px">
+                            <select v-model="filter.regionSelect2" name='county' id="recru-citySelect" style="margin-left:3px">
                                 <option value='' selected disabled>시/군/구</option>
                                 <option value='전체'>전체</option>
                             </select>
@@ -115,8 +115,8 @@
         <!-- 필터 결과-->
         <div class="used-selected">
             <ul>
-                <li v-if="filter.wishSex != ''" @click="deleteFilter">나이 : {{setWishAge}} X</li>
-                <li v-if="filter.wishAge != ''" @click="deleteFilter">희망 연령 : {{filter.wishAge}} X</li>
+                <li v-if="filter.wishSex != ''" @click="deleteFilter">희망 성별 : {{filter.wishSex}} X</li>
+                <li v-if="filter.wishAge != ''" @click="deleteFilter">희망 연령 : {{filter.wishAge}}{{ischeck}} X</li>
                 <li v-if="filter.regionSelect != null" @click="deleteFilter">출발지 : {{filter.regionSelect}} {{filter.regionSelect2}} X</li>
                 <li v-if="filter.campingSpot != ''" @click="deleteFilter">도착지 : {{filter.campingSpot}} X</li>
                 <li v-if="filter.goDate != ''" @click="deleteFilter">출발날짜 : {{filter.goDate}} X</li>
@@ -128,9 +128,10 @@
         <!-- 리스트 -->
         <div class="container">
             <!-- 카드 -->
+            <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.title">
-                    <router-link tag="div" v-bind:to="{name:'recruDetail',params:{recruId:'recruInfo.id'}}">
+                    <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}">
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
                 </div>
@@ -152,6 +153,7 @@
         },
         data : function(){
             return{
+                keyword : '',
                 filter: {
                     wishSex :'',
                     wishAge :[],
@@ -162,16 +164,17 @@
                     goDate: ''
                 },
                 recruPosts : [ ],
-                searchImg : img2
+                searchImg : img2,
+                recruMsg : ''
             }
         },
         created(){
-            this.loadDate();
+            this.loadData();
         },
         methods: {
-            loadDate : function(){
+            loadData : function(){
                 // 서버에서 전체 리스트 가져오기
-                fetch("http://localhost:8088/java/recru")
+                fetch("http://localhost:8087/java/recru")
                 .then((response) =>response.json()) 
                 .then(data => { 
                     console.log(data);
@@ -181,8 +184,8 @@
             },
             districtChange: function(){
                 //지역선택
-                let sido = document.querySelector('#districtSelect');
-                let sigu = document.querySelector('#citySelect');
+                let sido = document.querySelector('#recru-districtSelect');
+                let sigu = document.querySelector('#recru-citySelect');
                 let sidoName = sido.value;
                 let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
 
@@ -198,26 +201,30 @@
                             sigu.appendChild(opt);
                 }
             },
-            setWishAge : function(){
-                let result = '';
-                this.filter.wishAge.forEach((age) => {
-                    console.log(age.value)
-                    result += age.value + ' ';
-                });
-                return result;
-            },
             searchList : function(){
-                fetch("http://localhost:8088/java/recru")
+                //키워드 검색 결과 받아오기
+                const keyword = this.keyword;
+                fetch("http://localhost:8087/java/recru/search/"+keyword,{
+                    method : "POST",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(keyword)
+                })
                 .then((response) =>response.json()) 
                 .then(data => { 
-                console.log(data);
-                this.recruPosts = data;  
-
-            }).catch(err=>console.log(err));
+                    console.log(data);
+                    this.recruPosts = data;  
+                }).catch(err=>console.log(err));
+                if(this.recruPosts.length<1){
+                    this.recruMsg="검색 결과가 없습니다."
+                }else{
+                    this.recruMsg="";
+                }
             },
             deleteFilter: function(e){
                 console.log(e.target)
-            }
+            },
+            
+            
         }
     }
 </script>

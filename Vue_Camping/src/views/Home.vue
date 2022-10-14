@@ -2,7 +2,7 @@
 
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
-  <SnsMain></SnsMain>
+  <!-- <SnsMain></SnsMain> -->
   <!-- <SnsDetailFeed></SnsDetailFeed> -->
   <!-- <SnsMyFeed></SnsMyFeed> -->
   <!-- <SnsSearch></SnsSearch> -->
@@ -22,6 +22,8 @@
   <!-- <UsedLike></UsedLike> -->
  <!-- <ChatRoom></ChatRoom> -->
  <!-- <ChatList></ChatList> -->
+<!-- <EntryMypageView></EntryMypageView> -->
+<!-- <DepositMypageView></DepositMypageView> -->
  <!-- <RecruInsert></RecruInsert> -->
  <!-- <RecruList></RecruList> -->
  <!-- <CampList></CampList> -->
@@ -55,6 +57,7 @@ import UsedLike from '@/components/UsedPractice/UsedLike.vue';
 import ChatRoom from '@/components/UsedPractice/ChatRoom.vue';
 import ChatList from '@/components/UsedPractice/ChatList.vue';
 import RecruInsert from '@/components/recruit/RecruInsert.vue';
+import EntryMypageView from '@/components/recruit/EntryMypageView.vue';
 import CampList from '@/components/Camping/CampList.vue';
 import MynoteList from '@/components/note/MynoteList.vue';
 

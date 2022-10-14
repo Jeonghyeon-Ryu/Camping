@@ -6,7 +6,7 @@
       <div class="card-header-img">
           <img :src="gearImg" alt="camping gear">
       </div>
-      <div class = "card-header-text" > {{recruStatus}} </div >
+      <div class = "card-header-text" :class="myClass" > {{recruStatus}} </div >
   </div>
  
   <!--  카드 바디 -->
@@ -30,16 +30,20 @@
 <script>
 export default{
     name : "RecruCard",
-    props : {recruCard : Object, recruId : ''},
+    props : {recruCard : Object},
     data : function(){
       return {
-        isHeart : true
+        isHeart : true,
+        recruStatus : '',
+        myClass : ''
       }
     },
     watch :{
+      //해당값 변화를 감지하면
       //recruStatus
     },
     computed : {
+      //원본데이터 변화를 감지하면
       //장비 리스트 형태 바꿔주기 (4인용텐트,텐트,3 => 4인용텐트(텐트)3개)
     },
     methods: {

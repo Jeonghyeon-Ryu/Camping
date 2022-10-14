@@ -36,7 +36,8 @@
 				,note_id	
 				</if>
 				,recru_num	
-				,closing_date	
+				,closing_date
+				,nickname	
 				)
 			VALUES(
 				#{recruId}
@@ -65,6 +66,7 @@
 				</if>
 				,#{recruNum}
 				,#{closingDate}
+				,#{nickname}
 		)
 	</insert>
 	
@@ -76,50 +78,25 @@
 	<!-- 검색조회 -->
 	<select id="findKeyword" parameterType="String" resultType="RecruVO">
 		SELECT * FROM recruitment
-			WHERE recru_title LIKE '%'||#{keyword#}||'%'
-				OR recru_content LIKE '%'||#{keyword#}||'%'
-				OR my_gear LIKE '%'||#{keyword#}||'%'
-				OR need_gear LIKE '%'||#{keyword#}||'%'
+			WHERE recru_title LIKE '%'||#{keyword}||'%'
+				OR recru_content LIKE '%'||#{keyword}||'%'
+				OR my_gear LIKE '%'||#{keyword}||'%'
+				OR need_gear LIKE '%'||#{keyword}||'%'
 	</select>
 	
-	<!-- 필터조회 -->
-	<select id="findFilter" parameterType="RecruVO" resultType="RecruVO">
-		SELECT * FROM recruitment
-		<where>
-			1=1
-			<if test="wishSex != null and !wishSex.equals('')">
-				AND wish_sex = #{ wishSex }
-			</if>
-			<if test="wishAge != null and !wishAge.equals('')">
-				AND wish_age = #{ wishAge }
-			</if>
-			<if test="carYn != null and !carYn.equals('')">
-				AND car_yn = #{ carYn }
-			</if>
-			<if test="myGear != null and !wish_age.equals('')">
-				AND my_gear LIKE '%'||#{myGear#}||'%'
-			</if>
-			<if test="wish_age != null and !wish_age.equals('')">
-				AND need_gear LIKE '%'||#{needGear#}||'%'
-			</if>
-		</where>
-	</select>
 	<!-- 단건조회 -->
-	<select id="selectOne" parameterType="RecruVO" resultType="RecruVO">
+	<select id="selectOne" parameterType="String" resultType="RecruVO">
 		SELECT * FROM recruitment
-		<where>
-			<if test="writer != null and !writer.equals('')">
-				writer = #{ writer } AND
-			</if>
-			<if test="recruId != null">
-				recru_id = #{ recruId }
-			</if>
-		</where>
+		WHERE recru_id = #{ recruId }
 	</select>
 	
 	<!-- 수정 : 글 수정 -->
 	
 	<!-- 수정 : 상태변경 -->
-	
+	<update id="changeStatus" parameterType="RecruVO">
+		UPDATE recruitment 
+		SET status = #{status}
+		WHERE recru_id = #{recruId}
+	</update>
 	<!-- 삭제 -->
 </mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.recruEntry.mapper.EntryMapper">
+	
+	<!-- 등록 -->
+	<insert id="insertEntry" parameterType="EntryVO">
+		<selectKey keyProperty="entryId" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(recru_id),0)+1 FROM recru_entry
+		</selectKey>
+		INSERT INTO recru_entry(
+			entry_id,
+			recru_id,
+			entry_car,
+			entry_gear,
+			member_id,
+			nickname
+		)
+		VALUES(
+			#{entryId}
+			,#{recruId}
+			,#{entryCar}
+			,#{entryGear}
+			,#{memberId}
+			,#{nickname}
+		)
+	</insert>
+	
+	<!-- 모집글의 참가자 조회 -->
+	<select id="recruEntredList" parameterType="String" resultType="EntryVO">
+		SELECT *
+		FROM recru_entry
+		WHERE recru_id=#{recruId};
+	</select>
+	
+	<!-- 마이페이지 전체조회 -->
+	<select id="myEntryList" parameterType="String" resultType="EntryVO">
+		SELECT *
+		FROM recru_entry
+		WHERE member_id=#{memberId};
+	</select>
+</mapper>

@@ -27,9 +27,9 @@ public class RecruImgServiceImpl implements RecruImgService {
 	@Override
 	public boolean insertRecruImg(List<MultipartFile> files) {
 		//경로 설정
+		//등록날짜로 경로 설정
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
-		//등록날짜로 경로 설정
 		String directoryPath = sdf.format(date);
 		String uploadPath = "D:\\upload\\camp\\recruGear\\"+directoryPath;
 		//폴더 주소
@@ -40,7 +40,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		files.forEach(file->{
 			RecruImgVO img = new RecruImgVO();
 			img.setOriginName(file.getOriginalFilename());
-			img.setImgFormat(img.getOriginName().substring(img.getOriginName().indexOf('.')));
+			img.setImgFormat(img.getOriginName().substring(img.getOriginName().indexOf('.')+1));
 			img.setImgSize(file.getSize());
 			img.setImgPath(uploadPath);
 			img.setRecruId(recruMapper.getMaxRecruId());

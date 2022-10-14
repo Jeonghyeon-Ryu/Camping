@@ -10,8 +10,8 @@
         <div class="entry-insert-car">
             <div class="col">
                 <p><span>차량유무</span></p>
-                <label><input type="radio" v-model="recru_entry.entry_car" value="1">있음</label>
-                <label><input type="radio" v-model="recru_entry.entry_car" value="0" checked>없음</label>
+                <label><input type="radio" v-model="recruEntry.entryCar" value="1">있음</label>
+                <label><input type="radio" v-model="recruEntry.entryCar" value="0" checked>없음</label>
             </div>
         </div>
         <div class="entry-insert-gear">
@@ -35,7 +35,6 @@
                         <option value="etc">기타</option>
                     </select>
                     <input type="number" class="entry-gear-num gear-num" placeholder="수량" min="1" style="width:60px;">
-                    <button type='button' class='gear-delete-btn'>x</button>
                 </li>
             </ul>
         </div>
@@ -49,12 +48,17 @@
 <script>
 import Swal from 'sweetalert2';
 export default{
+    props : {recruId : Number},
     data : function(){
         return {
-            recru_entry : {
-                entry_car : '0',
-                entry_gear : ''
-            }
+            recruEntry : {
+                recruId : '',
+                entryCar : '0',
+                entryGear : '',
+                memberId : 'admin@test.com', //작성자정보 -->세션에서 받아오기
+                nickname : 'amdmin'
+            },
+            memberId : ''
         }
     },
     methods : {
@@ -92,18 +96,39 @@ export default{
             let gearNames = document.querySelectorAll('.entry-gear-name');
             let gearTypes = document.querySelectorAll('.entry-gear-type');
             let gearNum = document.querySelectorAll('.entry-gear-num');
-            let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
-            for(let i=1 ; i<gearNames.length ; i++){
+            for(let i=0 ; i<gearNames.length ; i++){
+                console.log(gearNames[i].value.indexOf(','))
+                //특수문자 체크 정규식
+                const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
+                if(regExp.test(gearNames[i].value)){
+                    Swal.fire('장비 이름을 확인해주세요',"< > @ . , ; : & * ^ / $ 등의 특수문자는 입력할 수 없습니다.",'warning');
+                    return;
+                }
                 if(gearNames[i].value===''){
-                    Swal.fire('장비 이름을 입력해주세요','보유한 장비가 없는 경우 x 버튼을 눌러 지워주세요','warning');
+                    Swal.fire('장비 이름을 입력해주세요','추가할 장비가 없는 경우 x 버튼을 눌러 지워주세요','warning');
                     gearNames[i].focus();
                     return;
                 }
+            }
+            let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
+            for(let i=1 ; i<gearNames.length ; i++){
                 gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
             }
-            this.recru_entry.entry_gear = gearList;
-            //신청 테이블에 인서트하기 (유저한테 보이는 버튼 바뀜)
-            console.log(this.recru_entry)
+            this.recruEntry.entryGear = gearList;
+            //신청 테이블에 인서트하기 
+            let recruEntry = this.recruEntry;
+            //서버를 통해 게시글 내용 insert
+            fetch('http://localhost:8087/java/recru/entry',{
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(recruEntry )
+            }) 
+            .then(Response => Response.json())  
+            .then(data => { 
+                console.log(data)  
+                //Detail 페이지의 상태 변경
+                //this.$emit()
+            }).catch(err=>console.log(err))
             //알림
             Swal.fire('신청 완료했습니다.','모집자가 신청을 수락할 경우 알림이 갑니다','success');
             this.$emit('close-modal');
@@ -112,98 +137,4 @@ export default{
 }
 </script>
 
-<style scoped>
-.entry-insert-container{
-    width: 400px;
-    text-align: left;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 3px 3px -1px rgb(66, 66, 66), 0 3px 1px -2px rgb(58, 58, 58), 0 1px 5px rgb(64, 64, 64);
-}
-.entry-insert-gear input, .entry-insert-gear select {
-    padding:5px;
-    margin:3px;
-    border: 1px solid lightgray;
-    border-radius: 4px;
-}
-.entry-insert-container span{
-    font-size: small;
-    color: gray;
-
-}
-  .row{
-      display: flex;
-      flex-wrap: wrap;
-  }
-
-.entry-insert-container hr{
-  margin: 0 10px;
-}
-/* 제목 */
-.enrty-insert-title, .enrty-insert-content{   
-    margin: 15px;
-}
-  .enrty-insert-title h3{
-    font-size: 17px;
-    padding-top:5px ;
-  }
-  /* 바디 */
-.entry-insert-content{
-    margin : 15px;
-}
-  .entry-insert-car, .entry-insert-gear{
-    margin: 18px;
-}
-  .entry-insert-car p, .entry-insert-gear p{
-    padding: 5px;
-  }
-  .entry-insert-car label{
-    margin: 0 10px;
-  }
-  /* 장비 삭제 버튼 */
-  .gear-delete-btn{
-    border-radius:50%;
-    background-color :crimson;
-    border:none;
-    color:white;
-    margin-left:2px;
-    width:16px; 
-    height:16px;
-    cursor: pointer;
-  }
-   /* 버튼 */
-   .add-gear-btn{
-    margin: 3px;
-
-   }
-   .entry-insert-btn{
-      display: flex;
-      justify-content: space-between;
-  }
-  .entry-insert-btn button{
-      padding: 10px;
-      border : none;
-      border-top: 1px solid lightgray;
-      background: none;
-      margin: 0;
-      width: 50%;
-  }
-  .accept-btn{
-      color : rgb(55, 135, 204);
-  }
-  .accept-btn:hover{
-    background: skyblue;
-    color: white;
-    box-shadow: 0 3px 3px #1a73e826, 0 3px 1px -2px #1a73e833, 0 1px 5px #1a73e826;
-    cursor: pointer;
-  }
-  .refuse-btn{
-      color: gray;
-  }
-  .refuse-btn:hover{
-    background: gray;
-    color: white;
-    box-shadow: 0 3px 3px #34476726, 0 3px 1px -2px #34476733, 0 1px 5px #34476726;
-    cursor: pointer;
-}
-</style>
+<style scoped src="@/assets/css/recruit/entryInsert.css" />

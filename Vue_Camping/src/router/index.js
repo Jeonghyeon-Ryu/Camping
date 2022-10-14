@@ -20,9 +20,10 @@ const routes = [
     component: () => import('../components/SnS/SnsRewrite.vue'),
   },
   {
-    path: '/recru/detail',
+    path: '/recru/detail/:recruId',
     name: 'recruDetail',
     component: () => import('@/components/recruit/RecruDetail.vue'),
+    props : true
    },
    {
      path: '/used/usedInsert',
