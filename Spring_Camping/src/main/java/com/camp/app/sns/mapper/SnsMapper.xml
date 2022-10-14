@@ -1,39 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.camp.app.sns.mapper.SnsMapper">
-	<select id="getSnsList"
-		resultType="com.camp.app.sns.service.SnsVO">
-		SELECT * FROM sns
-	</select>
-	
-	<select id="getHashTag" resultType="String">
-		SELECT hashtag from sns
-	</select>
-	
-	<select id="getNickName" resultType="String">
-		SELECT nickname from sns
-	</select>
-	
-	<insert id="insert" parameterType="SnsVO">
-		<selectKey keyProperty="writeNo" resultType="Integer"
-			order="BEFORE">
-			SELECT NVL(MAX(write_no),0)+1 FROM sns
-		</selectKey>
+<!-- 전체조회 -->
 
-		INSERT INTO sns VALUES(
-		#{writeNo},
-		#{content},
-		#{location},
-		#{place},
-		#{hashtag},
-		SYSDATE,
-		0,
-		#{nickname},
-		#{implement}
-		)
-	</insert>
+<select id="getSnsList" resultType="com.camp.app.sns.service.SnsVO">SELECT * FROM sns </select>
 
-	<select id="writeNo" resultType="Integer">
-		SELECT COUNT(*) FROM sns
-	</select>
+<!-- 페이징? -->
+
+
+
+<select id="findByPage" resultType="SnsImageVO" parameterType="Integer">
+
+<![CDATA[
+		
+		SELECT DISTINCT sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+		FROM ( 
+        	SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+        	FROM (
+                SELECT ROWNUM AS SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+                FROM ( SELECT * FROM sns_image ORDER BY write_no )
+            	)
+        	WHERE SEQ >= ((#{page}-1)*10+1)
+    		)
+		WHERE ROWNUM < 11
+		]]>
+</select>
+
+<!-- 검색 : 해시태그 -->
+
+
+<select id="getHashTag" resultType="String">SELECT hashtag from sns </select>
+
+<!-- 검색 : 닉네임 -->
+
+
+<select id="getNickName" resultType="String">SELECT nickname from sns </select>
+
+<!-- 글 등록 텍스트1013 -->
+
+
+
+<insert id="insertSns" parameterType="SnsVO">
+
+<selectKey resultType="Integer" keyProperty="writeNo" order="BEFORE">
+SELECT NVL(MAX(write_no),0)+1 FROM sns 
+</selectKey>
+INSERT INTO sns
+VALUES
+(
+#{writeNo},
+#{content},
+#{location},
+#{place},
+#{hashtag},
+SYSDATE,
+0,
+#{nickname},
+#{implement}
+) 
+</insert>
+
+<!-- 글 등록(이미지)1014 -->
+
+
+<insert id="insertSnsImage" parameterType="SnsImageVO">
+INSERT INTO sns_image 
+VALUES(
+#{snsImageNo},
+#{originName},
+#{storedName},
+#{snsFormat},
+#{snsSize},
+#{snsPath},
+#{writeNo}) 
+</insert>
+
+<!-- 글 갯수 -->
+
+
+<select id="count" resultType="Integer">
+SELECT COUNT(*) FROM sns 
+</select>
+
+<!-- max 글 번호 -->
+
+
+<select id="findMaxByWriteNo" resultType="Integer">
+SELECT NVL(MAX(write_no),0) from sns
+ </select>
+
+<!-- max 이미지 번호 -->
+
+
+<select id="findMaxBySnsImageNo" resultType="Integer">
+SELECT NVL(MAX(sns_image_no),0) from sns_image 
+</select>
+
+<!-- sns 개별조회 - 텍스트 -->
+
+
+<select id="findByWriteNo" resultType="SnsVO" parameterType="Integer">
+SELECT * FROM sns WHERE write_no = #{writeNo} 
+</select>
+
+<!-- sns 개별조회 - 이미지 리스트 -->
+
+
+<select id="findByWriteNoToSnsImage" resultType="SnsImageVO" parameterType="Integer">
+SELECT * FROM sns_image WHERE write_no = #{writeNo} 
+</select>
+
+<!-- 단건 게시글 조회 -->
+
+
+<!-- <select resultType="SnsVO" id="getSns" parameterType="Integer">
+SELECT *FROM snsWHERE write_no = #{writeNo}
+</select> -->
+
+
+<!-- 글 수정 -->
+
+
+<update id="snsUpdate" parameterType="SnsVO">
+UPDATE sns
+set content = #{content},
+location = #{location},
+place = #{place},
+hashtag = #{hashtag}
+WHERE write_no = #{writeNo} 
+</update>
+
+<!-- 글 삭제 -->
+
+
+<delete id="snsDelete" parameterType="Integer">
+DELETE FROM sns
+WHERE write_no = #{writeNo} 
+</delete>
 </mapper>
