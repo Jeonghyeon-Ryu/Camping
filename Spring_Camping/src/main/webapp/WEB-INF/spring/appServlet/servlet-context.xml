@@ -29,6 +29,7 @@
 	<beans:bean id="uploadCampPath" class="java.lang.String">
 		<beans:constructor-arg value="/home/ubuntu/upload/camp"/>
 	</beans:bean>
+	
 	<context:component-scan base-package="com.camp.app" />
 	
 	
