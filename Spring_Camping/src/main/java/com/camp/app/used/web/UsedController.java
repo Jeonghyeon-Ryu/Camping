@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.camp.app.used.service.InputUsedVO;
+import com.camp.app.used.service.UsedImageVO;
 import com.camp.app.used.service.UsedService;
 import com.camp.app.used.service.UsedVO;
 
@@ -28,7 +30,8 @@ public class UsedController {
 	
 	//등록
 	@PostMapping("/usedInsert")
-	public int insertUsed(@RequestBody UsedVO used) {
+	public boolean insertUsed(InputUsedVO used) {
+		System.out.println(used);
 		return service.insertUsed(used);
 	}
 	
@@ -45,6 +48,12 @@ public class UsedController {
 		return service.selectAllUsedList();
 	}
 	
+	//키워드검색 조회
+	@PostMapping("/search/{keyword}")
+	public List<UsedVO> findUsedKeyword(@PathVariable String keyword){
+		return service.findUsedKeyword(keyword);
+	}
+	
 	//필터검색  ?
 	@GetMapping("/usedSearch")
 	public List<UsedVO> searchUsedList(){
@@ -54,6 +63,7 @@ public class UsedController {
 	//단건조회
 	@GetMapping("/usedDetail/{usedId}")
 	public UsedVO findDetail(@PathVariable int usedId) {
+		service.updateCnt(usedId);
 		return service.findDetail(usedId);
 	}
 	

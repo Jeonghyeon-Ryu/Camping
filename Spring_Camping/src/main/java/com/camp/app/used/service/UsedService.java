@@ -7,7 +7,11 @@ public interface UsedService {
 	public int getUsedId();
 	
 	//게시글 등록
-	public int insertUsed(UsedVO usedVO);
+	public boolean insertUsed(InputUsedVO usedVO);
+	
+	public int getMaxUsedId();
+	public int getMaxUsedImageId();
+	
 	
 	//게시글 수정
 	public void updateUsed(UsedVO usedVO);
@@ -22,7 +26,7 @@ public interface UsedService {
 	public List<UsedVO> searchUsedList();
 	
 	//게시글 키워드조회
-	public int findUsedKeyword(String keyword);
+	public List<UsedVO> findUsedKeyword(String keyword);
 	
 	//게시글 삭제
 	public int deleteUsed();
@@ -34,7 +38,7 @@ public interface UsedService {
 	public int updateRestrict();
 	
 	//조회수증가
-	public int updateCnt();
+	public int updateCnt(int usedId);
 
 	//찜 증가
 	public int updateLike();

@@ -3,33 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.camp.app.used.mapper.UsedMapper">
 	
-	<!-- 게시글 등록 -->
-	<insert id="insertUsed" parameterType="UsedVO">
-	<selectKey keyProperty="usedId" resultType="Integer" order="BEFORE">
-		SELECT NVL(MAX(used_id),0)+1 FROM used <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
-	</selectKey>
-		INSERT INTO used
-						(used_id,
-						used_name, 
-						used_category, 
-						used_price, 
-						used_place, 
-						used_content,
-						used_condition,
-						used_writer
-						)
-				VALUES <!-- VO에 있는 필드명 가져오기 -->
-					 (#{usedId}
-					 ,#{usedName}
-					 ,#{usedCategory}
-					 ,#{usedPrice}
-					 ,#{usedPlace}
-					 ,#{usedContent}
-					 ,#{usedCondition}
-					 ,#{usedWriter}
-					)
-		
-	</insert>
 	<!-- 게시글 전체조회 -->
 	<select id="selectAllUsedList" resultType="UsedVO">
 		SELECT * FROM used ORDER BY used_write desc
@@ -83,10 +56,10 @@
 		WHERE used_id = #{usedId}
 	</update>
 	
-	<!-- 삭제 -->
-	<delete id="deleteUsed">
-	    delete from used where used_id = #{usedId}
-  	</delete>
+	<!-- 삭제, 접근제한 -->
+	<update id="deleteUsed" parameterType="Integer">
+	    UPDATE used set used_status=1 where used_id = #{usedId}
+  	</update>
 	
 	<!-- 거래상태변경 -->
 	<update id="updateDeal" parameterType="UsedVO">
@@ -115,6 +88,64 @@
 		SET used_like = used_like+1
 		WHERE used_id = #{usedId}
 	</update>
+	
+	<!-- 등록 관련 -->
+	<select id="findByUsedId" parameterType="Integer" resultType="UsedVO">
+		SELECT * FROM used WHERE used_id = #{usedId}
+	</select>
+	
+	<select id="findMaxByUsedId" resultType="Integer">
+		SELECT NVL(MAX(used_id),0) FROM used
+	</select>
+	
+	<select id="findMaxByUsedImageId" resultType="Integer">
+		SELECT NVL(MAX(used_image_id),0) FROM used_image
+	</select>
+	
+	<select id="findByUsedIdToUsedImage" parameterType="Integer" resultType="UsedImageVO">
+		SELECT * FROM used_image WHERE used_id = #{usedId}
+	</select>
+	
+		<!-- 게시글 등록 -->
+	<insert id="insertUsed" parameterType="UsedVO">
+	<selectKey keyProperty="usedId" resultType="Integer" order="BEFORE">
+		SELECT NVL(MAX(used_id),0)+1 FROM used <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+	</selectKey>
+		INSERT INTO used
+						(used_id,
+						used_name, 
+						used_category, 
+						used_price, 
+						used_place, 
+						used_content,
+						used_condition,
+						used_writer
+						)
+				VALUES <!-- VO에 있는 필드명 가져오기 -->
+					 (#{usedId}
+					 ,#{usedName}
+					 ,#{usedCategory}
+					 ,#{usedPrice}
+					 ,#{usedPlace}
+					 ,#{usedContent}
+					 ,#{usedCondition}
+					 ,#{usedWriter}
+					)
+		
+	</insert>
+	
+	<!-- 이미지 등록 -->
+	<insert id="insertUsedImage" parameterType="UsedImageVO">
+		INSERT INTO used_image VALUES(
+			#{usedImageId},
+			#{usedOriginName},
+			#{usedStoredName },
+			#{usedFormat},
+			#{usedSize},
+			#{usedPath},
+			#{usedId}
+		)
+	</insert>
 	
 	
 </mapper>

@@ -1,6 +1,7 @@
 package com.camp.app.used.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -25,4 +26,5 @@ public class UsedVO {
 	private int usedWriter; //작성회원번호
 	private int minPrice; //최소가격
 	private int maxPrice; //최대가격
+	private String keyword;
 }
