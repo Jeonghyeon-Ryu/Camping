@@ -1,11 +1,24 @@
-import { createRouter, createWebHistory } from "vue-router"
+import {
+  createRouter,
+  createWebHistory
+} from "vue-router"
 
 const routes = [
-   {
-    path: '/',
+  {
     name: 'Home',
+    path: '/',
     component: () => import('../views/Home.vue'),
-   },
+  },
+  {
+    name: 'SnsDetail',
+    path: '/sns/detail/:writeNo',
+    component: () => import('../components/SnS/SnsDetailFeed.vue'),
+  },
+  {
+    name: 'SnsRewrite',
+    path: '/sns/rewrite/:writeNo',
+    component: () => import('../components/SnS/SnsRewrite.vue'),
+  },
   {
     path: '/recru/detail',
     name: 'recruDetail',

@@ -7,10 +7,11 @@
     </div>
     
     <div class="sns-img-container">
-      <div class="sns-img-row-container" :key="snsImg.No" v-for="snsImg in snsImgs">
+      <div class="sns-img-row-container" :key="snsImg.no" v-for="snsImg in snsImgs" @click="getSnsDetail(snsImg.no)">
       <div class="sns-img">
-        <input type="text" :value="snsImg.No" style="display :none;">
-        <img v-bind:src="snsImg.Img">
+        <input type="text" :value="snsImg.no" style="display :none;">
+        <img src="">
+        <!-- <img v-bind:src="snsImg.Img"> -->
       </div> 
     </div>     
     </div>
@@ -35,15 +36,15 @@
         searchText : '',
 
         snsImgs : [
-          {Img : img1, Name : 'snsMaingImg1', No : '1111'},
-          {Img : img2, Name : 'snsMaingImg2', No : '2222'},
-          {Img : img3, Name : 'snsMaingImg3', No : '3333'},
-          {Img : img4, Name : 'snsMaingImg4', No : '4444'},
-          {Img : img5, Name : 'snsMaingImg5', No : '5555'},
-          {Img : img6, Name : 'snsMaingImg6', No : '6666'},
-          {Img : img7, Name : 'snsMaingImg7', No : '7777'},
-          {Img : img8, Name : 'snsMaingImg8', No : '8888'},
-          {Img : img9, Name : 'snsMaingImg9', No : '9999'},
+          {img : img1, name : 'snsMaingImg1', no : 1},
+          {img : img2, name : 'snsMaingImg2', no : 11},
+          {img : img3, name : 'snsMaingImg3', no : 12},
+          {img : img4, name : 'snsMaingImg4', no : 13},
+          {img : img5, name : 'snsMaingImg5', no : 14},
+          {img : img6, name : 'snsMaingImg6', no : 9},
+          {img : img7, name : 'snsMaingImg7', no : 1},
+          {img : img8, name : 'snsMaingImg8', no : 1},
+          {img : img9, name : 'snsMaingImg9', no : 1},
         
       ]
         
@@ -59,6 +60,9 @@
           this.doSearch()
         }
       },
+      getSnsDetail(writeNo) {
+        this.$router.push({name:'SnsDetail', params:{writeNo:writeNo}});
+      }
     }
   }
  </script>
@@ -119,7 +123,12 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-
+  .sns-img-row-container {
+    width:30%;
+    height: 300px;  
+    cursor: pointer;
+    border:1px solid black;
+  }
   .sns-img {
     margin-bottom: 10px;
     margin-right: 10px;
