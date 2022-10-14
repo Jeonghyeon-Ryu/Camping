@@ -1,5 +1,6 @@
 .entry-insert-container{
   width: 400px;
+  min-width: 400px;
   text-align: left;
   background: white;
   border-radius: 10px;

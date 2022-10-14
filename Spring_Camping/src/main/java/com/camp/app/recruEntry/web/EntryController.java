@@ -27,7 +27,7 @@ public class EntryController {
 	public int entryInsert(@RequestBody EntryVO entryVO) {
 		return service.insertEntry(entryVO);
 	}
-	//수정
+	//수정	
 	
 	//취소
 	
