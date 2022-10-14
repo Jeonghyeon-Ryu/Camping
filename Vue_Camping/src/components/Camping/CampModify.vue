@@ -1,60 +1,64 @@
 <template>
-    <div class="camp-detail-container">
+    <form class="camp-detail-container" onsubmit="return false">
         <div class="camp-detail-title-container">
-            <div class="camp-detail-title">캠핑가자 캠핑장</div>
+            <input :value="camp.campName" class="camp-detail-title" readonly />
             <div class="camp-detail-title-info">
                 <div class="camp-detail-review-count"><a href="#camp-detail-sns-container">후기(30)</a></div>
-                <div class="camp-detail-address"><a href="#">대구광역시 중구 중구</a></div>
+                <div class="camp-detail-address"><a href="#" v-text="camp.campAddress"></a></div>
             </div>
         </div>
         <div class="camp-detail-image-container">
-            <CampDetailImage></CampDetailImage>
+            <CampDetailImage :campId="campId" :addImage="images"></CampDetailImage>
+            <label>사진등록
+                <input @change="changeImage($event)" type="file" name="files" multiple style="display:none;">
+            </label>
         </div>
         <div class="camp-detail-info-container">
-            <form class="camp-detail-info-left">
+            <div class="camp-detail-info-left">
+                <input type="text" name="campId" :value="campId" style="display:none;" />
                 <div class="camp-detail-map">
                     <span>위치 정보</span>
-                    <div class="prev">대구광역시 중구 중구</div>
-                    <input type="text" name="camp_address" placeholder="" />
-                    <KakaoMap :search="search" :isNotList="isNotList"></KakaoMap>
+                    <div class="prev" v-text="camp.campAddress"></div>
+                    <input type="text" name="campAddress" placeholder="" />
+                    <KakaoMap :search="camp.campAddress" :isNotList="isNotList"></KakaoMap>
                 </div>
                 <div class="camp-detail-site">
                     <span>사이트 수</span>
-                    <div class="prev">2개</div>
-                    <input type="text" name="camp_site" value="2개" />
+                    <div class="prev" v-text="camp.campSite"></div>
+                    <input type="text" name="campSite" :value="camp.campSite" placeholder="수정할 사이트 수를 입력해주세요." />
                 </div>
                 <div class="camp-detail-price">
                     <span>가격</span>
-                    <div class="prev">50,000원</div>
-                    <input type="text" name="camp_price" value="가격정보 없음" />
+                    <div class="prev" v-text="camp.campPrice"></div>
+                    <input type="text" name="campPrice" :value="camp.campPrice" placeholder="수정할 가격을 입력해주세요." />
                 </div>
                 <div class="camp-detail-info">
                     <span>정보</span>
                     <div class="camp-detail-info-buttons">
                         <div class="row">
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="toilet"/>
+                                <input type="checkbox" name="campInfo" value="toilet" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/toilet.png" />
                                     <span>화장실</span>
                                 </div>
                             </label>
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="parking"/>
+                                <input type="checkbox" name="campInfo" value="parking" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/parking.png">
                                     <span>주차장</span>
                                 </div>
                             </label>
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="shower"/>
+                                <input type="checkbox" name="campInfo" value="shower" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/shower.png" />
                                     <span>샤워장</span>
                                 </div>
                             </label>
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="disposal"/>
+                                <input type="checkbox" name="campInfo" value="disposal" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/disposal.png" />
                                     <span>쓰레기장</span>
@@ -62,7 +66,7 @@
                             </label>
 
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="deck"/>
+                                <input type="checkbox" name="campInfo" value="deck" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/deck.png" />
                                     <span>데크</span>
@@ -70,28 +74,28 @@
                             </label>
 
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="bbq"/>
+                                <input type="checkbox" name="campInfo" value="bbq" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/bbq.png" />
                                     <span>바비큐</span>
                                 </div>
                             </label>
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="swim"/>
+                                <input type="checkbox" name="campInfo" value="swim" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/swim.png" />
                                     <span>수영장</span>
                                 </div>
                             </label>
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="kitchen"/>
+                                <input type="checkbox" name="campInfo" value="spoon" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/spoon.png" />
                                     <span>조리도구</span>
                                 </div>
                             </label>
                             <label class="checkboxLabel">
-                                <input type="checkbox" name="camp_info" value="lease"/>
+                                <input type="checkbox" name="campInfo" value="lease" v-model="camp.campInfo" />
                                 <div class="icon-box" @click="clickCheckBox($event)">
                                     <img src="@/assets/img/Camping/lease.png" />
                                     <span>장비대여</span>
@@ -100,16 +104,18 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
             <div class="camp-detail-info-right">
-                <RButton :inputColor="'lightGreen'" :inputSize="'md'" :inputValue="'수정신청'" @clickBtn="confirm()"></RButton>
-                <RButton :inputColor="'cream'" :inputSize="'md'" :inputValue="'취소'" @clickBtn="cancel()"></RButton>
+                <RButton :inputColor="'lightGreen'" :inputSize="'md'" :inputValue="'수정신청'" @clickBtn="confirm($event)">
+                </RButton>
+                <RButton :inputColor="'cream'" :inputSize="'md'" :inputValue="'취소'" @clickBtn="cancel($event)">
+                </RButton>
             </div>
         </div>
         <div id="camp-detail-sns-container" class="camp-detail-sns-container">
 
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
@@ -117,53 +123,65 @@ import KakaoMap from "../KakaoMap.vue";
 import CampDetailImage from "./CampDetailImage.vue";
 import RButton from "../Admin/RButton.vue";
 export default {
-    props : ['prevData'],
-    data : function() { 
+    data: function () {
         return {
-            isNotList : true,
-            search : '대구광역시 달서구 달서대로 719',
+            isNotList: true,
+            search: '대구광역시 달서구 달서대로 719',
+            campId: this.$route.params.campId,
+            camp: [],
+            images: []
         }
     },
-    components: {
-    KakaoMap,
-    CampDetailImage,
-    RButton
-},
-    methods :{
-        // 후기 셋팅 필요
-        // 주소 카카오맵 할당 필요
-        // 기타 정보 할당 필요
-        // 사진 Swiper 적용하기
+    created: function () {
+        fetch('http://localhost:8087/java/campDetail/' + this.campId)
+            .then(result => result.json())
+            .then(result => {
+                result.campInfo = result.campInfo.split(" ");
+                this.camp = result;
+            })
+    },
+    components: { KakaoMap, CampDetailImage, RButton },
+    methods: {
         clickCheckBox(e) {
             e.preventDefault();
             let checkItem = e.target.parentElement;
-            while(!checkItem.classList.contains('checkboxLabel')){
+            while (!checkItem.classList.contains('checkboxLabel')) {
                 checkItem = checkItem.parentElement;
             }
             checkItem = checkItem.querySelector('input');
-            
-            console.log(checkItem.checked);
-            if(checkItem.checked){
+            if (checkItem.checked) {
                 checkItem.checked = false;
             } else {
                 checkItem.checked = true;
             }
         },
-        confirm() {
-            let fetchData = {};
-            new FormData(document.querySelector('.camp-detail-info-left')).forEach((value,key) => fetchData[key]=value);
-            console.log(fetchData);
-            for(let aa of document.querySelectorAll('input[type="checkbox"]')){
-                if(aa.checked){
-                    fetchData.camp_info = fetchData.camp_info + ',' + aa.value;
-                }
+        changeImage(e) {
+            let dt = new DataTransfer();
+            for (let i = 0; i < e.target.files.length; i++) {
+                dt.items.add(e.target.files[i]);
             }
-            console.log(fetchData);
-            
-           
+            this.images = dt.files;
+            e.target.files = dt.files;
         },
-        cancel() {
-            
+        confirm(e) {
+            let fetchData = new FormData(document.querySelector('.camp-detail-container'));
+            fetchData.append("email",localStorage.getItem("email"));
+            fetchData.forEach((value,key) => {
+                console.log(key);
+                console.log(value);
+                if(key=='campAddress' && value==''){
+                    fetchData.set('campAddress')
+                }
+            })
+            // fetch('http://localhost:8087/java/campModify', {
+            //   method: 'POST',
+            //   headers: {  },
+            //   body: fetchData
+            // }).then(result => result.text())
+            // .then(result => console.log(result));
+        },
+        cancel(e) {
+            this.$router.push({ name: "CampDetail", params: { campId: this.campId } })
         }
     }
 }

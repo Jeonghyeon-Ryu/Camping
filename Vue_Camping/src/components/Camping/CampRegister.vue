@@ -28,19 +28,6 @@
           </label>
           <label>사이트 수<input type="text" name="campSite" class="camp-register-site" placeholder="예시 : 2개"></label>
           <label>가격<input type="text" name="campPrice" class="camp-register-price" placeholder="예시 : 00,000원"></label>
-          <!-- <div class="camp-register-info">정보
-            <div>
-              <button type="button" @click="clickInfo($event)">화장실</button>
-              <button type="button" @click="clickInfo($event)">주차장</button>
-              <button type="button" @click="clickInfo($event)">샤워장</button>
-              <button type="button" @click="clickInfo($event)">쓰레기장</button>
-              <button type="button" @click="clickInfo($event)">데크</button>
-              <button type="button" @click="clickInfo($event)">수영장</button>
-              <button type="button" @click="clickInfo($event)">바비큐</button>
-              <button type="button" @click="clickInfo($event)">장비대여</button>
-              <button type="button" @click="clickInfo($event)">조리도구</button>
-            </div>
-          </div> -->
           <div class="camp-detail-info">
             <span>정보</span>
             <div class="camp-detail-info-buttons">
