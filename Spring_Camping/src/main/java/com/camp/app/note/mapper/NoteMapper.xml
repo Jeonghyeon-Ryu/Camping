@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.camp.app.note.mapper.NoteMapper">
-
-<select id="getMyNoteList"
-		resultType="com.camp.app.note.service.NoteVO">
+	
+	
+<select id="getMaxNoteId" resultType="Integer">
+	SELECT NVL(MAX(note_id), 0) 
+	FROM NOTE
 	
 </select>
 
-<select id="getInvitedList"
-		resultType="com.camp.app.note.service.NoteVO">
-	
-</select>
-
+<insert id="writeCotents" parameterType="NoteVO">
+	INSERT INTO note
+	VALUES( 
+		#{noteId},
+		#{title},
+		#{noteContent},
+		#{invitedMember},
+		#{email},
+		SYSDATE
+	)
+</insert>
 </mapper>

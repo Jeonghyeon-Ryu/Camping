@@ -149,7 +149,7 @@
     };
     </script>
        
-       <style scoped>
+    <style scoped>
         /*버튼임*/
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
     

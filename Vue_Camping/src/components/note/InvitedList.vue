@@ -160,13 +160,6 @@
         opacity: 0.5;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            font-style: none;
-            box-sizing: border-box;
-        }
         .row{ 
             width: 100%;
         }
