@@ -7,7 +7,7 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import HeaderNav from './components/HeaderNav.vue'
+import HeaderNav from './components/Main/HeaderNav.vue'
 
 export default {
   name: 'App',

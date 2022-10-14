@@ -85,40 +85,52 @@ export default {
         document.querySelector('.cont_form_login').style.display = "none";
       }, 400);
     },
-    clickLogin: function(e) {
+    clickLogin: function (e) {
       let loginForm = e.target.parentElement;
       let member = {
         "email": loginForm.querySelector('input[type="text"]').value,
         "password": loginForm.querySelector('input[type="password"]').value
       };
-      
+      console.log(member)
       fetch('http://localhost:8087/java/login', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(member)
-      }).then(result => result.text())
+      }).then(result => result.json())
         .then(result => {
-          if (result == "true") {
-            console.log(this);
-            this.$router.replace('/');
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: '아이디 또는 비밀번호가 일치하지 않습니다.',
-              toast: true,
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
-          }
-        })
-        .catch(error => console.log(error));
+          localStorage.setItem("nickname", result.nickname);
+          localStorage.setItem("email", result.email);
+          Swal.fire({
+            icon: 'success',
+            title: '로그인 성공!',
+            toast: true,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+              this.$router.replace('/');
+            }
+          })
+        }).catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: '아이디 또는 비밀번호가 일치하지 않습니다.',
+            toast: true,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+              loginForm.querySelector('input[type="password"]').value = '';
+              loginForm.querySelector('input[type="text"]').focus();
+            }
+          })
+        });
     },
     clickSignup: (e) => {
       let signupForm = e.target.parentElement;
@@ -178,7 +190,7 @@ export default {
               }).then(result => result.text())
                 .then(result => {
                   if (result == "true") {
-                    this.$router.push({path: '/', name: 'Home'});
+                    this.$router.push({ path: '/', name: 'Home' });
                   } else {
                     Swal.fire({
                       icon: 'error',

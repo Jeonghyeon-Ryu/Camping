@@ -1,6 +1,6 @@
 <template>
 
-  <!-- <MainSwiper></MainSwiper> -->
+  <MainSwiper></MainSwiper>
   <!-- <CampRegister></CampRegister> -->
   <!-- <SnsMain></SnsMain> -->
   <!-- <SnsDetailFeed></SnsDetailFeed> -->
