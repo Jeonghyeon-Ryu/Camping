@@ -1,17 +1,76 @@
+
+@media screen and (max-width:1200px) {
+    .camp-detail-title-container {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+    }
+    .camp-detail-image-container {
+        width: 90%;
+        height: 300px;
+        border: 1px solid rgb(220, 220, 220);
+        position: relative;
+    }
+    .camp-detail-info-container {
+        width: 90%;
+        margin-top:50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .camp-detail-info-left {
+        width: 80%;
+        padding:10px;
+    }
+    .camp-detail-info-right {
+        width:80%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 25px;
+    }
+}
+@media screen and (min-width:1201px) {
+    .camp-detail-title-container {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+    }
+    .camp-detail-image-container {
+        width: 70%;
+        height: 500px;
+        border: 1px solid rgb(220, 220, 220);
+        position: relative;
+    }
+    .camp-detail-info-container {
+        width: 70%;
+        margin-top:50px;
+        display: flex;
+    }
+    .camp-detail-info-left {
+        width: 50%;
+        padding:10px;
+        border-right: 1px solid rgb(220, 220, 220);
+    }
+    .camp-detail-info-right {
+        width:50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 25px;
+    }
+}
 .camp-detail-container {
     margin-top: 20px;
     margin-bottom : 50px;
+    padding-top:100px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.camp-detail-title-container {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-}
+
 
 .camp-detail-title {
     width: 100%;
@@ -19,12 +78,16 @@
     font-size: 1.2rem;
     font-weight: bold;
     padding: 10px;
+    border:none;
 }
-
+.camp-detail-title:focus {
+    outline: none;
+}
 .camp-detail-title-info {
     width: 100%;
     font-size: 0.9rem;
     padding: 0 0 10px 10px;
+    text-align: left;
 }
 
 .camp-detail-review-count {
@@ -47,12 +110,22 @@
     color: #000;
 }
 
-.camp-detail-image-container {
-    width: 50%;
-    height: 300px;
-    border: 1px solid rgb(220, 220, 220);
-}
 
+.camp-detail-image-container label {
+    border:1px solid rgb(220,220,220);
+    border-radius: 5px;
+    padding:10px 100px 10px 100px;  
+    color:gray;
+    font-size: 0.8rem;
+    margin:5px;
+    cursor: pointer;
+    position:absolute;
+    left: calc(50% - 131.6px);
+}
+.camp-detail-image-container label:hover {
+    background-color: rgb(228,239,231);
+    box-shadow: 1px 1px 2px gray;
+}
 /* total width */
 .camp-detail-image-container::-webkit-scrollbar {
     background-color: #fff;
@@ -85,17 +158,6 @@
     display: none
 }
 
-.camp-detail-info-container {
-    width: 50%;
-    margin-top:10px;
-    display: flex;
-}
-
-.camp-detail-info-left {
-    width: 50%;
-    padding:10px;
-    border-right: 1px solid rgb(220, 220, 220);
-}
 .camp-detail-info-left > div {
     display:flex;
     flex-direction: column;
@@ -105,6 +167,7 @@
     font-size: 0.9rem;
     font-weight: 900;
     padding:10px;
+    text-align: left;
 }
 .camp-detail-info-left > div > input {
     margin-bottom: 5px;
@@ -170,13 +233,7 @@
     font-size: 10px;
 }
 
-.camp-detail-info-right {
-    width:50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 25px;
-}
+
 .camp-detail-info-right button {
     width:60%;
     border:1px solid rgb(220,220,220);

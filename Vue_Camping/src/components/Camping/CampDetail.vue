@@ -1,56 +1,56 @@
 <template>
     <div class="camp-detail-container">
         <div class="camp-detail-title-container">
-            <div class="camp-detail-title">캠핑가자 캠핑장</div>
+            <input :value="camp.campName" class="camp-detail-title" readonly/>
             <div class="camp-detail-title-info">
                 <div class="camp-detail-review-count"><a href="#camp-detail-sns-container">후기(30)</a></div>
-                <div class="camp-detail-address"><a href="#">대구광역시 중구 중구</a></div>
+                <div class="camp-detail-address"><a href="#" v-text="camp.campAddress"></a></div>
             </div>
         </div>
         <div class="camp-detail-image-container">
-            <CampDetailImage></CampDetailImage>
+            <CampDetailImage :campId="campId"></CampDetailImage>
         </div>
         <div class="camp-detail-info-container">
             <div class="camp-detail-info-left">
                 <div class="camp-detail-map">
                     <span>위치 정보</span>
-                    <KakaoMap :search="search" :isNotList="isNotList"></KakaoMap>
+                    <KakaoMap :search="camp.campAddress" :isNotList="isNotList"></KakaoMap>
                 </div>
                 <div class="camp-detail-site">
                     <span>사이트 수</span>
-                    <input type="text" value="2개" disabled />
+                    <input type="text" :value="camp.campSite" readonly />
                 </div>
                 <div class="camp-detail-price">
                     <span>가격</span>
-                    <input type="text" value="가격정보 없음" disabled />
+                    <input type="text" :value="camp.campPrice" readonly />
                 </div>
                 <div class="camp-detail-info">
                     <span>정보</span>
                     <div class="camp-detail-info-buttons">
                         <div class="row">
                             <label>
-                                <input type="checkbox" name="toilet" />
+                                <input type="checkbox" name="toilet" value="toilet" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/toilet.png" />
                                     <span>화장실</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="parking" />
+                                <input type="checkbox" name="parking" value="parking" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/parking.png">
                                     <span>주차장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="shower" />
+                                <input type="checkbox" name="shower" value="shower" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/shower.png" />
                                     <span>샤워장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="disposal" />
+                                <input type="checkbox" name="disposal" value="disposal" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/disposal.png" />
                                     <span>쓰레기장</span>
@@ -58,7 +58,7 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="deck" />
+                                <input type="checkbox" name="deck" value="deck" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/deck.png" />
                                     <span>데크</span>
@@ -66,28 +66,28 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="bbq" />
+                                <input type="checkbox" name="bbq" value="bbq" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/bbq.png" />
                                     <span>바비큐</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="pool" />
+                                <input type="checkbox" name="swim" value="swim" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/swim.png" />
                                     <span>수영장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="cooking" />
+                                <input type="checkbox" name="spoon" value="spoon" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/spoon.png" />
                                     <span>조리도구</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="lease" />
+                                <input type="checkbox" name="lease" value="lease" v-model="camp.campInfo"/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/lease.png" />
                                     <span>장비대여</span>
@@ -114,17 +114,23 @@
 import KakaoMap from "../KakaoMap.vue";
 import CampDetailImage from "./CampDetailImage.vue";
 export default {
-    data : function() { 
+    data: function () {
         return {
-            isNotList : true,
-            search : '대구광역시 달서구 달서대로 719'
+            isNotList: true,
+            search: '대구광역시 달서구 달서대로 719',
+            campId: this.$route.params.campId,
+            camp: {},
         }
     },
-    components: {
-    KakaoMap,
-    CampDetailImage
-},
-    methods :{
+    created: function () {
+        fetch('http://localhost:8087/java/campDetail/' + this.campId)
+            .then(result => result.json())
+            .then(result => {
+                result.campInfo = result.campInfo.split(" ");
+                this.camp = result;
+            })
+    },
+    methods: {
         // 후기 셋팅 필요
         // 주소 카카오맵 할당 필요
         // 기타 정보 할당 필요
@@ -133,15 +139,16 @@ export default {
 
         },
         getCompanion() {
-            
+
         },
         modifyItem() {
-
+            this.$router.push({name:"CampModify", params:{campId:this.campId}});
         },
         reportItem() {
 
         }
-    }
+    },
+    components: { KakaoMap, CampDetailImage },
 }
 </script>
 

@@ -1,6 +1,7 @@
 <template>
     <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
         <swiper-slide v-for="image of images"><img :src="'http://localhost:8087/java/showImage/'+image.imagePath+'/'+image.storedName"/></swiper-slide>
+        <swiper-slide v-for="img of imgUrl"><img :src="img"/></swiper-slide>
     </swiper>
 </template>
 <script>
@@ -15,10 +16,11 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper";
 
 export default {
-    props: ['campId'],
+    props: ['campId','addImage'],
     data : function() {
         return {
-            images : []
+            images : [],
+            imgUrl : []
         }
     },
     created : function() {
@@ -26,7 +28,7 @@ export default {
         .then(result => result.json())
         .then(result => {
             this.images = result;
-            console.log(result);
+            this.resultImages = result;
         })
         .catch(err => console.log(err))
     },  
@@ -39,6 +41,15 @@ export default {
             modules: [Navigation, Pagination],
         };
     },
+    watch: {
+        addImage() {
+            this.imgUrl = [];
+            for(let img of this.addImage){
+                this.imgUrl.push(URL.createObjectURL(img));
+            }
+            console.log(this.imgUrl)
+        }
+    }
 };
 </script>
 
@@ -71,16 +82,17 @@ export default {
 .swiper-slide img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
 }
-</style>
-<style>
 .swiper-button-next,
 .swiper-button-prev,
 .swiper-container-rtl .swiper-button-prev,
 .swiper-container-rtl .swiper-button-next {
     color: #F7EDDA;
+}
+.swiper-pagination {
+    top: 10px;
 }
 .swiper-pagination-bullet {
     background: #F7EDDA;
