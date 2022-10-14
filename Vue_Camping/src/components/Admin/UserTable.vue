@@ -27,6 +27,9 @@
             @cancelModify="cancelModify"
             @confirmModify="confirmModify">
         </ModifyModal>
+        <div class="excel-export-container">
+            <ExcelExport :inputData="userData"></ExcelExport>
+        </div>
     </div>
 </template>
 
@@ -37,6 +40,7 @@ import Filtering from "./Filtering.vue";
 import TableButton from "./TableButton.vue";
 import Swal from 'sweetalert2';
 import ModifyModal from "./ModifyModal.vue";
+import ExcelExport from "./ExcelExport.vue";
 
 export default {
     props: ["userData", "perPage"],
@@ -220,10 +224,8 @@ export default {
             }
         }
     },
-    components: { Pagination, Sort, Filtering, TableButton, ModifyModal }
+    components: { Pagination, Sort, Filtering, TableButton, ModifyModal, ExcelExport }
 }
 </script>
 
-<style scoped src="./UserTable.css">
-
-</style>
+<style scoped src="./UserTable.css"></style>

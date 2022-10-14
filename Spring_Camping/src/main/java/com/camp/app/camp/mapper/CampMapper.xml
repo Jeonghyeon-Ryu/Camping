@@ -31,7 +31,7 @@
 		SELECT * FROM camp WHERE camp_id = #{campId}
 	</select>
 	<select id="findByCampIdToCampImage" parameterType="Integer" resultType="CampImageVO">
-		SELECT * FROM camp_image WHERE camp_id = #{campId]
+		SELECT * FROM camp_image WHERE camp_id = #{campId}
 	</select>
 	
 	<insert id="insertCamp" parameterType="CampVO">
@@ -55,4 +55,19 @@
 			#{campId}
 		)
 	</insert>
+	<insert id="insertCampModify" parameterType="CampModifyVO">
+		INSERT INTO camp_modify VALUES(
+			#{campModifyId},
+			#{campName},
+			#{campAddress},
+			#{campPrice},
+			#{campSite},
+			#{campInfo}
+			#{campId},
+			#{email}
+		)
+	</insert>
+	<select id="findMaxByCampModifyId" resultType="Integer">
+		SELECT NVL(MAX(camp_modify_id),0) FROM camp_modify 
+	</select>
 </mapper>

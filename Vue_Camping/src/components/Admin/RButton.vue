@@ -14,10 +14,13 @@ export default {
   mounted: function () {
       if (this.inputSize == 'lg') {
         this.$refs.btn.style.padding = 'var(--lg)'
+        this.$refs.btn.style.width = 'var(--lgWidth)'
       } else if (this.inputSize == 'md') {
         this.$refs.btn.style.padding = 'var(--md)';
+        this.$refs.btn.style.width = 'var(--mdWidth)'
       } else {
         this.$refs.btn.style.padding = 'var(--sm)';
+        this.$refs.btn.style.width = 'var(--smWidth)'
       }
       if (this.color == 'lightCream') {
         this.$refs.btn.style.background = 'var(--lightCream)';
@@ -84,6 +87,9 @@ export default {
 </script>
 <style scoped>
 .btn {
+  --lgWidth: 300px;
+  --mdWidth: 200px;
+  --smWidth: 100px;
   --lg: 5px 20% 5px 20%;
   --md: 5px 10% 5px 10%;
   --sm: 5px 5% 5px 5%;

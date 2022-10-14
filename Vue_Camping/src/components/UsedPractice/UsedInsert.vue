@@ -27,11 +27,11 @@
               </li>
               <li>
                 <label for="inputPrice">가격<span class="essential">*</span></label>
-                <input type="text" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요">
+                <input type="number" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요" @change="numOnly()">
               </li>
               <hr>
               <li>
-                <label for="inputCate">카테고리</label>
+                <label for="inputCate">카테고리<span class="essential">*</span></label>
                 <select name="usedCategory" id="used_cate" v-model="myGearType">
                   <option value='' disabled>카테고리 선택</option>
                   <option value="텐트">텐트</option>
@@ -88,7 +88,7 @@
                 </li>
               <hr>
               <li id="textbox">
-                <label for="used_content">상품설명</label>
+                <label for="used_content">상품설명<span class="essential">*</span></label>
                 <div class="used-desc">
                   <textarea name="usedContent" class="used_content" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
                 </div>
@@ -105,6 +105,7 @@
 </template>
 <script>
   import district from "@/assets/district.js"
+  import Swal from 'sweetalert2';
 
   export default {
     data(){
@@ -121,15 +122,39 @@
       //   const upload = document.querySelector('.uploadarea');
       //   picUpload.click();
       // },
+      numOnly: function(){
+        let price = document.getElementById('inputPrice').value;
+        let st = /[^0-9]/g
+        if(st.test(price.value)){
+          console.log(price.value)
+          price.replace(st, "")
+        }
+      },
       confirm: function(){
         const form = document.forms.namedItem('#container2')
         let place = document.querySelector('#districtSelect'+'#citySelect')
         let fetchData = {};
+
+        let name = document.getElementById('inputName').value;
+        let price = document.getElementById('inputPrice').value;
+        let category = document.getElementById('used_cate').value;
+        let content = document.querySelector('.used_content').value;
+
         console.log();
             new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
             // fetchData.append("usedPlace":place,"":)
             console.log(fetchData);
             console.log(JSON.stringify(fetchData));
+
+        if(name === null || name.trim() === ""){
+          this.swName();
+        }else if(price == null || price.trim() === ""){
+          this.swPrice();
+        }else if(category == null || category.trim() === ""){
+          this.swCategory();
+        }else if(content == null || content.trim() === "" ||content.length < 10){
+          this.swContent();
+        }else{
 
             fetch('http://localhost:8088/java/used/usedInsert',{
                     method : "POST",
@@ -141,7 +166,10 @@
                     console.log(data)
 
                 }).catch(err=>console.log(err))
-
+              
+              
+              
+              }
       },
       //지역선택
       districtChange: function(){
@@ -161,6 +189,76 @@
                     opt.innerHTML = cityList[i];
                     sigu.appendChild(opt);
        }
+      },
+      swName: function(){
+        Swal.fire({
+          title: '',
+          text: '상품명은 필수 입력 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        })
+      },
+      swPrice: function(){
+        Swal.fire({
+          title: '',
+          text: '가격은 필수 입력 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        })
+      },
+      swCategory: function(){
+        Swal.fire({
+          title: '',
+          text: '카테고리는 필수 선택 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        })
+      },
+      swPlace: function(){
+        Swal.fire({
+          title: '',
+          text: '거래지역은 필수 선택 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        })
+      },
+      swContent: function(){
+        Swal.fire({
+          title: '',
+          text: '상품설명을 10자 이상 작성해주세요',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        })
       }
     },
 

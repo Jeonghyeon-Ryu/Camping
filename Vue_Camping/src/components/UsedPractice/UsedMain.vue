@@ -84,11 +84,20 @@
         <div class="used-title">
           <h2>중고거래</h2>
         </div>
+        <!-- 라우터링크 -->
+        <!-- <router-link tag="div" v-bind:to="{name:'usedDetail',params:{usedId:'recruInfo.id'}}">
+          <UsedCard v-bind:usedCard="card"></UsedCard>
+        </router-link> -->
+        
+        <!-- 원래거 -->
         <div class="cards">
-          <div v-for="card in usedList" :key="card.id">
+          <div v-for="card in usedList" :key="card.id" @click="usedDetail(card.usedId)">
             <UsedCard v-bind:usedCard="card"></UsedCard>
           </div>
         </div>
+
+
+
       </div>
 
       <!--하단-->
@@ -128,6 +137,11 @@
       usedInsert: function(){
         this.$router.push({name : 'usedInsert'})
       },
+      usedDetail: function(usedId){
+        //클릭하면은 디테일 페이지로 넘겨 넘길때, 번호를 넘겨야해
+        this.$router.push({name : 'usedDetail', params: {usedId:usedId }})
+      
+      },
       searchBtn: function(){
         let fetchData = {};
         console.log();
@@ -148,9 +162,8 @@
         this.minPrice = '';
         this.maxPrice = '';
       },
-
-      //지역선택
       districtChange: function(){
+        //지역선택
         let sido = document.querySelector('#districtSelect');
         let sigu = document.querySelector('#citySelect');
         let sidoName = sido.value;

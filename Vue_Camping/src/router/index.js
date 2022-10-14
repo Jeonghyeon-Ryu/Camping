@@ -1,24 +1,47 @@
-import { createRouter, createWebHistory } from "vue-router"
+import {
+  createRouter,
+  createWebHistory
+} from "vue-router"
 
 const routes = [
-   {
-    path: '/',
+  {
     name: 'Home',
+    path: '/',
     component: () => import('../views/Home.vue'),
-   },
-  // {
-  // path: '/about',
-  // name: 'About',
-  // component: () => import ('../views/About.vue'),
-  // },
-
+  },
+  {
+    name: 'SnsDetail',
+    path: '/sns/detail/:writeNo',
+    component: () => import('../components/SnS/SnsDetailFeed.vue'),
+  },
+  {
+    name: 'SnsRewrite',
+    path: '/sns/rewrite/:writeNo',
+    component: () => import('../components/SnS/SnsRewrite.vue'),
+  },
   {
     path: '/recru/detail/:recruId',
     name: 'recruDetail',
     component: () => import('@/components/recruit/RecruDetail.vue'),
     props : true
+   },
+   {
+     path: '/used/usedInsert',
+     name: 'usedInsert',
+     component: () => import('@/components/UsedPractice/UsedInsert.vue'),
+    },
+   {
+    path: '/used/usedDetail/:usedId',
+    name: 'usedDetail',
+    component: () => import('@/components/UsedPractice/UsedDetail.vue'),
+    props: true
+   },
+   {
+    path: '/used/usedUpdate/:usedId',
+    name: 'usedUpdate',
+    component: () => import('@/components/UsedPractice/UsedUpdate.vue'),
+    props: true
    }
-
 ]
 
 const router = createRouter({
