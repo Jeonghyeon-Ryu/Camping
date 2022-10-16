@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class UsedVO {
 	private int usedId; //게시글id
+	private String nickName; //작성자닉네임
 	private String usedName; //상품명
 	private String usedCategory; //카테고리
 	private int usedPrice; //상품가격

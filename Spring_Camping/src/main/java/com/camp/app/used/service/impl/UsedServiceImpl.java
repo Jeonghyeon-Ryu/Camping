@@ -79,8 +79,10 @@ public class UsedServiceImpl implements UsedService {
 			String[] uuids = uuid.toString().split("-");
 			image.setUsedStoredName(uuids[0] + "_" + image.getUsedOriginName());
 			
-			File resultFile = new File(uploadPath,image.getUsedOriginName());
+			System.out.println(image);
+			File resultFile = new File(uploadPath,image.getUsedStoredName());
 			try {
+				System.out.println(file);
 				file.transferTo(resultFile);
 				// 문제가 있음. 제대로 들어갔는지 확인이 안됨.
 			} catch (IllegalStateException e) {
@@ -97,14 +99,6 @@ public class UsedServiceImpl implements UsedService {
 	public int getMaxUsedImageId() {
 		return mapper.findMaxByUsedImageId();
 	}
-//	@Override
-//	public List<UsedImageVO> showCampImageByUsedId(int usedId) {
-//		return mapper.findByUsedIdToUsedImage(usedId);
-//	}
-	
-	
-	
-	
 	
 	//전체조회
 	@Override
@@ -124,11 +118,23 @@ public class UsedServiceImpl implements UsedService {
 		mapper.updateUsed(usedVO);
 	}
 
+	//거래상태변경
+	@Override
+	public int updateDealStatus(int dealStatus) {
+		return mapper.updateDealStatus(dealStatus);
+	}
+	
+	//접근제한
+	@Override
+	public void restrictUsed(UsedVO used) {
+		mapper.restrictUsed(used);
+	}
+	
+	
 	//삭제
 	@Override
-	public int deleteUsed() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteUsed(UsedVO used) {
+		mapper.deleteUsed(used);
 	}
 
 	//필터검색
@@ -143,19 +149,12 @@ public class UsedServiceImpl implements UsedService {
 	public List<UsedVO> findUsedKeyword(String keyword) {
 		return mapper.findUsedKeyword(keyword);
 	}
-	
-	//거래상태변경
-	@Override
-	public int updateDeal() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	//게시글상태변경
 	@Override
 	public int updateRestrict() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	//조회수증가
@@ -174,6 +173,12 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public int getMaxUsedId() {
 		return mapper.findMaxByUsedId();
+	}
+
+	//사진보여주기
+	@Override
+	public List<UsedImageVO> showUsedImageByUsedId(int usedId) {
+		return mapper.findByUsedIdToUsedImage(usedId);
 	}
 
 

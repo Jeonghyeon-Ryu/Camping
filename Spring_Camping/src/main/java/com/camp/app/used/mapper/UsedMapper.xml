@@ -5,13 +5,14 @@
 	
 	<!-- 게시글 전체조회 -->
 	<select id="selectAllUsedList" resultType="UsedVO">
-		SELECT * FROM used ORDER BY used_write desc
+		SELECT * FROM used WHERE used_status = 0 ORDER BY used_write desc
 	</select>
 	
 	<!-- 게시글 조건조회 -->
 	<select id="searchUsedList" resultType="UsedVO">
 		<![CDATA[ SELECT * FROM used 
 		<where>
+				and used_status = 0
 			<if test="usedName != null and usedName != ''">
 				and used_name = #{usedName}
 			</if>
@@ -28,17 +29,18 @@
 				and used_price = #{usedPlace}
 			</if>
 		</where>
-		ORDER BY used_write ]]>
+		ORDER BY used_write desc]]>
 	</select>
 	
 	<!-- 게시글 키워드조회 -->
   	<select id="findUsedKeyword" parameterType="String" resultType="UsedVO">
       SELECT * FROM used
-         WHERE used_name LIKE '%'||#{keyword}||'%'
+         WHERE used_status = 0
+         	AND (used_name LIKE '%'||#{keyword}||'%'
             OR used_category LIKE '%'||#{keyword}||'%'
-            OR used_place LIKE '%'||#{keyword}||'%'
+            OR used_place LIKE '%'||#{keyword}||'%')
    	</select>
-	
+	 
 	<!-- 게시글 단건조회 -->
 	<select id="findDetail" parameterType="Integer" resultType="UsedVO">
 		SELECT * FROM used WHERE used_id = #{usedId}
@@ -50,28 +52,34 @@
 		SET used_name = #{usedName},
 			used_category = #{usedCategory}, 
 			used_price = #{usedPrice}, 
-			<if test="usedPlace != null">used_place = #{usedPlace},</if>		 
-			used_content = #{usedContent}, 
-			<if test="usedPlace != null">used_condition = #{usedCondition}</if>
+			<if test="usedPlace != null">
+			used_place = #{usedPlace},
+			</if>		 
+			used_content = #{usedContent},
+			<if test="usedPlace != null">
+			used_condition = #{usedCondition}
+			</if>
 		WHERE used_id = #{usedId}
 	</update>
 	
-	<!-- 삭제, 접근제한 -->
+	<!-- 접근제한 -->
+	<update id="restrictUsed" parameterType="Integer">
+	    UPDATE used 
+	    SET used_status = 1
+	    WHERE used_id = #{usedId}
+  	</update>
+	
+	<!-- 삭제(usedStatus변경) -->
 	<update id="deleteUsed" parameterType="Integer">
-	    UPDATE used set used_status=1 where used_id = #{usedId}
+	    UPDATE used 
+	    SET used_status = 2
+	    WHERE used_id = #{usedId}
   	</update>
 	
 	<!-- 거래상태변경 -->
 	<update id="updateDeal" parameterType="UsedVO">
 		UPDATE used
 		SET deal_status = #{dealStatus}
-		WHERE used_id = #{usedId}
-	</update>
-	
-	<!-- 게시물상태변경 -->
-	<update id="updateRestrict" parameterType="UsedVO">
-		UPDATE used
-		SET used_status = #{usedStatus}
 		WHERE used_id = #{usedId}
 	</update>
 	
@@ -106,7 +114,7 @@
 		SELECT * FROM used_image WHERE used_id = #{usedId}
 	</select>
 	
-		<!-- 게시글 등록 -->
+	<!-- 게시글 등록 -->
 	<insert id="insertUsed" parameterType="UsedVO">
 	<selectKey keyProperty="usedId" resultType="Integer" order="BEFORE">
 		SELECT NVL(MAX(used_id),0)+1 FROM used <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
@@ -119,7 +127,8 @@
 						used_place, 
 						used_content,
 						used_condition,
-						used_writer
+						used_writer,
+						nickname
 						)
 				VALUES <!-- VO에 있는 필드명 가져오기 -->
 					 (#{usedId}
@@ -130,20 +139,20 @@
 					 ,#{usedContent}
 					 ,#{usedCondition}
 					 ,#{usedWriter}
+					 ,#{nickName}
 					)
-		
 	</insert>
 	
 	<!-- 이미지 등록 -->
 	<insert id="insertUsedImage" parameterType="UsedImageVO">
 		INSERT INTO used_image VALUES(
 			#{usedImageId},
+			#{usedId},
 			#{usedOriginName},
-			#{usedStoredName },
+			#{usedStoredName},
 			#{usedFormat},
 			#{usedSize},
-			#{usedPath},
-			#{usedId}
+			#{usedPath}
 		)
 	</insert>
 	

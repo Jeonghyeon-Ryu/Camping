@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class InputUsedVO {
 	private int usedId;
+	private String nickName;
 	private String usedName;
 	private int usedPrice;
 	private String usedCategory;
