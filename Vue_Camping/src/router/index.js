@@ -75,6 +75,7 @@ const routes = [{
     name: 'WriteNote',
     path: '/WriteNote',
     component: () => import('@/components/note/WriteNote.vue'),
+    props : true
   },
   {
     name: 'MynoteList',

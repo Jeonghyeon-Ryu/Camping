@@ -1,16 +1,8 @@
 <template>
     <div class="all_container">
         <!-- 짭 모달 -->
-        <div class="black-bg" v-if="modalOpen == true">
-            <div class="white-bg">
-                <div class="modal_text">삭제 하시겠습니까?</div>
-                <hr>
-                <div class="modal_btn_container">
-                    <button class="modal_delbtn" >ㅇㅋ</button>
-                    <button class="modal_cancel" @click="modalOpen = false">ㄴㄴ</button>
-                </div>
-            </div>
-        </div>
+      
+        
         <div class="black-bg" v-if="inviteModalOpen == true">
             <div class="invite-white-bg">
                 <div class="modal_info">초대할 유저의 닉네임을 입력해주세요</div>
@@ -51,8 +43,8 @@
            <div class="select_container">
                <div class="fn_btn_container">
                    <div class="mynote_btn">
-                       <button id="select_btn" @click="showCheckBox">선택</button>
-                       <button id="delete_btn" @click="modalOpen = true">삭제</button>
+                       <button id="select_btn" @click="showCheckBox" >선택</button>
+                       <button id="delete_btn" @click="[modalOpen = true, checkedInfo($event)]">삭제</button>
                    </div>   
                </div>
                <div class="select_note">
@@ -65,24 +57,27 @@
            </div>
            <div class="container-fluid">    
                <div class="row">            
-                    <div :class=cardClass[i-1] v-for="i in 5" :key="i">          
+                    <div class="card text-white bg-success mb-3" v-for="info in listInfo" :key="info.noteId">          
                         <div class="card-header" >
-                            <div class="note_state">{{noteState}}</div>
-                            <div class="noteId">{{noteId[i-1]}}</div>
+                            <div class="noteId">{{info.noteId}}</div>
+                            <div class="note_state">{{info.noteState}}</div>
                             <div class="checkbox">
-                                <input type="checkbox" name="check_one" v-if="show">
+                                <input type="checkbox" v-bind:id="info.noteId" name="check_one" v-if="show">
+                                
                                 <label for="select_card"></label>
                             </div>
                             <div class="header_button">
-                                <button id="delete_btn"  @click="modalOpen = true">삭제</button>
+                                <button id="delete_btn"  @click="findId($event)">삭제</button>
+                                <!-- <Modal v-if="modalOpen" @hide_modal="modalOpen=false" @goList="goList" :noteId="noteId"></Modal> -->
+                                
                                 <button id="invite_btn"  @click="inviteModalOpen = true">초대</button>
                                 <button id="block_btn"  @click="inviteCancleModalOpen = true">공유취소</button>
                             </div>
                         </div>          
-                        <div class="card-body">         
-                            <div class="card-text">{{writeDate}}</div>
+                        <div class="card-body" @click="goMynote(info.note)">       
+                            <div class="card-text">{{info.writeDate}}</div>
                             <hr>
-                            <div class="card-title">{{title}}</div>                    
+                            <div class="card-title">{{info.title}}</div>                    
                         </div>        
                     </div>              
                     
@@ -95,394 +90,153 @@
     <script>
     import "bootstrap"
     import "bootstrap/dist/css/bootstrap.min.css"
+    import Modal from "./modal.vue"
+    import Swal from 'sweetalert2';
+    
+
    
+
     
     export default{
-        name: "MynoteListTest",
-        data() {
-            return {
-    
-                noteId: [1,2,3,4,5],
-                writeDate: "2022-10-10",
-                noteState: "공유중",
-                title: "포항 도구해수욕장 캠크닉",
-                nickName: ['치킨','참치','고구마','피자'],
-                
-                cardClass: [
-                    "card text-white bg-secondary mb-3",
-                    "card text-white bg-success mb-3",
-                    "card text-white bg-dark mb-3",
-                    "card text-dark bg-info mb-3",
-                    "card text-white bg-danger mb-3"
-                ],
-                /*체크박스 상태 */
-                show: false,
-                /*모달창 상태*/
-                modalOpen: false,
-                inviteModalOpen: false,
-                inviteCancleModalOpen: false,
-            };
+    name: "MynoteListTest",
+    data() {
+        return {
+            noteId : [],
+            //myNoteId : '',
+            listInfo: [],
+            nickName: ["치킨", "참치", "고구마", "피자"],
+            cardClass: [
+                "card text-white bg-secondary mb-3",
+                "card text-white bg-success mb-3",
+                "card text-white bg-dark mb-3",
+                "card text-dark bg-info mb-3",
+                "card text-white bg-danger mb-3"
+            ],
+            /*체크박스 상태 */
+            show: false,
+            /*모달창 상태*/
+            modalOpen: false,
+            inviteModalOpen: false,
+            inviteCancleModalOpen: false,
+        };
+    },
+    created() {
+        this.getMyListInfo();
+    },
+    methods: {
+        showCheckBox(e) {
+            this.show = !this.show; 
         },
-       
-        methods: {
-            showCheckBox(e) {
-                this.show = !this.show;
-                console.log(this.show);
-            },
-            deleteNote() {
-                this.visible = !this.visible;
-            },
-            inviteNote() {
-                this.visible = !this.visible;
-            },
-            deleteInvite() {
-                this.visible = !this.visible;
-            },
-            changeCardColor(){ 
-                if(this.noteState === "공유중"){
-                    this.cardClass = "card text-white bg-dark mb-3";
-                } else {
-                    this.cardClass = "card text-white bg-success mb-3";
-                }     
-            },
+        deleteNote() {
+            this.visible = !this.visible;
         },
-    };
-    </script>
-       
-    <style scoped>
-        /*버튼임*/
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-    
-        :root {
-        --button-color: rgba(228,239,231,0.7);
-        --button-bg-color: #0d6efd;
-        --button-hover-bg-color: #025ce2;
-        }
-    
-        button {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        
-        background: var(--button-bg-color);
-        color: var(--button-color);
-        
-        margin: 0;
-        padding: 0.5rem 1rem;
-        
-        font-family: 'Noto Sans KR', sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
-        text-align: center;
-        text-decoration: none;
-        
-        border: none;
-        border-radius: 4px;
-        
-        display: inline-block;
-        width: auto;
-        
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        
-        cursor: pointer;
-        
-        transition: 0.5s;
-        }
-    
-        button.success {
-        --button-bg-color: #28a745;
-        --button-hover-bg-color: #218838;
-        }
-        button.modal_delbtn {
-        --button-bg-color: #c72939;
-        --button-hover-bg-color: #e04958;
-        }
-        button.warning {
-        --button-color: #212529;
-        --button-bg-color: #ffc107;
-        --button-hover-bg-color: #e0a800;
-        }
-    
-        button:active,
-        button:hover,
-        button:focus {
-        background: var(--button-hover-bg-color);
-        outline: 0;
-        }
-        button:disabled {
-        opacity: 0.5;
-        }
-        /* 모달임 */
-        .black-bg { 
-            width : 100%;
-            height: 100%;
-            background-color: rgba(230, 225, 225, 0.905);
-            position: fixed;
-            padding: 20px;
-            z-index: 100;
-            align-items: center;
-            border : 1px solid rgb(59, 155, 59);
-        }
-        .white-bg{ 
-            width: 400px;
-            height: 200px;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 15% 30% 15% 40%;  
-        }
-        .modal_text { 
-            margin: 20px 0 20px 0;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .modal_btn_container{
-            margin-top: 30px;
-            align-items: center;
-        }
-        .modal_btn_container>button{ 
-            margin-right: 20px;
-        }
-        .modal_delbtn{ 
-            color: #fff;
-        }
-        /* 초대모달임 */
-       .invite-white-bg{ 
-            width: 500px;
-            height: 250px;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 10% 30% 15% 40%; 
-       }
-        .modal_info{ 
-            font-size: 25px;
-            font-weight: bolder;
-            margin: 10px 0 15px 0;
-        }
-          .input {
-            width: 400px;
-            margin: 30px 0;
-            font-size: 20px;
-            color: black;
-          }
-          .input:focus {
-            animation-name: border-focus;
-            animation-duration: 1s;
-            animation-fill-mode: forwards;
-          }
-          @keyframes border-focus {
-            from {
-              border-radius: 0;
+        inviteNote() {
+            this.visible = !this.visible;
+        },
+        deleteInvite() {
+            this.visible = !this.visible;
+        },
+        changeCardColor() {
+            if (this.noteState === "공유중") {
+                this.cardClass = "card text-white bg-dark mb-3";
             }
-            to {
-              border-radius: 15px;
+            else {
+                this.cardClass = "card text-white bg-success mb-3";
             }
-          }
-        .invite_btn_container{ 
-            margin-top : 15px;
-        }
-        .invite_btn_container>button{ 
-            margin-right: 10px;
-        }
-        /* 공유끊기 모달임*/
-        .invite-cancel-white-bg{ 
-            width: 35%;
-            height: fit-content;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 5% 10% 10% 30%; 
-        }
-        .block_user_container{ 
-            margin-top: 10px;
+        },
+        //card에 들어갈 info
+        getMyListInfo() {
+            const email = localStorage.getItem("email");
+            fetch(`http://localhost:8087/java/MyNoteList/${email}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then((response) => response.json())
+                .then(data => {
+                //console.log(data);
+                this.listInfo = data;
+            }).catch(err => console.log(err));
+        },
+        findId(e) {
+            let findId = e.target.parentElement.parentElement.firstChild.innerText;
+            this.noteId.push(findId);
+            console.log(this.noteId);
+            this.delNote();
+        },
+        checkedInfo(e){ 
+            let checkBoxes = document.querySelectorAll('input[type="checkbox"]');
+            let checkedId = [];
+            let checkedIds = {};
+            for(let i=0; i<checkBoxes.length; i++){ 
             
-        }
-    
-        .textbox input[type="text"],
-        .textbox input[type="password"] {
-            width: 100%;  /* 원하는 너비 설정 */ 
-            height: auto;  /* 높이값 초기화 */
-            line-height : normal;  /* line-height 초기화 */
-            padding: .8em .5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
-            font-family: inherit;  /* 폰트 상속 */
-            border: 1px solid #999;
-            border-radius: 0;  /* iSO 둥근모서리 제거 */
-            outline-style: none;  /* 포커스시 발생하는 효과 제거를 원한다면 */
-            -webkit-appearance: none;  /* 브라우저별 기본 스타일링 제거 */
-            -moz-appearance: none;
-            appearance: none;
-        }
-    
-        
-        * {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            font-style: none;
-            box-sizing: border-box;
-        }
-        .row{ 
-            width: 100%;
-        }
-        /* page_section*/
-        .mynote_container {
-            width: 100%;
-            min-width: 650px;
-            margin-top: 150px;
-            position: relative;
-        }
-        .mynote_menu {
-            width: 100%;
-            border: 1px solid #ddd;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 200px;
-        }
-        .mynote_menu>div {
-            width: 20%;
-            border: 1px solid lightgray;
-            padding: 10px;
-            margin: 15px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .mynote_menu>div:hover {
-            background-color: rgba(228, 239, 231, 0.7);
-        }
-        .howtouse_region {
-            margin-top: 5px;
-            width: 100%;
-            border: 1px solid lightgray;
-        }
-        .mynote_list {
-            display: flex;
-            flex-direction: row;
-        }
-        .mynote_list>div {
-            padding: 5px 0px 5px 0px;
-        }
-        .mynote_region {
-            margin-top: 5px;
-            padding: 10px;
-            width: 100%;
-            height: 600px;
-            vertical-align: left;
-            display: flex;
-            flex-direction: row; 
-        }
-        .select_note{
-            margin: 20px 0 10px 88%; 
-            width: 140px;
-            height: 35px;
-            border-radius: 4px;
-            border: 2px solid rgb(6,68,32);
-    
-        }
-        .select_note .select{ 
-            width: inherit;
-            height: inherit;
-            background: transparent;
-            border: 0 none;
-            outline: 0 none;
-            position: relative;
-            padding: 0 5px; 
-        }
-        .select_note .select option {
-            background: rgb(6,68,32);
-            color: #fff;
-            padding: 3px 0;
-            font-size: 16px;
-        }
-    
-        /* card_section css */ 
-        .column{    
-            padding-top: 10px;    
-            padding-bottom: 10px;
-            margin: 0 20px 0 0;
-            width: 440px;  
+                if(checkBoxes[i].checked == true){ 
+                    //checkedId.push(checkBoxes[i].id);
+                    this.noteId.push(checkBoxes[i].id);
+                }
+            }
+            //console.log(checkedId);
+            console.log(this.noteId);
+            //console.log(this.noteId); 
+            this.delNote();
+        },
+        goList(){ 
+            this.$router.push({name : "MynoteList"});
+        },
+        delNote(){ 
+            Swal.fire({
+                title: '삭제하시겠습니까?',
+                text: '입력한 내용이 삭제됩니다.',
+                showCancelButton: true,
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    let noteIdObj = this.noteId;
+                    let noteIds = []; //new Array();
+                    for(let i=0; i<noteIdObj.length; i++){
+                        noteIds.push(noteIdObj[i]);
+                    }  
+                    let fetchData = {
+                        "noteIds" : noteIds
+                    }
+                    fetch(`http://localhost:8087/java/MyNoteList`,{
+                        method : "DELETE",
+                        headers : {"Content-Type" : "application/json"},
+                        body : JSON.stringify(fetchData)
+                    })
+                    .then((response) =>{
+                        console.log("asdasdasdasd");
+                        this.$router.go(0)
+                        
+                    }).catch(err=>{
+                        console.log(err)
+                    });
+                    //Swal.fire('취소 !', '', 'success')
+                }
+            })
+        },
+        goMynote(myNoteId){ 
+            /*let target = e.target.parentElement;
+            while(!target.classList.contains('card')){ 
+                target = target.parentElement
+            }
+            let noteId = target.querySelector('.noteId').innerText;
+                this.myNoteId = noteId;*/
+                
+            this.$router.push({
+                name : "WriteNote",
+                params : { 
+                    noteId : myNoteId
+                }
+            })
+               
+                
         }  
-        .container-fluid{    
-            margin-top: 20px;
-        
-        }  
-        .container-fluid .card{    
-            margin-left:auto;    
-            margin-right:auto;
-            margin-bottom: 50px; 
-            width: 30%;
-            height: 200px;
-            cursor: pointer;  
-        }
-        input { 
-        background-color: transparent;
-        border: none;
-        color: white;
-        font-weight: bold;
-        font-size: 20px;
-        }
+    },
+    components: { Modal }
+};
+</script>
     
-        /* 이동 타켓 */  
-        .card-placeholder {    
-            border: 1px dotted black;    
-            margin: 0 1em 1em 0;    
-            height: 50px;    
-            margin-left:auto;    
-            margin-right:auto;    
-            /* 선택한 카드 이동할 때 원래 자리 표시 */    
-            background-color: skyblue;  
-        }  
-        /* 마우스 포인터을 손가락으로 변경 */  
-        .card:not(.no-move) .card-header{    
-            cursor: pointer;  
-        }
-        .card-header{ 
-            display : flex;
-            position: relative;
-            padding: 20px 0 20px 0; 
-        }
-        .header_button{ 
-        position : absolute;
-        right: 45px;
-        top : 15px; 
-        }
-        
-        .checkbox {
-            position: absolute;
-            right: 10px;
-            transform: scale(2);
-        }
-        .select_container{ 
-            position: relative;
-        }
-        .card-body{ 
-        padding: 20px 0 20px 0;
-        text-align: justify;
-        }
-        
-        .card-title{ 
-        margin-top: 10px;
-        }
-        /* fn_btn */
-        .mynote_btn{ 
-            padding : 5px 0 5px 0;
-            justify-content: right;
-            position: absolute;
-            right: 230px;          
-        }
-    
-        .header_button>button{ 
-            /*opacity: 0;*/
-            transition-duration: 0.5s;
-            margin-left: 5px;
-            width: fit-content;
-        }
-        .mynote_btn>button{
-            margin-right: 10px;
-        }
-        .btn_active {
-            opacity: 1 !important;
-        }
-       </style>
+<style scoped src="@/assets/css/note/MynoteList.css">    
+</style>

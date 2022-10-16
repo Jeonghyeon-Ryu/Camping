@@ -158,17 +158,41 @@
 <script>
 import $ from 'jquery';
 import CreTextarea from './CreTextarea.vue';
+import MyNoteList from './MynoteList.vue';
 
 
 export default {
     data() {
         return {
+            noteId : '',
             textAmount: 1,
             isEditable: true,
-            childOrder: ['textBox'],
+            childOrder: ['textBox']
         }
     },
+    props : { 
+        noteId : Number,
+    },
+   
+    created() {
+        //this.noteId = this.$router.params.myNoteId;
+        console.log(this.noteId);
 
+        fetch(`http://localhost:8087/java/GoMyNote/${this.noteId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then((response) => response.json())
+                .then(data => {
+                    //console.log(data.noteId);
+                    //console.log(this.myNoteId);
+                this.$router.push({
+                    name : "WriteNote",
+                    params : data
+                })    
+                this.noteInfo = data;
+            }).catch(err => console.log(err));
+    },
     methods: {
         CreArea: function (e) {
             this.childOrder.push('textBox');
@@ -282,8 +306,8 @@ export default {
                     console.log(checkBoxTag);
                     contents.push(checkBoxTag);
                 }
-                console.log(contents.length);
             };
+            //작성한 내용 보내기
             let title = document.querySelector('.note_title').value;
             let fetchData = {
                 "title" : title,
@@ -298,7 +322,11 @@ export default {
                     'Content-Type' :'application/json' 
                 },
                 body : JSON.stringify(fetchData)
-            }).then(result => console.log(result))
+            }).then(result => { 
+                console.log(result);
+                this.$router.push({name:"MynoteList"});
+                
+            })
             
             
         }
