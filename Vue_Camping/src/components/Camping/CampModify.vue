@@ -19,18 +19,18 @@
                 <div class="camp-detail-map">
                     <span>위치 정보</span>
                     <div class="prev" v-text="camp.campAddress"></div>
-                    <input type="text" name="campAddress" placeholder="" />
+                    <input type="text" name="campAddress" placeholder="수정할 주소를 입력해주세요." />
                     <KakaoMap :search="camp.campAddress" :isNotList="isNotList"></KakaoMap>
                 </div>
                 <div class="camp-detail-site">
                     <span>사이트 수</span>
                     <div class="prev" v-text="camp.campSite"></div>
-                    <input type="text" name="campSite" :value="camp.campSite" placeholder="수정할 사이트 수를 입력해주세요." />
+                    <input type="text" name="campSite" placeholder="수정할 사이트 수를 입력해주세요." />
                 </div>
                 <div class="camp-detail-price">
                     <span>가격</span>
                     <div class="prev" v-text="camp.campPrice"></div>
-                    <input type="text" name="campPrice" :value="camp.campPrice" placeholder="수정할 가격을 입력해주세요." />
+                    <input type="text" name="campPrice" placeholder="수정할 가격을 입력해주세요." />
                 </div>
                 <div class="camp-detail-info">
                     <span>정보</span>
@@ -166,13 +166,18 @@ export default {
         confirm(e) {
             let fetchData = new FormData(document.querySelector('.camp-detail-container'));
             fetchData.append("email",localStorage.getItem("email"));
+            // 데이터 변경이 없는 것을 초기화 시켜줌
+            let countModifyData = 0;
             fetchData.forEach((value,key) => {
-                console.log(key);
-                console.log(value);
                 if(key=='campAddress' && value==''){
-                    fetchData.set('campAddress')
+                    fetchData.set('campAddress',this.camp.campAddress);
+                } else if(key=='campSite' && value=='') {
+                    fetchData.set('campSite', this.camp.campSite);
+                } else if(key=='campPrice' && value=='') {
+                    fetchData.set('campPrice', this.camp.campPrice);
                 }
             })
+
             // fetch('http://localhost:8087/java/campModify', {
             //   method: 'POST',
             //   headers: {  },

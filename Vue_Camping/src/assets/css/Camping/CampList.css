@@ -52,6 +52,7 @@
   align-items: center;
   gap: 2em;
   padding: 2em;
+  border : none;
   border-radius: calc(var(--curve) * 1px) 0 0 0;    
   background-color: var(--surface-color);
   transform: translateY(-100%);
@@ -75,7 +76,9 @@
 .card:hover .card-header {
   transform: translateY(0);
 }
-
+.card-header-text {
+  text-align: left;
+}
 .card-thumb {
   flex-shrink: 0;
   width: 50px;
@@ -111,6 +114,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+  text-align: left;
 }    
 .card-description img {
   margin: 3px 3px 3px 3px;
