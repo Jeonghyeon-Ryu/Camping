@@ -23,6 +23,9 @@ public interface UsedMapper {
 	//게시글 수정
 	public void updateUsed(UsedVO usedVO);
 	
+	//거래상태 수정
+	public int updateDealStatus(int dealStatus);
+	
 	//게시글 전체조회
 	public List<UsedVO> selectAllUsedList();
 	
@@ -35,14 +38,14 @@ public interface UsedMapper {
 	//게시글 키워드조회
 	public List<UsedVO> findUsedKeyword(String keyword);
 	
-	//게시글 삭제
-	public int deleteUsed();
-	
 	//거래상태변경
 	public int updateDeal();
 	
-	//게시물상태변경
-	public int updateRestrict();
+	//게시물 제한(usedStatus=1)
+	public void restrictUsed(UsedVO used);
+	
+	//게시물 삭제(usedStatus=2)
+	public void deleteUsed(UsedVO used);
 	
 	//조회수증가
 	public int updateCnt(int usedId);

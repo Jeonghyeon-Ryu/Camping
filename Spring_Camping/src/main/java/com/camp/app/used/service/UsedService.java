@@ -12,6 +12,8 @@ public interface UsedService {
 	public int getMaxUsedId();
 	public int getMaxUsedImageId();
 	
+	//게시글이미지
+	public List<UsedImageVO> showUsedImageByUsedId(int usedId);
 	
 	//게시글 수정
 	public void updateUsed(UsedVO usedVO);
@@ -28,18 +30,20 @@ public interface UsedService {
 	//게시글 키워드조회
 	public List<UsedVO> findUsedKeyword(String keyword);
 	
-	//게시글 삭제
-	public int deleteUsed();
+	//게시글 제한(usedStatus=1)
+	public void restrictUsed(UsedVO used);
+	
+	//게시글 삭제(usedStatus=2)
+	public void deleteUsed(UsedVO used);
 	
 	//거래상태변경
-	public int updateDeal();
-	
-	//게시물상태변경
-	public int updateRestrict();
+	public int updateDealStatus(int dealStatus);
 	
 	//조회수증가
 	public int updateCnt(int usedId);
 
 	//찜 증가
 	public int updateLike();
+
+	int updateRestrict();
 }
