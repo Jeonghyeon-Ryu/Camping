@@ -118,6 +118,7 @@ export default{
             this.recruEntry.entryGear = gearList;
            
             //신청 테이블에 인서트하기 
+            this.recruEntry.recruId = this.recruId;
             let recruEntry = this.recruEntry;
             fetch('http://localhost:8087/java/recru/entry',{
                 method : "POST",
@@ -134,10 +135,12 @@ export default{
                 //Detail 페이지의 상태 변경
                 //this.$emit()
             }).catch(err=>{
-                console.log(err)
+                console.log(err);
                 Swal.fire('문제 발생!','신청이 처리되지 않았습니다. 문제가 계속될 경우 문의해주세요','error');
             })
             //알림
+            this.$emit('close-modal');
+            this.$router.go(0) ;
         }
     }
 }

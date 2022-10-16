@@ -25,4 +25,6 @@ public interface MemberService {
 	public int signout(MemberVO member);
 	// 로그인
 	public MemberVO login(MemberVO member);
+	// 이메일로 회원정보 찾기
+	public MemberVO findByEmail(String memberId);
 }

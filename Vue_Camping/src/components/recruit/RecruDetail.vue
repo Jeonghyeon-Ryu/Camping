@@ -19,24 +19,24 @@
                         <RecruMap/>
                     </div>
                 </div>
-                <div class="recru-detail-col">
+                <div class="recru-detail-col" style="margin-top : 30px">
                     
                     <div class="recru-detail-user">
                         <img src="@/assets/img/bg9.jpg" name="profile_img" alt="profile img">
-                        <p><span>{{recruPost.writer}}</span></p>
+                        <p><span>{{recruPost.nickname}}</span></p>
                         <p>{{yyyyMMddhhmmss(recruPost.writeDate) }}</p>
                         <button class="report-btn">신고</button>
                     </div>
                     <div class="recru-detail-contents">
                         <br>
                         <h3 style="font-weight: bold;">모집자 정보</h3>
-                        <p><span>성별 </span>{{user.sex}}</p>
+                        <p><span>성별 </span>{{recruPost.sex}}</p>
                         <p><span>연령대  </span>{{userage}}</p>
                         <p><span>차량 유무 </span>{{recruPost.carYn}}</p>
                         <br>
                         <h3 style="font-weight: bold;">이런 분</h3>
-                        <p><span>성별  </span>{{recruPost.wishSex}}</p>
-                        <p><span>연령대  </span>{{recruPost.wishAge}}대</p>
+                        <p><span>성별  </span>{{userSex}}</p>
+                        <p><span>연령대  </span>{{recruPost.wishAge}}</p>
                         <br>
                         <h3 style="font-weight: bold;">함께 해요</h3>
                         <p><span>여행 예정 날짜  </span>{{recruPost.goDate}} ~ {{recruPost.comeDate}}</p>
@@ -44,12 +44,12 @@
                         <p><span>도착지 </span>{{recruPost.campingPoint}}</p>
                         <p><span>모집 인원  </span>{{recruPost.recruNum}}</p>
                         <br>
-                        <p><span>갖고있어요  </span></p>
-                        <p><span>필요해요  </span></p>
+                        <p><span>갖고있어요  </span>{{ gearList(recruPost.myGear)}}</p>
+                        <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
                         <br>
                         <p>{{recruPost.recruContent}}</p>
                         <br>
-                        <p><span>모집기간</span></p>
+                        <p><span>모집기간 : </span>{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
                     </div>
                 </div>
             </div>
@@ -61,27 +61,34 @@
 
             <!-- 게시글 관리 버튼 -->
             <div class="recru-detail-row recru-detail-btn">
-                <div v-if="memberId!=recruPost.recruId" class="recru-entry-btn">
+                <div class="recru-entry-btn">
                     <!-- 모집자/신청자가 아닌 경우 -->
-                    <button class="btn badge" type="button" @click="isModalViewed=true">동행 신청</button>
+                    <button v-if="userRole==0" class="btn-green hover-shadow" type="button" @click="isModalViewed=true">동행 신청</button>
                     <!-- 신청자인 경우 -->
-                    <button type="button" @click="entryDelete">신청 취소</button>
+                    <button v-if="userRole==2" type="button" style="color: green;background: rgba(228,239,231,0.7);font-weight: bold;">신청 중</button>
+                    <button v-if="userRole==2||userRole==3" class="hover-shadow" type="button" @click="entryDelete" style="color:gray; background: nlightgray; ">신청 취소</button>
                 </div>
-                <div v-if="memberId==recruPost.recruId" class="recru-writer-btn">
+                <div v-if="userRole==1" class="recru-writer-btn">
                     <!-- 모집자(작성자)인 경우 -->
                     <button type="button" @click="recruFinish">모집완료</button>
                     <button type="button" @click="recruUpdate">수정</button>
                     <button type="button" @click="recruDelete">삭제</button>
                 </div>
-               
+                <div v-if="userRole==4" class="recru-writer-btn">
+                    <!-- 관리자인 경우 -->
+                    <button type="button" @click="">접근제한</button>
+                    <button type="button" @click="">삭제</button>
+                </div>
             </div>
             <!-- 신청내역 : 글 작성자에게만 보임 -->
-            <div class="recru-detail-sol recru-entry-post">
+            <div v-if="userRole==1" class="recru-detail-sol recru-entry-post">
                 <h3>함께해요 신청 내역</h3>
                 <div class="recru-entry-list">
                     <div class="recru-detail-row">
-                        <div v-for="entryInfo in StanbyEntryPost" :key="entryInfo.entryId">
-                            <EntryStandByCard v-bind:entryCard="entryInfo"></EntryStandByCard>
+                        <div v-for="entryInfo in entryPost" :key="entryInfo.entryId">
+                            <div v-if="entryInfo.entryStatus==0">
+                                <EntryStandByCard v-bind:entryCard="entryInfo"></EntryStandByCard>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,7 +99,9 @@
                 <div class="recru-entry-list">
                     <div class="recru-detail-row">
                         <div v-for="entryInfo in entryPost" :key="entryInfo.entryId">
-                            <EntryCard v-bind:entryCard="entryInfo"></EntryCard>
+                            <div v-if="entryInfo.entryStatus==1">
+                                <EntryCard v-bind:entryCard="entryInfo"></EntryCard>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,53 +145,45 @@ export default{
     },
         data:function(){
             return{
+                //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, (4관리자 )
                 memberId : localStorage.getItem("email"),
+                userRole : 0,
                 recruPost : {},
-                recruStatus : '',
-                statusClass:'recru_status_ing',
-                user : {
-                    sex : '남',
-                    birth : new Date()
-                },
-                recruPost:{},
+                entryPost : [],
+                entryMember : '',
+                statusClass:'',
                 notePost : {},
-                completeRecru : {
+                sendRecruInfo : {
                     recruId : 0, 
                     recruStatus : 1,
                     memberId : ''
                 },
-                StanbyEntryPost:[],
-                entryPost : [],
-                entryCount : 0,
                 isModalViewed : false,
-                recru_entry : {
-                    entry_car : '',
-                    entry_gear : []
-                }
             }
         },
         created (){
-            this.loadRecruData()
+            this.loadRecruData();
         },
         computed : {
             recruStatus(){
-                if (this.recruStatus==0){
+                if (this.recruPost.recruStatus==0){
+                    this.statusClass = 'recru_status_red'
                     return '모집중'
-                }else if(this.recruStatus==1){
+                }else if(this.recruPost.recruStatus==1){
+                    this.statusClass = 'recru_status_green'
                     return '모집완료'
                 }else{
+                    this.statusClass = 'recru_status_gray'
                     return '모집취소'
                 }
             },
             userage(){
-                //연령대 계산
+                //희망 연령대 계산
                 const today = new Date();          
-                const birthDate = this.user.birth;
-
-                let age = today.getFullYear()
-                        - birthDate.getFullYear()
-                        + 1;
-
+                let birth = this.recruPost.birth;
+            
+                let age = today.getFullYear()- +birth.slice(0,4) + 1;
+                
                 if(age<30){
                     return '20대'
                 }else if(age<40){
@@ -194,21 +195,68 @@ export default{
                 }
             },
             entryCount(){
-                //현재 동행자 수 계산
-                return this.entryPost.length;
+                //현재 수락된 동행자 수 계산
+                let entryCount = 0
+                this.entryPost.forEach(entry=>{
+                    if(entry.recruStatus==1){
+                        entryCount ++;
+                    }
+                })
+                return entryCount;
+            },
+            userSex(){
+                //희망 성별
+                let gender = this.recruPost.wishSex;
+                if(gender==1){
+                    return '남자'
+                }else if(gender==2){
+                    return '여자'
+                }else{
+                    return '무관'
+                }
             }
         },
         methods :{
             loadRecruData : function(){
                 // 서버에서 단건조회
                 let recruId = this.recruId;
+                let component = this;
                 fetch("http://localhost:8087/java/recru/"+recruId)
                 .then((response) =>response.json()) 
                 .then(data => { 
-                    this.recruPost = data;  
-                    console.log(this.recruPost);
-                }).catch(err=>console.log(err));
-            }, 
+                    component.recruPost = data;  
+                    console.log(component.recruPost);
+            
+                    // 서버에서 모집글에 대한 참가목록 조회
+                    let recruId = 0;
+                    recruId = this.recruId;
+                    fetch("http://localhost:8087/java/recru/entry/"+recruId)
+                    .then((response) =>response.json()) 
+                    .then(data => { 
+                        component.entryPost = data;  
+                        //참가목록 저장         
+                        //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, (4관리자 )
+                        component.entryPost.forEach(entry => {
+                            component.entryMember+=entry.memberId+' ';
+                            if(entry.memberId == component.memberId && entry.entryStatus ==0){
+                                console.log(entry)
+                                component.userRole = 2;
+                            }else if(entry.memberId == component.memberId && entry.entryStatus ==1){
+                                component.userRole = 3;
+                            }
+                        })
+                        let writer = component.recruPost.memberId;
+                        if(component.userRole==2 || component.userRole==3){
+                        }else if(component.memberId == writer){
+                            component.userRole = 1;
+                        }else{
+                            component.userRole = 0;
+                        }
+                        console.log('role ' + component.userRole)
+                    }).catch(err=>console.log(err));
+                })
+
+            },
             loadDepositData : function(){
                 //보증금 상황 조회
 
@@ -232,6 +280,7 @@ export default{
                 return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes  + ':' + seconds;
             },
             recruFinish : function(){
+                let component = this;
                 //모집 완료 버튼
                 Swal.fire({
                     title: '모집을 완료하시겠습니가?',
@@ -241,165 +290,37 @@ export default{
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
                     confirmButtonText: '모집완료', // confirm 버튼 텍스트 지정
                     cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-                    
                     })
                     .then(result => {
                         //모집상태를 완료로 변경, 보증정보 insert
                         if (result.isConfirmed) { 
-                            this.completeRecru.recruId = this.recruId;
-                            this.completeRecru.memberId = this.memberId;
-                            const completeRecru = this.completeRecru;
+                            component.sendRecruInfo.recruId = component.recruId;
+                            component.sendRecruInfo.memberId = component.memberId;
+                            component.sendRecruInfo.recruStatus = 1;
                             fetch('http://localhost:8087/java/recru',{
                                 method : "PUT",
                                 headers : {"Content-Type" : "application/json"},
-                                body :  JSON.stringify(completeRecru)
+                                body :  JSON.stringify(component.sendRecruInfo)
                             }) 
                             .then(Response => Response.json())  
                             .then(data => { 
                                 Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success');
+                                component.$router.go(0) ;
                             }).catch(err=>console.log(err))
                         }
                     });
                
+            },
+            gearList(gears){
+                //필요한 장비 배열 정리
+                let gearList = gears.split(',');
+                let str = gearList[0]+'('+gearList[1]+') '+gearList[2]+'개'
+                for(let i=3; i<gearList.length; i=+3){
+                    str = str+', '+gearList[i]+'('+gearList[i+1]+') '+gearList[i+2]+'개';
+                }
+                return str;
             }
         }
     }
 </script>
-<style scoped>
-      /* 공통 부분 */
-    * {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        font-style: none;
-        box-sizing: border-box;
-    }
-    /* 컨테이너 */
-    .recru-detail-container{
-        margin-top: 150px;
-        margin-bottom: 150px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-    .recru-detail-box{
-        width: 90%;
-        max-width: 1000px;
-        padding: 10px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
-        text-align: left;
-     } 
-     .recru-detail-row{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .recru-detail-col{
-        width: 45%;
-        min-width: 420px;
-        margin-right: 10px;
-    }
-    .recru-detail-post{
-        justify-content: center;
-    }
-    .recru-detail-post span{
-        font-weight: bold;
-    }
-    .recru-detail-post h3{
-        color: rgb(132, 167, 147);
-    }
-     /* 제목 */
-     .recru-detail-title{
-        margin: 20px 0 10px 50px;
-     }
-     /* 게시글 상태 */
-     .recru-detail-status{
-        margin: 25px 0 20px 10px;
-        padding: 3px;
-        border-radius: 5px;
-        font-size: small;
-        font-weight: bold;
-     }
-     .recru_status_ing{
-        background: rgb(255, 215, 221);
-        color: crimson;
-     }
-    /* 유저 프로필 */
-    .recru-detail-user{
-        display: flex;  
-    }
-    .recru-detail-user img{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-top: 10px;
-    }
-    .recru-detail-user p{
-        padding: 10px 0 10px 10px;
-    }
-   .recru-detail-post p{
-       margin: 10px 15px ;
-   }
-    .recru-detail-date{
-        color: gray;
-        font-size: small;
-    }
-    .report-btn{
-        border-radius: 5px;
-        width: 60px;
-        height: 30px;
-        font-size:13px;
-        font-weight: bold;
-        border: none;
-        color: gray;
-        margin: 15px 10px 0 10px;
-    }
-
-
-    /* 장비사진, 지도 크기 */
-    .recru-detail-img, .recru-detail-info ,.recru-detail-map{ 
-        height: 400px;
-        width: 90%;
-        min-width: 400px;
-        margin: 30px 10px;
-        display: block;
-        overflow: hidden;
-        border-radius: 5px;
-    }
-    .recru-detail-img img, .recru-detail-map img{
-        height: 100%;
-        width: 100%;
-    }
-    .recru-detail-info p {
-        margin: 7px;
-    }
-    /* 버튼 */
-    .recru-detail-btn{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    /* 동행신청 내역 */
-    .recru-entry-post{
-        padding: 20px;
-        background: rgba(228,239,231,0.7) ;
-        margin-top: 20px;
-    }
-    .recru-entry-post h3{
-        margin-bottom: 20px;
-    }
-    .recru-entry-list{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    /* 보증금 상태 */
-    .deposit-status-box{
-        padding: 20px;
-        border: 5px solid rgba(228,239,231,0.7);
-        margin: 20px 0;
-    }
-    .deposit-status-box h3{
-        margin-bottom: 20px;
-    }
-</style>
+<style scoped src="@/assets/css/recruit/recruDetail.css" />

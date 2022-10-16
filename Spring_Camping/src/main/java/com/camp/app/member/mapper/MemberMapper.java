@@ -7,7 +7,7 @@ import com.camp.app.member.service.MemberVO;
 
 public interface MemberMapper {
 	public List<MemberVO> findAll();
-	public Optional<MemberVO> findByEmail(String email);
+	public MemberVO findByEmail(String email);
 	public int count();
 	public boolean existsByEmail(String email);
 	public boolean existsByNickname(String nickname);

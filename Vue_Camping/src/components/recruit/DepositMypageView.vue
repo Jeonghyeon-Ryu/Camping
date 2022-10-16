@@ -2,7 +2,7 @@
 <div class="entry-mypage-container">
       <div class="entry-mypage-box">
         <div class="entry-mypage-title">
-            <h2>보증금 확인</h2>
+            <h2>보증금 관리</h2>
         </div>
         <div v-for="entryPost in EntryList" :key="entryPost.entryId" class="entry-mypage-mini-box" >
             <div class="row">

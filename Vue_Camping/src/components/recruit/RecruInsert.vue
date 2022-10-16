@@ -149,7 +149,7 @@ export default{
         searchImg : img2,
         wishAge :[],
         recruInfo : {  
-            writer : 'user2',
+            memberId :localStorage.getItem("email"),
             wishSex : 0,
             wishAge : '',
             myCar : 0,
@@ -206,6 +206,7 @@ export default{
             .then(data => { 
                 //이미지 업로드
                 this.fileUpload();  
+                this.$router.push({name : 'RecruList'})
             }).catch(err=>console.log(err))
         },
         addFile : function(){

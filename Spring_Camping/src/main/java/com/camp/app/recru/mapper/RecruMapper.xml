@@ -90,6 +90,12 @@
 		WHERE recru_id = #{ recruId }
 	</select>
 	
+	<!-- 마이페이지 조회 -->
+	<select id="myRecru" parameterType="String" resultType="RecruVO">
+		SELECT * FROM recruitment
+		WHERE member_id = #{ memberId }
+	</select>
+
 	<!-- 수정 : 글 수정 -->
 	
 	<!-- 수정 : 상태변경 -->

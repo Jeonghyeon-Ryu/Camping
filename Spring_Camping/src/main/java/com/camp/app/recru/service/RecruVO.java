@@ -12,6 +12,11 @@ import lombok.Data;
 public class RecruVO {
 	private int recruId;			//모집글 ID
 	private String memberId;			//작성자 이메일
+	private String nickname;			//작성자 닉네임
+	
+	private String birth;				//작성자 생일 (200101)
+	private String sex;					//작성자 성별
+	
 	private String recruTitle;		//모집글 제목
 	private String recruContent;	//모집글 내용
 	private Date writeDate;			//글 작성일
@@ -34,6 +39,6 @@ public class RecruVO {
 	private int status;				//게시글상태(0 공개, 1 비공개, 2 삭제)
 	
 	private int memberRole;		//(0 일반상태,1 작성자,2 참가자,3 관리자)
-	private String nickname;
+	
 	private int depositId;		//게시글 모집 완료시 보증정보 인서트
 }
