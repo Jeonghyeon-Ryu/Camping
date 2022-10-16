@@ -17,6 +17,7 @@ import com.camp.app.sns.service.SnsImageVO;
 import com.camp.app.sns.service.SnsService;
 import com.camp.app.sns.service.SnsVO;
 import com.camp.app.sns.service.InputSnsVO;
+import com.camp.app.sns.service.SnsCommentVO;
 
 @Service
 public class SnsServiceImpl implements SnsService {
@@ -125,7 +126,7 @@ public class SnsServiceImpl implements SnsService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\sns\\" + directoryPath;
+		String uploadPath = "c:\\upload\\sns\\" + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if (!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();

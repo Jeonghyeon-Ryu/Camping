@@ -41,6 +41,6 @@ public class SnsTest {
 		sns.setImplement("취사도구");
 	
 		
-		service.insert(sns);
+	
 	}
 }

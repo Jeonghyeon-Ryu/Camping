@@ -48,9 +48,9 @@ public interface SnsMapper {
 
 	// sns 좋아요 기능
 
-	// sns comment 댓글 달기
-
+	
+	
 	// 신고...흠
-
+	
 	//
 }

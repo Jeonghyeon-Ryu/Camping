@@ -9,10 +9,10 @@ import lombok.Data;
 @Data
 public class SnsCommentVO {
 	//5개
-	private int commentId;
+	private int commentNo;
 	private String commentContent;
 	private Date commentDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private int writeId;
-	private String email;
+	private int writeNo;
+	private String nickname;
 }

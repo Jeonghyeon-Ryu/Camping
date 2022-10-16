@@ -6,5 +6,9 @@ import com.camp.app.sns.service.SnsCommentVO;
 
 public interface SnsCommentMapper {
 
+	// sns comment 댓글 달기
+	public int insertSnsComment(SnsCommentVO snsComment);
 
+	// comment 댓글 게시글별 전체 출력
+	
 }

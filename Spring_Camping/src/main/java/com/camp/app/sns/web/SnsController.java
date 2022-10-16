@@ -24,17 +24,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camp.app.sns.service.InputSnsVO;
+import com.camp.app.sns.service.SnsCommentService;
+import com.camp.app.sns.service.SnsCommentVO;
 import com.camp.app.sns.service.SnsImageVO;
 import com.camp.app.sns.service.SnsService;
 import com.camp.app.sns.service.SnsVO;
 
 //@SessionAttributes
 @RestController
-@CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
+@CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE,
+		RequestMethod.PUT })
 public class SnsController {
 
 	@Autowired
 	SnsService service;
+	@Autowired
+	SnsCommentService scService;
 
 	// 전체조회
 	@GetMapping("/getSnsList")
@@ -43,8 +48,8 @@ public class SnsController {
 		return service.getSnsList();
 
 	}
-	
-	//페이징
+
+	// 페이징
 	@GetMapping("/sns/{page}")
 	public List<SnsImageVO> getSnsList(@PathVariable("page") int page) {
 		return service.showSnsByPage(page);
@@ -108,18 +113,17 @@ public class SnsController {
 		System.out.println(writeNo);
 		return service.showSnsOne(writeNo);
 	}
-	
+
 	// sns 개별조회 - 이미지 리스트
 	@GetMapping("/snsImage/{writeNo}")
 	public List<SnsImageVO> getSnsImageList(@PathVariable("writeNo") int writeNo) {
 		return service.showSnsImageByWriteNo(writeNo);
 	}
 
-
-	//이미지 불러오기인가..??
+	// 이미지 불러오기인가..??
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
-		String fullPath = "d:\\upload\\sns\\" + imagePath + "\\" + storedName;
+		String fullPath = "c:\\upload\\sns\\" + imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
@@ -138,6 +142,26 @@ public class SnsController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+	}
+
+	// 댓글 등록
+	@PostMapping("/comment")
+	public boolean insertSnsComment(@RequestBody SnsCommentVO snsComment) {
+		System.out.println(snsComment);
+//		return true;
+		int result = scService.addSnsComment(snsComment);
+		if(result > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	//게시글별 댓글 전체 출력
+	@GetMapping("/snsComment/{writeNo}")
+	public void getSnsCommentList(@PathVariable int writeNo){
+		SnsCommentVO vo = new SnsCommentVO();
+		System.out.println(vo);
 	}
 
 }

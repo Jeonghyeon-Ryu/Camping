@@ -23,8 +23,6 @@ public interface SnsService {
 	// 글쓰기
 	public int insertSns(SnsVO vo);
 
-	
-
 	// 글 갯수 세기(페이징할때)
 	public int count();
 
