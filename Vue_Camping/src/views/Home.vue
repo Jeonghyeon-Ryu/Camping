@@ -1,6 +1,6 @@
 <template>
 
-  <MainSwiper></MainSwiper>
+  <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <SnsMain></SnsMain> -->
   <!-- <SnsDetailFeed></SnsDetailFeed> -->
@@ -13,22 +13,22 @@
   <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <UsedMain></UsedMain> -->
-  <!-- <UsedReview></UsedReview> -->
+  <UsedReview></UsedReview>
   <!-- <UsedInsert></UsedInsert> -->
   <!-- <UsedUpdate></UsedUpdate> -->
   <!-- <UsedDetail></UsedDetail> -->
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
   <!-- <UsedLike></UsedLike> -->
- <!-- <ChatRoom></ChatRoom> -->
- <!-- <ChatList></ChatList> -->
-<!-- <EntryMypageView></EntryMypageView> -->
-<!-- <DepositMypageView></DepositMypageView> -->
- <!-- <RecruInsert></RecruInsert> -->
- <!-- <RecruList></RecruList> -->
- <!-- <CampList></CampList> -->
- <!-- <MynoteList></MynoteList> -->
- <!-- <RecruInsert></RecruInsert> -->
+  <!-- <ChatRoom></ChatRoom> -->
+  <!-- <ChatList></ChatList> -->
+  <!-- <EntryMypageView></EntryMypageView> -->
+  <!-- <DepositMypageView></DepositMypageView> -->
+  <!-- <RecruInsert></RecruInsert> -->
+  <!-- <RecruList></RecruList> -->
+  <!-- <CampList></CampList> -->
+  <!-- <MynoteList></MynoteList> -->
+  <!-- <RecruInsert></RecruInsert> -->
 
 </template>
 

@@ -61,7 +61,7 @@ label {
   min-width: 400px;
   padding: 10px;
   /* background-color: rgb(150, 192, 168); */
-  box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px;
+  /* box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px; */
   margin: 0 auto;
   /* text-align: center; */
   display: flex;
@@ -100,7 +100,7 @@ label {
   padding: 10px;
   border: 1px solid #e6e6e6;
   border-radius: 7px;
-  box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px;
+  box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px;
   margin-bottom: 2%;
 }
 .used-searchbox>div {
@@ -114,7 +114,9 @@ label {
   position: absolute;
   right: 10px;
   top: 5px;
+  cursor: pointer;
 }
+
 
 .used-selected {
   display: flex;
@@ -195,7 +197,7 @@ label {
   border: 1px solid #e6e6e6;
 }
 
-.card-pic img {
+.card-pic img, .card-pic div {
   width: 100%;
 }
 

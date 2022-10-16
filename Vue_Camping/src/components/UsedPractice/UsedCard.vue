@@ -8,7 +8,8 @@
             </div>
             <!-- 카드사진 -->
             <div class="card-pic">
-              <img v-bind:src="cardImg">
+              <!-- <img v-bind:src="cardImg"> -->
+              <div v-for="usedImage of images"><img :src="'http://localhost:8087/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
             </div>
             <!-- 카드정보 -->
             <div class="card-info">
@@ -37,19 +38,17 @@
 
   export default{
     name: "UsedCard",
-    props : {usedCard : Object},
+    props : ['usedCard'], 
     data(){
       return{
         cardImg : img1,
         heartImg : img2,
         heartImg2 : img3,
         liked: true,
-        usedId : this.$route.params.usedId
+        usedId : this.$route.params.usedId,
+        images : []
       }
-    },
-    props: {
-      usedCard : Object
-    },  
+    }, 
     methods : {
        cardDetail: function(){
          this.$router.push({name : 'usedDetail'})
@@ -57,7 +56,16 @@
        hearted: function(){
           this.liked = !this.liked
        }
-     }
+    },
+    created : function() {
+        fetch('http://localhost:8087/java/used/usedImage/'+this.usedCard.usedId)
+        .then(result => result.json())
+        .then(result => {
+          console.log('aaaa', result);
+            this.images = result;
+        })
+        .catch(err => console.log(err))
+    },
   }
 </script>
 <style scoped src="@/assets/css/used/UsedMain.css">

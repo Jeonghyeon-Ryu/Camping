@@ -9,7 +9,7 @@
             <div class="used-pic">
               <div id='att_zone'>
                 <label class="input-file-button" for="btnAtt">
-                  <input type='file' name="files" id='btnAtt' accept="image/*" multiple='multiple' />
+                  <input type='file' name="files" id='btnAtt' accept="image/*" multiple />
                 </label>
               </div>
             </div>
@@ -19,7 +19,7 @@
             <ul>
               <li>
                 <label for="inputWriter">작성자</label>
-                <p>{{used_writer}}</p>
+                <input type="text" name="nickName" :value="nickName">
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
@@ -114,6 +114,8 @@
         used_writer: 'campingGo',
         regionSelect: '',
         regionSelect2: '',
+        nickName : localStorage.getItem("nickname"),
+
       }
     },
     methods: {
@@ -165,13 +167,15 @@
                     if(data>="1"){
                       // 성공
                       console.log("입력되었습니다.")
+                      this.$router.push({name : 'usedMain'})
                     } else {
                       // 실패                    
                       console.log("입력 실패")  
                     }
                 }).catch(err=>console.log(err))
               
-                this.$router.push({name : 'usedMain'})
+                console.log(fetchData)
+                // .finally()
               
         }
       },

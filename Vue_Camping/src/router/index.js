@@ -75,6 +75,11 @@ const routes = [{
     path: '/used/usedMain',
     name: 'usedMain',
     component: () => import('@/components/UsedPractice/UsedMain.vue'),
+  },
+  {
+    path: '/used/usedReview',
+    name: 'usedReview',
+    component: () => import('@/components/UsedPractice/UsedReview.vue'),
   }
 ]
 

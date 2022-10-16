@@ -1,8 +1,12 @@
 <template>
   <!--상단(필터, 검색)-->
   <div id="container">
-    <form id="container2">
+    <div id="container2">
+      <form onsubmit="return false">
       <div class="used-headd">
+        <div class="used-title">
+          <h2>중고장터</h2>
+        </div>
         <!--검색-->
         <div class="used-search">
           <div class="used-selected">
@@ -13,6 +17,7 @@
             <li v-if="minPrice != ''" @click="priceSelected">{{minPrice}} ~ {{maxPrice}} X</li>
             </ul>
           </div>
+          
           <div class="used-searchbox">
             <div>
               <input type="text" name="search" placeholder="어떤 물건을 찾으시나요?" v-model="keyword" @keyup.enter="searchList()">
@@ -81,9 +86,6 @@
 
       <!--본문-->
       <div class="used-body">
-        <div class="used-title">
-          <h2>중고거래</h2>
-        </div>
 
         <h2>{{recruMsg}}</h2>
         <div class="cards">
@@ -97,7 +99,7 @@
 
 
       </div>
-
+    </form>
       <!--하단-->
       <div class="used-foote">
         <router-link tag="div" v-bind:to="{name:'usedInsert'}">
@@ -106,12 +108,11 @@
         <!-- <button v-on:click='usedInsert'>+</button>
         <button v-on:click='usedInsert'>♥</button> -->
       </div>
-    </form>
+    </div>
   </div>
 </template>
 <script>
-  import img1 from "@/assets/img/bg9.jpg"
-  import img2 from "@/assets/img/search.png"
+  import img1 from "@/assets/img/search.png"
   import UsedCard from "@/components/UsedPractice/UsedCard.vue"
   import district from "@/assets/district.js"
 
@@ -128,8 +129,7 @@
         regionSelect2: '',
         minPrice: '',
         maxPrice: '',
-        cardImg : img1,
-        searchImg : img2,
+        searchImg : img1,
       }
     },
     methods : {
@@ -179,7 +179,6 @@
       },
       searchList : function(event){
         //키워드 검색 결과 받아오기
-        event.preventDefault();
         const keyword = this.keyword;
         fetch("http://localhost:8087/java/used/search/"+keyword,{
           method : "POST",

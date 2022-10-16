@@ -10,7 +10,7 @@
             <div class="used-pic">
               <div id='att_zone'>
                 <label class="input-file-button" for="btnAtt">
-                  <input type='file' name="pic" id='btnAtt' accept="image/*" multiple='multiple' />
+                  <input type='file' name="files" id='btnAtt' accept="image/*" multiple />
                 </label>
               </div>
             </div>
@@ -20,7 +20,7 @@
             <ul>
               <li>
                 <label for="inputWriter">작성자</label>
-                <p>{{used_writer}}</p>
+                <p>{{usedList.nickName}}</p>
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
@@ -174,6 +174,7 @@
                     console.log(data)
 
                 }).catch(err=>console.log(err))
+                .finally(this.$router.push({name : 'usedDetail'}))
         }
       },
       //지역선택
