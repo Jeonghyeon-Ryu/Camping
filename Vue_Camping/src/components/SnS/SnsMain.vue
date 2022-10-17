@@ -33,7 +33,7 @@ export default {
       .then(result => {
         
         this.snsImgs = result;
-        console.log(this.snsImgs);
+        console.log('출력됨..',this.snsImgs);
       })
       .catch(err => console.log(err));
   },
@@ -116,5 +116,13 @@ export default {
   margin-bottom: 10px;
   margin-right: 10px;
   cursor: pointer;
+  width: 100%;
+  height: 100%;
+
+}
+.sns-img img{
+  width: 100%;
+  height: 100%;
+  object-fit : cover;
 }
 </style>
