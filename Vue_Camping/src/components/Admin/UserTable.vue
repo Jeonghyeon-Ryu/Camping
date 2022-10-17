@@ -88,6 +88,12 @@ export default {
         } else {
             this.totalPage = Math.ceil(total / this.perPage);
         }
+        for (let i = 0; i < this.perPage; i++) {
+            if (Object.keys(this.userData).length <= i) {
+                break;
+            }
+            this.rows.push(this.userData[i]);
+        }
     },
     mounted: function () {
         this.changeColumnSize();
@@ -109,8 +115,11 @@ export default {
         },
         startPage: function () {
             // currentPage - currentPage % 10 + 1 을
-
-            return (this.currentPage - (this.currentPage % 10)) + 1;
+            if(this.currentPage<=10){
+                return 1;
+            } else {
+                return (this.currentPage - (this.currentPage % 10));
+            }
 
             // if ((this.endPage == this.totalPage) && (this.endPage > 10)) {
             //     return (this.endPage - this.endPage % 10);
@@ -143,9 +152,6 @@ export default {
                     return x < y ? -1 : x > y ? 1 : 0;
                 }
             });
-        },
-        test: function () {
-            console.log(this.sortJSON(this.userData, "name", "asc"));
         },
         checkAll: function (e) {
             if (e.target.checked) {
@@ -231,12 +237,21 @@ export default {
     watch: {
         currentPage: function () {
             // 현재 페이지 변경될때 현재 데이터 제거 > 새로운 데이터 푸시
-            for (let tableBody of document.querySelectorAll('.table-body')) {
-                tableBody.remove();
+            // for (let tableBody of document.querySelectorAll('.table-body')) {
+            //     tableBody.remove();
+            // }
+            this.rows = [];
+
+            if (this.currentPage == 1) {
+                for(let i = 0; i<20; i++) {
+                    this.rows.push(this.userData[i]);
+                }
+            } else {
+                for (let i = (this.currentPage * this.perPage); i < (this.currentPage * this.perPage + this.perPage); i++) {
+                    this.rows.push(this.userData[i]);
+                }
             }
-            for (let i = (this.currentPage * this.perPage); i < (this.currentPage * this.perPage + this.perPage); i++) {
-                this.rows.push(this.userData[i]);
-            }
+
         },
         userData: function () {
             // 데이터 변경 있을때 전체 페이지, 전체 수 계산, 화면 표시되는 데이터
@@ -246,12 +261,7 @@ export default {
             } else {
                 this.totalPage = Math.ceil(total / this.perPage);
             }
-            for (let i = 0; i < this.perPage; i++) {
-                if (Object.keys(this.userData).length <= i) {
-                    break;
-                }
-                this.rows.push(this.userData[i]);
-            }
+
         }
     },
     components: { Pagination, Sort, Filtering, TableButton, ModifyModal, ExcelExport }
