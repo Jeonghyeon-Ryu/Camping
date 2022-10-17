@@ -15,4 +15,5 @@ public class SnsCommentVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private int writeNo;
 	private String nickname;
+	private String email;
 }

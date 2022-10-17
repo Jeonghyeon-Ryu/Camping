@@ -1,5 +1,7 @@
 package com.camp.app.sns.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +25,12 @@ public class SnsCommentServiceImpl implements SnsCommentService {
 		return mapper.insertSnsComment(snsComment);
 		
 	}
+
+	//게시글별 댓글 전체출력
+	@Override
+	public List<SnsCommentVO> findByWriteNoToSnsComment(int writeNo) {
+		return mapper.findByWriteNoToSnsComment(writeNo);
+	}
+	
+	
 }
