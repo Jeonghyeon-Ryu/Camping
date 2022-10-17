@@ -165,7 +165,8 @@ export default {
         },
         confirm(e) {
             let fetchData = new FormData(document.querySelector('.camp-detail-container'));
-            fetchData.append("email",localStorage.getItem("email"));
+            fetchData.append("email",this.$store.state.email);
+            fetchData.append("campName", this.camp.campName);
             // 데이터 변경이 없는 것을 초기화 시켜줌
             let countModifyData = 0;
             fetchData.forEach((value,key) => {
@@ -177,13 +178,14 @@ export default {
                     fetchData.set('campPrice', this.camp.campPrice);
                 }
             })
+            
 
-            // fetch('http://localhost:8087/java/campModify', {
-            //   method: 'POST',
-            //   headers: {  },
-            //   body: fetchData
-            // }).then(result => result.text())
-            // .then(result => console.log(result));
+            fetch('http://localhost:8087/java/campModify', {
+              method: 'POST',
+              headers: {  },
+              body: fetchData
+            }).then(result => result.text())
+            .then(result => console.log(result));
         },
         cancel(e) {
             this.$router.push({ name: "CampDetail", params: { campId: this.campId } })
