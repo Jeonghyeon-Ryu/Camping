@@ -34,12 +34,6 @@
         </div>
         <!-- 화면 -->
         <div class="mynote_container">
-            <nav class="mynote_menu">
-               <div class="use_method">이용 방법</div>
-               <div class="note_mine">내가 작성한 노트</div>
-               <div class="invited_note">내가 초대받은 노트</div>
-               <div class="write_note">노트 작성하기</div>
-           </nav>
            <div class="select_container">
                <div class="fn_btn_container">
                    <div class="mynote_btn">
@@ -74,7 +68,7 @@
                                 <button id="block_btn"  @click="inviteCancleModalOpen = true">공유취소</button>
                             </div>
                         </div>          
-                        <div class="card-body" @click="goMynote(info.note)">       
+                        <div class="card-body" @click="goMynote($event)">       
                             <div class="card-text">{{info.writeDate}}</div>
                             <hr>
                             <div class="card-title">{{info.title}}</div>                    
@@ -92,17 +86,13 @@
     import "bootstrap/dist/css/bootstrap.min.css"
     import Modal from "./modal.vue"
     import Swal from 'sweetalert2';
-    
-
-   
-
-    
+  
     export default{
-    name: "MynoteListTest",
+    name: "MynoteList",
     data() {
         return {
             noteId : [],
-            //myNoteId : '',
+            myNoteId : this.$route.params.noteId,
             listInfo: [],
             nickName: ["치킨", "참치", "고구마", "피자"],
             cardClass: [
@@ -182,6 +172,7 @@
         goList(){ 
             this.$router.push({name : "MynoteList"});
         },
+
         delNote(){ 
             Swal.fire({
                 title: '삭제하시겠습니까?',
@@ -206,7 +197,7 @@
                         body : JSON.stringify(fetchData)
                     })
                     .then((response) =>{
-                        console.log("asdasdasdasd");
+                       
                         this.$router.go(0)
                         
                     }).catch(err=>{
@@ -216,18 +207,18 @@
                 }
             })
         },
-        goMynote(myNoteId){ 
-            /*let target = e.target.parentElement;
+        goMynote(e){ 
+            let target = e.target.parentElement;
             while(!target.classList.contains('card')){ 
                 target = target.parentElement
             }
             let noteId = target.querySelector('.noteId').innerText;
-                this.myNoteId = noteId;*/
+                this.myNoteId = noteId;
                 
             this.$router.push({
-                name : "WriteNote",
+                name : "MyNoteInfo",
                 params : { 
-                    noteId : myNoteId
+                    noteId : this.myNoteId
                 }
             })
                

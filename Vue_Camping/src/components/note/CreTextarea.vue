@@ -1,55 +1,52 @@
 <template>
-    <div class="write_fn">
-        <div class="left_container">
-            <div class="btn_container">
-                <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
-                <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
-            </div>
-            <div v-if="type=='textBox'">
-                <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" 
-                                            v-on:keydown.shift="shiftfDown($event)" 
-                                            v-on:keydown.enter="creTextarea($event)">
-                </textarea>
-            </div>    
-            <div v-if="type=='tableBox'" class='maked_table_place' v-on:keydown.enter="creTextarea($event)">
-                <div class='table_container'>
-                    <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
-                    <table class='maked_table'> 
-                        <tr class='item' > 
-                            <td class="row-button-container" @mouseover="showBtn">
-                                <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
-                            </td>
-                            <td class='item_td'><input width="100px" type="text" class="input_text"></td>  
-                            <td class='item_td'><input width="100px" type="text" class="input_text"></td>
-                        </tr>
-                        <tr class='item'>
-                            <td class="row-button-container">
-                                <button class='row_delbtn'><img src="@/assets/img/note/trash.png"></button>
-                            </td>
-                            <td class='item_td'><input type="text" class="input_text"></td> 
-                            <td class='item_td'><input type="text" class="input_text"></td> 
-                        </tr>
-                    </table>
-                    <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
-                </div>
-            </div>
-            <div v-if="type=='checkboxBox'" class='check_box_place'>
-                <div class='check_box_list'>
-                    <input type='checkbox' class='noteCheckbox' value="true" name="myCheck"><input type="text" class="checkbox_text" name="myCheck">
-                    <div class="checkbox_button_container">
-                        <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
-                        <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
-                    </div>
-                </div>
-            </div>
-            <div v-if="type=='imgBox'" style="padding:30px;">
-                <input type="file" accept="image/*" @change="fileChange"/>
-                <p>
-                    upload이미지 : {{file.name}} fileSize : ({{file.size}}) / fileType : {{file.type}}
-                </p>
-            </div>
+<div class="write_fn">
+    <div class="left_container">
+        <div class="btn_container">
+            <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
+            <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
+        </div>
+    </div>  
+    <div v-if="type=='textBox'">
+        <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" 
+                                    v-on:keydown.shift="shiftfDown($event)" 
+                                    v-on:keydown.enter="creTextarea($event)">
+        </textarea>
+    </div>    
+    <div v-if="type=='tableBox'" class='maked_table_place' v-on:keydown.enter="creTextarea($event)">
+        <div class='table_container'>
+            <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
+            <table class='maked_table'> 
+                <tr class='item' > 
+                    <td class="row-button-container" @mouseover="showBtn">
+                        <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
+                    </td>
+                    <td class='item_td'><input width="100px" type="text" class="input_text"></td>  
+                    <td class='item_td'><input width="100px" type="text" class="input_text"></td>
+                </tr>
+                <tr class='item'>
+                    <td class="row-button-container">
+                        <button class='row_delbtn'><img src="@/assets/img/note/trash.png"></button>
+                    </td>
+                    <td class='item_td'><input type="text" class="input_text"></td> 
+                    <td class='item_td'><input type="text" class="input_text"></td> 
+                </tr>
+            </table>
+        </div>
+    </div>          
+    <div v-if="type=='checkboxBox'" class='check_box_list'>
+        <input type='checkbox' class='noteCheckbox' value="true" name="myCheck"><input type="text" class="checkbox_text" name="myCheck">
+        <div class="checkbox_button_container">
+            <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
+            <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
         </div>
     </div>
+    <div v-if="type=='imgBox'" style="padding:30px;">
+        <input type="file" accept="image/*" @change="fileChange"/>
+        <p>
+            upload이미지 : {{file.name}} fileSize : ({{file.size}}) / fileType : {{file.type}}
+        </p>
+    </div>
+</div> 
   </template>
 
 <script>
@@ -175,7 +172,7 @@ const message = ref("hello");
     }
 }
 </script>
-<style scoped>
+<style scoped src="@/assets/css/note/WriteNote.css">
 .left_container{ 
     display: flex;
  
