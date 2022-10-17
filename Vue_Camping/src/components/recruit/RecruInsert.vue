@@ -111,15 +111,15 @@
                     <span>여행정보</span>
                     <ul class="recru-box-name">
                         <li class="recru-info-startP">
-                            <label>출발지<input type="text" v-model="recruInfo.startingSpot" @click="searchAddr">
+                            <label>출발지<input type="text" v-model="recruInfo.startingPoint" @click="searchAddr">
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
                         </li>
                         <li class="recru-info-campP">
-                            <label >도착지<input type="text" v-model="recruInfo.campingSpot" @click="searchCamp">
+                            <label >도착지<input type="text" v-model="recruInfo.campingPoint" @click="searchCamp">
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
                         </li>
                         <li class="recru-info-number">
-                            <label>모집인원 <input type="number" v-model="recruInfo.recru_num" min="1" de></label>
+                            <label>모집인원 <input type="number" v-model="recruInfo.recruNum" min="1" de></label>
                         </li>
                         <li class="recru-info-day">
                             <label>여행 날짜 <input type="date" class="select-date" v-model="recruInfo.goDate"></label> 
@@ -158,8 +158,8 @@ export default{
             recruTitle : '',
             recruContent :'',
             noteId: 0,
-            startingSpot: '',
-            campingSpot: '',
+            startingPoint: '',
+            campingPoint: '',
             recruNum : 0,
             goDate : '',
             comeDate : '',

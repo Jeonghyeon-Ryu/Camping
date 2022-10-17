@@ -70,6 +70,7 @@
                     position: 'center-center',
                     showCancelButton: true,              
                 }).then(result => {
+                    const component = this;
                     if(result.isConfirmed){
                         this.updateStatus.entryStatus = 1;
                         this.updateStatus.entryId = this.entryCard.entryId;
@@ -84,8 +85,8 @@
                         .then(data => { 
                             console.log(data)
                             Swal.fire('동행을 수락하였습니다.','함께 여행을 떠나요!','success');
-                            component.$router.go(0) ;
                         }).catch(err=>console.log(err))
+                        component.$router.go(0) ;
                     }
                 })
             },
@@ -112,8 +113,8 @@
                         .then(data => { 
                             console.log(data)
                             Swal.fire('동행을 거절하였습니다.','다음에 함께해요','');
-                            component.$router.go(0) ;
                         }).catch(err=>console.log(err))
+                        component.$router.go(0) ;
                     }
                 })
                 //등록상태변화

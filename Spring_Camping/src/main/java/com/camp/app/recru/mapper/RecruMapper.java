@@ -2,7 +2,7 @@ package com.camp.app.recru.mapper;
 
 import java.util.List;
 
-import com.camp.app.member.service.MemberVO;
+import com.camp.app.recru.service.RecruImgVO;
 import com.camp.app.recru.service.RecruVO;
 
 public interface RecruMapper {
@@ -22,4 +22,6 @@ public interface RecruMapper {
 	public int changeStatus(RecruVO recru);
 	//작성자 정보조회
 	public RecruVO getMemberInfo(String email);
+	//모집글 이미지 찾기
+	public List<RecruImgVO> findImgByRecruId(int recruId);
 }

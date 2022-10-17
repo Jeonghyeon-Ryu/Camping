@@ -24,4 +24,6 @@ public class EntryVO {
 	private String nickname;		
 	
 	private int recruStatus;	//모집글 상태(0모집중,1모집완료,2실패)
+	private String entrySex;	//신청자 정보
+	private String entryBirth;
 }
