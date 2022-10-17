@@ -12,7 +12,7 @@
 		</selectKey>
 		INSERT INTO recruitment(
 				recru_id
-				,writer
+				,member_id
 				,recru_title
 				<if test="recruContent !=null">
 				,recru_content
@@ -41,7 +41,7 @@
 				)
 			VALUES(
 				#{recruId}
-				,#{writer}
+				,#{memberId}
 				,#{recruTitle}
 				<if test="recruContent !=null">
 				,#{recruContent}
@@ -90,13 +90,44 @@
 		WHERE recru_id = #{ recruId }
 	</select>
 	
+	<!-- 마이페이지 조회 -->
+	<select id="myRecru" parameterType="String" resultType="RecruVO">
+		SELECT * FROM recruitment
+		WHERE member_id = #{ memberId }
+	</select>
+
 	<!-- 수정 : 글 수정 -->
 	
 	<!-- 수정 : 상태변경 -->
-	<update id="changeStatus" parameterType="RecruVO">
+<!-- 	<update id="changeStatus" parameterType="RecruVO">
 		UPDATE recruitment 
-		SET status = #{status}
+		SET recru_status = #{recruStatus}
 		WHERE recru_id = #{recruId}
+	</update> -->
+	
+	<!-- 수정 : 모집 완료로 상태변경시(1) 보증금 추가 -->
+	<update id="changeStatus" parameterType="RecruVO">
+		<selectKey keyProperty="depositId" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(deposit_id),0)+1 FROM deposit
+		</selectKey>
+		DECLARE
+		BEGIN
+		    UPDATE recruitment 
+		    SET recru_status = #{recruStatus}
+		    WHERE recru_id = #{recruId};
+		<if test="recruStatus==1">
+		    INSERT INTO deposit ( 
+								deposit_id, 
+								recru_id, 
+								member_id 
+								)
+						VALUES( 
+		                        #{depositId},
+		                        #{recruId},
+		                        #{memberId}
+		                        );
+		</if>
+		END;
 	</update>
-	<!-- 삭제 -->
+
 </mapper>

@@ -33,7 +33,6 @@ export default {
       .then(result => {
         
         this.snsImgs = result;
-        console.log('출력됨..',this.snsImgs);
       })
       .catch(err => console.log(err));
   },

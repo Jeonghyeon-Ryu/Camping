@@ -66,4 +66,9 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO login(MemberVO member) {
 		return mapper.findByEmailAndPassword(member);
 	}
+
+	@Override
+	public MemberVO findByEmail(String memberId) {
+		return mapper.findByEmail(memberId);
+	}
 }

@@ -130,7 +130,7 @@
             <!-- 카드 -->
             <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
-                <div v-for="recruInfo in recruPosts" :key="recruInfo.title">
+                <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId">
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}">
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
@@ -140,93 +140,90 @@
     </div>
 </template>
 <script>
+import RecruCard from "@/components/recruit/RecruCard.vue";
+import img2 from "@/assets/img/search.png"
+import district from "@/assets/district.js"
 
-    import RecruFilter from "@/components/recruit/RecruFilter.vue";
-    import RecruCard from "@/components/recruit/RecruCard.vue";
-    import img2 from "@/assets/img/search.png"
-    import district from "@/assets/district.js"
+export default{
+    components: {
+        RecruCard
+    },
+    data : function(){
+        return{
+            keyword : '',
+            filter: {
+                wishSex :'',
+                wishAge :[],
+                searchMyGear :[],
+                searchNeedGear: [],
+                startingSpot: '',
+                campingSpot: '',
+                goDate: ''
+            },
+            recruPosts : [ ],
+            searchImg : img2,
+            recruMsg : ''
+        }
+    },
+    created(){
+        this.loadData();
+    },
+    methods: {
+        loadData : function(){
+            // 서버에서 전체 리스트 가져오기
+            fetch("http://localhost:8087/java/recru")
+            .then((response) =>response.json()) 
+            .then(data => { 
+                console.log(data);
+                this.recruPosts = data;  
 
-    export default{
-        components: {
-            RecruFilter,
-            RecruCard
+            }).catch(err=>console.log(err));
         },
-        data : function(){
-            return{
-                keyword : '',
-                filter: {
-                    wishSex :'',
-                    wishAge :[],
-                    searchMyGear :[],
-                    searchNeedGear: [],
-                    startingSpot: '',
-                    campingSpot: '',
-                    goDate: ''
-                },
-                recruPosts : [ ],
-                searchImg : img2,
-                recruMsg : ''
+        districtChange: function(){
+            //지역선택
+            let sido = document.querySelector('#recru-districtSelect');
+            let sigu = document.querySelector('#recru-citySelect');
+            let sidoName = sido.value;
+            let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
+
+            sigu.options.length=1;  //저장내역 삭제
+
+            let cityIndex = cityArr.indexOf(sidoName);
+
+            let cityList = district.data[cityIndex][sidoName];  //도시배열
+            for(let i in cityList){
+                        var opt = document.createElement("option");
+                        opt.value = cityList[i];
+                        opt.innerHTML = cityList[i];
+                        sigu.appendChild(opt);
             }
         },
-        created(){
-            this.loadData();
-        },
-        methods: {
-            loadData : function(){
-                // 서버에서 전체 리스트 가져오기
-                fetch("http://localhost:8087/java/recru")
-                .then((response) =>response.json()) 
-                .then(data => { 
-                    console.log(data);
-                    this.recruPosts = data;  
-
-                }).catch(err=>console.log(err));
-            },
-            districtChange: function(){
-                //지역선택
-                let sido = document.querySelector('#recru-districtSelect');
-                let sigu = document.querySelector('#recru-citySelect');
-                let sidoName = sido.value;
-                let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
-
-                sigu.options.length=1;  //저장내역 삭제
-
-                let cityIndex = cityArr.indexOf(sidoName);
-
-                let cityList = district.data[cityIndex][sidoName];  //도시배열
-                for(let i in cityList){
-                            var opt = document.createElement("option");
-                            opt.value = cityList[i];
-                            opt.innerHTML = cityList[i];
-                            sigu.appendChild(opt);
-                }
-            },
-            searchList : function(){
-                //키워드 검색 결과 받아오기
-                const keyword = this.keyword;
-                fetch("http://localhost:8087/java/recru/search/"+keyword,{
-                    method : "POST",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(keyword)
-                })
-                .then((response) =>response.json()) 
-                .then(data => { 
-                    console.log(data);
-                    this.recruPosts = data;  
-                }).catch(err=>console.log(err));
+        searchList : function(){
+            //키워드 검색 결과 받아오기
+            const keyword = this.keyword;
+            fetch("http://localhost:8087/java/recru/search/"+keyword,{
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(keyword)
+            })
+            .then((response) =>response.json()) 
+            .then(data => { 
+                console.log(data);
+                this.recruPosts = data;  
                 if(this.recruPosts.length<1){
                     this.recruMsg="검색 결과가 없습니다."
                 }else{
                     this.recruMsg="";
                 }
-            },
-            deleteFilter: function(e){
-                console.log(e.target)
-            },
-            
-            
-        }
+            }).catch(err=>console.log(err));
+        },
+        deleteFilter: function(e){
+            console.log(e.target)
+        },
+        
+        
     }
+}
 </script>
 <style scoped src="@/assets/css/used/UsedMain.css"/>
 <style scoped src="@/assets/css/recruit/recruList.css"/>

@@ -18,13 +18,9 @@
                 <TableButton :type="'active'" @active="active(data)"></TableButton>
             </li>
         </ul>
-        <Pagination :startPage="startPage" :endPage="endPage" :totalPage="totalPage" 
-            @changePage="changePage">
+        <Pagination :startPage="startPage" :endPage="endPage" :totalPage="totalPage" @changePage="changePage">
         </Pagination>
-        <ModifyModal v-if="isModify" 
-            :columns="columns" 
-            :modifyData="modifyData" 
-            @cancelModify="cancelModify"
+        <ModifyModal v-if="isModify" :columns="columns" :modifyData="modifyData" @cancelModify="cancelModify"
             @confirmModify="confirmModify">
         </ModifyModal>
         <div class="excel-export-container">
@@ -48,8 +44,8 @@ export default {
         return {
             columns: [
                 {
-                    name: "이름",
-                    prop: "name",
+                    name: "닉네임",
+                    prop: "nickname",
                     sortable: true,
                     size: "200px",
                     type: String
@@ -62,12 +58,17 @@ export default {
                 },
                 {
                     name: "성별",
-                    prop: "gender",
+                    prop: "sex",
                     type: String
                 },
                 {
-                    name: "메일확인",
-                    prop: "email_verified_at",
+                    name: "연락처",
+                    prop: "phoneNumber",
+                    type: String
+                },
+                {
+                    name: "가입일",
+                    prop: "regDate",
                     type: Date
                 }
             ],
@@ -76,14 +77,21 @@ export default {
             currentPage: 1,
             modifybtn: true,
             removebtn: true,
-            isModify:false,
+            isModify: false,
             modifyData: {}
         };
     },
     created: function () {
         let total = Object.keys(this.userData).length;
-        this.totalPage = Math.ceil(total / this.perPage);
+        if (total <= 20) {
+            this.totalPage = 1;
+        } else {
+            this.totalPage = Math.ceil(total / this.perPage);
+        }
         for (let i = 0; i < this.perPage; i++) {
+            if (Object.keys(this.userData).length <= i) {
+                break;
+            }
             this.rows.push(this.userData[i]);
         }
     },
@@ -91,20 +99,35 @@ export default {
         this.changeColumnSize();
     },
     computed: {
+        // 현제 페이지 변경 시 끝페이지 계산
         endPage: function () {
-
-            if ((Math.trunc(((this.currentPage - 1) / 10)) + 1) * 10 > this.totalPage) {
-                return this.totalPage;
+            // 만약 this.totalPage 보다 startPage + 9 가 크면 ? 끝페이지는 this.totalPage % 10 그게 아니면 endPage = 10;
+            if (this.totalPage < this.startPage + 9) {
+                return this.totalPage % 10;
             } else {
-                return (Math.trunc((this.currentPage - 1) / 10) + 1) * 10;
+                return 10;
             }
+            // if ((Math.trunc(((this.currentPage - 1) / 10)) + 1) * 10 > this.totalPage) {
+            //     return this.totalPage;
+            // } else {
+            //     return (Math.trunc((this.currentPage - 1) / 10) + 1) * 10;
+            // }
         },
         startPage: function () {
-            if (this.endPage == this.totalPage) {
-                return (this.endPage - this.endPage % 10)
+            // currentPage - currentPage % 10 + 1 을
+            if(this.currentPage<=10){
+                return 1;
             } else {
-                return this.endPage - 10;
+                return (this.currentPage - (this.currentPage % 10));
             }
+
+            // if ((this.endPage == this.totalPage) && (this.endPage > 10)) {
+            //     return (this.endPage - this.endPage % 10);
+            // } else if ((this.endPage == this.totalPage) && (this.endPage <= 10)) {
+            //     return this.endPage;
+            // } else {
+            //     return this.endPage - 10;
+            // }
         }
     },
     // 페이징 함수 rows로 보여줌,
@@ -129,9 +152,6 @@ export default {
                     return x < y ? -1 : x > y ? 1 : 0;
                 }
             });
-        },
-        test: function () {
-            console.log(this.sortJSON(this.userData, "name", "asc"));
         },
         checkAll: function (e) {
             if (e.target.checked) {
@@ -183,7 +203,7 @@ export default {
                 }
             })
         },
-        limit: function(data) {
+        limit: function (data) {
             Swal.fire({
                 title: '회원 접근을 제한하시겠습니까?',
                 text: '회원의 접근이 제한됩니다.',
@@ -196,7 +216,7 @@ export default {
                 }
             })
         },
-        active: function(data) {
+        active: function (data) {
             Swal.fire({
                 title: '회원 접근을 허용하시겠습니까?',
                 text: '회원의 접근제한이 해제됩니다.',
@@ -209,23 +229,45 @@ export default {
                 }
             })
         },
-        cancelModify: function() {
+        cancelModify: function () {
             this.modifyData = [];
             this.isModify = false;
         }
     },
     watch: {
         currentPage: function () {
-            for (let tableBody of document.querySelectorAll('.table-body')) {
-                tableBody.remove();
+            // 현재 페이지 변경될때 현재 데이터 제거 > 새로운 데이터 푸시
+            // for (let tableBody of document.querySelectorAll('.table-body')) {
+            //     tableBody.remove();
+            // }
+            this.rows = [];
+
+            if (this.currentPage == 1) {
+                for(let i = 0; i<20; i++) {
+                    this.rows.push(this.userData[i]);
+                }
+            } else {
+                for (let i = (this.currentPage * this.perPage); i < (this.currentPage * this.perPage + this.perPage); i++) {
+                    this.rows.push(this.userData[i]);
+                }
             }
-            for (let i = (this.currentPage * this.perPage); i < (this.currentPage * this.perPage + this.perPage); i++) {
-                this.rows.push(this.userData[i]);
+
+        },
+        userData: function () {
+            // 데이터 변경 있을때 전체 페이지, 전체 수 계산, 화면 표시되는 데이터
+            let total = Object.keys(this.userData).length;
+            if (total <= 20) {
+                this.totalPage = 1;
+            } else {
+                this.totalPage = Math.ceil(total / this.perPage);
             }
+
         }
     },
     components: { Pagination, Sort, Filtering, TableButton, ModifyModal, ExcelExport }
 }
 </script>
 
-<style scoped src="./UserTable.css"></style>
+<style scoped src="@/assets/css/Admin/UserTable.css">
+
+</style>

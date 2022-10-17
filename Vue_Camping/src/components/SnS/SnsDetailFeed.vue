@@ -167,8 +167,6 @@ import SnsReport from "./SnsReport.vue"
 
 export default {
   created: function () {
-    //게시글 내용 출력
-    console.log(this.writeNo)
     fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
       .then(response => response.json())
       .then(result => {

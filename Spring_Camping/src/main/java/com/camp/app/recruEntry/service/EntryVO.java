@@ -22,4 +22,6 @@ public class EntryVO {
 	private int entryStatus;		//신청상태 (0신청중,1수락,2거절,3취소대기(모집완료후),4취소완료)
 	private String memberId;
 	private String nickname;		
+	
+	private int recruStatus;	//모집글 상태(0모집중,1모집완료,2실패)
 }

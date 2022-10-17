@@ -1,7 +1,7 @@
 <template>
     <div class="camp-detail-container">
         <div class="camp-detail-title-container">
-            <input :value="camp.campName" class="camp-detail-title" readonly/>
+            <input :value="camp.campName" class="camp-detail-title" readonly />
             <div class="camp-detail-title-info">
                 <div class="camp-detail-review-count"><a href="#camp-detail-sns-container">후기(30)</a></div>
                 <div class="camp-detail-address"><a href="#" v-text="camp.campAddress"></a></div>
@@ -29,28 +29,28 @@
                     <div class="camp-detail-info-buttons">
                         <div class="row">
                             <label>
-                                <input type="checkbox" name="toilet" value="toilet" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="toilet" value="toilet" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/toilet.png" />
                                     <span>화장실</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="parking" value="parking" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="parking" value="parking" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/parking.png">
                                     <span>주차장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="shower" value="shower" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="shower" value="shower" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/shower.png" />
                                     <span>샤워장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="disposal" value="disposal" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="disposal" value="disposal" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/disposal.png" />
                                     <span>쓰레기장</span>
@@ -58,7 +58,7 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="deck" value="deck" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="deck" value="deck" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/deck.png" />
                                     <span>데크</span>
@@ -66,28 +66,28 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="bbq" value="bbq" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="bbq" value="bbq" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/bbq.png" />
                                     <span>바비큐</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="swim" value="swim" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="swim" value="swim" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/swim.png" />
                                     <span>수영장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="spoon" value="spoon" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="spoon" value="spoon" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/spoon.png" />
                                     <span>조리도구</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="lease" value="lease" v-model="camp.campInfo"/>
+                                <input type="checkbox" name="lease" value="lease" v-model="camp.campInfo" />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/lease.png" />
                                     <span>장비대여</span>
@@ -113,6 +113,7 @@
 <script>
 import KakaoMap from "../KakaoMap.vue";
 import CampDetailImage from "./CampDetailImage.vue";
+import Swal from 'sweetalert2';
 export default {
     data: function () {
         return {
@@ -142,7 +143,23 @@ export default {
 
         },
         modifyItem() {
-            this.$router.push({name:"CampModify", params:{campId:this.campId}});
+            if (this.$store.state.email != null) {
+                this.$router.push({ name: "CampModify", params: { campId: this.campId } });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '로그인을 해주세요',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        this.$router.push({name:"LoginSignup"});
+                    }
+                })
+            }
         },
         reportItem() {
 
