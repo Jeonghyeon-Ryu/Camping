@@ -180,14 +180,7 @@
     width: 500px;
     border: 1px solid black;
   }
-   * {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      font-style: none;
-      box-sizing: border-box;
-  }
-  
+   
   .mynote_container {
       margin-top: 150px;
       width: 100%;
