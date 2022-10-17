@@ -3,12 +3,12 @@
 <mapper namespace="com.camp.app.sns.mapper.SnsMapper">
 <!-- 전체조회 -->
 <select id="getSnsList" resultType="com.camp.app.sns.service.SnsVO">
-SELECT * FROM sns order by write_no desc </select>
+SELECT * 
+FROM sns 
+<!-- WHERE status = 0 -->
+order by write_no desc </select>
 
 <!-- 페이징? -->
-
-
-
 <select id="findByPage" resultType="SnsImageVO" parameterType="Integer">
 
 <![CDATA[
@@ -20,10 +20,13 @@ SELECT * FROM sns order by write_no desc </select>
            FROM (
                 SELECT ROWNUM AS SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
                 FROM ( SELECT *
-                            FROM sns_image
+                            FROM sns_image 
                             WHERE sns_image_no = ANY
                                     (SELECT MAX(sns_image_no) 
-                                    FROM sns_image 
+                                    FROM sns_image
+                                    WHERE write_no IN (SELECT write_no
+                                                                FROM sns
+                                                                WHERE status=0)
                                     GROUP BY write_no)
                             ORDER BY write_no desc)
                )
@@ -56,6 +59,7 @@ VALUES
 SYSDATE,
 0,
 #{nickname},
+#{email},
 #{implement}
 ) 
 </insert>
@@ -94,8 +98,6 @@ SELECT * FROM sns WHERE write_no = #{writeNo}
 </select>
 
 <!-- sns 개별조회 - 이미지 리스트 -->
-
-
 <select id="findByWriteNoToSnsImage" resultType="SnsImageVO" parameterType="Integer">
 SELECT * FROM sns_image WHERE write_no = #{writeNo} 
 </select>
@@ -111,18 +113,19 @@ SELECT *FROM snsWHERE write_no = #{writeNo}
 <!-- 글 수정 -->
 <update id="snsUpdate" parameterType="SnsVO">
 UPDATE sns
-set content = #{content},
+SET content = #{content},
 location = #{location},
 place = #{place},
 hashtag = #{hashtag}
 WHERE write_no = #{writeNo} 
 </update>
 
-<!-- 글 삭제 -->
-<delete id="snsDelete" parameterType="Integer">
-DELETE FROM sns
+<!-- 글 삭제(상태변경) -->
+<update id="snsDelete" parameterType="Integer">
+UPDATE sns
+SET status = 1
 WHERE write_no = #{writeNo} 
-</delete>
+</update>
 
 
 </mapper>

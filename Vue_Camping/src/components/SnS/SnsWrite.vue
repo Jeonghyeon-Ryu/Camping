@@ -35,13 +35,13 @@
             </div>
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <input type="text" value="작성자 닉네임" name="nickname">
+                <input type="text" :value=this.nickname name="nickname">
+                <input type="text" :value=this.email name="email" style="display :none;">
               </div>
             </div>
           </div>
           <div class="sns-write-context">
             <textarea v-model="snsWriteText" placeholder="내용을 입력하세요" name="content"></textarea>
-
           </div>
           <div class="sns-write-hashtag">
             <textarea v-model="snsWriteHashtag" placeholder="해시태그" name="hashtag"></textarea>
@@ -73,6 +73,8 @@ export default {
 
   data: function () {
     return {
+      nickname: this.$store.state.nickname,
+      email: this.$store.state.email,
       snsWriteId: '작성자id',
       snsWriteText: '내용',
       snsWriteHashtag: '#해시태그',
