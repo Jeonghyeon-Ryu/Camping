@@ -18,6 +18,6 @@ public interface CampMapper {
 	public int insertCampImage(CampImageVO campImage);
 	public int insertCampModify(CampModifyVO camp);
 	public int findMaxByCampModifyId();
-//	public int update(CampVO camp); 
+	public int update(CampVO camp); 
 	
 }

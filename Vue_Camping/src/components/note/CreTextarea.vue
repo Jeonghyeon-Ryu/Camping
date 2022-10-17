@@ -119,7 +119,7 @@ const message = ref("hello");
             
             if ($('.item').length > 1) {
                 $(findRow).remove();
-                console.log($('.item').length);
+                
             }
          },
          creCheckbox : function(e){ 
@@ -129,7 +129,7 @@ const message = ref("hello");
             this.$emit('imgBox');
          },
          fileChange: function(e){ 
-            console.log(e.target.files)
+            
             this.file = e.target.files[0];
          },
          enterPressed : function(){
@@ -137,7 +137,7 @@ const message = ref("hello");
         },
         showBtn(e) {
                 this.btnActive = true;
-                console.log(this.show);
+                
             },
         hideBtn(e){ 
             this.btnActive = false;
@@ -175,7 +175,7 @@ const message = ref("hello");
     }
 }
 </script>
-<style>
+<style scoped>
 .left_container{ 
     display: flex;
  

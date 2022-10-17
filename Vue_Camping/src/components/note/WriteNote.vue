@@ -103,7 +103,7 @@
             </div>
             <div class="write_region">
                 <div id="pdfDiv">
-                    <div placeholder="제목" class="note_title" contenteditable="true"></div>
+                    <input placeholder="제목" class="note_title">
                     <div class="sortable">
                         <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
                         </CreTextarea>
@@ -158,19 +158,41 @@
 <script>
 import $ from 'jquery';
 import CreTextarea from './CreTextarea.vue';
-import "bootstrap"
-import "bootstrap/dist/css/bootstrap.min.css"
+import MyNoteList from './MynoteList.vue';
 
 
 export default {
     data() {
         return {
+            noteId : '',
             textAmount: 1,
             isEditable: true,
-            childOrder: ['textBox'],
+            childOrder: ['textBox']
         }
     },
+    props : { 
+        noteId : Number,
+    },
+   
+    created() {
+        //this.noteId = this.$router.params.myNoteId;
+        console.log(this.noteId);
 
+        fetch(`http://localhost:8087/java/GoMyNote/${this.noteId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then((response) => response.json())
+                .then(data => {
+                    //console.log(data.noteId);
+                    //console.log(this.myNoteId);
+                this.$router.push({
+                    name : "WriteNote",
+                    params : data
+                })    
+                this.noteInfo = data;
+            }).catch(err => console.log(err));
+    },
     methods: {
         CreArea: function (e) {
             this.childOrder.push('textBox');
@@ -197,461 +219,121 @@ export default {
             let lineAll = document.querySelectorAll('.write_fn');
             let lineText = [];
             let lineTable = [];
-            //let lineCheckbox = {};
-            let potato = [];
+            let textTag;
+            let tableTag;
+            let checkBoxTag;
+            let contents = [];
+
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
                 let lineType = '';
                 let lineValue = '';
                 let linePosition = i;
-                if(lineAll[i].querySelector('textarea') != undefined ) {
+    
+                if (lineAll[i].querySelector('textarea') != undefined) {
                     lineType = 'TEXT';
                     lineValue = lineAll[i].querySelector('textarea').value;
-                
+                    //<태그 자체를 저장>
+                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' + lineValue + '"></textarea>'
+
+                    console.log(textTag);
+                    contents.push(textTag);
+
                 } else if (lineAll[i].querySelector('table') != undefined) {
                     lineType = 'TABLE';
                     lineValue = lineAll[i].querySelector('.maked_table');
-
+                    tableTag = `<div class='table_container'>
+                                    <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
+                                    <table class='maked_table'>`
                     // tr 행 반복
-                    let lineTr= lineValue.querySelectorAll('tr');
+                    let lineTr = lineValue.querySelectorAll('tr');
                     lineValue = [];
-                    for(let j=0; j < lineTr.length; j++){ 
+
+                    for (let j = 0; j < lineTr.length; j++) {
+                    
                         let temp = [];
+                        tableTag += `<tr class='item' > 
+                                        <td class="row-button-container" @mouseover="showBtn">
+                                            <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
+                                        </td>`
                         // td 열 반복
-                        let lineTd=lineTr[j].querySelectorAll('td input');
-                        
-                        for(let k=0; k < lineTd.length; k++){ 
-                            temp.push(lineTd[k].value);
+                        let lineTd = lineTr[j].querySelectorAll('td input');
+
+                        for (let k = 0; k < lineTd.length; k++) {
+                            //temp.push(lineTd[k].value);
+                            tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text"> `+ lineTd[k].value + `</td> `
                         };
-                        lineValue.push(temp);
+                        tableTag += `</tr>`
                     }
+                    tableTag +=`
+                    </table>
+                    <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
+                    </div>
+                    `
+                    console.log(tableTag);
+                    contents.push(tableTag);
+
+
                 } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
                     lineType = 'CHECK';
                     lineValue = [];
                     let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
-                    
-                    for(let j=0; j<checkBoxList.length; j++){ 
-                        
-                        let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
-    
-                        let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
-                        
-                        let isChecked = lineCheckbox.checked;
-                        
-                         lineValue.push( { 
-                             status : isChecked,
-                             text : lineCheckText 
-                         });
-                    };
-                    console.log(lineValue);
-                }
-                console.log(linePosition, lineType, lineValue);
-                potato.push({
-                    linePosition: linePosition,
-                    lineType: lineType,
-                    lineValue: lineValue
-                })
-            };
-            console.log(JSON.stringify(potato))
-        }
-    },
-    components: { CreTextarea }
-}
+                    checkBoxTag = `
+                                      <div class='check_box_list'>
+                                      `;
 
+                    for (let j = 0; j < checkBoxList.length; j++) {
+
+                        let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
+
+                        let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
+
+                        let isChecked = lineCheckbox.checked;
+                        checkBoxTag += `
+                                    <input type='checkbox' class='noteCheckbox' value="`+ isChecked + `" name="myCheck"><input type="text" class="checkbox_text" name="myCheck" value="`
+                                    + lineCheckText + `">
+                                    <div class="checkbox_button_container">
+                                        <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
+                                        <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
+                                    </div>
+                                    `
+                        lineValue.push({
+                            status: isChecked,
+                            text: lineCheckText
+                        });
+                    };
+                    checkBoxTag += `</div>`
+                    console.log(checkBoxTag);
+                    contents.push(checkBoxTag);
+                }
+            };
+            //작성한 내용 보내기
+            let title = document.querySelector('.note_title').value;
+            let fetchData = {
+                "title" : title,
+                "noteContents" : contents,
+                "email" : localStorage.getItem("email")
+            }
+            console.log(fetchData);
+
+            fetch('http://localhost:8087/java/WriteNote',{
+                method : 'POST',
+                headers :{
+                    'Content-Type' :'application/json' 
+                },
+                body : JSON.stringify(fetchData)
+            }).then(result => { 
+                console.log(result);
+                this.$router.push({name:"MynoteList"});
+                
+            })
+            
+            
+        }
+        },
+         components : { CreTextarea }
+    }
 
 </script>
-    
-<style>
-.contenteditable {
-    width: 500px;
-    border: 1px solid black;
-}
+<style scoped src="@/assets/css/note/WriteNote.css"></style>
 
-* {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-style: none;
-    box-sizing: border-box;
-}
-
-.mynote_container {
-    margin-top: 150px;
-    width: 100%;
-    min-width: 650px;
-}
-
-.mynote_menu {
-    width: 100%;
-    border: 1px solid #ddd;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 200px;
-}
-
-.mynote_menu>div {
-    width: 20%;
-    border: 1px solid lightgray;
-    padding: 10px;
-    margin: 15px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.mynote_menu>div:hover {
-    background-color: rgba(228, 239, 231, 0.7);
-}
-
-.howtouse_region {
-    margin-top: 5px;
-    width: 100%;
-    border: 1px solid lightgray;
-}
-
-.mynote_list {
-    display: flex;
-    flex-direction: row;
-}
-
-.mynote_list>div {
-    padding: 5px 0px 5px 0px;
-}
-
-.mynote_region {
-    /*작성 페이지에서 가장 바깥 테두리*/
-    margin-top: 5px;
-    padding: 10px;
-    width: 100%;
-    height: 600px;
-
-    vertical-align: left;
-    display: flex;
-    flex-direction: row;
-    position: relative;
-}
-
-.write_menu {
-    width: 120px;
-    margin-right: 10px;
-}
-
-.write_region {
-    /* position: relative; */
-    width: calc(100% - 120px);
-
-}
-
-.note_title {
-    width: 70%;
-    height: 50px;
-    margin: 5px 10px 10px 10px;
-}
-
-.text_highlighter {
-    margin-top: 30px;
-}
-
-.write_fn {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-    border: none;
-    height: fit-content;
-}
-
-.write_fn>div {
-    cursor: pointer
-}
-
-.fn_menu>div {
-    width: 100%;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.fn_menu {
-    border: 1px solid lightgray;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    top: 30px;
-    align-items: center;
-}
-
-.add_fn_container {
-    margin-top: 20px;
-    width: 100%;
-    align-content: center;
-}
-
-.add_fn_container>div {
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.text_fn_container {
-    display: flex;
-    flex-direction: column;
-}
-
-.highlighter_menu {
-    display: flex;
-    flex-direction: row;
-}
-
-.highlighter_menu>button {
-    margin: 0 3px 0 3px;
-}
-
-.sort_menu {
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-}
-
-.sort_menu>button {
-    display: flex;
-    flex-direction: row;
-    margin: 0 3px 0 3px;
-}
-
-.text_font {
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-}
-
-.text_size {
-    margin-top: 10px;
-}
-
-select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-
-    font-family: "Noto Sansf KR", sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-
-    color: #444;
-    background-color: #fff;
-
-    padding: .6em 1.4em .5em .8em;
-
-    margin-top: 10px;
-
-    border: 1px solid #aaa;
-    border-radius: .5em;
-    box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
-    width: fit-content;
-}
-
-select:hover {
-    border-color: #888;
-}
-
-select:focus {
-    border-color: #aaa;
-    box-shadow: 0 0 1px 3px rgba(197, 222, 248, 0.7);
-    box-shadow: 0 0 0 3px -moz-mac-focusring;
-    color: #222;
-    outline: none;
-}
-
-select:disabled {
-    opacity: 0.5;
-}
-
-.maked_table_place {
-    /*display: flex;*/
-    /*position: relative;*/
-    margin-bottom: 20px;
-}
-
-.table_container {
-    display: flex;
-    position: relative;
-    width: fit-content;
-}
-
-.maked_table {
-    border-collapse: collapse;
-    max-width: 800px;
-    height: 10%;
-}
-
-.maked_table td {
-    border: 2px solid lightgray;
-}
-
-.item_td {
-    width: 100px;
-    height: fit-content;
-}
-
-.item_td>input {
-    border: none;
-    width: 90%;
-    outline: none;
-}
-
-.input_text {
-    width: 100px;
-    height: 100%;
-}
-
-.del_row {
-    width: 50px;
-}
-
-.col_addbtn {
-    right: 0;
-    border: none;
-    background-color: transparent;
-    opacity: 0.6;
-    transition-duration: 0.5s;
-    padding: 10px;
-}
-
-.row_addbtn {
-    position: absolute;
-    bottom: -30px;
-    height: 30px;
-    width: 75%;
-    left: 11%;
-    background-color: transparent;
-    border: none;
-    opacity: 0.6;
-    transition-duration: 0.5s;
-}
-
-.row-button-container {
-    width: 30px;
-    border: none !important;
-
-}
-
-.row_delbtn {
-    opacity: 0.6;
-    transition-duration: 0.5s;
-    background-color: transparent;
-    border: none;
-
-}
-
-.fn_btn {
-    font-size: 5px;
-    width: 25px;
-    height: 25px;
-    border: 2px solid lightgray;
-}
-
-.drag_btn {
-    width: 25px;
-    height: 25px;
-    font-size: 5px;
-    cursor: pointer;
-}
-
-.del_line {
-    width: 25px;
-    height: 25px;
-    font-size: 5px;
-    cursor: pointer;
-}
-
-[contenteditable=true]:empty:before {
-    content: attr(placeholder);
-    display: block;
-}
-
-
-
-div[contenteditable=true]:focus {
-    outline: none;
-    background-color: white;
-}
-
-.sortable {
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-}
-
-.write_place {
-    display: inline-block;
-    height: fit-content;
-}
-
-.check_box_place {
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-}
-
-.check_box_list {
-    display: flex;
-}
-
-.checkbox_text {
-    margin: 10px 0px 5px 10px;
-    border: 1px solid lightgray;
-    border-radius: 5%;
-
-}
-
-.checkbox_button_container {
-    display: flex;
-    margin-left: 5px;
-    width: 40px;
-
-}
-
-.checkbox_button_container>button {
-    width: 25px;
-    height: 25px;
-    opacity: 0.6;
-    transition-duration: 0.4s;
-    background-color: transparent;
-    border: none;
-    padding: 10px;
-    margin: 0;
-}
-
-.fn_btn_place {
-    position: relative;
-}
-
-.textbox {
-    background-color: beige;
-    border: 3px solid beige;
-    line-height: 10px;
-}
-
-.btn_container {
-    display: flex;
-    flex-direction: row;
-    opacity: 0.6;
-    transition-duration: 0.5s;
-}
-
-.btn_active {
-    opacity: 0.6 !important;
-}
-
-#savePdf {
-    height: fit-content;
-    background-color: transparent;
-    border: #fff;
-}
-</style>

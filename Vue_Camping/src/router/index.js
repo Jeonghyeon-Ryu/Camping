@@ -81,6 +81,36 @@ const routes = [{
     path: '/CampModify/:campId',
     component: () => import('@/components/Camping/CampModify.vue'),
   },
+  {
+    name: 'WriteNote',
+    path: '/WriteNote',
+    component: () => import('@/components/note/WriteNote.vue'),
+    props : true
+  },
+  {
+    name: 'MynoteList',
+    path: '/MynoteList',
+    component: () => import('@/components/note/MynoteList.vue'),
+  },
+  {
+    name: 'InvitedList',
+    path: '/InvitedList',
+    component: () => import('@/components/note/InvitedList.vue'),
+  },
+  {
+    path: '/used/usedMain',
+    name: 'usedMain',
+    component: () => import('@/components/UsedPractice/UsedMain.vue'),
+  },
+  {
+    path: '/used/usedReview',
+    name: 'usedReview',
+    component: () => import('@/components/UsedPractice/UsedReview.vue'),
+  }
+    name: 'ManageUser',
+    path: '/Manage/User',
+    component: () => import('@/components/Admin/UserManage.vue'),
+  },
 ]
 
 const router = createRouter({

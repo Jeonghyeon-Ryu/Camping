@@ -102,6 +102,8 @@ export default {
         .then(result => {
           localStorage.setItem("nickname", result.nickname);
           localStorage.setItem("email", result.email);
+          localStorage.setItem("auth", result.auth);
+          this.$store.commit('getUserInfo');
           Swal.fire({
             icon: 'success',
             title: '로그인 성공!',
