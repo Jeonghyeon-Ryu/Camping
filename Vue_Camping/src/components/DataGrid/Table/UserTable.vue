@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import Pagination from "./Pagination.vue";
-import Sort from "./Sort.vue";
-import Filtering from "./Filtering.vue";
-import TableButton from "./TableButton.vue";
+import Pagination from "../Pagination/Pagination.vue";
+import Sort from "../Sort/Sort.vue";
+import Filtering from "../Filtering/Filtering.vue";
+import TableButton from "../TableButton/TableButton.vue";
 import Swal from 'sweetalert2';
-import ModifyModal from "./ModifyModal.vue";
-import ExcelExport from "./ExcelExport.vue";
+import ModifyModal from "../Modal/ModifyModal.vue";
+import ExcelExport from "../Export/ExcelExport.vue";
 
 export default {
     props: ["userData", "perPage"],
@@ -92,6 +92,7 @@ export default {
             if (Object.keys(this.userData).length <= i) {
                 break;
             }
+            console.log(i);
             this.rows.push(this.userData[i]);
         }
     },
@@ -118,7 +119,7 @@ export default {
             if(this.currentPage<=10){
                 return 1;
             } else {
-                return (this.currentPage - (this.currentPage % 10));
+                return (this.currentPage - (this.currentPage % 10) + 1);
             }
 
             // if ((this.endPage == this.totalPage) && (this.endPage > 10)) {
@@ -237,20 +238,15 @@ export default {
     watch: {
         currentPage: function () {
             // 현재 페이지 변경될때 현재 데이터 제거 > 새로운 데이터 푸시
-            // for (let tableBody of document.querySelectorAll('.table-body')) {
-            //     tableBody.remove();
-            // }
             this.rows = [];
-
-            if (this.currentPage == 1) {
-                for(let i = 0; i<20; i++) {
-                    this.rows.push(this.userData[i]);
-                }
-            } else {
-                for (let i = (this.currentPage * this.perPage); i < (this.currentPage * this.perPage + this.perPage); i++) {
+            for (let i = ((this.currentPage-1) * this.perPage); i < ((this.currentPage-1) * this.perPage + this.perPage); i++) {
+                if(i>=this.userData.length){
+                    break;
+                } else {
                     this.rows.push(this.userData[i]);
                 }
             }
+        
 
         },
         userData: function () {
@@ -268,6 +264,6 @@ export default {
 }
 </script>
 
-<style scoped src="@/assets/css/Admin/UserTable.css">
+<style scoped src="./UserTable.css">
 
 </style>

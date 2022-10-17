@@ -14,7 +14,7 @@
     align-items: center;
 }
 .table-header .table-column{
-    display:flex;
+    display:flex;   
 }
 .table-header input[type="checkbox"],.table-body input[type="checkbox"] {
     height:15px;

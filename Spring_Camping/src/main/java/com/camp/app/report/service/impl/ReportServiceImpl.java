@@ -27,6 +27,7 @@ public class ReportServiceImpl implements ReportService{
 
 	@Override
 	public boolean addReport(ReportVO report) {
+		report.setReportId(mapper.findMaxByReportId()+1);
 		return mapper.insert(report);
 	}
 

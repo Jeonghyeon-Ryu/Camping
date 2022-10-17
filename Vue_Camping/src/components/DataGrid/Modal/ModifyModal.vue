@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import RButton from './RButton.vue';
+import RButton from '../../Admin/RButton.vue';
 export default {
     props: ["columns", "modifyData"],
     data: function () {

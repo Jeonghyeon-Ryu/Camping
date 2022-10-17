@@ -10,8 +10,8 @@
 </template>
 <!-- -------------------------------------- -->
 <script>
-import UserTable from './UserTable.vue';
-import user from './users'
+import UserTable from '../DataGrid/Table/UserTable.vue';
+// import user from './users'
 export default {
     data: function () {
         return {
@@ -20,13 +20,13 @@ export default {
         }
     },
     created : function(){
-        // fetch('http://localhost:8087/java/member')
-        //     .then(result => result.json())
-        //     .then(result => {
-        //         console.log(result);
-        //         this.userData = result;
-        //     })
-        this.userData = user;
+        fetch('http://localhost:8087/java/member')
+            .then(result => result.json())
+            .then(result => {
+                console.log(result);
+                this.userData = result;
+            })
+        // this.userData = user;
     },
     components: { UserTable }
 }

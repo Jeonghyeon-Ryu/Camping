@@ -3,7 +3,7 @@
 </template>
 <script>
 import * as Xlsx from "xlsx"
-import RButton from "./RButton.vue"
+import RButton from "../../Admin/RButton.vue"
 export default {
   props: ["inputData"],
   methods: {

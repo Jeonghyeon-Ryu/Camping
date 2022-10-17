@@ -10,6 +10,7 @@
         </li>
     </ul>
 </template>
+
 <script>
 export default {
     props: ['startPage', 'endPage', 'totalPage'],
@@ -28,7 +29,7 @@ export default {
     methods: {
         clickPrev: function () {
             // 현재페이지 - 10 해서 / 10  -> ceil -> *10
-            if (this.currentPage == 1) {
+            if (this.currentPage <= 10) {
                 this.currentPage = 1;
             } else {
                 this.currentPage = (Math.trunc((this.currentPage - 10) / 10) + 1) * 10;
@@ -63,7 +64,6 @@ export default {
                 document.querySelector('.fa-angle-left').parentElement.style.pointerEvents = 'auto';
                 document.querySelector('.fa-angle-right').parentElement.style.pointerEvents = 'auto';
             }
-
             // Current 페이지가 범위 안에 있을 경우.
             // Current 페이지에 Active 클래스 토글
             for (let aTag of document.querySelectorAll('.pagination li a')) {
@@ -72,12 +72,10 @@ export default {
             this.$nextTick(function () {
                 document.querySelector('li[pageNum="' + (newVal - this.startPage + 1) + '"]').querySelector('a').classList.add('active');
             })
-
             this.$emit('changePage', newVal);
         },
     }
 }
 </script>
-<style scoped src="@/assets/css/Admin/Pagination.css">
 
-</style>
+<style scoped src="./Pagination.css"></style>

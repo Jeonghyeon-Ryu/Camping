@@ -210,4 +210,4 @@ export default {
 }
 </script>
 
-<style scoped src="@/assets/css/Admin/Filtering.css"></style>
+<style scoped src="./Filtering.css"></style>

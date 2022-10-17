@@ -12,9 +12,11 @@
 			#{reportId},
 			#{boardId},
 			#{boardDivision},
+			#{reportDivision},
 			#{reportContent},
 			#{status},
-			#{email}
+			#{email},
+			SYSDATE
 		)
 	</insert>
 	<update id="update" parameterType="ReportVO">
