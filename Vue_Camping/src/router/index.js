@@ -75,7 +75,12 @@ const routes = [{
     name: 'WriteNote',
     path: '/WriteNote',
     component: () => import('@/components/note/WriteNote.vue'),
-    props : true
+  },
+  {
+    name: 'MyNoteInfo',
+    path: '/MyNoteInfo/:noteId',
+    component: () => import('@/components/note/MyNoteInfo.vue'),
+   
   },
   {
     name: 'MynoteList',
