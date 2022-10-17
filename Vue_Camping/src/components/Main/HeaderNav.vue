@@ -63,7 +63,7 @@ export default {
           "게시글": "/sns",
           "글쓰기": "/sns/write",
           "좋아요": "/sns",
-          "나의피드": "/sns",
+          "나의피드": "/sns/myFeed/:nickname",
         },
         {
           "이용방법": "/MynoteList",

@@ -29,6 +29,11 @@ const routes = [{
     component: () => import('../components/SnS/SnsRewrite.vue'),
   },
   {
+    name: 'SnsMyFeed',
+    path: '/sns/myFeed/:email',
+    component: () => import('../components/SnS/SnsMyFeed.vue'),
+  },
+  {
     path: '/recru/detail/:recruId',
     name: 'recruDetail',
     component: () => import('@/components/recruit/RecruDetail.vue'),
