@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class InputCampVO {
+	private String email;
 	private int campId;
 	private String campName;
 	private String campAddress;

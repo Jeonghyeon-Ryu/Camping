@@ -60,13 +60,13 @@
                 this.imagesUrl = tempimagesUrl;
                 this.$emit('deleteImages', dt.files);
             },
-            insertImage(images) {
+            insertImage() {
+                console.log('aaaaaa',this.image);
                 let dt = new DataTransfer();
-                for(let image of images){
-                    if(image.type.indexOf('image')>=0) {
-                        dt.items.add(image);
-                    }
+                if(this.image.type.indexOf('image')>=0) {
+                    dt.items.add(image[0]);
                 }
+                console.log(dt.files);
                 this.imageFiles = dt.files;
                 for(let image of this.imageFiles){
                     this.imagesUrl = URL.createObjectURL(image);
@@ -81,13 +81,6 @@
                 e.target.previousElementSibling.classList.remove('filter-blur');
             }
         },
-        watch : {
-            image(newImage, oldImage) {
-                if(newImage.length >= oldImage.length){
-                    this.insertImage(newImage);
-                }
-            }
-        }
     }
 </script>
 

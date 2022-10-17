@@ -1,0 +1,30 @@
+.aside-right {
+    position: absolute;
+    top:0;
+    z-index: 1002;
+    background: #fff;
+    width:200px;
+    border: 1px solid rgb(230,230,230);
+    border-radius: 15px;
+    display:flex;
+    flex-direction: column;
+}
+.aside-right hr {
+    margin: 0;
+    border:none;
+    border-bottom : 1px solid rgb(230,230,230);
+    color : rgb(230,230,230);
+    opacity: 1;
+}
+.aside-right .aside-right-button {
+    text-decoration: none;
+    margin:5px 0 5px 0;
+    padding:10px;
+    font-size:0.8rem;
+    color:gray;
+    cursor:pointer;
+}
+.aside-right .aside-right-button:hover {
+    color:#000;
+    font-weight: bold;
+}

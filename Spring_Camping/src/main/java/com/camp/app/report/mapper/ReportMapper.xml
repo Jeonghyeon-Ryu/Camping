@@ -22,4 +22,7 @@
 			status = #{status}
 		WHERE report_id = #{reportId}
 	</update>
+	<select id="findMaxByReportId" resultType="Integer">
+		SELECT NVL(MAX(report_id),0) FROM report
+	</select>
 </mapper>

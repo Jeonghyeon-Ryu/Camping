@@ -22,19 +22,19 @@
             <ul @click="removeGear" id="entry-gear-body">
                 <li><input type="text" class="entry-gear-name" placeholder="장비 이름" size="18" maxlength="18" required>
                     <select class="entry-gear-type">
-                        <option value='' selected disabled>장비분류</option>
-                        <option value="tent">텐트</option>
-                        <option value="tarp">타프</option>
-                        <option value="furniture">가구</option>
-                        <option value="bedding">침구</option>
-                        <option value="kitchenTool">조리도구</option>
-                        <option value="lamp">조명</option>
-                        <option value="storage">수납</option>
-                        <option value="tool">공구</option>
-                        <option value="airCon">냉난방</option>
-                        <option value="etc">기타</option>
+                        <option value='기타' selected disabled>장비분류</option>
+                        <option value="텐트">텐트</option>
+                        <option value="타프">타프</option>
+                        <option value="가구">가구</option>
+                        <option value="침구">침구</option>
+                        <option value="조리도구">조리도구</option>
+                        <option value="조명">조명</option>
+                        <option value="수납">수납</option>
+                        <option value="공구">공구</option>
+                        <option value="냉난방">냉난방</option>
+                        <option value="기타">기타</option>
                     </select>
-                    <input type="number" class="entry-gear-num gear-num" placeholder="수량" min="1" style="width:60px;">
+                    <input type="number" class="entry-gear-num gear-num" value="1" min="1" max="999" style="width:50px;">개
                 </li>
             </ul>
         </div>
@@ -55,14 +55,15 @@ export default{
                 recruId : '',
                 entryCar : '0',
                 entryGear : '',
-                memberId : 'admin@test.com', //작성자정보 -->세션에서 받아오기
-                nickname : 'amdmin'
+                memberId : localStorage.getItem("email"), //작성자정보 -->세션에서 받아오기
+                nickname : localStorage.getItem("nickname")
             },
             memberId : ''
         }
     },
     methods : {
-        addGear : function(menu){                
+        addGear : function(menu){     
+            //장비 입력시 추가 가능           
             const box = document.getElementById(menu);
             const li = document.createElement('li');
             menu = menu.substring(0,menu.indexOf("-b"));
@@ -70,23 +71,24 @@ export default{
             let str = "<input type='text' class='"+menu+"-name' style='padding:5px;margin:2px;border:1px solid lightgray;border-radius:4px' placeholder='장비이름' size='18' maxlength='18'>"
                         +" <select class='"+menu+"-type' style='padding:5px;margin:2px;border:1px solid lightgray;border-radius:4px;'>"
                             +"<option value='' selected disabled>장비 분류</option>"
-                            +"<option value='tent'>텐트</option>"
-                            +"<option value='tarp'>타프</option>"
-                            +"<option value='furniture'>가구</option>"
-                            +"<option value='bedding'>침구</option>"
-                            +"<option value='kitchenTool'>조리도구</option>"
-                            +"<option value='lamp'>조명</option>"
-                            +"<option value='storage'>수납</option>"
-                            +"<option value='tool'>공구</option>"
-                            +"<option value='airCon'>냉난방</option>"
-                            +"<option value='etc'>기타</option>"
+                            +"<option value='텐트'>텐트</option>"
+                            +"<option value='타프'>타프</option>"
+                            +"<option value='가구'>가구</option>"
+                            +"<option value='침구'>침구</option>"
+                            +"<option value='조리도구'>조리도구</option>"
+                            +"<option value='조명'>조명</option>"
+                            +"<option value='수납'>수납</option>"
+                            +"<option value='공구'>공구</option>"
+                            +"<option value='냉난방'>냉난방</option>"
+                            +"<option value='기타'>기타</option>"
                         +"</select>"
-                        +"<input type='number' class='"+menu+"-num gear-num' style='width:60px;padding:5px;margin:2px;border:1px solid lightgray;border-radius:4px;' placeholder='수량' min='1'>"
+                        +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:2px;border:1px solid lightgray;border-radius:4px;' value='1' min='1' max='999'>개"
                         +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
             li.innerHTML = str;
             box.appendChild(li);
         },
         removeGear : function(e){
+            //추가한 장비 삭제
             if(e.target.tagName=='BUTTON'){
                 e.target.parentNode.remove();
             }
@@ -97,7 +99,6 @@ export default{
             let gearTypes = document.querySelectorAll('.entry-gear-type');
             let gearNum = document.querySelectorAll('.entry-gear-num');
             for(let i=0 ; i<gearNames.length ; i++){
-                console.log(gearNames[i].value.indexOf(','))
                 //특수문자 체크 정규식
                 const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
                 if(regExp.test(gearNames[i].value)){
@@ -115,9 +116,10 @@ export default{
                 gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
             }
             this.recruEntry.entryGear = gearList;
+           
             //신청 테이블에 인서트하기 
+            this.recruEntry.recruId = this.recruId;
             let recruEntry = this.recruEntry;
-            //서버를 통해 게시글 내용 insert
             fetch('http://localhost:8087/java/recru/entry',{
                 method : "POST",
                 headers : {"Content-Type" : "application/json"},
@@ -125,13 +127,20 @@ export default{
             }) 
             .then(Response => Response.json())  
             .then(data => { 
-                console.log(data)  
+                if(data==1){
+                    Swal.fire('신청 완료했습니다.','모집자가 신청을 수락할 경우 알림이 갑니다','success');
+                }else{
+                    Swal.fire('문제 발생!','신청이 처리되지 않았습니다. 문제가 계속될 경우 문의해주세요','error');
+                }
                 //Detail 페이지의 상태 변경
                 //this.$emit()
-            }).catch(err=>console.log(err))
+            }).catch(err=>{
+                console.log(err);
+                Swal.fire('문제 발생!','신청이 처리되지 않았습니다. 문제가 계속될 경우 문의해주세요','error');
+            })
             //알림
-            Swal.fire('신청 완료했습니다.','모집자가 신청을 수락할 경우 알림이 갑니다','success');
             this.$emit('close-modal');
+            this.$router.go(0) ;
         }
     }
 }

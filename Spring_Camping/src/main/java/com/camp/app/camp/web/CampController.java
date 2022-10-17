@@ -77,9 +77,20 @@ public class CampController {
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
 	@PostMapping("/campModify")
-	public boolean modifyCamp(CampModifyVO camp, HttpServletRequest req) {
-		camp.setEmail((String) req.getSession().getAttribute("email"));
-		camp.setCampModifyId(service.getMaxCampModifyId()+1);
+	public boolean modifyCamp(InputCampVO camp) {
+		System.out.println(camp);
 		return service.modifyCamp(camp);
+	}
+	
+	
+	@GetMapping("/campModify/{campId}")
+	public boolean isCampModifying(@PathVariable int campId) {
+		int result = service.isCampModifying(campId);
+		if(result > 0) {
+			return true; // 캠핑장 수정신청 존재
+		} else {
+			return false; // 캠핑장 수정신청 미존재
+		}
+		
 	}
 }

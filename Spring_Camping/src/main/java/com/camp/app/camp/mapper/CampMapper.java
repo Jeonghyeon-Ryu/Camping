@@ -16,8 +16,14 @@ public interface CampMapper {
 	public List<CampImageVO> findByCampIdToCampImage(int campId);
 	public int insertCamp(CampVO camp);
 	public int insertCampImage(CampImageVO campImage);
+	public int update(CampVO camp); 
+	
+	
+//	캠핑 수정
 	public int insertCampModify(CampModifyVO camp);
+	public int insertCampModifyImage(CampImageVO campImage);
+	public int findMaxByCampModifyImageId();
 	public int findMaxByCampModifyId();
-//	public int update(CampVO camp); 
+	public int countCampModifyByCampId(int campId);
 	
 }

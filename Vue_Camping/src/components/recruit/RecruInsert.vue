@@ -52,7 +52,7 @@
                                 <option value="냉난방">냉난방</option>
                                 <option value="기타">기타</option>
                             </select>
-                            <input type="number" class="gear-num recru-mygear-num" placeholder="수량" min="1">
+                            <input type="number" class="gear-num recru-mygear-num" value="1" min="1">개
                             <input type="file" class="btn recru-mygear-img img" name="mygear"  style="margin:0 5px;max-width:210px;" >
                         </li>
                     </ul>
@@ -77,7 +77,7 @@
                                 <option value="냉난방">냉난방</option>
                                 <option value="기타">기타</option>
                             </select>
-                            <input type="number" class="recru-needgear-num gear-num" placeholder="수량" min="1">
+                            <input type="number" class="recru-needgear-num gear-num" value="1" min="1">개
                             <input type="file" class="btn recru-needgear-img img" name="mygear" style="margin:0 5px;max-width:210px;">
                         </li>
                     </ul>
@@ -149,7 +149,7 @@ export default{
         searchImg : img2,
         wishAge :[],
         recruInfo : {  
-            writer : 'user2',
+            memberId :localStorage.getItem("email"),
             wishSex : 0,
             wishAge : '',
             myCar : 0,
@@ -178,25 +178,20 @@ export default{
       }
     },
     methods : {
-        uploadContent : function(event){
+        uploadContent : function(){
             const insertChk = document.querySelectorAll('input')
-            try{
-                insertChk.forEach( chk => {
-                    if(chk.value===''||chk.value==null){
-                        Swal.fire('입력을 확인해주세요','','warning');
-                        chk.focus();
-                        throw finish;
-                    }
-                })
-            }catch(Exeption){
-                if(Exeption !== 'finish') throw Exeption;
-                else return false;
+
+            if(this.recruInfo.startingSpot==0 || this.recruInfo.recruTitle==0 || this.recruInfo.recruComponent==0){
+                Swal.fire('입력을 확인해주세요','','warning');
+                return;
             }
+           
             //서버에 업로드
             // 장비와 희망연령을 string타입으로 변환
             this.setGearList('mygear'); 
             this.setGearList('needgear');
             this.setWishAge();
+            console.log(this.recruInfo)
             //파일 배열에 이미지 넣기
             this.addFile(); 
             
@@ -211,6 +206,7 @@ export default{
             .then(data => { 
                 //이미지 업로드
                 this.fileUpload();  
+                this.$router.push({name : 'RecruList'})
             }).catch(err=>console.log(err))
         },
         addFile : function(){
@@ -274,7 +270,13 @@ export default{
             let gearTypes = document.querySelectorAll('.recru-'+menu+'-type');
             let gearNum = document.querySelectorAll('.recru-'+menu+'-num');
             let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
+            //특수문자 체크 정규식
+            const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
             for(let i=1 ; i<gearNames.length ; i++){
+                if(regExp.test(gearNames[i].value)){
+                    Swal.fire('장비 이름을 확인해주세요',"< > @ . , ; : & * ^ / $ 등의 특수문자는 입력할 수 없습니다.",'warning');
+                    return;
+                }
                 if(gearNames[i].value===''){
                     Swal.fire('장비 이름을 입력해주세요','입력하지 않을 경우 x 버튼을 눌러 지워주세요','warning');
                     return;

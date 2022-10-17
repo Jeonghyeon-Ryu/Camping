@@ -14,7 +14,7 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img v-bind:src="snsMaingImg5">
+            <img v-bind:src="snsMaingImg1">
           </div>
         </div>
         <div class="sns-write-form-id">
@@ -42,13 +42,11 @@
       <div class="sns-detail-container">
         <div class="sns-detail-form1">
           <div class="sns-img-container">
-            <swiper :navigation="true" :pagination="{ clickable:true }" :modules="modules" class="mySwiper">
-              <swiper-slide><img v-bind:src="snsMaingImg1"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg2"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg3"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg4"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg5"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg6"></swiper-slide>
+            <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
+              <swiper-slide v-for="snsImg of snsImgs">
+                <input type="text" :value="snsImg.writeNo" style="display :none;">
+                <img v-bind:src="'http://localhost:8087/java/showSnsImage/'+snsImg.snsPath+'/'+snsImg.storedName">
+              </swiper-slide>
             </swiper>
             <!-- <input type="text" v-bind:value="snsWriteNumber1"  style="display :none;">
         <img v-bind:src="snsMaingImg6"> -->
@@ -80,7 +78,7 @@
               <textarea placeholder="#태그" :value="snsItem.hashtag"></textarea>
             </div>
             <div class="sns-write-date">
-              <input placeholder="2012/12/12" :value="snsItem.writeDate">
+              <p>{{yyyyMMddhhmmss(snsItem.writeDate)}}</p>
             </div>
           </form>
 
@@ -105,25 +103,26 @@
             </div>
           </div>
 
-          <div class="sns-detail-comment-form-container" :key="comment.no" v-for="comment in comments">
+          <div class="sns-detail-comment-form-container" :key="snsCommentItem.writeNo"
+            v-for="snsCommentItem of snsCommentItems">
             <div class="sns-detail-comment-form">
               <div class="sns-comment-write-id-container">
                 <div class="sns-comment-write-id">
-                  <img v-bind:src="comment.Img">
+                  <img src="">
                 </div>
                 <div class="sns-comment-write-id">
-                  <input type="text" :value="comment.id">
+                  <input type="text" :value="snsCommentItem.nickname">
                 </div>
               </div>
               <div class="sns-comment-container">
                 <div class="sns-comment">
                   <div class="sns-comment-write-context">
-                    <textarea v-text="comment.text"></textarea>
+                    <textarea :value="snsCommentItem.commentContent"></textarea>
 
                   </div>
                 </div>
                 <div class="sns-comment-date">
-                  <input type="text" :value="comment.date">
+                  <p>{{yyyyMMddhhmmss(snsCommentItem.commentDate)}}</p>
                 </div>
               </div>
             </div>
@@ -131,7 +130,7 @@
           <hr />
           <div class="sns-write-comment-container">
             <textarea placeholder="댓글을 작성하세요"></textarea>
-            <button type="submit">게시</button>
+            <button type="button" @click="doComment" @keyup.enter="doComment">게시</button>
           </div>
         </div>
       </div>
@@ -149,30 +148,28 @@
 </template>
 
 <script>
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from "swiper/vue"
 import likeImg from "@/assets/img/sns/heart.png"
 import dislikeImg from "@/assets/img/sns/heart2.png"
 import commentImage from "@/assets/img/sns/comment.png"
 import notify from "@/assets/img/sns/notify.png"
 import control from "@/assets/img/sns/snsControll.png"
-// // Import Swiper styles
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from "swiper/vue";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
 // import required modules
 import { Navigation, Pagination } from "swiper";
 import img1 from "@/assets/img/sns/이미지1.jpg"
-import img2 from "@/assets/img/sns/이미지2.jpg"
 import img3 from "@/assets/img/sns/이미지3.jpg"
 import img4 from "@/assets/img/sns/이미지4.jpg"
-import img5 from "@/assets/img/sns/이미지5.jpg"
-import img6 from "@/assets/img/sns/이미지6.jpg"
+
 import SnsReport from "./SnsReport.vue"
+import Swal from "sweetalert2"
 
 export default {
   created: function () {
-    fetch('http://localhost:8087/java/snsGet/' + this.writeNo)
+    fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
       .then(response => response.json())
       .then(result => {
         this.snsItem = result
@@ -180,14 +177,35 @@ export default {
       .catch(err => console.log(err));
     //서버에서 제대로 받아왔는지 확인.
     console.log(this.snsItem);
+
+    //게시글 이미지 출력
+    fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsImgs = result
+      })
+      .catch(err => console.log(err));
+    //서버에서 제대로 받아왔는지 확인.
+
+    //게시글 별 댓글 출력
+    fetch('http://localhost:8087/java/snsComment/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        this.snsCommentItems = result
+      })
+      .catch(err => console.log(err));
   },
   data: function () {
     return {
+      snsImgs: [],
       writeNo: this.$route.params.writeNo,
       snsItem: {},
       snsWriteText: "",
       snsWriteHashtag: "",
       snsWriteDate: "",
+
+      snsCommentItems: [],
       snsCommentWriteText: "",
       // snsWriteNumber1: "1111",
       // snsWriteNumber2: "2222",
@@ -196,11 +214,7 @@ export default {
       // snsWriteNumber5: "5555",
       // snsWriteNumber6: "6666",
       snsMaingImg1: img1,
-      snsMaingImg2: img2,
-      snsMaingImg3: img3,
-      snsMaingImg4: img4,
-      snsMaingImg5: img5,
-      snsMaingImg6: img6,
+
       searchText: "",
       //댓글정보
       comments: [
@@ -302,24 +316,93 @@ export default {
         .catch(err => console.log(err))
 
       if (confirm("삭제하시겠습니까?")) {
-        // window.location.href = ("/sns/detail/" + this.writeNo)
+        this.$router.push({ path: "/sns" })
         // console.log('글을 삭제하겟음')
         // fetch('http://localhost:8087/java/snsDelete')
         // console.log(result)
         //   .then(result => console.log(result))
       }
     },
-    components: {
-      SnsReport,
-      Swiper,
-      SwiperSlide,
+    //댓글 작성
+    doComment() {
+      //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
+      //작성텍스트
+      let commentContent = document.querySelector('.sns-write-comment-container textarea').value;
+      //글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //닉네임
+      let nickname = this.$store.state.nickname
+      // let nickname = "유저2";
+      //이메일
+      let email = this.$store.state.email
+      // let email = "user2";
 
+      let comment = {
+        commentContent: commentContent,
+        writeNo: writeNo,
+        nickname: nickname,
+        email: email
+      }
+
+      console.log(comment);
+
+      fetch('http://localhost:8087/java/comment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+
+        },
+        body: JSON.stringify(comment)
+      }).then(result => result.text())
+        .then(result => {
+          console.log(result);
+          if (result == "true") {
+            Swal.fire({
+              title: '댓글이 등록되었습니다',
+              confirmButtonText: '확인',
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                //현재페이지 새로고침!
+                this.$router.go(0)
+              }
+            })
+
+
+          }
+        })
+        .catch(err => console.log(err))
     },
-    setup() {
-      return {
-        modules: [Navigation, Pagination],
-      };
-    }
+    //유리언니..
+    yyyyMMddhhmmss : function(value){
+                if(value == '') return '';
+        
+                var js_date = new Date(value);
+
+                // 연도, 월, 일, 시, 분, 초 추출
+                var year = js_date.getFullYear();
+                var month = js_date.getMonth() + 1;
+                var day = js_date.getDate();
+                var hours = ('0' + js_date.getHours()).slice(-2); 
+                var minutes = ('0' + js_date.getMinutes()).slice(-2);
+                var seconds = ('0' + js_date.getSeconds()).slice(-2); 
+                
+                if(month < 10) {month = '0' + month;}
+                if(day < 10){day = '0' + day;}
+            
+                return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes  + ':' + seconds;
+            },
+  },
+  components: {
+    SnsReport,
+    Swiper,
+    SwiperSlide,
+
+  },
+  setup() {
+    return {
+      modules: [Navigation, Pagination],
+    };
   }
 }
 </script>
@@ -338,7 +421,34 @@ export default {
 
 .swiper {
   width: 100%;
-  height: auto;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .sns-container {
@@ -493,11 +603,13 @@ export default {
 
 .sns-img-container {
   width: 100%;
-  height: 200px;
+  height: 400px;
 }
 
 .sns-img-container img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .sns-comment-write-id-container {
@@ -544,7 +656,7 @@ export default {
   margin-left: 15px;
 }
 
-.sns-write-date input {
+.sns-write-date p {
   margin-top: 5px;
   width: 90%;
   height: 15px;
@@ -635,14 +747,10 @@ export default {
   margin-left: 15px;
 }
 
-.sns-comment-date input {
+.sns-comment-date p {
   border: none;
   text-align: right;
   margin-left: 50%;
-}
-
-.sns-comment-date input:focus {
-  outline: none;
 }
 
 .sns-write-comment-container {

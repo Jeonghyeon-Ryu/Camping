@@ -174,7 +174,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .sns-container {
   margin-top: 150px;
 }

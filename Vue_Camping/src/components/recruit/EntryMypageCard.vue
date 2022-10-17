@@ -7,13 +7,13 @@
                 </div>
                 <div class="col">
                     <div class="recru-mini-title row">
-                        <h3>{{recruInfo.recru_title}}</h3>
+                        <h3>{{recruInfo.recruTitle}}</h3>
                     </div>
                     <div class="recru-mini-contents">
-                        <p>마감일 : {{recruInfo.closing_date}}</p>
-                        <p>여행날짜 : {{recruInfo.go_date}} ~ {{recruInfo.come_date}}</p>
-                        <p>출발지 : {{recruInfo.starting_point}}</p>
-                        <p>도착지 : {{recruInfo.camping_point}}</p>
+                        <p>마감일 : {{recruInfo.closingDate}}</p>
+                        <p>여행날짜 : {{recruInfo.goDate}} ~ {{recruInfo.comeDate}}</p>
+                        <p>출발지 : {{recruInfo.startingPoint}}</p>
+                        <p>도착지 : {{recruInfo.campingPoint}}</p>
                     </div>
                 </div>
             </div>
@@ -36,11 +36,7 @@ export default{
         getEntryRecru(){
             const recruId = this.recruId;
             //서버에서 신청 대상 모집글 정보를 가져온다
-            fetch(`http://localhost:8087/java/recru/entry/${recruId}`,{
-                    method : "POST",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(recruId)
-                })
+            fetch(`http://localhost:8087/java/recru/${recruId}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     console.log(data);
@@ -50,7 +46,7 @@ export default{
     }
 }
 </script>
-<style>
+<style scoped>
 /* 공통 부분 */
 * {
     margin: 0;

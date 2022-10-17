@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.camp.app.recru.service.RecruService;
 import com.camp.app.recru.service.RecruVO;
 
-@CrossOrigin(origins = "http://localhost:8081/")
+@CrossOrigin(origins = "*")
 @RestController
 public class RecruController {
 
@@ -36,6 +36,11 @@ public class RecruController {
 	@GetMapping("/recru/{recruId}")
 	public RecruVO selectOne(@PathVariable String recruId) {
 		return service.findOne(recruId);
+	}
+	//마이페이지 조회
+	@GetMapping("/recru/mypage/{memberId}")
+	public List<RecruVO> myRecru(@PathVariable String memberId){
+		return service.myRecru(memberId);
 	}
 	//검색 조회
 	@PostMapping("/recru/search/{keyword}")

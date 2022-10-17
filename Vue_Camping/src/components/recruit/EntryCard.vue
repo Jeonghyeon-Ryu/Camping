@@ -6,9 +6,9 @@
           </div>
           <div class="entry-card-info col">
               <div class="entry-card-contents">
-                  <h3>{{entryCard.member_id}}</h3>
-                  <p>{{entrySex}}, {{entryAge}}, {{entryCard.entry_car}}</p>
-                  <p><span>보유장비 : </span> {{entryCard.entry_gear}}</p>
+                  <h3>{{entryCard.nickname}}</h3>
+                  <p>{{entrySex}}, {{entryAge}}, {{entryCard.entryCar}}</p>
+                  <p><span>보유장비 : </span> {{gearList}}</p>
               </div>
           </div>
       </div>
@@ -29,7 +29,18 @@
             //맴버 정보 받아서 성별과, 생일에서 연령대 추출
                 this.entrySex = '남';
                 this.entryAge = 20;
-                this.entryCard.entry_date = this.entryCard.entry_date.toLocaleString();
+                this.entryCard.entry_date = this.entryCard.entryDate;
+        },
+        computed :{
+            gearList(){
+                //필요한 장비 배열 정리
+                let gearList = this.entryCard.entryGear.split(',');
+                let str = gearList[0]+'('+gearList[1]+') '+gearList[2]+'개'
+                for(let i=3; i<gearList.length; i=+3){
+                    str = str+', '+gearList[i]+'('+gearList[i+1]+') '+gearList[i+2]+'개';
+                }
+                return str;
+            }
         }
     }
     

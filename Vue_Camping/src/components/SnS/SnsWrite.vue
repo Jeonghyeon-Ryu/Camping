@@ -14,38 +14,13 @@
         <div class="sns-write-form">
 
           <div class="sns-upload-image-container">
-            <div class="sns-upload-image-preview">
-
-
-              <!-- <div class="sns-img-preview"> -->
-                
-              <label>업로드
-                <input type="file" multiple @change="changeImage($event)" @dragenter.prevent @dragover.prevent
-                  @drop.prevent="dropImage($event)" style="display:none;">
-                <div class="sss" data-placeholder='파일을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'>
-
-                  <div v-for="(img,index) of imagesUrl" :id="index" class="sns-image-preview">
-                    <img :src="img" />
-                    <input type="button" value="X" @click="deletePreview($event)"
-                      class="sns-image-preview-delete-button" />
-                  </div>
-                </div>
+            <form class="sns-upload-image-preview" id="sns-register-image-form" encrypt="multipart/form-data"
+              style="padding:20px;">
+              <label>사진등록
+                <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
+                  @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
               </label>
-
-              <!-- </div> -->
-
-
-
-              <div class="insert" id="snsImgForm">
-    <form method="POST" onsubmit="return false;" enctype="multipart/form-data">
-        <input type="file" onchange="addFile(this);" multiple />
-        <div class="file-list"></div>
-    </form>
-</div>
-
-
-
-            </div>
+            </form>
           </div>
         </div>
 
@@ -60,13 +35,13 @@
             </div>
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <input type="text" value="작성자 닉네임" name="nickname">
+                <input type="text" :value=this.nickname name="nickname">
+                <input type="text" :value=this.email name="email" style="display :none;">
               </div>
             </div>
           </div>
           <div class="sns-write-context">
             <textarea v-model="snsWriteText" placeholder="내용을 입력하세요" name="content"></textarea>
-
           </div>
           <div class="sns-write-hashtag">
             <textarea v-model="snsWriteHashtag" placeholder="해시태그" name="hashtag"></textarea>
@@ -88,14 +63,18 @@
 
 <script>
 import img1 from "@/assets/img/sns/이미지1.jpg";
+import ImagePreview from '../ImagePreview.vue';
+import Swal from 'sweetalert2';
 export default {
   //DB연결
-  created : function(){
-    
+  created: function () {
+
   },
-  
-  data: function(){
+
+  data: function () {
     return {
+      nickname: this.$store.state.nickname,
+      email: this.$store.state.email,
       snsWriteId: '작성자id',
       snsWriteText: '내용',
       snsWriteHashtag: '#해시태그',
@@ -105,14 +84,11 @@ export default {
       searchText: '',
       images: [],
       imagesUrl: [],
-      
-      //
-      fileNo : '',
-      filesArr : []
-
-
-
     };
+  },
+  components: {
+    // KakaoMap, //not yet
+    ImagePreview
   },
   //검색
   methods: {
@@ -127,188 +103,81 @@ export default {
     //게시글 공유
     //-텍스트
     doPost() {
-      
-
-      let snsInfo = {};
-      console.log(new FormData(document.querySelector('#snsForm')));
-      new FormData(document.querySelector('#snsForm')).forEach((value,key) => snsInfo[key]=value);
-            console.log(snsInfo);
-
-    fetch('http://localhost:8087/java/sns', {
-    method : 'POST',
-    headers : {
-      'Content-Type' : 'application/json'
-
-    },
-    body : JSON.stringify(snsInfo)
-  }).then(result => result.text())
-  .then(result => console.log(result))
-  .catch(err => console.log(err))
-      
-
-  //이미지를..어케..해보려함..
-      let snsImg = {};
-      // console.log(new FormData(document.querySelector('#snsImgForm')));
-      // new FormData(document.querySelector('#snsImgForm')).forEach((value,key) => snsImg[key]=value);
-      //       console.log(snsImg);
 
 
-    // 폼데이터 담기
-    var form = document.querySelector("form");
-    var formData = new FormData(form);
-    for (var i = 0; i < filesArr.length; i++) {
-        // 삭제되지 않은 파일만 폼데이터에 담기
-        if (!filesArr[i].is_delete) {
-            formData.append("attach_file", filesArr[i]);
-        }
-    }
+      // let snsInfo = {};
+      // console.log(new FormData(document.querySelector('#snsForm')));
+      // new FormData(document.querySelector('#snsForm')).forEach((value, key) => snsInfo[key] = value);
+      // console.log(snsInfo);
 
-      fetch('http://localhost:8087/java/snsImg',{
+      // fetch('http://localhost:8087/java/sns', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+
+      //   },
+      //   body: JSON.stringify(snsInfo)
+      // }).then(result => result.text())
+      //   .then(result => console.log(result))
+      //   .catch(err => console.log(err))
+
+
+      let sns = new FormData(document.querySelector('#snsForm'));
+
+      for (let image of this.images) {
+        sns.append("files", image);
+      }
+      sns.forEach((value, key) => {
+        console.log(value);
+      })
+
+      fetch('http://localhost:8087/java/sns', {
         method: 'POST',
-        headers : {},
-        body : formData
-      }).then(result => console.log(result))
+        headers: {},
+        body: sns
+      }).then(result => result.text())
+        .then(result => {
+          console.log(result);
+          if (result == "true") {
+            Swal.fire({
+              icon: 'success',
+              title: '게시글이 정상적으로 등록되었습니다.',
+              toast: true,
+              position: 'center-center',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                this.$router.push({ name: 'SnsMain' })
+              }
+            })
+          }
+        })
     },
-
-
 
     //-사진
+    deleteImages(updatedImages) {
+      this.images = updatedImages;
+      document.querySelector('#sns-register-image-container input[type="file"]').files = updatedImages;
+    },
     changeImage(e) {
-      this.images = e.target.files;
-      for (let image of this.images) {
-        this.imageLoader(image);
+      console.log(e.target);
+      let dt = new DataTransfer();
+      for (let i = 0; i < e.target.files.length; i++) {
+        dt.items.add(e.target.files[i]);
       }
-    },
-    
-    imageLoader(image) {
-      this.imagesUrl.push(URL.createObjectURL(image));
-    },
-    dropImage(e) {
-      let files = {};
-      e.preventDefault();
-      e.stopPropagation();
-      let dt = e.dataTransfer;
-      files = dt.files;
-      for(let f of files) {
-        this.imageLoader(f);
-      }
-    },
-    deletePreview(e) {
-      let parentDiv = e.target.parentElement;
-      let tempimages = [];
-      let tempimagesUrl = [];
-
-      for(let i=0; i<this.images.length; i++){
-        if(i != parentDiv.getAttribute('id')){
-          tempimages.push(this.images[i]);
-          tempimagesUrl.push(this.imagesUrl[i]);
-        }
-      }
-      this.images = tempimages;
-      this.imagesUrl = tempimagesUrl;
-    },
-
-
-
-
-
-    //
-    
-
-/* 첨부파일 추가 */
-    addFile(obj){
-    var maxFileCnt = 5;   // 첨부파일 최대 개수
-    var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-
-    // 첨부파일 개수 확인
-    if (curFileCnt > remainFileCnt) {
-        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
+      this.images = dt.files;
+      e.target.files = dt.files;
     }
-
-    for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
-
-        const file = obj.files[i];
-
-        // 첨부파일 검증
-        if (validation(file)) {
-            // 파일 배열에 담기
-            var reader = new FileReader();
-            reader.onload = function () {
-                filesArr.push(file);
-            };
-            reader.readAsDataURL(file)
-
-            // 목록 추가
-            let htmlData = '';
-            htmlData += '<div id="file' + fileNo + '" class="filebox">';
-            htmlData += '   <p class="name">' + file.name + '</p>';
-            htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
-            htmlData += '</div>';
-            $('.file-list').append(htmlData);
-            fileNo++;
-        } else {
-            continue;
-        }
-    }
-    // 초기화
-    document.querySelector("input[type=file]").value = "";
-},
-
-/* 첨부파일 검증 */
-    validation(obj){
-    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
-    if (obj.name.length > 100) {
-        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
-        return false;
-    } else if (obj.size > (100 * 1024 * 1024)) {
-        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
-        return false;
-    } else if (obj.name.lastIndexOf('.') == -1) {
-        alert("확장자가 없는 파일은 제외되었습니다.");
-        return false;
-    } else if (!fileTypes.includes(obj.type)) {
-        alert("첨부가 불가능한 파일은 제외되었습니다.");
-        return false;
-    } else {
-        return true;
-    }
-},
-
-/* 첨부파일 삭제 */
-    deleteFile(num) {
-    document.querySelector("#file" + num).remove();
-    filesArr[num].is_delete = true;
-},
-
-/* 폼 전송 */
-    submitForm() {
-
-
-    $.ajax({
-        method: 'POST',
-        url: '/register',
-        dataType: 'json',
-        data: formData,
-        async: true,
-        timeout: 30000,
-        cache: false,
-        headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
-        success: function () {
-            alert("파일업로드 성공");
-        },
-        error: function (xhr, desc, err) {
-            alert('에러가 발생 하였습니다.');
-            return;
-        }
-    })
-
-  }
+  },
 }
-}
+
 
 
 </script>
 
-<style scoped src="@/assets/css/sns/SnsWrite.css"></style>
+<style scoped src="@/assets/css/sns/SnsWrite.css">
+
+</style>

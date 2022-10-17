@@ -61,14 +61,22 @@ import img1 from "@/assets/img/sns/이미지1.jpg";
 export default {
   //DB연결
   created: function () {
-    fetch('http://localhost:8087/java/snsGet/' + this.writeNo)
+    fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
       .then(response => response.json())
       .then(result => {
         this.snsItem = result
       })
       .catch(err => console.log(err));
-      //서버에서 제대로 받아왔는지 확인.
-      console.log(this.snsItem);
+    //서버에서 제대로 받아왔는지 확인.
+    console.log(this.snsItem);
+
+    fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsImgs = result
+      })
+      .catch(err => console.log(err));
+    //서버에서 제대로 받아왔는지 확인.
   },
 
   data: function () {
@@ -78,18 +86,13 @@ export default {
       // snsWriteHashtag: '#해시태그',
       // snsWritePlace: '장소',
       // snsWriteLocation: '위치',
+
       writeNo: this.$route.params.writeNo,
       snsItem : {},  
       snsWriteIdImg: img1,
       searchText: '',
       images: [],
       imagesUrl: [],
-
-      //
-      fileNo: '',
-      filesArr: []
-
-
 
     };
   },

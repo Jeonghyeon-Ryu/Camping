@@ -15,7 +15,7 @@
           <button class="dealcomplete">거래 완료하기</button>
         </div>
         <div class="reviewRate">
-          <span v-bind="drawStar" class="star">
+          <span v-bind="drawStar()" class="star">
           ★★★★★
           <span>★★★★★</span>
           <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">

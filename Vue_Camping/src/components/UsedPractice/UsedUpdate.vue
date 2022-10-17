@@ -10,7 +10,7 @@
             <div class="used-pic">
               <div id='att_zone'>
                 <label class="input-file-button" for="btnAtt">
-                  <input type='file' name="pic" id='btnAtt' accept="image/*" multiple='multiple' />
+                  <input type='file' name="files" id='btnAtt' accept="image/*" multiple />
                 </label>
               </div>
             </div>
@@ -20,7 +20,7 @@
             <ul>
               <li>
                 <label for="inputWriter">작성자</label>
-                <p>{{used_writer}}</p>
+                <p>{{usedList.nickName}}</p>
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
@@ -33,7 +33,7 @@
               <hr>
               <li>
                 <label for="inputCate">카테고리<span class="essential">*</span></label>
-                <select name="usedCategory" id="used_cate" v-model="myGearType" :value="usedList.usedCategory">
+                <select name="usedCategory" id="used_cate" :value="usedList.usedCategory">
                   <option value='' disabled>카테고리 선택</option>
                   <option value="텐트">텐트</option>
                   <option value="타프">타프</option>
@@ -50,7 +50,7 @@
                 <li>
                   <label for="inputPlace">지역<span class="essential">*</span></label>
                     <div class="usedPlace">
-                    <select name="usedPlace" v-model="regionSelect" id="districtSelect" @change="districtChange" >
+                    <select name="usedPlace" id="districtSelect" @change="districtChange" :value="usedList.usedPlace" >
                       <option value diabled>시/도</option> 
                       <option value='전체'>전체</option>
                       <option value='서울특별시'>서울특별시</option>
@@ -70,7 +70,7 @@
                       <option value='경상남도'>경상남도</option>
                       <option value='제주도'>제주도</option>
                     </select>
-                    <select v-model="regionSelect2" name="usedPlace" id="citySelect">
+                    <select name="usedPlace" id="citySelect">
                       <option value disabled>시/군/구</option>
                       <option value='전체'>전체</option>
                     </select>
@@ -111,7 +111,7 @@
   export default {
     created(){
       //created-페이지 열자마자 실행
-      fetch('http://localhost:8088/java/used/usedDetail/'+this.usedId) 
+      fetch('http://localhost:8087/java/used/usedDetail/'+this.usedId) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data)
@@ -163,7 +163,7 @@
         }else if(content == null || content.trim() === "" ||content.length < 10){
           this.swContent();
         }else{
-            fetch('http://localhost:8088/java/used/usedUpdate',{
+            fetch('http://localhost:8087/java/used/usedUpdate',{
                     method : "PUT",
                     // body : fetchData
                     headers : {"Content-Type" : "application/json"},
@@ -174,6 +174,7 @@
                     console.log(data)
 
                 }).catch(err=>console.log(err))
+                .finally(this.$router.push({name : 'usedDetail'}))
         }
       },
       //지역선택

@@ -25,6 +25,9 @@ export default {
     font-style: none;
     box-sizing: border-box;
   }
+  body {
+    overflow-x: hidden;
+  }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

@@ -9,14 +9,29 @@ const routes = [{
     component: () => import('../views/Home.vue'),
   },
   {
+    name: 'SnsMain',
+    path: '/sns',
+    component: () => import('../components/SnS/SnsMain.vue'),
+  },
+  {
     name: 'SnsDetail',
     path: '/sns/detail/:writeNo',
     component: () => import('../components/SnS/SnsDetailFeed.vue'),
   },
   {
+    name: 'SnsWrite',
+    path: '/sns/write',
+    component: () => import('../components/SnS/SnsWrite.vue'),
+  },
+  {
     name: 'SnsRewrite',
     path: '/sns/rewrite/:writeNo',
     component: () => import('../components/SnS/SnsRewrite.vue'),
+  },
+  {
+    name: 'SnsMyFeed',
+    path: '/sns/myFeed/:email',
+    component: () => import('../components/SnS/SnsMyFeed.vue'),
   },
   {
     path: '/recru/detail/:recruId',
@@ -72,6 +87,31 @@ const routes = [{
     component: () => import('@/components/Camping/CampModify.vue'),
   },
   {
+    name: 'RecruList',
+    path: '/RecruList',
+    component: () => import('@/components/recruit/RecruList.vue'),
+  },
+  {
+    name: 'RecruInsert',
+    path: '/recru/RecruInsert',
+    component: () => import('@/components/recruit/RecruInsert.vue'),
+  },
+  {
+    name: 'RecruMypage',
+    path: '/recru/RecruMypage',
+    component: () => import('@/components/recruit/RecruMypageView.vue'),
+  },
+  {
+    name: 'DepositMypage',
+    path: '/recru/DepositMypage',
+    component: () => import('@/components/recruit/DepositMypageView.vue'),
+  },
+  {
+    name: 'EntryMypage',
+    path: '/recru/EntryMypage',
+    component: () => import('@/components/recruit/EntryMypageView.vue'),
+  },
+  {
     name: 'WriteNote',
     path: '/WriteNote',
     component: () => import('@/components/note/WriteNote.vue'),
@@ -91,6 +131,26 @@ const routes = [{
     name: 'InvitedList',
     path: '/InvitedList',
     component: () => import('@/components/note/InvitedList.vue'),
+  },
+  {
+    path: '/used/usedMain',
+    name: 'usedMain',
+    component: () => import('@/components/UsedPractice/UsedMain.vue'),
+  },
+  {
+    path: '/used/usedReview',
+    name: 'usedReview',
+    component: () => import('@/components/UsedPractice/UsedReview.vue'),
+  },
+  {
+    name: 'ManageUser',
+    path: '/Manage/User',
+    component: () => import('@/components/Admin/UserManage.vue'),
+  },
+  {
+    name: 'StoredCampList',
+    path: '/StoredCampList',
+    component: () => import('@/components/Camping/StoredCampList.vue'),
   },
 ]
 
