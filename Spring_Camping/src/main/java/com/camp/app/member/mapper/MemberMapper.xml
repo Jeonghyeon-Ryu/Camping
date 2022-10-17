@@ -5,7 +5,7 @@
 		SELECT * FROM member
 	</select>
 	<select id="findByEmail" parameterType="String" resultType="MemberVO">
-		SELECT * FROM member WHERE member_id = #{memberId}
+		SELECT * FROM member WHERE email = #{email}
 	</select>
 	<select id="count" resultType="Integer">
 		SELECT COUNT(*) FROM member

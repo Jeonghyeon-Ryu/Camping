@@ -82,6 +82,31 @@ const routes = [{
     component: () => import('@/components/Camping/CampModify.vue'),
   },
   {
+    name: 'RecruList',
+    path: '/RecruList',
+    component: () => import('@/components/recruit/RecruList.vue'),
+  },
+  {
+    name: 'RecruInsert',
+    path: '/recru/RecruInsert',
+    component: () => import('@/components/recruit/RecruInsert.vue'),
+  },
+  {
+    name: 'RecruMypage',
+    path: '/recru/RecruMypage',
+    component: () => import('@/components/recruit/RecruMypageView.vue'),
+  },
+  {
+    name: 'DepositMypage',
+    path: '/recru/DepositMypage',
+    component: () => import('@/components/recruit/DepositMypageView.vue'),
+  },
+  {
+    name: 'EntryMypage',
+    path: '/recru/EntryMypage',
+    component: () => import('@/components/recruit/EntryMypageView.vue'),
+  },
+  {
     name: 'WriteNote',
     path: '/WriteNote',
     component: () => import('@/components/note/WriteNote.vue'),

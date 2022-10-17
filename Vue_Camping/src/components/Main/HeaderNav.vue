@@ -42,7 +42,7 @@ export default {
       currentCategory: 0,
       topCategory: {
         "어디갈래?" : "/CampList",
-        "같이갈래?" : "/",
+        "같이갈래?" : "/RecruList",
         "중고장터" : "/used/usedMain",
         "후기피드" : "/sns",
         "나의노트" : "/MynoteList"
@@ -51,6 +51,13 @@ export default {
         {
           "캠핑장 리스트": "/CampList",
           "캠핑장 등록": "/CampRegister"
+        },
+        {
+          "같이 갈래?": "/RecruList",
+          "같이 가자!": "/recru/RecruInsert",
+          "나의 동행 모집글": "/recru/RecruMypage",
+          "나의 신청 목록": "/recru/EntryMypage",
+          "보증금 관리": "/recru/DepositMypage"
         },
         {
           "게시글": "/sns",
@@ -83,13 +90,13 @@ export default {
       if(key == "어디갈래?") {
         this.currentCategory = 1;
       } else if (key == "같이갈래?") {
-        this.currentCategory = 5;
-      } else if (key == "중고장터") {
-        this.currentCategory = 3;
-      } else if (key == "후기피드") {
         this.currentCategory = 2;
-      } else if (key == "나의노트") {
+      } else if (key == "중고장터") {
+        this.currentCategory = 5;
+      } else if (key == "후기피드") {
         this.currentCategory = 3;
+      } else if (key == "나의노트") {
+        this.currentCategory = 4;
       } else if (key == "메인") {
         this.currentCategory = 0;
       } else if (key == "로그인") {

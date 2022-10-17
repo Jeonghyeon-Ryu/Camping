@@ -2,7 +2,7 @@
 <div class="entry-mypage-container">
       <div class="entry-mypage-box">
         <div class="entry-mypage-title">
-            <h2>캠핑 동행 관리</h2>
+            <h2>여기 갈래</h2>
         </div>
         <div v-for="entryPost in EntryList" :key="entryPost.entryId" class="entry-mypage-mini-box" >
             <div class="entry-mypage-status">
@@ -25,34 +25,34 @@
 import EntryMypageCard from "@/components/recruit/EntryMypageCard.vue";
 
 export default{
-        components: {
-            EntryMypageCard
-        },
-        data : function(){
-            return{
-                memberId : 'admi',//세션에서 받을 로그인 정보
-                EntryList : []
-            }
-        },
-        mounted(){
-            this.loadData();
-        },
-        methods : {
-            loadData : function(){
-                //로그인한 유저의 아이디로 신청정보를 받아온다
-                const memberId= this.memberId;
-                fetch(`http://localhost:8087/java/recru/entry/${memberId}`,{
-                    method : "post",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(memberId)
-                })
-                .then((response) =>response.json()) 
-                .then(data => { 
-                    console.log(data);
-                    this.EntryList = data;  
-                }).catch(err=>console.log(err));
-            }
+    components: {
+        EntryMypageCard
+    },
+    data : function(){
+        return{
+            memberId : localStorage.getItem("email"),//세션에서 받을 로그인 정보
+            EntryList : []
+        }
+    },
+    mounted(){
+        this.loadData();
+    },
+    methods : {
+        loadData : function(){
+            //로그인한 유저의 아이디로 신청정보를 받아온다
+            const memberId= this.memberId;
+            fetch(`http://localhost:8087/java/recru/entry/mypage/${memberId}`,{
+                method : "post",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(memberId)
+            })
+            .then((response) =>response.json()) 
+            .then(data => { 
+                console.log(data);
+                this.EntryList = data;  
+            }).catch(err=>console.log(err));
         }
     }
+}
 </script>
 <style scoped src="@/assets/css/recruit/myPage.css" />

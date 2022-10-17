@@ -5,7 +5,7 @@
 	<!-- 등록 -->
 	<insert id="insertEntry" parameterType="EntryVO">
 		<selectKey keyProperty="entryId" resultType="Integer" order="BEFORE">
-			SELECT NVL(MAX(recru_id),0)+1 FROM recru_entry
+			SELECT NVL(MAX(entry_id),0)+1 FROM recru_entry
 		</selectKey>
 		INSERT INTO recru_entry(
 			entry_id,
@@ -26,16 +26,23 @@
 	</insert>
 	
 	<!-- 모집글의 참가자 조회 -->
-	<select id="recruEntredList" parameterType="String" resultType="EntryVO">
+	<select id="recruEntredList" parameterType="Integer" resultType="EntryVO">
 		SELECT *
 		FROM recru_entry
-		WHERE recru_id=#{recruId};
+		WHERE recru_id=#{recruId}
 	</select>
 	
 	<!-- 마이페이지 전체조회 -->
 	<select id="myEntryList" parameterType="String" resultType="EntryVO">
 		SELECT *
 		FROM recru_entry
-		WHERE member_id=#{memberId};
+		WHERE member_id=#{memberId}
 	</select>
+	
+	<!-- 동행신청 상태수정  -->
+	<update id="updateEntryStatus"  parameterType="EntryVO">
+		update recru_entry 
+		set entry_status= #{entryStatus}
+		where entry_id=#{entryId}
+	</update>
 </mapper>
