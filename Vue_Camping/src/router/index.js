@@ -131,7 +131,8 @@ const routes = [{
     path: '/used/usedReview',
     name: 'usedReview',
     component: () => import('@/components/UsedPractice/UsedReview.vue'),
-  }
+  },
+  {
     name: 'ManageUser',
     path: '/Manage/User',
     component: () => import('@/components/Admin/UserManage.vue'),
