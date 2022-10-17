@@ -114,13 +114,13 @@ public class SnsController {
 		return service.showSnsOne(writeNo);
 	}
 
-	// sns 개별조회 - 이미지 리스트
+	// sns 이미지에 대한 정보
 	@GetMapping("/snsImage/{writeNo}")
 	public List<SnsImageVO> getSnsImageList(@PathVariable("writeNo") int writeNo) {
 		return service.showSnsImageByWriteNo(writeNo);
 	}
 
-	// 이미지 불러오기인가..??
+	// 이미지 (jpg 등 불러오기)
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
 		String fullPath = "d:\\upload\\sns\\" + imagePath + "\\" + storedName;
@@ -150,20 +150,41 @@ public class SnsController {
 		System.out.println(snsComment);
 //		return true;
 		int result = scService.addSnsComment(snsComment);
-		if(result > 0) {
+		if (result > 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	//게시글별 댓글 전체 출력
+	// 게시글별 댓글 전체 출력
 	@GetMapping("/snsComment/{writeNo}")
-	public List<SnsCommentVO> getSnsCommentList(@PathVariable("writeNo") int writeNo){
+	public List<SnsCommentVO> getSnsCommentList(@PathVariable("writeNo") int writeNo) {
 		SnsCommentVO vo = new SnsCommentVO();
 		System.out.println(writeNo);
 		System.out.println(vo);
 		return scService.findByWriteNoToSnsComment(writeNo);
+	}
+
+	// 유저가 작성한 총게시글 수
+	@GetMapping("/memberCount/{email}")
+	public int getCountSnsByUser(@PathVariable("email") String email) {
+		System.out.println(email);
+		return service.countSnsByUser();
+
+	}
+
+	///// 유저가 작성한 게시글 리스트 출력(위의 전체이미지 불러오기에서 가져옴)
+	// 페이징
+	@GetMapping("/sns/{email}/{page}")
+	public List<SnsImageVO> getSnsListByUser(@PathVariable("email") String email, @PathVariable("page") int page) {
+		return service.showSnsByPageByUser(email, page);
+	}
+	
+	// 유저가 좋아요한 게시글 리스트 출력
+	@GetMapping("/memberSnsLikeList/{email}")
+	public void getSnsLikeListByUser(@PathVariable("email") String email) {
+		System.out.println(email);
 	}
 
 }

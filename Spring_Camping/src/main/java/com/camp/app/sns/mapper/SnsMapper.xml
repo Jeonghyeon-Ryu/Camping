@@ -127,5 +127,38 @@ SET status = 1
 WHERE write_no = #{writeNo} 
 </update>
 
+<select id="countSnsByUser" resultType="Integer">
+	SELECT COUNT(*) FROM sns WHERE email = #{email}
+</select>
 
+
+<!-- 마이페이지 -->
+<!-- 페이징? -->
+<!-- <select id="showSnsByPageByUser" resultType="SnsImageVO" parameterType="Integer">
+
+<![CDATA[
+
+      
+      SELECT write_no, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path
+      FROM ( 
+           SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+           FROM (
+                SELECT ROWNUM AS SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+                FROM ( SELECT *
+                            FROM sns_image 
+                            WHERE sns_image_no = ANY
+                                    (SELECT MAX(sns_image_no) 
+                                    FROM sns_image
+                                    WHERE write_no IN (SELECT write_no
+                                                                FROM sns
+                                                                WHERE status=0  and email = #{email})
+                                                       
+                                    GROUP BY write_no)
+                            ORDER BY write_no desc)
+               )
+           WHERE SEQ >= ((#{page}-1)*10+1)
+          )
+      WHERE ROWNUM < 11
+		]]>
+</select> -->
 </mapper>

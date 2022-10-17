@@ -167,5 +167,20 @@ public class SnsServiceImpl implements SnsService {
 	public int findMaxBySnsImageNo() {
 		return mapper.findMaxBySnsImageNo();
 	}
+
+
+
+	//유저가 작성한 총게시글 수
+	@Override
+	public int countSnsByUser() {
+		return mapper.countSnsByUser();
+	}
+
+
+
+	@Override
+	public List<SnsImageVO> showSnsByPageByUser(String email, int page) {
+		return null;
+	}
 	
 }
