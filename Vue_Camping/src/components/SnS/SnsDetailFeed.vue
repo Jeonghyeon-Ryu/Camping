@@ -164,7 +164,6 @@ import img1 from "@/assets/img/sns/이미지1.jpg"
 import img3 from "@/assets/img/sns/이미지3.jpg"
 import img4 from "@/assets/img/sns/이미지4.jpg"
 
-import SnsReport from "./SnsReport.vue"
 import Swal from "sweetalert2"
 
 export default {
@@ -394,7 +393,6 @@ export default {
             },
   },
   components: {
-    SnsReport,
     Swiper,
     SwiperSlide,
 

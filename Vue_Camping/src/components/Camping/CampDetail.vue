@@ -29,28 +29,30 @@
                     <div class="camp-detail-info-buttons">
                         <div class="row">
                             <label>
-                                <input type="checkbox" name="toilet" value="toilet" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="toilet" value="toilet" v-model="camp.campInfo" disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/toilet.png" />
                                     <span>화장실</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="parking" value="parking" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="parking" value="parking" v-model="camp.campInfo"
+                                    disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/parking.png">
                                     <span>주차장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="shower" value="shower" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="shower" value="shower" v-model="camp.campInfo" disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/shower.png" />
                                     <span>샤워장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="disposal" value="disposal" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="disposal" value="disposal" v-model="camp.campInfo"
+                                    disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/disposal.png" />
                                     <span>쓰레기장</span>
@@ -58,7 +60,7 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="deck" value="deck" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="deck" value="deck" v-model="camp.campInfo" disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/deck.png" />
                                     <span>데크</span>
@@ -66,28 +68,28 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="bbq" value="bbq" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="bbq" value="bbq" v-model="camp.campInfo" disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/bbq.png" />
                                     <span>바비큐</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="swim" value="swim" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="swim" value="swim" v-model="camp.campInfo" disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/swim.png" />
                                     <span>수영장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="spoon" value="spoon" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="spoon" value="spoon" v-model="camp.campInfo" disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/spoon.png" />
                                     <span>조리도구</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="lease" value="lease" v-model="camp.campInfo" disabled/>
+                                <input type="checkbox" name="lease" value="lease" v-model="camp.campInfo" disabled />
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/lease.png" />
                                     <span>장비대여</span>
@@ -183,7 +185,29 @@ export default {
             }
         },
         reportItem() {
+            let item = Swal.fire({
+                title: '신고',
+                html:
+                    '<select id="swal-input1" class="swal2-select">' +
+                        '<option value="" disabled="">신고 분류</option>'+
+                        '<option value="잘못된 정보">잘못된 정보</option>'+
+                        '<option value="게시글 규정 위반">게시글 규정 위반</option>'+
+                        '<option value="기타">기타</option>'+
+                    '</select>'+
+                    '<textarea id="swal-input2" class="swal2-textarea" style="resize:none"></textarea>',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText:'신고',
+                cancelButtonText:'취소',
+                confirmButtonColor: 'rgba(6,68,32,0.8)',
+                preConfirm: () => {
+                    document.getElementById('swal-input1').value;
+                    document.getElementById('swal-input2').value;
 
+                    return false;
+                }
+            })
+            console.log(item);
         }
     },
     components: { KakaoMap, CampDetailImage },

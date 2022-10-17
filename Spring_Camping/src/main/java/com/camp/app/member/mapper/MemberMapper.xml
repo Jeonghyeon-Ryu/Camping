@@ -73,6 +73,6 @@
 		)
 	</insert>
 	<select id="findByEmailToProfileImage" parameterType="String" resultType="ProfileImageVO">
-		SELECT * FROM profile_image WHERE email = #{email}
+		SELECT * FROM profile_image WHERE profile_image_id = (SELECT MAX(profile_image_id) FROM profile_image WHERE email = #{email})
 	</select>
 </mapper>

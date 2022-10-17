@@ -197,9 +197,21 @@ export default {
                         body: fetchData
                     }).then(result => result.text())
                         .then(result => {
-                            if(result == 'true') {
-                                Swal.fire('수정신청 완료 !', '', 'success')
-                            } 
+                            if (result == 'true') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '수정신청 완료 !',
+                                    toast: true,
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        this.$router.push({path: '/Camp/'+this.campId})
+                                    }
+                                })
+                            }
                         });
                 }
             })

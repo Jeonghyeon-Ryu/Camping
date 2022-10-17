@@ -42,7 +42,6 @@ import UsedDetail from '../components/UsedPractice/UsedDetail.vue';
 import RecruDetail from '@/components/recruit/RecruDetail.vue';
 import RecruList from '@/components/recruit/RecruList.vue';
 import RecruMap from '../components/recruit/RecruMap.vue';
-import SnsReport from '@/components/SnS/SnsReport.vue';
 import SnsMain from '@/components/SnS/SnsMain.vue';
 import SnsDetailFeed from '@/components/SnS/SnsDetailFeed.vue';
 import SnsMyFeed from '@/components/SnS/SnsMyFeed.vue';
