@@ -72,6 +72,15 @@ const routes = [{
     component: () => import('@/components/Camping/CampModify.vue'),
   },
   {
+    path: '/used/usedMain',
+    name: 'usedMain',
+    component: () => import('@/components/UsedPractice/UsedMain.vue'),
+  },
+  {
+    path: '/used/usedReview',
+    name: 'usedReview',
+    component: () => import('@/components/UsedPractice/UsedReview.vue'),
+  }
     name: 'ManageUser',
     path: '/Manage/User',
     component: () => import('@/components/Admin/UserManage.vue'),

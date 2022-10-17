@@ -9,7 +9,7 @@
             <div class="used-pic">
               <div id='att_zone'>
                 <label class="input-file-button" for="btnAtt">
-                  <input type='file' name="pic" id='btnAtt' accept="image/*" multiple='multiple' />
+                  <input type='file' name="files" id='btnAtt' accept="image/*" multiple />
                 </label>
               </div>
             </div>
@@ -19,7 +19,7 @@
             <ul>
               <li>
                 <label for="inputWriter">작성자</label>
-                <p>{{used_writer}}</p>
+                <input type="text" name="nickName" :value="nickName">
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
@@ -114,6 +114,8 @@
         used_writer: 'campingGo',
         regionSelect: '',
         regionSelect2: '',
+        nickName : localStorage.getItem("nickname"),
+
       }
     },
     methods: {
@@ -133,18 +135,17 @@
       confirm: function(){
         const form = document.forms.namedItem('#container2')
         let place = document.querySelector('#districtSelect'+'#citySelect')
-        let fetchData = {};
+        let fetchData = [];
 
         let name = document.getElementById('inputName').value;
         let price = document.getElementById('inputPrice').value;
         let category = document.getElementById('used_cate').value;
         let content = document.querySelector('.used_content').value;
 
-        console.log();
-            new FormData(document.querySelector('#container2')).forEach((value,key) => fetchData[key]=value);
-            // fetchData.append("usedPlace":place,"":)
-            console.log(fetchData);
-            console.log(JSON.stringify(fetchData));
+        fetchData = new FormData(document.querySelector('#container2'))
+        fetchData.forEach((value,key)=>{
+          console.log(key, ":", value);
+        })
 
         if(name === null || name.trim() === ""){
           this.swName();
@@ -156,20 +157,27 @@
           this.swContent();
         }else{
 
-            fetch('http://localhost:8088/java/used/usedInsert',{
+            fetch('http://localhost:8087/java/used/usedInsert',{
                     method : "POST",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(fetchData)
+                    headers : { },
+                    body : fetchData
                 }) 
-                .then(Response => Response.json())  //json 파싱 
+                .then(Response => Response.text())  //json 파싱 
                 .then(data => { 
-                    console.log(data)
-
+                    if(data>="1"){
+                      // 성공
+                      console.log("입력되었습니다.")
+                      this.$router.push({name : 'usedMain'})
+                    } else {
+                      // 실패                    
+                      console.log("입력 실패")  
+                    }
                 }).catch(err=>console.log(err))
               
+                console.log(fetchData)
+                // .finally()
               
-              
-              }
+        }
       },
       //지역선택
       districtChange: function(){
