@@ -105,6 +105,8 @@
                 <div id="pdfDiv">
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
+                        
+                        
                         <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
                         </CreTextarea>
                         <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
@@ -164,35 +166,63 @@ import MyNoteList from './MynoteList.vue';
 export default {
     data() {
         return {
-            noteId : '',
             textAmount: 1,
             isEditable: true,
-            childOrder: ['textBox']
+            childOrder: ['textBox'],
+            noteInfo : [],
+            noteId : this.$route.params.noteId,
+            showInfo : {}
         }
     },
-    props : { 
-        noteId : Number,
-    },
    
-    created() {
-        //this.noteId = this.$router.params.myNoteId;
-        console.log(this.noteId);
+   
+    // created() {
+    //     console.log(this.noteId);
+    //     //this.noteId = this.$router.params.myNoteId;
 
-        fetch(`http://localhost:8087/java/GoMyNote/${this.noteId}`, {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            })
-                .then((response) => response.json())
-                .then(data => {
-                    //console.log(data.noteId);
-                    //console.log(this.myNoteId);
-                this.$router.push({
-                    name : "WriteNote",
-                    params : data
-                })    
-                this.noteInfo = data;
-            }).catch(err => console.log(err));
-    },
+
+    //    fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
+    //     .then(result => result.json())
+    //     .then(result=>{
+         
+    //       this.showInfo = result; 
+    //      // console.log(this.showInfo.noteContents[0])
+    //      let content;
+    //       for(let i=0; i<this.showInfo.noteContents.length; i++){ 
+            
+    //         let sortable = document.querySelector('.sortable');
+    //         //let btnContainer = sortable.querySelector('.btn_container');
+            
+    //         let writeFn = document.createElement('div');
+    //         writeFn.classList.add('write_fn');
+    //         writeFn.innerHTML = `<div class="left_container">
+    //         <div class="btn_container">
+    //             <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
+    //             <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
+    //         </div>
+    //         </div>  `+ this.showInfo.noteContents[i];
+    //         sortable.append(writeFn);            
+    //         console.log(writeFn);
+ 
+    //     }
+          
+    //     })
+       
+       
+       
+    //     // fetch(`http://localhost:8087/java/GoMyNote/${noteId}`, {
+    //     //         method: "GET",
+    //     //         headers: { "Content-Type": "application/json" },
+    //     //     })
+    //     //         .then((response) => response.json())
+    //     //         .then(data => {
+    //     //             //console.log(data.noteId);
+    //     //             //console.log(this.myNoteId);
+                
+    //     //         this.noteInfo = data;
+    //     //         console.log(noteInfo);
+    //     //     }).catch(err => console.log(err));
+    // },
     methods: {
         CreArea: function (e) {
             this.childOrder.push('textBox');
@@ -261,7 +291,7 @@ export default {
 
                         for (let k = 0; k < lineTd.length; k++) {
                             //temp.push(lineTd[k].value);
-                            tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text"> `+ lineTd[k].value + `</td> `
+                            tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text" value="`+ lineTd[k].value + `"></td>`
                         };
                         tableTag += `</tr>`
                     }

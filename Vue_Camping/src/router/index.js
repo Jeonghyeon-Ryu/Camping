@@ -29,6 +29,11 @@ const routes = [{
     component: () => import('../components/SnS/SnsRewrite.vue'),
   },
   {
+    name: 'SnsMyFeed',
+    path: '/sns/myFeed/:email',
+    component: () => import('../components/SnS/SnsMyFeed.vue'),
+  },
+  {
     path: '/recru/detail/:recruId',
     name: 'recruDetail',
     component: () => import('@/components/recruit/RecruDetail.vue'),
@@ -110,7 +115,12 @@ const routes = [{
     name: 'WriteNote',
     path: '/WriteNote',
     component: () => import('@/components/note/WriteNote.vue'),
-    props : true
+  },
+  {
+    name: 'MyNoteInfo',
+    path: '/MyNoteInfo/:noteId',
+    component: () => import('@/components/note/MyNoteInfo.vue'),
+   
   },
   {
     name: 'MynoteList',
@@ -141,7 +151,12 @@ const routes = [{
     path: '/used/myUsed',
     name: 'myUsed',
     component: () => import('@/components/UsedPractice/UsedMyPage.vue'),
-  }
+  },
+  {
+    name: 'StoredCampList',
+    path: '/StoredCampList',
+    component: () => import('@/components/Camping/StoredCampList.vue'),
+  },
 ]
 
 const router = createRouter({

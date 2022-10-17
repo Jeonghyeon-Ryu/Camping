@@ -19,7 +19,8 @@ public class InputSnsVO {
 	private Date writeDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private int status;
-	private String implement;
 	private String nickname;
+	private String email;
+	private String implement;
 	private List<MultipartFile> files;
 }

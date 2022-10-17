@@ -7,7 +7,7 @@
     </div>
     <div class="sns-page-id-container">
       <div class="sns-page-id">
-        <span>나의 게시물(그러나 남의 화면도 똑같은)</span>
+        <span>{{this.email}}</span>
       </div>
     </div>
 
@@ -28,10 +28,10 @@
       </div>
       <div class="sns-profile">
         <div class="sns-profile-nickname">
-          <input type="text" value="닉네임">
+          <p>{{value=this.nickname}}</p>
         </div>
         <div class="sns-profile-text">
-          <textarea v-model="snsProfileText"></textarea>
+          <textarea :value=this.profileInfo></textarea>
          <!-- / <textarea v-model="snsWriteText" placeholder="내용을 입력하세요"></textarea> -->
         </div>
       </div>
@@ -58,10 +58,31 @@ import img4 from "@/assets/img/sns/이미지4.jpg"
 import img5 from "@/assets/img/sns/이미지5.jpg"
 import img6 from "@/assets/img/sns/이미지6.jpg"
 export default {
-  data: () => {
+  created: function(){
+    fetch('http://localhost:8087/java/member/' + this.email)
+    .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        this.snsMyDatas = result
+      })
+      .catch(err => console.log(err));
+
+  },
+  data: function() {
     return {
       snsSearch: '검색어를 입력하세요.',
       searchText: '',
+      //마이페이지 정보 불러오기
+      //닉네임 불러오기
+      //닉네임, 
+      //로그인하며 가져오는 것 목록 : email, nickname, auth
+      email : this.$route.params.email,
+      nickname: this.$store.state.nickname,
+      // profileInfo : this.$store.state.profileInfo,
+      snsMyData : {
+        
+      },
+      
       snsImgs: [
         { Img: img1, Name: 'snsMaingImg1', No: '1111' },
         { Img: img2, Name: 'snsMaingImg2', No: '2222' },
@@ -108,6 +129,7 @@ export default {
   box-sizing: border-box;
 }
 .sns-container {
+  margin-top: 300px;
   width: 100vw;
   display: flex;
   flex-wrap: wrap;
@@ -223,13 +245,9 @@ export default {
     
 }
 
-.sns-profile-nickname input{
+.sns-profile-nickname p{
   border: none;
 
-}
-
-.sns-profile-nickname input:focus {
-  outline: none;
 }
 .sns-profile-text textarea{
   

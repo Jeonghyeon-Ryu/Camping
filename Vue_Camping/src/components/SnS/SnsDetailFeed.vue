@@ -78,7 +78,7 @@
               <textarea placeholder="#태그" :value="snsItem.hashtag"></textarea>
             </div>
             <div class="sns-write-date">
-              <input placeholder="2012/12/12" :value="snsItem.writeDate">
+              <p>{{yyyyMMddhhmmss(snsItem.writeDate)}}</p>
             </div>
           </form>
 
@@ -103,7 +103,8 @@
             </div>
           </div>
 
-          <div class="sns-detail-comment-form-container" :key="snsCommentItem.writeNo" v-for="snsCommentItem of snsCommentItems">
+          <div class="sns-detail-comment-form-container" :key="snsCommentItem.writeNo"
+            v-for="snsCommentItem of snsCommentItems">
             <div class="sns-detail-comment-form">
               <div class="sns-comment-write-id-container">
                 <div class="sns-comment-write-id">
@@ -121,7 +122,7 @@
                   </div>
                 </div>
                 <div class="sns-comment-date">
-                  <input type="text" :value="snsCommentItem.commentDate">
+                  <p>{{yyyyMMddhhmmss(snsCommentItem.commentDate)}}</p>
                 </div>
               </div>
             </div>
@@ -164,6 +165,7 @@ import img3 from "@/assets/img/sns/이미지3.jpg"
 import img4 from "@/assets/img/sns/이미지4.jpg"
 
 import SnsReport from "./SnsReport.vue"
+import Swal from "sweetalert2"
 
 export default {
   created: function () {
@@ -190,7 +192,7 @@ export default {
       .then(response => response.json())
       .then(result => {
         console.log(result);
-        //this.snsCommentItems = result 
+        this.snsCommentItems = result
       })
       .catch(err => console.log(err));
   },
@@ -314,7 +316,7 @@ export default {
         .catch(err => console.log(err))
 
       if (confirm("삭제하시겠습니까?")) {
-        // window.location.href = ("/sns/detail/" + this.writeNo)
+        this.$router.push({ path: "/sns" })
         // console.log('글을 삭제하겟음')
         // fetch('http://localhost:8087/java/snsDelete')
         // console.log(result)
@@ -322,42 +324,74 @@ export default {
       }
     },
     //댓글 작성
-    doComment(){
+    doComment() {
       //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
       //작성텍스트
       let commentContent = document.querySelector('.sns-write-comment-container textarea').value;
       //글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
       //닉네임
- //     let nickName = localStorage.getItem('nickname')
-      let nickname = "유저2";
+      let nickname = this.$store.state.nickname
+      // let nickname = "유저2";
       //이메일
- //     let email = localStorage.getItem('email')
-      let email = "user2";
-      
+      let email = this.$store.state.email
+      // let email = "user2";
+
       let comment = {
-        commentContent : commentContent,
-        writeNo : writeNo,
-        nickname : nickname,
-        email : email
+        commentContent: commentContent,
+        writeNo: writeNo,
+        nickname: nickname,
+        email: email
       }
 
       console.log(comment);
 
       fetch('http://localhost:8087/java/comment', {
         method: 'POST',
-        headers :  {
+        headers: {
           'Content-Type': 'application/json'
 
         },
-        body : JSON.stringify(comment)
+        body: JSON.stringify(comment)
       }).then(result => result.text())
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => console.log(err))
-      
-    }
+        .then(result => {
+          console.log(result);
+          if (result == "true") {
+            Swal.fire({
+              title: '댓글이 등록되었습니다',
+              confirmButtonText: '확인',
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                //현재페이지 새로고침!
+                this.$router.go(0)
+              }
+            })
+
+
+          }
+        })
+        .catch(err => console.log(err))
+    },
+    //유리언니..
+    yyyyMMddhhmmss : function(value){
+                if(value == '') return '';
+        
+                var js_date = new Date(value);
+
+                // 연도, 월, 일, 시, 분, 초 추출
+                var year = js_date.getFullYear();
+                var month = js_date.getMonth() + 1;
+                var day = js_date.getDate();
+                var hours = ('0' + js_date.getHours()).slice(-2); 
+                var minutes = ('0' + js_date.getMinutes()).slice(-2);
+                var seconds = ('0' + js_date.getSeconds()).slice(-2); 
+                
+                if(month < 10) {month = '0' + month;}
+                if(day < 10){day = '0' + day;}
+            
+                return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes  + ':' + seconds;
+            },
   },
   components: {
     SnsReport,
@@ -622,7 +656,7 @@ export default {
   margin-left: 15px;
 }
 
-.sns-write-date input {
+.sns-write-date p {
   margin-top: 5px;
   width: 90%;
   height: 15px;
@@ -713,14 +747,10 @@ export default {
   margin-left: 15px;
 }
 
-.sns-comment-date input {
+.sns-comment-date p {
   border: none;
   text-align: right;
   margin-left: 50%;
-}
-
-.sns-comment-date input:focus {
-  outline: none;
 }
 
 .sns-write-comment-container {

@@ -50,7 +50,8 @@ export default {
       middleCategory: [
         {
           "캠핑장 리스트": "/CampList",
-          "캠핑장 등록": "/CampRegister"
+          "캠핑장 등록": "/CampRegister",
+          "저장 목록": "/StoredCampList"
         },
         {
           "같이 갈래?": "/RecruList",
@@ -63,7 +64,7 @@ export default {
           "게시글": "/sns",
           "글쓰기": "/sns/write",
           "좋아요": "/sns",
-          "나의피드": "/sns",
+          "나의피드": "/sns/myFeed/:nickname",
         },
         {
           "이용방법": "/MynoteList",

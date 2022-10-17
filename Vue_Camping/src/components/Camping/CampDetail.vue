@@ -29,28 +29,28 @@
                     <div class="camp-detail-info-buttons">
                         <div class="row">
                             <label>
-                                <input type="checkbox" name="toilet" value="toilet" v-model="camp.campInfo" />
+                                <input type="checkbox" name="toilet" value="toilet" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/toilet.png" />
                                     <span>화장실</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="parking" value="parking" v-model="camp.campInfo" />
+                                <input type="checkbox" name="parking" value="parking" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/parking.png">
                                     <span>주차장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="shower" value="shower" v-model="camp.campInfo" />
+                                <input type="checkbox" name="shower" value="shower" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/shower.png" />
                                     <span>샤워장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="disposal" value="disposal" v-model="camp.campInfo" />
+                                <input type="checkbox" name="disposal" value="disposal" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/disposal.png" />
                                     <span>쓰레기장</span>
@@ -58,7 +58,7 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="deck" value="deck" v-model="camp.campInfo" />
+                                <input type="checkbox" name="deck" value="deck" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/deck.png" />
                                     <span>데크</span>
@@ -66,28 +66,28 @@
                             </label>
 
                             <label>
-                                <input type="checkbox" name="bbq" value="bbq" v-model="camp.campInfo" />
+                                <input type="checkbox" name="bbq" value="bbq" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/bbq.png" />
                                     <span>바비큐</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="swim" value="swim" v-model="camp.campInfo" />
+                                <input type="checkbox" name="swim" value="swim" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/swim.png" />
                                     <span>수영장</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="spoon" value="spoon" v-model="camp.campInfo" />
+                                <input type="checkbox" name="spoon" value="spoon" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/spoon.png" />
                                     <span>조리도구</span>
                                 </div>
                             </label>
                             <label>
-                                <input type="checkbox" name="lease" value="lease" v-model="camp.campInfo" />
+                                <input type="checkbox" name="lease" value="lease" v-model="camp.campInfo" disabled/>
                                 <div class="icon-box">
                                     <img src="@/assets/img/Camping/lease.png" />
                                     <span>장비대여</span>
@@ -144,7 +144,28 @@ export default {
         },
         modifyItem() {
             if (this.$store.state.email != null) {
-                this.$router.push({ name: "CampModify", params: { campId: this.campId } });
+                fetch('http://localhost:8087/java/campModify/' + this.campId)
+                    .then(result => result.text())
+                    .then(result => {
+                        if (result == 'true')    // 수정중인게 있을때
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '수정중인 신청내역이 있습니다.',
+                                text: '해당 캠핑장의 수정 신청이 검토중에 있습니다.',
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                        else {  // 수정중인게 없을때
+                            this.$router.push({ name: "CampModify", params: { campId: this.campId } });
+                        }
+                    })
+
             } else {
                 Swal.fire({
                     icon: 'warning',
@@ -156,7 +177,7 @@ export default {
                     didOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        this.$router.push({name:"LoginSignup"});
+                        this.$router.push({ name: "LoginSignup" });
                     }
                 })
             }

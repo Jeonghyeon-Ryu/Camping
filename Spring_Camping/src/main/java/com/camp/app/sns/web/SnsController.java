@@ -123,7 +123,7 @@ public class SnsController {
 	// 이미지 불러오기인가..??
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
-		String fullPath = "c:\\upload\\sns\\" + imagePath + "\\" + storedName;
+		String fullPath = "d:\\upload\\sns\\" + imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
@@ -159,9 +159,11 @@ public class SnsController {
 
 	//게시글별 댓글 전체 출력
 	@GetMapping("/snsComment/{writeNo}")
-	public void getSnsCommentList(@PathVariable int writeNo){
+	public List<SnsCommentVO> getSnsCommentList(@PathVariable("writeNo") int writeNo){
 		SnsCommentVO vo = new SnsCommentVO();
+		System.out.println(writeNo);
 		System.out.println(vo);
+		return scService.findByWriteNoToSnsComment(writeNo);
 	}
 
 }

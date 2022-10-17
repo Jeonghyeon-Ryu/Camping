@@ -114,8 +114,10 @@ public class SnsServiceImpl implements SnsService {
 		resultSns.setHashtag(sns.getHashtag());
 		resultSns.setWriteDate(sns.getWriteDate());
 		resultSns.setStatus(sns.getStatus());
-		resultSns.setImplement(sns.getImplement());
 		resultSns.setNickname(sns.getNickname());
+		resultSns.setEmail(sns.getEmail());
+		resultSns.setImplement(sns.getImplement());
+		
 
 		mapper.insertSns(resultSns);
 
@@ -126,7 +128,7 @@ public class SnsServiceImpl implements SnsService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "c:\\upload\\sns\\" + directoryPath;
+		String uploadPath = "d:\\upload\\sns\\" + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if (!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();

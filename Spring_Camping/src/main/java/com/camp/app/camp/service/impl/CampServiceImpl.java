@@ -26,6 +26,7 @@ public class CampServiceImpl implements CampService{
 
 	@Autowired
 	CampMapper mapper;
+	@Autowired
 	ReportMapper reportMapper;
 	
 	@Override
@@ -122,11 +123,13 @@ public class CampServiceImpl implements CampService{
 		return mapper.findByCampIdToCampImage(campId);
 	}
 	
+//	캠핑장 수정
+	
 	@Transactional
 	@Override
 	public boolean modifyCamp(InputCampVO camp) {
 		CampModifyVO resultCamp = new CampModifyVO();
-		resultCamp.setCampModifyId(mapper.findMaxByCampModifyId());
+		resultCamp.setCampModifyId(mapper.findMaxByCampModifyId()+1);
 		resultCamp.setCampId(camp.getCampId());
 		resultCamp.setCampAddress(camp.getCampAddress());
 		resultCamp.setCampName(camp.getCampName());
@@ -145,7 +148,7 @@ public class CampServiceImpl implements CampService{
 		mapper.insertCampModify(resultCamp);
 		
 		ReportVO report = new ReportVO();
-		report.setReportId(reportMapper.findMaxByReportId());
+		report.setReportId(reportMapper.findMaxByReportId()+1);
 		report.setBoardId(camp.getCampId());
 		report.setEmail(camp.getEmail());
 		report.setReportContent("캠핑장 수정요청");
@@ -166,38 +169,47 @@ public class CampServiceImpl implements CampService{
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
 		}
-
+		
 		files.forEach(file->{
-			CampImageVO image = new CampImageVO();
-			image.setCampImageId(mapper.findMaxByCampImageId()+1);
-			image.setOriginName(file.getOriginalFilename());
-			
-			image.setImageFormat(image.getOriginName().substring(image.getOriginName().lastIndexOf("."), image.getOriginName().length()));
-			image.setImageSize(file.getSize());
-			image.setImagePath(directoryPath);
-			image.setCampId(resultCamp.getCampId());
-			
-			UUID uuid = UUID.randomUUID();
-			String[] uuids = uuid.toString().split("-");
-			image.setStoredName(uuids[0] + "_" + image.getOriginName());
-			
-			File resultFile = new File(uploadPath,image.getStoredName());
-			try {
-				file.transferTo(resultFile);
-				// 문제가 있음. 제대로 들어갔는지 확인이 안됨.
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(file.getSize()!=0) {
+				CampImageVO image = new CampImageVO();
+				image.setCampImageId(mapper.findMaxByCampModifyImageId()+1);
+				image.setOriginName(file.getOriginalFilename());
+				
+				image.setImageFormat(image.getOriginName().substring(image.getOriginName().lastIndexOf("."), image.getOriginName().length()));
+				image.setImageSize(file.getSize());
+				image.setImagePath(directoryPath);
+				image.setCampId(resultCamp.getCampId());
+				
+				UUID uuid = UUID.randomUUID();
+				String[] uuids = uuid.toString().split("-");
+				image.setStoredName(uuids[0] + "_" + image.getOriginName());
+				
+				File resultFile = new File(uploadPath,image.getStoredName());
+				try {
+					file.transferTo(resultFile);
+					// 문제가 있음. 제대로 들어갔는지 확인이 안됨.
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				mapper.insertCampModifyImage(image);
+				System.out.println("Image Info : " + image);
 			}
-//			mapper.insertCampImage(image);
-			System.out.println(image);
 		});
+		System.out.println("Camp Info : " + resultCamp);
+		System.out.println("Report Info : " + report);
 		return true;
 	}
 	@Override
 	public int getMaxCampModifyId() {
 		return mapper.findMaxByCampModifyId();
+	}
+	@Override
+	public int isCampModifying(int campId) {
+		return mapper.countCampModifyByCampId(campId);
+		
 	}
 
 }

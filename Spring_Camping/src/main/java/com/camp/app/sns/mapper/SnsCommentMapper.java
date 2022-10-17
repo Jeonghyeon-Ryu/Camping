@@ -10,5 +10,7 @@ public interface SnsCommentMapper {
 	public int insertSnsComment(SnsCommentVO snsComment);
 
 	// comment 댓글 게시글별 전체 출력
+	public List<SnsCommentVO> findByWriteNoToSnsComment(int writeNo);
+
 	
 }

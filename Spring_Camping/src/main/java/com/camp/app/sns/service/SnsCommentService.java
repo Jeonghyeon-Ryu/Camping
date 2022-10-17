@@ -10,4 +10,6 @@ public interface SnsCommentService {
 	// sns comment 댓글 달기
 	public int addSnsComment(SnsCommentVO snsComment);
 	
+	// 게시글별 댓글 전체 출력
+	public List<SnsCommentVO> findByWriteNoToSnsComment(int writeNo);
 }

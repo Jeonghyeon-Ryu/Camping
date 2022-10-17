@@ -45,7 +45,7 @@ public class NoteController {
 		//System.out.print(nodeDto.getNoteIds().get(0));
 		service.deleteNote(nodeDto);
 	}
-	
+	//노트 선택시 노트내용 가져오기
 	@GetMapping("/GoMyNote/{noteId}")
 	public NoteVO goMyNote(@PathVariable("noteId") int noteId) {
 		System.out.println(noteId);
