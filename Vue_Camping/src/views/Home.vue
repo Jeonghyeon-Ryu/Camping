@@ -1,6 +1,6 @@
 <template>
 
-  <MainSwiper></MainSwiper>
+  <!-- <MainSwiper></MainSwiper> -->
   <!-- <CampRegister></CampRegister> -->
   <!-- <SnsMain></SnsMain> -->
   <!-- <SnsDetailFeed></SnsDetailFeed> -->
@@ -11,31 +11,29 @@
   <!-- <SnsReport></SnsReport> -->
   <!-- <SnsLocation></SnsLocation> -->
   <!-- <MainSwiper></MainSwiper> -->
-  <!-- <CampRegister></CampRegister> -->
   <!-- <UsedMain></UsedMain> -->
-  <!-- <UsedReview></UsedReview> -->
+  <UsedReview></UsedReview>
   <!-- <UsedInsert></UsedInsert> -->
   <!-- <UsedUpdate></UsedUpdate> -->
   <!-- <UsedDetail></UsedDetail> -->
   <!-- <RecruMap></RecruMap> -->
   <!-- <RecruDetail></RecruDetail> -->
   <!-- <UsedLike></UsedLike> -->
- <!-- <ChatRoom></ChatRoom> -->
- <!-- <ChatList></ChatList> -->
-<!-- <EntryMypageView></EntryMypageView> -->
-<!-- <DepositMypageView></DepositMypageView> -->
- <!-- <RecruInsert></RecruInsert> -->
- <!-- <RecruList></RecruList> -->
- <!-- <CampList></CampList> -->
- <!-- <MynoteList></MynoteList> -->
- <!-- <RecruInsert></RecruInsert> -->
+  <!-- <ChatRoom></ChatRoom> -->
+  <!-- <ChatList></ChatList> -->
+  <!-- <EntryMypageView></EntryMypageView> -->
+  <!-- <DepositMypageView></DepositMypageView> -->
+  <!-- <RecruInsert></RecruInsert> -->
+  <!-- <RecruList></RecruList> -->
+  <!-- <CampList></CampList> -->
+  <!-- <MynoteList></MynoteList> -->
+  <!-- <RecruInsert></RecruInsert> -->
 
 </template>
 
 
 <script setup>
 import MainSwiper from '../components/MainSwiper.vue';
-import CampRegister from '../components/CampRegister.vue';
 import UsedMain from '../components/UsedPractice/UsedMain.vue';
 import UsedReview from '../components/UsedPractice/UsedReview.vue';
 import UsedInsert from '../components/UsedPractice/UsedInsert.vue';

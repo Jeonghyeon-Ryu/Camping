@@ -175,7 +175,7 @@ const message = ref("hello");
     }
 }
 </script>
-<style>
+<style scoped>
 .left_container{ 
     display: flex;
  

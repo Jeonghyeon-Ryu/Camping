@@ -22,6 +22,6 @@ public class MemberVO {
 	private Date regdate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updated;
-	private int status;
 	private int auth;
+	private int status;
 }

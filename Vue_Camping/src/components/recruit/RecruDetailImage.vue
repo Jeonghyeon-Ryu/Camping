@@ -61,7 +61,7 @@ export default {
     object-fit: cover;
 }
 </style>
-<style>
+<style scoped>
 .swiper-button-next,
 .swiper-button-prev,
 .swiper-container-rtl .swiper-button-prev,

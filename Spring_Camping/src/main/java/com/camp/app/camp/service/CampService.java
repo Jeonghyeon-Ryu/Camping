@@ -14,6 +14,6 @@ public interface CampService {
 	public CampVO showCampOne(int campId);
 	public boolean addCamp(InputCampVO camp);
 	public List<CampImageVO> showCampImageByCampId(int campId);
-	public boolean modifyCamp(CampModifyVO camp);
+	public boolean modifyCamp(InputCampVO camp);
 	public int getMaxCampModifyId();
 }
