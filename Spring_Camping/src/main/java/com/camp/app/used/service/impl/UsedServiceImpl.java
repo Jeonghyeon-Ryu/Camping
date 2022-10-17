@@ -39,7 +39,7 @@ public class UsedServiceImpl implements UsedService {
 		resultUsed.setUsedCondition(used.getUsedCondition());
 		resultUsed.setUsedContent(used.getUsedContent());
 		resultUsed.setNickName(used.getNickName());
-		resultUsed.setUsedWriter(used.getUsedWriter());
+		resultUsed.setEmail(used.getEmail());
 		
 		
 		//이거뭐하는코드?
@@ -116,8 +116,8 @@ public class UsedServiceImpl implements UsedService {
 	}
 	
 	//내가쓴글조회
-	public List<UsedVO> findMyUsed(String usedWriter){
-		return mapper.findMyUsed(usedWriter);
+	public List<UsedVO> findMyUsed(String email){
+		return mapper.findMyUsed(email);
 	}
 	 
 	//수정

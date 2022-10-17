@@ -32,8 +32,8 @@
                 </div>
                 <div class="used-report">
                   <!-- 신고기능가져오기 -->
-                  <p v-if="usedList.usedWriter != memberId" @click="report()">신고하기</p>
-                  <div v-if="usedList.usedWriter === memberId">
+                  <p v-if="usedList.email != memberId" @click="report()">신고하기</p>
+                  <div v-if="usedList.email === memberId">
                     <select name="dealStatus">
                     <option value='' disabled selected>거래상태 변경</option>
                     <option value="거래가능">거래가능</option>
@@ -71,17 +71,18 @@
           <div class="vertical_line"></div>
           <!-- 작성자 정보-->
           <div class="used-writer">
-                  <img v-bind:src="usedPic">
+            <!-- <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"> -->
                   {{usedList.nickName}}
+                  <input type="hidden" :value="usedList.email">
             <div class="used-writer-post">
               <!-- 올린게시물정보(코드써야함) -->
             </div>
           </div>
           <div class="info-buttons">
-                  <button type="button" class="like-button" v-if="usedList.usedWriter != memberId">찜하기</button>
-                  <button type="button" class="chat-button" v-if="usedList.usedWriter != memberId">채팅하기</button>
-                  <button type="button" class="update-button" v-if="usedList.usedWriter === memberId" @click="usedUpdate()">수정하기</button>
-                  <button type="button" class="delete-button" v-if="usedList.usedWriter === memberId" @click="usedDelete()">삭제하기</button>
+                  <button type="button" class="like-button" v-if="usedList.email != memberId">찜하기</button>
+                  <button type="button" class="chat-button" v-if="usedList.email != memberId">채팅하기</button>
+                  <button type="button" class="update-button" v-if="usedList.email === memberId" @click="usedUpdate()">수정하기</button>
+                  <button type="button" class="delete-button" v-if="usedList.email === memberId" @click="usedDelete()">삭제하기</button>
                   <button type="button" class="restrict-button" @click="usedRestrict()" v-if="memberId === 'admin'">접근제한</button>       
           </div>
         </div>
@@ -199,19 +200,28 @@
       //여기다 함수 실행. 무슨 방식으로 가져올건지(put.get./// + url (/selectone),
       // data L) 
       //내용조회
+      const component = this;
       fetch('http://localhost:8087/java/used/usedDetail/'+this.usedId) 
-                .then(Response => Response.json())  //json 파싱 
-                .then(data => { 
-                    console.log(data)
-                    this.usedList = data;
-                }).catch(err=>console.log(err))
-
+      .then(Response => Response.json())  //json 파싱 
+      .then(data => { 
+        console.log(data)
+        component.usedList = data;
+        console.log(component.usedList.email)
+      }).catch(err=>console.log(err))
+      
       fetch('http://localhost:8087/java/used/usedImage/'+this.usedId)
         .then(result => result.json())
         .then(result => {
             this.images = result;
         })
         .catch(err => console.log(err))
+    
+    fetch('http://localhost:8087/java/profile/' + component.usedList.email)
+      .then(result => result.json())
+      .then(result => { 
+        this.storedProfile = result;
+      }).catch(err=>console.log(err));
+
     }
   }
 </script>

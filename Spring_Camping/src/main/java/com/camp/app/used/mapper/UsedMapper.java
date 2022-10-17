@@ -33,7 +33,7 @@ public interface UsedMapper {
 	public UsedVO findDetail(int usedId);
 	
 	//내가쓴글조회
-	public List<UsedVO> findMyUsed(String usedWriter);
+	public List<UsedVO> findMyUsed(String email);
 	
 	//게시글 조건조회
 	public List<UsedVO> searchUsedList();
@@ -55,4 +55,9 @@ public interface UsedMapper {
 
 	//찜 증가
 	public int updateLike();
+	
+	
+	
+	//후기 작성
+//	public UsedReviewVO insertReview(UsedReviewVO review);
 }

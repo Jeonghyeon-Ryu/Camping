@@ -43,7 +43,7 @@
     },
     data(){
       return{
-        usedWriter : this.$store.state.email,
+        email : this.$store.state.email,
         usedList: [],
         myGearType: '',
         regionSelect: '',
@@ -95,15 +95,15 @@
     },
     //created-페이지 열자마자 실행
     created(){
-      const usedWriter = this.usedWriter;
-      console.log(usedWriter)
+      const email = this.email;
+      console.log(email)
       
       //내가쓴글전체조회
       fetch("http://localhost:8087/java/used/myUsed/"
-      +usedWriter,{
+      +email,{
         method: "POST",
         headers : {"Content-Type" : "application/json"},
-        body : JSON.stringify(usedWriter)
+        body : JSON.stringify(email)
       }) 
             .then((Response) => Response.json())  //json 파싱 
             .then(data => { 

@@ -48,7 +48,7 @@
 	
 	<!-- 내가쓴글조회 -->
 	<select id="findMyUsed" parameterType="String" resultType="UsedVO">
-		SELECT * FROM used WHERE used_writer = #{usedWriter} ORDER BY used_write DESC
+		SELECT * FROM used WHERE email = #{email} ORDER BY used_write DESC
 	</select>
 	
 	<!-- 수정 -->
@@ -132,7 +132,7 @@
 						used_place, 
 						used_content,
 						used_condition,
-						used_writer,
+						email,
 						nickname
 						)
 				VALUES <!-- VO에 있는 필드명 가져오기 -->
@@ -143,7 +143,7 @@
 					 ,#{usedPlace}
 					 ,#{usedContent}
 					 ,#{usedCondition}
-					 ,#{usedWriter}
+					 ,#{email}
 					 ,#{nickName}
 					)
 	</insert>
@@ -161,5 +161,17 @@
 		)
 	</insert>
 	
+	<!-- 후기 작성 -->
+	<insert id="" parameterType="UsedReviewVO">
+		INSERT INTO used_review VALUES(
+			#{reviewId},
+			#{usedId},
+			#{email2},
+			#{reviewGrade},
+			#{reviewContent},
+			#{reviewRole},
+			#{email}
+		)
+	</insert>
 	
 </mapper>

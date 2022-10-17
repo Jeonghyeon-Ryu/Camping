@@ -171,8 +171,8 @@
           
           confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
           cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
-          confirmButtonText: '네', // confirm 버튼 텍스트 지정
-          cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          cancelButtonText: '취소', // cancel 버튼 텍스트 지정
           
           reverseButtons: true, // 버튼 순서 거꾸로
           

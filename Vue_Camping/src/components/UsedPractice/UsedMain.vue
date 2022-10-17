@@ -105,6 +105,9 @@
         <!-- <router-link tag="div" v-bind:to="{name:'usedInsert'}">
           <button>+</button> 
         </router-link> -->
+         <router-link tag="div" v-bind:to="{name:'usedReview'}">
+          <button>review</button> 
+        </router-link>
         <button v-on:click='usedInsert'>+</button>
                 <!--<button v-on:click='usedInsert'>♥</button> -->
       </div>
