@@ -41,7 +41,7 @@ export default{
         loadData : function(){
             //로그인한 유저의 아이디로 신청정보를 받아온다
             const memberId= this.memberId;
-            fetch(`http://localhost:8087/java/recru/entry/mypage/${memberId}`,{
+            fetch(`http://localhost:8087/java/recru/entry/${memberId}`,{
                 method : "post",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(memberId)

@@ -62,13 +62,13 @@ export default {
     }
   },
   created(){
-     //보증 정보.. 나중엔 props로 받고 지우자 (임의로 recruId로 받아온 것 -> 틀린식)
-    for(let i=0 ; i<DepositPost.data.length; i++){
-      if((DepositPost.data[i]["recru_id"] === this.depositId)){
-          this.depositInfo = DepositPost.data[i];
-          console.log(this.depositInfo)
-      }
-    }
+    const component = this;
+    fetch("http://localhost:8087/java/recru/deposit/"+component.memberId)
+    .then(Response => Response.json()) 
+    .then(data => { 
+        component.depositList = data;
+    })
+  
     
     //보증금 상태에 따라 active 설정을 준다
     switch(this.depositInfo.deposit_status) {

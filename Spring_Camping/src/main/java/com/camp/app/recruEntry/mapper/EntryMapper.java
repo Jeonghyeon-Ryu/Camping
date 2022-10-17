@@ -12,7 +12,8 @@ public interface EntryMapper {
 	public List<EntryVO> recruEntredList(int recruId);
 	//마이페이지 참가글 목록
 	public List<EntryVO> myEntryList(String memberId);
+	//모집완료된 참가글 목록(보증금관련)
+	public List<EntryVO> endEntryList(String memberId);
 	//동행신청 상태수정 
 	public int updateEntryStatus(EntryVO entry);
-	//
 }

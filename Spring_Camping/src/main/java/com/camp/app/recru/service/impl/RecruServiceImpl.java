@@ -90,7 +90,7 @@ public class RecruServiceImpl implements RecruService {
 			}else if(entry.getEntryStatus()==1) {
 				//1. 참가 수락된 회원
 				DepositVO vo = new DepositVO();
-				vo.setDepositId(depMapper.getMaxDepositId());
+				vo.setDepositId(depMapper.getMaxDepositId()+1);
 				vo.setRecruId(entry.getRecruId());
 				vo.setMemeberId(entry.getMemberId());
 				//보증금 테이블에 저장

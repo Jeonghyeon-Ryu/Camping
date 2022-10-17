@@ -42,6 +42,11 @@ public class EntryServiceImpl implements EntryService {
 	public List<EntryVO> myEntryList(String memberId) {
 		return mapper.myEntryList(memberId);
 	}
+	//모집완료된 참가글 목록(보증금관련)
+	@Override
+	public List<EntryVO> endEntryList(String memberId){
+		return mapper.endEntryList(memberId);
+	}
 	//동행신청 상태수정 
 	@Override
 	public int updateEntryStatus(EntryVO entry) {

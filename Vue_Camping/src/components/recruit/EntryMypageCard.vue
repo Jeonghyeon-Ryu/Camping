@@ -23,7 +23,7 @@
 <script>
 
 export default{
-    props :{recruId : String},
+    props :{recruId : Number},
     data: function(){
         return{
             recruInfo : {},

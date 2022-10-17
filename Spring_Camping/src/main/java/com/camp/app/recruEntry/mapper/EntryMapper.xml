@@ -39,6 +39,17 @@
 		WHERE member_id=#{memberId}
 	</select>
 	
+	<!-- 종료된 참가 목록(보증금관련) -->
+	<select id="endEntryList" parameterType="String" resultType="EntryVO">
+		SELECT * FROM recru_entry
+		WHERE recru_id IN (SELECT r.recru_id
+	                        FROM recruitment r
+	                        JOIN recru_entry e
+	                        ON ( r.recru_id = e.recru_id)
+	                        WHERE r.member_id = #{memberId}
+	                        AND r.recru_status = 1)
+	</select>
+	
 	<!-- 동행신청 상태수정  -->
 	<update id="updateEntryStatus"  parameterType="EntryVO">
 		update recru_entry 

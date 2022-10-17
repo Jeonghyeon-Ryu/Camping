@@ -30,4 +30,11 @@
 		deposit_id = 1;
 	</where> 
 </update>
+
+<!-- 마이페이지 -->
+<select id="myDepositList" parameterType="String" resultType="DepositVO">
+	SELECT * FROM deposit 
+	WHERE member_id = #{memberId}
+</select>
+
 </mapper>

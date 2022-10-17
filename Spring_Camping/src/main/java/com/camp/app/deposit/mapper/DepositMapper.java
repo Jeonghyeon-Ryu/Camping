@@ -1,5 +1,7 @@
 package com.camp.app.deposit.mapper;
 
+import java.util.List;
+
 import com.camp.app.deposit.service.DepositVO;
 
 /*
@@ -13,5 +15,7 @@ public interface DepositMapper {
 	public int changeStatus(DepositVO depositVO);
 	//최신번호
 	public int getMaxDepositId();
+	//마이페이지
+	public List<DepositVO> myDepositList(String memberId);
 
 }
