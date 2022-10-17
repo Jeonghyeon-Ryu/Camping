@@ -50,7 +50,7 @@ export default{
     }
 }
 </script>
-<style>
+<style scoped>
 /* 공통 부분 */
 * {
     margin: 0;

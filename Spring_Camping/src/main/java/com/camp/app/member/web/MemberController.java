@@ -1,8 +1,7 @@
 package com.camp.app.member.web;
 
 import java.io.IOException;
-
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -50,7 +49,10 @@ public class MemberController {
 		
 		return auth;
 	}
-	
+	@GetMapping("/member")
+	public List<MemberVO> users() {
+		return service.showAllMember();
+	}
 	@PostMapping("/member")
 	public boolean signup(@RequestParam MemberVO member) {
 		int result = service.signup(member);
@@ -63,10 +65,6 @@ public class MemberController {
 	
 	@PostMapping("/login")
 	public MemberVO login(@RequestBody MemberVO member) {
-//		MemberVO input = new MemberVO();
-//		input.setEmail(member.get("email"));
-//		input.setPassword(member.get("password"));
-		
 		return service.login(member);
 	}
 	

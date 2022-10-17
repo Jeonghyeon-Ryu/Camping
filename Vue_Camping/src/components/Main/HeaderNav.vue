@@ -9,8 +9,8 @@
           <router-link v-for="(category,key) of topCategory" :to="category" @click="clickTopCategory(key)">{{key}}</router-link>
         </div>
         <div class="header-top-button">
-          <router-link v-if="email == null" to="/login" tag="div" class="header-button"><img src="@/assets/img/icons/login.png" alt="" @click="clickTopCategory('로그인')"></router-link>
-          <router-link v-if="email != null" to="/" tag="div" class="header-button"><img src="@/assets/img/icons/logout.png" alt="" @click="clickTopCategory('로그아웃')"></router-link>
+          <router-link v-if="$store.state.email == null" to="/login" tag="div" class="header-button"><img src="@/assets/img/icons/login.png" alt="" @click="clickTopCategory('로그인')"></router-link>
+          <router-link v-if="$store.state.email != null" to="/" tag="div" class="header-button"><img src="@/assets/img/icons/logout.png" alt="" @click="clickTopCategory('로그아웃')"></router-link>
           <!-- <div @click="showLoginForm()"><img src="../assets/img/login-30.png" alt=""></div> -->
           <router-link to="/" tag="div" class="header-button"><img src="@/assets/img/icons/chat.png" alt="" @click="clickTopCategory('채팅')"></router-link>
           <router-link to="/" tag="div" class="header-button"><img src="@/assets/img/icons/alarm.png" alt="" @click="clickTopCategory('알람')"></router-link>
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="aside-right-container">
-        <AsideRight></AsideRight>
+        <AsideRight @hideMenu="hideMenuForm"></AsideRight>
       </div>
       <div class="header-middle-container">
         <!-- <NavbarDefault dark transparent></NavbarDefault> -->
@@ -63,6 +63,10 @@ export default {
       document.querySelector('.aside-right-container').style.top = (document.scrollingElement.scrollTop + 60) + 'px';
       document.querySelector('.aside-right-container').classList.toggle('active');
     },
+    hideMenuForm() {
+      document.querySelector('.aside-right-container').style.top = (document.scrollingElement.scrollTop + 60) + 'px';
+      document.querySelector('.aside-right-container').classList.remove('active');
+    },
     clickTopCategory(key) {
       if(key == "어디갈래?") {
         this.currentCategory = 1;
@@ -79,7 +83,6 @@ export default {
       } else if (key == "로그인") {
         this.currentCategory = 0;
       } else if (key == "로그아웃") {
-        console.log(localStorage.getItem("email"));
         this.currentCategory = 0;
         this.logout();
       } else if (key == "채팅") {
@@ -89,9 +92,7 @@ export default {
       }
     },
     logout() {
-      window.localStorage.removeItem("email");
-      window.localStorage.removeItem("nickname");
-      this.email = '';
+      this.$store.commit('delUserInfo');
       this.$router.push({name:"Home"});
     }
   },
@@ -99,6 +100,6 @@ export default {
 }
 </script>
 
-<style scoped src="@/assets/css/header.css">
+<style scoped src="@/assets/css/Main/HeaderNav.css">
 
 </style>

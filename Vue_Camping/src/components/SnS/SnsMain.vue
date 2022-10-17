@@ -69,7 +69,7 @@
 
 
 
-<style>
+<style scoped>
   /* .sns-container{
     display: flex;
     justify-content: space-between;

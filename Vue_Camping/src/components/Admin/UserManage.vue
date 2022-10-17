@@ -4,24 +4,31 @@
             <h2>유저 관리 페이지</h2>
         </div>
         <div class="user-manage-table">
-            <UserTable :userData="userData" :perPage="perPage"></UserTable>
+            <UserTable v-model:userData="userData" :perPage="perPage"></UserTable>
         </div>
     </div>
 </template>
 <!-- -------------------------------------- -->
 <script>
 import UserTable from './UserTable.vue';
-import users from './users';
+import user from './users'
 export default {
     data: function () {
         return {
-            userData: users,
+            userData: [],
             perPage: 20
         }
     },
-    components: {
-        UserTable
-    }
+    created : function(){
+        // fetch('http://localhost:8087/java/member')
+        //     .then(result => result.json())
+        //     .then(result => {
+        //         console.log(result);
+        //         this.userData = result;
+        //     })
+        this.userData = user;
+    },
+    components: { UserTable }
 }
 </script>
 <!-- -------------------------------------- -->
