@@ -199,6 +199,7 @@ label {
 
 .card-pic img, .card-pic div {
   width: 100%;
+  height: 100%;
 }
 
 .card-info {
@@ -283,8 +284,11 @@ label {
   border-radius: 3px;
 }
 /* select */
-select, select option{
+select{
   border: 1px solid #e6e6e6;
   outline: 0 none;
   margin: 1px;
+}
+select:focus{
+  border: 1px solid black;
 }

@@ -9,7 +9,9 @@
           <!-- 상품명, 가격 -->
           <div class="used-info">
             <ul>
-              <li class="usedStatus"><img v-bind:src="usedStatus"></li>
+              <div>
+              <!-- <li class="usedStatus"><img v-bind:src="usedStatus"></li> -->
+              </div>
               <div class="used-flex">
                 <div class="used-name">
                   <li><h2>{{usedList.usedName}}</h2></li>
@@ -30,26 +32,28 @@
                 </div>
                 <div class="used-report">
                   <!-- 신고기능가져오기 -->
-                  <p @click="report()">신고하기</p>
-                </div>
-              </div>
-              <!-- 상품정보2 -->
-                  <li>
-                    카테고리 : {{usedList.usedCategory}}
-                  </li>
-                  <li>상태 : <span v-if="usedList.usedCondition==0">상</span>
-                             <span v-if="usedList.usedCondition==1">중</span>
-                             <span v-if="usedList.usedCondition==2">하</span>
-                  </li>
-                  <li>
-                    거래지역 : {{usedList.usedPlace}}
-                  </li>
-                  <select name="dealStatus">
-                    <option value='' disabled selected>거래상태</option>
+                  <p v-if="usedList.usedWriter != memberId" @click="report()">신고하기</p>
+                  <div v-if="usedList.usedWriter === memberId">
+                    <select name="dealStatus">
+                    <option value='' disabled selected>거래상태 변경</option>
                     <option value="거래가능">거래가능</option>
                     <option value="거래중">거래중</option>
                     <option value="거래완료">거래완료</option>
                   </select>
+                  </div>
+                </div>
+              </div>
+              <!-- 상품정보2 -->
+                  <li>
+                    🧾카테고리 : {{usedList.usedCategory}}
+                  </li>
+                  <li>🎭상태 : <span v-if="usedList.usedCondition==0">상</span>
+                             <span v-if="usedList.usedCondition==1">중</span>
+                             <span v-if="usedList.usedCondition==2">하</span>
+                  </li>
+                  <li>
+                    🚩거래지역 : {{usedList.usedPlace}}
+                  </li>
               </div>
             </ul>
           </div>
@@ -74,11 +78,11 @@
             </div>
           </div>
           <div class="info-buttons">
-                  <button type="button" class="like-button" v-if="usedList.nickName != memberId">찜하기</button>
-                  <button type="button" class="chat-button" v-if="usedList.nickName != memberId">채팅하기</button>
-                  <button type="button" class="update-button" v-if="usedList.nickName === memberId" @click="usedUpdate()">수정하기</button>
-                  <button type="button" class="delete-button" v-if="usedList.nickName === memberId" @click="usedDelete()">삭제하기</button>
-                  <button type="button" class="restrict-button" @click="usedRestrict()" >접근제한</button>       
+                  <button type="button" class="like-button" v-if="usedList.usedWriter != memberId">찜하기</button>
+                  <button type="button" class="chat-button" v-if="usedList.usedWriter != memberId">채팅하기</button>
+                  <button type="button" class="update-button" v-if="usedList.usedWriter === memberId" @click="usedUpdate()">수정하기</button>
+                  <button type="button" class="delete-button" v-if="usedList.usedWriter === memberId" @click="usedDelete()">삭제하기</button>
+                  <button type="button" class="restrict-button" @click="usedRestrict()" v-if="memberId === 'admin'">접근제한</button>       
           </div>
         </div>
       </form>
@@ -92,7 +96,7 @@
   export default {
     data(){
       return{
-        memberId : localStorage.getItem("nickname"),
+        memberId : this.$store.state.email,
         usedList : [],
         images : [], 
         usedId : this.$route.params.usedId,
@@ -183,6 +187,9 @@
             }
          }
         );
+      },
+      report : function(){
+        //신고창띄우기
       }
     },
     //created-페이지 열자마자 실행

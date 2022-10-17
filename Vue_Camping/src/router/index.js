@@ -136,7 +136,12 @@ const routes = [{
     name: 'ManageUser',
     path: '/Manage/User',
     component: () => import('@/components/Admin/UserManage.vue'),
-  },
+  }, 
+  {
+    path: '/used/myUsed',
+    name: 'myUsed',
+    component: () => import('@/components/UsedPractice/UsedMyPage.vue'),
+  }
 ]
 
 const router = createRouter({

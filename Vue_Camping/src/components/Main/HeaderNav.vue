@@ -71,6 +71,10 @@ export default {
           "내가 초대받은 노트": "/InvitedList",
           "노트 작성하기": "/WriteNote"
         },
+        {
+          "물건 사기":"/used/UsedMain",
+          "물건 팔기":"/used/UsedInsert"
+        }
       ],
     }
   },

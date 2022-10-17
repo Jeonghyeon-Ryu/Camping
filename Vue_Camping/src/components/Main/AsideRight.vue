@@ -3,7 +3,7 @@
         <router-link v-if="$store.state.email == null" to="/login" tag="div" class="aside-right-button" @click="clickMenu">로그인 / 회원가입</router-link>
         <hr v-if="($store.state.email != null)&&($store.state.auth == 1)">
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div" class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 캠핑</router-link>
-        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div" class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 중고장터</router-link>
+        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/used/myUsed" tag="div" class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 중고장터</router-link>
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div" class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 피드</router-link>
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div" class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 노트</router-link>
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div" class="aside-right-button" @click="clickMenu" style="font-weight:bold">저장 목록</router-link>

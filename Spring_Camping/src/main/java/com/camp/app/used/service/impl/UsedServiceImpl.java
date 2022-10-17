@@ -38,6 +38,9 @@ public class UsedServiceImpl implements UsedService {
 		resultUsed.setUsedCategory(used.getUsedCategory());
 		resultUsed.setUsedCondition(used.getUsedCondition());
 		resultUsed.setUsedContent(used.getUsedContent());
+		resultUsed.setNickName(used.getNickName());
+		resultUsed.setUsedWriter(used.getUsedWriter());
+		
 		
 		//이거뭐하는코드?
 		String usedPlace="";
@@ -112,6 +115,11 @@ public class UsedServiceImpl implements UsedService {
 		return mapper.findDetail(usedId);
 	}
 	
+	//내가쓴글조회
+	public List<UsedVO> findMyUsed(String usedWriter){
+		return mapper.findMyUsed(usedWriter);
+	}
+	 
 	//수정
 	@Override
 	public void updateUsed(UsedVO usedVO) {

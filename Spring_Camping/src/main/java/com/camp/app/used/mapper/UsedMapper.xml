@@ -41,9 +41,14 @@
             OR used_place LIKE '%'||#{keyword}||'%')
    	</select>
 	 
-	<!-- 게시글 단건조회 -->
+	<!-- 게시글 단건조회(상세보기) -->
 	<select id="findDetail" parameterType="Integer" resultType="UsedVO">
 		SELECT * FROM used WHERE used_id = #{usedId}
+	</select>
+	
+	<!-- 내가쓴글조회 -->
+	<select id="findMyUsed" parameterType="String" resultType="UsedVO">
+		SELECT * FROM used WHERE used_writer = #{usedWriter} ORDER BY used_write DESC
 	</select>
 	
 	<!-- 수정 -->
