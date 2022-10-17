@@ -9,9 +9,19 @@ const routes = [{
     component: () => import('../views/Home.vue'),
   },
   {
+    name: 'SnsMain',
+    path: '/sns',
+    component: () => import('../components/SnS/SnsMain.vue'),
+  },
+  {
     name: 'SnsDetail',
     path: '/sns/detail/:writeNo',
     component: () => import('../components/SnS/SnsDetailFeed.vue'),
+  },
+  {
+    name: 'SnsWrite',
+    path: '/sns/write',
+    component: () => import('../components/SnS/SnsWrite.vue'),
   },
   {
     name: 'SnsRewrite',
@@ -95,6 +105,36 @@ const routes = [{
     name: 'EntryMypage',
     path: '/recru/EntryMypage',
     component: () => import('@/components/recruit/EntryMypageView.vue'),
+  },
+  {
+    name: 'WriteNote',
+    path: '/WriteNote',
+    component: () => import('@/components/note/WriteNote.vue'),
+    props : true
+  },
+  {
+    name: 'MynoteList',
+    path: '/MynoteList',
+    component: () => import('@/components/note/MynoteList.vue'),
+  },
+  {
+    name: 'InvitedList',
+    path: '/InvitedList',
+    component: () => import('@/components/note/InvitedList.vue'),
+  },
+  {
+    path: '/used/usedMain',
+    name: 'usedMain',
+    component: () => import('@/components/UsedPractice/UsedMain.vue'),
+  },
+  {
+    path: '/used/usedReview',
+    name: 'usedReview',
+    component: () => import('@/components/UsedPractice/UsedReview.vue'),
+  }
+    name: 'ManageUser',
+    path: '/Manage/User',
+    component: () => import('@/components/Admin/UserManage.vue'),
   },
 ]
 

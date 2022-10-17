@@ -9,4 +9,5 @@ public interface ReportMapper {
 	public List<ReportVO> findByBoardDivision(int boardDivision);
 	public boolean insert(ReportVO report);
 	public boolean update(ReportVO report);
+	public int findMaxByReportId();
 }

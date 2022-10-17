@@ -4,12 +4,22 @@
         <div class="used-heads">
           <!-- 상품사진 -->
           <div class="used-pic">
-                <img v-bind:src="usedPic">
+            <div v-for="usedImage of images"><img :src="'http://localhost:8087/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
           </div>
           <!-- 상품명, 가격 -->
           <div class="used-info">
             <ul>
-              <li><h2>{{usedList.usedName}}</h2></li>
+              <li class="usedStatus"><img v-bind:src="usedStatus"></li>
+              <div class="used-flex">
+                <div class="used-name">
+                  <li><h2>{{usedList.usedName}}</h2></li>
+                </div>
+                <div class="used-status">
+                  <li><div v-if="usedList.dealStatus==0" class="dealGreen">거래가능</div>
+                      <div v-if="usedList.dealStatus==1" class="dealRed">거래중</div>
+                      <div v-if="usedList.dealStatus==2" class="dealGray">거래완료</div></li>
+                </div>  
+              </div>
               <li><h3>￦{{usedList.usedPrice}}</h3></li>
               <hr>
               <!-- 좋아요, 조회수, 신고 -->
@@ -27,7 +37,10 @@
                   <li>
                     카테고리 : {{usedList.usedCategory}}
                   </li>
-                  <li>상태 : {{usedList.usedCondition}}</li>
+                  <li>상태 : <span v-if="usedList.usedCondition==0">상</span>
+                             <span v-if="usedList.usedCondition==1">중</span>
+                             <span v-if="usedList.usedCondition==2">하</span>
+                  </li>
                   <li>
                     거래지역 : {{usedList.usedPlace}}
                   </li>
@@ -55,30 +68,35 @@
           <!-- 작성자 정보-->
           <div class="used-writer">
                   <img v-bind:src="usedPic">
-                  {{usedList.usedWriter}}
+                  {{usedList.nickName}}
             <div class="used-writer-post">
               <!-- 올린게시물정보(코드써야함) -->
             </div>
           </div>
           <div class="info-buttons">
-                  <button type="button" class="like-button">찜하기</button>
-                  <button type="button" class="chat-button">채팅하기</button>
-                  <button type="button" class="update-button" @click="usedUpdate()">수정하기</button>
-                  <button type="button" class="delete-button" @click="usedDelete()">삭제하기</button>
-                  <button type="button" class="restrict-button" >접근제한</button>       
+                  <button type="button" class="like-button" v-if="usedList.nickName != memberId">찜하기</button>
+                  <button type="button" class="chat-button" v-if="usedList.nickName != memberId">채팅하기</button>
+                  <button type="button" class="update-button" v-if="usedList.nickName === memberId" @click="usedUpdate()">수정하기</button>
+                  <button type="button" class="delete-button" v-if="usedList.nickName === memberId" @click="usedDelete()">삭제하기</button>
+                  <button type="button" class="restrict-button" @click="usedRestrict()" >접근제한</button>       
           </div>
         </div>
       </form>
   </div>
 </template>
 <script>
-  import img1 from "@/assets/img/bg9.jpg"
+  import img1 from "@/assets/img/sns/snsControll.png";
+  import Swal from 'sweetalert2';
+
 
   export default {
     data(){
       return{
-        usedList : [],    
-        usedId : this.$route.params.usedId
+        memberId : localStorage.getItem("nickname"),
+        usedList : [],
+        images : [], 
+        usedId : this.$route.params.usedId,
+        usedStatus: img1
       }
     },
     methods: {
@@ -96,7 +114,75 @@
         this.$router.push({name : 'usedUpdate'})
       },
       usedDelete: function(){
+        let fetchData = {};
+        fetchData["usedId"] = this.usedId;
+        console.log(fetchData)
         // 삭제하는메서드..?
+        Swal.fire({
+          title: '',
+          text: '정말로 삭제하시겠습니까?',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '네', // confirm 버튼 텍스트 지정
+          cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        }).then(result => {
+          // 만약 Promise리턴을 받으면,
+          if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+            fetch('http://localhost:8087/java/used/statusUpdate',{
+                    method : "PUT",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(fetchData)
+                }) 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+
+                }).catch(err=>console.log(err))
+                .then(Swal.fire('삭제되었습니다'))
+                .finally(this.$router.push({name : 'usedMain'}))
+            }
+         }
+        );
+      },
+      usedRestrict: function(){
+        let fetchData = {};
+        fetchData["usedId"] = this.usedId;
+        console.log(fetchData)
+        // 삭제하는메서드..?
+        Swal.fire({
+          title: '',
+          text: '이 게시물에 접근 제한을 설정하시겠습니까?',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '네', // confirm 버튼 텍스트 지정
+          cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        }).then(result => {
+          // 만약 Promise리턴을 받으면,
+          if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+            fetch('http://localhost:8087/java/used/statusRestrict',{
+                    method : "PUT",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(fetchData)
+                }) 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data)
+
+                }).catch(err=>console.log(err))
+                .then(Swal.fire('접근제한 설정이 완료되었습니다'))
+            }
+         }
+        );
       }
     },
     //created-페이지 열자마자 실행
@@ -106,12 +192,19 @@
       //여기다 함수 실행. 무슨 방식으로 가져올건지(put.get./// + url (/selectone),
       // data L) 
       //내용조회
-      fetch('http://localhost:8088/java/used/usedDetail/'+this.usedId) 
+      fetch('http://localhost:8087/java/used/usedDetail/'+this.usedId) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data)
                     this.usedList = data;
                 }).catch(err=>console.log(err))
+
+      fetch('http://localhost:8087/java/used/usedImage/'+this.usedId)
+        .then(result => result.json())
+        .then(result => {
+            this.images = result;
+        })
+        .catch(err => console.log(err))
     }
   }
 </script>

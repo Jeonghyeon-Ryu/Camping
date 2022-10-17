@@ -14,7 +14,7 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img v-bind:src="snsMaingImg5">
+            <img v-bind:src="snsMaingImg1">
           </div>
         </div>
         <div class="sns-write-form-id">
@@ -43,12 +43,10 @@
         <div class="sns-detail-form1">
           <div class="sns-img-container">
             <swiper :navigation="true" :pagination="{ clickable:true }" :modules="modules" class="mySwiper">
-              <swiper-slide><img v-bind:src="snsMaingImg1"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg2"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg3"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg4"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg5"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg6"></swiper-slide>
+              <swiper-slide v-for="snsImg in snsImgs">
+                <input type="text" :value="snsImg.writeNo" style="display :none;">
+                <img v-bind:src="'http://localhost:8087/java/showSnsImage/'+snsImg.snsPath+'/'+snsImg.storedName">
+              </swiper-slide>
             </swiper>
             <!-- <input type="text" v-bind:value="snsWriteNumber1"  style="display :none;">
         <img v-bind:src="snsMaingImg6"> -->
@@ -149,30 +147,27 @@
 </template>
 
 <script>
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from "swiper/vue"
 import likeImg from "@/assets/img/sns/heart.png"
 import dislikeImg from "@/assets/img/sns/heart2.png"
 import commentImage from "@/assets/img/sns/comment.png"
 import notify from "@/assets/img/sns/notify.png"
 import control from "@/assets/img/sns/snsControll.png"
-// // Import Swiper styles
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from "swiper/vue";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
 // import required modules
 import { Navigation, Pagination } from "swiper";
 import img1 from "@/assets/img/sns/이미지1.jpg"
-import img2 from "@/assets/img/sns/이미지2.jpg"
 import img3 from "@/assets/img/sns/이미지3.jpg"
 import img4 from "@/assets/img/sns/이미지4.jpg"
-import img5 from "@/assets/img/sns/이미지5.jpg"
-import img6 from "@/assets/img/sns/이미지6.jpg"
+
 import SnsReport from "./SnsReport.vue"
 
 export default {
   created: function () {
-    fetch('http://localhost:8087/java/snsGet/' + this.writeNo)
+    fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
       .then(response => response.json())
       .then(result => {
         this.snsItem = result
@@ -180,9 +175,18 @@ export default {
       .catch(err => console.log(err));
     //서버에서 제대로 받아왔는지 확인.
     console.log(this.snsItem);
+
+    fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsImgs = result
+      })
+      .catch(err => console.log(err));
+    //서버에서 제대로 받아왔는지 확인.
   },
   data: function () {
     return {
+      snsImgs: [],
       writeNo: this.$route.params.writeNo,
       snsItem: {},
       snsWriteText: "",
@@ -196,11 +200,7 @@ export default {
       // snsWriteNumber5: "5555",
       // snsWriteNumber6: "6666",
       snsMaingImg1: img1,
-      snsMaingImg2: img2,
-      snsMaingImg3: img3,
-      snsMaingImg4: img4,
-      snsMaingImg5: img5,
-      snsMaingImg6: img6,
+
       searchText: "",
       //댓글정보
       comments: [

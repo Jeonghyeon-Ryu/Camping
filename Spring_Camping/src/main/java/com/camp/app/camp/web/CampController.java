@@ -77,9 +77,11 @@ public class CampController {
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
 	@PostMapping("/campModify")
-	public boolean modifyCamp(CampModifyVO camp, HttpServletRequest req) {
-		camp.setEmail((String) req.getSession().getAttribute("email"));
-		camp.setCampModifyId(service.getMaxCampModifyId()+1);
-		return service.modifyCamp(camp);
+	public boolean modifyCamp(InputCampVO camp) {
+		System.out.println(camp);
+//		camp.setEmail((String) req.getSession().getAttribute("email"));
+//		return service.modifyCamp(camp);
+		
+		return true;
 	}
 }
