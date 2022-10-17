@@ -9,11 +9,10 @@
       mounted() {
         window.kakao && window.kakao.maps ?  this.initMap() : this.addKakaoMapScript();
       },
+      props :['startPoint','campingSpot'],
       data() {
         return {
           geocoder:null,
-          startPoint : '대구 중구 달구벌대로 2095 ',
-          campingSpot:'대구광역시 동구 동촌로 167',
           positions : []
         }
       },

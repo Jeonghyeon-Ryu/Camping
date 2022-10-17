@@ -116,7 +116,7 @@ export default{
                 gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
             }
             this.recruEntry.entryGear = gearList;
-           
+            const component = this;
             //신청 테이블에 인서트하기 
             this.recruEntry.recruId = this.recruId;
             let recruEntry = this.recruEntry;
@@ -133,14 +133,13 @@ export default{
                     Swal.fire('문제 발생!','신청이 처리되지 않았습니다. 문제가 계속될 경우 문의해주세요','error');
                 }
                 //Detail 페이지의 상태 변경
-                //this.$emit()
+                component.$emit('loadRecruData') ;
             }).catch(err=>{
                 console.log(err);
                 Swal.fire('문제 발생!','신청이 처리되지 않았습니다. 문제가 계속될 경우 문의해주세요','error');
             })
             //알림
             this.$emit('close-modal');
-            this.$router.go(0) ;
         }
     }
 }

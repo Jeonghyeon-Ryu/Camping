@@ -130,4 +130,7 @@
 		END;
 	</update>
 
+	<select id="findImgByRecruId" parameterType="Integer" resultType="RecruImgVO">
+		SELECT * FROM recru_image WHERE recru_id = #{recruId}
+	</select>
 </mapper>

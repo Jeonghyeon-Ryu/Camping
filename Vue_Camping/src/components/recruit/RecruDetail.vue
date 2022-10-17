@@ -16,7 +16,7 @@
                         <RecruDetailImage></RecruDetailImage>
                     </div>
                     <div id="map" class="recru-detail-map ">
-                        <RecruMap/>
+                        <RecruMap v-bind:startPoint="recruPost.startPoint" v-bind:campingSpot="recruPost.campingSpot" />
                     </div>
                 </div>
                 <div class="recru-detail-col" style="margin-top : 30px">
@@ -32,7 +32,7 @@
                         <h3 style="font-weight: bold;">모집자 정보</h3>
                         <p><span>성별 </span>{{recruPost.sex}}</p>
                         <p><span>연령대  </span>{{userage}}</p>
-                        <p><span>차량 유무 </span>{{recruPost.carYn}}</p>
+                        <p><span>차량 유무 </span>{{recruPost.carYn==1 ? '있음':'없음'}}</p>
                         <br>
                         <h3 style="font-weight: bold;">이런 분</h3>
                         <p><span>성별  </span>{{userSex}}</p>
@@ -70,8 +70,8 @@
                 </div>
                 <div v-if="userRole==1" class="recru-writer-btn">
                     <!-- 모집자(작성자)인 경우 -->
-                    <button type="button" @click="recruFinish">모집완료</button>
-                    <button type="button" @click="recruUpdate">수정</button>
+                    <button v-if="rStatus==0" type="button" @click="recruFinish">모집완료</button>
+                    <button v-if="rStatus==0" type="button" @click="recruUpdate">수정</button>
                     <button type="button" @click="recruDelete">삭제</button>
                 </div>
                 <div v-if="userRole==4" class="recru-writer-btn">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <div class="recru-detail-sol deposit-status-box">
+            <div v-if="userRole==1||userRole==3||userRole==4" class="recru-detail-sol deposit-status-box">
                 <h3>보증금 상태</h3>
                 <DepositStatus></DepositStatus>
             </div>
@@ -150,7 +150,8 @@ export default{
                 userRole : 0,
                 recruPost : {},
                 entryPost : [],
-                entryMember : '',
+                entryingMember : '',
+                entredMember : '',
                 statusClass:'',
                 notePost : {},
                 sendRecruInfo : {
@@ -181,8 +182,8 @@ export default{
                 //희망 연령대 계산
                 const today = new Date();          
                 let birth = this.recruPost.birth;
-            
-                let age = today.getFullYear()- +birth.slice(0,4) + 1;
+                birth = typeof birth === 'string' ? birth.substring(0, 4) : '';
+                let age = today.getFullYear() - birth + 1;
                 
                 if(age<30){
                     return '20대'
@@ -198,7 +199,7 @@ export default{
                 //현재 수락된 동행자 수 계산
                 let entryCount = 0
                 this.entryPost.forEach(entry=>{
-                    if(entry.recruStatus==1){
+                    if(entry.entryStatus==1){
                         entryCount ++;
                     }
                 })
@@ -214,6 +215,10 @@ export default{
                 }else{
                     return '무관'
                 }
+            },
+            rStatus(){
+                let status = this.recruPost.recruStatus;
+                return status;
             }
         },
         methods :{
@@ -237,11 +242,13 @@ export default{
                         //참가목록 저장         
                         //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, (4관리자 )
                         component.entryPost.forEach(entry => {
-                            component.entryMember+=entry.memberId+' ';
                             if(entry.memberId == component.memberId && entry.entryStatus ==0){
-                                console.log(entry)
+                                //신청중인 사람
+                                component.entryingMember+=entry.memberId+' ';
                                 component.userRole = 2;
                             }else if(entry.memberId == component.memberId && entry.entryStatus ==1){
+                                //신청수락된 사람
+                                component.entredMember+=entry.memberId+' ';
                                 component.userRole = 3;
                             }
                         })
@@ -284,7 +291,7 @@ export default{
                 //모집 완료 버튼
                 Swal.fire({
                     title: '모집을 완료하시겠습니가?',
-                    text: '모집완료는 다시 되돌릴 수 없습니다.',
+                    text: '대기중인 신청을 모두 확인하셨나요? 모집완료는 되돌릴 수 없습니다.',
                     icon: 'warning',
                     
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -305,15 +312,17 @@ export default{
                             .then(Response => Response.json())  
                             .then(data => { 
                                 Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success');
-                                component.$router.go(0) ;
+                                component.recruPost.recruStatus=1;
+                                component.loadRecruData();
                             }).catch(err=>console.log(err))
                         }
                     });
                
             },
+
             gearList(gears){
                 //필요한 장비 배열 정리
-                let gearList = gears.split(',');
+                let gearList = typeof gears === 'string' ? gears.split(','): '';
                 let str = gearList[0]+'('+gearList[1]+') '+gearList[2]+'개'
                 for(let i=3; i<gearList.length; i=+3){
                     str = str+', '+gearList[i]+'('+gearList[i+1]+') '+gearList[i+2]+'개';

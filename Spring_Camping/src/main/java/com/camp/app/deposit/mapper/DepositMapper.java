@@ -11,5 +11,7 @@ public interface DepositMapper {
 	public int insertDeposit(DepositVO depositVO);
 	//상태수정
 	public int changeStatus(DepositVO depositVO);
+	//최신번호
+	public int getMaxDepositId();
 
 }
