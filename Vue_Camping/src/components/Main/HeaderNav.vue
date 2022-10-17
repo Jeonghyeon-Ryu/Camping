@@ -44,13 +44,19 @@ export default {
         "어디갈래?" : "/CampList",
         "같이갈래?" : "/",
         "중고장터" : "/used/usedMain",
-        "후기피드" : "/",
+        "후기피드" : "/sns",
         "나의노트" : "/MynoteList"
       },
       middleCategory: [
         {
           "캠핑장 리스트": "/CampList",
           "캠핑장 등록": "/CampRegister"
+        },
+        {
+          "게시글": "/sns",
+          "글쓰기": "/sns/write",
+          "좋아요": "/sns",
+          "나의피드": "/sns",
         },
         {
           "이용방법": "/MynoteList",
@@ -81,9 +87,9 @@ export default {
       } else if (key == "중고장터") {
         this.currentCategory = 3;
       } else if (key == "후기피드") {
-        this.currentCategory = 4;
-      } else if (key == "나의노트") {
         this.currentCategory = 2;
+      } else if (key == "나의노트") {
+        this.currentCategory = 3;
       } else if (key == "메인") {
         this.currentCategory = 0;
       } else if (key == "로그인") {
