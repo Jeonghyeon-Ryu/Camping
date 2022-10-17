@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class SnsImageVO {
 	//7개
-	private  int snsImageId;
+	private int snsImageNo;
 	private String originName;
 	private String storedName;
-	private String format;
-	private int size;
-	private String path;
-	private int writeId;
+	private String snsFormat;
+	private long snsSize;
+	private String snsPath;
+	private int writeNo;
 }

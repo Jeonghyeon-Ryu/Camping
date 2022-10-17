@@ -42,8 +42,8 @@
       <div class="sns-detail-container">
         <div class="sns-detail-form1">
           <div class="sns-img-container">
-            <swiper :navigation="true" :pagination="{ clickable:true }" :modules="modules" class="mySwiper">
-              <swiper-slide v-for="snsImg in snsImgs">
+            <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
+              <swiper-slide v-for="snsImg of snsImgs">
                 <input type="text" :value="snsImg.writeNo" style="display :none;">
                 <img v-bind:src="'http://localhost:8087/java/showSnsImage/'+snsImg.snsPath+'/'+snsImg.storedName">
               </swiper-slide>
@@ -103,25 +103,25 @@
             </div>
           </div>
 
-          <div class="sns-detail-comment-form-container" :key="comment.no" v-for="comment in comments">
+          <div class="sns-detail-comment-form-container" :key="snsCommentItem.writeNo" v-for="snsCommentItem of snsCommentItems">
             <div class="sns-detail-comment-form">
               <div class="sns-comment-write-id-container">
                 <div class="sns-comment-write-id">
-                  <img v-bind:src="comment.Img">
+                  <img src="">
                 </div>
                 <div class="sns-comment-write-id">
-                  <input type="text" :value="comment.id">
+                  <input type="text" :value="snsCommentItem.nickname">
                 </div>
               </div>
               <div class="sns-comment-container">
                 <div class="sns-comment">
                   <div class="sns-comment-write-context">
-                    <textarea v-text="comment.text"></textarea>
+                    <textarea :value="snsCommentItem.commentContent"></textarea>
 
                   </div>
                 </div>
                 <div class="sns-comment-date">
-                  <input type="text" :value="comment.date">
+                  <input type="text" :value="snsCommentItem.commentDate">
                 </div>
               </div>
             </div>
@@ -129,7 +129,7 @@
           <hr />
           <div class="sns-write-comment-container">
             <textarea placeholder="댓글을 작성하세요"></textarea>
-            <button type="submit">게시</button>
+            <button type="button" @click="doComment" @keyup.enter="doComment">게시</button>
           </div>
         </div>
       </div>
@@ -176,6 +176,7 @@ export default {
     //서버에서 제대로 받아왔는지 확인.
     console.log(this.snsItem);
 
+    //게시글 이미지 출력
     fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
       .then(response => response.json())
       .then(result => {
@@ -183,6 +184,15 @@ export default {
       })
       .catch(err => console.log(err));
     //서버에서 제대로 받아왔는지 확인.
+
+    //게시글 별 댓글 출력
+    fetch('http://localhost:8087/java/snsComment/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        //this.snsCommentItems = result 
+      })
+      .catch(err => console.log(err));
   },
   data: function () {
     return {
@@ -192,6 +202,8 @@ export default {
       snsWriteText: "",
       snsWriteHashtag: "",
       snsWriteDate: "",
+
+      snsCommentItems: [],
       snsCommentWriteText: "",
       // snsWriteNumber1: "1111",
       // snsWriteNumber2: "2222",
@@ -309,17 +321,54 @@ export default {
         //   .then(result => console.log(result))
       }
     },
-    components: {
-      SnsReport,
-      Swiper,
-      SwiperSlide,
+    //댓글 작성
+    doComment(){
+      //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
+      //작성텍스트
+      let commentContent = document.querySelector('.sns-write-comment-container textarea').value;
+      //글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //닉네임
+ //     let nickName = localStorage.getItem('nickname')
+      let nickname = "유저2";
+      //이메일
+ //     let email = localStorage.getItem('email')
+      let email = "user2";
+      
+      let comment = {
+        commentContent : commentContent,
+        writeNo : writeNo,
+        nickname : nickname,
+        email : email
+      }
 
-    },
-    setup() {
-      return {
-        modules: [Navigation, Pagination],
-      };
+      console.log(comment);
+
+      fetch('http://localhost:8087/java/comment', {
+        method: 'POST',
+        headers :  {
+          'Content-Type': 'application/json'
+
+        },
+        body : JSON.stringify(comment)
+      }).then(result => result.text())
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => console.log(err))
+      
     }
+  },
+  components: {
+    SnsReport,
+    Swiper,
+    SwiperSlide,
+
+  },
+  setup() {
+    return {
+      modules: [Navigation, Pagination],
+    };
   }
 }
 </script>
@@ -338,7 +387,34 @@ export default {
 
 .swiper {
   width: 100%;
-  height: auto;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .sns-container {
@@ -493,11 +569,13 @@ export default {
 
 .sns-img-container {
   width: 100%;
-  height: 200px;
+  height: 400px;
 }
 
 .sns-img-container img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .sns-comment-write-id-container {

@@ -7,7 +7,7 @@
 
     <div class="sns-img-container">
       <!-- <SnsDetailImage></SnsDetailImage> -->
-      <div class="sns-img-row-container" :key="snsImgs.writeNo" v-for="snsImg in snsImgs" @click="getSnsDetail(snsImg.writeNo)">
+      <div class="sns-img-row-container" :key="snsImg.writeNo" v-for="snsImg in snsImgs" @click="getSnsDetail(snsImg.writeNo)">
         <div class="sns-img">
           <input type="text" :value="snsImg.writeNo" style="display :none;">
           <img :src="'http://localhost:8087/java/showSnsImage/'+snsImg.snsPath+'/'+snsImg.storedName">
@@ -33,7 +33,6 @@ export default {
       .then(result => {
         
         this.snsImgs = result;
-        console.log(this.snsImgs);
       })
       .catch(err => console.log(err));
   },
@@ -116,5 +115,13 @@ export default {
   margin-bottom: 10px;
   margin-right: 10px;
   cursor: pointer;
+  width: 100%;
+  height: 100%;
+
+}
+.sns-img img{
+  width: 100%;
+  height: 100%;
+  object-fit : cover;
 }
 </style>
