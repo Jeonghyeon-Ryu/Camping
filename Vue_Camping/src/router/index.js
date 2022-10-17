@@ -137,6 +137,11 @@ const routes = [{
     path: '/Manage/User',
     component: () => import('@/components/Admin/UserManage.vue'),
   },
+  {
+    name: 'StoredCampList',
+    path: '/StoredCampList',
+    component: () => import('@/components/Camping/StoredCampList.vue'),
+  },
 ]
 
 const router = createRouter({

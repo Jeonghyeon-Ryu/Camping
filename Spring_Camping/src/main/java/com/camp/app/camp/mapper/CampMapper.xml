@@ -55,21 +55,6 @@
 			#{campId}
 		)
 	</insert>
-	<insert id="insertCampModify" parameterType="CampModifyVO">
-		INSERT INTO camp_modify VALUES(
-			#{campModifyId},
-			#{campName},
-			#{campAddress},
-			#{campPrice},
-			#{campSite},
-			#{campInfo}
-			#{campId},
-			#{email}
-		)
-	</insert>
-	<select id="findMaxByCampModifyId" resultType="Integer">
-		SELECT NVL(MAX(camp_modify_id),0) FROM camp_modify 
-	</select>
 	<update id="update" parameterType="CampVO">
 		UPDATE camp SET
 			camp_info = #{campInfo} 
@@ -78,4 +63,38 @@
 			<if test="campSite != null">, camp_site = #{campSite}</if>
 		WHERE camp_id = #{campId}
 	</update>
+	
+	
+	<insert id="insertCampModify" parameterType="CampModifyVO">
+		INSERT INTO camp_modify VALUES(
+			#{campModifyId},
+			#{campName},
+			#{campAddress},
+			#{campPrice},
+			#{campSite},
+			#{campInfo},
+			#{campId},
+			#{email}
+		)
+	</insert>
+	<select id="findMaxByCampModifyId" resultType="Integer">
+		SELECT NVL(MAX(camp_modify_id),0) FROM camp_modify 
+	</select>
+	<insert id="insertCampModifyImage" parameterType="CampImageVO">
+		INSERT INTO camp_modify_image VALUES(
+			#{campImageId},
+			#{originName},
+			#{storedName},
+			#{imageFormat},
+			#{imageSize},
+			#{imagePath},
+			#{campId}
+		)
+	</insert>
+	<select id="findMaxByCampModifyImageId" resultType="Integer">
+		SELECT NVL(MAX(camp_image_id),0) FROM camp_modify_image
+	</select>
+	<select id="countCampModifyByCampId" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM camp_modify WHERE camp_id = #{campId}
+	</select>
 </mapper>

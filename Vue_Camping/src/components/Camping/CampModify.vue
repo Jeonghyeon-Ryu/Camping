@@ -122,6 +122,8 @@
 import KakaoMap from "../KakaoMap.vue";
 import CampDetailImage from "./CampDetailImage.vue";
 import RButton from "../Admin/RButton.vue";
+import Swal from 'sweetalert2';
+
 export default {
     data: function () {
         return {
@@ -165,27 +167,44 @@ export default {
         },
         confirm(e) {
             let fetchData = new FormData(document.querySelector('.camp-detail-container'));
-            fetchData.append("email",this.$store.state.email);
+            fetchData.append("email", this.$store.state.email);
             fetchData.append("campName", this.camp.campName);
             // 데이터 변경이 없는 것을 초기화 시켜줌
             let countModifyData = 0;
-            fetchData.forEach((value,key) => {
-                if(key=='campAddress' && value==''){
-                    fetchData.set('campAddress',this.camp.campAddress);
-                } else if(key=='campSite' && value=='') {
+            fetchData.forEach((value, key) => {
+                if (key == 'campAddress' && value == '') {
+                    fetchData.set('campAddress', this.camp.campAddress);
+                } else if (key == 'campSite' && value == '') {
                     fetchData.set('campSite', this.camp.campSite);
-                } else if(key=='campPrice' && value=='') {
+                } else if (key == 'campPrice' && value == '') {
                     fetchData.set('campPrice', this.camp.campPrice);
                 }
             })
-            
+            Swal.fire({
+                title: '수정 신청을 하시겠습니까?',
+                text: '관리자의 확인 후 수정이 됩니다.',
+                showCancelButton: true,
+                confirmButtonText: '취소',
+                cancelButtonText: '수정'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    Swal.fire('취소 !', '', 'success')
+                } else {
+                    fetch('http://localhost:8087/java/campModify', {
+                        method: 'POST',
+                        headers: {},
+                        body: fetchData
+                    }).then(result => result.text())
+                        .then(result => {
+                            if(result == 'true') {
+                                Swal.fire('수정신청 완료 !', '', 'success')
+                            } 
+                        });
+                }
+            })
 
-            fetch('http://localhost:8087/java/campModify', {
-              method: 'POST',
-              headers: {  },
-              body: fetchData
-            }).then(result => result.text())
-            .then(result => console.log(result));
+
         },
         cancel(e) {
             this.$router.push({ name: "CampDetail", params: { campId: this.campId } })

@@ -50,7 +50,8 @@ export default {
       middleCategory: [
         {
           "캠핑장 리스트": "/CampList",
-          "캠핑장 등록": "/CampRegister"
+          "캠핑장 등록": "/CampRegister",
+          "저장 목록": "/StoredCampList"
         },
         {
           "같이 갈래?": "/RecruList",
