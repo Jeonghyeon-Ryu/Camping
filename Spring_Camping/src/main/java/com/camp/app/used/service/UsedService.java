@@ -24,6 +24,9 @@ public interface UsedService {
 	//게시글 단건조회
 	public UsedVO findDetail(int usedId);
 	
+	//내가쓴글조회
+	public List<UsedVO> findMyUsed(String usedWriter);
+	
 	//게시글 조건조회
 	public List<UsedVO> searchUsedList();
 	

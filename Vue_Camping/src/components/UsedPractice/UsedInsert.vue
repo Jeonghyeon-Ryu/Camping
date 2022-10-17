@@ -18,16 +18,17 @@
           <div class="used-info">
             <ul>
               <li>
+                <input type="hidden" name="usedWriter" :value="$store.state.email">
                 <label for="inputWriter">작성자</label>
-                <input type="text" name="nickName" :value="nickName">
+                <input type="text" name="nickName" id="inputUsedWriter" :value="$store.state.nickname" readonly>
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
-                <input type="text" name="usedName" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20" autofocus>
+                <input type="text" name="usedName" id="inputName" placeholder="상품명을 등록해주세요(최대 20자)" maxlength="20" value='' autofocus>
               </li>
               <li>
                 <label for="inputPrice">가격<span class="essential">*</span></label>
-                <input type="number" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요" @change="numOnly()">
+                <input type="number" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요">
               </li>
               <hr>
               <li>
@@ -114,9 +115,14 @@
         used_writer: 'campingGo',
         regionSelect: '',
         regionSelect2: '',
-        nickName : localStorage.getItem("nickname"),
-
+        nickName : this.$store.state.nickname
       }
+    },
+    created(){
+      console.log(this.nickName)
+      // let nick = document.getElementById('inputUsedWriter');
+      // nick.value = this.$store.state.nickname;
+      // console.log(nick)
     },
     methods: {
       // upload : function(){
@@ -124,14 +130,14 @@
       //   const upload = document.querySelector('.uploadarea');
       //   picUpload.click();
       // },
-      numOnly: function(){
-        let price = document.getElementById('inputPrice').value;
-        let st = /[^0-9]/g
-        if(st.test(price.value)){
-          console.log(price.value)
-          price.replace(st, "")
-        }
-      },
+      // numOnly: function(){
+      //   let price = document.getElementById('inputPrice').value;
+      //   let st = /[^0-9]/g
+      //   if(st.test(price.value)){
+      //     console.log(price.value)
+      //     price.replace(st, "")
+      //   }
+      // },
       confirm: function(){
         const form = document.forms.namedItem('#container2')
         let place = document.querySelector('#districtSelect'+'#citySelect')
@@ -143,6 +149,7 @@
         let content = document.querySelector('.used_content').value;
 
         fetchData = new FormData(document.querySelector('#container2'))
+        // fetchData.append('nickName', this.nickName)
         fetchData.forEach((value,key)=>{
           console.log(key, ":", value);
         })
@@ -168,6 +175,8 @@
                       // 성공
                       console.log("입력되었습니다.")
                       this.$router.push({name : 'usedMain'})
+                      let component = this;
+                      this.$router.go();
                     } else {
                       // 실패                    
                       console.log("입력 실패")  

@@ -75,6 +75,12 @@ public class UsedController {
 		return service.selectAllUsedList();
 	}
 	
+	//내가쓴글조회
+	@PostMapping("/myUsed/{usedWriter}")
+	public List<UsedVO> findMyUsed(@PathVariable String usedWriter){
+		return service.findMyUsed(usedWriter);
+	}
+	
 	//키워드검색 조회
 	@PostMapping("/search/{keyword}")
 	public List<UsedVO> findUsedKeyword(@PathVariable String keyword){

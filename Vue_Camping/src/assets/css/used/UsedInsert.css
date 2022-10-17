@@ -193,4 +193,17 @@ input[type="number"]::-webkit-inner-spin-button {
 .usedId{
   display: none;
 }
+#inputUsedWriter{
+  border: none;
+}
 
+/* select */
+select{
+  border: 1px solid #e6e6e6;
+  outline: 0 none;
+  margin: 1px;
+}
+
+select:focus{
+  border: 1px solid black;
+}

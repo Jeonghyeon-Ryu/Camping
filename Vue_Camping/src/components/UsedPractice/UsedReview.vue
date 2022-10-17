@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <form id="container2">
+    <form class="container2" id="myform">
       <div id="used-head">
         <h4>거래후기 작성하기</h4>
         <h1>거래는 어떠셨나요?</h1>
@@ -15,11 +15,25 @@
           <button class="dealcomplete">거래 완료하기</button>
         </div>
         <div class="reviewRate">
-          <span v-bind="drawStar()" class="star">
+          <p class="text-bold">별점을 선택해주세요</p>
+          <input type="radio" name="reviewStar" value="1" id="rate1"><label
+            for="rate1">★</label>
+          <input type="radio" name="reviewStar" value="2" id="rate2"><label
+            for="rate2">★</label>
+          <input type="radio" name="reviewStar" value="3" id="rate3"><label
+            for="rate3">★</label>
+          <input type="radio" name="reviewStar" value="4" id="rate4"><label
+            for="rate4">★</label>
+          <input type="radio" name="reviewStar" value="5" id="rate5"><label
+            for="rate5">★</label>
+
+
+
+          <!-- <span v-bind="drawStar()" class="star">
           ★★★★★
           <span>★★★★★</span>
           <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
-          </span>
+          </span> -->
         </div>
       <div id="used-foot">
         <div class="used-desc">
@@ -58,5 +72,43 @@
   }
 } 
 </script>  
-<style scoped src="@/assets/css/used/UsedReview.css">
+<style scoped src="@/assets/css/used/UsedReview.css" />
+<style>
+
+#myform fieldset{
+    display: inline-block;
+    direction: ltr;
+    border:0;
+}
+#myform fieldset legend{
+    text-align: right;
+}
+#myform input[type=radio]{
+    display: none;
+}
+#myform label{
+    font-size: 3em;
+    color: transparent;
+    text-shadow: 0 0 0 #f0f0f0;
+    cursor:pointer;
+}
+#myform label:hover{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#myform label:hover ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#myform input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+#reviewContents {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid 1.5px #D3D3D3;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}
 </style>  

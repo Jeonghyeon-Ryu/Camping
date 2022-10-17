@@ -47,22 +47,24 @@ ul{
   /* background-color: #ebcbcb; */
   border: 1px solid #e6e6e6;
   /* flex-wrap: wrap; */
+  position: relative;
 }
 .used-pic img{
+  width: 100%;
   height: 100%;
   min-width: 400px;
   max-height: 500px;
   vertical-align: middle;
+  position: absolute;
+  top: 0; left: 0;
 }
 /* 정보 */
-.usedStatus{
-  float: right;
-}
 .used-info{
   width: 50%;
   padding: 0.5% 2% 2% 2%;
   /* flex-wrap: wrap; */
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .used-info hr{
   margin: 3% 0 3% 0;
@@ -109,7 +111,7 @@ ul{
   cursor:pointer;
 }
 .like-button{
-  background-color: #7e7e7e;
+  background-color: rgba(221, 87, 63, 0.767);
 }
 .chat-button, .update-button{
   background-color: #6bb486;
@@ -194,4 +196,14 @@ ul{
   background-color: rgba(226, 226, 226, 0.459);
   padding:2px;
   border-radius: 3px;
+}
+select{
+  border: 1px solid #e6e6e6;
+  outline: 0 none;
+  margin: 1px;
+  margin-top: -2px;
+  padding: 5px 10px 5px 10px;
+}
+.used-report p{
+  cursor: pointer;
 }

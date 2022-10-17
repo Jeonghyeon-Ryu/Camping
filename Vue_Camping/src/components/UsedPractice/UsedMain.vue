@@ -102,11 +102,11 @@
     </form>
       <!--하단-->
       <div class="used-foote">
-        <router-link tag="div" v-bind:to="{name:'usedInsert'}">
+        <!-- <router-link tag="div" v-bind:to="{name:'usedInsert'}">
           <button>+</button> 
-        </router-link>
-        <!-- <button v-on:click='usedInsert'>+</button>
-        <button v-on:click='usedInsert'>♥</button> -->
+        </router-link> -->
+        <button v-on:click='usedInsert'>+</button>
+                <!--<button v-on:click='usedInsert'>♥</button> -->
       </div>
     </div>
   </div>
@@ -115,6 +115,7 @@
   import img1 from "@/assets/img/search.png"
   import UsedCard from "@/components/UsedPractice/UsedCard.vue"
   import district from "@/assets/district.js"
+  import Swal from 'sweetalert2';
 
   export default{
     components:{
@@ -137,7 +138,23 @@
         this.$router.push({name : 'usedDetail'})
       },
       usedInsert: function(){
-        this.$router.push({name : 'usedInsert'})
+        if(this.$store.state.email != null){
+          this.$router.push({name : 'usedInsert'})
+        }else{
+          Swal.fire({
+                    icon: 'warning',
+                    title: '로그인을 해주세요',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        this.$router.push({name:"LoginSignup"});
+                    }
+                })
+        }
       },
       usedDetail: function(usedId){
         //클릭하면은 디테일 페이지로 넘겨 넘길때, 번호를 넘겨야해

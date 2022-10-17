@@ -163,7 +163,23 @@
         }else if(content == null || content.trim() === "" ||content.length < 10){
           this.swContent();
         }else{
-            fetch('http://localhost:8087/java/used/usedUpdate',{
+
+          Swal.fire({
+          title: '',
+          text: '수정하시겠습니까?',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '네', // confirm 버튼 텍스트 지정
+          cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        }).then(result => {
+          // 만약 Promise리턴을 받으면,
+
+          fetch('http://localhost:8087/java/used/usedUpdate',{
                     method : "PUT",
                     // body : fetchData
                     headers : {"Content-Type" : "application/json"},
@@ -175,6 +191,8 @@
 
                 }).catch(err=>console.log(err))
                 .finally(this.$router.push({name : 'usedDetail'}))
+         }
+        );
         }
       },
       //지역선택
