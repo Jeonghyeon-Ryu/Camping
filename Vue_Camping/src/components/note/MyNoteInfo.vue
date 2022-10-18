@@ -105,7 +105,7 @@
               <div id="pdfDiv">
                   <input placeholder="제목" class="note_title">
                   <div class="sortable">
-                      
+                      <CreateLine v-for="item of datas" :type="0" :data="yyy"></CreateLine>
                       
                       <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
                       </CreTextarea>
@@ -161,6 +161,7 @@
 import $ from 'jquery';
 import CreTextarea from './CreTextarea.vue';
 import MyNoteList from './MynoteList.vue';
+import CreateLine from './CreateLine.vue';
 
 
 export default {
@@ -171,7 +172,13 @@ export default {
           childOrder: ['textBox'],
           noteInfo : [],
           noteId : this.$route.params.noteId,
-          showInfo : {}
+          showInfo : {},
+          datas : [
+            {
+                type : '0',
+                data : ''
+            }
+        ]
       }
   },
   created() {
@@ -181,10 +188,26 @@ export default {
      fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
       .then(result => result.json())
       .then(result=>{
-       
+        console.log('fetch data ', result);
+        for(let i=0; i<result.noteContents.length; i++){
+            if(result.noteContents[i].indexOf('textarea')>=0){
+                this.datas[i].type=0;
+                let temp = result.noteContents[i].substring(result.noteContents[i].indexOf('value="')+7,result.noteContents[i].indexOf('"></textarea>'));
+                console.log(temp);
+                this.datas[i].data=temp;
+            }
+        }
+        console.log('내가출력 : ', this.datas);
+        this.$forceUpdate();
+
+
+
+
+
+        /********************************************************* */
         this.showInfo = result; 
+/****************
        // console.log(this.showInfo.noteContents[0])
-       
         for(let i=0; i<this.showInfo.noteContents.length; i++){ 
           
           let sortable = document.querySelector('.sortable');
@@ -194,8 +217,8 @@ export default {
           writeFn.classList.add('write_fn');
           writeFn.innerHTML = `<div class="left_container">
           <div class="btn_container">
-              <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
-              <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
+              <div class="drag_btn"><img class="drag_img" src="@/assets/img/note/drag.png"> </div>
+              <div class="del_line"><img class="dleLine_img" src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
           </div>
           </div>  `+ this.showInfo.noteContents[i];
           sortable.append(writeFn);            
@@ -203,10 +226,71 @@ export default {
           let title = document.querySelector('.note_title')
           title.value = this.showInfo.title;
           
-          console.log(this.showInfo.noteContents[0]);
+        //   for(let i=0; i<this.showInfo.noteContents.length; i++){ 
+        //     console.log(this.showInfo.noteContents[i].querySelectorAll('.write_place'));
+        //   }
+          
+          //-------공통생성 태그 : style적용
+          let btnContainer = document.querySelectorAll('.btn_container');
+         
+          
+          writeFn.setAttribute("style","cursor: pointer; display: inline-block; position: relative; display: flex; flex-direction: row; margin-bottom: 10px; border: none; height: fit-content;");
+          //모든 btn_container에 스타일  
+          for(let i=0; i<btnContainer.length; i++ ){
+            btnContainer[i].setAttribute("style", "display: flex; flex-direction: row; opacity: 0.6; transition-duration: 0.5s;")
+          }
+          //각 버튼에 스타일
+          let dragBtn = document.querySelectorAll('.drag_btn');
+          let dragImg = document.querySelectorAll('.drag_img');
+          let delLineBtn = document.querySelectorAll('.del_line');
+          for(let i=0; i<dragBtn.length; i++ ){
+            dragBtn[i].setAttribute("style", "width: 25px;height: 25px; font-size: 5px; cursor: pointer;");
+            //dragImg[i].setAttribute("src", "/src/assets/img/note/drag.png;");
+            delLineBtn[i].setAttribute("style", "width: 25px;height: 25px; font-size: 5px; cursor: pointer;");
+          }
+          
+          //------생성되는 textarea css적용
+          let writePlace = document.querySelectorAll('.write_place');
+         for(let i=0; i<writePlace.length; i++){ 
+            writePlace[i].setAttribute("style", "display: inline-block; height: fit-content; width: 90%; border : 1px solid lightgray");
+         }
 
+         //------생성되는 테이블 css적용
+            //maked_table_place 
+        let tablePlace = document.querySelectorAll('.maked_table_place');
+        for(let i=0; i<tablePlace.length; i++){ 
+            tablePlace[i].setAttribute("style", "margin-bottom: 20px;");
+        }
+            //table_container
+        let tableContainer = document.querySelectorAll('.table_container');
+        for(let i=0; i<tableContainer.length; i++){ 
+            tableContainer[i].setAttribute("style", "display: flex; position: relative; width: fit-content;");
+        }
+            //col_add, row_add
+        let rowAdd = document.querySelectorAll('.row_addbtn');
+        let colAdd = document.querySelectorAll('.col_addbtn');
+        for(let i=0; i<rowAdd.length; i++){ 
+            rowAdd[i].setAttribute("style", "position: absolute;bottom: -30px;height: 30px;width: 75%;left: 11%;background-color: transparent; border: none; opacity: 0.6; transition-duration: 0.5s;");
+            rowAdd[i].setAttribute("style", "right: 0;border: none;background-color: transparent;opacity: 0.6;transition-duration: 0.5s; padding: 10px;");
+        }
+            //maked_table
+        let makedTable = document.querySelectorAll('.maked_table');
+        for(let i=0; i<makedTable.length; i++){ 
+            makedTable[i].setAttribute("style", "border-collapse: collapse; max-width: 800px; height: 10%;");
+        }
+            // td
+        let td = document.querySelectorAll('.maked_table td');
+        for(let i=0; i<td.length; i++){ 
+            td[i].setAttribute("style", "border: 2px solid lightgray;");
+        }
+        let itemTd = document.querySelectorAll('.itme_td');
+        for(let i=0; i<td.length; i++){ 
+            td[i].setAttribute("style", "border: 2px solid lightgray;");
+        }
+        console.log(td);
         }  
       })
+***********************/
       // fetch(`http://localhost:8087/java/GoMyNote/${noteId}`, {
       //         method: "GET",
       //         headers: { "Content-Type": "application/json" },
@@ -219,6 +303,7 @@ export default {
       //         this.noteInfo = data;
       //         console.log(noteInfo);
       //     }).catch(err => console.log(err));
+      })
   },
   methods: {
       CreArea: function (e) {
@@ -261,6 +346,7 @@ export default {
                   lineType = 'TEXT';
                   lineValue = lineAll[i].querySelector('textarea').value;
                   //<태그 자체를 저장>
+                  
                   textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)">' + lineValue + '</textarea>'
 
                   console.log(textTag);
@@ -358,7 +444,7 @@ export default {
           
       }
       },
-       components : { CreTextarea }
+       components : { CreTextarea, CreateLine }
   }
 
 </script>
