@@ -10,9 +10,9 @@ public interface SnsMapper {
 	// sns 전체조회
 	public List<SnsVO> getSnsList();
 
-	//페이징
+	// 페이징
 	public List<SnsImageVO> findByPage(int page);
-	
+
 	// sns 해시태그,
 	public List<String> getHashTag();
 
@@ -21,7 +21,7 @@ public interface SnsMapper {
 
 	// sns 글쓰기 기능
 	public int insertSns(SnsVO sns);
-	
+
 	// sns 이미지 쓰기
 	public int insertSnsImage(SnsImageVO snsImage);
 
@@ -30,13 +30,13 @@ public interface SnsMapper {
 
 	// 글번호 max
 	public int findMaxByWriteNo();
-	
+
 	// 이미지번호 max
 	public int findMaxBySnsImageNo();
-	
+
 	// sns 개별조회 - 텍스트
 	public SnsVO findByWriteNo(int writeNo);
-	
+
 	// sns 개별조회 - 이미지 리스트
 	public List<SnsImageVO> findByWriteNoToSnsImage(int writeNo);
 
@@ -48,9 +48,14 @@ public interface SnsMapper {
 
 	// sns 좋아요 기능
 
+	// 유저가 작성한 총게시글 수
+	public int countSnsByUser();
+
 	
-	
+	//내가 쓴 게시글 이미지보기
+	public List<SnsImageVO> showSnsByPageByUser(String email, int page);
 	// 신고...흠
-	
+
+
 	//
 }
