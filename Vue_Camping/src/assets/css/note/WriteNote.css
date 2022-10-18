@@ -319,6 +319,8 @@ div[contenteditable=true]:focus {
 .write_place {
     display: inline-block;
     height: fit-content;
+    width: 90%; 
+    border : none;
 }
 
 .check_box_place {
