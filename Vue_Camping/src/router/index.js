@@ -157,6 +157,11 @@ const routes = [{
     path: '/StoredCampList',
     component: () => import('@/components/Camping/StoredCampList.vue'),
   },
+  {
+    name: 'UsedChat',
+    path: '/usedChat',
+    component: () => import('@/components/UsedPractice/UsedChat.vue'),
+  }
 ]
 
 const router = createRouter({

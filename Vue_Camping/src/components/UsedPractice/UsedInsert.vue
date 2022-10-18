@@ -18,9 +18,9 @@
           <div class="used-info">
             <ul>
               <li>
-                <input type="hidden" name="usedWriter" :value="$store.state.email">
+                <input type="hidden" name="email" :value="$store.state.email">
                 <label for="inputWriter">작성자</label>
-                <input type="text" name="nickName" id="inputUsedWriter" :value="$store.state.nickname" readonly>
+                <input type="text" name="nickName" id="inputemail" :value="$store.state.nickname" readonly>
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
@@ -120,7 +120,7 @@
     },
     created(){
       console.log(this.nickName)
-      // let nick = document.getElementById('inputUsedWriter');
+      // let nick = document.getElementById('inputemail');
       // nick.value = this.$store.state.nickname;
       // console.log(nick)
     },

@@ -76,12 +76,13 @@ ul{
   display: flex;
   justify-content: space-between;
 }
-/*  .used-name{
-  width:800px;
+ .used-name{
+  width:calc(100%/1.25);
 }
 .used-status{
-  width:20%;
-} */
+  /* width:81px;  */
+  text-align: center;
+}
 .used-info3{
   display: flex;
   justify-content: space-between;
