@@ -7,10 +7,16 @@
                     <Sort v-if="column.sortable" :column="column.prop" @sort="getSortData"></Sort>
                     <Filtering :datas="userData" :column="column.prop" :type="column.type"></Filtering>
                 </div>
+                <div class="excel-export-container">
+                    <ExcelExport :inputData="userData"></ExcelExport>
+                </div>
             </li>
             <li v-for="data of rows" class="table-body row">
                 <input type="checkbox" name="checkedUser" value="" />
-                <div class="table-column" v-for="column of columns"><div v-if="column.type!=Date">{{data[column.prop]}}</div><div v-if="column.type==Date">{{ $filters.formatDate(data[column.prop]) }}</div></div>
+                <div class="table-column" v-for="column of columns">
+                    <div v-if="column.type!=Date">{{data[column.prop]}}</div>
+                    <div v-if="column.type==Date">{{ $filters.formatDate(data[column.prop]) }}</div>
+                </div>
                 <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data)"></TableButton>
                 <TableButton v-if="removebtn" :type="'remove'" @remove="remove(data)"></TableButton>
                 <!-- v-if="data.status == 0 ? 1? 판별해서 limit active 둘중 하나만 띄우는거 필요" -->
@@ -23,9 +29,7 @@
         <ModifyModal v-if="isModify" :columns="columns" :modifyData="modifyData" @cancelModify="cancelModify"
             @confirmModify="confirmModify">
         </ModifyModal>
-        <div class="excel-export-container">
-            <ExcelExport :inputData="userData"></ExcelExport>
-        </div>
+
     </div>
 </template>
 
@@ -174,7 +178,7 @@ export default {
                 if (Object.keys(column).includes('size')) {
                     styleResult = styleResult + ' ' + column.size;
                 } else {
-                    styleResult = styleResult + ' 1fr';
+                    styleResult = styleResult + ' minmax(200px,1fr)';
                 }
             }
             if (this.modifybtn) {

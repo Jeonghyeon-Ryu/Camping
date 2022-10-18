@@ -100,7 +100,7 @@
                 </div>
             </div>
             <div class="camp-detail-info-right">
-                <button type="button" @click="saveItem()">저장하기</button>
+                <button type="button" @click="saveItem($event)">저장하기</button>
                 <button type="button" @click="getCompanion()">동행자 구하기</button>
                 <button type="button" @click="modifyItem()">수정하기</button>
                 <button type="button" @click="reportItem()">신고하기</button>
@@ -131,15 +131,22 @@ export default {
             .then(result => {
                 result.campInfo = result.campInfo.split(" ");
                 this.camp = result;
-            })
+            }).catch(err=>console.log(err));
+        
+        fetch('http://localhost:8087/java/save?campId='+this.campId+'&'+this.$store.state.email)
+        .then(result => result.text())
+        .then(result => console.log(result))
+        .catch(err => console.log(err));
+
+        
     },
     methods: {
         // 후기 셋팅 필요
         // 주소 카카오맵 할당 필요
         // 기타 정보 할당 필요
         // 사진 Swiper 적용하기
-        saveItem() {
-
+        saveItem(e) {
+            console.log(e.target);
         },
         getCompanion() {
 

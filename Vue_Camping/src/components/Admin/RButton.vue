@@ -1,5 +1,5 @@
 <template>
-  <button v-text="value" ref="btn" class="btn" @click="clickBtn" @mouseover="hoverEvent" @mouseout="outEvent"></button>
+  <button v-text="value" ref="btn" class="rBtn" @click="clickBtn" @mouseover="hoverEvent" @mouseout="outEvent"></button>
 </template>
 <script>
 export default {
@@ -86,13 +86,13 @@ export default {
 }
 </script>
 <style scoped>
-.btn {
-  --lgWidth: 300px;
-  --mdWidth: 200px;
-  --smWidth: 100px;
-  --lg: 5px 20% 5px 20%;
-  --md: 5px 10% 5px 10%;
-  --sm: 5px 5% 5px 5%;
+.rBtn {
+  --lgWidth: 60%;
+  --mdWidth: 40%;
+  --smWidth: 20%;
+  --lg: 10px 20% 10px 20%;
+  --md: 10px 10% 10px 10%;
+  --sm: 10px 5% 10px 5%;
   --lightCream: rgb(253, 250, 246);
   --cream: rgb(250, 241, 230);
   --lightGreen: rgb(228, 239, 231);
@@ -101,7 +101,8 @@ export default {
   --hoverBg: ;
   --hoverColor: ;
   border:1px solid rgb(220,220,220);
-  border-radius: 10px;
+  font-size:0.8rem;
+  padding:10px;
   cursor: pointer;
 }
 </style>

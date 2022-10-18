@@ -143,7 +143,7 @@
     width: 150px;
     height: 120px;
     margin: 5px;
-    border: 1px solid #00f;
+    border: 1px solid rgb(220,220,220);
     z-index: 1;
     cursor: pointer;
 }

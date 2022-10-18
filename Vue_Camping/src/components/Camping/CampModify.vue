@@ -106,9 +106,9 @@
                 </div>
             </div>
             <div class="camp-detail-info-right">
-                <RButton :inputColor="'lightGreen'" :inputSize="'md'" :inputValue="'수정신청'" @clickBtn="confirm($event)">
+                <RButton :inputColor="'white'" :inputSize="'lg'" :inputValue="'수정신청'" @clickBtn="confirm($event)">
                 </RButton>
-                <RButton :inputColor="'cream'" :inputSize="'md'" :inputValue="'취소'" @clickBtn="cancel($event)">
+                <RButton :inputColor="'white'" :inputSize="'lg'" :inputValue="'취소'" @clickBtn="cancel($event)">
                 </RButton>
             </div>
         </div>
