@@ -21,7 +21,8 @@
         <div class="profile-image-modify">
           <div class="profile-image-preview">
             <img v-if="imgUrl != ''" :src="imgUrl">
-            <img v-if="imgUrl == ''" :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+            <img v-if="imgUrl == ''"
+              :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
             <!-- <ImagePreviewOne ref="previewOne" v-if="profile-image!=[]" :image="profile_image"></ImagePreviewOne> -->
           </div>
           <label>사진변경
@@ -32,7 +33,7 @@
           <div>
             <input type="text" v-bind:value="user.email" placeholder="이메일" name="email" readonly />
             <input type="text" v-bind:value="user.nickname" placeholder="닉네임" name="nickname" />
-            <input type="button" value="비밀번호 변경" name="nickname" />
+            <input type="button" value="비밀번호 변경" name="nickname" @click="user_modify_password" />
           </div>
           <div>
             <input type="text" v-bind:value="user.name" placeholder="이름" name="name" />
@@ -70,12 +71,12 @@ export default {
       .then(result => {
         this.user = result;
       }).catch(err => console.log(err));
-    
+
     fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
       .then(result => result.json())
-      .then(result => { 
+      .then(result => {
         this.storedProfile = result;
-      }).catch(err=>console.log(err));
+      }).catch(err => console.log(err));
   },
   components: { ImagePreview, ImagePreviewOne },
   methods: {
@@ -150,6 +151,20 @@ export default {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           Swal.fire('취소 !', '', 'success')
+        }
+      })
+    },
+
+    user_modify_password: function () {
+      const { value: password } = Swal.fire({
+        title: 'Enter your password',
+        input: 'password',
+        inputLabel: 'Password',
+        inputPlaceholder: 'Enter your password',
+        inputAttributes: {
+          maxlength: 10,
+          autocapitalize: 'off',
+          autocorrect: 'off'
         }
       })
     }
