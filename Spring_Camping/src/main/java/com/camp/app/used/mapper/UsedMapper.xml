@@ -102,6 +102,43 @@
 		WHERE used_id = #{usedId}
 	</update>
 	
+	<!-- 후기 작성 -->
+	<insert id="insertReview" parameterType="UsedReviewVO">
+	<selectKey keyProperty="reviewId" resultType="Integer" order="BEFORE">
+		SELECT NVL(MAX(review_id),0)+1 FROM used_review <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+	</selectKey>
+		INSERT INTO used_review VALUES(
+			#{reviewId},
+			#{usedId},
+			#{email2},
+			#{reviewGrade},
+			#{reviewContent},
+			#{reviewRole},
+			#{email},
+			sysdate
+		)
+	</insert>
+	
+  <!-- 정현님코드,,, -->
+	<select id="count" resultType="Integer">
+		SELECT COUNT(*) FROM used
+	</select>
+	
+	<select id="findByPage" parameterType="Integer" resultType="UsedVO">
+		<![CDATA[
+			SELECT used_id, used_name, used_place, used_price, used_content
+		FROM ( 
+        	SELECT SEQ, used_id, used_name, used_place, used_price, used_content
+        	FROM (
+                SELECT ROWNUM AS SEQ, used_id, used_name, used_place, used_price, used_content
+                FROM ( SELECT * FROM used ORDER BY used_id )
+            	)
+        	WHERE SEQ >= ((5-1)*10+1)
+    		)
+		WHERE ROWNUM < 11;
+		]]>
+	</select>
+	
 	<!-- 등록 관련 -->
 	<select id="findByUsedId" parameterType="Integer" resultType="UsedVO">
 		SELECT * FROM used WHERE used_id = #{usedId}
@@ -160,22 +197,6 @@
 			#{usedPath}
 		)
 	</insert>
-	
-	<!-- 후기 작성 -->
-	<insert id="insertReview" parameterType="UsedReviewVO">
-	<selectKey keyProperty="reviewId" resultType="Integer" order="BEFORE">
-		SELECT NVL(MAX(review_id),0)+1 FROM used_review <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
-	</selectKey>
-		INSERT INTO used_review VALUES(
-			#{reviewId},
-			#{usedId},
-			#{email2},
-			#{reviewGrade},
-			#{reviewContent},
-			#{reviewRole},
-			#{email},
-			sysdate
-		)
-	</insert>
+
 	
 </mapper>
