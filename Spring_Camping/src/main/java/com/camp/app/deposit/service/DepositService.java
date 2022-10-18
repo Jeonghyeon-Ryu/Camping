@@ -10,6 +10,6 @@ public interface DepositService {
 	public int insertDeposit(DepositVO depositVO);
 	//상태수정
 	public int changeStatus(DepositVO depositVO);
-	//마이페이지
-	public List<DepositVO> myDepositList(String memberId);
+	//마이페이지 단건조회
+	public DepositVO myDepositList(DepositVO depositVO);
 }

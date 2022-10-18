@@ -23,7 +23,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 	RecruMapper recruMapper;
 	@Autowired
 	RecruImgMapper mapper;
-	
+	//이미지 출력
 	@Override
 	public boolean insertRecruImg(List<MultipartFile> files) {
 		//경로 설정
@@ -31,7 +31,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "D:\\upload\\camp\\recruGear\\"+directoryPath;
+		String uploadPath = "D:\\upload\\recru\\"+directoryPath;
 		//폴더 주소
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
@@ -42,7 +42,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 			img.setOriginName(file.getOriginalFilename());
 			img.setImgFormat(img.getOriginName().substring(img.getOriginName().indexOf('.')+1));
 			img.setImgSize(file.getSize());
-			img.setImgPath(uploadPath);
+			img.setImgPath(directoryPath);
 			img.setRecruId(recruMapper.getMaxRecruId());
 			//uuid를 통한 랜덤으로 아이디 주기
 			UUID uuid = UUID.randomUUID();
@@ -62,10 +62,10 @@ public class RecruImgServiceImpl implements RecruImgService {
 		});
 		return true;
 	}
-
+	//게시물의 이미지 목록 조회
 	@Override
 	public List<RecruImgVO> findImg(int recruId) {
-		return null;
+		return mapper.findRecruImg(recruId);
 	}
 
 }

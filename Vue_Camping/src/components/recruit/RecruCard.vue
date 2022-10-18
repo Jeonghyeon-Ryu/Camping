@@ -4,7 +4,12 @@
   <!-- 카드 헤더 -->
   <div class="recru-card-header" >
       <div class="card-header-img">
-          <img :src="gearImg" alt="camping gear">
+        <div v-if="image==''">
+          <img src="@/assets/img/bg9.jpg" alt="camping gear">
+        </div>
+        <div v-if="image">
+          <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName"/>
+        </div>
       </div>
       <div class = "card-header-text" :class="myClass" > {{recruStatus}} </div >
   </div>
@@ -35,12 +40,19 @@ export default{
       return {
         isHeart : true,
         recruStatus : '',
-        myClass : ''
+        myClass : '',
+        image : ''
       }
     },
-    watch :{
-      //해당값 변화를 감지하면
-      //recruStatus
+    created (){
+      const recruId = this.recruCard.recruId;
+      const component = this;
+      fetch('http://localhost:8087/java/recruImg/'+recruId)
+      .then(result => result.json())
+      .then(result => {
+        component.image = result[0];
+      })
+      .catch(err => console.log(err))
     },
     computed : {
       //원본데이터 변화를 감지하면

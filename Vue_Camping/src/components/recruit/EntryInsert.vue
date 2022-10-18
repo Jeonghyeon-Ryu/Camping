@@ -111,9 +111,10 @@ export default{
                     return;
                 }
             }
-            let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
-            for(let i=1 ; i<gearNames.length ; i++){
-                gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
+            let gearList = '';
+            for(let i=0 ; i<gearNames.length ; i++){
+                if(i !=0) gearList+= ',';
+                gearList += gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
             }
             this.recruEntry.entryGear = gearList;
             const component = this;

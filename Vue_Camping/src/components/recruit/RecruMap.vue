@@ -9,11 +9,11 @@
       mounted() {
         window.kakao && window.kakao.maps ?  this.initMap() : this.addKakaoMapScript();
       },
-      props :['startPoint','campingSpot'],
+      props :{startingPoint: String,
+              campingPoint : String},
       data() {
         return {
-          geocoder:null,
-          positions : []
+          geocoder:null
         }
       },
       methods: {
@@ -38,7 +38,7 @@
           // 주소-좌표 변환 객체를 생성합니다
        
           this.geocoder = new kakao.maps.services.Geocoder();
-          this.geocoder.addressSearch(this.startPoint, function (result, status) {
+          this.geocoder.addressSearch(this.startingPoint, function (result, status) {
   
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
@@ -55,11 +55,10 @@
                 content: '<div style="width:120px;text-align:center;padding:3px 0;">출발지</div>'
               });
               infowindow.open(map, marker);
-
             }
           });
   
-          this.geocoder.addressSearch(this.campingSpot, function (result, status) {
+          this.geocoder.addressSearch(this.campingPoint, function (result, status) {
   
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
@@ -78,13 +77,12 @@
               infowindow.open(map, marker);
   
               // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                         //지도 이동
-                const bounds = positions.reduce(
-                    (bounds, position) => bounds.extend(position.latlng),
-                    new kakao.maps.LatLngBounds()
-                );
-                this.map.setBounds(bounds);
-                }
+              const bounds = positions.reduce(
+                  (bounds, position) => bounds.extend(position.latlng),
+                  new kakao.maps.LatLngBounds()
+              );
+              this.map.setBounds(bounds);
+              }
           });
         },
       }

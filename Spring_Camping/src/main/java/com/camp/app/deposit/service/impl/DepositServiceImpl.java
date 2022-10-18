@@ -24,10 +24,10 @@ public class DepositServiceImpl implements DepositService {
 	public int changeStatus(DepositVO depositVO) {
 		return mapper.changeStatus(depositVO);
 	}
-	//마이페이지
+	//마이페이지 단건조회
 	@Override
-	public List<DepositVO> myDepositList(String memberId) {
-		return mapper.myDepositList(memberId);
+	public DepositVO myDepositList(DepositVO depositVO) {
+		return mapper.myDepositList(depositVO);
 	}
 
 }

@@ -31,10 +31,11 @@
 	</where> 
 </update>
 
-<!-- 마이페이지 -->
-<select id="myDepositList" parameterType="String" resultType="DepositVO">
+<!-- 마이페이지 단건출력 -->
+<select id="myDepositList" parameterType="DepositVO" resultType="DepositVO">
 	SELECT * FROM deposit 
 	WHERE member_id = #{memberId}
+	AND recru_id = #{recruId}
 </select>
 
 </mapper>

@@ -31,6 +31,13 @@ public class RecruServiceImpl implements RecruService {
 	//게시글 입력
 	@Override
 	public int insertRecru(RecruVO recruVO) {
+		//게시글 작성자 정보 가져오기
+		String email = recruVO.getMemberId();
+		MemberVO member = memberMapper.findByEmail(email);
+		
+		recruVO.setBirth(member.getBirth());
+		recruVO.setSex(member.getSex());
+		recruVO.setNickname(member.getNickname());
 		return mapper.insertRecru(recruVO);
 	}
 	//전체 조회
@@ -92,7 +99,7 @@ public class RecruServiceImpl implements RecruService {
 				DepositVO vo = new DepositVO();
 				vo.setDepositId(depMapper.getMaxDepositId()+1);
 				vo.setRecruId(entry.getRecruId());
-				vo.setMemeberId(entry.getMemberId());
+				vo.setMemberId(entry.getMemberId());
 				//보증금 테이블에 저장
 				depMapper.insertDeposit(vo);
 			}

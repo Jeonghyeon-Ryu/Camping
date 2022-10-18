@@ -115,13 +115,13 @@
         <!-- 필터 결과-->
         <div class="used-selected">
             <ul>
-                <li v-if="filter.wishSex != ''" @click="deleteFilter">희망 성별 : {{filter.wishSex}} X</li>
-                <li v-if="filter.wishAge != ''" @click="deleteFilter">희망 연령 : {{filter.wishAge}}{{ischeck}} X</li>
-                <li v-if="filter.regionSelect != null" @click="deleteFilter">출발지 : {{filter.regionSelect}} {{filter.regionSelect2}} X</li>
-                <li v-if="filter.campingSpot != ''" @click="deleteFilter">도착지 : {{filter.campingSpot}} X</li>
-                <li v-if="filter.goDate != ''" @click="deleteFilter">출발날짜 : {{filter.goDate}} X</li>
-                <li v-if="filter.searchMyGear != ''" @click="deleteFilter">나눌 수 있어요 : {{filter.searchMyGear}} X</li>
-                <li v-if="filter.searchNeedGear != ''" @click="deleteFilter">필요해요 : {{filter.searchNeedGear}} X</li>
+                <li v-if="filter.wishSex != ''" @click="filter.wishSex=''">희망 성별 : {{filter.wishSex}} X</li>
+                <li v-if="filter.wishAge != ''" @click="filter.wishAge=[]">희망 연령 : {{filter.wishAge}} X</li>
+                <li v-if="filter.regionSelect != null" @click="filter.regionSelect=null;">출발지 : {{filter.regionSelect}} {{filter.regionSelect2}} X</li>
+                <li v-if="filter.campingSpot != ''" @click="filter.campingSpot=''">도착지 : {{filter.campingSpot}} X</li>
+                <li v-if="filter.goDate != ''" @click="filter.goDate=''">출발날짜 : {{filter.goDate}} X</li>
+                <li v-if="filter.searchMyGear != ''" @click="filter.searchMyGear=[]">나눌 수 있어요 : {{filter.searchMyGear}} X</li>
+                <li v-if="filter.searchNeedGear != ''" @click="filter.searchNeedGear=[]">필요해요 : {{filter.searchNeedGear}} X</li>
             </ul>
         </div>
 
@@ -143,6 +143,7 @@
 import RecruCard from "@/components/recruit/RecruCard.vue";
 import img2 from "@/assets/img/search.png"
 import district from "@/assets/district.js"
+import { filter } from "dom7";
 
 export default{
     components: {
@@ -176,7 +177,6 @@ export default{
             .then(data => { 
                 console.log(data);
                 this.recruPosts = data;  
-
             }).catch(err=>console.log(err));
         },
         districtChange: function(){
@@ -184,6 +184,9 @@ export default{
             let sido = document.querySelector('#recru-districtSelect');
             let sigu = document.querySelector('#recru-citySelect');
             let sidoName = sido.value;
+            if(sidoName==='전체'){
+                return;
+            }
             let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
 
             sigu.options.length=1;  //저장내역 삭제
@@ -217,9 +220,51 @@ export default{
                 }
             }).catch(err=>console.log(err));
         },
-        deleteFilter: function(e){
-            console.log(e.target)
-        },
+        searchFileter : function(){
+            //전체 값 받기
+            fetch("http://localhost:8087/java/recru")
+            .then((response) =>response.json()) 
+            .then(data => { 
+                console.log(data);
+                this.recruPosts = data;  
+                const fil = this.filter;
+                const filterList = this.recruPosts;
+                //성별필터
+                if(fil.wishSex!=0 && fil.wishSex != null){
+                    for(var i = 0; i < filterList.length; i++){ 
+                        if (filterList[i].wishSex != fil.wishSex) { 
+                            //필터의 희망성별과 다른 경우 배열에서 제거
+                            filterList.splice(i, 1); 
+                            i--; 
+                        }
+                    }
+                }
+                //나이대 필터
+                if(fil.wishAge.length>0){
+                    var list=[]
+                    for(var i = 0; i < filterList.length; i++){ 
+                        if (filterList[i].wishAge==null) { 
+                            filterList.splice(i, 1); 
+                            i--; 
+                        }
+                        for(var j=0; j<fil.wishAge.length; j++){
+                            //모두의 인덱스가 음수이면 splice로 수정
+                            if (filterList[i].wishAge.indexOf(fil.wishAge[j])>=0) { 
+                                list.push(filterList[i]); 
+                            }
+                        }
+                    }
+                    
+                    console.log(filterList)
+                }
+                // wishAge :[],
+                // searchMyGear :[],
+                // searchNeedGear: [],
+                // startingSpot: '',
+                // campingSpot: '',
+                // goDate: ''
+            }).catch(err=>console.log(err));
+        }
         
         
     }

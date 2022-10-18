@@ -22,6 +22,6 @@ public class DepositVO {
 	private String payMethod;	//결제방식
 	@JsonFormat(pattern = "yyyyMMdd")
 	private Date returnDate;	//반환일자
-	private String memeberId;	//유저정보
+	private String memberId;	//유저정보
 	
 }
