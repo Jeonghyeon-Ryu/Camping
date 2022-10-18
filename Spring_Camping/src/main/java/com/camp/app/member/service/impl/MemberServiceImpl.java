@@ -68,7 +68,7 @@ public class MemberServiceImpl implements MemberService{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\member\\" + directoryPath;
+		String uploadPath = "c:\\upload\\member\\" + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
@@ -133,7 +133,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public ResponseEntity<Resource> showImage(String imagePath, String storedName) {
-		String fullPath = "d:\\upload\\member\\" + imagePath + "\\" + storedName;
+		String fullPath = "c:\\upload\\member\\" + imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " +fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 		

@@ -27,6 +27,7 @@ import com.camp.app.sns.service.InputSnsVO;
 import com.camp.app.sns.service.SnsCommentService;
 import com.camp.app.sns.service.SnsCommentVO;
 import com.camp.app.sns.service.SnsImageVO;
+import com.camp.app.sns.service.SnsLikeVO;
 import com.camp.app.sns.service.SnsService;
 import com.camp.app.sns.service.SnsVO;
 
@@ -123,7 +124,7 @@ public class SnsController {
 	// 이미지 (jpg 등 불러오기)
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
-		String fullPath = "d:\\upload\\sns\\" + imagePath + "\\" + storedName;
+		String fullPath = "c:\\upload\\sns\\" + imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
@@ -180,10 +181,25 @@ public class SnsController {
 		return service.showSnsByPageByUser(email, page);
 	}
 	
+	//게시물 좋아요 insert
+	@PostMapping("/like")
+	public boolean insertSnsLike(@RequestBody SnsLikeVO snsLike) {
+		System.out.println(snsLike);
+		return true;
+//		int result = scService.addSnsComment(snsComment);
+//		if (result > 0) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+	}
+
 	// 유저가 좋아요한 게시글 리스트 출력
 	@GetMapping("/memberSnsLikeList/{email}/{page}")
 	public void getSnsLikeListByUser(@PathVariable("email") String email, @PathVariable("page") int page) {
 		System.out.println(email);
 	}
+	
+	
 
 }

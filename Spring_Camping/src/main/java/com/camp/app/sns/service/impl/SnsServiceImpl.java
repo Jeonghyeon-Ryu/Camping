@@ -128,7 +128,7 @@ public class SnsServiceImpl implements SnsService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\sns\\" + directoryPath;
+		String uploadPath = "c:\\upload\\sns\\" + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if (!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
