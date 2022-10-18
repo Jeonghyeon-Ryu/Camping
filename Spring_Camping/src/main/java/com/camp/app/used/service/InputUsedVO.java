@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class InputUsedVO {
 	private int usedId;
-	private String usedWriter;
+	private String email;
 	private String nickName;
 	private String usedName;
 	private int usedPrice;
