@@ -3,7 +3,6 @@
     <div class="sns-searchbox">
       <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
       <button @click="doSearch" style="display: none;">조회</button>
-      <!-- <input type="button" @click="doClear" value="X"> -->
     </div>
     <div class="sns-page-id-container">
       <div class="sns-page-id">
@@ -264,6 +263,72 @@ export default {
     //좋아요
     hearted: function () {
       this.liked = !this.liked
+      if (this.liked == true) {
+        console.log("저장빼기");
+        this.doDislike();
+      }
+      else if (this.liked == false) {
+        console.log("저장하기");
+        this.doLike();
+        // Swal.fire({
+        //       title: '좋아요한 게시글에 저장되었습니다.',
+        //       confirmButtonText: '확인',
+        //     })
+        // .then((result) => {
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     //현재페이지 새로고침!
+        //     this.$router.go(0)
+        //   }
+        // })
+      }
+    },
+    //좋아요 저장하기 insert
+    doLike() {
+
+      //좋아요한 게시글 번호, 좋아요 누른 로그인한 사람 이메일
+      //글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //이메일
+      let email = this.$store.state.email;
+      
+      let like = {
+        writeNo : writeNo,
+        email : email
+      }
+
+      console.log(like);
+
+      fetch('http://localhost:8087/java/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(like)
+      }).then(result => result.text())
+        .then(result => {
+          console.log(result);
+          if (result == "true") {
+            Swal.fire({
+              title: '좋아요한 게시글에 저장되었습니다.',
+              confirmButtonText: '확인',
+            })
+              .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                // if (result.isConfirmed) {
+                //   //현재페이지 새로고침!
+                //   this.$router.go(0)
+                // }
+              })
+
+
+          }
+        })
+        .catch(err => console.log(err))
+    },
+    //좋아요 저장하기 delete
+    doDislike() {
+
     },
     //글 수정삭제 버튼
     doSnsController() {
@@ -330,10 +395,10 @@ export default {
       //글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
       //닉네임
-      let nickname = this.$store.state.nickname
+      let nickname = this.$store.state.nickname;
       // let nickname = "유저2";
       //이메일
-      let email = this.$store.state.email
+      let email = this.$store.state.email;
       // let email = "user2";
 
       let comment = {
@@ -468,7 +533,6 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-
   },
   setup() {
     return {

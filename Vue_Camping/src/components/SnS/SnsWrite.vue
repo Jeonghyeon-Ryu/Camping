@@ -14,6 +14,9 @@
         <div class="sns-write-form">
 
           <div class="sns-upload-image-container">
+            <div class="sns-register-image-preview">
+            <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
+          </div>
             <form class="sns-upload-image-preview" id="sns-register-image-form" encrypt="multipart/form-data"
               style="padding:20px;">
               <label>사진등록
@@ -255,5 +258,36 @@ export default {
 </script>
 
 <style scoped src="@/assets/css/sns/SnsWrite.css">
+
+/* 정현님 이미지프리뷰 쌔빔 */
+.image-preview-div {
+  display: inline-block;
+  position: relative;
+  width: 150px;
+  height: 120px;
+  margin: 5px;
+  border: 1px solid #00f;
+  z-index: 1;
+}
+
+.image-preview-div img {
+  width: 100%;
+  height: 100%;
+  z-index: none;
+}
+
+.image-preview-delete-button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  font-size: 24px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f00;
+  border: none;
+  cursor: pointer;
+}
 
 </style>
