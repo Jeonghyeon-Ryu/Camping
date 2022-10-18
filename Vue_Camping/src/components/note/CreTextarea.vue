@@ -7,7 +7,8 @@
         </div>
     </div>  
     <div v-if="type=='textBox'">
-        <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" 
+        <textarea class="write_place" style="display : inline-block; height: fit-content;"
+                                    v-on:keyup.shift="shiftfUp($event)" 
                                     v-on:keydown.shift="shiftfDown($event)" 
                                     v-on:keydown.enter="creTextarea($event)">
         </textarea>
@@ -18,7 +19,7 @@
             <table class='maked_table'> 
                 <tr class='item' > 
                     <td class="row-button-container" @mouseover="showBtn">
-                        <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
+                        <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" v-on:click="delRow($event)" @mouseout="hideBtn"></button>
                     </td>
                     <td class='item_td'><input width="100px" type="text" class="input_text"></td>  
                     <td class='item_td'><input width="100px" type="text" class="input_text"></td>
@@ -27,17 +28,20 @@
                     <td class="row-button-container">
                         <button class='row_delbtn'><img src="@/assets/img/note/trash.png"></button>
                     </td>
-                    <td class='item_td'><input type="text" class="input_text"></td> 
-                    <td class='item_td'><input type="text" class="input_text"></td> 
+                    <td class='item_td'><input width="100px" type="text" class="input_text"></td> 
+                    <td class='item_td'><input width="100px" type="text" class="input_text"></td> 
                 </tr>
             </table>
+            <button class='col_addbtn'><img src="img/right_arrow.png" @click="addCol($event)"></button>
         </div>
     </div>          
-    <div v-if="type=='checkboxBox'" class='check_box_list'>
-        <input type='checkbox' class='noteCheckbox' value="true" name="myCheck"><input type="text" class="checkbox_text" name="myCheck">
-        <div class="checkbox_button_container">
-            <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
-            <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
+    <div v-if="type=='checkboxBox'" class='check_box_place'>
+        <div class="check_box_list">
+            <input type='checkbox' class='noteCheckbox' value="true" name="myCheck"><input type="text" class="checkbox_text" name="myCheck">
+            <div class="checkbox_button_container">
+                <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
+                <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
+            </div>
         </div>
     </div>
     <div v-if="type=='imgBox'" style="padding:30px;">
@@ -102,18 +106,23 @@ const message = ref("hello");
             $(thisTable).append(copyRow);
             
          },
-         addCol: function(e){ 
-            //let tablePlace = e.target.parentElement.parentElement.parentElement;
-            let thisTable = e.target.parentElement.previousSibling;
+         //테이블 컬럼추가
+         addCol: function(e){
+            let tablePlace = e.target.parentElement.parentElement;
+            
+            let thisTable = $(tablePlace).children(".maked_table");
+            console.log( $(thisTable).children().children());
             
             for (let i = 0; i < $('.maked_table').children().length; i++) {
-                $(thisTable).children().eq(i).append('<td class="item_td"><input width="100px" type="text" class="input_text"></td>'); 
+                $(thisTable).children().eq(i).append('<td class="item_td" style="border: 2px solid lightgray; width: 100px; height: fit-content; "><input width="100px" type="text" class="input_text" style="border: none; width: 90%; outline: none; height: 100%;"></td>'); 
             }
-            console.log($(thisTable).children());
+            
          },
+         //테이블 컬럼 삭제
          delRow: function(e){ 
             let findRow = e.target.parentElement.parentElement.parentElement;
             
+            console.log(findRow);
             if ($('.item').length > 1) {
                 $(findRow).remove();
                 
@@ -124,12 +133,11 @@ const message = ref("hello");
         },
          creImg : function(e){ 
             this.$emit('imgBox');
-         },
-         fileChange: function(e){ 
-            
+        },
+         fileChange: function(e){
             this.file = e.target.files[0];
-         },
-         enterPressed : function(){
+        },
+        enterPressed : function(){
             alert('Enter Pressed');
         },
         showBtn(e) {
@@ -143,14 +151,17 @@ const message = ref("hello");
             this.style.opacity = "opacity: 0.6";
         },
         addCeheckList : function(e){
-            let checkboxPlace = e.target.parentElement.parentElement.parentElement.parentElement;
-            let checkboxList = checkboxPlace.children;
-            //let checkboxList = $(checkboxPlace).children('.check_box_list')[0];
-        
-            //let cloneBox = $(checkboxList).eq[0].clone(true);
-            //cloneBox.children(".checkbox_text").val("");
+            let checkboxPlace = e.target.parentElement.parentElement.parentElement;
+            let checkboxList = checkboxPlace.parentElement; 
+            console.log(checkboxList);
 
-            $(checkboxPlace).append(`
+            let cloneBox = $(checkboxPlace).eq(0).clone(true);
+
+            cloneBox.children(".checkbox_text").val("");
+
+            $(checkboxList).append(cloneBox);
+
+           /* $(checkboxPlace).append(`
                 <div class='check_box_list'>
                     <input type='checkbox' class='noteCheckbox' value="true" name="myCheck"><input type="text" class="checkbox_text" name="myCheck">
                     <div class="checkbox_button_container">
@@ -158,13 +169,15 @@ const message = ref("hello");
                         <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
                     </div>
                 </div>
-            `);
+            `);*/
         },
         delCeheckList : function(e) { 
             let checkboxPlace = e.target.parentElement.parentElement.parentElement;
-            let checkboxList = e.target.parentElement.parentElement;
-        
-            if($(checkboxPlace).children().length > 1){
+            let checkboxList = checkboxPlace.children;
+            
+            console.log(checkboxList);
+
+            if(checkboxPlace.children.length > 1){
                 $(checkboxList).remove();
             }
         }

@@ -1,12 +1,6 @@
 <template>
 
   <div class="mynote_container">
-      <nav class="mynote_menu">
-          <div class="use_method">이용 방법</div>
-          <div class="note_mine">내가 작성한 노트</div>
-          <div class="invited_note">내가 초대받은 노트</div>
-          <div class="write_note">노트 작성하기</div>
-      </nav>
 
       <div class="mynote_region">
           <div class="write_menu">
@@ -194,7 +188,7 @@ export default {
           writeFn.classList.add('write_fn');
           writeFn.innerHTML = `<div class="left_container">
           <div class="btn_container">
-              <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
+              <div class="drag_btn"><img src="@/assets/img/note/drag.png"></div>
               <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
           </div>
           </div>  `+ this.showInfo.noteContents[i];
@@ -244,8 +238,6 @@ export default {
       },
       saveNote: function (e) {
           let lineAll = document.querySelectorAll('.write_fn');
-          let lineText = [];
-          let lineTable = [];
           let textTag;
           let tableTag;
           let checkBoxTag;
@@ -261,10 +253,9 @@ export default {
                   lineType = 'TEXT';
                   lineValue = lineAll[i].querySelector('textarea').value;
                   //<태그 자체를 저장>
-                  textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)">' + lineValue + '</textarea>'
-
-                  console.log(textTag);
-                  contents.push(textTag);
+                  textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" style="display : inline-block; height: fit-content; margin-left : 0;>' + lineValue + '</textarea>'
+                  console.log(lineValue);
+                  
 
               } else if (lineAll[i].querySelector('table') != undefined) {
                   lineType = 'TABLE';

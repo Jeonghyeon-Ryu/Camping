@@ -1,13 +1,6 @@
 <template>
 
     <div class="mynote_container">
-        <nav class="mynote_menu">
-            <div class="use_method">이용 방법</div>
-            <div class="note_mine">내가 작성한 노트</div>
-            <div class="invited_note">내가 초대받은 노트</div>
-            <div class="write_note">노트 작성하기</div>
-        </nav>
-
         <div class="mynote_region">
             <div class="write_menu">
                 <div class="fn_menu">
@@ -106,7 +99,6 @@
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
                         
-                        
                         <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
                         </CreTextarea>
                         <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
@@ -149,6 +141,7 @@
                         </CreTextarea>
                         <CreTextarea :type="childOrder[20]" @creArea="CreArea($event)" v-if="textAmount >= 21">
                         </CreTextarea>
+                        <div style="weith : 100%; border : 1px solid blue"></div>
                     </div>
                 </div>
             </div>
@@ -175,54 +168,6 @@ export default {
         }
     },
    
-   
-    // created() {
-    //     console.log(this.noteId);
-    //     //this.noteId = this.$router.params.myNoteId;
-
-
-    //    fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
-    //     .then(result => result.json())
-    //     .then(result=>{
-         
-    //       this.showInfo = result; 
-    //      // console.log(this.showInfo.noteContents[0])
-    //      let content;
-    //       for(let i=0; i<this.showInfo.noteContents.length; i++){ 
-            
-    //         let sortable = document.querySelector('.sortable');
-    //         //let btnContainer = sortable.querySelector('.btn_container');
-            
-    //         let writeFn = document.createElement('div');
-    //         writeFn.classList.add('write_fn');
-    //         writeFn.innerHTML = `<div class="left_container">
-    //         <div class="btn_container">
-    //             <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
-    //             <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
-    //         </div>
-    //         </div>  `+ this.showInfo.noteContents[i];
-    //         sortable.append(writeFn);            
-    //         console.log(writeFn);
- 
-    //     }
-          
-    //     })
-       
-       
-       
-    //     // fetch(`http://localhost:8087/java/GoMyNote/${noteId}`, {
-    //     //         method: "GET",
-    //     //         headers: { "Content-Type": "application/json" },
-    //     //     })
-    //     //         .then((response) => response.json())
-    //     //         .then(data => {
-    //     //             //console.log(data.noteId);
-    //     //             //console.log(this.myNoteId);
-                
-    //     //         this.noteInfo = data;
-    //     //         console.log(noteInfo);
-    //     //     }).catch(err => console.log(err));
-    // },
     methods: {
         CreArea: function (e) {
             this.childOrder.push('textBox');
@@ -264,7 +209,7 @@ export default {
                     lineType = 'TEXT';
                     lineValue = lineAll[i].querySelector('textarea').value;
                     //<태그 자체를 저장>
-                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' + lineValue + '"></textarea>'
+                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" style="display : inline-block; height: fit-content;">' +lineValue+'</textarea>'
 
                     console.log(textTag);
                     contents.push(textTag);
@@ -273,7 +218,12 @@ export default {
                     lineType = 'TABLE';
                     lineValue = lineAll[i].querySelector('.maked_table');
                     tableTag = `<div class='table_container'>
-                                    <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
+                                    <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow" style="position: absolute;
+    bottom: -30px;
+    height: 30px;
+    width: 75%;
+    left: 11%;
+    background-color: transparent;"></button>
                                     <table class='maked_table'>`
                     // tr 행 반복
                     let lineTr = lineValue.querySelectorAll('tr');
