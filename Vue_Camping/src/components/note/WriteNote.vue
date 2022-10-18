@@ -98,6 +98,10 @@
                 <div id="pdfDiv">
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
+                        <template v-if="datas">
+                            <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
+                                @creArea="CreArea($event)"></CreateLine>
+                        </template>
                         
                         <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
                         </CreTextarea>
@@ -141,7 +145,6 @@
                         </CreTextarea>
                         <CreTextarea :type="childOrder[20]" @creArea="CreArea($event)" v-if="textAmount >= 21">
                         </CreTextarea>
-                        <div style="weith : 100%; border : 1px solid blue"></div>
                     </div>
                 </div>
             </div>
@@ -209,7 +212,7 @@ export default {
                     lineType = 'TEXT';
                     lineValue = lineAll[i].querySelector('textarea').value;
                     //<태그 자체를 저장>
-                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" style="display : inline-block; height: fit-content;">' +lineValue+'</textarea>'
+                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' +lineValue+'"></textarea>'
 
                     console.log(textTag);
                     contents.push(textTag);
@@ -218,12 +221,7 @@ export default {
                     lineType = 'TABLE';
                     lineValue = lineAll[i].querySelector('.maked_table');
                     tableTag = `<div class='table_container'>
-                                    <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow" style="position: absolute;
-    bottom: -30px;
-    height: 30px;
-    width: 75%;
-    left: 11%;
-    background-color: transparent;"></button>
+                                    <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
                                     <table class='maked_table'>`
                     // tr 행 반복
                     let lineTr = lineValue.querySelectorAll('tr');
