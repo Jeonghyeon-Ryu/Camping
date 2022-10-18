@@ -4,7 +4,7 @@
         <div class="used-heads">
           <!-- 상품사진 -->
           <div class="used-pic">
-            <div v-for="usedImage of images"><img :src="'http://localhost:8087/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
+            <UsedDetailImage :usedId="usedId"></UsedDetailImage>
           </div>
           <!-- 상품명, 가격 -->
           <div class="used-info">
@@ -91,11 +91,12 @@
 </template>
 <script>
   import img1 from "@/assets/img/sns/snsControll.png";
+  import UsedDetailImage from "./UsedDetailImage.vue";
   import Swal from 'sweetalert2';
 
 
   export default {
-    data(){
+    data: function(){
       return{
         memberId : this.$store.state.email,
         usedList : [],
@@ -103,6 +104,9 @@
         usedId : this.$route.params.usedId,
         usedStatus: img1
       }
+    },
+    components: {
+        UsedDetailImage
     },
     methods: {
       upload : function(){
@@ -122,7 +126,6 @@
         let fetchData = {};
         fetchData["usedId"] = this.usedId;
         console.log(fetchData)
-        // 삭제하는메서드..?
         Swal.fire({
           title: '',
           text: '정말로 삭제하시겠습니까?',
@@ -158,7 +161,6 @@
         let fetchData = {};
         fetchData["usedId"] = this.usedId;
         console.log(fetchData)
-        // 삭제하는메서드..?
         Swal.fire({
           title: '',
           text: '이 게시물에 접근 제한을 설정하시겠습니까?',
@@ -279,13 +281,14 @@
         console.log(component.usedList.email)
       }).catch(err=>console.log(err))
       
+
       fetch('http://localhost:8087/java/used/usedImage/'+this.usedId)
         .then(result => result.json())
         .then(result => {
             this.images = result;
         })
         .catch(err => console.log(err))
-    
+
     fetch('http://localhost:8087/java/profile/' + component.usedList.email)
       .then(result => result.json())
       .then(result => { 
@@ -295,7 +298,4 @@
     }
   }
 </script>
-<style scoped src="@/assets/css/used/UsedDetail.css">
-
-</style>
-<!-- 사진 슬라이드. 판매자 게시물 출력,찜버튼/채팅버튼 -->
+<style scoped src="@/assets/css/used/UsedDetail.css" />

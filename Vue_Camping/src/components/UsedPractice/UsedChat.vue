@@ -84,3 +84,9 @@ export default {
   }
 }
 </script>
+<style>
+ #app{
+  padding: 3%;
+  margin-top: 100px;
+ }
+</style>

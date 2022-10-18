@@ -15,7 +15,7 @@
     "jquery": "^3.6.1",
     "sockjs-client": "^1.6.1",
     "sweetalert2": "^11.5.1",
-    "swiper": "^8.4.2",
+    "swiper": "^8.4.4",
     "veeno": "^0.0.4",
     "vue": "^3.2.40",
     "vue-router": "^4.1.5",
