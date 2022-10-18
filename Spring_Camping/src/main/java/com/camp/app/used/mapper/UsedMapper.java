@@ -3,6 +3,7 @@ package com.camp.app.used.mapper;
 import java.util.List;
 
 import com.camp.app.used.service.UsedImageVO;
+import com.camp.app.used.service.UsedReviewVO;
 import com.camp.app.used.service.UsedVO;
 
 public interface UsedMapper {
@@ -57,7 +58,6 @@ public interface UsedMapper {
 	public int updateLike();
 	
 	
-	
 	//후기 작성
-//	public UsedReviewVO insertReview(UsedReviewVO review);
+	public int insertReview(UsedReviewVO review);
 }

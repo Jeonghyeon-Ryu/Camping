@@ -48,7 +48,7 @@
 	
 	<!-- 내가쓴글조회 -->
 	<select id="findMyUsed" parameterType="String" resultType="UsedVO">
-		SELECT * FROM used WHERE email = #{email} ORDER BY used_write DESC
+		SELECT * FROM used WHERE email = #{email} AND used_status !=2 ORDER BY used_write DESC
 	</select>
 	
 	<!-- 수정 -->
@@ -162,7 +162,10 @@
 	</insert>
 	
 	<!-- 후기 작성 -->
-	<insert id="" parameterType="UsedReviewVO">
+	<insert id="insertReview" parameterType="UsedReviewVO">
+	<selectKey keyProperty="reviewId" resultType="Integer" order="BEFORE">
+		SELECT NVL(MAX(review_id),0)+1 FROM used_review <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+	</selectKey>
 		INSERT INTO used_review VALUES(
 			#{reviewId},
 			#{usedId},
@@ -170,7 +173,8 @@
 			#{reviewGrade},
 			#{reviewContent},
 			#{reviewRole},
-			#{email}
+			#{email},
+			sysdate
 		)
 	</insert>
 	

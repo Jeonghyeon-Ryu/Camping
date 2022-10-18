@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.camp.app.used.mapper.UsedMapper;
 import com.camp.app.used.service.InputUsedVO;
 import com.camp.app.used.service.UsedImageVO;
+import com.camp.app.used.service.UsedReviewVO;
 import com.camp.app.used.service.UsedService;
 import com.camp.app.used.service.UsedVO;
 
@@ -187,6 +188,12 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public List<UsedImageVO> showUsedImageByUsedId(int usedId) {
 		return mapper.findByUsedIdToUsedImage(usedId);
+	}
+
+	//리뷰등록
+	@Override
+	public int insertReview(UsedReviewVO review) {
+		 return mapper.insertReview(review);
 	}
 
 
