@@ -63,8 +63,8 @@ export default {
         {
           "게시글": "/sns",
           "글쓰기": "/sns/write",
-          "좋아요": "/sns",
-          "나의피드": "/sns/myFeed/:nickname",
+          "좋아요": "/sns/myLikeFeed/" + this.$store.state.email,
+          "나의피드": "/sns/myFeed/" + this.$store.state.email,
         },
         {
           "이용방법": "/MynoteList",

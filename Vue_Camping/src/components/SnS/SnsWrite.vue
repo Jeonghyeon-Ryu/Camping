@@ -30,7 +30,7 @@
           <div class="sns-write-form-id-form">
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <img :src='snsWriteIdImg' alt=" ">
+                <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
               </div>
             </div>
             <div class="sns-write-form-id">
@@ -47,14 +47,22 @@
             <textarea v-model="snsWriteHashtag" placeholder="해시태그" name="hashtag"></textarea>
           </div>
           <div class="sns-write-place">
-            <input v-model="snsWritePlace" type="text" name="place">
-
-            <p class="result"></p>
-
+            <input :value="this.place" type="text" name="place" placeholder="장소">
           </div>
-          <div class="sns-write-location">
-            <input v-model="snsWriteLocation" type="text" name="location">
-          </div>
+          <!-- 위치검색 -->
+          <!-- <div class="sns-write-location">
+            <input v-model="snsWriteLocation" type="text" name="location" placeholder="위치등록">
+          </div> -->
+          <label class="sns-register-address-container">
+            <div class="sns-write-location">
+              <input @keyup.enter="snsAddress()" type="text" name="location" class="sns-register-address"
+                placeholder="예시 : 주소 입력후 엔터를 누르세요.">
+              <img @click="snsAddress()" class="address-search-button" src="@/assets/img/icons/search-20.png" />
+            </div>
+            <div class="sns-register-kakaomap">
+              <KakaoMap @setAddress="setAddress" :search="search" ref="kamap"></KakaoMap>
+            </div>
+          </label>
         </form>
       </div>
     </div>
@@ -63,12 +71,25 @@
 
 <script>
 import img1 from "@/assets/img/sns/이미지1.jpg";
+import KakaoMap from '../KakaoMap.vue';
 import ImagePreview from '../ImagePreview.vue';
 import Swal from 'sweetalert2';
 export default {
   //DB연결
   created: function () {
+    //현재위치..노...
+    //     navigator.geolocation.getCurrentPosition(function(pos) {
+    //     var latitude = pos.coords.latitude;
+    //     var longitude = pos.coords.longitude;
+    //     alert("현재 위치는 : " + latitude + ", "+ longitude);
+    // });
 
+    //프로필 이미지
+    fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
+      .then(result => result.json())
+      .then(result => {
+        this.storedProfile = result;
+      }).catch(err => console.log(err));
   },
 
   data: function () {
@@ -80,14 +101,18 @@ export default {
       snsWriteHashtag: '#해시태그',
       snsWritePlace: '장소',
       snsWriteLocation: '위치',
-      snsWriteIdImg: img1,
+      place: '',
+      search: '',
+      // snsWriteIdImg: img1,
+      //프로필 이미지
+      storedProfile: '',
       searchText: '',
       images: [],
       imagesUrl: [],
     };
   },
   components: {
-    // KakaoMap, //not yet
+    KakaoMap,
     ImagePreview
   },
   //검색
@@ -130,6 +155,12 @@ export default {
       sns.forEach((value, key) => {
         console.log(value);
       })
+      // console.log((document.querySelector('.info h5').text));
+
+
+
+      // location.value = (document.querySelector('.info h5').value);
+      // console.log(location);
 
       fetch('http://localhost:8087/java/sns', {
         method: 'POST',
@@ -170,11 +201,56 @@ export default {
       }
       this.images = dt.files;
       e.target.files = dt.files;
-    }
+    },
+    //정현님 위치지도 쌔빔
+    snsAddress() {
+      let search = document.querySelector('.sns-register-address').value;
+      let kakaoContainer = document.querySelector('.sns-register-kakaomap');
+      if (search == null || search == '') {
+        Swal.fire({
+          icon: 'warning',
+          title: '검색할 장소를 입력하세요.',
+          toast: true,
+          position: 'center-center',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        kakaoContainer.classList.remove('active');
+      } else {
+        if (!kakaoContainer.classList.contains('active')) {
+          kakaoContainer.classList.toggle('active');
+        }
+        this.search = search;
+        this.$refs.kamap.searchPlace(search);
+        console.log(this.$refs.kamap.searchPlace(search))
+      }
+    },
+    setAddress(address) {
+      let kakaoContainer = document.querySelector('.sns-register-kakaomap');
+      kakaoContainer.classList.remove('active');
+      document.querySelector('.sns-register-address').value = address;
+
+      //지도 검색한 장소 이름 가져오기
+      let list = document.querySelector('#placesList');
+      let items = list.querySelectorAll('.item');
+      let place = '';
+
+      for (let item of items) {
+        if (item.querySelector('.info').querySelectorAll('span')[1].innerText == address) {
+          place = item.querySelector('.info').querySelector('h5').innerText;
+          break;
+        }
+      }
+      document.querySelector('.sns-write-place input').value = place;
+
+    },
   },
 }
-
-
 
 </script>
 

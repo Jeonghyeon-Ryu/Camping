@@ -32,14 +32,15 @@
         </div>
         <div class="sns-profile-text">
           <textarea :value="snsMyData.profileInfo"></textarea>
-         <!-- / <textarea v-model="snsWriteText" placeholder="내용을 입력하세요"></textarea> -->
+          <!-- / <textarea v-model="snsWriteText" placeholder="내용을 입력하세요"></textarea> -->
         </div>
       </div>
     </div>
     <!--  -->
 
     <div class="sns-img-container">
-      <div class="sns-img-row-container" :key="snsMyList.writeNo" v-for="snsMyList in snsMyLists" @click="getSnsDetail(snsMyList.writeNo)">
+      <div class="sns-img-row-container" :key="snsMyList.writeNo" v-for="snsMyList in snsMyLists"
+        @click="getSnsDetail(snsMyList.writeNo)">
         <div class="sns-img">
           <input type="text" :value="snsMyList.writeNo" style="display :none;">
           <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyList.snsPath+'/'+snsMyList.storedName">
@@ -51,20 +52,21 @@
 
 
 <script>
+
 export default {
-  created: function(){
+  created: function () {
     // 이메일 + 프로필소개글 + 닉네임 가져오기
     fetch('http://localhost:8087/java/member/' + this.email)
-    .then(response => response.json())
+      .then(response => response.json())
       .then(result => {
         console.log(result);
         this.snsMyData = result
       })
       .catch(err => console.log(err));
 
-      console.log(this.snsMyData);
+    console.log(this.snsMyData);
 
-       // 작성자의 총 게시글 숫자 표시
+    // 작성자의 좋아요 총 게시글 숫자 표시
     fetch('http://localhost:8087/java/memberCount/' + this.email)
       .then(response => response.json())
       .then(result => {
@@ -73,23 +75,10 @@ export default {
       })
       .catch(err => console.log(err));
 
-      console.log(this.snsMyCount);
-
-    // 해당 유저가 작성한 게시글 리스트
-    // 페이징
-    fetch('http://localhost:8087/java/memberSnsList/' + this.email + "/"+ this.page)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result);
-        this.snsMyLists = result
-      })
-      
-      .catch(err => console.log(err));
-
-      console.log(this.snsMyList);
+    console.log(this.snsMyCount);
 
     // 로그인한 유저가 좋아요한 게시글목록 리스트
-    fetch('http://localhost:8087/java/memberSnsLikeList/' + this.email +"/"+ this.page)
+    fetch('http://localhost:8087/java/memberSnsLikeList/' + this.email + "/" + this.page)
       .then(response => response.json())
       .then(result => {
         console.log(result);
@@ -97,16 +86,16 @@ export default {
       })
       .catch(err => console.log(err));
 
-      console.log(this.snsMyLikeList);    
+    console.log(this.snsMyLikeList);
 
-      //프로필 이미지
+    //프로필 이미지
     fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
       .then(result => result.json())
       .then(result => {
         this.storedProfile = result;
       }).catch(err => console.log(err));
   },
-  data: function() {
+  data: function () {
     return {
       snsSearch: '검색어를 입력하세요.',
       searchText: '',
@@ -114,24 +103,22 @@ export default {
       //닉네임 불러오기
       //닉네임, 
       //로그인하며 가져오는 것 목록 : email, nickname, auth
-      email : this.$route.params.email,
+      email: this.$route.params.email,
       // nickname : this.$store.state.nickname,
       // profileInfo : this.$store.state.profileInfo,
-      snsMyData : {},
+      snsMyData: {},
       //총게시글수
-      snsMyCount : "",
+      snsMyCount: "",
       //나의 게시글 리스트
-      snsMyLists : [],
+      snsMyLists: [],
       //내가 좋아요한 게시글 리스트
-      snsMyLikeList : [],
+      snsMyLikeList: [],
       //프로필 이미지
       storedProfile: '',
-      
+
 
       //페이지
       page: 1,
-
-      snsProfileText : '프로필 소개글 안냐세용 게시글 소개글입니다 그만하고싶고요 힘들고요 저는 그냥 말하는 감자고요 아무것도 안됩니다 누르지마세요',
     }
   },
   //검색
@@ -171,6 +158,7 @@ export default {
   font-style: none;
   box-sizing: border-box;
 }
+
 .sns-container {
   margin-top: 300px;
   width: 100vw;
@@ -178,6 +166,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
 }
+
 .sns-searchbox {
   width: 100vw;
   display: flex;
@@ -186,21 +175,25 @@ export default {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
 .sns-searchbox input[type=text] {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 .sns-searchbox input[type=button] {
   padding: 15px;
   border: none;
   border-radius: 5px;
   background-color: rgb(255, 255, 255);
 }
+
 .sns-page-nickname-container {
   display: flex;
   justify-content: center;
 }
+
 .sns-page-nickname {
   background-color: rgba(228, 239, 231, 0.7);
   width: 56vw;
@@ -212,11 +205,13 @@ export default {
   color: rgb(255, 255, 255);
   font-weight: bold;
 }
-.sns-page-nickname span{
+
+.sns-page-nickname span {
   font-weight: bold;
   margin-top: 7px;
 
 }
+
 .sns-detail-page-container {
   width: 60vw;
   height: auto;
@@ -224,6 +219,7 @@ export default {
   flex-wrap: wrap;
   justify-content: left;
 }
+
 .sns-detail-container {
   width: 100%;
   height: auto;
@@ -232,6 +228,7 @@ export default {
   justify-content: left;
   margin-top: 15px;
 }
+
 .sns-write-id-container {
   width: 100%;
   height: auto;
@@ -241,17 +238,20 @@ export default {
   margin-top: 15px;
   position: relative;
 }
+
 .sns-write-id img {
   width: 3vw;
   height: 3vw;
   border-radius: 70%;
   margin-right: 1vw;
 }
+
 .sns-write-id p {
   margin-top: 0.5vw;
   padding: 0.3vw;
   border: none;
 }
+
 .sns-img-container {
   width: 70%;
   display: flex;
@@ -273,13 +273,14 @@ export default {
   height: 100%;
 
 }
-.sns-img img{
+
+.sns-img img {
   width: 100%;
   height: 100%;
-  object-fit : cover;
+  object-fit: cover;
 }
 
-.sns-profile{
+.sns-profile {
   width: 100%;
   height: auto;
   display: flex;
@@ -289,31 +290,32 @@ export default {
   position: relative;
 }
 
-.sns-profile-email{
+.sns-profile-email {
   width: 100%;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    margin-top: 15px;
-    position: relative;
-    
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  margin-top: 15px;
+  position: relative;
+
 }
 
-.sns-profile-email p{
+.sns-profile-email p {
   border: none;
 
 }
-.sns-profile-text textarea{
-  
+
+.sns-profile-text textarea {
+
   margin-top: 15px;
-      width: 28vw;
-      height: 5vw;
-      min-width: 184px;
-      min-height: 20px;
-      border: none;
-      resize: none;
-      border-radius: 5px;
+  width: 28vw;
+  height: 5vw;
+  min-width: 184px;
+  min-height: 20px;
+  border: none;
+  resize: none;
+  border-radius: 5px;
 }
 
 .sns-profile-text textarea:focus {
