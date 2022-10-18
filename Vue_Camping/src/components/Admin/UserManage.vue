@@ -25,8 +25,7 @@ export default {
             .then(result => {
                 console.log(result);
                 this.userData = result;
-            })
-        // this.userData = user;
+            }).catch(err => console.log(err))
     },
     components: { UserTable }
 }

@@ -10,7 +10,7 @@
             </li>
             <li v-for="data of rows" class="table-body row">
                 <input type="checkbox" name="checkedUser" value="" />
-                <div class="table-column" v-for="column of columns">{{data[column.prop]}}</div>
+                <div class="table-column" v-for="column of columns"><div v-if="column.type!=Date">{{data[column.prop]}}</div><div v-if="column.type==Date">{{ $filters.formatDate(data[column.prop]) }}</div></div>
                 <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data)"></TableButton>
                 <TableButton v-if="removebtn" :type="'remove'" @remove="remove(data)"></TableButton>
                 <!-- v-if="data.status == 0 ? 1? 판별해서 limit active 둘중 하나만 띄우는거 필요" -->
@@ -68,7 +68,7 @@ export default {
                 },
                 {
                     name: "가입일",
-                    prop: "regDate",
+                    prop: "regdate",
                     type: Date
                 }
             ],
@@ -116,7 +116,7 @@ export default {
         },
         startPage: function () {
             // currentPage - currentPage % 10 + 1 을
-            if(this.currentPage<=10){
+            if (this.currentPage <= 10) {
                 return 1;
             } else {
                 return (this.currentPage - (this.currentPage % 10) + 1);
@@ -239,14 +239,14 @@ export default {
         currentPage: function () {
             // 현재 페이지 변경될때 현재 데이터 제거 > 새로운 데이터 푸시
             this.rows = [];
-            for (let i = ((this.currentPage-1) * this.perPage); i < ((this.currentPage-1) * this.perPage + this.perPage); i++) {
-                if(i>=this.userData.length){
+            for (let i = ((this.currentPage - 1) * this.perPage); i < ((this.currentPage - 1) * this.perPage + this.perPage); i++) {
+                if (i >= this.userData.length) {
                     break;
                 } else {
                     this.rows.push(this.userData[i]);
                 }
             }
-        
+
 
         },
         userData: function () {
@@ -257,7 +257,14 @@ export default {
             } else {
                 this.totalPage = Math.ceil(total / this.perPage);
             }
-
+            for (let i = 0; i < this.perPage; i++) {
+                if (Object.keys(this.userData).length <= i) {
+                    break;
+                }
+                console.log(i);
+                this.rows.push(this.userData[i]);
+            }
+            this.$forceUpdate();
         }
     },
     components: { Pagination, Sort, Filtering, TableButton, ModifyModal, ExcelExport }

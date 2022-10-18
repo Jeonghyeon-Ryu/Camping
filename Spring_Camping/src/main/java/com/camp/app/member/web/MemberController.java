@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,15 +64,33 @@ public class MemberController {
 	public MemberVO user(@PathVariable String email) {
 		return service.findByEmail(email);
 	}
+	@GetMapping("/member/{email}/{password}")
+	public boolean verifyMember(@PathVariable String email, @PathVariable String password) {
+		MemberVO member = new MemberVO();
+		member.setEmail(email);
+		member.setPassword(password);
+		if(password == service.findByEmail(email).getPassword()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	@PostMapping("/member")
-	public boolean signup(@RequestParam MemberVO member) {
+	public boolean signup(@RequestBody MemberVO member) {
+		System.out.println(member);
 		int result = service.signup(member);
+		System.out.println("Result : " + result);
 		if(result>0) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+	@PutMapping("/member")
+	public boolean modifyPassword(@RequestBody MemberVO member) {
+		System.out.println("member : " + member);
+		return true;
 	}
 	@GetMapping("/profile/{email}")
 	public ProfileImageVO profileImage(@PathVariable String email){
@@ -84,8 +103,6 @@ public class MemberController {
 	
 	@PostMapping("/member/modify")
 	public boolean modifyMember(MemberVO member, MultipartFile file) {
-		System.out.println("member : " + member);
-		System.out.println("file : " + file);
 		int result = service.modifyMember(member, file);
 		if(result > 0) {
 			return true;

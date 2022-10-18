@@ -156,15 +156,65 @@ export default {
     },
 
     user_modify_password: function () {
-      const { value: password } = Swal.fire({
-        title: 'Enter your password',
-        input: 'password',
-        inputLabel: 'Password',
-        inputPlaceholder: 'Enter your password',
-        inputAttributes: {
-          maxlength: 10,
-          autocapitalize: 'off',
-          autocorrect: 'off'
+      const centerToast = Swal.mixin({
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+      Swal.fire({
+        title: '비밀번호 변경',
+        html:
+          '<input id="swal-input1" class="swal2-input" placeholder="이전 비밀번호">' +
+          '<input id="swal-input2" class="swal2-input" placeholder="변경할 비밀번호">' +
+          '<input id="swal-input3" class="swal2-input" placeholder="비밀번호 확인">',
+        focusConfirm: false,
+        confirmButtonText: '변경완료',
+        showCancelButton: true,
+        cancelButtonText: '변경취소',
+        preConfirm: () => {
+          let prevPw = document.getElementById('swal-input1');
+          let nextPw1 = document.getElementById('swal-input2');
+          let nextPw2 = document.getElementById('swal-input3');
+
+          if (prevPw.value == '') {
+            Swal.showValidationMessage(`이전 비밀번호를 입력해주세요.`);
+            prevPw.focus();
+          } else if (nextPw1.value == '') {
+            Swal.showValidationMessage(`변경할 비밀번호를 입력해주세요.`);
+            nextPw1.focus();
+          } else if (nextPw2.value == '') {
+            Swal.showValidationMessage(`비밀번호 확인을 해주세요.`);
+            nextPw2.focus();
+          } else if (nextPw1.value != nextPw2.value) {
+            Swal.showValidationMessage(`변경할 비밀번호가 일치하지 않습니다.`);
+            nextPw2.value = '';
+            nextPw2.focus();
+          } else {
+            fetch('http://localhost:8087/java/member/' + this.$store.state.email + '/' + prevPw.value)
+              .then(result => result.text())
+              .then(result => {
+                if(result == "true"){
+                  fetch('http://localhost:8087/java/')
+                } else {
+
+                }
+              })
+              .catch(err => console.log(err))
+          }
+
+
+          return false;
+        }
+      }).then(result => {
+        if (result.isConfirmed) {
+        } else {
+          // 닫기
         }
       })
     }

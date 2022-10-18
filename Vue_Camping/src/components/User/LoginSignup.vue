@@ -47,7 +47,7 @@
             <input type="password" @change="isPasswordConfirm($event)" name="password_confirm" placeholder="비밀번호 확인" />
             <input type="text" @change="isIdentify($event)" name="identify" placeholder="주민등록번호(900101-1)" maxlength="8"
               autocomplete="off" />
-            <input type="text" @change="isPhoneNumber($event)" name="phone_number" placeholder="01012341234"
+            <input type="text" @change="isPhoneNumber($event)" name="phoneNumber" placeholder="01012341234"
               maxlength="11" autocomplete="off" />
             <button class="btn_sign_up" @click="clickSignup($event)">SIGN UP</button>
           </div>
@@ -104,6 +104,7 @@ export default {
           localStorage.setItem("email", result.email);
           localStorage.setItem("auth", result.auth);
           this.$store.commit('getUserInfo');
+
           Swal.fire({
             icon: 'success',
             title: '로그인 성공!',
@@ -134,7 +135,7 @@ export default {
           })
         });
     },
-    clickSignup: (e) => {
+    clickSignup: function (e) {
       let signupForm = e.target.parentElement;
       let identify = signupForm.querySelector('input[name="identify"]').value;
       let sex = '';
@@ -159,12 +160,13 @@ export default {
         "password": signupForm.querySelector('input[name="password"]').value,
         "birth": birth,
         "sex": sex,
-        "phone_number": signupForm.querySelector('input[name="phone_number"]').value
+        "phoneNumber": signupForm.querySelector('input[name="phoneNumber"]').value
       }
 
       // 본인인증 시작
       let access_token;
       let imp_uid;
+      let component = this;
       IMP.init("imp77170587");
       IMP.certification({
         merchant_uid: `${new Date().getTime()}`,
@@ -179,9 +181,11 @@ export default {
               if (result.name != signupForm.querySelector('input[name="name"]').value) {
                 document.querySelector('input[name="name"]').value = result.name;
               }
-              if (result.phoneNumber != signupForm.querySelector('input[name="phone_number"]').value) {
+              if (result.phoneNumber != signupForm.querySelector('input[name="phoneNumber"]').value) {
                 document.querySelector('input[name="name"]').value = result.phoneNumber;
               }
+            }).catch(err => console.log("본인인증 오류", err))
+            .finally(() => {
               // 본인인증 성공 후, 회원가입 자동 요청
               fetch('http://localhost:8087/java/member', {
                 method: "POST",
@@ -191,8 +195,21 @@ export default {
                 body: JSON.stringify(signupData)
               }).then(result => result.text())
                 .then(result => {
+                  console.log(this);
                   if (result == "true") {
-                    this.$router.push({ path: '/', name: 'Home' });
+                    Swal.fire({
+                      icon: 'success',
+                      title: '회원가입 성공!',
+                      toast: true,
+                      showConfirmButton: false,
+                      timer: 2000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        component.$router.push({ path: '/', name: 'Home' });
+                      }
+                    })
                   } else {
                     Swal.fire({
                       icon: 'error',
@@ -208,7 +225,7 @@ export default {
                     })
                   }
                 }).catch(err => console.log("회원가입 오류", err))
-            }).catch(err => console.log("본인인증 오류", err));
+            })
 
         } else {
           console.log("실패", result);
