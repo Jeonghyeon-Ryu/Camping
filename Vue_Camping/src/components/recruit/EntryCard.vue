@@ -48,7 +48,5 @@
 <style scoped src="@/assets/css/recruit/entryCard.css" />
 <style scoped>
 
-  .entry-card-contents{
-    max-height:105px;
-  }
+
 </style>

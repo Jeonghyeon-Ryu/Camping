@@ -35,9 +35,14 @@ public class EntryController {
 		return service.recruEntredList(recruid);
 	}
 	//마이페이지 전체 조회
-	@PostMapping("/entry/mypage/{memberId}")
+	@PostMapping("/entry/{memberId}")
 	public List<EntryVO> myEntryList(@PathVariable String memberId){
 		return service.myEntryList(memberId);
+	}
+	//모집완료된 참가글 목록(보증금관련)
+	@PostMapping("/entry/success/{memberId}")
+	public List<EntryVO> endEntryList(@PathVariable String memberId){
+		return service.endEntryList(memberId);
 	}
 	//동행신청 상태수정 
 	@PutMapping("/entry")

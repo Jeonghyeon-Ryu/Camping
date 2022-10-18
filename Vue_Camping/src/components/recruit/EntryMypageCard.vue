@@ -23,7 +23,7 @@
 <script>
 
 export default{
-    props :{recruId : String},
+    props :{recruId : Number},
     data: function(){
         return{
             recruInfo : {},
@@ -34,58 +34,17 @@ export default{
     },
     methods :{
         getEntryRecru(){
-            const recruId = this.recruId;
+            const component = this;
             //서버에서 신청 대상 모집글 정보를 가져온다
-            fetch(`http://localhost:8087/java/recru/${recruId}`)
+            fetch(`http://localhost:8087/java/recru/${component.recruId}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     console.log(data);
-                    this.recruInfo = data;  
+                    component.recruInfo = data;  
+                    component.$emit('setRecruStatus',data.recruStatus)
                 }).catch(err=>console.log(err));
         }
     }
 }
 </script>
-<style scoped>
-/* 공통 부분 */
-* {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-style: none;
-    box-sizing: border-box;
-}
-.entry-mini-container{
-    width: 60%;
-    min-width: 520px;
-}
-.entry-mini-box{
-    padding: 5px 10px;
-    text-align: left;
-}
-.entry-mini-card{
-    padding: 20px;
-    background: white;
-}
-.row{
-    display: flex;
-}
-.recru-mini-img{
-    width: 140px;
-    height: 140px;
-    margin-right: 20px;
-}
-.recru-mini-img img{
-    width: 100%;
-    height: 100%;
-}
-.recru-mini-title h3{
-    margin: 3px 10px 0 0;
-}
-
-.recru-mini-contents p{
-    margin: 5px 0;
-    text-align: left;
-}
-
-</style>
+<style scoped src="@/assets/css/recruit/EntryMypageCard.css" />

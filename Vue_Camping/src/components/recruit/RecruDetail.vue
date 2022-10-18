@@ -113,7 +113,11 @@
         </div>     
          <!-- 동행신청 버튼 모달창 -->
          <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
-            <EntryInsert v-bind:recruId="recruPost.recruId" @close-modal="isModalViewed=false"></EntryInsert>
+            <EntryInsert 
+                v-bind:recruId="recruPost.recruId" 
+                @close-modal="isModalViewed=false"
+                @close-recru="recruPost.recruStatus=1" >
+            </EntryInsert>
         </ModalView>
     </div>
     
