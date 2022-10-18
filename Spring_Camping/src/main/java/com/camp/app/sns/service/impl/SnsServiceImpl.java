@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.camp.app.sns.mapper.SnsMapper;
+import com.camp.app.sns.service.InputSnsVO;
+import com.camp.app.sns.service.MySnsVO;
 import com.camp.app.sns.service.SnsImageVO;
 import com.camp.app.sns.service.SnsService;
 import com.camp.app.sns.service.SnsVO;
-import com.camp.app.sns.service.InputSnsVO;
-import com.camp.app.sns.service.SnsCommentVO;
 
 @Service
 public class SnsServiceImpl implements SnsService {
@@ -172,15 +172,19 @@ public class SnsServiceImpl implements SnsService {
 
 	//유저가 작성한 총게시글 수
 	@Override
-	public int countSnsByUser() {
-		return mapper.countSnsByUser();
+	public int countSnsByUser(String email) {
+		return mapper.countSnsByUser(email);
 	}
 
 
-
+	
 	@Override
 	public List<SnsImageVO> showSnsByPageByUser(String email, int page) {
-		return null;
+		System.out.println(email +  ", "+ page);
+		MySnsVO mySns = new MySnsVO();
+		mySns.setEmail(email);
+		mySns.setPage(page);
+		return mapper.showSnsByPageByUser(mySns);
 	}
 	
 }

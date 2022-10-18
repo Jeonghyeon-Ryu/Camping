@@ -2,6 +2,7 @@ package com.camp.app.sns.mapper;
 
 import java.util.List;
 
+import com.camp.app.sns.service.MySnsVO;
 import com.camp.app.sns.service.SnsImageVO;
 import com.camp.app.sns.service.SnsVO;
 
@@ -49,11 +50,11 @@ public interface SnsMapper {
 	// sns 좋아요 기능
 
 	// 유저가 작성한 총게시글 수
-	public int countSnsByUser();
+	public int countSnsByUser(String email);
 
 	
 	//내가 쓴 게시글 이미지보기
-	public List<SnsImageVO> showSnsByPageByUser(String email, int page);
+	public List<SnsImageVO> showSnsByPageByUser(MySnsVO mySns);
 	// 신고...흠
 
 

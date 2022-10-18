@@ -59,7 +59,7 @@ public interface SnsService {
 	public void snsDelete(int writeNo);
 
 	// 유저가 작성한 총게시글 수
-	public int countSnsByUser();
+	public int countSnsByUser(String email);
 
 ///// 유저가 작성한 게시글 리스트 출력(위의 전체이미지 불러오기에서 가져옴)
 
