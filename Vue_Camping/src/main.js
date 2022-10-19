@@ -2,12 +2,17 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router"
 import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate';
 
 const store = createStore({
+    plugins : [createPersistedState({
+        storage: window.sessionStorage
+      })],
     state: {
         email: sessionStorage.getItem('email'),
         nickname : sessionStorage.getItem('nickname'),
-        auth : sessionStorage.getItem('auth')
+        auth : sessionStorage.getItem('auth'),
+        currentCategory : sessionStorage.getItem('currentCategory')
     },
     mutations : {
         getUserInfo(state) {
@@ -22,6 +27,13 @@ const store = createStore({
             state.email = null;
             state.nickname = null;
             state.auth = null;
+        },
+        setCurrentCategory(state){
+            state.currentCategory = sessionStorage.getItem('currentCategory');
+        },
+        delCurrentCategory(state){
+            sessionStorage.removeItem('currentCategory');
+            state.currentCategory = null;
         }
     },
     actions: {
