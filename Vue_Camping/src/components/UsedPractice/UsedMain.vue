@@ -49,36 +49,48 @@
             <li>
               <label for="inputPlace">지역</label>
                 <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
-                  <option value diabled>시/도</option> 
+                  <option value='' disabled>시/도</option> 
                   <option value='전체'>전체</option>
-                  <option value='서울특별시'>서울특별시</option>
-                  <option value='부산광역시'>부산광역시</option>
-                  <option value='대구광역시'>대구광역시</option>
-                  <option value='인천광역시'>인천광역시</option>
-                  <option value='광주광역시'>광주광역시</option>
-                  <option value='대전광역시'>대전광역시</option>
-                  <option value='울산광역시'>울산광역시</option>
-                  <option value='경기도'>경기도</option>
-                  <option value='강원도'>강원도</option>
-                  <option value='충청북도'>충청북도</option>
-                  <option value='충청남도'>충청남도</option>
-                  <option value='전라북도'>전라북도</option>
-                  <option value='전라남도'>전라남도</option>
-                  <option value='경상북도'>경상북도</option>
-                  <option value='경상남도'>경상남도</option>
-                  <option value='제주도'>제주도</option>
+                  <option value='서울'>서울특별시</option>
+                  <option value='부산'>부산광역시</option>
+                  <option value='대구'>대구광역시</option>
+                  <option value='인천'>인천광역시</option>
+                  <option value='광주'>광주광역시</option>
+                  <option value='대전'>대전광역시</option>
+                  <option value='울산'>울산광역시</option>
+                  <option value='경기'>경기도</option>
+                  <option value='강원'>강원도</option>
+                  <option value='충북'>충청북도</option>
+                  <option value='충남'>충청남도</option>
+                  <option value='전북'>전라북도</option>
+                  <option value='전남'>전라남도</option>
+                  <option value='경북'>경상북도</option>
+                  <option value='경남'>경상남도</option>
+                  <option value='제주특별자치도'>제주도</option>
                 </select>
                 <select v-model="regionSelect2" name='county' id="citySelect">
                   <option value disabled>시/군/구</option>
                   <option value='전체'>전체</option>
                 </select>
             </li>
-            <li>                          
-              <label for="inputPrice">가격범위</label>
-              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
+            <li>
+            <label for="inputPrice">가격범위</label>
+
+             <VueSimpleRangeSlider
+              style="width: 200px;
+                     line-height: 20px;
+                     font-size: 12px;"
+
+              :min="0"
+              :maxPrice="1000000"
+              exponential
+              v-model="state.range"
+            >
+              <template #prefix="{ value }">￦ </template>
+              </VueSimpleRangeSlider>
+              <!-- <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
               <p>~</p>
-              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
-              <!-- <div id="slider"></div> -->
+              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000"> -->
             </li>
           </ul>
         </div>
@@ -120,9 +132,15 @@
   import district from "@/assets/district.js"
   import Swal from 'sweetalert2';
 
+  // 슬라이더
+  import VueSimpleRangeSlider from "vue-simple-range-slider";
+  import "vue-simple-range-slider/css";
+  import { reactive, defineComponent } from "vue";
+
   export default{
     components:{
     UsedCard,
+    VueSimpleRangeSlider
     },
     data(){
       return{
@@ -182,7 +200,7 @@
         let sido = document.querySelector('#districtSelect');
         let sigu = document.querySelector('#citySelect');
         let sidoName = sido.value;
-        let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
+        let cityArr = ["서울","부산","인천","대구","광주","대전","울산","경기","강원","충북","충남","경북","경남","전북","전남","제주특별자치도"];
 
         sigu.options.length=1;  //저장내역 삭제
 
@@ -227,7 +245,11 @@
                     this.usedList = data;
                 }).catch(err=>console.log(err))
 
-    }
+    },
+    setup() {
+    const state = reactive({ range: [20, 1000], number: 10 });
+    return { state };
+  },
   }
 
 </script>
