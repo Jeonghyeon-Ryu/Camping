@@ -275,6 +275,6 @@ export default {
 }
 </script>
 
-<style scoped src="./UserTable.css">
+<style scoped src="./Table.css">
 
 </style>

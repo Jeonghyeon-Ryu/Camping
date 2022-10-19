@@ -25,13 +25,13 @@
     export default {
         data: function(){
             return {
-                email : localStorage.getItem("email"),
+                email : sessionStorage.getItem("email"),
             }
         },  
         methods : {
             logout(){
-                localStorage.removeItem("email");
-                localStorage.removeItem("nickname");
+                sessionStorage.removeItem("email");
+                sessionStorage.removeItem("nickname");
             },
             clickMenu() {
                 this.$emit("hideMenu");

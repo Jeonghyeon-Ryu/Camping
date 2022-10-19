@@ -338,7 +338,7 @@ export default {
             let fetchData = {
                 "title": title,
                 "noteContents": contents,
-                "email": localStorage.getItem("email")
+                "email": sessionStorage.getItem("email")
             }
             console.log(fetchData);
 

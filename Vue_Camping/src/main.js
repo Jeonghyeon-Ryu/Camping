@@ -5,20 +5,20 @@ import { createStore } from 'vuex'
 
 const store = createStore({
     state: {
-        email: localStorage.getItem('email'),
-        nickname : localStorage.getItem('nickname'),
-        auth : localStorage.getItem('auth')
+        email: sessionStorage.getItem('email'),
+        nickname : sessionStorage.getItem('nickname'),
+        auth : sessionStorage.getItem('auth')
     },
     mutations : {
         getUserInfo(state) {
-            state.email = localStorage.getItem('email');
-            state.nickname = localStorage.getItem('nickname');
-            state.auth = localStorage.getItem('auth');
+            state.email = sessionStorage.getItem('email');
+            state.nickname = sessionStorage.getItem('nickname');
+            state.auth = sessionStorage.getItem('auth');
         },
         delUserInfo(state) {
-            localStorage.removeItem('email');
-            localStorage.removeItem('nickname');
-            localStorage.removeItem('auth');
+            sessionStorage.removeItem('email');
+            sessionStorage.removeItem('nickname');
+            sessionStorage.removeItem('auth');
             state.email = null;
             state.nickname = null;
             state.auth = null;

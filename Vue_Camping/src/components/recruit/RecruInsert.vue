@@ -149,7 +149,7 @@ export default{
         searchImg : img2,
         wishAge :[],
         recruInfo : {  
-            memberId :localStorage.getItem("email"),
+            memberId :sessionStorage.getItem("email"),
             wishSex : 0,
             wishAge : '',
             myCar : 0,

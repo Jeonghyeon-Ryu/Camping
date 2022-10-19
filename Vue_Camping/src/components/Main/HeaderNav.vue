@@ -38,7 +38,7 @@ export default {
   name: "HeaderNav",
   data: function () {
     return {
-      email : localStorage.getItem("email"),
+      email : sessionStorage.getItem("email"),
       currentCategory: 0,
       topCategory: {
         "어디갈래?" : "/CampList",

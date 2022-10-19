@@ -4,11 +4,14 @@
 	<select id="findAll" resultType="SaveVO">
 		SELECT * FROM save
 	</select>
-	<select id="findMaxSaveId">
-		SELECT NVL(MAX(save_id)) FROM save
+	<select id="findByEmailAndBoardDivision" parameterType="SaveVO" resultType="SaveVO">
+		SELECT * FROM save WHERE email = #{email} AND board_division = #{boardDivision} 
+	</select>
+	<select id="findMaxSaveId" resultType="Integer">
+		SELECT NVL(MAX(save_id),0) FROM save
 	</select>
 	<select id="exist" parameterType="SaveVO" resultType="boolean">
-		SELECT COUNT(*) FROM board_id = #{boardId} AND email = #{email}
+		SELECT COUNT(*) FROM save WHERE board_id = #{boardId} AND email = #{email}
 	</select>
 	<insert id="insert" parameterType="SaveVO">
 		INSERT INTO save VALUES(
@@ -19,6 +22,6 @@
 		)
 	</insert>
 	<delete id="delete" parameterType="SaveVO">
-		DELETE FROM save WHERE board_id = #{boardId} AND email = #{email}
+		DELETE FROM save WHERE board_id = #{boardId} AND email = #{email} AND board_division = #{boardDivision}
 	</delete>
 </mapper> 

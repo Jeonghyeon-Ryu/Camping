@@ -100,9 +100,10 @@ export default {
         body: JSON.stringify(member)
       }).then(result => result.json())
         .then(result => {
-          localStorage.setItem("nickname", result.nickname);
-          localStorage.setItem("email", result.email);
-          localStorage.setItem("auth", result.auth);
+
+          sessionStorage.setItem("nickname", result.nickname);
+          sessionStorage.setItem("email", result.email);
+          sessionStorage.setItem("auth", result.auth);
           this.$store.commit('getUserInfo');
 
           Swal.fire({

@@ -3,6 +3,7 @@ package com.camp.app.camp.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,8 @@ import com.camp.app.camp.service.CampVO;
 import com.camp.app.camp.service.InputCampVO;
 import com.camp.app.report.mapper.ReportMapper;
 import com.camp.app.report.service.ReportVO;
+import com.camp.app.save.mapper.SaveMapper;
+import com.camp.app.save.service.SaveVO;
 
 @Service
 public class CampServiceImpl implements CampService{
@@ -28,6 +31,8 @@ public class CampServiceImpl implements CampService{
 	CampMapper mapper;
 	@Autowired
 	ReportMapper reportMapper;
+	@Autowired
+	SaveMapper saveMapper;
 	
 	@Override
 	public List<CampVO> showCampAll() {
@@ -210,6 +215,20 @@ public class CampServiceImpl implements CampService{
 	public int isCampModifying(int campId) {
 		return mapper.countCampModifyByCampId(campId);
 		
+	}
+	
+//	캠핑 저장 목록
+	@Override
+	public List<CampVO> showStoredCamp(String email) {
+		SaveVO save = new SaveVO();
+		save.setBoardDivision(0);
+		save.setEmail(email);
+		List<SaveVO> saveList = saveMapper.findByEmailAndBoardDivision(save);
+		List<CampVO> campList = new ArrayList<>();
+		saveList.forEach(saveOne -> {
+			campList.add(mapper.findByCampId(saveOne.getBoardId()));
+		});
+		return campList;
 	}
 
 }

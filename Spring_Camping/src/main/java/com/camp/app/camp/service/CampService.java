@@ -19,4 +19,7 @@ public interface CampService {
 	public boolean modifyCamp(InputCampVO camp);
 	public int getMaxCampModifyId();
 	public int isCampModifying(int campId);
+	
+//	캠핑 저장 목록
+	public List<CampVO> showStoredCamp(String email);
 }
