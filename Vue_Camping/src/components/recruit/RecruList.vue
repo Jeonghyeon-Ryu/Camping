@@ -8,9 +8,9 @@
             </div>
         </div>
         <!-- 필터 -->
-        <form id="recru-filter-form" class="recru-list-filter row">
-            <div class="recru-filter-container row">
-                <div class="recru-filter-box col">
+        <form id="recru-filter-form" class="recru-list-filter recru-row">
+            <div class="recru-filter-container recru-row">
+                <div class="recru-filter-box recru-col">
                     <h3>희망 동행자</h3>
                     <div class="recru-search-sex ">
                         <label class="bold">나이</label>
@@ -18,69 +18,92 @@
                         <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="2">여</label>
                         <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0" checked>무관</label>
                     </div>
-                    <div class="recru-search-age col">
-                        <div class=" left">
+                    <div class="recru-search-age recru-col">
+                        <div class=" recru-left">
                             <label class="bold">연령대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="20대" name="test">20대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="30대" name="test">30대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="20대" name="test"> 20대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="30대" name="test"> 30대</label>
                         </div>
-                        <div class="row left">
-                            <label><input type="checkbox" v-model="filter.wishAge" value="40대">40대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="50대이상">50대 이상</label>
+                        <div class="recru-row ">
+                            <label><input type="checkbox" v-model="filter.wishAge" value="40대" style="margin-left:100px"> 40대</label>
+                            <label><input type="checkbox" v-model="filter.wishAge" value="50대이상"> 50대 이상</label>
                         </div>
                     </div>
                 </div>
-                <div class="recru-filter-box col">
+                <div class="recru-filter-box recru-col">
                     <h3>여행정보</h3>
                     <div class="recru-filter-trip">
                         <div class="recru-search-startP">
                             <span style="margin-left:6px">출발지 </span> 
-                            <select v-model="filter.regionSelect" id="recru-districtSelect" name='city' @change="districtChange"> 
+                            <select v-model="filter.regionSelect" id="recru-start-districtSelect" name='city' @change="districtChange('start')"> 
                                 <option value='' disabled>시/도</option> 
                                 <option value='전체'>전체</option>
-                                <option value='서울특별시'>서울특별시</option>
-                                <option value='부산광역시'>부산광역시</option>
-                                <option value='대구광역시'>대구광역시</option>
-                                <option value='인천광역시'>인천광역시</option>
-                                <option value='광주광역시'>광주광역시</option>
-                                <option value='대전광역시'>대전광역시</option>
-                                <option value='울산광역시'>울산광역시</option>
-                                <option value='경기도'>경기도</option>
-                                <option value='강원도'>강원도</option>
-                                <option value='충청북도'>충청북도</option>
-                                <option value='충청남도'>충청남도</option>
-                                <option value='전라북도'>전라북도</option>
-                                <option value='전라남도'>전라남도</option>
-                                <option value='경상북도'>경상북도</option>
-                                <option value='경상남도'>경상남도</option>
-                                <option value='제주도'>제주도</option>
+                                <option value='서울'>서울특별시</option>
+                                <option value='부산'>부산광역시</option>
+                                <option value='대구'>대구광역시</option>
+                                <option value='인천'>인천광역시</option>
+                                <option value='광주'>광주광역시</option>
+                                <option value='대전'>대전광역시</option>
+                                <option value='울산'>울산광역시</option>
+                                <option value='경기'>경기도</option>
+                                <option value='강원'>강원도</option>
+                                <option value='충북'>충청북도</option>
+                                <option value='충남'>충청남도</option>
+                                <option value='전북'>전라북도</option>
+                                <option value='전남'>전라남도</option>
+                                <option value='경북'>경상북도</option>
+                                <option value='경남'>경상남도</option>
+                                <option value='제주특별자치도'>제주도</option>
                             </select>
-                            <select v-model="filter.regionSelect2" name='county' id="recru-citySelect" style="margin-left:3px">
+                            <select v-model="filter.regionSelect2" name='county' id="recru-start-citySelect" style="margin-left:3px">
                                 <option value='' selected disabled>시/군/구</option>
-                                <option value='전체'>전체</option>
+                                <option value='전체' selected>전체</option>
                             </select>
                         </div>
                         <div class="recru-search-campP">
-                            <label>도착지<input type="text" v-model="filter.campingSpot" @click="searchCamp">
-                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
+                            <span style="margin-left:6px">여행지 </span> 
+                            <select v-model="filter.regionSelect" id="recru-camp-districtSelect" name='city' @change="districtChange('camp')"> 
+                                <option value='' disabled>시/도</option> 
+                                <option value='전체'>전체</option>
+                                <option value='서울'>서울특별시</option>
+                                <option value='부산'>부산광역시</option>
+                                <option value='대구'>대구광역시</option>
+                                <option value='인천'>인천광역시</option>
+                                <option value='광주'>광주광역시</option>
+                                <option value='대전'>대전광역시</option>
+                                <option value='울산'>울산광역시</option>
+                                <option value='경기'>경기도</option>
+                                <option value='강원'>강원도</option>
+                                <option value='충북'>충청북도</option>
+                                <option value='충남'>충청남도</option>
+                                <option value='전북'>전라북도</option>
+                                <option value='전남'>전라남도</option>
+                                <option value='경북'>경상북도</option>
+                                <option value='경남'>경상남도</option>
+                                <option value='제주특별자치도'>제주도</option>
+                            </select>
+                            <select v-model="filter.regionSelect2" name='county' id="recru-camp-citySelect" style="margin-left:3px">
+                                <option value='' selected disabled>시/군/구</option>
+                                <option value='전체' selected>전체</option>
+                            </select>
                         </div>
                         <div class="recru-search-day">
-                            <label>출발날짜<input type="date" v-model="filter.goDate"></label>
+                            <label>출발날짜<input type="date" id="recru-go-date" v-model="filter.goDate"></label>
                         </div>
                     </div>
                 </div>
-                <div class="recru-filter-box col">
+                <div class="recru-filter-box recru-col">
                     <div class="recru-mygear-header">
                         <h3>보유한 장비</h3>
                     </div>
-                    <div class="row left">
+                    <div class="recru-row recru-left">
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="텐트">텐트</label>
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="타프">타프</label>
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="가구">가구</label>
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="침구">침구</label>
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="조리도구">조리도구</label>
                     </div>
-                    <div class="row left">
+                    <div class="recru-row recru-left">
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="조명">조명</label>
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="수납">수납</label>
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="공구">공구</label>
@@ -91,14 +114,14 @@
                     <div class="recru-mygear-header">
                         <h3>필요해요</h3>
                     </div>
-                    <div class="row left">
+                    <div class="recru-row">
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="텐트">텐트</label>
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="타프">타프</label>
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="가구">가구</label>
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="침구">침구</label>
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="조리도구">조리도구</label>
                     </div>
-                    <div class="row left">    
+                    <div class="recru-row ">    
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="조명">조명</label>
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="수납">수납</label>
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="공구">공구</label>
@@ -106,7 +129,7 @@
                     </div>
                 
                 </div>
-                <div class="recru-filter-btn-box row">
+                <div class="recru-filter-btn-box recru-row">
                     <button type="submit" class="recru-filter-btn submit" @click.prevent="searchFileter">검색</button>
                     <button type="reset" class="recru-filter-btn reset">초기화</button>
                 </div>
@@ -179,20 +202,21 @@ export default{
                 this.recruPosts = data;  
             }).catch(err=>console.log(err));
         },
-        districtChange: function(){
+        districtChange: function(menu){
+            //출발지인지 도착지인지 menu로 구분
             //지역선택
-            let sido = document.querySelector('#recru-districtSelect');
-            let sigu = document.querySelector('#recru-citySelect');
+            let sido = document.querySelector('#recru-'+menu+'-districtSelect');
+            let sigu = document.querySelector('#recru-'+menu+'-citySelect');
             let sidoName = sido.value;
+
             if(sidoName==='전체'){
                 return;
             }
-            let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
+            let cityArr = ["서울","부산","인천","대구","광주","대전","울산","경기","강원","충북","충남","경북","경남","전북","전남","제주특별자치도"];
 
             sigu.options.length=1;  //저장내역 삭제
 
             let cityIndex = cityArr.indexOf(sidoName);
-
             let cityList = district.data[cityIndex][sidoName];  //도시배열
             for(let i in cityList){
                         var opt = document.createElement("option");
@@ -241,26 +265,79 @@ export default{
                 }
                 //나이대 필터
                 if(fil.wishAge.length>0){
-                    var list=[]
+                    var list=[];
                     for(var i = 0; i < filterList.length; i++){ 
                         if (filterList[i].wishAge==null) { 
                             filterList.splice(i, 1); 
                             i--; 
-                        }
-                        for(var j=0; j<fil.wishAge.length; j++){
-                            //모두의 인덱스가 음수이면 splice로 수정
-                            if (filterList[i].wishAge.indexOf(fil.wishAge[j])>=0) { 
-                                list.push(filterList[i]); 
+                        }else{
+                            var status = false; //기본 false
+                            for(var j=0; j < fil.wishAge.length; j++){
+                                //각 연령대 중 하나라도 있으면 출력
+                                if(!filterList[i].wishAge){
+                                    filterList.splice(i, 1); 
+                                }
+                                if (filterList[i].wishAge.indexOf(fil.wishAge[j])>=0) { 
+                                    status = true; //하나라도 있으면 true
+                                }
                             }
+                                if(!status){
+                                    filterList.splice(i, 1); //둘 다 없으면 false
+                                    i--; 
+                                }
                         }
                     }
-                    
-                    console.log(filterList)
                 }
+                //출발지필터
+                const startSido = document.querySelector('#recru-start-districtSelect').value;
+                const startSigu = document.querySelector('#recru-start-citySelect').value;
+                console.log(startSido);
+                console.log(startSigu);
+                const startRegion='';
+                if(startSigu && startSigu!='전체'){
+                    startRegion += startSido+' '+startSigu;
+                }
+                if(startRegion!=null&& startRegion!='전체'){ 
+                    for(var i = 0; i < filterList.length; i++){ 
+                        console.log(filterList[i].startingPoint)
+                        console.log(filterList[i].startingPoint.indexOf(startRegion))
+                        if(!filterList[i].startingPoint){
+                            filterList.splice(i,1);
+                            i--;
+                            continue;
+                        }
+                        if (filterList[i].startingPoint.indexOf(startRegion)<0) {      
+                            filterList.splice(i, 1); 
+                            i--; 
+                        }
+                    }
+                }
+                //도착지필터
+                const camp = fil.regionSelect
+                if(fil.regionSelect2 && fil.regionSelect2!='전체'){
+                    start += fil.regionSelect2
+                }
+                if(start!=null&& start!='전체'){ 
+                    for(var i = 0; i < filterList.length; i++){ 
+                        console.log(filterList[i].startingPoint)
+                        console.log(filterList[i].startingPoint.indexOf(start))
+                        if(!filterList[i].startingPoint){
+                            filterList.splice(i,1);
+                            i--;
+                            continue;
+                        }
+                        if (filterList[i].startingPoint.indexOf(start)<0) {      
+                            filterList.splice(i, 1); 
+                            i--; 
+                        }
+                    }
+                }
+                console.log(filterList)
+                
                 // wishAge :[],
                 // searchMyGear :[],
                 // searchNeedGear: [],
-                // startingSpot: '',
+
                 // campingSpot: '',
                 // goDate: ''
             }).catch(err=>console.log(err));

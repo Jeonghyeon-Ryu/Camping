@@ -111,12 +111,14 @@
                     <span>여행정보</span>
                     <ul class="recru-box-name">
                         <li class="recru-info-startP">
-                            <label>출발지<input type="text" v-model="recruInfo.startingPoint" @click="searchAddr">
+                            <label>출발지<input type="text" id="startP_address_kakao" name="address" readonly @click="searchAddr">
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
+                            <input type="text" name="startP_address_detail" placeholder="상세주소"/>
                         </li>
                         <li class="recru-info-campP">
-                            <label >도착지<input type="text" v-model="recruInfo.campingPoint" @click="searchCamp">
+                            <label >도착지<input type="text" id="campP_address_kakao" name="address" readonly @click="searchCamp">
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
+                            <input type="text" name="campP_address_detail" placeholder="상세주소" />
                         </li>
                         <li class="recru-info-number">
                             <label>모집인원 <input type="number" v-model="recruInfo.recruNum" min="1" de></label>
@@ -305,12 +307,24 @@ export default{
         getGearList : function(){
             alert('장비가져오기');
         },
-        searchCamp : function(){
-            //alert('도착지 검색')
-        },
         searchAddr : function(){
-            //alert('주소검색')
-        }
+            //출발지 검색
+            new daum.Postcode({
+                oncomplete: function(data) { //선택시 입력값 세팅
+                    document.getElementById("startP_address_kakao").value = data.address; // 주소 넣기
+                    document.querySelector("input[name=startP_address_detail]").focus(); //상세입력 포커싱
+                }
+            }).open();
+        },
+        searchCamp : function(){
+            //도착지 검색
+            new daum.Postcode({
+                oncomplete: function(data) { //선택시 입력값 세팅
+                    document.getElementById("campP_address_kakao").value = data.address; // 주소 넣기
+                    document.querySelector("input[name=campP_address_detail]").focus(); //상세입력 포커싱
+                }
+            }).open();
+        },
         
     }
 }
