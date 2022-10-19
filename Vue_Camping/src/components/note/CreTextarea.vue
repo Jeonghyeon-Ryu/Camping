@@ -37,8 +37,10 @@
         </div>
         <div class="checkbox_place">
             <div v-if="type=='checkboxBox'" class='check_box_list'>
-                <input type='checkbox' class='noteCheckbox' value="true" name="myCheck"><input type="text"
-                    class="checkbox_text" name="myCheck">
+                <div class="box_container">
+                    <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
+                    <input type="text" class="checkbox_text" name="myCheck">
+                </div>
                 <div class="checkbox_button_container">
                     <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img"
                             @click="addCheckList"></button>
@@ -140,7 +142,10 @@ export default {
             //cloneBox.children(".checkbox_text").val("");
             $(checkboxPlace).append(`
                 <div class='check_box_list' style="display : flex">
-                    <input type='checkbox' class='noteCheckbox' value="true" name="myCheck"><input type="text" class="checkbox_text" name="myCheck">
+                    <div class="box_container">
+                        <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
+                        <input type="text" class="checkbox_text" name="myCheck">
+                    </div>
                     <div class="checkbox_button_container" style="display:flex; margin-left: 5px; width:40px">
                         <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
                         <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>

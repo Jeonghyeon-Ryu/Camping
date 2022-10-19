@@ -268,11 +268,13 @@ export default {
 
                         let isChecked = lineCheckbox.checked;
                         checkBoxTag += `
-                                    <input type='checkbox' class='noteCheckbox' value="`+ isChecked + `" name="myCheck"><input type="text" class="checkbox_text" name="myCheck" value="`
+                                    <input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="`
                                     + lineCheckText + `">
-                                    <div class="checkbox_button_container">
-                                        <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
-                                        <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
+                                    <div class="box_container">
+                                        <div class="checkbox_button_container">
+                                            <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
+                                            <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
+                                        </div>
                                     </div>
                                     `
                         lineValue.push({
