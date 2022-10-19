@@ -4,7 +4,7 @@
   <!-- 카드 헤더 -->
   <div class="recru-card-header" >
       <div class="card-header-img">
-        <div v-if="image==''">
+        <div v-if="!image">
           <img src="@/assets/img/bg9.jpg" alt="camping gear">
         </div>
         <div v-if="image">
@@ -27,7 +27,7 @@
     <p class="card-body-spot"><span>도착지 :</span> {{recruCard.campingPoint}}</p>
   </div>
   <div class = "recru-card-wish" > 
-    <img v-if="isHeart" class="recru-heart" src='@/assets/img/heart.png' @click.stop="changeHeart" alt="찜한 카드">
+    <img v-if="isHeart" class="recru-heart" src='@/assets/img/used/heart2.png' @click.stop="changeHeart" alt="찜한 카드">
     <img v-if="!isHeart" class="recru-heart" src='@/assets/img/noheart.png' @click.stop="changeHeart" alt="찜한 카드">
   </div>
 </div>  

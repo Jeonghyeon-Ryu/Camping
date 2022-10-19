@@ -1,16 +1,11 @@
 <template>
     <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
-        <div v-if="images.length==0">
-            <swiper-slide><img src="@/assets/img/noImgae.jpg" alt="no Image"></swiper-slide>
-        </div>
-        <div v-if="images.length>0">
             <swiper-slide v-for="image of images">
                 <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName"/>
             </swiper-slide>
             <swiper-slide v-for="img of imgUrl">
                 <img :src="img"/>
             </swiper-slide>
-        </div>
     </swiper>
 </template>
 <script>

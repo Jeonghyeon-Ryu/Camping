@@ -38,7 +38,7 @@ import DepositPost from '@/assets/rectuitInfo/DepositPost.js';
 import ModalView from './ModalView.vue';
 
 export default {
-  props : {recruId : Number}, 
+  props : {recruId : String}, 
   components : {
     EntryPost,
     SendMoney,
@@ -63,44 +63,43 @@ export default {
   },
   created(){
     const recruId = this.recruId;
-    console.log('보증정보 - 모집id : '+recruId)
     const memberId = this.$store.state.email;
     const component = this;
     fetch(`http://localhost:8087/java/recru/deposit/${memberId}/${recruId}`)
     .then(Response => Response.json()) 
     .then(data => { 
-        component.depositList = data;
-    })
-  
-    
-    //보증금 상태에 따라 active 설정을 준다
-    switch(this.depositInfo.deposit_status) {
-      case '4': 
-        this.depositLv4='active';
-        this.depositLv3='active';
-        this.depositLv2='active';
-        this.progressName4='active';
-        break;
-      case '3':  
-        this.depositLv3='active';
-        this.depositLv2='active';
-        this.progressName3='active';
-        break;
-      case '2':  
-        this.depositLv2='active';
-        this.progressName2='active';
-        break;
-      case '1':  
-        this.progressName1='active';
-    }
-    //보증금 입금 유무에 따라 버튼 상태를 바꾼다
-    if(this.depositInfo.in_date ==''){
-      this.isPayed =false;
-    }else{
-      this.isPayed = true;
-    }
-  },
-  methods : {
+      component.depositList = data;
+      console.log(data)
+        
+      //보증금 상태에 따라 active 설정을 준다
+      switch(component.depositInfo.depositStatus) {
+        case '4': 
+          component.depositLv4='active';
+          component.depositLv3='active';
+          component.depositLv2='active';
+          component.progressName4='active';
+          break;
+        case '3':  
+          component.depositLv3='active';
+          component.depositLv2='active';
+          component.progressName3='active';
+          break;
+        case '2':  
+          component.depositLv2='active';
+          component.progressName2='active';
+          break;
+          case '1':  
+          component.progressName1='active';
+        }
+        //보증금 입금 유무에 따라 버튼 상태를 바꾼다
+        if(component.depositInfo.inDate ==''){
+          component.isPayed =false;
+        }else{
+          component.isPayed = true;
+        }
+      })  
+    },
+    methods : {
     sendMoney : function(){
       this.isModalViewed = !this.isModalViewed;
     }
