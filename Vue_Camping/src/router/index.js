@@ -153,6 +153,11 @@ const routes = [{
     component: () => import('@/components/Admin/UserManage.vue'),
   }, 
   {
+    name: 'ManageReport',
+    path: '/Manage/Report',
+    component: () => import('@/components/Admin/ReportManage.vue'),
+  },
+  {
     path: '/used/myUsed',
     name: 'myUsed',
     component: () => import('@/components/UsedPractice/UsedMyPage.vue'),

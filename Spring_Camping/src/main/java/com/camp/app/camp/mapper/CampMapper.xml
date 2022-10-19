@@ -97,4 +97,8 @@
 	<select id="countCampModifyByCampId" parameterType="Integer" resultType="Integer">
 		SELECT COUNT(*) FROM camp_modify WHERE camp_id = #{campId}
 	</select>
+	
+	<select id="findByEmail" parameterType="String" resultType="CampVO">
+		SELECT * FROM camp WHERE email = #{email}
+	</select>
 </mapper>

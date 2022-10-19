@@ -37,53 +37,48 @@
 <script>
 import CampDetailImage from './CampDetailImage.vue';
 export default {
-    data: function () {
-        return {
-            page: 1,
-            camps: [],
-        };
-    },
-    created: function () {
-        fetch("http://localhost:8087/java/camp/" + this.page)
-            .then(result => result.json())
-            .then(result => {
-            for (let i = 0; i < result.length; i++) {
-                result[i].campInfo = result[i].campInfo.split(" ");
-                let info = {
-                    toilet: false,
-                    parking: false,
-                    shower: false,
-                    disposal: false,
-                    deck: false,
-                    bbq: false,
-                    swin: false,
-                    spoon: false,
-                    lease: false
-                };
-                for (let infoTemp of result[i].campInfo) {
-                    info[infoTemp] = true;
-                }
-                result[i].campInfo = info;
-                // for(info of result[i].campInfo){
-                //   info = '@/assets/img/Camping/' + info + '.png';
-                // }
-                // result[i].campInfo =  infoArr.reduce((accumulator,value, index) => {
-                //   return {...accumulator, [value]:true};
-                // },{});
+  data: function () {
+    return {
+      page: 1,
+      camps: [],
+    };
+  },
+  created: function () {
+    if (this.$store.state.email != null) {
+      fetch("http://localhost:8087/java/savedCamp/" + this.$store.state.email)
+        .then(result => result.json())
+        .then(result => {
+          for (let i = 0; i < result.length; i++) {
+            result[i].campInfo = result[i].campInfo.split(" ");
+            let info = {
+              toilet: false,
+              parking: false,
+              shower: false,
+              disposal: false,
+              deck: false,
+              bbq: false,
+              swin: false,
+              spoon: false,
+              lease: false
+            };
+            for (let infoTemp of result[i].campInfo) {
+              info[infoTemp] = true;
             }
-            this.camps = result;
-            console.log(this.camps);
+            result[i].campInfo = info;
+          }
+          this.camps = result;
         })
-            .catch(err => console.log(err));
-    },
-    methods: {
-      getCampDetail(campId, e) {
-        e.preventDefault();
-        let id = campId;
-        this.$router.push({name:'CampDetail', params: {campId : id}});
-      }
-    },
-    components: { CampDetailImage }
+        .catch(err => console.log(err));
+    }
+  },
+  methods: {
+    getCampDetail(campId, e) {
+      e.preventDefault();
+      let id = campId;
+      this.$router.push({ name: 'CampDetail', params: { campId: id } });
+    }
+  },
+  components: { CampDetailImage }
 }
 </script>
 <style scoped src="@/assets/css/Camping/CampList.css">
