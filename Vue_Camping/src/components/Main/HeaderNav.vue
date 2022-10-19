@@ -12,7 +12,7 @@
           <router-link v-if="$store.state.email == null" to="/login" tag="div" class="header-button"><img src="@/assets/img/icons/login.png" alt="" @click="clickTopCategory('로그인')"></router-link>
           <router-link v-if="$store.state.email != null" to="/" tag="div" class="header-button"><img src="@/assets/img/icons/logout.png" alt="" @click="clickTopCategory('로그아웃')"></router-link>
           <!-- <div @click="showLoginForm()"><img src="../assets/img/login-30.png" alt=""></div> -->
-          <router-link to="/" tag="div" class="header-button"><img src="@/assets/img/icons/chat.png" alt="" @click="clickTopCategory('채팅')"></router-link>
+          <router-link to="/usedChat" tag="div" class="header-button"><img src="@/assets/img/icons/chat.png" alt="" @click="clickTopCategory('채팅')"></router-link>
           <router-link to="/" tag="div" class="header-button"><img src="@/assets/img/icons/alarm.png" alt="" @click="clickTopCategory('알람')"></router-link>
           <div class="header-button" @click="showMenuForm()"><img src="@/assets/img/icons/menu.png" alt=""></div>
         </div>

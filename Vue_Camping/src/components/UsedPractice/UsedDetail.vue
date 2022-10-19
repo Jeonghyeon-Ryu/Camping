@@ -4,7 +4,7 @@
         <div class="used-heads">
           <!-- 상품사진 -->
           <div class="used-pic">
-            <div v-for="usedImage of images"><img :src="'http://localhost:8087/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
+            <UsedDetailImage :usedId="usedId"></UsedDetailImage>
           </div>
           <!-- 상품명, 가격 -->
           <div class="used-info">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="used-report">
                   <!-- 신고기능가져오기 -->
-                  <p v-if="usedList.email != memberId" @click="report()">신고하기</p>
+                  <p v-if="usedList.email != memberId" @click="reportItem()">신고하기</p>
                   <div v-if="usedList.email === memberId">
                     <select name="dealStatus">
                     <option value='' disabled selected>거래상태 변경</option>
@@ -91,11 +91,12 @@
 </template>
 <script>
   import img1 from "@/assets/img/sns/snsControll.png";
+  import UsedDetailImage from "./UsedDetailImage.vue";
   import Swal from 'sweetalert2';
 
 
   export default {
-    data(){
+    data: function(){
       return{
         memberId : this.$store.state.email,
         usedList : [],
@@ -103,6 +104,9 @@
         usedId : this.$route.params.usedId,
         usedStatus: img1
       }
+    },
+    components: {
+        UsedDetailImage
     },
     methods: {
       upload : function(){
@@ -122,7 +126,6 @@
         let fetchData = {};
         fetchData["usedId"] = this.usedId;
         console.log(fetchData)
-        // 삭제하는메서드..?
         Swal.fire({
           title: '',
           text: '정말로 삭제하시겠습니까?',
@@ -158,7 +161,6 @@
         let fetchData = {};
         fetchData["usedId"] = this.usedId;
         console.log(fetchData)
-        // 삭제하는메서드..?
         Swal.fire({
           title: '',
           text: '이 게시물에 접근 제한을 설정하시겠습니까?',
@@ -189,8 +191,78 @@
          }
         );
       },
-      report : function(){
-        //신고창띄우기
+      reportItem: function(){
+        let item = Swal.fire({
+                title: '신고',
+                html:
+                    '<select id="swal-input1" class="swal2-select" style="font-size:13px;">' +
+                    '<option value="" disabled="">신고 분류</option>' +
+                    '<option value="판매 금지 물품">판매 금지 물품</option>' +
+                    '<option value="사기 게시물">사기 게시물</option>' +
+                    '<option value="중고거래 게시물이 아님">중고거래 게시물이 아님</option>' +
+                    '<option value="게시글 규정 위반">게시글 규정 위반</option>' +
+                    '<option value="기타">기타</option>' +
+                    '</select>' +
+                    '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; font-size:12px;" maxlength="450" placeholder="신고 사유를 입력하세요"></textarea>',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: '신고',
+                cancelButtonText: '취소',
+                confirmButtonColor: 'rgba(6,68,32,0.8)',
+                preConfirm: () => {
+                    let fetchData = {
+                        "boardId": this.usedId,
+                        "boardDivision": 2,
+                        "reportDivision": document.getElementById('swal-input1').value,
+                        "reportContent": document.getElementById('swal-input2').value,
+                        "email": this.$store.state.email
+                    }
+
+                    console.log(fetchData);
+                    fetch('http://localhost:8087/java/report', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(fetchData)
+                    }).then(result => result.text())
+                        .then(result => {
+                            if (result == "true") {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '신고 완료 !',
+                                    toast: true,
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        this.$router.push({ path: '/used/UsedDetail/' + this.usedId, });
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '신고 실패 !',
+                                    text:'계속 실패하면 고객센터에 문의해주세요.',
+                                    toast: true,
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                            }
+                            console.log(result);
+                        })
+
+                    return false;
+                }
+            })
+            console.log(item);
       }
     },
     //created-페이지 열자마자 실행
@@ -209,13 +281,14 @@
         console.log(component.usedList.email)
       }).catch(err=>console.log(err))
       
+
       fetch('http://localhost:8087/java/used/usedImage/'+this.usedId)
         .then(result => result.json())
         .then(result => {
             this.images = result;
         })
         .catch(err => console.log(err))
-    
+
     fetch('http://localhost:8087/java/profile/' + component.usedList.email)
       .then(result => result.json())
       .then(result => { 
@@ -225,7 +298,4 @@
     }
   }
 </script>
-<style scoped src="@/assets/css/used/UsedDetail.css">
-
-</style>
-<!-- 사진 슬라이드. 판매자 게시물 출력,찜버튼/채팅버튼 -->
+<style scoped src="@/assets/css/used/UsedDetail.css" />

@@ -1,5 +1,9 @@
 package com.camp.app.used.service;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -11,4 +15,7 @@ public class UsedReviewVO {
 	private String reviewContent;
 	private int reviewRole;
 	private String email;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private Date reviewDate;
+	
 }

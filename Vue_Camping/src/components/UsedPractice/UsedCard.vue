@@ -29,7 +29,7 @@
                   <div class="card-write"><span class="font-gray">{{usedCard.usedWrite}}</span></div>
               </div>
             </div>
-  </div>
+          </div>
 </template>
 <script>
   import img1 from "@/assets/img/bg9.jpg"
@@ -61,7 +61,7 @@
         fetch('http://localhost:8087/java/used/usedImage/'+this.usedCard.usedId)
         .then(result => result.json())
         .then(result => {
-          // console.log('aaaa', result);
+          console.log('aaaa', result);
             this.images = result;
         })
         .catch(err => console.log(err))

@@ -28,21 +28,53 @@ ul{
 .pic-upload{
   display:none;
 }
-.used-pics{
-  width: 60%;
+.image-preview-container{
+  overflow: scroll;
+}
+.image-preview-div {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 120px;
+  margin: 5px;
+  border: 1px solid #e6e6e6;
+  z-index: 1;
+  overflow: scroll;
+}
+
+.image-preview-div img {
+  width: 100%;
+  height: 100%;
+  z-index: none;
+}
+.image-preview-delete-button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  font-size: 24px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f00;
+  border: none;
+  cursor: pointer;
+}
+.used-insert-image-container{
+  width: 100%;
   height: 700px;
   flex-wrap: nowrap;
 }
-.used-pic{
+.used-insert-image-preview{
   width: 100%;
-  height: 70%;
+  height: 500px;
   padding: 2%;
   /* background-color: #ebcbcb; */
   border: 1px solid #e6e6e6;
 }
 /*정보*/
 .used-info{
-  width: 40%;
+  width: 60%;
   height: 80%;
   padding: 2%;
   flex-wrap: nowrap;
@@ -87,6 +119,10 @@ ul{
   border-right: none;
   text-align: right;
 }
+.used-info input[id='inputemail']{
+  border: none;
+  font-weight: bold;
+}
 .used-info select{
   width: 250px;
   height: 35px;
@@ -123,6 +159,7 @@ ul{
   border-top: 1px solid #efefef;
   padding: 10px;
   text-align: center;
+  z-index: 999;
 }
 .used-foot button{
   margin-left: 58%;

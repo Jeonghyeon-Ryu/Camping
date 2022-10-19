@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.camp.app.camp.service.CampImageVO;
 import com.camp.app.used.service.InputUsedVO;
 import com.camp.app.used.service.UsedImageVO;
+import com.camp.app.used.service.UsedReviewVO;
 import com.camp.app.used.service.UsedService;
 import com.camp.app.used.service.UsedVO;
 
@@ -129,5 +129,11 @@ public class UsedController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+	}
+	
+	//리뷰등록
+	@PostMapping("/usedReview")
+	public int usedReview(UsedReviewVO review) {
+		return service.insertReview(review);
 	}
 }

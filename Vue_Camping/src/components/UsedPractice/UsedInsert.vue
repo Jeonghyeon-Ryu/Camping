@@ -4,23 +4,25 @@
       <!-- <h3>상품 등록</h3> -->
         <div class="used-heads">
           <!-- 사진 -->
-          <div class="used-pics">
+          <div class="used-insert-image-container">
             <h3>상품 사진</h3>
-            <div class="used-pic">
-              <div id='att_zone'>
-                <label class="input-file-button" for="btnAtt">
-                  <input type='file' name="files" id='btnAtt' accept="image/*" multiple />
+              <div class='used-insert-image-preview'>
+                <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
+              </div>
+              <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
+                <label>사진등록
+                  <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
+                    @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
                 </label>
               </div>
-            </div>
           </div>
           <!-- 상품 -->
           <div class="used-info">
             <ul>
               <li>
-                <input type="hidden" name="usedWriter" :value="$store.state.email">
+                <input type="hidden" name="email" :value="$store.state.email">
                 <label for="inputWriter">작성자</label>
-                <input type="text" name="nickName" id="inputUsedWriter" :value="$store.state.nickname" readonly>
+                <input type="text" name="nickName" id="inputemail" :value="$store.state.nickname" readonly>
               </li>
               <li>
                 <label for="inputName">상품명<span class="essential">*</span></label>
@@ -107,6 +109,8 @@
 <script>
   import district from "@/assets/district.js"
   import Swal from 'sweetalert2';
+  import ImagePreview from '../ImagePreview.vue';
+
 
   export default {
     data(){
@@ -115,14 +119,20 @@
         used_writer: 'campingGo',
         regionSelect: '',
         regionSelect2: '',
-        nickName : this.$store.state.nickname
+        nickName : this.$store.state.nickname,
+        images: [],
+        imagesUrl: [],
+        search: ''
       }
     },
     created(){
       console.log(this.nickName)
-      // let nick = document.getElementById('inputUsedWriter');
+      // let nick = document.getElementById('inputemail');
       // nick.value = this.$store.state.nickname;
       // console.log(nick)
+    },
+    components:{
+      ImagePreview
     },
     methods: {
       // upload : function(){
@@ -138,6 +148,19 @@
       //     price.replace(st, "")
       //   }
       // },
+      deleteImages(updatedImages) {
+        this.images = updatedImages;
+        document.querySelector('.used-insert-image-container input[type="file"]').files = updatedImages;
+      },
+      changeImage(e) {
+        console.log(e.target);
+        let dt = new DataTransfer();
+        for (let i = 0; i < e.target.files.length; i++) {
+          dt.items.add(e.target.files[i]);
+        }
+        this.images = dt.files;
+        e.target.files = dt.files;
+      },
       confirm: function(){
         const form = document.forms.namedItem('#container2')
         let place = document.querySelector('#districtSelect'+'#citySelect')
@@ -163,7 +186,6 @@
         }else if(content == null || content.trim() === "" ||content.length < 10){
           this.swContent();
         }else{
-
             fetch('http://localhost:8087/java/used/usedInsert',{
                     method : "POST",
                     headers : { },
@@ -174,9 +196,8 @@
                     if(data>="1"){
                       // 성공
                       console.log("입력되었습니다.")
-                      this.$router.push({name : 'usedMain'})
+                      // this.$router.push({name : 'usedMain'})
                       let component = this;
-                      this.$router.go();
                     } else {
                       // 실패                    
                       console.log("입력 실패")  
@@ -184,8 +205,7 @@
                 }).catch(err=>console.log(err))
               
                 console.log(fetchData)
-                // .finally()
-              
+
         }
       },
       //지역선택
@@ -235,7 +255,22 @@
           
         })
       },
-      swCategory: function(){
+      clickCheckBox(e) {
+      e.preventDefault();
+      let checkItem = e.target.parentElement;
+      while (!checkItem.classList.contains('checkboxLabel')) {
+        checkItem = checkItem.parentElement;
+      }
+      checkItem = checkItem.querySelector('input');
+
+      console.log(checkItem.checked);
+      if (checkItem.checked) {
+        checkItem.checked = false;
+      } else {
+        checkItem.checked = true;
+      }
+    },
+    swCategory: function(){
         Swal.fire({
           title: '',
           text: '카테고리는 필수 선택 사항입니다',
@@ -281,12 +316,17 @@
 
   }
 </script>
-<style scoped src="@/assets/css/used/UsedInsert.css">
+<style scoped src="@/assets/css/used/UsedInsert.css" />
 
 /* <!-- 사진: 미리보기
   상품명: 글자수 20자 제한
   가격: 숫자 천단위구분기호/숫자만입력 
   상품설명: 글자수제한 /글자카운트?-->  */
+<style scoped>
+
+
+
 
 </style>
+
 
