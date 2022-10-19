@@ -165,7 +165,7 @@ import CreateLine from './CreateLine.vue';
 export default {
     data() {
         return {
-            title : '',
+            title: '',
             textAmount: 1,
             childOrder: ['textBox'],
             noteInfo: [],
@@ -187,7 +187,7 @@ export default {
                     if (result.noteContents[i].indexOf('textarea') >= 0) {
                         let temp = result.noteContents[i].substring(result.noteContents[i].indexOf('value="') + 7, result.noteContents[i].indexOf('"></textarea>'));
                         //console.log(result.noteContents[i])
-                        
+
                         this.datas.push(
                             {
                                 type: 0,
@@ -198,26 +198,55 @@ export default {
                         //가져온 값을 table로 만들어주기 (2차원 배열 구조) 뿌려주기
                         let tempData = [];
                         let temp = result.noteContents[i].split('</tr>');
-                        
-                        
+
+
                         for (let j = 0; j < temp.length - 1; j++) {
                             let rowData = [];
                             //console.log(rowData);
                             while (temp[j].indexOf('value="') >= 0) {
                                 temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
-                                rowData.push(temp[j].substring(0, temp[j].indexOf('">'))); 
+                                rowData.push(temp[j].substring(0, temp[j].indexOf('">')));
                             }
-                            tempData.push(rowData);
-                            //console.log(tempData);
+                           
+                            console.log(tempData);
                         }
-                        
+
                         this.datas.push(
                             {
                                 type: 1,
                                 data: tempData
                             }
                         )
-                        console.log(tempData);
+
+                        //checkList
+                    } else if (result.noteContents[i].indexOf('check_box_list') >= 0) {
+
+                        let temp = result.noteContents[i];
+                        let tempData = [];
+                        //console.log(temp);
+
+                        for (let j = 0; j < temp.length; j++) {
+                            let checkVal = [];
+                            let textVal = [];
+                            while (temp[j].indexOf('value="') >= 0) {
+                                if (j % 2 == 0) {
+                                    temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
+                                    checkVal.push(temp[j].substring(0, indexOf('">')));
+
+                                    console.log("여기요")
+                                  
+                                } else {
+                                    temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
+                                    textVal.push(temp[j].substring(0, indexOf('">')));
+                                }
+                            }  console.log(checkVal[j]);
+                        }
+                        this.datas.push(
+                            {
+                                type: 2,
+                                data: tempData
+                            }
+                        )
                     }
                 }
                 //console.log('내가출력 : ', this.datas);

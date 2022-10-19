@@ -12,16 +12,14 @@
             @mouseout="hideBtn"></button>
       </td>
       <table class='maked_table'>
-        <template v-for="(tr, i) in data" :key="i" :value="data">
+        <template v-for="(tr, i) in data" :key="i">
           <tr class='item'>
             <td class="row-button-container" @mouseover="showBtn">
-              <button class='row_delbtn' v-if="btnActive==true" :value="data"><img src="@/assets/img/note/trash.png"
+              <button class='row_delbtn' v-if="btnActive==true"><img src="@/assets/img/note/trash.png"
                   @click="delRow($event)" @mouseout="hideBtn"></button>
             </td>
-            <template v-for="(td, j) in tr" :key="j" :value="data">
-
-
-              <td class='item_td'><input width="100px" type="text" class="input_text">{{td}}</td>
+            <template v-for="(td, j) in tr" :key="j">
+              <td class='item_td'><input width="100px" type="text" class="input_text" :value="td"></td>
             </template>
           </tr>
         </template>
@@ -33,8 +31,13 @@
 <script>
 export default {
   props: ['data'],
+  data: function () {
+    return {
+      btnActive: true
+    }
+  },
   methods: {
-    
+
     // addRow: function (e) {
     //   let thisTable = e.target.parentNode.nextSibling;
     //   let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
@@ -42,26 +45,43 @@ export default {
     //   copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
     //   $(thisTable).append(copyRow);
     //   console.log(thisTable);
-      
+
 
     // },
-    // addCol: function (e) {
-    //   //let tablePlace = e.target.parentElement.parentElement.parentElement;
-    //   let thisTable = e.target.parentElement.previousSibling;
-
-    //   for (let i = 0; i < $('.maked_table').children().length; i++) {
-    //     $(thisTable).children().eq(i).append('<td class="item_td" ><input type="text" class="input_text"></td>');
-    //   }
-    //   console.log($(thisTable).children());
-    //   console.log("여기꺼 지우지마")
-    // },
-    delRow: function (e) {
-      let findRow = e.target.parentElement.parentElement.parentElement;
-
-      if ($('.item').length > 1) {
-        $(findRow).remove();
-
+    addCol: function (e) {
+      let tableContainer = e.target.parentElement;
+      while (!tableContainer.classList.contains('table_container')) {
+        tableContainer = tableContainer.parentElement;
       }
+      console.log(tableContainer);
+      let table = tableContainer.querySelector('.maked_table');
+      let trs = table.querySelectorAll('tr');
+
+
+      for (let tr of trs) {
+        let td = document.createElement('td');
+        td.setAttribute('class', 'item_td');
+        td.setAttribute('style', 'width:100px; height:fit-content; border:2px solid lightgray;')
+        let input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('class', 'input_text');
+        input.setAttribute('style', 'border:none; outline:none; width:98%; height:100%;')
+        td.append(input);
+        tr.append(td);
+      }
+
+      // for (let i = 0; i < $('.maked_table').children().length; i++) {
+      //   $(thisTable).children().eq(i).append('<td class="item_td" ><input type="text" class="input_text"></td>');
+      // }
+
+    },
+    delRow: function (e) {
+      let item = e.target.parentElement;
+      while (!item.classList.contains('item')) {
+        item = item.parentElement;
+      }
+      console.log(item);
+      item.remove();
     },
   }
 }
