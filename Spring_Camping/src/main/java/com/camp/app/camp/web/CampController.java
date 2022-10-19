@@ -24,6 +24,8 @@ import com.camp.app.camp.service.CampService;
 import com.camp.app.camp.service.CampVO;
 import com.camp.app.camp.service.InputCampVO;
 
+import retrofit2.http.POST;
+
 @RestController
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
 public class CampController {
@@ -94,5 +96,13 @@ public class CampController {
 	@GetMapping("/savedCamp/{email}")
 	public List<CampVO> findByEmailAndBoardDivision(@PathVariable String email){
 		return service.showStoredCamp(email);
+	}
+	
+	
+//	관리자 캠핑장 수정
+	@PostMapping("/admin/camp")
+	public boolean modifyCampByAdmin(InputCampVO camp) {
+		System.out.println("캠핑장 수정 관리자 : " + camp);
+		return service.modifyCampByAdmin(camp);
 	}
 }

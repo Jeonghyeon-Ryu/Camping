@@ -109,7 +109,17 @@
 .camp-detail-address a:visited {
     color: #000;
 }
-
+.camp-detail-address-container {
+    position:relative;
+}
+.address-search-button {
+    width:20px;
+    height:20px;
+    position: absolute;
+    right:25px;
+    top:100px; 
+    cursor:pointer;
+}
 
 .camp-detail-image-container label {
     border:1px solid rgb(220,220,220);
@@ -182,6 +192,7 @@
     box-shadow: inset 1px 0 #4caf50, inset -1px 0 #4caf50, inset 0 -1px #4caf50;
 }
 .camp-detail-map { 
+    position:relative;
     width:100%;
 }
 

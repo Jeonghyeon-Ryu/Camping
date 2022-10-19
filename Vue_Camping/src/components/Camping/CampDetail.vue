@@ -103,9 +103,10 @@
                 <button v-if="!isSaved" type="button" @click="saveItem($event)">저장하기</button>
                 <button v-if="isSaved" type="button" @click="noSaveItem($event)"
                     style="background:lavenderblush">저장취소</button>
-                <button type="button" @click="getCompanion()">동행자 구하기</button>
-                <button type="button" @click="modifyItem()">수정하기</button>
-                <button type="button" @click="reportItem()">신고하기</button>
+                <button v-if="$store.state.auth!=0" type="button" @click="getCompanion()">동행자 구하기</button>
+                <button v-if="$store.state.auth!=0" type="button" @click="modifyItemByUser()">수정신청</button>
+                <button v-if="$store.state.auth==0" type="button" @click="modifyItemByAdmin()">수정하기</button>
+                <button v-if="$store.state.auth!=0" type="button" @click="reportItem()">신고하기</button>
             </div>
         </div>
         <div id="camp-detail-sns-container" class="camp-detail-sns-container">
@@ -193,7 +194,7 @@ export default {
         getCompanion() {
 
         },
-        modifyItem() {
+        modifyItemByUser() {
             if (this.$store.state.email != null) {
                 fetch('http://localhost:8087/java/campModify/' + this.campId)
                     .then(result => result.text())
@@ -232,6 +233,27 @@ export default {
                     }
                 })
             }
+        },
+        modifyItemByAdmin() {
+            fetch('http://localhost:8087/java/campModify/' + this.campId)
+                .then(result => result.text())
+                .then(result => {
+                    if (result == 'true')    // 수정중인게 있을때
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '수정중인 신청내역이 있습니다.',
+                            text: '해당 캠핑장의 수정 신청이 검토중에 있습니다.',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                    this.$router.push({ name: "CampModify", params: { campId: this.campId } });
+                })
         },
         reportItem() {
             let item = Swal.fire({

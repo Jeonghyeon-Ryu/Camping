@@ -230,5 +230,66 @@ public class CampServiceImpl implements CampService{
 		});
 		return campList;
 	}
+	@Override
+	public boolean modifyCampByAdmin(InputCampVO camp) {
+		CampVO resultCamp = new CampVO();
+		resultCamp.setCampId(camp.getCampId());
+		resultCamp.setCampAddress(camp.getCampAddress());
+		resultCamp.setCampName(camp.getCampName());
+		resultCamp.setCampPrice(camp.getCampPrice());
+		resultCamp.setCampSite(camp.getCampSite());
+		String campInfo="";
+		for(int i=0; i<camp.getCampInfo().size(); i++) {
+			if(campInfo == "") {
+				campInfo = camp.getCampInfo().get(i);
+			} else {
+				campInfo = campInfo + " " + camp.getCampInfo().get(i);
+			}
+		}
+		resultCamp.setCampInfo(campInfo);
+		mapper.update(resultCamp);
+		
+//		이미지 저장 시작
+		List<MultipartFile> files = camp.getFiles();
+		
+//		경로 설정
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String directoryPath = sdf.format(date);
+		String uploadPath = "d:\\upload\\camp\\" + directoryPath;
+		File uploadPathDir = new File(uploadPath);
+		if(!uploadPathDir.exists()) {
+			uploadPathDir.mkdirs();
+		}
+		
+		files.forEach(file->{
+			if(file.getSize()!=0) {
+				CampImageVO image = new CampImageVO();
+				image.setCampImageId(mapper.findMaxByCampImageId()+1);
+				image.setOriginName(file.getOriginalFilename());
+				
+				image.setImageFormat(image.getOriginName().substring(image.getOriginName().lastIndexOf("."), image.getOriginName().length()));
+				image.setImageSize(file.getSize());
+				image.setImagePath(directoryPath);
+				image.setCampId(resultCamp.getCampId());
+				
+				UUID uuid = UUID.randomUUID();
+				String[] uuids = uuid.toString().split("-");
+				image.setStoredName(uuids[0] + "_" + image.getOriginName());
+				
+				File resultFile = new File(uploadPath,image.getStoredName());
+				try {
+					file.transferTo(resultFile);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				mapper.insertCampImage(image);
+			}
+		});
+		System.out.println("Camp Info : " + resultCamp);
+		return true;
+	}
 
 }

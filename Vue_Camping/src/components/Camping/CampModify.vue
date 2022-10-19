@@ -1,5 +1,5 @@
 <template>
-    <form class="camp-detail-container" onsubmit="return false">
+    <form class="camp-detail-container" @submit.prevent @keydown.enter.prevent>
         <div class="camp-detail-title-container">
             <input :value="camp.campName" class="camp-detail-title" readonly />
             <div class="camp-detail-title-info">
@@ -19,8 +19,11 @@
                 <div class="camp-detail-map">
                     <span>위치 정보</span>
                     <div class="prev" v-text="camp.campAddress"></div>
-                    <input type="text" name="campAddress" placeholder="수정할 주소를 입력해주세요." />
-                    <KakaoMap :search="camp.campAddress" :isNotList="isNotList"></KakaoMap>
+                    <input @keyup.enter="campAddress($event)" type="text" name="campAddress"
+                        class="camp-register-address" placeholder="수정할 주소를 입력해주세요.">
+                    <img @click="campAddress($event)" class="address-search-button"
+                        src="@/assets/img/icons/search-20.png" />
+                    <KakaoMap @setAddress="setAddress" :search="camp.campAddress" :isNotList="isNotList" ref="kamap"></KakaoMap>
                 </div>
                 <div class="camp-detail-site">
                     <span>사이트 수</span>
@@ -106,9 +109,13 @@
                 </div>
             </div>
             <div class="camp-detail-info-right">
-                <RButton :inputColor="'white'" :inputSize="'lg'" :inputValue="'수정신청'" @clickBtn="confirm($event)">
+                <RButton v-if="$store.state.auth!=0" :inputColor="'white'" :inputSize="'lg'" :inputValue="'수정신청'"
+                    @clickBtn="confirm()">
                 </RButton>
-                <RButton :inputColor="'white'" :inputSize="'lg'" :inputValue="'취소'" @clickBtn="cancel($event)">
+                <RButton v-if="$store.state.auth==0" :inputColor="'white'" :inputSize="'lg'" :inputValue="'수정하기'"
+                    @clickBtn="confirm()">
+                </RButton>
+                <RButton :inputColor="'white'" :inputSize="'lg'" :inputValue="'취소'" @clickBtn="cancel()">
                 </RButton>
             </div>
         </div>
@@ -128,7 +135,7 @@ export default {
     data: function () {
         return {
             isNotList: true,
-            search: '대구광역시 달서구 달서대로 719',
+            search: '',
             campId: this.$route.params.campId,
             camp: [],
             images: []
@@ -165,7 +172,7 @@ export default {
             this.images = dt.files;
             e.target.files = dt.files;
         },
-        confirm(e) {
+        confirm() {
             let fetchData = new FormData(document.querySelector('.camp-detail-container'));
             fetchData.append("email", this.$store.state.email);
             fetchData.append("campName", this.camp.campName);
@@ -180,45 +187,106 @@ export default {
                     fetchData.set('campPrice', this.camp.campPrice);
                 }
             })
-            Swal.fire({
-                title: '수정 신청을 하시겠습니까?',
-                text: '관리자의 확인 후 수정이 됩니다.',
-                showCancelButton: true,
-                confirmButtonText: '취소',
-                cancelButtonText: '수정'
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    Swal.fire('취소 !', '', 'success')
-                } else {
-                    fetch('http://localhost:8087/java/campModify', {
-                        method: 'POST',
-                        headers: {},
-                        body: fetchData
-                    }).then(result => result.text())
-                        .then(result => {
-                            if (result == 'true') {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: '수정신청 완료 !',
-                                    toast: true,
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                        this.$router.push({path: '/Camp/'+this.campId})
-                                    }
-                                })
-                            }
-                        });
-                }
-            })
-
-
+            if (this.$store.state.auth != 0) {
+                Swal.fire({
+                    title: '수정 신청을 하시겠습니까?',
+                    text: '관리자의 확인 후 수정이 됩니다.',
+                    showCancelButton: true,
+                    confirmButtonText: '취소',
+                    cancelButtonText: '수정'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('취소 !', '', 'success')
+                    } else {
+                        fetch('http://localhost:8087/java/campModify', {
+                            method: 'POST',
+                            headers: {},
+                            body: fetchData
+                        }).then(result => result.text())
+                            .then(result => {
+                                if (result == 'true') {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '수정신청 완료 !',
+                                        toast: true,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                            this.$router.push({ path: '/Camp/' + this.campId })
+                                        }
+                                    })
+                                }
+                            });
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: '수정을 하시겠습니까?',
+                    text: '관리자입니다. 즉시 수정이 됩니다.',
+                    showCancelButton: true,
+                    confirmButtonText: '취소',
+                    cancelButtonText: '수정'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        Swal.fire('취소 !', '', 'success')
+                    } else {
+                        fetch('http://localhost:8087/java/admin/camp', {
+                            method: 'POST',
+                            headers: {},
+                            body: fetchData
+                        }).then(result => result.text())
+                            .then(result => {
+                                if (result == 'true') {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '수정신청 완료 !',
+                                        toast: true,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                            this.$router.push({ path: '/Camp/' + this.campId })
+                                        }
+                                    })
+                                }
+                            });
+                    }
+                })
+            }
         },
-        cancel(e) {
+        campAddress(e) {
+            let search = document.querySelector('.camp-register-address').value;
+            if (search == null || search == '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '검색할 장소를 입력하세요.',
+                    toast: true,
+                    position: 'center-center',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                kakaoContainer.classList.remove('active');
+            } else {
+                this.search = search;
+                this.$refs.kamap.searchPlace(search);
+            }
+        },
+        setAddress(address) {
+            document.querySelector('.camp-register-address').value = address;
+        },
+        cancel() {
             this.$router.push({ name: "CampDetail", params: { campId: this.campId } })
         }
     }
