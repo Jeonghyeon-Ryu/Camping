@@ -61,9 +61,7 @@
                                 <label for="select_card"></label>
                             </div>
                             <div class="header_button">
-                                <button id="delete_btn"  @click="findId($event)">삭제</button>
-                                <!-- <Modal v-if="modalOpen" @hide_modal="modalOpen=false" @goList="goList" :noteId="noteId"></Modal> -->
-                                
+                                <button id="delete_btn"  @click="findId($event)">삭제</button>                     
                                 <button id="invite_btn"  @click="inviteModalOpen = true">초대</button>
                                 <button id="block_btn"  @click="inviteCancleModalOpen = true">공유취소</button>
                             </div>
