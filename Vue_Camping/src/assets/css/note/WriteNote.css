@@ -1,14 +1,9 @@
 
-.contenteditable {
-    width: 500px;
-    border: 1px solid black;
-}
 .mynote_container {
     margin-top: 150px;
     width: 100%;
     min-width: 650px;
 }
-
 .mynote_menu {
     width: 100%;
     border: 1px solid #ddd;
@@ -18,7 +13,6 @@
     justify-content: center;
     min-width: 200px;
 }
-
 .mynote_menu>div {
     width: 20%;
     border: 1px solid lightgray;
@@ -27,26 +21,21 @@
     text-align: center;
     cursor: pointer;
 }
-
 .mynote_menu>div:hover {
     background-color: rgba(228, 239, 231, 0.7);
 }
-
 .howtouse_region {
     margin-top: 5px;
     width: 100%;
     border: 1px solid lightgray;
 }
-
 .mynote_list {
     display: flex;
     flex-direction: row;
 }
-
 .mynote_list>div {
     padding: 5px 0px 5px 0px;
 }
-
 .mynote_region {
     /*작성 페이지에서 가장 바깥 테두리*/
     margin-top: 5px;
@@ -69,14 +58,32 @@
 .write_region {
     /* position: relative; */
     width: calc(100% - 120px);
-    border : solid 1px lightgray;
+}
 
+.sortable {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+textarea{ 
+    /*display: inline-block;*/
+    height: fit-content;
+    width: 100%; 
+    border : none;
+    padding: 10px 10px;
+    font-size: 15px;
+    height: 100px;
+    outline-color:rgb(127, 199, 175);
+    resize: none;
 }
 
 .note_title {
     width: 70%;
     height: 50px;
     margin: 5px 10px 10px 10px;
+    border: none;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .text_highlighter {
@@ -88,14 +95,12 @@
     display: inline-block;
     position: relative;
     display: flex;
-    flex-direction: row;
+    /*flex-direction: row;*/
     margin-bottom: 10px;
     border: none;
     height: fit-content;
-}
-
-.write_fn>div {
-    cursor: pointer
+    width: 90%;
+    
 }
 
 .fn_menu>div {
@@ -115,13 +120,11 @@
     top: 30px;
     align-items: center;
 }
-
 .add_fn_container {
     margin-top: 20px;
     width: 100%;
     align-content: center;
 }
-
 .add_fn_container>div {
     margin-bottom: 10px;
     text-align: center;
@@ -292,66 +295,32 @@ select:disabled {
     font-size: 5px;
     cursor: pointer;
 }
-
 .del_line {
     width: 25px;
     height: 25px;
     font-size: 5px;
     cursor: pointer;
 }
-
-[contenteditable=true]:empty:before {
-    content: attr(placeholder);
-    display: block;
-}
-
-
-
-div[contenteditable=true]:focus {
-    outline: none;
-    background-color: white;
-}
-
-.sortable {
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-}
-
-.write_place {
-    display: inline-block;
-    height: fit-content;
-    width: 90%; 
-    border : none;
-}
-
-.check_box_place {
+.checkbox_place{ 
     display: flex;
     flex-direction: column;
     width: 400px;
 }
-
-.check_box_list {
+.box_container{ 
+    padding:0;
     display: flex;
-   
-}
-.checkbox_place{ 
-    display: flex;
-    flex-direction: column;
+    margin-left: 1%;
 }
 
 .checkbox_text {
     margin: 10px 0px 5px 10px;
     border: 1px solid lightgray;
     border-radius: 5%;
-
 }
-
 .checkbox_button_container {
     display: flex;
     margin-left: 5px;
     width: 40px;
-
 }
 
 .checkbox_button_container>button {
@@ -373,6 +342,7 @@ div[contenteditable=true]:focus {
     background-color: beige;
     border: 3px solid beige;
     line-height: 10px;
+    width: 90%;
 }
 
 .btn_container {
@@ -395,11 +365,4 @@ div[contenteditable=true]:focus {
     background-color: beige;
     border: 3px solid beige;
     line-height: 10px;
-}
-
-.write_place {
-display: inline-block;
-height: fit-content;
-width: 90%;
-border: none;
 }
