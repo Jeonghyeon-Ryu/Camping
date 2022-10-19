@@ -20,15 +20,15 @@
       <h1>{{recruCard.recruTitle}}</h1>
     </div>
     <!--  카드 바디 내용 -->
-    <p class="card-body-my"><span>갖고있어요 :</span>{{recruCard.myGear}} </p>
-    <p class="card-body-need"><span>필요해요 :</span>{{recruCard.needGear}}</p>
+    <p class="card-body-my"><span>갖고있어요 : </span>{{gearList(recruCard.myGear)}} </p>
+    <p class="card-body-need"><span>필요해요 : </span>{{gearList(recruCard.needGear)}}</p>
     <hr style="margin:5px;">
-    <p class="card-body-go"><span>출발 :</span>{{recruCard.goDate}}</p>
-    <p class="card-body-spot"><span>도착지 :</span> {{recruCard.campingPoint}}</p>
+    <p class="card-body-go"><span>여행 날짜 : </span>{{recruCard.goDate}}</p>
+    <p class="card-body-spot"><span>캠핑지 : </span> {{recruCard.campingPoint}}</p>
   </div>
   <div class = "recru-card-wish" > 
-    <img v-if="isHeart" class="recru-heart" src='@/assets/img/used/heart2.png' @click.stop="changeHeart" alt="찜한 카드">
-    <img v-if="!isHeart" class="recru-heart" src='@/assets/img/noheart.png' @click.stop="changeHeart" alt="찜한 카드">
+    <img v-if="isHeart" class="recru-heart" src='@/assets/img/used/heart2.png' @click.stop="nosaveItem($event)" alt="찜한 카드">
+    <img v-if="!isHeart" class="recru-heart" src='@/assets/img/noheart.png' @click.stop="SaveItem($event)" alt="카드">
   </div>
 </div>  
 </template>
@@ -38,7 +38,7 @@ export default{
     props : {recruCard : Object},
     data : function(){
       return {
-        isHeart : true,
+        isHeart : false,
         recruStatus : '',
         myClass : '',
         image : ''
@@ -56,17 +56,67 @@ export default{
     },
     computed : {
       //원본데이터 변화를 감지하면
-      //장비 리스트 형태 바꿔주기 (4인용텐트,텐트,3 => 4인용텐트(텐트)3개)
+      
     },
     methods: {
       changeHeart : function(e){
         e.preventDefault();
         this.isHeart=!this.isHeart;
       },
-      gearImg : function(){
-        // import img from '~~~'해서 바인딩
-        return img;
-      }
+      gearList(gears){
+            //필요한 장비 배열 정리
+            if(gears){
+                let gearList = gears.split(',');
+                let str = '';
+                for(let i=0; i<gearList.length; i+=3){
+                    if(i!=0) str+= ', ';
+                    str += gearList[i]+'('+gearList[i+1]+') '+gearList[i+2]+'개';
+                }
+                return str;
+            }
+      },
+      saveItem(e) {
+        e.preventDefault();
+        //저장하기 (=찜, 하트)
+        let save = {
+            boardId: this.recruCard.recruId,
+            boardDivision: 1,
+            email: this.$store.state.email
+        }
+        console.log(save);
+        if (this.$store.state.email != null) {
+            fetch('http://localhost:8087/java/save', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(save)
+            }).then(result => result.text())
+                .then(result => {
+                    if (result == 'true') {
+                        this.isHeart = true;
+                    }
+                })
+                .catch(err => console.log(err));
+        }
+      },
+      noSaveItem(e) {
+        e.preventDefault();
+        let save = {
+          boardId: this.recruCard.recruId,
+          boardDivision: 1,
+          email: this.$store.state.email
+        }
+        fetch('http://localhost:8087/java/save', {
+          method: 'DELETE',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(save)
+        }).then(result => result.text())
+            .then(result => {
+                if (result == 'true') {
+                  this.isHeart = false;
+                }
+            })
+            .catch(err => console.log(err));
+        },
     }
 }
 </script>
