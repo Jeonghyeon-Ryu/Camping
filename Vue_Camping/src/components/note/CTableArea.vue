@@ -7,10 +7,8 @@
       </div>
     </div>
     <div class='table_container'>
-      <td class="row-button-container" @mouseover="showBtn">
-        <button class='row_delbtn' v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)"
-            @mouseout="hideBtn"></button>
-      </td>
+      <button class='row_addbtn'><img src="@/assets/img/note/down_arrow.png" @click="addRow"
+                        @mouseover="changeShow"></button>
       <table class='maked_table'>
         <template v-for="(tr, i) in data" :key="i">
           <tr class='item'>
@@ -36,27 +34,31 @@ export default {
       btnActive: true
     }
   },
+  created () {
+    console.log(this.data);
+  },
   methods: {
+    addRow: function (e) {
+      let tableContainer = e.target.parentElement;
+      while (!tableContainer.classList.contains('table_container')) {
+        tableContainer = tableContainer.parentElement;
+      }
+      let Table = tableContainer.querySelector('.maked_table');
 
-    // addRow: function (e) {
-    //   let thisTable = e.target.parentNode.nextSibling;
-    //   let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
+      let copyRow = $(Table).children().eq(0).clone(true);
+      copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
+      $(Table).append(copyRow);
+      console.log(Table);
 
-    //   copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
-    //   $(thisTable).append(copyRow);
-    //   console.log(thisTable);
-
-
-    // },
+    },
     addCol: function (e) {
       let tableContainer = e.target.parentElement;
       while (!tableContainer.classList.contains('table_container')) {
         tableContainer = tableContainer.parentElement;
       }
-      console.log(tableContainer);
+      
       let table = tableContainer.querySelector('.maked_table');
       let trs = table.querySelectorAll('tr');
-
 
       for (let tr of trs) {
         let td = document.createElement('td');
@@ -69,18 +71,12 @@ export default {
         td.append(input);
         tr.append(td);
       }
-
-      // for (let i = 0; i < $('.maked_table').children().length; i++) {
-      //   $(thisTable).children().eq(i).append('<td class="item_td" ><input type="text" class="input_text"></td>');
-      // }
-
     },
     delRow: function (e) {
       let item = e.target.parentElement;
       while (!item.classList.contains('item')) {
         item = item.parentElement;
       }
-      console.log(item);
       item.remove();
     },
   }

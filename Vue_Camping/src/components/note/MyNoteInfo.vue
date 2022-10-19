@@ -181,7 +181,7 @@ export default {
             .then(result => result.json())
             .then(result => {
                 this.title = result.title;
-               
+
                 for (let i = 0; i < result.noteContents.length; i++) {
                     //가져온 값을 textarea에 뿌려주기
                     if (result.noteContents[i].indexOf('textarea') >= 0) {
@@ -198,9 +198,6 @@ export default {
                         //가져온 값을 table로 만들어주기 (2차원 배열 구조) 뿌려주기
                         let tempData = [];
                         let temp = result.noteContents[i].split('</tr>');
-
-
-
                         for (let j = 0; j < temp.length - 1; j++) {
                             let rowData = [];
                             //console.log(rowData);
@@ -208,59 +205,50 @@ export default {
                                 temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
                                 rowData.push(temp[j].substring(0, temp[j].indexOf('">')));
                             }
-
-                            //console.log(tempData);
+                            tempData.push(rowData);
                         }
-
                         this.datas.push(
                             {
                                 type: 1,
                                 data: tempData
                             }
                         )
-
                         //checkList
                     } else if (result.noteContents[i].indexOf('check_box_list') >= 0) {
-
                         let temp = result.noteContents[i].split('<div class="box_container">'); //배열의 형태로 5개의 덩어리
-                        // let tempData = [];
                         let checkVal = [];
                         let textVal = [];
                         let values = [];
-                       
-                        for(let j=0; j<temp.length-1; j++){ 
+                            console.log("여기요 css")
+                        for (let j = 0; j < temp.length - 1; j++) {
                             temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
                             checkVal.push(temp[j].substring(0, temp[j].indexOf('">')));
-                            
                             temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
-                            textVal.push(temp[j].substring(0, temp[j].indexOf('">')));    
+                            textVal.push(temp[j].substring(0, temp[j].indexOf('">')));
                         }
                         values.push(checkVal);
                         values.push(textVal);
-                        // tempData.push(values);
-
                         this.datas.push(
                             {
                                 type: 2,
                                 data: values
                             }
                         )
-                        
+                        //img DB로 저장하고 다시 뿌려주기
                     }
                 }
                 this.$forceUpdate();
             })
-
     },
     methods: {
         CreArea: function (e) {
+            e.prevetDefault();
             this.childOrder.push('textBox');
             this.textAmount++;
         },
         creTableBox: function (e) {
             this.childOrder.push('tableBox');
             this.textAmount++;
-
         },
         creCheckbox: function (e) {
             this.childOrder.push('checkboxBox');
@@ -285,19 +273,15 @@ export default {
 
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
-                let lineType = '';
+                //let lineType = '';
                 let lineValue = '';
-                let linePosition = i;
+                //let linePosition = i;
 
                 if (lineAll[i].querySelector('textarea') != undefined) {
                     lineType = 'TEXT';
                     lineValue = lineAll[i].querySelector('textarea').value;
                     //<태그 자체를 저장>
                     textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)">' + lineValue + '</textarea>'
-
-                    // console.log(textTag);
-                    // contents.push(textTag);
-
                 } else if (lineAll[i].querySelector('table') != undefined) {
                     lineType = 'TABLE';
                     lineValue = lineAll[i].querySelector('.maked_table');
@@ -368,7 +352,6 @@ export default {
                 "email": localStorage.getItem("email")
             }
             // console.log(fetchData);
-
             fetch('http://localhost:8087/java/WriteNote', {
                 method: 'POST',
                 headers: {
@@ -380,14 +363,21 @@ export default {
                 this.$router.push({ name: "MynoteList" });
 
             })
-
-
         }
     },
     components: { CreTextarea, CreateLine }
 }
-
 </script>
 <style scoped src="@/assets/css/note/WriteNote.css">
+
+textarea{ 
+    display: inline-block;
+    height: fit-content;
+    width: 100%; 
+    border : none;
+    padding: 10px 10px;
+    font-size: 15px;
+    height: 100px;
+}
 
 </style>
