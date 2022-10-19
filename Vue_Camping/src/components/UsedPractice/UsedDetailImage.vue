@@ -45,12 +45,12 @@ export default {
 </script>
 
 <style scoped>
-.swiper {
+.swiper{
     width: 100%;
     height: 100%;
 }
 
-.swiper-slide {
+.swiper-slide{
     text-align: center;
     font-size: 18px;
     background: #fff;
@@ -67,7 +67,7 @@ export default {
     -webkit-box-align: center;
     -ms-flex-align: center;
     -webkit-align-items: center;
-    align-items: center;
+    align-items:center;
 }
 
 .swiper-slide img {
@@ -86,6 +86,7 @@ export default {
 }
 .swiper-pagination-bullet {
     background: #F7EDDA;
+    vertical-align: bottom;
 }
 .swiper-pagination-bullet-active {
     background: #F7EDDA;

@@ -1,10 +1,10 @@
 <template>
   <!-- 카드 -->
-  <div v-on:click='cardDetail()' class="card">
+  <div v-on:click='cardDetail' class="card">
               <!-- 카드 좋아요 -->
               <div class="like">
-              <img v-if="liked" v-on:click='hearted()' v-bind:src="heartImg">
-              <img v-if="!liked" v-on:click="hearted()" v-bind:src="heartImg2">
+              <img v-if="liked" v-on:click.stop='hearted' v-bind:src="heartImg">
+              <img v-if="!liked" v-on:click.stop="hearted" v-bind:src="heartImg2">
             </div>
             <!-- 카드사진 -->
             <div class="card-pic">
@@ -27,6 +27,13 @@
                 <div class="card-bottom">
                   <div class="card-place">{{usedCard.usedPlace}}</div>
                   <div class="card-write"><span class="font-gray">{{usedCard.usedWrite}}</span></div>
+
+                  <!--form에넘길데이터-->
+                <form id="container3">
+                  <input type="hidden" name="boardId" :value=this.usedId>
+                  <input type="hidden" name="boardDivision" value=2>
+                  <input type="hidden" name="email" :value=this.email>
+                </form>
               </div>
             </div>
           </div>
@@ -46,15 +53,66 @@
         heartImg2 : img3,
         liked: true,
         usedId : this.$route.params.usedId,
+        email : this.$store.state.email,
         images : []
       }
     }, 
     methods : {
-       cardDetail: function(){
+       cardDetail: function(e){
          this.$router.push({name : 'usedDetail'})
        },
-       hearted: function(){
-          this.liked = !this.liked
+       hearted: function(e){
+         
+         e.preventDefault();
+         this.liked = !this.liked
+         
+         let fetchData = [
+         ];
+         fetchData = new FormData(document.querySelector('#container3'))
+
+          if(this.liked === true){
+            fetch('http://localhost:8087/java/save',{
+                    method : "DELETE",
+                    headers : { },
+                    body : fetchData
+                }) 
+                .then(Response => Response.text())  //json 파싱 
+                .then(data => { 
+                    if(data>="1"){
+                      // 성공
+                      console.log("입력되었습니다.")
+                      // this.$router.push({name : 'usedMain'})
+                      let component = this;
+                    } else {
+                      // 실패                    
+                      console.log("입력 실패")  
+                    }
+                }).catch(err=>console.log(err))
+              
+                console.log(fetchData)
+          }else if(this.liked === false){
+            fetch('http://localhost:8087/java/save',{
+                    method : "POST",
+                    headers : { },
+                    body : fetchData
+                }) 
+                .then(Response => Response.text())  //json 파싱 
+                .then(data => { 
+                    if(data>="1"){
+                      // 성공
+                      console.log("입력되었습니다.")
+                      // this.$router.push({name : 'usedMain'})
+                      let component = this;
+                    } else {
+                      // 실패                    
+                      console.log("입력 실패")  
+                    }
+                }).catch(err=>console.log(err))
+              
+                console.log(fetchData)
+          }else{
+            console.log("좋아요실패??")
+          }
        }
     },
     created : function() {
