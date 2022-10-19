@@ -31,7 +31,7 @@ export default {
     },
     creTextarea: function (e) {
       if (!this.shiftSatus) {
-        //e.preventDefault();
+        e.preventDefault();
         
         this.$emit('creArea');
       }
