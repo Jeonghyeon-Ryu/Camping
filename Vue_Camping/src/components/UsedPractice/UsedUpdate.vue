@@ -273,12 +273,5 @@
 
   }
 </script>
-<style scoped src="@/assets/css/used/UsedInsert.css">
-
-/* <!-- 사진: 미리보기
-  상품명: 글자수 20자 제한
-  가격: 숫자 천단위구분기호/숫자만입력 
-  상품설명: 글자수제한 /글자카운트?-->  */
-
-</style>
+<style scoped src="@/assets/css/used/UsedInsert.css" />
 

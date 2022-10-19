@@ -68,8 +68,8 @@ label {
   justify-content: center;
 }
 .used-filter ul{
-  display: grid;
-  grid-template-columns: max(300px,1fr) minmax(384px, 1fr) minmax(200px, 1fr);
+  display: flex;
+  /* grid-template-columns: 1fr minmax(384px, 1fr) 1fr; */
 }
 .used-filter li{
   flex-wrap: wrap;
@@ -223,6 +223,7 @@ label {
   padding: 8px 8px 0px 8px;
   font-size: 0.8em;
   font-weight: 500;
+  width: 100%;
 }
 .card-info-l{
   padding: 10px;

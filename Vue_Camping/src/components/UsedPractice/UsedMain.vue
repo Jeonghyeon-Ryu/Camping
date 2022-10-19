@@ -102,7 +102,7 @@
         <h2>{{recruMsg}}</h2>
         <div class="cards">
           <div v-for="card in usedList" :key="card.id">
-            <router-link tag="div" v-bind:to="{name:'usedDetail',params : {usedId : card.usedId}}">
+            <router-link tag="div" v-bind:to="{name:'usedDetail', params : {usedId : card.usedId}}">
               <UsedCard v-bind:usedCard="card"></UsedCard>
             </router-link>
           </div>

@@ -62,7 +62,8 @@ export default {
         },
         {
           "물건 사기":"/used/UsedMain",
-          "물건 팔기":"/used/UsedInsert"
+          "물건 팔기":"/used/UsedInsert",
+          "채팅방":"/chat/rooms2",
         },
         {
           "게시글": "/sns",

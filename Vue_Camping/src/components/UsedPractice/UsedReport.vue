@@ -49,6 +49,4 @@ export default {
 }
 </script>
 
-<style scoped src="./Report.css">
-
-</style>
+<style scoped src="./Report.css" />
