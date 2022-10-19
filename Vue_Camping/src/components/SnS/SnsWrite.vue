@@ -75,6 +75,7 @@
 <script>
 import img1 from "@/assets/img/sns/이미지1.jpg";
 import KakaoMap from '../KakaoMap.vue';
+
 import ImagePreview from '../ImagePreview.vue';
 import Swal from 'sweetalert2';
 export default {

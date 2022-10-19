@@ -3,6 +3,7 @@ package com.camp.app.sns.mapper;
 import java.util.List;
 
 import com.camp.app.sns.service.MySnsVO;
+import com.camp.app.sns.service.SnsHashtagVO;
 import com.camp.app.sns.service.SnsImageVO;
 import com.camp.app.sns.service.SnsVO;
 
@@ -56,6 +57,11 @@ public interface SnsMapper {
 	//내가 쓴 게시글 이미지보기
 	public List<SnsImageVO> showSnsByPageByUser(MySnsVO mySns);
 	// 신고...흠
+
+	//해시태그검색한 게시글 이미지리스트 출력
+	public List<SnsImageVO> showSnsByPageByHashtag(SnsHashtagVO snsHashtag);
+
+	
 
 
 	//
