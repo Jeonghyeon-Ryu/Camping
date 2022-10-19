@@ -33,9 +33,12 @@ public class DepositController {
 	public int changeStatus(@RequestBody DepositVO depositVO) {
 		return service.changeStatus(depositVO);
 	}
-	//마이페이지
-	@GetMapping("/deposit/{memberId}")
-	public List<DepositVO> myDepositList(@PathVariable String memberId) {
-		return service.myDepositList(memberId);
+	//마이페이지 단건조회
+	@GetMapping("/deposit/{memberId}/{recruId}")
+	public DepositVO myDepositList(@PathVariable String memberId,@PathVariable int recruId) {
+		DepositVO vo = new DepositVO();
+		vo.setMemberId(memberId);
+		vo.setRecruId(recruId);
+		return service.myDepositList(vo);
 	}
 }

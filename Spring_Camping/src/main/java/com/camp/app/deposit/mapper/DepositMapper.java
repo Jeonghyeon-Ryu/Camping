@@ -15,7 +15,7 @@ public interface DepositMapper {
 	public int changeStatus(DepositVO depositVO);
 	//최신번호
 	public int getMaxDepositId();
-	//마이페이지
-	public List<DepositVO> myDepositList(String memberId);
-
+	//마이페이지 단건조회
+	public DepositVO myDepositList(DepositVO depositVO);
+	
 }

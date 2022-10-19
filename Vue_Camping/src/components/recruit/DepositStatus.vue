@@ -38,7 +38,7 @@ import DepositPost from '@/assets/rectuitInfo/DepositPost.js';
 import ModalView from './ModalView.vue';
 
 export default {
-  props : {depositId : String}, //deposit
+  props : {recruId : Number}, 
   components : {
     EntryPost,
     SendMoney,
@@ -62,8 +62,11 @@ export default {
     }
   },
   created(){
+    const recruId = this.recruId;
+    console.log('보증정보 - 모집id : '+recruId)
+    const memberId = this.$store.state.email;
     const component = this;
-    fetch("http://localhost:8087/java/recru/deposit/"+component.memberId)
+    fetch(`http://localhost:8087/java/recru/deposit/${memberId}/${recruId}`)
     .then(Response => Response.json()) 
     .then(data => { 
         component.depositList = data;

@@ -30,7 +30,7 @@
 	<!-- 게시물별 사진 -->
 	<select id="findRecruImg" parameterType="Integer" resultType ="RecruImgVO">
 		SELECT * FROM recru_image
-			WHERE recru_id = #{recruId}
+		WHERE recru_id = #{recruId}
 	</select>
 	
 	<!-- 수정 : 사진 수정 -->
