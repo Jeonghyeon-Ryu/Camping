@@ -22,7 +22,8 @@ public class SaveServiceImpl implements SaveService {
 
 	@Override
 	public boolean isExist(SaveVO save) {
-		return mapper.exist(save);
+		if(mapper.exist(save)>0) return true;
+		else return false;
 	}
 
 	@Override
