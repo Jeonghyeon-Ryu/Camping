@@ -1,5 +1,5 @@
-//package com.camp.app.chat.service;
-//
+package com.camp.app.chat.service;
+
 //import lombok.AllArgsConstructor;
 //import lombok.Data;
 //import lombok.NoArgsConstructor;
@@ -30,3 +30,6 @@
 //	private int chatId2; //채팅방Id --?
 //	
 //}
+
+
+
