@@ -24,7 +24,7 @@
           <div class="sns-write-form-id-form">
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <img :src='snsWriteIdImg' alt=" ">
+                <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
               </div>
             </div>
             <div class="sns-write-form-id">
@@ -44,7 +44,7 @@
             <input :value="snsItem.place" type="text" name="place">
 
             <p class="result"></p>
-            
+
 
           </div>
           <div class="sns-write-location">
@@ -59,6 +59,7 @@
 <script>
 import img1 from "@/assets/img/sns/이미지1.jpg";
 export default {
+
   //DB연결
   created: function () {
     fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
@@ -77,6 +78,13 @@ export default {
       })
       .catch(err => console.log(err));
     //서버에서 제대로 받아왔는지 확인.
+    
+    //프로필 이미지
+    fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
+      .then(result => result.json())
+      .then(result => {
+        this.storedProfile = result;
+      }).catch(err => console.log(err));
   },
 
   data: function () {
@@ -88,8 +96,10 @@ export default {
       // snsWriteLocation: '위치',
 
       writeNo: this.$route.params.writeNo,
-      snsItem : {},  
-      snsWriteIdImg: img1,
+      snsItem: {},
+      // snsWriteIdImg: img1,
+      //프로필 이미지
+      storedProfile: '',
       searchText: '',
       images: [],
       imagesUrl: [],
@@ -127,10 +137,10 @@ export default {
         .then(result => console.log(result))
         .catch(err => console.log(err))
 
-        // window.alert("수정이 완료되었습니다.")
-        if(confirm("수정하시겠습니까?")) {
+      // window.alert("수정이 완료되었습니다.")
+      if (confirm("수정하시겠습니까?")) {
         window.location.href = ("/sns/detail/" + this.writeNo)
-}
+      }
     },
   }
 }

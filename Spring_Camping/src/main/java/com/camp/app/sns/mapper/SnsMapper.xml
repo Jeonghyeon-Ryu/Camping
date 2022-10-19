@@ -127,14 +127,14 @@ SET status = 1
 WHERE write_no = #{writeNo} 
 </update>
 
-<select id="countSnsByUser" resultType="Integer">
-	SELECT COUNT(*) FROM sns WHERE email = #{email}
+<select id="countSnsByUser" resultType="Integer" parameterType="String">
+	SELECT COUNT(*) FROM sns WHERE email = #{email} and status = 0
 </select>
 
 
 <!-- 마이페이지 -->
 <!-- 페이징? -->
-<!-- <select id="showSnsByPageByUser" resultType="SnsImageVO" parameterType="Integer">
+ <select id="showSnsByPageByUser" resultType="SnsImageVO" parameterType="MySnsVO">
 
 <![CDATA[
 
@@ -160,5 +160,5 @@ WHERE write_no = #{writeNo}
           )
       WHERE ROWNUM < 11
 		]]>
-</select> -->
+</select> 
 </mapper>

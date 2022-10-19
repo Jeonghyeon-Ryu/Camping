@@ -106,9 +106,8 @@ export default {
 
 .sns-img-row-container {
   width: 30%;
-  height: 300px;
+  height: 350px;
   cursor: pointer;
-  border: 1px solid black;
 }
 
 .sns-img {

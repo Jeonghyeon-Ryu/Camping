@@ -3,7 +3,6 @@
     <div class="sns-searchbox">
       <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
       <button @click="doSearch" style="display: none;">조회</button>
-      <!-- <input type="button" @click="doClear" value="X"> -->
     </div>
     <div class="sns-page-id-container">
       <div class="sns-page-id">
@@ -98,7 +97,7 @@
 
             <div class="sns-push-button-container2">
               <div class="sns-notification">
-                <img v-bind:src="notifyImg">
+                <img v-bind:src="notifyImg" @click="reportItem()">
               </div>
             </div>
           </div>
@@ -264,6 +263,72 @@ export default {
     //좋아요
     hearted: function () {
       this.liked = !this.liked
+      if (this.liked == true) {
+        console.log("저장빼기");
+        this.doDislike();
+      }
+      else if (this.liked == false) {
+        console.log("저장하기");
+        this.doLike();
+        // Swal.fire({
+        //       title: '좋아요한 게시글에 저장되었습니다.',
+        //       confirmButtonText: '확인',
+        //     })
+        // .then((result) => {
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     //현재페이지 새로고침!
+        //     this.$router.go(0)
+        //   }
+        // })
+      }
+    },
+    //좋아요 저장하기 insert
+    doLike() {
+
+      //좋아요한 게시글 번호, 좋아요 누른 로그인한 사람 이메일
+      //글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //이메일
+      let email = this.$store.state.email;
+      
+      let like = {
+        writeNo : writeNo,
+        email : email
+      }
+
+      console.log(like);
+
+      fetch('http://localhost:8087/java/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(like)
+      }).then(result => result.text())
+        .then(result => {
+          console.log(result);
+          if (result == "true") {
+            Swal.fire({
+              title: '좋아요한 게시글에 저장되었습니다.',
+              confirmButtonText: '확인',
+            })
+              .then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                // if (result.isConfirmed) {
+                //   //현재페이지 새로고침!
+                //   this.$router.go(0)
+                // }
+              })
+
+
+          }
+        })
+        .catch(err => console.log(err))
+    },
+    //좋아요 저장하기 delete
+    doDislike() {
+
     },
     //글 수정삭제 버튼
     doSnsController() {
@@ -330,10 +395,10 @@ export default {
       //글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
       //닉네임
-      let nickname = this.$store.state.nickname
+      let nickname = this.$store.state.nickname;
       // let nickname = "유저2";
       //이메일
-      let email = this.$store.state.email
+      let email = this.$store.state.email;
       // let email = "user2";
 
       let comment = {
@@ -373,29 +438,101 @@ export default {
         .catch(err => console.log(err))
     },
     //유리언니..
-    yyyyMMddhhmmss : function(value){
-                if(value == '') return '';
-        
-                var js_date = new Date(value);
+    yyyyMMddhhmmss: function (value) {
+      if (value == '') return '';
 
-                // 연도, 월, 일, 시, 분, 초 추출
-                var year = js_date.getFullYear();
-                var month = js_date.getMonth() + 1;
-                var day = js_date.getDate();
-                var hours = ('0' + js_date.getHours()).slice(-2); 
-                var minutes = ('0' + js_date.getMinutes()).slice(-2);
-                var seconds = ('0' + js_date.getSeconds()).slice(-2); 
-                
-                if(month < 10) {month = '0' + month;}
-                if(day < 10){day = '0' + day;}
-            
-                return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes  + ':' + seconds;
+      var js_date = new Date(value);
+
+      // 연도, 월, 일, 시, 분, 초 추출
+      var year = js_date.getFullYear();
+      var month = js_date.getMonth() + 1;
+      var day = js_date.getDate();
+      var hours = ('0' + js_date.getHours()).slice(-2);
+      var minutes = ('0' + js_date.getMinutes()).slice(-2);
+      var seconds = ('0' + js_date.getSeconds()).slice(-2);
+
+      if (month < 10) { month = '0' + month; }
+      if (day < 10) { day = '0' + day; }
+
+      return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    },
+
+    //신고
+    reportItem() {
+      let item = Swal.fire({
+        title: '신고',
+        html:
+          '<select id="swal-input1" class="swal2-select" style="font-size:13px;">' +
+          '<option value="" disabled="">신고 분류</option>' +
+          '<option value="잘못된 정보">잘못된 정보</option>' +
+          '<option value="게시글 규정 위반">게시글 규정 위반</option>' +
+          '<option value="기타">기타</option>' +
+          '</select>' +
+          '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; font-size:12px;" maxlength="450" placeholder="신고 사유를 입력하세요"></textarea>',
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: '신고',
+        cancelButtonText: '취소',
+        confirmButtonColor: 'rgba(6,68,32,0.8)',
+        preConfirm: () => {
+          let fetchData = {
+            "boardId": this.writeNo,
+            "boardDivision": 3,
+            "reportDivision": document.getElementById('swal-input1').value,
+            "reportContent": document.getElementById('swal-input2').value,
+            "email": this.$store.state.email
+          }
+
+          console.log(fetchData);
+          fetch('http://localhost:8087/java/report', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
             },
+            body: JSON.stringify(fetchData)
+          }).then(result => result.text())
+            .then(result => {
+              if (result == "true") {
+                Swal.fire({
+                  icon: 'success',
+                  title: '신고 완료 !',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1500,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    this.$router.push({ name: 'SnsDetail', params: { writeNo: this.snsItem.writeNo } });
+                  }
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: '신고 실패 !',
+                  text: '계속 실패하면 고객센터에 문의해주세요.',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1500,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+              }
+              console.log(result);
+            })
+
+          return false;
+        }
+      })
+      console.log(item);
+    }
   },
   components: {
     Swiper,
     SwiperSlide,
-
   },
   setup() {
     return {
@@ -540,6 +677,7 @@ export default {
 
 .sns-write-id input {
   margin-top: 0.5vw;
+  width: 300px;
   padding: 0.3vw;
   border: none;
 }
@@ -550,6 +688,7 @@ export default {
 
 .sns-write-location input {
   margin-top: 0.5vw;
+  width: 300px;
   padding: 0.3vw;
   border: none;
 }
@@ -560,6 +699,7 @@ export default {
 
 .sns-write-place input {
   margin-top: 0.5vw;
+  width: 300px;
   padding: 0.3vw;
   border: none;
 }

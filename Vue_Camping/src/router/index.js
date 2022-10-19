@@ -34,6 +34,11 @@ const routes = [{
     component: () => import('../components/SnS/SnsMyFeed.vue'),
   },
   {
+    name: 'SnsMyLikeFeed',
+    path: '/sns/myLikeFeed/:email',
+    component: () => import('../components/SnS/SnsMyLikeFeed.vue'),
+  },
+  {
     path: '/recru/detail/:recruId',
     name: 'recruDetail',
     component: () => import('@/components/recruit/RecruDetail.vue'),
