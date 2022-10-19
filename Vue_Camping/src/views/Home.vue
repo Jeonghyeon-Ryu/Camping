@@ -28,7 +28,7 @@
   <!-- <CampList></CampList> -->
   <!-- <MynoteList></MynoteList> -->
   <!-- <RecruInsert></RecruInsert> -->
-
+<Chat></Chat>
 </template>
 
 
@@ -57,5 +57,6 @@ import RecruInsert from '@/components/recruit/RecruInsert.vue';
 import EntryMypageView from '@/components/recruit/EntryMypageView.vue';
 import CampList from '@/components/Camping/CampList.vue';
 import MynoteList from '@/components/note/MynoteList.vue';
+import Chat from '@/components/Chat/Chat.vue';
 
 </script>
