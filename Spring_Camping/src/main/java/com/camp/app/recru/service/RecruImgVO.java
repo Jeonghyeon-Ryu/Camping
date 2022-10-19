@@ -16,4 +16,6 @@ public class RecruImgVO {
 	private long imgSize;
 	private String imgPath;
 	private int recruId;
+	
+	private int isSaved;	//게시글의 저장여부
 }

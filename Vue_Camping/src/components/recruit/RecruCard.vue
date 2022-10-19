@@ -27,8 +27,8 @@
     <p class="card-body-spot"><span>캠핑지 : </span> {{recruCard.campingPoint}}</p>
   </div>
   <div class = "recru-card-wish" > 
-    <img v-if="isHeart" class="recru-heart" src='@/assets/img/used/heart2.png' @click.stop="nosaveItem($event)" alt="찜한 카드">
-    <img v-if="!isHeart" class="recru-heart" src='@/assets/img/noheart.png' @click.stop="SaveItem($event)" alt="카드">
+    <img v-if="isHeart" class="recru-heart" src='@/assets/img/used/heart2.png' @click.stop="changeHeart" alt="찜한 카드">
+    <img v-if="!isHeart" class="recru-heart" src='@/assets/img/noheart.png' @click.stop="changeHeart" alt="카드">
   </div>
 </div>  
 </template>
@@ -54,9 +54,21 @@ export default{
       })
       .catch(err => console.log(err))
     },
-    computed : {
+    watch : {
       //원본데이터 변화를 감지하면
-      
+      isHeart(){
+        console.log('하트 변경')
+        let save = {
+            boardId: this.recruCard.recruId,
+            boardDivision: 1,
+            email: this.$store.state.email
+        }
+        console.log(save)
+        if (save.email) {
+          console.log(save.email)
+          this.isHeart ? this.saveItem(save) : this.noSaveItem(save);
+        }
+      }
     },
     methods: {
       changeHeart : function(e){
@@ -75,36 +87,24 @@ export default{
                 return str;
             }
       },
-      saveItem(e) {
-        e.preventDefault();
+      saveItem(save) {
         //저장하기 (=찜, 하트)
-        let save = {
-            boardId: this.recruCard.recruId,
-            boardDivision: 1,
-            email: this.$store.state.email
-        }
         console.log(save);
-        if (this.$store.state.email != null) {
-            fetch('http://localhost:8087/java/save', {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(save)
-            }).then(result => result.text())
-                .then(result => {
-                    if (result == 'true') {
-                        this.isHeart = true;
-                    }
-                })
-                .catch(err => console.log(err));
-        }
+        fetch('http://localhost:8087/java/save', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(save)
+        }).then(result => result.text())
+          .then(result => {
+            if (result == 'true') {
+              alert('하트뿅!')
+            }
+          })
+          .catch(err => console.log(err));
       },
-      noSaveItem(e) {
-        e.preventDefault();
-        let save = {
-          boardId: this.recruCard.recruId,
-          boardDivision: 1,
-          email: this.$store.state.email
-        }
+      noSaveItem(save) {
+        //저장 해체
+        console.log(save);
         fetch('http://localhost:8087/java/save', {
           method: 'DELETE',
           headers: { "Content-Type": "application/json" },
@@ -112,7 +112,7 @@ export default{
         }).then(result => result.text())
             .then(result => {
                 if (result == 'true') {
-                  this.isHeart = false;
+                  alert('저장해제')
                 }
             })
             .catch(err => console.log(err));

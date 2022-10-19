@@ -157,7 +157,7 @@
             <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId">
-                    <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}">
+                    <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
                 </div>
