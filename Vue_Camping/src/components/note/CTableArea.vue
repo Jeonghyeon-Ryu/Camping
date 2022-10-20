@@ -37,7 +37,6 @@ export default {
     }
   },
   methods: {
-
     // addRow: function (e) {
     //   let thisTable = e.target.parentNode.nextSibling;
     //   let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
@@ -57,7 +56,6 @@ export default {
       let table = tableContainer.querySelector('.maked_table');
       let trs = table.querySelectorAll('tr');
 
-
       for (let tr of trs) {
         let td = document.createElement('td');
         td.setAttribute('class', 'item_td');
@@ -69,11 +67,6 @@ export default {
         td.append(input);
         tr.append(td);
       }
-
-      // for (let i = 0; i < $('.maked_table').children().length; i++) {
-      //   $(thisTable).children().eq(i).append('<td class="item_td" ><input type="text" class="input_text"></td>');
-      // }
-
     },
     delRow: function (e) {
       let item = e.target.parentElement;

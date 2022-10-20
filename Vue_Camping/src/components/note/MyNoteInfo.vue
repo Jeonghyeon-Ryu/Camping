@@ -186,7 +186,6 @@ export default {
                     //가져온 값을 textarea에 뿌려주기
                     if (result.noteContents[i].indexOf('textarea') >= 0) {
                         let temp = result.noteContents[i].substring(result.noteContents[i].indexOf('value="') + 7, result.noteContents[i].indexOf('"></textarea>'));
-                        //console.log(result.noteContents[i])
 
                         this.datas.push(
                             {
@@ -203,13 +202,11 @@ export default {
 
                         for (let j = 0; j < temp.length - 1; j++) {
                             let rowData = [];
-                            //console.log(rowData);
                             while (temp[j].indexOf('value="') >= 0) {
                                 temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
                                 rowData.push(temp[j].substring(0, temp[j].indexOf('">')));
                             }
-
-                            //console.log(tempData);
+                            tempData.push(rowData);
                         }
 
                         this.datas.push(
@@ -223,7 +220,6 @@ export default {
                     } else if (result.noteContents[i].indexOf('check_box_list') >= 0) {
 
                         let temp = result.noteContents[i].split('<div class="box_container">'); //배열의 형태로 5개의 덩어리
-                        // let tempData = [];
                         let checkVal = [];
                         let textVal = [];
                         let values = [];
@@ -237,8 +233,6 @@ export default {
                         }
                         values.push(checkVal);
                         values.push(textVal);
-                        // tempData.push(values);
-
                         this.datas.push(
                             {
                                 type: 2,
@@ -260,7 +254,6 @@ export default {
         creTableBox: function (e) {
             this.childOrder.push('tableBox');
             this.textAmount++;
-
         },
         creCheckbox: function (e) {
             this.childOrder.push('checkboxBox');
@@ -272,22 +265,15 @@ export default {
         },
         showCheckBox(e) {
             this.show = !this.show;
-
         },
         saveNote: function (e) {
             let lineAll = document.querySelectorAll('.write_fn');
-            let lineText = [];
-            let lineTable = [];
-            let textTag;
-            let tableTag;
-            let checkBoxTag;
+           
             let contents = [];
 
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
-                let lineType = '';
                 let lineValue = '';
-                let linePosition = i;
 
                 if (lineAll[i].querySelector('textarea') != undefined) {
                     lineType = 'TEXT';
@@ -307,9 +293,7 @@ export default {
                     // tr 행 반복
                     let lineTr = lineValue.querySelectorAll('tr');
                     lineValue = [];
-
                     for (let j = 0; j < lineTr.length; j++) {
-
                         let temp = [];
                         tableTag += `<tr class='item' > 
                                       <td class="row-button-container" @mouseover="showBtn">
@@ -333,16 +317,12 @@ export default {
                     lineType = 'CHECK';
                     lineValue = [];
                     let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
-                    checkBoxTag = `
-                                    <div class='check_box_list'>
-                                    `;
+                    checkBoxTag = `<div class='check_box_list'>`;
 
                     for (let j = 0; j < checkBoxList.length; j++) {
 
                         let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
-
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
-
                         let isChecked = lineCheckbox.checked;
                         checkBoxTag += `
                                   <input type='checkbox' class='noteCheckbox' value="`+ isChecked + `" name="myCheck"><input type="text" class="checkbox_text" name="myCheck" value="`
@@ -367,8 +347,6 @@ export default {
                 "noteContents": contents,
                 "email": localStorage.getItem("email")
             }
-            // console.log(fetchData);
-
             fetch('http://localhost:8087/java/WriteNote', {
                 method: 'POST',
                 headers: {
@@ -378,10 +356,7 @@ export default {
             }).then(result => {
                 // console.log(result);
                 this.$router.push({ name: "MynoteList" });
-
             })
-
-
         }
     },
     components: { CreTextarea, CreateLine }
