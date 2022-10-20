@@ -99,6 +99,12 @@ public class SnsController {
 		service.snsDelete(writeNo);
 	}
 
+	//admin 삭제
+	@DeleteMapping("/snsDeleteByAdmin")
+	public void snsDeleteByAdmin(@RequestParam int writeNo) {
+//		System.out.println(writeNo);
+		service.snsDeleteByAdmin(writeNo);
+	}
 	/// 이미지
 	// 글 등록
 	@PostMapping("/sns")

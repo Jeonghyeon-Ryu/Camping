@@ -5,6 +5,7 @@
 <select id="getSnsList" resultType="com.camp.app.sns.service.SnsVO">
 SELECT * 
 FROM sns 
+where status = 2
 order by write_no desc </select>
 
 <!-- 페이징? -->
@@ -25,7 +26,7 @@ order by write_no desc </select>
                                     FROM sns_image
                                     WHERE write_no IN (SELECT write_no
                                                                 FROM sns
-                                                                WHERE status=0)
+                                                                WHERE status=2)
                                     GROUP BY write_no)
                             ORDER BY write_no desc)
                )
@@ -56,7 +57,7 @@ VALUES
 #{place},
 #{hashtag},
 SYSDATE,
-0,
+2,
 #{nickname},
 #{email},
 #{implement}
@@ -126,12 +127,19 @@ SET status = 1
 WHERE write_no = #{writeNo} 
 </update>
 
+<!-- admin 글삭제(상태변경) -->
+<update id="snsDeleteByAdmin" parameterType="Integer">
+UPDATE sns
+SET status = 0
+WHERE write_no = #{writeNo} 
+</update>
+
 
 
 <!-- 마이페이지 -->
 <!-- 유저가 작성한 총게시글 수 -->
 <select id="countSnsByUser" resultType="Integer" parameterType="String">
-	SELECT COUNT(*) FROM sns WHERE email = #{email} and status = 0
+	SELECT COUNT(*) FROM sns WHERE email = #{email} and status != 1
 </select>
 
 <!-- 페이징? -->
@@ -152,7 +160,7 @@ WHERE write_no = #{writeNo}
                                     FROM sns_image
                                     WHERE write_no IN (SELECT write_no
                                                                 FROM sns
-                                                                WHERE status=0  and email = #{email})
+                                                                WHERE status != 1  and email = #{email})
                                                        
                                     GROUP BY write_no)
                             ORDER BY write_no desc)
@@ -186,7 +194,7 @@ WHERE write_no = #{writeNo}
                                     FROM sns_image
                                     WHERE write_no IN (SELECT write_no
                                                                 FROM sns
-                                                                WHERE status=0  and hashtag like #{hashtag})
+                                                                WHERE status=2  and hashtag like '%'||#{hashtag}||'%')
                                                        
                                     GROUP BY write_no)
                             ORDER BY write_no desc)

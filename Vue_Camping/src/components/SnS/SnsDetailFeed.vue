@@ -31,7 +31,7 @@
         <div class="sns-control-button">
           <img v-bind:src="snsControlImg" @click="doSnsController">
           <select disabled @change="doSelectController($event)" name="choose-control-reason" value="게시글 관리">
-            <option value="글 수정" id="btn-update">글 수정</option>
+            <option v-if="$store.state.auth!=0" value="글 수정" id="btn-update">글 수정</option>
             <option value="글 삭제" id="btn-delete">글 삭제</option>
           </select>
         </div>
@@ -128,7 +128,24 @@
           </div>
           <hr />
           <div class="sns-write-comment-container">
-            <textarea placeholder="댓글을 작성하세요"></textarea>
+            <!-- <textarea placeholder="댓글을 작성하세요"> -->
+            <!-- <SnsSearch @getNickHashtag="getNickHashtag"></SnsSearch> -->
+            <div class>
+              <div class>
+                <input type="text" @keyup="checkEnter($event)" v-model="searchNick" placeholder="댓글을 입력해주세요.">
+                <!-- <button @click="doSearch" style="display: none;">조회</button> -->
+                <!-- <input type="button" @click="doClear" value="X"> -->
+              </div>
+
+
+              <div class="sns-search-list-container">
+                <div class="sns-search-nick-list" v-for="searchMemberId of searchResultNick">
+                  <input v-show="this.getNickHashtag" type="text"
+                    v-bind:value="searchMemberId">
+                </div>
+              </div>
+            </div>
+            <!-- </textarea> -->
             <button type="button" @click="doComment" @keyup.enter="doComment">게시</button>
           </div>
         </div>
@@ -147,6 +164,7 @@
 </template>
 
 <script>
+// import SnsSearch from './SnsSearch.vue';
 import likeImg from "@/assets/img/sns/heart.png"
 import dislikeImg from "@/assets/img/sns/heart2.png"
 import commentImage from "@/assets/img/sns/comment.png"
@@ -166,48 +184,6 @@ import img4 from "@/assets/img/sns/이미지4.jpg"
 import Swal from "sweetalert2"
 
 export default {
-  created: function () {
-    fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
-      .then(response => response.json())
-      .then(result => {
-        this.snsItem = result
-      })
-      .catch(err => console.log(err));
-    //서버에서 제대로 받아왔는지 확인.
-    console.log(this.snsItem);
-
-    //게시글 이미지 출력
-    fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
-      .then(response => response.json())
-      .then(result => {
-        this.snsImgs = result
-      })
-      .catch(err => console.log(err));
-    //서버에서 제대로 받아왔는지 확인.
-
-    //게시글 별 댓글 출력
-    fetch('http://localhost:8087/java/snsComment/' + this.writeNo)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result);
-        this.snsCommentItems = result
-      })
-      .catch(err => console.log(err));
-
-    //좋아요 상태 가져오기..
-    if (this.$store.state.email != null) {
-      fetch('http://localhost:8087/java/save?boardId=' + this.writeNo + '&email=' + this.$store.state.email)
-        .then(result => result.text())
-        .then(result => {
-          if (result == 'true') {
-            this.liked = false;
-            console.log(this.liked);
-            console.log('좋아요 상태되는지' + result);
-          }
-        })
-        .catch(err => console.log(err));
-    }
-  },
   data: function () {
     return {
       snsImgs: [],
@@ -219,6 +195,11 @@ export default {
 
       snsCommentItems: [],
       snsCommentWriteText: "",
+      searchNick: '',
+      //닉네임모음
+      searchNickname: [],
+      //닉네임결과값
+      searchResultNick: [],
       // snsWriteNumber1: "1111",
       // snsWriteNumber2: "2222",
       // snsWriteNumber3: "3333",
@@ -260,6 +241,67 @@ export default {
       // ]
     };
   },
+  created: function () {
+    fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsItem = result
+      })
+      .catch(err => console.log(err));
+
+    //게시글 이미지 출력
+    fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsImgs = result
+      })
+      .catch(err => console.log(err));
+    //서버에서 제대로 받아왔는지 확인.
+
+    //게시글 별 댓글 출력
+    fetch('http://localhost:8087/java/snsComment/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        this.snsCommentItems = result
+      })
+      .catch(err => console.log(err));
+
+    //좋아요 상태 가져오기..
+    if (this.$store.state.email != null) {
+      fetch('http://localhost:8087/java/save?boardId=' + this.writeNo + '&email=' + this.$store.state.email + '&boardDivision=3')
+        .then(result => result.text())
+        .then(result => {
+          if (result == 'true') {
+            this.liked = false;
+            console.log(this.liked);
+            console.log('좋아요 상태되는지' + result);
+          }
+        })
+        .catch(err => console.log(err));
+      }
+
+    //닉네임검색일단쌔벼옴
+      //닉네임 검색... 왜안되ㅈ는지....그지같음...
+      fetch('http://localhost:8087/java/snsnickname')
+      .then(result => result.text())
+
+
+      .then(result => result.substring(2, result.length - 2))
+      .then(result => result.replaceAll('","', ' '))
+      .then(result => result.split(' '))
+      .then(result => result.join(' '))
+
+      .then(result => {
+        this.searchNickname.push(result)
+        console.log(result)
+      })
+    // .then(result => console.log(result))
+    // .catch(err => console.log(err));
+  
+  },
+  
+
   //검색
   methods: {
     doSearch() {
@@ -299,7 +341,6 @@ export default {
     },
     //좋아요 저장하기 insert
     doLike() {
-
       //좋아요한 게시글 번호, 좋아요 누른 로그인한 사람 이메일
       //저장글번호
       //sns글번호
@@ -308,7 +349,6 @@ export default {
       let boardDivision = 3;
       //이메일
       let email = this.$store.state.email;
-
       let like = {
         boardId: writeNo,
         boardDivision: boardDivision,
@@ -316,9 +356,7 @@ export default {
       }
 
       console.log(like);
-
       if (this.$store.state.email != null) {
-
         fetch('http://localhost:8087/java/save', {
           method: 'POST',
           headers: {
@@ -356,13 +394,11 @@ export default {
       let boardDivision = 3;
       //이메일
       let email = this.$store.state.email;
-
       let dislike = {
         boardId: writeNo,
         boardDivision: boardDivision,
         email: email
       }
-
       fetch('http://localhost:8087/java/save', {
         method: 'DELETE',
         headers: {
@@ -404,10 +440,16 @@ export default {
     //글 수정삭제 컨트롤
     doSelectController(e) {
       console.log(e.target.value);
-      if (e.target.value == "글 수정") {
-        this.getUpdate()
-      } else if (e.target.value == "글 삭제") {
-        this.getDelete()
+      if (this.$store.state.auth != 0) {
+        if (e.target.value == "글 수정") {
+          this.getUpdate()
+        } else if (e.target.value == "글 삭제") {
+          this.getDelete()
+        }
+      } else {
+        if (e.target.value == "글 삭제") {
+          this.getDeleteByAdmin()
+        }
       }
     },
     //글 수정
@@ -426,24 +468,32 @@ export default {
 
       console.log(snsInfo);
 
-      fetch('http://localhost:8087/java/snsDelete?writeNo=' + snsInfo.writeNo, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-
-        },
-        body: JSON.stringify(snsInfo)
-      })
-        .then(result => result.text())
-        .then(result => console.log(result))
-        .catch(err => console.log(err))
-
       if (confirm("삭제하시겠습니까?")) {
-        this.$router.push({ path: "/sns" })
-        // console.log('글을 삭제하겟음')
-        // fetch('http://localhost:8087/java/snsDelete')
-        // console.log(result)
-        //   .then(result => console.log(result))
+        fetch('http://localhost:8087/java/snsDelete?writeNo=' + snsInfo.writeNo, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+
+          },
+          body: JSON.stringify(snsInfo)
+        })
+          .then(result => result.text())
+          .then(result => {
+            this.$router.push({ path: "/sns" })
+          })
+          .catch(err => console.log(err))
+      }
+    },
+    //관리자 삭제
+    getDeleteByAdmin() {
+      if (confirm("삭제하시겠습니까?")) {
+
+        fetch('http://localhost:8087/java/snsDeleteByAdmin?writeNo=' + this.writeNo, {
+          method: 'DELETE'
+        }).then(result => result.text())
+          .then(result => {
+            this.$router.push({ path: "/sns" })
+          }).catch(err => console.log(err))
       }
     },
     //댓글 작성
@@ -496,6 +546,49 @@ export default {
         })
         .catch(err => console.log(err))
     },
+    doSearch() {
+      console.log(this.searchText)
+    },
+    checkEnter(event) {
+      // console.log(event.target.value);
+      let searchValue = event.target.value;
+      // searchValue 에서 맨앞이 #인지 확인
+      let result1 = searchValue.substr(0, 1);
+      // #이면 -> 태그검색 함수로 function doSearchTag
+      if (result1 == '@') {
+        this.getNickHashtag(searchValue); //searchVal의 흐름 2. 여기서 searchValue  =  searchVal인 것을 인지시켜줌
+        // #이 없으면 -> 아이디검색 함수로 function doSearchId
+      } else {
+        this.getNickHashtag(searchValue);
+      }
+
+      if (event.keyCode == 13) {
+        this.doSearch()
+      }
+    },
+    //댓글에 닉네임태그
+    getNickHashtag(searchVal) {//searchValue의 공간만들어주기
+      this.searchResultNick = [];
+      console.log(searchVal); // 내가 입력한거
+      for (let snsList of this.searchNickname) { //
+        // console.log(snsList.member_id);
+        // let searchIdList = snsList.member_id;
+        // console.log(searchId);
+        let result2 = snsList.indexOf(searchVal);
+        if (result2 >= 0) {
+          let results3 = snsList.split(' ');
+          let result5 = results3.filter(results4 => results4.includes(searchVal));
+          // console.log(this.searchId);
+          result5.forEach((element) => {
+            if (!this.searchResultNick.includes(element)) {
+              this.searchResultNick.push(element);
+            }
+          });
+        }
+      }
+      console.log(this.searchResultNick);
+    },
+
     //유리언니..
     yyyyMMddhhmmss: function (value) {
       if (value == '') return '';
@@ -592,6 +685,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+    // SnsSearch
   },
   setup() {
     return {

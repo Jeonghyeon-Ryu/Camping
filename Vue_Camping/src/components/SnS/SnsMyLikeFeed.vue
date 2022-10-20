@@ -89,7 +89,7 @@ export default {
     console.log(this.snsMyLikeList);
 
     //프로필 이미지
-    fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
+    fetch('http://localhost:8087/java/profile/' + this.email)
       .then(result => result.json())
       .then(result => {
         this.storedProfile = result;
@@ -103,7 +103,7 @@ export default {
       //닉네임 불러오기
       //닉네임, 
       //로그인하며 가져오는 것 목록 : email, nickname, auth
-      email: this.$route.params.email,
+      email: this.$store.state.email,
       // nickname : this.$store.state.nickname,
       // profileInfo : this.$store.state.profileInfo,
       snsMyData: {},
@@ -113,8 +113,6 @@ export default {
       snsMyLikeLists: [],
       //프로필 이미지
       storedProfile: '',
-
-
       //페이지
       page: 1,
     }
