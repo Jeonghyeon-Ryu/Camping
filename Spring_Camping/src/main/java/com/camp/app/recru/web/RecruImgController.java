@@ -41,7 +41,7 @@ public class RecruImgController {
 		return imgService.insertRecruImg(files);
 	}
 	
-	//이미지 다운로드
+	//이미지 정보 조회
 	@GetMapping("/recruImg/{recruId}")
 	public List<RecruImgVO> findRecruImg(@PathVariable int recruId){
 		return imgService.findImg(recruId);

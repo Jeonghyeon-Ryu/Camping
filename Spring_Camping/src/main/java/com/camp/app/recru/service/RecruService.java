@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.camp.app.save.service.SaveVO;
+
 @Service
 public interface RecruService {
 	//최신글번호 조회
@@ -23,5 +25,6 @@ public interface RecruService {
 	public int changeStatus(RecruVO recru);
 	//작성자 정보조회
 	public RecruVO getMemberInfo(String email);
+	public boolean isExist(SaveVO save);
 	
 }

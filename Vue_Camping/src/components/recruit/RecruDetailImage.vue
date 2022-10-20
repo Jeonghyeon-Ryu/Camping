@@ -1,5 +1,5 @@
 <template>
-    <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
+    <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">    
             <swiper-slide v-for="image of images">
                 <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName"/>
             </swiper-slide>

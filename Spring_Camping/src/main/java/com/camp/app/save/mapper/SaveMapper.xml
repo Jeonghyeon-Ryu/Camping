@@ -10,8 +10,8 @@
 	<select id="findMaxSaveId" resultType="Integer">
 		SELECT NVL(MAX(save_id),0) FROM save
 	</select>
-	<select id="exist" parameterType="SaveVO" resultType="boolean">
-		SELECT COUNT(*) FROM save WHERE board_id = #{boardId} AND email = #{email}
+	<select id="exist" parameterType="SaveVO" resultType="Integer">
+		SELECT COUNT(*) FROM save WHERE board_id = #{boardId} AND email = #{email} AND board_division = #{boardDivision}
 	</select>
 	<insert id="insert" parameterType="SaveVO">
 		INSERT INTO save VALUES(
