@@ -261,7 +261,7 @@
                 .then(data => { 
                     console.log(data);
                     this.usedList = data;
-                    this.selectMinUsedPrice();
+                    // this.selectMinUsedPrice();
                 }).catch(err=>console.log(err))
 
     },

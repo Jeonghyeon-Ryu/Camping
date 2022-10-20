@@ -82,7 +82,7 @@
   	</update>
 	
 	<!-- 거래상태변경 -->
-	<update id="updateDeal" parameterType="UsedVO">
+	<update id="updateDeal" parameterType="Integer">
 		UPDATE used
 		SET deal_status = #{dealStatus}
 		WHERE used_id = #{usedId}
