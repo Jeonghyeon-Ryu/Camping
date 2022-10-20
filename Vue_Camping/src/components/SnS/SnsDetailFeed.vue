@@ -137,7 +137,6 @@
                 <!-- <input type="button" @click="doClear" value="X"> -->
               </div>
 
-
               <div class="sns-search-list-container">
                 <div class="sns-search-nick-list" v-for="searchMemberId of searchResultNick">
                   <input v-show="this.getNickHashtag" type="text"
