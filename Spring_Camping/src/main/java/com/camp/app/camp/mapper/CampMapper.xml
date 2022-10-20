@@ -11,7 +11,7 @@
         	SELECT SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
         	FROM (
                 SELECT ROWNUM AS SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
-                FROM ( SELECT * FROM camp ORDER BY camp_id )
+                FROM ( SELECT * FROM camp WHERE status=2 ORDER BY camp_id )
             	)
         	WHERE SEQ >= ((#{page}-1)*10+1)
     		)
@@ -41,7 +41,8 @@
 			#{campAddress},
 			#{campPrice},
 			#{campSite},
-			#{campInfo}
+			#{campInfo},
+			2
 		)
 	</insert>
 	<insert id="insertCampImage" parameterType="CampImageVO">
@@ -61,6 +62,7 @@
 			<if test="campAddress != null">, camp_address = #{campAddress}</if>
 			<if test="campPrice != null">, camp_price = #{campPrice}</if>
 			<if test="campSite != null">, camp_site = #{campSite}</if>
+			<if test="status != null">, status = #{status}</if>
 		WHERE camp_id = #{campId}
 	</update>
 	
@@ -96,5 +98,9 @@
 	</select>
 	<select id="countCampModifyByCampId" parameterType="Integer" resultType="Integer">
 		SELECT COUNT(*) FROM camp_modify WHERE camp_id = #{campId}
+	</select>
+	
+	<select id="findByEmail" parameterType="String" resultType="CampVO">
+		SELECT * FROM camp WHERE email = #{email} AND status=2
 	</select>
 </mapper>

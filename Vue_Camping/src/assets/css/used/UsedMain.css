@@ -69,6 +69,7 @@ label {
 }
 .used-filter ul{
   display: flex;
+  /* grid-template-columns: 1fr minmax(384px, 1fr) 1fr; */
 }
 .used-filter li{
   flex-wrap: wrap;
@@ -201,6 +202,7 @@ label {
 .card-pic img, .card-pic div {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .card-info {
@@ -221,6 +223,7 @@ label {
   padding: 8px 8px 0px 8px;
   font-size: 0.8em;
   font-weight: 500;
+  width: 100%;
 }
 .card-info-l{
   padding: 10px;

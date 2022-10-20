@@ -1,8 +1,5 @@
 <template>
   <div class="sns-container">
-
-
-
     <div class="sns-searchbox">
       <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
       <!-- <button @click="doSearch" style="display: none;">조회</button> -->
@@ -11,13 +8,15 @@
 
 
     <div class="sns-search-list-container">
-      <div class="sns-search-list" v-for="searchHashTagKeyword of searchResult" >
-        <input v-show="this.doSearchTag" type="text" @click="" v-bind:value="searchHashTagKeyword" v-on:change="search()">
+      <div class="sns-search-list" v-for="searchHashTagKeyword of searchResult">
+        <input v-show="this.doSearchTag" type="text" @click="getSnsHashtagList(searchHashTagKeyword)"
+          v-bind:value="searchHashTagKeyword" v-on:change="search()">
       </div>
     </div>
     <div class="sns-search-list-container">
-      <div class="sns-search-id-list" v-for="searchMemberId of searchResultNick">
-        <input v-show="this.doSearchId" type="text" @click="" v-bind:value="searchMemberId" v-on:change="search()">
+      <div class="sns-search-nick-list" v-for="searchMemberId of searchResultNick">
+        <input v-show="this.doSearchId" type="text" @click="getSnsNickFeed(searchMemberId)"
+          v-bind:value="searchMemberId" v-on:change="search()">
       </div>
     </div>
 
@@ -30,43 +29,43 @@
 export default {
 
   //DB연결
-  created : function(){
+  created: function () {
     fetch('http://localhost:8087/java/hashtag')
-    
-    .then(result => result.text())
-    .then(result => result.substring(2, result.length-2))
-    .then(result => result.replaceAll('","', ' '))
-    // .then(result => {
-    //   result = result.split('","')
-    // console.log(result)})
-    // .then(result => result.text())
-    .then(result => result.split(' '))
-    .then(result => result.join(' '))
-    
-    .then(result => {
-      console.log(result)
-      this.snsData.push(result)
-    })
-    .catch(err => console.log(err));
+
+      .then(result => result.text())
+      .then(result => result.substring(2, result.length - 2))
+      .then(result => result.replaceAll('","', ' '))
+      // .then(result => {
+      //   result = result.split('","')
+      // console.log(result)})
+      // .then(result => result.text())
+      .then(result => result.split(' '))
+      .then(result => result.join(' '))
+
+      .then(result => {
+        console.log(result)
+        this.snsData.push(result)
+      })
+      .catch(err => console.log(err));
 
 
     //닉네임 검색... 왜안되ㅈ는지....그지같음...
     fetch('http://localhost:8087/java/snsnickname')
-    .then(result => result.text())
-    
-    
-    .then(result => result.substring(2, result.length-2))
-    .then(result => result.replaceAll('","',' '))
-    .then(result => result.split(' '))
-    .then(result => result.join(' '))
-    
-    .then(result => {
+      .then(result => result.text())
+
+
+      .then(result => result.substring(2, result.length - 2))
+      .then(result => result.replaceAll('","', ' '))
+      .then(result => result.split(' '))
+      .then(result => result.join(' '))
+
+      .then(result => {
         this.searchNickname.push(result)
         console.log(result)
       })
-      // .then(result => console.log(result))
-      // .catch(err => console.log(err));
-    
+    // .then(result => console.log(result))
+    // .catch(err => console.log(err));
+
   },
 
   components: {},
@@ -76,11 +75,11 @@ export default {
       //해시태그모음
       snsData: [],
       //닉네임모음
-      searchNickname : [],
+      searchNickname: [],
       //해시태그결과값
       searchResult: [],
       //닉네임결과값
-      searchResultNick : [],
+      searchResultNick: [],
 
     }
   },
@@ -155,7 +154,7 @@ export default {
         // console.log(snsList.member_id);
         // let searchIdList = snsList.member_id;
         // console.log(searchId);
-        let result2=snsList.indexOf(searchVal);
+        let result2 = snsList.indexOf(searchVal);
         if (result2 >= 0) {
           let results3 = snsList.split(' ');
           let result5 = results3.filter(results4 => results4.includes(searchVal));
@@ -168,9 +167,21 @@ export default {
         }
       }
       console.log(this.searchResultNick);
-    }
+    },
+    //아이디 클릭시 그사람마이페이지로
+    getSnsNickFeed(nickname) {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickname } });
+    },
+    //해시태그검색시 해시태그 검색되서 해당하는 이미지 리스트 화면으로...
+    getSnsHashtagList(hashtag) {
+      // console.log("자식" + hashtag);
+      this.$emit('showHashList', hashtag)
+
+    
+    },
   }
 }
+
 
 </script>
 
@@ -180,6 +191,10 @@ export default {
 }
 
 .sns-search-list input {
+  cursor: pointer;
+}
+
+.sns-search-nick-list input {
   cursor: pointer;
 }
 </style>

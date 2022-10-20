@@ -23,6 +23,8 @@
     </div>
 </template>
 <script>
+import $ from 'jquery'
+
 export default {
     props: ['data'],
     data (){
@@ -53,8 +55,12 @@ export default {
             `);
         },
         delCheckList: function (e) {
-            let checkboxPlace = e.target.parentElement.parentElement.parentElement;
-            let checkboxList = e.target.parentElement.parentElement;
+            let checkboxPlace = e.target;
+            //target이 checkbox_place를 찾을때까지 부모로 올라가도록
+            while (!checkboxPlace.classList.contains('checkbox_place')) {
+                checkboxPlace = checkboxPlace.parentElement;
+            }
+            let checkboxList = checkboxPlace.children;
             if ($(checkboxPlace).children().length > 1) {
                 $(checkboxList).remove();
             }

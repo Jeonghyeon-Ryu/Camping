@@ -28,7 +28,7 @@ export default{
         },
         data : function(){
             return{
-                memberId : localStorage.getItem("email"),
+                memberId : sessionStorage.getItem("email"),
                 EntryList : [],
                 depositId : ''
             }

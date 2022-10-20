@@ -39,11 +39,11 @@
     <!--  -->
 
     <div class="sns-img-container">
-      <div class="sns-img-row-container" :key="snsMyList.writeNo" v-for="snsMyList in snsMyLists"
-        @click="getSnsDetail(snsMyList.writeNo)">
+      <div class="sns-img-row-container" :key="snsMyLikeList.writeNo" v-for="snsMyLikeList in snsMyLikeLists"
+        @click="getSnsDetail(snsMyLikeList.writeNo)">
         <div class="sns-img">
-          <input type="text" :value="snsMyList.writeNo" style="display :none;">
-          <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyList.snsPath+'/'+snsMyList.storedName">
+          <input type="text" :value="snsMyLikeList.writeNo" style="display :none;">
+          <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyLikeList.snsPath+'/'+snsMyLikeList.storedName">
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@ export default {
     console.log(this.snsMyData);
 
     // 작성자의 좋아요 총 게시글 숫자 표시
-    fetch('http://localhost:8087/java/memberCount/' + this.email)
+    fetch('http://localhost:8087/java/memberLikeCount/' + this.email)
       .then(response => response.json())
       .then(result => {
         console.log(result);
@@ -82,7 +82,7 @@ export default {
       .then(response => response.json())
       .then(result => {
         console.log(result);
-        this.snsMyLikeList = result
+        this.snsMyLikeLists = result
       })
       .catch(err => console.log(err));
 
@@ -109,10 +109,8 @@ export default {
       snsMyData: {},
       //총게시글수
       snsMyCount: "",
-      //나의 게시글 리스트
-      snsMyLists: [],
       //내가 좋아요한 게시글 리스트
-      snsMyLikeList: [],
+      snsMyLikeLists: [],
       //프로필 이미지
       storedProfile: '',
 

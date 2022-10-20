@@ -9,7 +9,7 @@
         <div v-if="type=='textBox'">
             <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)"
                 v-on:keydown.enter="creTextarea($event)">
-        </textarea>
+            </textarea>
         </div>
         <div v-if="type=='tableBox'" class='maked_table_place' v-on:keydown.enter="creTextarea($event)">
             <div class='table_container'>
@@ -21,18 +21,18 @@
                             <button class='row_delbtn' v-if="btnActive==true"><img src="@/assets/img/note/trash.png"
                                     @click="delRow($event)" @mouseout="hideBtn"></button>
                         </td>
-                        <td class='item_td'><input  type="text" class="input_text"></td>
-                        <td class='item_td'><input  type="text" class="input_text"></td>
+                        <td class='item_td'><input type="text" class="input_text"></td>
+                        <td class='item_td'><input type="text" class="input_text"></td>
                     </tr>
                     <tr class='item'>
                         <td class="row-button-container">
                             <button class='row_delbtn'><img src="@/assets/img/note/trash.png"></button>
                         </td>
-                        <td class='item_td'><input  type="text" class="input_text"></td>
-                        <td class='item_td'><input  type="text" class="input_text"></td>
+                        <td class='item_td'><input type="text" class="input_text"></td>
+                        <td class='item_td'><input type="text" class="input_text"></td>
                     </tr>
                 </table>
-                <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button> 
+                <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button>
             </div>
         </div>
         <div v-if="type=='checkboxBox'" class="checkbox_place">
@@ -49,8 +49,8 @@
                 </div>
             </div>
         </div>
-        <!-- <div v-if="type=='imgBox'" style="padding:30px;">
-            <input type="file" accept="image/*" @change="fileChange" />
+        <div v-if="type=='imgBox'" style="padding:30px;">
+            <input type="file" @change="changeImage($event)"/>
             <p>
                 upload이미지 : {{file.name}} fileSize : ({{file.size}}) / fileType : {{file.type}}
             </p>
@@ -104,19 +104,18 @@ export default {
         shiftfDown: function (e) {
             this.shiftSatus = true;
         },
-        //write에서 사용
-        /*addRow: function (e) {
+        addRow: function (e) {
             let thisTable = e.target.parentNode.nextSibling;
             let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
             copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
             $(thisTable).append(copyRow);
             console.log('CreTextarea')
-            
+
         },
         addCol: function (e) {
             //let tablePlace = e.target.parentElement.parentElement.parentElement;
             let thisTable = e.target.parentElement.previousSibling;
-            
+
             for (let i = 0; i < $('.maked_table').children().length; i++) {
                 $(thisTable).children().eq(i).append('<td class="item_td"><input type="text" class="input_text"></td>');
             }
@@ -127,15 +126,25 @@ export default {
             if ($('.item').length > 1) {
                 $(findRow).remove();
             }
-        },*/
+        },
         creTablebox: function (e) {
             this.$emit("tableBox");
         },
         creImg: function (e) {
             this.$emit("imgBox");
         },
-        fileChange: function (e) {
-            this.file = e.target.files[0];
+        deleteImages(updatedImages) {
+            this.images = updatedImages;
+            document.querySelector('#sns-register-image-container input[type="file"]').files = updatedImages;
+        },
+        changeImage(e) {
+            console.log(e.target);
+            let dt = new DataTransfer();
+            for (let i = 0; i < e.target.files.length; i++) {
+                dt.items.add(e.target.files[i]);
+        }
+            this.images = dt.files;
+            e.target.files = dt.files;
         },
         showBtn(e) {
             this.btnActive = true;
@@ -149,6 +158,7 @@ export default {
         addCheckList: function (e) {
             let checkboxPlace = e.target.parentElement.parentElement.parentElement.parentElement;
             let checkboxList = checkboxPlace.querySelector(".check_box_list");
+
             $(checkboxPlace).append(`
                 <div class='check_box_list' style="display : flex">
                     <div class="box_container">
@@ -195,4 +205,5 @@ export default {
 }
 </script>
 <style scoped src="@/assets/css/note/WriteNote.css">
+
 </style>

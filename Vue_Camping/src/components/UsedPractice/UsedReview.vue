@@ -105,7 +105,7 @@
 } 
 </script>  
 <style scoped src="@/assets/css/used/UsedReview.css" />
-<style>
+<style scoped>
 
 #myform fieldset{
     display: inline-block;

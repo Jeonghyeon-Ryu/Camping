@@ -31,7 +31,7 @@ export default{
     },
     data : function(){
         return{
-            memberId : localStorage.getItem("email"),//세션에서 받을 로그인 정보
+            memberId : sessionStorage.getItem("email"),//세션에서 받을 로그인 정보
             EntryList : [],
             rStatus : '',
         }

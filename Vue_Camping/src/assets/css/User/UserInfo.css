@@ -186,6 +186,12 @@
   text-align: left;
   border-radius: 5px;
 }
+.profile-info-modify input[name="email"] {
+  background: rgba(239, 239, 239, 0.3);
+}
+.profile-info-modify input[name="email"]:focus {
+  outline: none;
+}
 .profile-info-modify input[type="button"] {
   cursor:pointer;
 }

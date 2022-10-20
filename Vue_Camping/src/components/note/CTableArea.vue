@@ -7,10 +7,8 @@
       </div>
     </div>
     <div class='table_container'>
-      <td class="row-button-container" @mouseover="showBtn">
-        <button class='row_delbtn' v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)"
-            @mouseout="hideBtn"></button>
-      </td>
+      <button class='row_addbtn'><img src="@/assets/img/note/down_arrow.png" @click="addRow"
+                        @mouseover="changeShow"></button>
       <table class='maked_table'>
         <template v-for="(tr, i) in data" :key="i">
           <tr class='item'>
@@ -36,6 +34,9 @@ export default {
       btnActive: true
     }
   },
+  created () {
+    console.log(this.data);
+  },
   methods: {
     // addRow: function (e) {
     //   let thisTable = e.target.parentNode.nextSibling;
@@ -46,13 +47,13 @@ export default {
     //   console.log(thisTable);
 
 
-    // },
+    },
     addCol: function (e) {
       let tableContainer = e.target.parentElement;
       while (!tableContainer.classList.contains('table_container')) {
         tableContainer = tableContainer.parentElement;
       }
-      console.log(tableContainer);
+      
       let table = tableContainer.querySelector('.maked_table');
       let trs = table.querySelectorAll('tr');
 
@@ -73,7 +74,6 @@ export default {
       while (!item.classList.contains('item')) {
         item = item.parentElement;
       }
-      console.log(item);
       item.remove();
     },
   }

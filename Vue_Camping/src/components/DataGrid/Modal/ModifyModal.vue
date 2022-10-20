@@ -1,20 +1,24 @@
 <template>
-  <div class="modify-container">
+  <form class="modify-container" @submit.prevent>
     <h2>정보 수정</h2>
-    <div v-for="column of columns" class="modify-row">
-      <span>{{column.name}}</span>
-      <input type="text" :value="modifiedData[column.prop]"/>
+    <div v-for="(val,key) of modifyData" class="modify-row">
+      <span>{{key}}</span>
+      <input type="text" v-model="modifyData[key]"/>
     </div>
     <div class="modify-button-container">
-      <RButton :inputColor="'lightGreen'" :inputSize="'lg'" :inputValue="'수정'" @clickBtn="confirm()"></RButton>
-      <RButton :inputColor="'cream'" :inputSize="'lg'" :inputValue="'취소'" @clickBtn="cancel()"></RButton>
+      <RButton :inputColor="'lightGreen'" :inputSize="'md'" :inputValue="'처리완료'" @clickBtn="confirm()"></RButton>
+      <RButton :inputColor="'cream'" :inputSize="'md'" :inputValue="'취소'" @clickBtn="cancel()"></RButton>
     </div>
-  </div>
+  </form>
 </template>
 <script>
 import RButton from '../../Admin/RButton.vue';
 export default {
     props: ["columns", "modifyData"],
+    created : function() {
+      console.log('aa', this.columns);
+      console.log('aa', this.modifyData);
+    },
     data: function () {
         return {
             modifiedData: this.modifyData,
@@ -25,6 +29,11 @@ export default {
         this.$emit('cancelModify');
       },
       confirm: function() {
+        let data = new FormData(document.querySelector('.modify-container'));
+        data.forEach((value,key)=>{
+          console.log(value);
+        })
+
         this.$emit('confirmModify')
       }
     }, 
@@ -34,13 +43,13 @@ export default {
 <style scoped>
   .modify-container{
     position:absolute;
-    top:150px;
+    top:30px;
     left: calc(50% - 200px);
     width:400px;
     background: #fff;
     border:1px solid rgb(220,220,220);
     padding:10px;
-    border-radius: 30px;
+    border-radius: 10px;
   }
   .modify-container h2{
     padding:10px;

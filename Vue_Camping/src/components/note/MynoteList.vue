@@ -132,7 +132,7 @@
         },
         //card에 들어갈 info
         getMyListInfo() {
-            const email = localStorage.getItem("email");
+            const email = sessionStorage.getItem("email");
             fetch(`http://localhost:8087/java/MyNoteList/${email}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },

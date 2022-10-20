@@ -9,11 +9,9 @@ import com.camp.app.chat.service.SocketVO;
 
 @Controller
 @CrossOrigin(originPatterns = "*")
-public class SocketController {
+public class ChatController {
 	@MessageMapping("/receive")
-	
 	@SendTo("/send")
-	
 	public SocketVO SocketHandler(SocketVO socketVO) {
 		String userName = socketVO.getUserName();
 		String content = socketVO.getContent();

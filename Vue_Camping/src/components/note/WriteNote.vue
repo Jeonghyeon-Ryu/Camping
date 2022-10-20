@@ -227,7 +227,6 @@ export default {
                     // tr 행 반복
                     let lineTr = lineValue.querySelectorAll('tr');
                     lineValue = [];
-
                     for (let j = 0; j < lineTr.length; j++) {
 
                         let temp = [];
@@ -257,11 +256,8 @@ export default {
                                       <div class='check_box_list'>
                                       `;
                     for (let j = 0; j < checkBoxList.length; j++) {
-
                         let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
-
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
-
                         let isChecked = lineCheckbox.checked;
                         checkBoxTag += `
                                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="`
@@ -325,6 +321,7 @@ export default {
                 "title": title,
                 "noteContents": contents,
                 "email": localStorage.getItem("email")
+
             }
             console.log(fetchData);
 
@@ -342,8 +339,7 @@ export default {
         //자식에서 이미지 정보 가져오기
         saveImg(images){ 
             this.images = images;
-            
-            
+
         }
     },
     components: { CreTextarea }

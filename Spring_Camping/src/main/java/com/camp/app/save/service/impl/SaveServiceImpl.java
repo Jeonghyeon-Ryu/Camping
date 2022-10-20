@@ -27,7 +27,7 @@ public class SaveServiceImpl implements SaveService {
 
 	@Override
 	public boolean save(SaveVO save) {
-		save.setSaveId(mapper.findMaxSaveId());
+		save.setSaveId(mapper.findMaxSaveId()+1);
 		return mapper.insert(save);
 	}
 

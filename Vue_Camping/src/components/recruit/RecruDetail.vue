@@ -150,7 +150,7 @@ export default{
     data:function(){
         return{
             //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, (4관리자 )
-            memberId : localStorage.getItem("email"),
+            memberId : sessionStorage.getItem("email"),
             userRole : 0,
             recruPost : {},
             entryPost : [],

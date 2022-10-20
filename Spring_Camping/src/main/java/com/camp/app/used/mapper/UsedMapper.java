@@ -55,9 +55,9 @@ public interface UsedMapper {
 	public int updateCnt(int usedId);
 
 	//찜 증가
-	public int updateLike();
-	
+	public int updateLike(int usedId);
 	
 	//후기 작성
 	public int insertReview(UsedReviewVO review);
+	
 }

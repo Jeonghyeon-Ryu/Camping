@@ -38,7 +38,6 @@ public class NoteController {
 	public List<NoteVO> showMyNoteList(@PathVariable("email") String email) { 
 		return service.getMyNoteList(email);
 	}
-	
 	//Note단건삭제
 	@DeleteMapping("/MyNoteList")
 	public void deleteNote(@RequestBody NoteDto nodeDto) { 
