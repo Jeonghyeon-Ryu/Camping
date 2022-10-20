@@ -86,9 +86,9 @@
         </div>
         <div class="info-buttons">``
           <button type="button" class="like-button"
-            v-if="usedList.email != memberId && memberId !='admin' && ">찜하기</button>
+            v-if="usedList.email != memberId && memberId !='admin' && this.liked === true">찜하기</button>
             <button type="button" class="like-button2"
-            v-if="usedList.email != memberId && memberId !='admin' ">찜하기</button>
+            v-if="usedList.email != memberId && memberId !='admin' && this.liked === false">찜하기</button>
           <button type="button" class="chat-button"
             v-if="usedList.email != memberId && memberId !='admin' ">채팅하기</button>
           <button type="button" class="update-button" v-if="usedList.email === memberId"
