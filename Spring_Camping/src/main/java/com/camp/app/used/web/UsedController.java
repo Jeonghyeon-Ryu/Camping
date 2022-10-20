@@ -69,6 +69,12 @@ public class UsedController {
 		service.deleteUsed(used);
 	}
 	
+	//좋아요
+	@PutMapping("/updateLike")
+	public void usedLike(@RequestBody UsedVO used) {
+		service.updateLike(used);
+	}
+	
 	//전체조회
 	@GetMapping("/usedMain")
 	public List<UsedVO> selectAllUsedList() {
@@ -138,9 +144,5 @@ public class UsedController {
 		return service.insertReview(review);
 	}
 	
-	//좋아요
-	@PostMapping("/updateLike")
-	public void usedLike(@RequestBody UsedVO used) {
-		service.updateLike(used);
-	}
+
 }

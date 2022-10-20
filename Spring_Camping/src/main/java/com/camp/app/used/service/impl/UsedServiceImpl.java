@@ -174,8 +174,8 @@ public class UsedServiceImpl implements UsedService {
 
 	//좋아요증가
 	@Override
-	public int updateLike(UsedVO used) {
-		return 1;
+	public void updateLike(UsedVO used) {
+		mapper.updateLike(used);
 	}
 	
 	@Override

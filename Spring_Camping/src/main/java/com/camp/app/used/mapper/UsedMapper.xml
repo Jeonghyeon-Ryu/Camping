@@ -96,7 +96,7 @@
 	</update>
 	
 	<!-- 찜 증가 -->
-	<update id="updateLike" parameterType="UsedVO">
+	<update id="updateLike" parameterType="Integer">
 		UPDATE used
 		SET used_like = used_like+1
 		WHERE used_id = #{usedId}

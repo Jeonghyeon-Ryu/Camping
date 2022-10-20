@@ -101,7 +101,7 @@ ul{
   border-top: 1px solid #efefef;
   padding-left: 70%;
 }
-.like-button, .chat-button, .update-button, .delete-button, .restrict-button{
+.like-button,.like-button2, .chat-button, .chat-button2, .update-button, .delete-button, .restrict-button{
   width: 95px;
   height: 45px;
   border: none;
@@ -112,13 +112,20 @@ ul{
   cursor:pointer;
 }
 .like-button{
-  background-color: rgba(221, 87, 63, 0.767);
+  background-color: rgba(221, 87, 63, 0.873);
+}
+.like-button2{
+  background-color: rgba(176, 73, 55, 0.666);
 }
 .chat-button, .update-button{
-  background-color: #6bb486;
+  background-color:  rgba(93, 185, 101, 0.773);
+}
+.chat-button2{
+  background-color: #bcbcbc;
+  cursor: default;
 }
 .delete-button{
-  background-color: rgba(221, 87, 63, 0.767);
+  background-color: rgb(230, 142, 124);
 }
 .restrict-button{
   background-color: black;

@@ -46,7 +46,7 @@ public interface UsedService {
 	public int updateCnt(int usedId);
 
 	//찜 증가
-	public int updateLike(UsedVO used);
+	public void updateLike(UsedVO used);
 
 	//??
 	int updateRestrict();

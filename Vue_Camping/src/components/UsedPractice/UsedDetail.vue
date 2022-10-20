@@ -40,11 +40,11 @@
                   <!-- 신고기능가져오기 -->
                   <p v-if="usedList.email != memberId" @click="reportItem()">신고하기</p>
                   <div v-if="usedList.email === memberId">
-                    <select name="dealStatus" @change="dealStatus()">
-                      <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
-                      <option name="dealStatus" value=0>거래가능</option>
-                      <option name="dealStatus" value=1>거래중</option>
-                      <option name="dealStatus" value=2>거래완료</option>
+                    <select name="dealStatus">
+                      <option value='' disabled selected>거래상태 변경</option>
+                      <option value="거래가능">거래가능</option>
+                      <option value="거래중">거래중</option>
+                      <option value="거래완료">거래완료</option>
                     </select>
                   </div>
                 </div>
@@ -84,13 +84,16 @@
             <!-- 올린게시물정보(코드써야함) -->
           </div>
         </div>
-        <div class="info-buttons">``
+        <div class="info-buttons">
           <button type="button" class="like-button"
-            v-if="usedList.email != memberId && memberId !='admin' && this.liked === true">찜하기</button>
-            <button type="button" class="like-button2"
-            v-if="usedList.email != memberId && memberId !='admin' && this.liked === false">찜하기</button>
+            v-if="usedList.email != memberId && memberId !='admin' && this.liked === true" @click=hearted()>🤍 찜하기</button>
+          <button type="button" class="like-button2"
+            v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click=hearted()>🧡 찜
+            취소</button>
           <button type="button" class="chat-button"
-            v-if="usedList.email != memberId && memberId !='admin' ">채팅하기</button>
+            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0">채팅하기</button>
+            <button type="button" class="chat-button2"
+            v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">채팅하기</button>
           <button type="button" class="update-button" v-if="usedList.email === memberId"
             @click="usedUpdate()">수정하기</button>
           <button type="button" class="delete-button" v-if="usedList.email === memberId"
@@ -115,43 +118,118 @@ export default {
       usedList: [],
       images: [],
       usedId: this.$route.params.usedId,
-      liked: false
+      usedStatus: img1,
+      liked: true,
     }
   },
   components: {
     UsedDetailImage
   },
   methods: {
-    dealStatus: function(){
-      fetch('http://localhost:8087/java/used/dealUpdate',{
-                    method : "POST",
-                    headers : { },
-                    body : fetchData
-                }) 
-                .then(Response => Response.text())  //json 파싱 
-                .then(data => { 
-                    if(data>="1"){
-                      // 성공
-                      console.log("입력되었습니다.")
-                      // this.$router.push({name : 'usedMain'})
-                      let component = this;
-                    } else {
-                      // 실패                    
-                      console.log("입력 실패")  
-                    }
-                }).catch(err=>console.log(err))
-              
-                console.log(fetchData)
-    },
-    upload: function () {
-      const picUpload = document.querySelector('.pic-upload');
-      const upload = document.querySelector('.uploadarea');
-      picUpload.click();
-    },
-    confirm: function () {
-      let fetchData = {};
-      new FormData(document.querySelector('#container2')).forEach((value, key) => fetchData[key] = value);
-      console.log(fetchData);
+    hearted: function () {
+
+      event.preventDefault();
+      if (this.$store.state.email === null) {
+        Swal.fire({
+          icon: 'warning',
+          title: '로그인 후에 찜해주세요',
+          toast: true,
+          showConfirmButton: false,
+          timer: 1500,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            this.$router.push({ name: "LoginSignup" });
+          }
+        })
+      } else if (this.$store.state.email === this.usedList.email) {
+        Swal.fire({
+          icon: 'warning',
+          title: '내가 쓴 글은 찜할 수 없어요',
+          toast: true,
+          showConfirmButton: false,
+          timer: 1000,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+      } else {
+        this.liked = !this.liked
+
+        let save = {
+          //boardId: document.querySelector('.used-id').value,
+          boardId: this.usedList.usedId,
+          boardDivision: 2,
+          email: this.$store.state.email
+        }
+
+
+        console.log(save);
+        console.log(save.boardId);
+
+        if (this.liked === true) {
+          fetch('http://localhost:8087/java/save', {
+            method: 'DELETE',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(save)
+          })
+            .then(Response => Response.text())  //json 파싱 
+            .then(data => {
+              if (data >= "1") {
+                // 성공
+                console.log("삭제되었습니다.")
+
+                Swal.fire({
+                  icon: 'error',
+                  title: '찜 목록에서 삭제되었어요',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1000,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+
+              }
+            }).catch(err => console.log(err))
+
+
+        } else if (this.liked === false) {
+          fetch('http://localhost:8087/java/save', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(save)
+          })
+            .then(Response => Response.text())  //json 파싱 
+            .then(data => {
+              if (data >= "1") {
+                // 성공
+                console.log("입력되었습니다.")
+
+                Swal.fire({
+                  icon: 'success',
+                  title: '찜 목록에 저장되었어요',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1000,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+
+                //업뎅이트
+                //this.updateLike();
+                // this.$router.push({name : 'usedMain'})
+              }
+            }).catch(err => console.log(err))
+
+        } else {
+          console.log("좋아요실패??")
+        }
+      }
     },
     usedUpdate: function () {
       this.$router.push({ name: 'usedUpdate' })
@@ -330,21 +408,22 @@ export default {
       }).catch(err => console.log(err));
 
     if (this.$store.state.email != null) {
-      fetch('http://localhost:8087/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
+      fetch('http://localhost:8087/java/save?boardId=' + this.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
         .then(result => result.text())
         .then(result => {
           if (result == 'true') {
             this.liked = false;
             console.log(this.liked);
-            console.log('좋아요 상태되는지' + result);
+            console.log('좋아요 저장내역 = ' + result);
           }
         })
         .catch(err => console.log(err));
     }
-
   }
 }
 </script>
+
+
 
 
 <style scoped src="@/assets/css/used/UsedDetail.css" />
