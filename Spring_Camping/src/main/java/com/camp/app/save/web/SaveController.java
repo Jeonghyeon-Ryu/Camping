@@ -24,7 +24,6 @@ public class SaveController {
 	
 	@GetMapping("/saves")
 	public List<SaveVO> showAll(){	// 모든 저장목록 불러오기
-		
 		return service.showAll();
 	}
 	

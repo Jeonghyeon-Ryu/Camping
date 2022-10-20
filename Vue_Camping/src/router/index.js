@@ -125,7 +125,7 @@ const routes = [{
     name: 'MyNoteInfo',
     path: '/MyNoteInfo/:noteId',
     component: () => import('@/components/note/MyNoteInfo.vue'),
-   
+
   },
   {
     name: 'MynoteList',
@@ -151,7 +151,7 @@ const routes = [{
     name: 'ManageUser',
     path: '/Manage/User',
     component: () => import('@/components/Admin/UserManage.vue'),
-  }, 
+  },
   {
     name: 'ManageReport',
     path: '/Manage/Report',
@@ -171,7 +171,17 @@ const routes = [{
     name: 'UsedChat',
     path: '/usedChat',
     component: () => import('@/components/UsedPractice/UsedChat.vue'),
-  }
+  },
+  {
+    name: 'ChatRoom',
+    path: '/chat/rooms',
+    component: () => import('@/components/UsedPractice/room.vue'),
+  },
+  {
+    name: 'ChatRoom2',
+    path: '/chat/rooms2',
+    component: () => import('@/components/UsedPractice/Chatting.vue'),
+  },
 ]
 
 const router = createRouter({

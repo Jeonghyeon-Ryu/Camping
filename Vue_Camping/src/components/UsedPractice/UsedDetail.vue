@@ -79,8 +79,8 @@
             </div>
           </div>
           <div class="info-buttons">
-                  <button type="button" class="like-button" v-if="usedList.email != memberId">찜하기</button>
-                  <button type="button" class="chat-button" v-if="usedList.email != memberId">채팅하기</button>
+                  <button type="button" class="like-button" v-if="usedList.email != memberId && memberId !='admin' ">찜하기</button>
+                  <button type="button" class="chat-button" v-if="usedList.email != memberId && memberId !='admin' ">채팅하기</button>
                   <button type="button" class="update-button" v-if="usedList.email === memberId" @click="usedUpdate()">수정하기</button>
                   <button type="button" class="delete-button" v-if="usedList.email === memberId" @click="usedDelete()">삭제하기</button>
                   <button type="button" class="restrict-button" @click="usedRestrict()" v-if="memberId === 'admin'">접근제한</button>       

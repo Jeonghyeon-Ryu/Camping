@@ -174,11 +174,10 @@ public class UsedServiceImpl implements UsedService {
 
 	//좋아요증가
 	@Override
-	public int updateLike() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateLike(UsedVO used) {
+		return 1;
 	}
-
+	
 	@Override
 	public int getMaxUsedId() {
 		return mapper.findMaxByUsedId();
@@ -195,7 +194,6 @@ public class UsedServiceImpl implements UsedService {
 	public int insertReview(UsedReviewVO review) {
 		 return mapper.insertReview(review);
 	}
-
 
 
 }

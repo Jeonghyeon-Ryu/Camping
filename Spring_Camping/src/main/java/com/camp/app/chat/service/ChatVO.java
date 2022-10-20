@@ -10,3 +10,4 @@ public class ChatVO {
 	private String regdate;
 	
 }
+

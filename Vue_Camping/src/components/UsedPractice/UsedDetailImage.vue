@@ -83,7 +83,9 @@ export default {
 .swiper-container-rtl .swiper-button-prev,
 .swiper-container-rtl .swiper-button-next {
     color: #F7EDDA;
+    vertical-align: bottom;
 }
+
 .swiper-pagination-bullet {
     background: #F7EDDA;
     vertical-align: bottom;

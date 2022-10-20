@@ -32,6 +32,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
     // 와일드 카드 `'*'`을 사용하실 수 없습니다.
     //  	.setAllowedOrigins("*")
             
-	
 	}
 }
