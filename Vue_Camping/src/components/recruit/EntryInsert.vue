@@ -129,8 +129,11 @@ export default{
             .then(Response => Response.json())  
             .then(data => { 
                 if(data==1){
-                    Swal.fire('신청 완료했습니다.','모집자가 신청을 수락할 경우 알림이 갑니다','success');
-                    component.$emit('close-recru')
+                    Swal.fire('신청 완료했습니다.','모집자가 신청을 수락할 경우 알림이 갑니다','success')
+                    .then(result=>{
+                        component.$emit('close-recru')
+                        this.$router.go(0)
+                    })
                 }else{
                     Swal.fire('문제 발생!','신청이 처리되지 않았습니다. 문제가 계속될 경우 문의해주세요','error');
                 }

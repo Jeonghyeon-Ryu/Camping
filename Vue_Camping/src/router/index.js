@@ -182,6 +182,11 @@ const routes = [{
     path: '/chat/rooms2',
     component: () => import('@/components/UsedPractice/Chatting.vue'),
   },
+  {
+    name: 'RecruUpdate',
+    path: '/recru/RecruUpdate/:recruId',
+    component: () => import('@/components/recruit/RecruUpdate.vue'),
+  },
 ]
 
 const router = createRouter({
