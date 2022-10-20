@@ -46,13 +46,12 @@ public interface UsedService {
 	public int updateCnt(int usedId);
 
 	//찜 증가
-	public int updateLike();
+	public int updateLike(UsedVO used);
 
 	//??
 	int updateRestrict();
 	
 	//후기 작성
 	public int insertReview(UsedReviewVO review);
-
 	
 }
