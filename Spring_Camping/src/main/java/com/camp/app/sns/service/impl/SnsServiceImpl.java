@@ -63,9 +63,15 @@ public class SnsServiceImpl implements SnsService {
 		mapper.snsUpdate(vo);
 	}
 
+	//유저 삭제
 	@Override
 	public void snsDelete(int writeNo) {
 		mapper.snsDelete(writeNo);
+	}
+	//admin 삭제
+	@Override
+	public void snsDeleteByAdmin(int writeNo) {
+		mapper.snsDeleteByAdmin(writeNo);
 	}
 
 ////////////////////////////

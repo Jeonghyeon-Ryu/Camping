@@ -52,10 +52,13 @@ export default {
     },
     showHashList(hashtag){
       // console.log("부모" + hashtag);
+      hashtag = hashtag.substring(1, hashtag.length);
+      
+      console.log("http://localhost:8087/java/hashtagList/" + hashtag + "/" +this.page);
         fetch("http://localhost:8087/java/hashtagList/" + hashtag + "/" +this.page)
         .then(result => result.json())
         .then(result => {
-
+          console.log(result);
           this.snsImgs = result;
           console.log(result);
         })

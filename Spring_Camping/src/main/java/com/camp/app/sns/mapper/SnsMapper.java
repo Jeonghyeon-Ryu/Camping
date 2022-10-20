@@ -48,6 +48,9 @@ public interface SnsMapper {
 	// sns 삭제 기능
 	public void snsDelete(int writeNo);
 
+	// sns admin 삭제 기능
+	public void snsDeleteByAdmin(int writeNo);
+
 	// sns 좋아요 기능
 
 	// 유저가 작성한 총게시글 수
