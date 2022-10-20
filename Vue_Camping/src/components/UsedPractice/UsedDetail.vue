@@ -37,14 +37,15 @@
                   ❤ {{usedList.usedLike}} 👁‍🗨 {{usedList.usedCnt}}
                 </div>
                 <div class="used-report">
-                  <!-- 신고기능가져오기 -->
+                  <!-- 신고기능가져오기(다른유저가쓴글) -->
                   <p v-if="usedList.email != memberId" @click="reportItem()">신고하기</p>
+                  <!-- 거래상태변경(본인이쓴글) -->
                   <div v-if="usedList.email === memberId">
-                    <select name="dealStatus">
-                      <option value='' disabled selected>거래상태 변경</option>
-                      <option value="거래가능">거래가능</option>
-                      <option value="거래중">거래중</option>
-                      <option value="거래완료">거래완료</option>
+                    <select id="dealStatus" name="dealStatus" @change="dealChange()">
+                      <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
+                      <option name="dealStatus" value="0">거래가능</option>
+                      <option name="dealStatus" value="1">거래중</option>
+                      <option name="dealStatus" value="2">거래완료</option>
                     </select>
                   </div>
                 </div>
@@ -86,16 +87,19 @@
         </div>
         <div class="info-buttons">
           <button type="button" class="like-button"
-            v-if="usedList.email != memberId && memberId !='admin' && this.liked === true" @click=hearted()>🤍 찜하기</button>
+            v-if="usedList.email != memberId && memberId !='admin' && this.liked === true" @click="hearted()">🤍
+            찜하기</button>
           <button type="button" class="like-button2"
-            v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click=hearted()>🧡 찜
+            v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click="hearted()">🧡 찜
             취소</button>
           <button type="button" class="chat-button"
             v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0">채팅하기</button>
-            <button type="button" class="chat-button2"
+          <button type="button" class="chat-button2"
             v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">채팅하기</button>
-          <button type="button" class="update-button" v-if="usedList.email === memberId"
+          <button type="button" class="update-button" v-if="usedList.email === memberId && usedList.dealStatus != 2"
             @click="usedUpdate()">수정하기</button>
+          <button type="button" class="update-button2"
+            v-if="usedList.email === memberId && usedList.dealStatus === 2">수정하기</button>
           <button type="button" class="delete-button" v-if="usedList.email === memberId"
             @click="usedDelete()">삭제하기</button>
           <button type="button" class="restrict-button" @click="usedRestrict()"
@@ -126,8 +130,8 @@ export default {
     UsedDetailImage
   },
   methods: {
+    //찜하기
     hearted: function () {
-
       event.preventDefault();
       if (this.$store.state.email === null) {
         Swal.fire({
@@ -194,8 +198,6 @@ export default {
 
               }
             }).catch(err => console.log(err))
-
-
         } else if (this.liked === false) {
           fetch('http://localhost:8087/java/save', {
             method: 'POST',
@@ -219,8 +221,7 @@ export default {
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                   }
                 })
-
-                //업뎅이트
+                //업뎅이트(찜cnt증가 --해야함)
                 //this.updateLike();
                 // this.$router.push({name : 'usedMain'})
               }
@@ -231,9 +232,55 @@ export default {
         }
       }
     },
+    //거래상태변경
+    dealChange: function () {
+      let deal = document.querySelector('#dealStatus').value;
+
+      let fetchData = {}
+      fetchData["usedId"] = this.usedList.usedId;
+      fetchData["dealStatus"] = deal;
+
+      Swal.fire({
+        title: '',
+        text: '거래 상태를 변경하시겠습니까?',
+        icon: 'warning',
+
+        confirmButtonColor: '#65c66d', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#cc5050', // cancel 버튼 색깔 지정
+        confirmButtonText: '네', // confirm 버튼 텍스트 지정
+        cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
+        showCancelButton: true,
+
+      })
+      .then(result => {
+        // 만약 Promise리턴을 받으면,
+        if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+          fetch('http://localhost:8087/java/used/dealUpdate', {
+        method: "PUT",
+        // body : fetchData
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fetchData)
+      })
+        .then(Response => Response.json())  //json 파싱 
+        .then(data => {
+          if (data >= "1") {
+            // 성공
+            console.log("입력되었습니다.")
+          } else {
+            // 실패                    
+            console.log("입력 실패")
+          }
+        }).catch(err => console.log(err))
+      this.$router.go()
+        }
+      }
+      );
+    },
+    //수정
     usedUpdate: function () {
       this.$router.push({ name: 'usedUpdate' })
     },
+    //삭제
     usedDelete: function () {
       let fetchData = {};
       fetchData["usedId"] = this.usedId;
@@ -269,6 +316,7 @@ export default {
       }
       );
     },
+    //접근제한
     usedRestrict: function () {
       let fetchData = {};
       fetchData["usedId"] = this.usedId;
@@ -278,12 +326,11 @@ export default {
         text: '이 게시물에 접근 제한을 설정하시겠습니까?',
         icon: 'warning',
 
-        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-        cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+        confirmButtonColor: '#65c66d', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#cc5050', // cancel 버튼 색깔 지정
         confirmButtonText: '네', // confirm 버튼 텍스트 지정
         cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
-
-        reverseButtons: true, // 버튼 순서 거꾸로
+        showCancelButton: true,
 
       }).then(result => {
         // 만약 Promise리턴을 받으면,
@@ -298,11 +345,23 @@ export default {
               console.log(data)
 
             }).catch(err => console.log(err))
-            .then(Swal.fire('접근제한 설정이 완료되었습니다'))
+            .then(Swal.fire({
+              icon: 'error',
+              title: '접근 제한 설정이 완료되었습니다',
+              toast: true,
+              showConfirmButton: false,
+              timer: 1200,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                this.$router.push({ name: "usedMain" });
+              }
+            }))
         }
       }
       );
     },
+    //신고
     reportItem: function () {
       let item = Swal.fire({
         title: '신고',
@@ -422,6 +481,8 @@ export default {
   }
 }
 </script>
+
+
 
 
 

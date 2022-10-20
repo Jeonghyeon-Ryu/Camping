@@ -54,7 +54,7 @@ public class UsedController {
 	//거래상태수정
 	@PutMapping("/dealUpdate")
 	public void updateDealStatus(@RequestBody UsedVO used) {
-		service.updateUsed(used);
+		service.updateDeal(used);
 	}
 	
 	//게시물 상태 수정 (제한)
