@@ -5,15 +5,21 @@
     position: relative;
     padding: 10px;
 }
-.recru-input-back{
+.recru-back-box{
     height: 1000px;
     width: 600px;
     margin : 1rem;
     flex-direction: column;
     justify-content: center;
-    background-image: url("@/assets/img/vue-mk-header.jpg"); 
     background-size: cover;
     border-radius: 20px;
+}
+.recru-input-back{
+    background-image: url("@/assets/img/vue-mk-header.jpg"); 
+}
+.recru-update-back{
+    background-position: center center;
+    background-image: url("@/assets/img/main-image/main_1.jpg"); 
 }
 /* 입력폼 박스 */
 .recru-input-box{
@@ -47,7 +53,13 @@
 #recru-form hr{
     margin: 10px;
 }
-
+.recru-addr-kakao{
+    width: 50%;
+}
+.recru-addr-detail{
+   width:40%;
+   background:#f1f1f1;
+}
 /* 들여쓰기 */
 .in-level{
     margin-left: 20px;

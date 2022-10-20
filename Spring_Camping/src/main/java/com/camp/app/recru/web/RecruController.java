@@ -62,4 +62,9 @@ public class RecruController {
 		save.setBoardId(boardId);
 		return service.isExist(save);
 	}
+	//수정
+	@PutMapping("/recru/updateAll")
+	public int updateRecru(@RequestBody RecruVO recruVO) {
+		return service.updateRecru(recruVO);
+	}
 }
