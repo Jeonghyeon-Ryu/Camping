@@ -7,8 +7,8 @@ public class NoteImgVO {
 	private int imgId;
 	private int noteId;
 	private String originName;
-	private String sotredName;
+	private String storedName;
 	private String imgFormat;
 	private String imgPath;
-	private int imgSize;
+	private long imgSize;
 }

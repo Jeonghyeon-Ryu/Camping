@@ -35,8 +35,8 @@
                 <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button>
             </div>
         </div>
-        <div class="checkbox_place">
-            <div v-if="type=='checkboxBox'" class='check_box_list'>
+        <div v-if="type=='checkboxBox'" class="checkbox_place">
+            <div  class='check_box_list'>
                 <div class="box_container">
                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
                     <input type="text" class="checkbox_text" name="myCheck">
@@ -54,37 +54,48 @@
             <p>
                 upload이미지 : {{file.name}} fileSize : ({{file.size}}) / fileType : {{file.type}}
             </p>
+        </div> -->
+        <div class="img_container">
+            <div  v-if="type=='imgBox'" class='used-insert-image-preview'>
+                <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
+            </div>
+            <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
+                <label>사진등록
+                <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
+                    @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
+                </label>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import $ from 'jquery'
+import ImagePreview from '../ImagePreview.vue'; 
+
 export default {
     data() {
         return {
             shiftSatus: false,
-            //file: '',
+            //file: "",
             images: [],
-            imagesUrl: [],
-            search: ''
-        }
+            imagesUrl: []
+        };
     },
-    props: ['type']
-    ,
+    props: ["type"],
+    
     methods: {
         creTextarea: function (e) {
             if (!this.shiftSatus) {
                 e.preventDefault();
-                this.$emit('creArea');
+                this.$emit("creArea");
             }
         },
         delLine: function (e) {
             let thisWriteFn = e.target.parentNode.parentNode.parentNode.parentNode;
-            let AllwriteFn = document.querySelectorAll('.write_fn');
+            let AllwriteFn = document.querySelectorAll(".write_fn");
             if (AllwriteFn.length > 1) {
                 $(thisWriteFn).remove();
-
             }
         },
         shiftfUp: function (e) {
@@ -117,10 +128,10 @@ export default {
             }
         },
         creTablebox: function (e) {
-            this.$emit('tableBox');
+            this.$emit("tableBox");
         },
         creImg: function (e) {
-            this.$emit('imgBox');
+            this.$emit("imgBox");
         },
         deleteImages(updatedImages) {
             this.images = updatedImages;
@@ -146,8 +157,8 @@ export default {
         },
         addCheckList: function (e) {
             let checkboxPlace = e.target.parentElement.parentElement.parentElement.parentElement;
-            let checkboxList = checkboxPlace.querySelector('.check_box_list');
-            console.log(checkboxPlace);
+            let checkboxList = checkboxPlace.querySelector(".check_box_list");
+
             $(checkboxPlace).append(`
                 <div class='check_box_list' style="display : flex">
                     <div class="box_container">
@@ -167,8 +178,30 @@ export default {
             if ($(checkboxPlace).children().length > 1) {
                 $(checkboxList).remove();
             }
-        }
-    }
+        },
+        deleteImages(updatedImages) {
+            this.images = updatedImages;
+            document.querySelector(".used-insert-image-container input[type=\"file\"]").files = updatedImages;
+        },
+        //write페이지
+        changeImage(e) {
+            let dt = new DataTransfer();
+            for (let i = 0; i < e.target.files.length; i++) {
+                dt.items.add(e.target.files[i]); //kind와 type
+            }
+            for(let i=0; i < this.images.length; i++){ 
+                dt.items.add(this.images[i]);
+            }
+            this.images=dt.files; //파일 name, date
+            e.target.files = dt.files;
+            console.log("here");
+            console.log(this.images);
+            
+            this.$emit("saveImg", this.images);
+        },
+        
+    },
+    components: { ImagePreview }
 }
 </script>
 <style scoped src="@/assets/css/note/WriteNote.css">

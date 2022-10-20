@@ -8,8 +8,6 @@
         </div>
         <div class="checkbox_place">
             <div class='check_box_list'>
-                {{data[0][i-1]}}
-                <!-- <div class="box_container" v-for="i in data[0][0].length" :key="i"> -->
                 <div class="box_container" v-for="i of count">       
                     <input type='checkbox' class='noteCheckbox' name="myCheck" v-model="data[0][i-1]">
                     <input type="text" class="checkbox_text" name="myCheck" :value="data[1][i-1]">      
@@ -39,16 +37,10 @@ export default {
         this.count = this.data[0].length;
         
     },
-
     methods: {
         addCheckList: function (e) {
             let checkboxPlace = e.target.parentElement.parentElement.parentElement.parentElement;
-            //let checkboxList = checkboxPlace.children;
             let checkboxList = checkboxPlace.querySelector('.check_box_list');
-            //let checkboxList = $(checkboxPlace).children('.check_box_list')[0];
-            console.log(checkboxPlace);
-            //let cloneBox = $(checkboxList).eq[0].clone(true);
-            //cloneBox.children(".checkbox_text").val("");
             $(checkboxPlace).append(`
                 <div class='check_box_list'>
                     <div class="box_container">

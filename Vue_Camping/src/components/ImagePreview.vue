@@ -68,6 +68,7 @@
                     }
                 }
                 this.imageFiles = dt.files;
+                this.imagesUrl = [];
                 for(let image of this.imageFiles){
                     this.imagesUrl.push(URL.createObjectURL(image));
                 }
@@ -83,6 +84,7 @@
         },
         watch : {
             images(newImages, oldImages) {
+                this.imageFiles = [];
                 if(newImages.length >= oldImages.length){
                     this.insertImage(newImages);
                 }

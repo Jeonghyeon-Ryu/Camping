@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.camp.app.note.service.NoteDto;
 import com.camp.app.note.service.NoteService;
@@ -46,8 +47,13 @@ public class NoteController {
 	//노트 선택시 노트내용 가져오기
 	@GetMapping("/GoMyNote/{noteId}")
 	public NoteVO goMyNote(@PathVariable("noteId") int noteId) {
-		System.out.println(noteId);
+		
 		return service.getMyNote(noteId);
 	}
-	
+	//imgDB에 저장
+	@PostMapping("/WriteNote/img")
+	public boolean saveImg(@RequestBody List<MultipartFile> files) { 
+		System.out.println(files);
+		return service.insertImg(files);
+	}
 }
