@@ -85,8 +85,8 @@
 
             <div class="sns-push-button-container1">
               <div class="sns-write-like-button">
-                <img v-if="liked" v-on:click='hearted()' v-bind:src="heartImg">
-                <img v-if="!liked" v-on:click="hearted()" v-bind:src="heartImg2">
+                <img v-if="liked==true" v-on:click='hearted()' v-bind:src="heartImg">
+                <img v-if="liked==false" v-on:click="hearted()" v-bind:src="heartImg2">
               </div>
             </div>
             <div class="sns-push-button-container1">
@@ -193,6 +193,20 @@ export default {
         this.snsCommentItems = result
       })
       .catch(err => console.log(err));
+
+    //좋아요 상태 가져오기..
+    if (this.$store.state.email != null) {
+      fetch('http://localhost:8087/java/save?boardId=' + this.writeNo + '&email=' + this.$store.state.email)
+        .then(result => result.text())
+        .then(result => {
+          if (result == 'true') {
+            this.liked = false;
+            console.log(this.liked);
+            console.log('좋아요 상태되는지' + result);
+          }
+        })
+        .catch(err => console.log(err));
+    }
   },
   data: function () {
     return {
@@ -262,14 +276,14 @@ export default {
     },
     //좋아요
     hearted: function () {
-      this.liked = !this.liked
+      // this.liked = !this.liked
       if (this.liked == true) {
-        console.log("저장빼기");
-        this.doDislike();
-      }
-      else if (this.liked == false) {
         console.log("저장하기");
         this.doLike();
+      }
+      else if (this.liked == false) {
+        console.log("저장빼기");
+        this.doDislike();
         // Swal.fire({
         //       title: '좋아요한 게시글에 저장되었습니다.',
         //       confirmButtonText: '확인',
@@ -287,48 +301,93 @@ export default {
     doLike() {
 
       //좋아요한 게시글 번호, 좋아요 누른 로그인한 사람 이메일
-      //글번호
+      //저장글번호
+      //sns글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
+      //저장 분류(sns는 3)
+      let boardDivision = 3;
       //이메일
       let email = this.$store.state.email;
-      
+
       let like = {
-        writeNo : writeNo,
-        email : email
+        boardId: writeNo,
+        boardDivision: boardDivision,
+        email: email
       }
 
       console.log(like);
 
-      fetch('http://localhost:8087/java/like', {
-        method: 'POST',
+      if (this.$store.state.email != null) {
+
+        fetch('http://localhost:8087/java/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(like)
+        }).then(result => result.text())
+          .then(result => {
+            console.log(result);
+            if (result == "true") {
+              this.liked = false;
+              Swal.fire({
+                confirmButtonText: '확인',
+                title: '좋아요한 게시글에 저장되었습니다.',
+              })
+              // .then((result) => {
+              //   /* Read more about isConfirmed, isDenied below */
+              //   // if (result.isConfirmed) {
+              //   //   //현재페이지 새로고침!
+              //   //   this.$router.go(0)
+              //   // }
+              // })
+            }
+          })
+          .catch(err => console.log(err))
+      }
+    },
+    //좋아요 저장하기 delete
+    doDislike() {
+      //좋아요한 게시글 번호, 좋아요 누른 로그인한 사람 이메일
+      //저장글번호
+      //sns글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //저장 분류(sns는 3)
+      let boardDivision = 3;
+      //이메일
+      let email = this.$store.state.email;
+
+      let dislike = {
+        boardId: writeNo,
+        boardDivision: boardDivision,
+        email: email
+      }
+
+      fetch('http://localhost:8087/java/save', {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(like)
+        body: JSON.stringify(dislike)
       }).then(result => result.text())
         .then(result => {
           console.log(result);
           if (result == "true") {
+            this.liked = true;
             Swal.fire({
-              title: '좋아요한 게시글에 저장되었습니다.',
               confirmButtonText: '확인',
+              title: '좋아요가 취소되었습니다.',
             })
-              .then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                // if (result.isConfirmed) {
-                //   //현재페이지 새로고침!
-                //   this.$router.go(0)
-                // }
-              })
-
-
+            // .then((result) => {
+            //   /* Read more about isConfirmed, isDenied below */
+            //   // if (result.isConfirmed) {
+            //   //   //현재페이지 새로고침!
+            //   //   this.$router.go(0)
+            //   // }
+            // })
           }
         })
         .catch(err => console.log(err))
-    },
-    //좋아요 저장하기 delete
-    doDislike() {
-
     },
     //글 수정삭제 버튼
     doSnsController() {

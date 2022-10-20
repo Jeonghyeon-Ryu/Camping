@@ -5,7 +5,6 @@
 <select id="getSnsList" resultType="com.camp.app.sns.service.SnsVO">
 SELECT * 
 FROM sns 
-<!-- WHERE status = 0 -->
 order by write_no desc </select>
 
 <!-- 페이징? -->
@@ -127,12 +126,14 @@ SET status = 1
 WHERE write_no = #{writeNo} 
 </update>
 
+
+
+<!-- 마이페이지 -->
+<!-- 유저가 작성한 총게시글 수 -->
 <select id="countSnsByUser" resultType="Integer" parameterType="String">
 	SELECT COUNT(*) FROM sns WHERE email = #{email} and status = 0
 </select>
 
-
-<!-- 마이페이지 -->
 <!-- 페이징? -->
  <select id="showSnsByPageByUser" resultType="SnsImageVO" parameterType="MySnsVO">
 
@@ -159,6 +160,41 @@ WHERE write_no = #{writeNo}
            WHERE SEQ >= ((#{page}-1)*10+1)
           )
       WHERE ROWNUM < 11
+     
+		]]>
+</select> 
+
+<!-- 좋아요한 페이지 모아보기 -->
+<!-- count는 saveMapper에 있음 -->
+
+<!-- 해시태그 검색한 이미지리스트 -->
+<!-- 페이징? -->
+ <select id="showSnsByPageByHashtag" resultType="SnsImageVO" parameterType="SnsHashtagVO">
+
+<![CDATA[
+
+      
+      SELECT write_no, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path
+      FROM ( 
+           SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+           FROM (
+                SELECT ROWNUM AS SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+                FROM ( SELECT *
+                            FROM sns_image 
+                            WHERE sns_image_no = ANY
+                                    (SELECT MAX(sns_image_no) 
+                                    FROM sns_image
+                                    WHERE write_no IN (SELECT write_no
+                                                                FROM sns
+                                                                WHERE status=0  and hashtag like #{hashtag})
+                                                       
+                                    GROUP BY write_no)
+                            ORDER BY write_no desc)
+               )
+           WHERE SEQ >= ((#{page}-1)*10+1)
+          )
+      WHERE ROWNUM < 11
+     
 		]]>
 </select> 
 </mapper>
