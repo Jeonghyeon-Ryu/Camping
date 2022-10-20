@@ -91,7 +91,7 @@ export default {
           boardDivision: 2,
           email: this.$store.state.email
         }
-      }
+      
 
       console.log(save);
       console.log(save.boardId);
@@ -140,6 +140,7 @@ export default {
       } else {
         console.log("좋아요실패??")
       }
+    }
     },
       updateLike: function(){
       fetch('http://localhost:8087/java/used/updateLike', {
@@ -160,7 +161,7 @@ export default {
       .catch(err => console.log(err))
 
       if (this.$store.state.email != null) {
-      fetch('http://localhost:8087/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email)
+      fetch('http://localhost:8087/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email + '&boardDivision='+2)
         .then(result => result.text())
         .then(result => {
           if (result == 'true') {

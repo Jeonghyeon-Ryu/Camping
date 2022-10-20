@@ -107,6 +107,7 @@ public class UsedController {
 		return service.showUsedImageByUsedId(usedId);
 	}
 	
+	//사진보여주기
 	@GetMapping("/showImage/{usedPath}/{usedStoredName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String usedPath, @PathVariable String usedStoredName){
 		String fullPath = "d:\\upload\\used\\" + usedPath + "\\" + usedStoredName;
