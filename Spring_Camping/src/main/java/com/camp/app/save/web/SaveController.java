@@ -24,7 +24,6 @@ public class SaveController {
 	
 	@GetMapping("/saves")
 	public List<SaveVO> showAll(){	// 모든 저장목록 불러오기
-		
 		return service.showAll();
 	}
 	
@@ -40,7 +39,6 @@ public class SaveController {
 	}
 	@DeleteMapping("/save")
 	public boolean remove(@RequestBody SaveVO save) {	// 저장목록에서 제거
-		
 		return service.remove(save);
 	}
 }

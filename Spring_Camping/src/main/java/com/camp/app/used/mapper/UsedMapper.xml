@@ -197,6 +197,4 @@
 			#{usedPath}
 		)
 	</insert>
-
-	
 </mapper>

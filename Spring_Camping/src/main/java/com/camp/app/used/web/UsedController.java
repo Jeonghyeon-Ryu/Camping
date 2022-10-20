@@ -136,4 +136,10 @@ public class UsedController {
 	public int usedReview(UsedReviewVO review) {
 		return service.insertReview(review);
 	}
+	
+	//좋아요
+	@PostMapping("/updateLike")
+	public void usedLike(@RequestBody UsedVO used) {
+		service.updateLike(used);
+	}
 }
