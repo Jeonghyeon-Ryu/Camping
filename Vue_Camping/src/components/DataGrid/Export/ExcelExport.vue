@@ -1,5 +1,5 @@
 <template>
-  <RButton :inputColor="'green'" :inputSize="'sm'" :inputValue="'엑셀저장'" @clickBtn="makeExcelFile()"></RButton>
+  <button @clickBtn="makeExcelFile()">엑셀저장</button>
 </template>
 <script>
 import * as Xlsx from "xlsx"
@@ -23,3 +23,14 @@ export default {
   components: { RButton }
 }
 </script>
+<style scoped>
+button{
+  background-color:  rgb(6, 68, 32);
+  color:white;
+  border-radius: 10px;
+  border:1px solid rgb(220,220,220);
+  font-size:0.8rem;
+  padding:10px;
+  cursor: pointer;
+}
+</style>

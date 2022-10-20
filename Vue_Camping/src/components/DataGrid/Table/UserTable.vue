@@ -191,7 +191,7 @@ export default {
             styleResult = styleResult + ' 25px 25px';
             document.querySelector('.table').style.setProperty('--gridTemplate', styleResult);
         },
-        modify: function (data) {
+        modify: function (data) {   // 업데이트 필요함
             this.modifyData = data;
             this.isModify = true;
         },
@@ -221,7 +221,7 @@ export default {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            email: this.$store.state.email,
+                            email: data.email,
                             auth: 1,
                             status: 1   // 접속 제한
                         })
@@ -274,7 +274,7 @@ export default {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            email: this.$store.state.email,
+                            email: data.email,
                             auth: 1,
                             status: 2   // 접속 허용
                         })

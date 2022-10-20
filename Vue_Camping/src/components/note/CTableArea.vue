@@ -77,7 +77,7 @@ export default {
       item.remove();
     },
   }
-}
+
 </script>
 
 <style scoped src="@/assets/css/note/WriteNote.css">

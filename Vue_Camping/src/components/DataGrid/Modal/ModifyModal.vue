@@ -3,7 +3,8 @@
     <h2>정보 수정</h2>
     <div v-for="(val,key) of modifyData" class="modify-row">
       <span>{{key}}</span>
-      <input type="text" v-model="modifyData[key]"/>
+      <input v-if="key != 'password'" type="text" v-model="modifyData[key]"/>
+      <input v-if="key == 'password'" type="password" v-model="modifyData[key]"/>
     </div>
     <div class="modify-button-container">
       <RButton :inputColor="'lightGreen'" :inputSize="'md'" :inputValue="'처리완료'" @clickBtn="confirm()"></RButton>
