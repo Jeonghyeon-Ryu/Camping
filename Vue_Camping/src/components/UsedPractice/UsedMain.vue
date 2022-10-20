@@ -77,16 +77,15 @@
             <label for="inputPrice">가격범위</label>
 
              <VueSimpleRangeSlider
-              style="width: 200px;
-                     line-height: 20px;
-                     font-size: 12px;"
+                style="width : 200px;
+                      font-size : 12px;"
 
-              :min="0"
-              :maxPrice="1000000"
-              exponential
-              v-model="state.range"
-            >
-              <template #prefix="{ value }">￦ </template>
+                :min="this.minPrice"
+                :max="100"
+                
+                exponential
+                v-model="state.range">
+                <template #prefix="{ value }">￦ </template>
               </VueSimpleRangeSlider>
               <!-- <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
               <p>~</p>
@@ -98,6 +97,8 @@
 
       <!--본문-->
       <div class="used-body">
+        <!-- :min="this.minPrice"
+        :max="this.maxPrice" -->
 
         <h2>{{recruMsg}}</h2>
         <div class="cards">
@@ -233,7 +234,24 @@
                this.recruMsg="";
             }
           }).catch(err=>console.log(err));
-      }
+      },
+      selectMinUsedPrice() {
+        let priceList = [];
+
+        for(let i=0; i<this.usedList.length; i++) {
+          priceList.push(this.usedList[i].usedPrice);
+        }
+
+        let min = Math.min.apply(null,priceList);
+        let max = Math.max.apply(null,priceList);
+
+        this.minPrice = min;
+        this.maxPrice = max;
+
+        
+        console.log('최고가'+this.maxPrice)
+        console.log('최저가'+this.minPrice)
+      },
     },
     //created-페이지 열자마자 실행
     created(){
@@ -241,8 +259,9 @@
       fetch('http://localhost:8087/java/used/usedMain') 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
-                    console.log(data)
+                    console.log(data);
                     this.usedList = data;
+                    this.selectMinUsedPrice();
                 }).catch(err=>console.log(err))
 
     },
