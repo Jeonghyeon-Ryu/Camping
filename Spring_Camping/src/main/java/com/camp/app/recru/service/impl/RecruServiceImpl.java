@@ -121,8 +121,7 @@ public class RecruServiceImpl implements RecruService {
 	}
 	@Override
 	public boolean isExist(SaveVO save) {
-		if(saveMapper.exist(save)>0) return true;
-		else return false;
+		return saveMapper.exist(save);
 	}
 
 }
