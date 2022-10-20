@@ -11,12 +11,12 @@
         </div>
       </div>
       <div class="my-info-left-bottom">
-        <div class="my-info-left-button">기본정보 변경</div>
-        <div class="my-info-left-button">비밀번호 변경</div>
+        <div class="my-info-left-button" @click="user_modify_toggle">기본정보 변경</div>
+        <div class="my-info-left-button" @click="user_modify_password">비밀번호 변경</div>
       </div>
     </div>
     <div class="my-info-right">
-      <h2>Account Settings</h2>
+      <h2>계정 정보</h2>
       <form class="user-info-form">
         <div class="profile-image-modify">
           <div class="profile-image-preview">
@@ -32,21 +32,21 @@
         <div class="profile-info-modify">
           <div>
             <input type="text" v-bind:value="user.email" placeholder="이메일" name="email" readonly />
-            <input type="text" v-bind:value="user.nickname" placeholder="닉네임" name="nickname" />
-            <input type="button" value="비밀번호 변경" name="nickname" @click="user_modify_password" />
+            <input type="text" v-bind:value="user.nickname" placeholder="닉네임" name="nickname" disabled />
+            <input type="button" value="비밀번호 변경" @click="user_modify_password" disabled />
           </div>
           <div>
-            <input type="text" v-bind:value="user.name" placeholder="이름" name="name" />
-            <input type="text" v-bind:value="user.birth" placeholder="생년월일" name="birth" />
-            <input type="text" v-bind:value="user.phoneNumber" placeholder="연락처" name="phoneNumber" />
+            <input type="text" v-bind:value="user.name" placeholder="이름" name="name" disabled />
+            <input type="text" v-bind:value="user.birth" placeholder="생년월일" name="birth" disabled />
+            <input type="text" v-bind:value="user.phoneNumber" placeholder="연락처" name="phoneNumber" disabled />
           </div>
         </div>
         <div>
-          <textarea :value="user.profileInfo" name="profileInfo"></textarea>
+          <textarea :value="user.profileInfo" name="profileInfo" disabled></textarea>
         </div>
         <div class="btn-modify-container">
-          <button type="button" class="btn-modify" @click="user_modify_confirm()">수정완료</button>
-          <button type="button" class="btn-modify" @click="user_modify_cancel()">취소</button>
+          <button v-if="isModify" type="button" class="btn-modify" @click="user_modify_confirm()">수정완료</button>
+          <button v-if="isModify" type="button" class="btn-modify" @click="user_modify_cancel()">취소</button>
         </div>
       </form>
     </div>
@@ -62,7 +62,8 @@ export default {
     return {
       user: {},
       imgUrl: '',
-      storedProfile: ''
+      storedProfile: '',
+      isModify: false
     };
   },
   created: function () {
@@ -82,6 +83,23 @@ export default {
   methods: {
     changeImage: function (e) {
       this.imgUrl = URL.createObjectURL(e.target.files[0]);
+    },
+    user_modify_toggle: function () {
+      if (!this.isModify) {
+        document.querySelector('input[name="nickname"]').disabled = false;
+        document.querySelector('input[name="name"]').disabled = false;
+        document.querySelector('input[name="birth"]').disabled = false;
+        document.querySelector('input[name="phoneNumber"]').disabled = false;
+        document.querySelector('textarea').disabled = false;
+        this.isModify = true;
+      } else {
+        document.querySelector('input[name="nickname"]').disabled = true;
+        document.querySelector('input[name="name"]').disabled = true;
+        document.querySelector('input[name="birth"]').disabled = true;
+        document.querySelector('input[name="phoneNumber"]').disabled = true;
+        document.querySelector('textarea').disabled = true;
+        this.isModify = false;
+      }
     },
     user_modify_confirm: function () {
       let fetchData = new FormData(document.querySelector('.user-info-form'));
@@ -151,6 +169,13 @@ export default {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           Swal.fire('취소 !', '', 'success')
+          document.querySelector('input[name="email"]').value = this.user.email;
+          document.querySelector('input[name="nickname"]').value = this.user.nickname;
+          document.querySelector('input[name="name"]').value = this.user.name;
+          document.querySelector('input[name="birth"]').value = this.user.birth;
+          document.querySelector('input[name="phoneNumber"]').value = this.user.phoneNumber;
+          document.querySelector('textarea').value = this.user.profileInfo;
+          this.user_modify_toggle();
         }
       })
     },
@@ -182,7 +207,9 @@ export default {
           let nextPw1 = document.getElementById('swal-input2');
           let nextPw2 = document.getElementById('swal-input3');
 
-          if (prevPw.value == '') {
+          if (!this.isPassword(nextPw1)) {
+            return false;
+          } else if (prevPw.value == '') {
             Swal.showValidationMessage(`이전 비밀번호를 입력해주세요.`);
             prevPw.focus();
           } else if (nextPw1.value == '') {
@@ -199,8 +226,50 @@ export default {
             fetch('http://localhost:8087/java/member/' + this.$store.state.email + '/' + prevPw.value)
               .then(result => result.text())
               .then(result => {
-                if(result == "true"){
-                  fetch('http://localhost:8087/java/')
+                console.log('이전 비밀번호와 비교', result);
+                if (result == "true") {
+                  fetch('http://localhost:8087/java/member', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      email: this.$store.state.email,
+                      password: nextPw1.value,
+                      auth: 1,
+                      status: 2
+                    })
+                  }).then(result => result.text())
+                    .then(result => {
+                      if (result == 'true') {
+                        Swal.fire({
+                          icon: 'success',
+                          title: '비밀번호가 변경되었습니다 !',
+                          toast: true,
+                          position: 'center-center',
+                          showConfirmButton: false,
+                          timer: 1500,
+                          timerProgressBar: true,
+                          didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                          }
+                        })
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: '회원정보가 수정 되지 않았습니다 !',
+                          text: '계속 오류가 발생하면 고객센터로 문의해주세요.',
+                          toast: true,
+                          position: 'center-center',
+                          showConfirmButton: false,
+                          timer: 1500,
+                          timerProgressBar: true,
+                          didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                          }
+                        })
+                      }
+                    })
                 } else {
 
                 }
@@ -217,7 +286,38 @@ export default {
           // 닫기
         }
       })
-    }
+    },
+    regCheck: function (regExp, asValue) {
+      if (regExp.test(asValue.value)) {
+        asValue.style.background = 'rgba(0,255,0,0.1)';
+        return true;
+      } else {
+        asValue.style.background = 'rgba(255,0,0,0.1)';
+        Swal.fire({
+          icon: 'error',
+          title: '형식에 맞게 입력해주세요.',
+          text: '8~16자리 특수문자 포함',
+          toast: true,
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        }).then((result => {
+          asValue.value = '';
+          asValue.focus();
+          return false;
+        }))
+      }
+    },
+    isPassword: function (target) {
+      let asValue = target;
+      let regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*^?&\\(\\)\-_=+]).{8,16}$/;
+
+      return this.regCheck(regExp, asValue);
+    },
   }
 }
 </script>

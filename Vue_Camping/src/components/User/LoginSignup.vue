@@ -43,7 +43,7 @@
               autocomplete="off" />
             <input type="text" name="name" placeholder="이름" autocomplete="off" />
             <input type="text" @change="isNickname($event)" name="nickname" placeholder="닉네임" autocomplete="off" />
-            <input type="password" @change="isPassword($event)" name="password" placeholder="비밀번호" />
+            <input type="password" @change="isPassword($event)" name="password" placeholder="비밀번호(특수문자 포함 8~16자리)" />
             <input type="password" @change="isPasswordConfirm($event)" name="password_confirm" placeholder="비밀번호 확인" />
             <input type="text" @change="isIdentify($event)" name="identify" placeholder="주민등록번호(900101-1)" maxlength="8"
               autocomplete="off" />
@@ -100,25 +100,39 @@ export default {
         body: JSON.stringify(member)
       }).then(result => result.json())
         .then(result => {
+          if(result.status != 2) {
+            Swal.fire({
+              icon: 'error',
+              title: '접속이 제한된 회원입니다 !',
+              toast: true,
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+          } else {
+            sessionStorage.setItem("nickname", result.nickname);
+            sessionStorage.setItem("email", result.email);
+            sessionStorage.setItem("auth", result.auth);
+            this.$store.commit('getUserInfo');
 
-          sessionStorage.setItem("nickname", result.nickname);
-          sessionStorage.setItem("email", result.email);
-          sessionStorage.setItem("auth", result.auth);
-          this.$store.commit('getUserInfo');
-
-          Swal.fire({
-            icon: 'success',
-            title: '로그인 성공!',
-            toast: true,
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-              this.$router.replace('/');
-            }
-          })
+            Swal.fire({
+              icon: 'success',
+              title: '로그인 성공!',
+              toast: true,
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                this.$router.replace('/');
+              }
+            })
+          }
         }).catch(error => {
           Swal.fire({
             icon: 'error',
@@ -330,7 +344,7 @@ export default {
     },
     isPassword: function (e) {
       let asValue = e.target;
-      let regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+      let regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*^?&\\(\\)\-_=+]).{8,16}$/;
 
       this.regCheck(regExp, asValue);
     },

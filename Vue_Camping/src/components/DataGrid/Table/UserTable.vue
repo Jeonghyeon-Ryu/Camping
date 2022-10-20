@@ -217,7 +217,47 @@ export default {
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire('접근제한 완료 !', '', 'success')
+                    fetch('http://localhost:8087/java/member', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: this.$store.state.email,
+                            auth: 1,
+                            status: 1   // 접속 제한
+                        })
+                    }).then(result => result.text())
+                    .then(result => {
+                        if (result == 'true') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '접속 제한 적용 !',
+                                toast: true,
+                                position: 'center-center',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '접속 제한 실패 !',
+                                text: '알수없는 오류로 접속제한이 실패하였습니다.',
+                                toast: true,
+                                position: 'center-center',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                        }
+                    })
                 }
             })
         },
@@ -230,7 +270,47 @@ export default {
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire('접근제한 해제 완료 !', '', 'success')
+                    fetch('http://localhost:8087/java/member', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: this.$store.state.email,
+                            auth: 1,
+                            status: 2   // 접속 허용
+                        })
+                    }).then(result => result.text())
+                    .then(result => {
+                        if (result == 'true') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '접속 제한 해제 !',
+                                toast: true,
+                                position: 'center-center',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '접속 제한 해제 실패 !',
+                                text: '알수없는 오류로 접속제한이 실패하였습니다.',
+                                toast: true,
+                                position: 'center-center',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                        }
+                    })
                 }
             })
         },
