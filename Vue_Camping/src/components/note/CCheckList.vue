@@ -8,9 +8,11 @@
         </div>
         <div class="checkbox_place">
             <div class='check_box_list'>
-                <div class="box_container">
-                    <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
-                    <input type="text" class="checkbox_text" name="myCheck">
+                {{data[0][i-1]}}
+                <!-- <div class="box_container" v-for="i in data[0][0].length" :key="i"> -->
+                <div class="box_container" v-for="i of count">       
+                    <input type='checkbox' class='noteCheckbox' name="myCheck" v-model="data[0][i-1]">
+                    <input type="text" class="checkbox_text" name="myCheck" :value="data[1][i-1]">      
                 </div>
                 <div class="checkbox_button_container">
                     <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img"
@@ -23,15 +25,23 @@
     </div>
 </template>
 <script>
-export default {
-  props: ['data'],
+import $ from 'jquery'
 
-  created() { 
-    console.log(this.data)
-  },
-  
-  methods:{ 
-    addCheckList: function (e) {
+export default {
+    props: ['data'],
+    data (){
+        return{ 
+            count : ''
+        }
+    },
+    created() {
+        console.log(this.data)
+        this.count = this.data[0].length;
+        
+    },
+
+    methods: {
+        addCheckList: function (e) {
             let checkboxPlace = e.target.parentElement.parentElement.parentElement.parentElement;
             //let checkboxList = checkboxPlace.children;
             let checkboxList = checkboxPlace.querySelector('.check_box_list');
@@ -40,7 +50,7 @@ export default {
             //let cloneBox = $(checkboxList).eq[0].clone(true);
             //cloneBox.children(".checkbox_text").val("");
             $(checkboxPlace).append(`
-                <div class='check_box_list' style="display : flex">
+                <div class='check_box_list'>
                     <div class="box_container">
                         <input type='checkbox' class='noteCheckbox'  name="myCheck" value="true">
                         <input type="text" class="checkbox_text" name="myCheck">
@@ -53,14 +63,21 @@ export default {
             `);
         },
         delCheckList: function (e) {
-            let checkboxPlace = e.target.parentElement.parentElement.parentElement;
-            let checkboxList = e.target.parentElement.parentElement;
+            let checkboxPlace = e.target;
+            //target이 checkbox_place를 찾을때까지 부모로 올라가도록
+            while (!checkboxPlace.classList.contains('checkbox_place')) {
+                checkboxPlace = checkboxPlace.parentElement;
+            }
+            let checkboxList = checkboxPlace.children;
             if ($(checkboxPlace).children().length > 1) {
                 $(checkboxList).remove();
             }
-        }
-  }
+        },
+
+    }
 
 }
 </script>
-<style scoped src="@/assets/css/note/WriteNote.css"></style>
+<style scoped src="@/assets/css/note/WriteNote.css">
+
+</style>

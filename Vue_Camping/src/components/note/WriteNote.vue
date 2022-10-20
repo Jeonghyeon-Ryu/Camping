@@ -226,9 +226,7 @@ export default {
                     // tr 행 반복
                     let lineTr = lineValue.querySelectorAll('tr');
                     lineValue = [];
-
                     for (let j = 0; j < lineTr.length; j++) {
-                    
                         let temp = [];
                         tableTag += `<tr class='item' > 
                                         <td class="row-button-container" @mouseover="showBtn">
@@ -248,10 +246,6 @@ export default {
                     <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
                     </div>
                     `
-                    console.log(tableTag);
-                    contents.push(tableTag);
-
-
                 } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
                     lineType = 'CHECK';
                     lineValue = [];
@@ -261,11 +255,8 @@ export default {
                                       `;
 
                     for (let j = 0; j < checkBoxList.length; j++) {
-
                         let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
-
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
-
                         let isChecked = lineCheckbox.checked;
                         checkBoxTag += `
                                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="`
@@ -304,11 +295,8 @@ export default {
                 body : JSON.stringify(fetchData)
             }).then(result => { 
                 console.log(result);
-                this.$router.push({name:"MynoteList"});
-                
+                this.$router.push({name:"MynoteList"});     
             })
-            
-            
         }
         },
          components : { CreTextarea }

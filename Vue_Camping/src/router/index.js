@@ -30,7 +30,7 @@ const routes = [{
   },
   {
     name: 'SnsMyFeed',
-    path: '/sns/myFeed/:email',
+    path: '/sns/myFeed/:nickname',
     component: () => import('../components/SnS/SnsMyFeed.vue'),
   },
   {

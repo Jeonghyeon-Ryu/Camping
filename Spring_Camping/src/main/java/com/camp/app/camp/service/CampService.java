@@ -22,4 +22,7 @@ public interface CampService {
 	
 //	캠핑 저장 목록
 	public List<CampVO> showStoredCamp(String email);
+	
+//	관리자 캠핑장 수정
+	public boolean modifyCampByAdmin(InputCampVO camp);
 }

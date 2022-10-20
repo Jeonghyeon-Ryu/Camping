@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.camp.app.save.mapper.SaveMapper;
 import com.camp.app.sns.mapper.SnsMapper;
 import com.camp.app.sns.service.InputSnsVO;
+import com.camp.app.sns.service.MySnsLikeVO;
 import com.camp.app.sns.service.MySnsVO;
+import com.camp.app.sns.service.SnsHashtagVO;
 import com.camp.app.sns.service.SnsImageVO;
 import com.camp.app.sns.service.SnsService;
 import com.camp.app.sns.service.SnsVO;
@@ -24,14 +27,14 @@ public class SnsServiceImpl implements SnsService {
 
 	@Autowired
 	SnsMapper mapper;
+	@Autowired
+	SaveMapper saveMapper;
 
 	// 텍스트 출력
 	@Override
 	public List<SnsVO> getSnsList() {
 		return mapper.getSnsList();
 	}
-
-	
 
 	@Override
 	public List<String> getHashTag() {
@@ -73,13 +76,13 @@ public class SnsServiceImpl implements SnsService {
 		List<SnsVO> snsList = mapper.getSnsList();
 		return null;
 	}
-	
+
 	// 페이징
 	@Override
 	public List<SnsImageVO> showSnsByPage(int page) {
 		return mapper.findByPage(page);
 	}
-	
+
 	@Override
 	public int count() {
 		return mapper.count();
@@ -89,18 +92,18 @@ public class SnsServiceImpl implements SnsService {
 	public int findMaxByWriteNo() {
 		return mapper.findMaxByWriteNo();
 	}
-	
+
 	// sns 개별조회 - 텍스트
 	@Override
 	public SnsVO showSnsOne(int writeNo) {
 		return mapper.findByWriteNo(writeNo);
 	}
-	
+
 	// sns 개별조회 - 이미지 리스트
-		@Override
-		public List<SnsImageVO> showSnsImageByWriteNo(int writeNo) {
-			return mapper.findByWriteNoToSnsImage(writeNo);
-		}
+	@Override
+	public List<SnsImageVO> showSnsImageByWriteNo(int writeNo) {
+		return mapper.findByWriteNoToSnsImage(writeNo);
+	}
 
 	// sns 이미지 등록
 	@Transactional
@@ -117,7 +120,6 @@ public class SnsServiceImpl implements SnsService {
 		resultSns.setNickname(sns.getNickname());
 		resultSns.setEmail(sns.getEmail());
 		resultSns.setImplement(sns.getImplement());
-		
 
 		mapper.insertSns(resultSns);
 
@@ -128,7 +130,7 @@ public class SnsServiceImpl implements SnsService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "c:\\upload\\sns\\" + directoryPath;
+		String uploadPath = "d:\\upload\\sns\\" + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if (!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
@@ -168,23 +170,45 @@ public class SnsServiceImpl implements SnsService {
 		return mapper.findMaxBySnsImageNo();
 	}
 
-
-
-	//유저가 작성한 총게시글 수
+	// 유저가 작성한 총게시글 수
 	@Override
 	public int countSnsByUser(String email) {
 		return mapper.countSnsByUser(email);
 	}
 
-
-	
+	// 유저가 작성한 게시글 이미지리스트
 	@Override
 	public List<SnsImageVO> showSnsByPageByUser(String email, int page) {
-		System.out.println(email +  ", "+ page);
+		System.out.println(email + ", " + page);
 		MySnsVO mySns = new MySnsVO();
 		mySns.setEmail(email);
 		mySns.setPage(page);
 		return mapper.showSnsByPageByUser(mySns);
 	}
-	
+
+	// 유저가 좋아요한 총게시글 수
+	@Override
+	public int countLikeSnsByUser(String email) {
+		return saveMapper.countLikeSnsByUser(email);
+	}
+
+	// 유저가 좋아요한 게시글 이미지리스트
+	@Override
+	public List<SnsImageVO> showSnsLikeByPageByUser(String email, int page) {
+		System.out.println(email + ", " + page);
+		MySnsLikeVO mySnsLike = new MySnsLikeVO();
+		mySnsLike.setEmail(email);
+		mySnsLike.setPage(page);
+		return saveMapper.showLikeSnsByPageByUser(mySnsLike);
+	}
+
+	//해시태그검색한 게시글 이미지리스트 출력
+	@Override
+	public List<SnsImageVO> showSnsByPageByHashtag(String hashtag, int page) {
+		SnsHashtagVO snsHashtag = new SnsHashtagVO();
+		snsHashtag.setHashtag(hashtag);
+		snsHashtag.setPage(page);
+		System.out.println(snsHashtag);
+		return mapper.showSnsByPageByHashtag(snsHashtag);
+	}
 }

@@ -39,8 +39,7 @@ public class SaveController {
 		return service.save(save);
 	}
 	@DeleteMapping("/save")
-	public boolean remove(@RequestBody SaveVO save) {	// 저장목록에서 제거
-		
+	public boolean remove(@RequestBody SaveVO save) {	// 저장목록에서 제거		
 		return service.remove(save);
 	}
 }
