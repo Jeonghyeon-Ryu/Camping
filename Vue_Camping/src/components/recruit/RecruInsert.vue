@@ -1,6 +1,6 @@
 <template>
     <div class="recru-input-container">
-        <div class="recru-input-back" >
+        <div class="recru-input-back recru-back-box" >
         </div>
         <div class="recru-input-box">
             <h3>캠핑 동행 모집 등록</h3>
@@ -102,7 +102,7 @@
                             </ul>
                         </div>
                         <div>
-                            <button class="write-note-btn" @on="writeNewNote">새 노트 쓰기</button>
+                            <button type="button" class="write-note-btn" @click="writeNewNote">새 노트 쓰기</button>
                         </div>
                     </div>
                 </div>
@@ -111,14 +111,17 @@
                     <span>여행정보</span>
                     <ul class="recru-box-name">
                         <li class="recru-info-startP">
-                            <label>출발지<input type="text" name="startP_address_kakao" readonly @click="searchAddr">
-                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
-                            <input type="text" name="startP_address_detail" placeholder="상세주소"/>
+                            <label>출발지</label>
+                            <input type="text" name="startP_address_kakao" readonly @click="searchAddr" placeholder="도로명 주소 검색">
+                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
+                            <input type="text" name="startP_address_detail" placeholder="상세주소" @click="chkSearchAddr"/>
                         </li>
                         <li class="recru-info-campP">
-                            <label >도착지<input type="text" name="campP_address_kakao" readonly @click="searchCamp">
-                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
-                            <input type="text" name="campP_address_detail" placeholder="상세주소" />
+                            <label >도착지</label>
+                            <input type="text" name="campP_address_kakao" readonly @click="searchAddr" placeholder="도로명 주소 검색">
+                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
+                            <input type="text" name="campP_address_detail" placeholder="상세주소" @click="chkSearchAddr" />
+                            <button type="button" @click="searchCamp">캠핑장 검색</button>
                         </li>
                         <li class="recru-info-number">
                             <label>모집인원 <input type="number" v-model="recruInfo.recruNum" min="1" de></label>
@@ -130,7 +133,7 @@
                     </ul>
                 </div>
                 <div class="recru-info-last">
-                    <label><span>마감일</span> <input type="date" name="recru_input_closeDate" v-model="recruInfo.closeDate" class="select-date"></label>
+                    <label><span>마감일</span> <input type="date" name="recru_input_closingDate" v-model="recruInfo.closingDate" class="select-date"></label>
                 </div>
                 <div class="recru-info-btn" style="text-align: center;">
                     <button class="btn bg-gradient-success btn-md"
@@ -165,7 +168,7 @@ export default{
             recruNum : 1,
             goDate : '',
             comeDate : '',
-            closeDate: '',
+            closingDate: '',
             nickname :this.$store.state.nickname
             },
         files:[],
@@ -186,19 +189,15 @@ export default{
                     'recru_input_title','recru_input_content',
                     'startP_address_kakao','campP_address_kakao',
                     'recru_input_goDate','recru_input_comeDate',
-                    'recru_input_closeDate'
+                    'recru_input_closingDate'
                     ];
             const inputName = ['제목을', '내용을', '출발지를', '도착지를', '출발날짜를', '도착날짜를', '마감날짜를']
             for (let i=0; i<inputValue.length ; i++){
                 var chkInput = document.getElementsByName(inputValue[i])[0];
                 if(chkInput.value ==''){
-                    Swal.fire({
+                    this.toastSwal.fire({
                         text: `${inputName[i]} 입력해주세요. `,
-                        icon : 'error',
-                        toast: true,
-                        showConfirmButton: false,
-                        timer: 1000,
-                        position: 'center-center'
+                        icon : 'error'
                     })
                     chkInput.focus();
                     return;
@@ -351,29 +350,44 @@ export default{
             this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+document.getElementsByName('campP_address_detail')[0].value;
         },
         writeNewNote : function(){
-            alert('노트쓰기 페이지로 연결하기')
+            alert('노트쓰기 페이지로 연결하기');
         },
         getGearList : function(){
             alert('장비가져오기');
         },
-        searchAddr : function(){
-            //출발지 검색
+        searchAddr : function(e){
+            //도로명주소 검색
             new daum.Postcode({
                 oncomplete: function(data) { //선택시 입력값 세팅
-                    document.getElementsByName("startP_address_kakao")[0].value = data.address; // 주소 넣기
-                    document.querySelector("input[name=startP_address_detail]").focus(); //상세입력 포커싱
+                    e.target.value = data.address; // 주소 넣기
+                    e.target.nextSibling.nextSibling.focus(); //상세입력 포커싱
                 }
             }).open();
         },
-        searchCamp : function(){
-            //도착지 검색
-            new daum.Postcode({
-                oncomplete: function(data) { //선택시 입력값 세팅
-                    document.getElementsByName("campP_address_kakao")[0].value = data.address; // 주소 넣기
-                    document.querySelector("input[name=campP_address_detail]").focus(); //상세입력 포커싱
-                }
-            }).open();
+        chkSearchAddr : function(e){
+            //상제 주소 입력 전 도로명 주소 체크
+            var searchAddr = e.target.previousSibling.previousSibling;
+            if(!searchAddr.value){
+                this.toastSwal.fire({
+                    text: `도로명 주소를 먼저 입력하세요`,
+                    icon : 'warning',
+                })
+                searchAddr.focus();
+            }
         },
+        searchCamp : function(e){
+           this.toastSwal.fire({
+            icon:'error',
+            text : '준비중입니다'
+           })
+        },
+        toastSwal: Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            timer: 1000,
+            position: 'center-center'
+        })
+            
         
     }
 }
