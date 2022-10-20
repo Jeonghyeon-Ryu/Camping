@@ -98,52 +98,52 @@
                 <div id="pdfDiv">
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
-                        <template v-if="datas">
+                        <!-- <template v-if="datas">
                             <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
                                 @creArea="CreArea($event)"></CreateLine>
-                        </template>
-                        
-                        <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
+                        </template> -->
+
+                        <CreTextarea :type="childOrder[0]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 1">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
+                        <CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 2">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[2]" @creArea="CreArea($event)" v-if="textAmount >= 3">
+                        <CreTextarea :type="childOrder[2]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 3">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[3]" @creArea="CreArea($event)" v-if="textAmount >= 4">
+                        <CreTextarea :type="childOrder[3]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 4">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[4]" @creArea="CreArea($event)" v-if="textAmount >= 5">
+                        <CreTextarea :type="childOrder[4]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 5">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[5]" @creArea="CreArea($event)" v-if="textAmount >= 6">
+                        <CreTextarea :type="childOrder[5]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 6">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[6]" @creArea="CreArea($event)" v-if="textAmount >= 7">
+                        <CreTextarea :type="childOrder[6]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 7">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[7]" @creArea="CreArea($event)" v-if="textAmount >= 8">
+                        <CreTextarea :type="childOrder[7]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 8">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[8]" @creArea="CreArea($event)" v-if="textAmount >= 9">
+                        <CreTextarea :type="childOrder[8]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 9">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[9]" @creArea="CreArea($event)" v-if="textAmount >= 10">
+                        <CreTextarea :type="childOrder[9]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 10">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[10]" @creArea="CreArea($event)" v-if="textAmount >= 11">
+                        <CreTextarea :type="childOrder[10]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 11">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[11]" @creArea="CreArea($event)" v-if="textAmount >= 12">
+                        <CreTextarea :type="childOrder[11]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 12">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[12]" @creArea="CreArea($event)" v-if="textAmount >= 13">
+                        <CreTextarea :type="childOrder[12]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 13">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[13]" @creArea="CreArea($event)" v-if="textAmount >= 14">
+                        <CreTextarea :type="childOrder[13]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 14">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[14]" @creArea="CreArea($event)" v-if="textAmount >= 15">
+                        <CreTextarea :type="childOrder[14]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 15">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[15]" @creArea="CreArea($event)" v-if="textAmount >= 16">
+                        <CreTextarea :type="childOrder[15]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 16">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[16]" @creArea="CreArea($event)" v-if="textAmount >= 17">
+                        <CreTextarea :type="childOrder[16]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 17">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[17]" @creArea="CreArea($event)" v-if="textAmount >= 18">
+                        <CreTextarea :type="childOrder[17]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 18">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[18]" @creArea="CreArea($event)" v-if="textAmount >= 19">
+                        <CreTextarea :type="childOrder[18]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 19">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[19]" @creArea="CreArea($event)" v-if="textAmount >= 20">
+                        <CreTextarea :type="childOrder[19]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 20">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[20]" @creArea="CreArea($event)" v-if="textAmount >= 21">
+                        <CreTextarea :type="childOrder[20]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 21">
                         </CreTextarea>
                     </div>
                 </div>
@@ -165,12 +165,13 @@ export default {
             textAmount: 1,
             isEditable: true,
             childOrder: ['textBox'],
-            noteInfo : [],
-            noteId : this.$route.params.noteId,
-            showInfo : {}
+            noteInfo: [],
+            noteId: this.$route.params.noteId,
+            showInfo: {},
+            images : []
         }
-    },
-   
+    },  
+
     methods: {
         CreArea: function (e) {
             this.childOrder.push('textBox');
@@ -191,7 +192,7 @@ export default {
         },
         showCheckBox(e) {
             this.show = !this.show;
-           
+
         },
         saveNote: function (e) {
             let lineAll = document.querySelectorAll('.write_fn');
@@ -207,15 +208,12 @@ export default {
                 let lineType = '';
                 let lineValue = '';
                 let linePosition = i;
-    
+
                 if (lineAll[i].querySelector('textarea') != undefined) {
                     lineType = 'TEXT';
                     lineValue = lineAll[i].querySelector('textarea').value;
                     //<태그 자체를 저장>
-                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' +lineValue+'"></textarea>'
-
-                    console.log(textTag);
-                    contents.push(textTag);
+                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' + lineValue + '"></textarea>'
 
                 } else if (lineAll[i].querySelector('table') != undefined) {
                     lineType = 'TABLE';
@@ -227,6 +225,7 @@ export default {
                     let lineTr = lineValue.querySelectorAll('tr');
                     lineValue = [];
                     for (let j = 0; j < lineTr.length; j++) {
+
                         let temp = [];
                         tableTag += `<tr class='item' > 
                                         <td class="row-button-container" @mouseover="showBtn">
@@ -237,11 +236,11 @@ export default {
 
                         for (let k = 0; k < lineTd.length; k++) {
                             //temp.push(lineTd[k].value);
-                            tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text" value="`+ lineTd[k].value + `"></td>`
+                            tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text" value="` + lineTd[k].value + `"></td>`
                         };
                         tableTag += `</tr>`
                     }
-                    tableTag +=`
+                    tableTag += `
                     </table>
                     <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
                     </div>
@@ -253,14 +252,13 @@ export default {
                     checkBoxTag = `
                                       <div class='check_box_list'>
                                       `;
-
                     for (let j = 0; j < checkBoxList.length; j++) {
                         let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
                         let isChecked = lineCheckbox.checked;
                         checkBoxTag += `
                                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="`
-                                    + lineCheckText + `">
+                            + lineCheckText + `">
                                     <div class="box_container">
                                         <div class="checkbox_button_container">
                                             <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
@@ -274,34 +272,76 @@ export default {
                         });
                     };
                     checkBoxTag += `</div>`
-                    console.log(checkBoxTag);
-                    contents.push(checkBoxTag);
+                    //이미지
+                }else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined ){ 
+                    lineType = 'IMG';
+                    //이미지 DB에 저장
+                    
+                    /*let formData = new FormData();
+                    for(let image of this.images){
+                        formData.append("files", image); 
+                    }*/
+                     /*formData.forEach((value, key)=>{
+                     console.log("벨유 , " , value)
+                       
+                     })*/
+                    // console.log(formData);
+                    
+                    
+                    //DB에 저장된 이미지의 경로랑 파일이름을 lineValue에 저장
                 }
             };
             //작성한 내용 보내기
             let title = document.querySelector('.note_title').value;
+            
             let fetchData = {
-                "title" : title,
-                "noteContents" : contents,
-                "email" : localStorage.getItem("email")
-            }
-            console.log(fetchData);
+                "title": title,
+                "noteContents": contents,
+                "email": localStorage.getItem("email")
 
-            fetch('http://localhost:8087/java/WriteNote',{
-                method : 'POST',
-                headers :{
-                    'Content-Type' :'application/json' 
+            }
+            //console.log(fetchData);
+
+            fetch('http://localhost:8087/java/WriteNote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                body : JSON.stringify(fetchData)
-            }).then(result => { 
-                console.log(result);
-                this.$router.push({name:"MynoteList"});     
+                body: JSON.stringify(fetchData)
+            }).then(result => {
+                //console.log(result);
+
+                //DB에 보낸 이미지
+
+                let formData = new FormData();
+                    for(let image of this.images){
+                        formData.append("files", image); 
+                    }
+                    
+                fetch('http://localhost:8087/java/WriteNoteImg', {
+                        method: 'POST',  
+                        redirect: 'follow',
+                        body: formData
+                    }).then(result => {
+                        console.log("이미지 fetch 결과")
+                        console.log(result);
+                        
+                    })
+
+                this.$router.push({ name: "MynoteList" });
             })
-        }
         },
-         components : { CreTextarea }
-    }
+        //자식에서 이미지 정보 가져오기
+        saveImg(images){ 
+            this.images = images;
+
+        }
+    },
+    components: { CreTextarea }
+}
 
 </script>
-<style scoped src="@/assets/css/note/WriteNote.css"></style>
+<style scoped src="@/assets/css/note/WriteNote.css">
+
+</style>
 
