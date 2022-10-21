@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.camp.app.save.service.SaveVO;
 import com.camp.app.used.service.InputUsedVO;
 import com.camp.app.used.service.UsedImageVO;
 import com.camp.app.used.service.UsedReviewVO;
@@ -77,9 +78,9 @@ public class UsedController {
 	}
 	
 	//좋아요
-	@PutMapping("/updateLike")
-	public void usedLike(@RequestBody UsedVO used) {
-		service.updateLike(used);
+	@GetMapping("/updateLike/{usedId}")
+	public int usedLike(@PathVariable int usedId){
+		return service.updateLike(usedId);
 	}
 	
 	//전체조회

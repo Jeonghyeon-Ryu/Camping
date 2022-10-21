@@ -100,12 +100,13 @@
 		WHERE used_id = #{usedId}
 	</update>
 	
-	<!-- 찜 증가 -->
-	<update id="updateLike" parameterType="Integer">
-		UPDATE used
-		SET used_like = used_like+1
-		WHERE used_id = #{usedId}
-	</update>
+	<!-- 찜 count -->
+	<select id="updateLike" resultType="Integer">
+		SELECT count(*) 
+		FROM save 
+		WHERE board_id = #{board_id} 
+		AND board_division = 2
+	</select>
 	
 	<!-- 후기 작성 -->
 	<insert id="insertReview" parameterType="UsedReviewVO">
@@ -139,7 +140,7 @@
             	)
         	WHERE SEQ >= ((5-1)*10+1)
     		)
-		WHERE ROWNUM < 11;
+		WHERE ROWNUM < 11
 		]]>
 	</select>
 	
@@ -148,6 +149,7 @@
 		SELECT * FROM used WHERE used_id = #{usedId}
 	</select>
 	
+	<!-- 중복 -지우는거고려하삼.. -->
 	<select id="findMaxByUsedId" resultType="Integer">
 		SELECT NVL(MAX(used_id),0) FROM used
 	</select>

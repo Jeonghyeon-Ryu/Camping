@@ -84,9 +84,21 @@
     }
     .chat-messages{
       padding:5%;
+      position: relative;
     }
     .chat-send{
-      padding: 5%;
+      width: 12%;
+      padding: 2%;
+      position: absolute;
+      bottom: 1;
+    }
+    .sender-msg{
+      float: left;
+    }
+    .rece-msg{
+      float: right;
+    }
+    .chat-send-input{
     }
   </style>
 </head>
@@ -125,7 +137,9 @@
         </div>
       </div>
       <div v-for="" class="chat-messages">
-        메 세 지 들. . . 학원가서
+        메 세 지 들
+        <div class="sender-msg">안녕</div>
+        <div class="rece-msg">하세요</div>
       </div>
       <div class="chat-send">
         <input type="text" class="chat-send-input">

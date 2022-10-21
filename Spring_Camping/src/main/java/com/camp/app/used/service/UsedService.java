@@ -2,6 +2,8 @@ package com.camp.app.used.service;
 
 import java.util.List;
 
+import com.camp.app.save.service.SaveVO;
+
 public interface UsedService {
 	//게시글 번호 조회
 	public int getUsedId();
@@ -46,7 +48,7 @@ public interface UsedService {
 	public int updateCnt(int usedId);
 
 	//찜 증가
-	public void updateLike(UsedVO used);
+	public int updateLike(int usedId);
 
 	//??
 	int updateRestrict();

@@ -161,7 +161,7 @@ export default {
                 })
 
                 //업뎅이트
-                //this.updateLike();
+                this.updateLike();
                 // this.$router.push({name : 'usedMain'})
               }
             }).catch(err => console.log(err))
@@ -172,16 +172,16 @@ export default {
       }
     },
 
-    // updateLike: function () {
-    //   let fetchData = this.UsedCard.usedId;
+    updateLike: function () {
+      let fetchData = this.usedCard.usedId;
 
-    //   fetch('http://localhost:8087/java/used/updateLike', {
-    //     method: 'PUT',
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(fetchData)
-    //   })
+      fetch('http://localhost:8087/java/used/updateLike', {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fetchData)
+      })
 
-    // }
+    }
   },
   created() {
     fetch('http://localhost:8087/java/used/usedImage/' + this.usedCard.usedId)

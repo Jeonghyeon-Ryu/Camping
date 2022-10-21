@@ -69,6 +69,8 @@ label {
 }
 .used-filter ul{
   display: flex;
+  flex-direction: column;
+  
   /* grid-template-columns: 1fr minmax(384px, 1fr) 1fr; */
 }
 .used-filter li{
