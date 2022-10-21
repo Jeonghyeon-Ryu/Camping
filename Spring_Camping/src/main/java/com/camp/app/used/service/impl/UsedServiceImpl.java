@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.camp.app.save.service.SaveVO;
 import com.camp.app.used.mapper.UsedMapper;
 import com.camp.app.used.service.InputUsedVO;
 import com.camp.app.used.service.UsedImageVO;
@@ -174,8 +175,8 @@ public class UsedServiceImpl implements UsedService {
 
 	//좋아요증가
 	@Override
-	public void updateLike(UsedVO used) {
-		mapper.updateLike(used);
+	public int updateLike(int usedId) {
+		return mapper.updateLike(usedId);
 	}
 	
 	@Override

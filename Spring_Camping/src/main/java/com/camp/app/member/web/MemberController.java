@@ -3,6 +3,8 @@ package com.camp.app.member.web;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -116,8 +118,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public MemberVO login(@RequestBody MemberVO member) {
-		return service.login(member);
+	public MemberVO login(@RequestBody MemberVO member, HttpSession session) {
+		MemberVO result = service.login(member);
+		if(result != null) {
+			session.setAttribute("email", result.getEmail());
+		}
+		return result;
 	}
 	
 	@PostMapping("/logout")

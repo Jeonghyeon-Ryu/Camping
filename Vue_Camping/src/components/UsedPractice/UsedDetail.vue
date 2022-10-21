@@ -20,9 +20,10 @@
               </div>
               <div class="used-status">
                 <li>
-                  <div v-if="usedList.dealStatus==0" class="dealGreen">거래가능</div>
-                  <div v-if="usedList.dealStatus==1" class="dealRed">거래중</div>
-                  <div v-if="usedList.dealStatus==2" class="dealGray">거래완료</div>
+                  <div v-if="usedList.dealStatus==0 && usedList.usedStatus === 0" class="dealGreen">거래가능</div>
+                  <div v-if="usedList.dealStatus==1 && usedList.usedStatus === 0" class="dealRed">거래중</div>
+                  <div v-if="usedList.dealStatus==2 && usedList.usedStatus === 0" class="dealGray">거래완료</div>
+                  <div v-if="usedList.usedStatus != 0" class="statusBlack">접근제한</div>
                 </li>
               </div>
             </div>
@@ -34,13 +35,13 @@
             <div class="used-info2">
               <div class="used-info3">
                 <div class="used-cnt">
-                  ❤ {{usedList.usedLike}} 👁‍🗨 {{usedList.usedCnt}}
+                  🧡 찜 {{this.likeCnt}} · 👁‍🗨 조회수 {{usedList.usedCnt}}
                 </div>
                 <div class="used-report">
                   <!-- 신고기능가져오기(다른유저가쓴글) -->
                   <p v-if="usedList.email != memberId" @click="reportItem()">신고하기</p>
                   <!-- 거래상태변경(본인이쓴글) -->
-                  <div v-if="usedList.email === memberId">
+                  <div v-if="usedList.email === memberId && usedList.usedStatus === 0">
                     <select id="dealStatus" name="dealStatus" @change="dealChange()">
                       <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
                       <option name="dealStatus" value="0">거래가능</option>
@@ -52,14 +53,14 @@
               </div>
               <!-- 상품정보2 -->
               <li>
-                🧾카테고리 : {{usedList.usedCategory}}
+                · 카테고리 : {{usedList.usedCategory}}
               </li>
-              <li>🎭상태 : <span v-if="usedList.usedCondition==0">상</span>
+              <li>· 상태 : <span v-if="usedList.usedCondition==0">상</span>
                 <span v-if="usedList.usedCondition==1">중</span>
                 <span v-if="usedList.usedCondition==2">하</span>
               </li>
               <li>
-                🚩거래지역 : {{usedList.usedPlace}}
+                · 거래지역 : {{usedList.usedPlace}}
               </li>
             </div>
           </ul>
@@ -99,9 +100,11 @@
           <button type="button" class="update-button" v-if="usedList.email === memberId && usedList.dealStatus != 2"
             @click="usedUpdate()">수정하기</button>
           <button type="button" class="update-button2"
-            v-if="usedList.email === memberId && usedList.dealStatus === 2">수정하기</button>
-          <button type="button" class="delete-button" v-if="usedList.email === memberId"
+            v-if="usedList.email === memberId && usedList.dealStatus === 2" @click="usedUpdateFail()" >수정하기</button>
+          <button type="button" class="delete-button" v-if="usedList.email === memberId && usedList.dealStatus != 1"
             @click="usedDelete()">삭제하기</button>
+          <button type="button" class="delete-button2" v-if="usedList.email === memberId && usedList.dealStatus === 1"
+            @click="usedDeleteFail()">삭제하기</button>
           <button type="button" class="restrict-button" @click="usedRestrict()"
             v-if="memberId === 'admin'">접근제한</button>
         </div>
@@ -124,6 +127,7 @@ export default {
       usedId: this.$route.params.usedId,
       usedStatus: img1,
       liked: true,
+      likeCnt: 0,
     }
   },
   components: {
@@ -195,10 +199,10 @@ export default {
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                   }
                 })
-
               }
             }).catch(err => console.log(err))
-        } else if (this.liked === false) {
+            this.$router.go()
+          } else if (this.liked === false) {
           fetch('http://localhost:8087/java/save', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -221,8 +225,7 @@ export default {
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                   }
                 })
-                //업뎅이트(찜cnt증가 --해야함)
-                //this.updateLike();
+                this.$router.go()
                 // this.$router.push({name : 'usedMain'})
               }
             }).catch(err => console.log(err))
@@ -315,6 +318,34 @@ export default {
         }
       }
       );
+    },
+    usedUpdateFail: function(){
+      Swal.fire({
+                  icon: 'warning',
+                  title: '수정 불가', 
+                  text: '거래 완료된 글입니다',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1200,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+    },
+    usedDeleteFail: function(){
+      Swal.fire({
+                  icon: 'warning',
+                  title: '삭제 불가', 
+                  text: '거래중인 글입니다',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1200,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
     },
     //접근제한
     usedRestrict: function () {
@@ -478,8 +509,17 @@ export default {
         })
         .catch(err => console.log(err));
     }
+
+        //좋아요count
+      fetch('http://localhost:8087/java/used/updateLike/'+ this.usedId)
+      .then(result => result.json())
+      .then(result => {
+        this.likeCnt = result;
+      })
+      .catch(err => console.log(err))
+    },
   }
-}
+
 </script>
 
 

@@ -2,6 +2,7 @@ package com.camp.app.used.mapper;
 
 import java.util.List;
 
+import com.camp.app.save.service.SaveVO;
 import com.camp.app.used.service.UsedImageVO;
 import com.camp.app.used.service.UsedReviewVO;
 import com.camp.app.used.service.UsedVO;
@@ -51,8 +52,8 @@ public interface UsedMapper {
 	//조회수증가
 	public int updateCnt(int usedId);
 
-	//찜 증가
-	public int updateLike(UsedVO used);
+	//찜 count
+	public int updateLike(int usedId);
 	
 	//후기 작성
 	public int insertReview(UsedReviewVO review);
