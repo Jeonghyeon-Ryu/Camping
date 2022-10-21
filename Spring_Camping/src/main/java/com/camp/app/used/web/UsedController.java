@@ -89,7 +89,7 @@ public class UsedController {
 		return service.selectAllUsedList();
 	}
 	
-	//내가쓴글조회 --수정필요
+	//내가쓴글조회 
 	@PostMapping("/myUsed")
 	public List<UsedVO> findMyUsed(HttpSession session){
 		String usedWriter = (String)session.getAttribute("email");

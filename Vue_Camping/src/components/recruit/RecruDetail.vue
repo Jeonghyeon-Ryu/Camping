@@ -264,7 +264,7 @@ export default{
                     if(component.userRole==2 || component.userRole==3){
                     }else if(component.memberId == writer){
                         component.userRole = 1;
-                    }else if(this.$router.state.auth == 0){
+                    }else if(this.$store.state.auth == 0){
                         component.userRole = 4;
                     }else{
                         component.userRole = 0;

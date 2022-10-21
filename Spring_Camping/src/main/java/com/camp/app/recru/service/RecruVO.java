@@ -41,4 +41,6 @@ public class RecruVO {
 	private int memberRole;		//(0 일반상태,1 작성자,2 참가자,3 관리자)
 	
 	private int depositId;		//게시글 모집 완료시 보증정보 인서트
+	
+	private String keyword;
 }
