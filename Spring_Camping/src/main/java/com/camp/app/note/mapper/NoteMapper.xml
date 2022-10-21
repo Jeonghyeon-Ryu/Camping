@@ -6,7 +6,6 @@
 	<select id="getMaxNoteId" resultType="Integer">
 		SELECT NVL(MAX(note_id), 0)+1 
 		FROM NOTE
-		
 	</select>
 	
 	<!-- note insert -->
@@ -20,7 +19,6 @@
 			#{email},
 			SYSDATE,
 			#{noteStatus}
-			
 		)
 	</insert>
 	<!-- select : MynoteList -->
@@ -44,31 +42,6 @@
 		WHERE note_id = #{noteId}
 	
 	</select>
-	
-	<!-- note img 저장 -->
-	<insert id="insertNoteImg" parameterType="NoteImgVO">
-		<selectKey keyProperty="getMaxNoteImgId" resultType="Integer" order="BEFORE">
-			SELECT NVL(MAX(img_id),0)+1 FROM note_img
-		</selectKey>
-		INSERT INTO note_img(
-		
-				img_id,
-				<!--note_id,  -->
-				origin_name,
-				stored_name,
-				img_format,
-				img_path,
-				img_size
-		)
-		VALUES(
-				#{imgId},
-				<!--#{note_id},  -->
-				#{originName},
-				#{storedName},
-				#{imgFormat},
-				#{imgPath},
-				#{imgSize}
-		)
-	</insert>
+
 
 </mapper>

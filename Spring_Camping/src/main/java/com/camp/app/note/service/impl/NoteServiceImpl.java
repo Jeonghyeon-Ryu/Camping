@@ -1,5 +1,6 @@
 package com.camp.app.note.service.impl;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -12,21 +13,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.camp.app.note.mapper.NoteImgMapper;
 import com.camp.app.note.mapper.NoteMapper;
 import com.camp.app.note.service.NoteDto;
 import com.camp.app.note.service.NoteImgVO;
 import com.camp.app.note.service.NoteService;
 import com.camp.app.note.service.NoteVO;
 
+
 @Service
 public class NoteServiceImpl implements NoteService{
 
 	@Autowired
 	NoteMapper mapper;
+	@Autowired
+	NoteImgMapper imgMapper;
 	
 	//Note Insert
 	@Override
-	public int writeContents(NoteVO nvo) {
+	public boolean writeContents(NoteVO nvo, List<MultipartFile> files) {
 		
 		String noteContent = "";
 		
@@ -36,17 +41,17 @@ public class NoteServiceImpl implements NoteService{
 		
 		nvo.setNoteContent(noteContent);
 		nvo.setNoteId(mapper.getMaxNoteId());
-		return mapper.writeCotents(nvo);	
-	}
-	//이미지저장
-	@Override
-	public boolean insertImg(List<MultipartFile> files) {
+		
+		mapper.writeCotents(nvo);
+		
+		System.out.println(nvo);
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "D:\\upload\\note\\"+directoryPath;
-		
+		String uploadPath = "c:\\upload\\recru\\"+directoryPath;
 		//폴더 주소
+		if(files.size() !=0) {
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
@@ -57,7 +62,8 @@ public class NoteServiceImpl implements NoteService{
 			img.setImgFormat(img.getOriginName().substring(img.getOriginName().indexOf('.')+1));
 			img.setImgSize(file.getSize());
 			img.setImgPath(directoryPath);
-			//img.setRecruId(recruMapper.getMaxRecruId());
+			img.setNoteId(nvo.getNoteId());
+			
 			//uuid를 통한 랜덤으로 아이디 주기
 			UUID uuid = UUID.randomUUID();
 			String[] uuids = uuid.toString().split("-");
@@ -72,26 +78,25 @@ public class NoteServiceImpl implements NoteService{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			mapper.insertNoteImg(img);
+			
+			imgMapper.insertNoteImg(img);
+			
 		});
+		}
 		return true;
-		
 	}
-
 	//MynoteList
 	@Override
 	public List<NoteVO> getMyNoteList(String email) {
 		List<NoteVO> listInfo = mapper.getMyNoteList(email);
 		return listInfo;
 	}
-	
 	@Override
 	public void deleteNote(NoteDto dto) {
 		for(int i=0; i<dto.getNoteIds().size(); i++) { 
 			mapper.deleteNote(dto.getNoteIds().get(i));
 		}
 	}
-
 	@Override
 	public NoteVO getMyNote(int noteId) {
 		
@@ -113,6 +118,7 @@ public class NoteServiceImpl implements NoteService{
 		
 		
 		return nvo;
+	
 	}
 
 }

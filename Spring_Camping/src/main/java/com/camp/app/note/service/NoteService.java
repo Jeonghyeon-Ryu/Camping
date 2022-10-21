@@ -14,16 +14,12 @@ public interface NoteService {
 //	public List<NoteVO> getInvitedList(NoteVO nvo);
 	
 	//writeNote
-	public int writeContents(NoteVO nvo);
+	public boolean writeContents(NoteVO nvo, List<MultipartFile> files);
 	
 	//deleteNote
 	public void deleteNote(NoteDto dto);
 	
-	//Mynote
-//	public void selectOne(int noteId);
-	
 	//GoMyNote
 	public NoteVO getMyNote(int noteId);
-	//이미지 저장
-	public boolean insertImg(List<MultipartFile> files);
+	
 }

@@ -14,7 +14,7 @@
 				stored_name,
 				img_format,
 				img_path,
-				img_size,
+				img_size
 								)
 			VALUES(
 				#{imgId},
@@ -23,13 +23,12 @@
 				#{storedName},
 				#{imgFormat},
 				#{imgPath},
-				#{imgSize}
-				
+				#{imgSize}			
 		)
 	</insert>
-	
-	<select id="getMaxNoteId" parameterType="Integer" resultType ="NoteImgVO">
+	<!-- max noteId -->
+	<select id="getMaxNoteId" resultType ="Integer">
 		SELECT MAX(note_id)
-		FROM note
+		FROM note		
 	</select>
 </mapper>	

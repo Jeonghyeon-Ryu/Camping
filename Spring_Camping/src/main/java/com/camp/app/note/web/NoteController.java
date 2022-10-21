@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,18 +25,19 @@ public class NoteController {
 	
 	@Autowired
 	NoteService service;
+	@Autowired
 	NoteImgService imgService;
 	
 	//작성한 노트 저장
-	@PostMapping("/WriteNote")
-	public boolean writeNote(@RequestBody NoteVO nvo) { 
-		int result = service.writeContents(nvo);
-		if(result > 0) { 
-			return true;
-		}else {
-			return false;
-		}
-	};
+//	@PostMapping("/WriteNote")
+//	public boolean writeNote(@RequestBody NoteVO nvo) { 
+//		int result = service.writeContents(nvo);
+//		if(result > 0) { 
+//			return true;
+//		}else {
+//			return false;
+//		}
+//	};
 	//MynoteList조회
 	@GetMapping("/MyNoteList/{email}")
 	public List<NoteVO> showMyNoteList(@PathVariable("email") String email) { 
@@ -56,10 +56,14 @@ public class NoteController {
 		return service.getMyNote(noteId);
 	}
 	//imgDB에 저장
-	@PostMapping("/WriteNoteImg")
-	public boolean saveImg(@RequestParam List<MultipartFile> files) throws IOException { 
+	@PostMapping("/WriteNoteInfo")
+	public boolean saveImg(NoteVO nvo, List<MultipartFile> files) throws IOException { 
 		System.out.println(files);
-		return imgService.insertImg(files);
+		System.out.println(nvo);
+		System.out.println("---------------------------------");
+		System.out.println(nvo.getNoteContents());
+		return service.writeContents(nvo, files);
 	}
+	
 }
 

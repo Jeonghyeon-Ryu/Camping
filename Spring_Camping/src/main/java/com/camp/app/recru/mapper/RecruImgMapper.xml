@@ -4,7 +4,7 @@
 	
 	<!-- 입력 -->
 	<insert id="insertRecru" parameterType="RecruImgVO">
-		<selectKey keyProperty="imageId" resultType="Integer" order="BEFORE">
+		<selectKey keyProperty="imgId" resultType="Integer" order="BEFORE">
 			SELECT NVL(MAX(image_id),0)+1 FROM recru_image
 		</selectKey>
 		INSERT INTO recru_image(
