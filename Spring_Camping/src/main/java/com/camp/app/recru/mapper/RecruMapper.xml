@@ -97,13 +97,29 @@
 	</select>
 
 	<!-- 수정 : 글 수정 -->
-	
-	<!-- 수정 : 상태변경 -->
-<!-- 	<update id="changeStatus" parameterType="RecruVO">
-		UPDATE recruitment 
-		SET recru_status = #{recruStatus}
+	<update id="updateRecru" parameterType="recruVO">
+		UPDATE recruitment SET recru_title = #{recruTitle}
+		                    ,recru_content = #{recruContent}
+		                    ,wish_age = #{wishAge}
+		                    ,wish_sex = #{wishSex}
+		                    ,car_yn = #{carYn}
+		                    ,my_gear=#{myGear}
+		                    ,need_gear = #{needGear}
+		                    ,go_date = #{goDate}
+		                    ,come_date = #{comeDate}
+		                    ,starting_point = #{startingPoint}
+		                    ,camping_point = #{campingPoint}
+		                    ,note_id = #{noteId}
+		                    ,recru_num= #{recruNum}
+		                    ,closing_date = #{closingDate}
 		WHERE recru_id = #{recruId}
-	</update> -->
+	</update>
+	<!-- 수정 : 접근상태변경 -->
+	<update id="changeShowStatus" parameterType="RecruVO">
+		UPDATE recruitment 
+		SET status = #{status}
+		WHERE recru_id = #{recruId}
+	</update> 
 	
 	<!-- 수정 : 모집 완료로 상태변경시(1) 보증금 추가 -->
 	<update id="changeStatus" parameterType="RecruVO">

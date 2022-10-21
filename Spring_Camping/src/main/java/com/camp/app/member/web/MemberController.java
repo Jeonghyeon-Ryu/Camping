@@ -69,7 +69,8 @@ public class MemberController {
 		MemberVO member = new MemberVO();
 		member.setEmail(email);
 		member.setPassword(password);
-		if(password == service.findByEmail(email).getPassword()) {
+		System.out.println(member);
+		if(password.equals(service.findByEmail(email).getPassword())) {
 			return true;
 		} else {
 			return false;
@@ -89,8 +90,11 @@ public class MemberController {
 	}
 	@PutMapping("/member")
 	public boolean modifyPassword(@RequestBody MemberVO member) {
-		System.out.println("member : " + member);
-		return true;
+		if(service.modifyPassword(member)>0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	@GetMapping("/profile/{email}")
 	public ProfileImageVO profileImage(@PathVariable String email){

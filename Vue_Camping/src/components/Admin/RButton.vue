@@ -1,5 +1,5 @@
 <template>
-  <button v-text="value" ref="btn" class="rBtn" @click="clickBtn" @mouseover="hoverEvent" @mouseout="outEvent"></button>
+  <button v-text="value" ref="btn" class="rBtn" @click="clickBtn" @mouseover="hoverEvent" @mouseout="outEvent" @submit.prevent></button>
 </template>
 <script>
 export default {

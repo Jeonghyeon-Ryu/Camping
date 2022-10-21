@@ -38,17 +38,14 @@ export default {
     console.log(this.data);
   },
   methods: {
-    addRow: function (e) {
-      let tableContainer = e.target.parentElement;
-      while (!tableContainer.classList.contains('table_container')) {
-        tableContainer = tableContainer.parentElement;
-      }
-      let Table = tableContainer.querySelector('.maked_table');
+    // addRow: function (e) {
+    //   let thisTable = e.target.parentNode.nextSibling;
+    //   let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
 
-      let copyRow = $(Table).children().eq(0).clone(true);
-      copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
-      $(Table).append(copyRow);
-      console.log(Table);
+    //   copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
+    //   $(thisTable).append(copyRow);
+    //   console.log(thisTable);
+
 
     },
     addCol: function (e) {
@@ -80,7 +77,7 @@ export default {
       item.remove();
     },
   }
-}
+
 </script>
 
 <style scoped src="@/assets/css/note/WriteNote.css">

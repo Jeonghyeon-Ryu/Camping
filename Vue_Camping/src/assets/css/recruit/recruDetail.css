@@ -119,10 +119,11 @@
     justify-content: center;
 }
 .recru-detail-btn button{
-    padding: 7px;
+    padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 2px;
     margin: 5px;
+    font-weight: bold;
 }
 .btn-green{
     background: #4caf50;

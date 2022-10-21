@@ -27,7 +27,7 @@ import com.camp.app.sns.service.InputSnsVO;
 import com.camp.app.sns.service.SnsCommentService;
 import com.camp.app.sns.service.SnsCommentVO;
 import com.camp.app.sns.service.SnsImageVO;
-import com.camp.app.sns.service.SnsLikeVO;
+import com.camp.app.sns.service.MySnsLikeVO;
 import com.camp.app.sns.service.SnsService;
 import com.camp.app.sns.service.SnsVO;
 
@@ -99,6 +99,12 @@ public class SnsController {
 		service.snsDelete(writeNo);
 	}
 
+	//admin 삭제
+	@DeleteMapping("/snsDeleteByAdmin")
+	public void snsDeleteByAdmin(@RequestParam int writeNo) {
+//		System.out.println(writeNo);
+		service.snsDeleteByAdmin(writeNo);
+	}
 	/// 이미지
 	// 글 등록
 	@PostMapping("/sns")
@@ -124,7 +130,7 @@ public class SnsController {
 	// 이미지 (jpg 등 불러오기)
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
-		String fullPath = "c:\\upload\\sns\\" + imagePath + "\\" + storedName;
+		String fullPath = "d:\\upload\\sns\\" + imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
@@ -180,10 +186,10 @@ public class SnsController {
 	public List<SnsImageVO> getSnsListByUser(@PathVariable("email") String email, @PathVariable("page") int page) {
 		return service.showSnsByPageByUser(email, page);
 	}
-	
-	//게시물 좋아요 insert
+
+	// 게시물 좋아요 insert
 	@PostMapping("/like")
-	public boolean insertSnsLike(@RequestBody SnsLikeVO snsLike) {
+	public boolean insertSnsLike(@RequestBody MySnsLikeVO snsLike) {
 		System.out.println(snsLike);
 		return true;
 //		int result = scService.addSnsComment(snsComment);
@@ -194,12 +200,24 @@ public class SnsController {
 //		}
 	}
 
+	// 유저가 좋아요한 총게시글 수
+	@GetMapping("/memberLikeCount/{email}")
+	public int getLikeCountSnsByUser(@PathVariable("email") String email) {
+		System.out.println(email);
+		return service.countLikeSnsByUser(email);
+	}
+
 	// 유저가 좋아요한 게시글 리스트 출력
 	@GetMapping("/memberSnsLikeList/{email}/{page}")
-	public void getSnsLikeListByUser(@PathVariable("email") String email, @PathVariable("page") int page) {
-		System.out.println(email);
+	public List<SnsImageVO> getSnsLikeListByUser(@PathVariable("email") String email, @PathVariable("page") int page) {
+		return service.showSnsLikeByPageByUser(email, page);
 	}
 	
-	
+	//해시태그검색한 게시글 이미지리스트 출력
+	@GetMapping("/hashtagList/{hashtag}/{page}")
+	public List<SnsImageVO> getSnsListByHashtag(@PathVariable("hashtag") String hashtag, @PathVariable("page") int page) {
+		System.out.println(hashtag +","+ page);
+		return service.showSnsByPageByHashtag(hashtag, page);
+	}
 
 }

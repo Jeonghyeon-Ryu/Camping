@@ -22,8 +22,8 @@
       </div>
       <div class="header-middle-container">
         <!-- <NavbarDefault dark transparent></NavbarDefault> -->
-        <div v-if="currentCategory!=0" class="header-middle-button">
-          <div v-for="(info,key) of middleCategory[currentCategory-1]">
+        <div v-if="($store.state.currentCategory!='0')&&($store.state.currentCategory!=null)" class="header-middle-button">
+          <div v-for="(info,key) of middleCategory[$store.state.currentCategory-1]">
             <router-link :to="info" tag="div">{{key}}</router-link>
           </div>
         </div>
@@ -38,8 +38,7 @@ export default {
   name: "HeaderNav",
   data: function () {
     return {
-      email : localStorage.getItem("email"),
-      currentCategory: 0,
+      currentCategory: sessionStorage.getItem('currentCategory'),
       topCategory: {
         "어디갈래?" : "/CampList",
         "같이갈래?" : "/RecruList",
@@ -61,6 +60,11 @@ export default {
           "보증금 관리": "/recru/DepositMypage"
         },
         {
+          "물건 사기":"/used/UsedMain",
+          "물건 팔기":"/used/UsedInsert",
+          "채팅방":"/chat/rooms2",
+        },
+        {
           "게시글": "/sns",
           "글쓰기": "/sns/write",
           "좋아요": "/sns/myLikeFeed/" + this.$store.state.email,
@@ -72,10 +76,6 @@ export default {
           "내가 초대받은 노트": "/InvitedList",
           "노트 작성하기": "/WriteNote"
         },
-        {
-          "물건 사기":"/used/UsedMain",
-          "물건 팔기":"/used/UsedInsert"
-        }
       ],
     }
   },
@@ -93,27 +93,38 @@ export default {
     },
     clickTopCategory(key) {
       if(key == "어디갈래?") {
-        this.currentCategory = 1;
+        sessionStorage.setItem('currentCategory','1');
+        // this.$store.state.currentCategory = 1;
       } else if (key == "같이갈래?") {
-        this.currentCategory = 2;
+        // this.$store.state.currentCategory = 2;
+        sessionStorage.setItem('currentCategory','2');
       } else if (key == "중고장터") {
-        this.currentCategory = 5;
+        // this.$store.state.currentCategory = 5;
+        sessionStorage.setItem('currentCategory','3');
       } else if (key == "후기피드") {
-        this.currentCategory = 3;
+        // this.$store.state.currentCategory = 3;
+        sessionStorage.setItem('currentCategory','4');
       } else if (key == "나의노트") {
-        this.currentCategory = 4;
+        // this.$store.state.currentCategory = 4;
+        sessionStorage.setItem('currentCategory','5');
       } else if (key == "메인") {
-        this.currentCategory = 0;
+        // this.$store.state.currentCategory = 0;
+        sessionStorage.setItem('currentCategory','0');
       } else if (key == "로그인") {
-        this.currentCategory = 0;
+        // this.$store.state.currentCategory = 0;
+        sessionStorage.setItem('currentCategory','0');
       } else if (key == "로그아웃") {
-        this.currentCategory = 0;
+        this.$store.state.currentCategory = 0;
+        sessionStorage.setItem('currentCategory','0');
         this.logout();
       } else if (key == "채팅") {
-        this.currentCategory = 0;
+        // this.$store.state.currentCategory = 0;
+        sessionStorage.setItem('currentCategory','0');
       } else if (key == "알람") {
-        this.currentCategory = 0;
+        // this.$store.state.currentCategory = 0;
+        sessionStorage.setItem('currentCategory','0');
       }
+      this.$store.commit('setCurrentCategory');
     },
     logout() {
       this.$store.commit('delUserInfo');

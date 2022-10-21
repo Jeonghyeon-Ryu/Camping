@@ -100,10 +100,13 @@
                 </div>
             </div>
             <div class="camp-detail-info-right">
-                <button type="button" @click="saveItem($event)">저장하기</button>
-                <button type="button" @click="getCompanion()">동행자 구하기</button>
-                <button type="button" @click="modifyItem()">수정하기</button>
-                <button type="button" @click="reportItem()">신고하기</button>
+                <button v-if="!isSaved" type="button" @click="saveItem($event)">저장하기</button>
+                <button v-if="isSaved" type="button" @click="noSaveItem($event)"
+                    style="background:lavenderblush">저장취소</button>
+                <button v-if="$store.state.auth!=0" type="button" @click="getCompanion()">동행자 구하기</button>
+                <button v-if="$store.state.auth!=0" type="button" @click="modifyItemByUser()">수정신청</button>
+                <button v-if="$store.state.auth==0" type="button" @click="modifyItemByAdmin()">수정하기</button>
+                <button v-if="$store.state.auth!=0" type="button" @click="reportItem()">신고하기</button>
             </div>
         </div>
         <div id="camp-detail-sns-container" class="camp-detail-sns-container">
@@ -123,6 +126,7 @@ export default {
             search: '대구광역시 달서구 달서대로 719',
             campId: this.$route.params.campId,
             camp: {},
+            isSaved: false,
         }
     },
     created: function () {
@@ -131,14 +135,17 @@ export default {
             .then(result => {
                 result.campInfo = result.campInfo.split(" ");
                 this.camp = result;
-            }).catch(err=>console.log(err));
-        
-        fetch('http://localhost:8087/java/save?campId='+this.campId+'&'+this.$store.state.email)
-        .then(result => result.text())
-        .then(result => console.log(result))
-        .catch(err => console.log(err));
-
-        
+            }).catch(err => console.log(err));
+        if (this.$store.state.email != null) {
+            fetch('http://localhost:8087/java/save?boardId=' + this.campId + '&email=' + this.$store.state.email)
+                .then(result => result.text())
+                .then(result => {
+                    if (result == 'true') {
+                        this.isSaved = true;
+                    }
+                })
+                .catch(err => console.log(err));
+        }
     },
     methods: {
         // 후기 셋팅 필요
@@ -146,12 +153,48 @@ export default {
         // 기타 정보 할당 필요
         // 사진 Swiper 적용하기
         saveItem(e) {
-            console.log(e.target);
+            let save = {
+                boardId: this.campId,
+                boardDivision: 0,
+                email: this.$store.state.email
+            }
+            console.log(save);
+            if (this.$store.state.email != null) {
+                fetch('http://localhost:8087/java/save', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(save)
+                }).then(result => result.text())
+                    .then(result => {
+                        if (result == 'true') {
+                            this.isSaved = true;
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
+        },
+        noSaveItem(e) {
+            let save = {
+                'boardId': this.campId,
+                'boardDivision': 0,
+                'email': this.$store.state.email
+            }
+            fetch('http://localhost:8087/java/save', {
+                method: 'DELETE',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(save)
+            }).then(result => result.text())
+                .then(result => {
+                    if (result == 'true') {
+                        this.isSaved = false;
+                    }
+                })
+                .catch(err => console.log(err));
         },
         getCompanion() {
 
         },
-        modifyItem() {
+        modifyItemByUser() {
             if (this.$store.state.email != null) {
                 fetch('http://localhost:8087/java/campModify/' + this.campId)
                     .then(result => result.text())
@@ -190,6 +233,27 @@ export default {
                     }
                 })
             }
+        },
+        modifyItemByAdmin() {
+            fetch('http://localhost:8087/java/campModify/' + this.campId)
+                .then(result => result.text())
+                .then(result => {
+                    if (result == 'true')    // 수정중인게 있을때
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '수정중인 신청내역이 있습니다.',
+                            text: '해당 캠핑장의 수정 신청이 검토중에 있습니다.',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                    this.$router.push({ name: "CampModify", params: { campId: this.campId } });
+                })
         },
         reportItem() {
             let item = Swal.fire({
@@ -243,7 +307,7 @@ export default {
                                 Swal.fire({
                                     icon: 'error',
                                     title: '신고 실패 !',
-                                    text:'계속 실패하면 고객센터에 문의해주세요.',
+                                    text: '계속 실패하면 고객센터에 문의해주세요.',
                                     toast: true,
                                     showConfirmButton: false,
                                     timer: 1500,

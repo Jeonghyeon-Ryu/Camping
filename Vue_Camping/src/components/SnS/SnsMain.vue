@@ -1,9 +1,8 @@
 <template>
   <div class="sns-container">
-    <!-- <div class="sns-searchbox">
-      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
-      <button @click="doSearch" style="display: none;">조회</button>
-    </div> -->
+    <div class="sns-searchbox">
+      <SnsSearch @showHashList="showHashList"></SnsSearch>
+    </div>
 
     <div class="sns-img-container">
       <!-- <SnsDetailImage></SnsDetailImage> -->
@@ -19,7 +18,8 @@
 </template>
 
 <script>
-// import SnsDetailImage from './SnsDetailImage.vue';
+import SnsSearch from './SnsSearch.vue';
+
 export default {
   data: function () {
     return {
@@ -49,8 +49,26 @@ export default {
     },
     getSnsDetail(writeNo) {
       this.$router.push({ name: 'SnsDetail', params: { writeNo: writeNo } });
+    },
+    showHashList(hashtag){
+      // console.log("부모" + hashtag);
+      hashtag = hashtag.substring(1, hashtag.length);
+      
+      console.log("http://localhost:8087/java/hashtagList/" + hashtag + "/" +this.page);
+        fetch("http://localhost:8087/java/hashtagList/" + hashtag + "/" +this.page)
+        .then(result => result.json())
+        .then(result => {
+          console.log(result);
+          this.snsImgs = result;
+          console.log(result);
+        })
+        .catch(err => console.log(err));
     }
-  }
+  },
+  
+  components: {
+    SnsSearch
+  },
 }
 </script>
 

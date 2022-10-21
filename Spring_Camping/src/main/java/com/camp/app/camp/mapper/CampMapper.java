@@ -26,4 +26,6 @@ public interface CampMapper {
 	public int findMaxByCampModifyId();
 	public int countCampModifyByCampId(int campId);
 	
+//	저장 캠핑 보기
+	public List<CampVO> findByEmail(String email);
 }

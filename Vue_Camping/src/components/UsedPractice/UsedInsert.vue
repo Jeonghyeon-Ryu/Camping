@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <form id="container2" method="post">
+    <form id="container2" method="post" encrypt="multipart/form-data">
       <!-- <h3>상품 등록</h3> -->
         <div class="used-heads">
           <!-- 사진 -->
@@ -10,7 +10,7 @@
                 <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
               </div>
               <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
-                <label>사진등록
+                <label>사진등록(정사각형 권장)
                   <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
                     @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
                 </label>
@@ -53,24 +53,24 @@
                   <label for="inputPlace">지역<span class="essential">*</span></label>
                     <div class="usedPlace">
                     <select name="usedPlace" v-model="regionSelect" id="districtSelect" @change="districtChange">
-                      <option value diabled>시/도</option> 
+                      <option value='' disabled>시/도</option> 
                       <option value='전체'>전체</option>
-                      <option value='서울특별시'>서울특별시</option>
-                      <option value='부산광역시'>부산광역시</option>
-                      <option value='대구광역시'>대구광역시</option>
-                      <option value='인천광역시'>인천광역시</option>
-                      <option value='광주광역시'>광주광역시</option>
-                      <option value='대전광역시'>대전광역시</option>
-                      <option value='울산광역시'>울산광역시</option>
-                      <option value='경기도'>경기도</option>
-                      <option value='강원도'>강원도</option>
-                      <option value='충청북도'>충청북도</option>
-                      <option value='충청남도'>충청남도</option>
-                      <option value='전라북도'>전라북도</option>
-                      <option value='전라남도'>전라남도</option>
-                      <option value='경상북도'>경상북도</option>
-                      <option value='경상남도'>경상남도</option>
-                      <option value='제주도'>제주도</option>
+                      <option value='서울'>서울특별시</option>
+                      <option value='부산'>부산광역시</option>
+                      <option value='대구'>대구광역시</option>
+                      <option value='인천'>인천광역시</option>
+                      <option value='광주'>광주광역시</option>
+                      <option value='대전'>대전광역시</option>
+                      <option value='울산'>울산광역시</option>
+                      <option value='경기'>경기도</option>
+                      <option value='강원'>강원도</option>
+                      <option value='충북'>충청북도</option>
+                      <option value='충남'>충청남도</option>
+                      <option value='전북'>전라북도</option>
+                      <option value='전남'>전라남도</option>
+                      <option value='경북'>경상북도</option>
+                      <option value='경남'>경상남도</option>
+                      <option value='제주특별자치도'>제주도</option>
                     </select>
                     <select v-model="regionSelect2" name="usedPlace" id="citySelect">
                       <option value disabled>시/군/구</option>
@@ -165,13 +165,16 @@
         const form = document.forms.namedItem('#container2')
         let place = document.querySelector('#districtSelect'+'#citySelect')
         let fetchData = [];
+        fetchData = new FormData(document.querySelector('#container2'))
+        for (let image of this.images) {
+        fetchData.append("files", image);
+      }
 
         let name = document.getElementById('inputName').value;
         let price = document.getElementById('inputPrice').value;
         let category = document.getElementById('used_cate').value;
         let content = document.querySelector('.used_content').value;
 
-        fetchData = new FormData(document.querySelector('#container2'))
         // fetchData.append('nickName', this.nickName)
         fetchData.forEach((value,key)=>{
           console.log(key, ":", value);
@@ -205,7 +208,21 @@
                 }).catch(err=>console.log(err))
               
                 console.log(fetchData)
+        }
+      },
+      clickCheckBox(e) {
+        e.preventDefault();
+        let checkItem = e.target.parentElement;
+        while (!checkItem.classList.contains('checkboxLabel')) {
+          checkItem = checkItem.parentElement;
+        }
+        checkItem = checkItem.querySelector('input');
 
+        console.log(checkItem.checked);
+        if (checkItem.checked) {
+          checkItem.checked = false;
+        } else {
+          checkItem.checked = true;
         }
       },
       //지역선택
@@ -213,7 +230,7 @@
         let sido = document.querySelector('#districtSelect');
         let sigu = document.querySelector('#citySelect');
         let sidoName = sido.value;
-        let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
+        let cityArr = ["서울","부산","인천","대구","광주","대전","울산","경기","강원","충북","충남","경북","경남","전북","전남","제주특별자치도"];
 
         sigu.options.length=1;  //저장내역 삭제
 
@@ -255,22 +272,7 @@
           
         })
       },
-      clickCheckBox(e) {
-      e.preventDefault();
-      let checkItem = e.target.parentElement;
-      while (!checkItem.classList.contains('checkboxLabel')) {
-        checkItem = checkItem.parentElement;
-      }
-      checkItem = checkItem.querySelector('input');
-
-      console.log(checkItem.checked);
-      if (checkItem.checked) {
-        checkItem.checked = false;
-      } else {
-        checkItem.checked = true;
-      }
-    },
-    swCategory: function(){
+      swCategory: function(){
         Swal.fire({
           title: '',
           text: '카테고리는 필수 선택 사항입니다',
@@ -317,16 +319,4 @@
   }
 </script>
 <style scoped src="@/assets/css/used/UsedInsert.css" />
-
-/* <!-- 사진: 미리보기
-  상품명: 글자수 20자 제한
-  가격: 숫자 천단위구분기호/숫자만입력 
-  상품설명: 글자수제한 /글자카운트?-->  */
-<style scoped>
-
-
-
-
-</style>
-
 

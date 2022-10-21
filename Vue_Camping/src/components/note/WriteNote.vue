@@ -275,8 +275,7 @@ export default {
                     //이미지
                 }else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined ){ 
                     lineType = 'IMG';
-                    //이미지 DB에 저장
-                    
+                    //이미지 DB에 저장      
                     /*let formData = new FormData();
                     for(let image of this.images){
                         formData.append("files", image); 
@@ -285,8 +284,7 @@ export default {
                      console.log("벨유 , " , value)
                        
                      })*/
-                    // console.log(formData);
-                    
+
                     
                     //DB에 저장된 이미지의 경로랑 파일이름을 lineValue에 저장
                 }

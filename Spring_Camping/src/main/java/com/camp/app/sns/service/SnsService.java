@@ -58,13 +58,24 @@ public interface SnsService {
 	// sns 삭제 기능
 	public void snsDelete(int writeNo);
 
+	// sns admin삭제
+	public void snsDeleteByAdmin(int writeNo);
+
 	// 유저가 작성한 총게시글 수
 	public int countSnsByUser(String email);
 
 ///// 유저가 작성한 게시글 리스트 출력(위의 전체이미지 불러오기에서 가져옴)
-
 	public List<SnsImageVO> showSnsByPageByUser(String email, int page);
 //	// 마이페이지 - 이미지 전체출력
 //	public List<SnsImageVO> showSnsListByUser()
+
+	// 유저가 좋아요한 총게시글 수
+	public int countLikeSnsByUser(String email);
+
+	// 유저가 좋아요한 게시글 리스트 출력(위의 전체이미지 불러오기에서 가져옴)
+	public List<SnsImageVO> showSnsLikeByPageByUser(String email, int page);
+
+	// 해시태그검색한 게시글 이미지리스트 출력
+	public List<SnsImageVO> showSnsByPageByHashtag(String hashtag, int page);
 
 }

@@ -3,6 +3,7 @@ package com.camp.app.note.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface NoteService {
@@ -23,4 +24,6 @@ public interface NoteService {
 	
 	//GoMyNote
 	public NoteVO getMyNote(int noteId);
+	//이미지 저장
+	public boolean insertImg(List<MultipartFile> files);
 }

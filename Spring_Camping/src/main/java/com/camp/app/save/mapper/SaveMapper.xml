@@ -4,11 +4,14 @@
 	<select id="findAll" resultType="SaveVO">
 		SELECT * FROM save
 	</select>
-	<select id="findMaxSaveId">
-		SELECT NVL(MAX(save_id)) FROM save
+	<select id="findByEmailAndBoardDivision" parameterType="SaveVO" resultType="SaveVO">
+		SELECT * FROM save WHERE email = #{email} AND board_division = #{boardDivision} 
+	</select>
+	<select id="findMaxSaveId" resultType="Integer">
+		SELECT NVL(MAX(save_id),0) FROM save
 	</select>
 	<select id="exist" parameterType="SaveVO" resultType="boolean">
-		SELECT COUNT(*) FROM board_id = #{boardId} AND email = #{email}
+		SELECT COUNT(*) FROM save WHERE board_id = #{boardId} AND email = #{email} AND board_division = #{boardDivision}
 	</select>
 	<insert id="insert" parameterType="SaveVO">
 		INSERT INTO save VALUES(
@@ -19,6 +22,40 @@
 		)
 	</insert>
 	<delete id="delete" parameterType="SaveVO">
-		DELETE FROM save WHERE board_id = #{boardId} AND email = #{email}
+		DELETE FROM save WHERE board_id = #{boardId} AND email = #{email} AND board_division = #{boardDivision}
 	</delete>
+	
+	<!-- 유저가 좋아요한 총게시글 수 -->
+	<select id="countLikeSnsByUser" resultType="Integer" parameterType="String">
+	SELECT COUNT(*) FROM save WHERE email = #{email} AND board_division = 3
+	</select>
+	
+	<!-- 좋아요한 목록 이미지리스트보기 페이징? -->
+ <select id="showLikeSnsByPageByUser" resultType="SnsImageVO" parameterType="MySnsLikeVO">
+
+<![CDATA[
+
+      
+      SELECT write_no, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path
+      FROM ( 
+           SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+           FROM (
+                SELECT ROWNUM AS SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+                FROM ( SELECT *
+                            FROM sns_image 
+                            WHERE sns_image_no = ANY
+                                    (SELECT MAX(sns_image_no) 
+                                    FROM sns_image
+                                    WHERE write_no IN (SELECT board_id AS write_no
+                                                                FROM save
+                                                                WHERE board_division=3  and email = #{email})
+                                                       
+                                    GROUP BY write_no)
+                            ORDER BY write_no desc)
+               )
+           WHERE SEQ >= ((#{page}-1)*10+1)
+          )
+      WHERE ROWNUM < 11
+		]]>
+</select> 
 </mapper> 

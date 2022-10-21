@@ -6,8 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -22,10 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camp.app.camp.service.CampImageVO;
-import com.camp.app.camp.service.CampModifyVO;
 import com.camp.app.camp.service.CampService;
 import com.camp.app.camp.service.CampVO;
 import com.camp.app.camp.service.InputCampVO;
+
+import retrofit2.http.POST;
 
 @RestController
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
@@ -92,5 +91,18 @@ public class CampController {
 			return false; // 캠핑장 수정신청 미존재
 		}
 		
+	}
+	
+	@GetMapping("/savedCamp/{email}")
+	public List<CampVO> findByEmailAndBoardDivision(@PathVariable String email){
+		return service.showStoredCamp(email);
+	}
+	
+	
+//	관리자 캠핑장 수정
+	@PostMapping("/admin/camp")
+	public boolean modifyCampByAdmin(InputCampVO camp) {
+		System.out.println("캠핑장 수정 관리자 : " + camp);
+		return service.modifyCampByAdmin(camp);
 	}
 }

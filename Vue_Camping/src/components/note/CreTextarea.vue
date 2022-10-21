@@ -48,8 +48,7 @@
                             @click="delCheckList"></button>
                 </div>
             </div>
-        </div>
-        
+        </div>        
         <div class="img_container" v-if="type=='imgBox'">
             <div  class='used-insert-image-preview'>
                 <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>

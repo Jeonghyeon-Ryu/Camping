@@ -106,7 +106,11 @@
                     </div>
                 </div>
             </div>
-            <div v-if="userRole==1||userRole==3||userRole==4" class="recru-detail-sol deposit-status-box">
+            <div v-if="userRole==1&&recruPost.recruStatus>0" class="recru-detail-sol deposit-status-box">
+                <h3>보증금 상태</h3>
+                <DepositStatus :recruId="recruId"></DepositStatus>
+            </div>
+            <div v-if="userRole==3" class="recru-detail-sol deposit-status-box">
                 <h3>보증금 상태</h3>
                 <DepositStatus :recruId="recruId"></DepositStatus>
             </div>
@@ -149,8 +153,8 @@ export default{
     },
     data:function(){
         return{
-            //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, (4관리자 )
-            memberId : localStorage.getItem("email"),
+            //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
+            memberId : sessionStorage.getItem("email"),
             userRole : 0,
             recruPost : {},
             entryPost : [],
@@ -244,7 +248,7 @@ export default{
                 .then(data => { 
                     component.entryPost = data;  
                     //참가목록 저장         
-                    //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, (4관리자 )
+                    //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
                     component.entryPost.forEach(entry => {
                         if(entry.memberId == component.memberId && entry.entryStatus ==0){
                             //신청중인 사람
@@ -267,11 +271,7 @@ export default{
                 }).catch(err=>console.log(err));
             })
 
-        },
-        loadDepositData : function(){
-            //보증금 상황 조회
-
-        },    
+        }, 
         yyyyMMddhhmmss : function(value){
             if(value == '') return '';
     
@@ -402,6 +402,9 @@ export default{
                 }
                 return str;
             }
+        },
+        recruUpdate : function(){
+            this.$router.push({name : 'RecruUpdate',params : {recruId : this.recruId}})
         }
     }
 }
