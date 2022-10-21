@@ -29,5 +29,7 @@ public interface RecruService {
 	public int updateRecru(RecruVO recruVO);
 	//저장정보(찜) 확인
 	public boolean isExist(SaveVO save);
+	//접근 상태 변경
+	public int changeShowStatus(RecruVO recruVO);
 	
 }

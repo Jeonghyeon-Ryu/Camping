@@ -129,5 +129,10 @@ public class RecruServiceImpl implements RecruService {
 	public int updateRecru(RecruVO recruVO) {
 		return mapper.updateRecru(recruVO);
 	}
+	//접근 상태 변경
+	@Override
+	public int changeShowStatus(RecruVO recruVO) {
+		return mapper.changeShowStatus(recruVO);
+	}
 
 }

@@ -60,10 +60,10 @@
             </div>
 
             <!-- 게시글 관리 버튼 -->
-            <div class="recru-detail-row recru-detail-btn">
+            <div class=" recru-detail-btn">
                 <div class="recru-entry-btn">
                     <!-- 모집자/신청자가 아닌 경우 -->
-                    <button v-if="userRole==0" class="btn-green hover-shadow" type="button" @click="isModalViewed=true">동행 신청</button>
+                    <button v-if="userRole==0 && rStatus==0" class="btn-green hover-shadow" type="button" @click="entryInsertForm">동행신청</button>
                     <!-- 신청자인 경우 -->
                     <button v-if="userRole==2" type="button" style="color: green;background: rgba(228,239,231,0.7);font-weight: bold;">신청 중</button>
                     <button v-if="userRole==2||userRole==3" class="hover-shadow" type="button" @click="entryDelete" style="color:gray; background: nlightgray; ">신청 취소</button>
@@ -72,12 +72,12 @@
                     <!-- 모집자(작성자)인 경우 -->
                     <button v-if="rStatus==0" type="button" @click="recruFinish">모집완료</button>
                     <button v-if="rStatus==0" type="button" @click="recruUpdate">수정</button>
-                    <button type="button" @click="recruDelete">삭제</button>
+                    <button type="button" @click="userDelete">삭제</button>
+                    <button v-if="rStatus==1" type="button" @click="recruFinish">후기등록</button>
                 </div>
                 <div v-if="userRole==4" class="recru-writer-btn">
                     <!-- 관리자인 경우 -->
-                    <button type="button" @click="">접근제한</button>
-                    <button type="button" @click="">삭제</button>
+                    <button type="button" @click="adminDelete">접근제한</button>
                 </div>
             </div>
             <!-- 신청내역 : 글 작성자에게만 보임 -->
@@ -174,18 +174,18 @@ export default{
         this.loadRecruData();
     },
     computed : {
-        recruStatus(){
-            if (this.recruPost.recruStatus==0){
-                this.statusClass = 'recru_status_red'
-                return '모집중'
-            }else if(this.recruPost.recruStatus==1){
-                this.statusClass = 'recru_status_green'
-                return '모집완료'
-            }else{
-                this.statusClass = 'recru_status_gray'
-                return '모집취소'
-            }
-        },
+        // recruStatus(){
+        //     if (this.recruPost.recruStatus==0){
+        //         this.statusClass = 'recru_status_red'
+        //         return '모집중'
+        //     }else if(this.recruPost.recruStatus==1){
+        //         this.statusClass = 'recru_status_green'
+        //         return '모집완료'
+        //     }else{
+        //         this.statusClass = 'recru_status_gray'
+        //         return '모집취소'
+        //     }
+        // },
         userage(){
             //희망 연령대 계산
             const today = new Date();          
@@ -264,6 +264,8 @@ export default{
                     if(component.userRole==2 || component.userRole==3){
                     }else if(component.memberId == writer){
                         component.userRole = 1;
+                    }else if(this.$router.state.auth == 0){
+                        component.userRole = 4;
                     }else{
                         component.userRole = 0;
                     }
@@ -403,9 +405,95 @@ export default{
                 return str;
             }
         },
+        entryInsertForm : function(){
+            if(!this.memberId){
+                Swal.fire({
+                        title: '로그인이 필요한 서비스입니다.',
+                        text: "로그인 페이지로 이동하겠습니까?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        // confirmButtonColor: '#3085d6',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: '네',
+                        cancelButtonText : '아니오'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push({ name: 'LoginSignup'})
+                    }
+                })
+            }else{
+                this.isModalViewed = true;
+            }
+        },
         recruUpdate : function(){
             this.$router.push({name : 'RecruUpdate',params : {recruId : this.recruId}})
-        }
+        },
+        userDelete : function(){
+            if(this.entryCount >0){
+               alert('삭제불가')
+            }else{
+                this.changeShowInfo(1)
+            }
+        },
+        adminDelete : function(){
+            this.changeShowInfo(2)
+        },
+        changeShowInfo : function(status){
+            var changeInfo = {
+                recruId : this.recruId,
+                status : status
+            };
+            console.log(changeInfo)
+            fetch('http://localhost:8087/java/recru/showStatus', {
+                method : "PUT",
+                headers : {"Content-Type" : "application/json"},
+                body :  JSON.stringify(changeInfo)
+            }).then(result => result.text())
+                    .then(result => {
+                        console.log(result)
+                        if (result == 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '삭제되었습니다',
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    //this.$router.push({ path: '/recru/detail/' + this.recruId, });
+                                }
+                            })
+                            this.$router.push({name : 'RecruList'})
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '실패되었습니다',
+                                text:'서버를 다시 확인해주세요.',
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                        }
+                        console.log(result);
+                    })
+        },
+        sawl : Swal.mixin({
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
     }
 }
 </script>

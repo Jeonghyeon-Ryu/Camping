@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.camp.app.recru.service.RecruService;
 import com.camp.app.recru.service.RecruVO;
 import com.camp.app.save.service.SaveVO;
-
+/*
+ * @author 최유리
+ * 캠핑 동행 모집 게시판
+ * 
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class RecruController {
@@ -38,7 +42,7 @@ public class RecruController {
 	public RecruVO selectOne(@PathVariable String recruId) {
 		return service.findOne(recruId);
 	}
-	//마이페이지 조회
+	//마이페이지 조회 -수정
 	@GetMapping("/recru/mypage/{memberId}")
 	public List<RecruVO> myRecru(@PathVariable String memberId){
 		return service.myRecru(memberId);
@@ -48,12 +52,12 @@ public class RecruController {
 	public List<RecruVO> recruSearchList(@PathVariable String keyword){
 		return service.recruKeywordList(keyword);
 	}
-	//상태변경
+	//모집상태변경
 	@PutMapping("/recru")
 	public int changeStatus(@RequestBody RecruVO recruVO) {
 		return service.changeStatus(recruVO);
 	}
-	//게시물의 저장여부
+	//게시물의 저장여부 -수정
 	@GetMapping("/recru/save/{email}/{boardDivision}/{boardId}")
 	public boolean isExist(@PathVariable String email,@PathVariable int boardDivision, @PathVariable int boardId) {
 		SaveVO save = new SaveVO();
@@ -62,9 +66,15 @@ public class RecruController {
 		save.setBoardId(boardId);
 		return service.isExist(save);
 	}
-	//수정
+	//내용수정
 	@PutMapping("/recru/updateAll")
 	public int updateRecru(@RequestBody RecruVO recruVO) {
 		return service.updateRecru(recruVO);
+	}
+	//접근 상태 변경
+	@PutMapping("/recru/showStatus")
+	public int changeShowStatus(@RequestBody RecruVO recruVO) {
+		System.out.println(recruVO.getStatus());
+		return service.changeShowStatus(recruVO);
 	}
 }

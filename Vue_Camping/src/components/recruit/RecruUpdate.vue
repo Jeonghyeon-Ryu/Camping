@@ -235,6 +235,16 @@ export default{
                 
             })
         },
+        loadImgs: function () {
+            const recruId = this.recruCard.recruId;
+            const component = this;
+            fetch("http://localhost:8087/java/recruImg/" + recruId)
+                .then(result => result.json())
+                .then(result => {
+                component.images=result;
+            })
+                .catch(err => console.log(err));
+        },
         updateContent : function(){
         //기본입력확인
         const inputValue = [
@@ -346,7 +356,7 @@ export default{
                 formData.append('files', file);
             })
             fetch('http://localhost:8087/java/recruImg',{
-                    method : "POST",
+                    method : "PUT",
                     headers : {},
                     body : formData
                 }) 

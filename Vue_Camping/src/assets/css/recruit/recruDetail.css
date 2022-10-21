@@ -41,7 +41,7 @@
 }
  /* 제목 */
  .recru-detail-title{
-    margin: 20px 0 10px 0
+    margin: 50px 0 0 50px
  }
  /* 게시글 상태 */
  .recru-detail-status{
@@ -114,9 +114,17 @@
 }
 /* 버튼 */
 .recru-detail-btn{
+    z-index: 100;
+    width:  100%;
+    height: 7%;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    padding: 10px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    background-color: #f9f9f9;
+    border-top: 1px solid #efefef;
+    padding-left: 70%;
 }
 .recru-detail-btn button{
     padding: 10px;
