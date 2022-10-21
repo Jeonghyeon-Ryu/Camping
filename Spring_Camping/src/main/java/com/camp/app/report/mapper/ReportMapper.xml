@@ -4,6 +4,9 @@
 	<select id="findAll" resultType="ReportVO">
 		SELECT * FROM report
 	</select>
+	<select id="findByEmail" parameterType="String" resultType="ReportVO">
+		SELECT * FROM report WHERE email=#{email}
+	</select>
 	<select id="findByBoardDivision" parameterType="Integer" resultType="ReportVO">
 		SELECT * FROM report WHERE board_division = #{boardDivision}
 	</select>

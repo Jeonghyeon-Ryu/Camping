@@ -13,6 +13,7 @@
       <div class="my-info-left-bottom">
         <div class="my-info-left-button" @click="user_modify_toggle">기본정보 변경</div>
         <div class="my-info-left-button" @click="user_modify_password">비밀번호 변경</div>
+        <div class="my-info-left-button" @click="user_delete">회원탈퇴</div>
       </div>
     </div>
     <div class="my-info-right">
@@ -33,7 +34,7 @@
           <div>
             <input type="text" v-bind:value="user.email" placeholder="이메일" name="email" readonly />
             <input type="text" v-bind:value="user.nickname" placeholder="닉네임" name="nickname" disabled />
-            <input type="button" value="비밀번호 변경" @click="user_modify_password" disabled />
+            <input type="button" value="비밀번호 변경" @click="user_modify_password"/>
           </div>
           <div>
             <input type="text" v-bind:value="user.name" placeholder="이름" name="name" disabled />
@@ -103,6 +104,7 @@ export default {
     },
     user_modify_confirm: function () {
       let fetchData = new FormData(document.querySelector('.user-info-form'));
+      fetchData.append("status",2);
       fetchData.forEach((value, key) => {
         console.log(value)
       })
@@ -181,17 +183,6 @@ export default {
     },
 
     user_modify_password: function () {
-      const centerToast = Swal.mixin({
-        toast: true,
-        position: 'center',
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
       Swal.fire({
         title: '비밀번호 변경',
         html:
@@ -318,6 +309,9 @@ export default {
 
       return this.regCheck(regExp, asValue);
     },
+    user_delete: function() {
+
+    },  
   }
 }
 </script>

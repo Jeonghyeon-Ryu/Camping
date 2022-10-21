@@ -35,6 +35,7 @@
             <button class="btn_login" @click="clickLogin($event)">LOGIN</button>
             <button class="btn_login">KAKAO</button>
             <button class="btn_login">NAVER</button>
+            <button class="btn_login" @click="searchIDPW($event)">FORGET ID/PW ?</button>
           </div>
           <div class="cont_form_sign_up">
             <a href="#" @click="showLoginSignup()"><i class="material-icons">&#xE5C4;</i></a>
@@ -43,7 +44,7 @@
               autocomplete="off" />
             <input type="text" name="name" placeholder="이름" autocomplete="off" />
             <input type="text" @change="isNickname($event)" name="nickname" placeholder="닉네임" autocomplete="off" />
-            <input type="password" @change="isPassword($event)" name="password" placeholder="비밀번호(특수문자 포함 8~16자리)" />
+            <input type="password" @change="isPassword($event)" name="password" placeholder="비밀번호(특수문자,숫자 포함 8~16자리)" />
             <input type="password" @change="isPasswordConfirm($event)" name="password_confirm" placeholder="비밀번호 확인" />
             <input type="text" @change="isIdentify($event)" name="identify" placeholder="주민등록번호(900101-1)" maxlength="8"
               autocomplete="off" />
@@ -377,6 +378,9 @@ export default {
       let asValue = e.target;
       let regExp = /^\d{2}([0]\d|[1][0-2])([0][1-9]|[1-2]\d|[3][0-1])[-]*[1-4]$/;
       this.regCheck(regExp, asValue);
+    },
+    searchIDPW: function (e) {
+      
     }
   }
 }

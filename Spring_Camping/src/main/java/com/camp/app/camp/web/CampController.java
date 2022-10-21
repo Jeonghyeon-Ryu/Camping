@@ -61,7 +61,10 @@ public class CampController {
 		
 		if(!resource.exists()) {
 			System.out.println("File Not Found ! ");
-			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+			fullPath = "d:\\upload\\camp\\default.png";
+			resource = new FileSystemResource(fullPath);
+			
+//			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 		}
 		
 		HttpHeaders header = new HttpHeaders();

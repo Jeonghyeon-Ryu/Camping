@@ -76,7 +76,8 @@
 			#{campSite},
 			#{campInfo},
 			#{campId},
-			#{email}
+			#{email},
+			#{status}
 		)
 	</insert>
 	<select id="findMaxByCampModifyId" resultType="Integer">

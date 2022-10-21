@@ -19,6 +19,11 @@ public class ReportServiceImpl implements ReportService{
 	public List<ReportVO> showAll() {
 		return mapper.findAll();
 	}
+	
+	@Override
+	public List<ReportVO> showReportByUser(String email) {
+		return mapper.findByEmail(email);
+	}
 
 	@Override
 	public List<ReportVO> showByBoardDivision(int boardDivision) {
@@ -35,5 +40,7 @@ public class ReportServiceImpl implements ReportService{
 	public boolean modifyReport(ReportVO report) {
 		return mapper.update(report);
 	}
+
+	
 
 }

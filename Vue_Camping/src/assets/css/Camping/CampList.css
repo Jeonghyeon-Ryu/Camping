@@ -26,7 +26,7 @@
     height:350px;
 }
 .card-img-container img {
-  width:100%;
+  width:auto;
   height:100%;
 }
 .card-image {      

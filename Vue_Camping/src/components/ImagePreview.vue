@@ -41,16 +41,17 @@
                 imagesUrl : []
             }
         },
+        created: function() {
+            console.log('크리에이티드 이미지 : ', this.images);
+        },
         methods : {
             deleteImage(e) {
                 let parentDiv = e.target.parentElement;
                 let dt = new DataTransfer();
-                let tempimages = [];
                 let tempimagesUrl = [];
                 for(let i=0; i<this.imageFiles.length; i++){
                     if(i != parentDiv.getAttribute('id')) {
                         dt.items.add(this.imageFiles[i]);
-                        // tempimages.push(this.imageFiles[i]);
                         tempimagesUrl.push(this.imagesUrl[i]);
                     } else {
 
@@ -58,11 +59,11 @@
                 }
                 this.imageFiles = dt.files;
                 this.imagesUrl = tempimagesUrl;
-                this.$emit('deleteImages', dt.files);
+                this.$emit('deleteImages', this.imageFiles);
             },
-            insertImage(images) {
+            insertImage() {
                 let dt = new DataTransfer();
-                for(let image of images){
+                for(let image of this.images){
                     if(image.type.indexOf('image')>=0) {
                         dt.items.add(image);
                     }
@@ -84,9 +85,9 @@
         },
         watch : {
             images(newImages, oldImages) {
-                this.imageFiles = [];
+                //this.imageFiles = [];
                 if(newImages.length >= oldImages.length){
-                    this.insertImage(newImages);
+                    this.insertImage();
                 }
             }
         }

@@ -324,7 +324,7 @@ export default {
                 }
             })
             console.log(item);
-        }
+        },
     },
     components: { KakaoMap, CampDetailImage },
 }
