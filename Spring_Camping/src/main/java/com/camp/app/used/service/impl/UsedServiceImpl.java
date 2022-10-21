@@ -149,9 +149,8 @@ public class UsedServiceImpl implements UsedService {
 
 	//필터검색
 	@Override
-	public List<UsedVO> searchUsedList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UsedVO> searchUsedList(UsedVO used) {
+		return mapper.searchUsedList(used);
 	}
 
 	//키워드검색

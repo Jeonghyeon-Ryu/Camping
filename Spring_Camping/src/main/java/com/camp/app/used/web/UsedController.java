@@ -104,8 +104,8 @@ public class UsedController {
 	
 	//필터검색  ?
 	@GetMapping("/usedSearch")
-	public List<UsedVO> searchUsedList(){
-		return service.searchUsedList();
+	public List<UsedVO> searchUsedList(@RequestBody UsedVO used){
+		return service.searchUsedList(used);
 	}
 	
 	//단건조회

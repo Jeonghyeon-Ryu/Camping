@@ -9,27 +9,27 @@
 	</select>
 	
 	<!-- 게시글 조건조회 -->
-	<select id="searchUsedList" resultType="UsedVO">
+	<select id="searchUsedList" resultType="UsedVO" parameterType="UsedVO">
 		 SELECT * FROM used 
 		<where>
-				and used_status = 0
+				used_status = 0
 			<if test="usedName != null and usedName != ''">
-				and used_name = #{usedName}
+				and used_name LIKE '%'||#{usedName}||'%'
 			</if>
 			<if test="usedCategory != null and usedCategory != ''">
 				and used_category = #{usedCategory}
 			</if>
 			<if test="minPrice != null and minPrice != ''">
-				and used_price >= #{minPrice}
+				<![CDATA[and used_price >= #{minPrice}]]>
 			</if>
 			<if test="maxPrice != null and maxPrice != ''">
 				<![CDATA[and used_price < #{maxPrice}]]>
 			</if>
 			<if test="usedPlace != null and usedPlace != ''">
-				and used_price = #{usedPlace}
+				and used_place LIKE '%'||#{usedPlace}||'%'
 			</if>
 		</where>
-		ORDER BY used_write desc
+		ORDER BY used_id desc
 	</select>
 	
 	<!-- 게시글 키워드조회 -->
