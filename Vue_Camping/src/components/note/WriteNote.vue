@@ -205,18 +205,14 @@ export default {
 
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
-                let lineType = '';
                 let lineValue = '';
-                let linePosition = i;
 
                 if (lineAll[i].querySelector('textarea') != undefined) {
-                    lineType = 'TEXT';
                     lineValue = lineAll[i].querySelector('textarea').value;
                     //<태그 자체를 저장>
                     textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' + lineValue + '"></textarea>'
-
+                    contents.push(textTag);
                 } else if (lineAll[i].querySelector('table') != undefined) {
-                    lineType = 'TABLE';
                     lineValue = lineAll[i].querySelector('.maked_table');
                     tableTag = `<div class='table_container'>
                                     <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
@@ -225,56 +221,46 @@ export default {
                     let lineTr = lineValue.querySelectorAll('tr');
                     lineValue = [];
                     for (let j = 0; j < lineTr.length; j++) {
-
-                        let temp = [];
+                        // td 열 반복
+                        let lineTd = lineTr[j].querySelectorAll('td input');
                         tableTag += `<tr class='item' > 
                                         <td class="row-button-container" @mouseover="showBtn">
                                             <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
                                         </td>`
-                        // td 열 반복
-                        let lineTd = lineTr[j].querySelectorAll('td input');
-
                         for (let k = 0; k < lineTd.length; k++) {
                             //temp.push(lineTd[k].value);
                             tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text" value="` + lineTd[k].value + `"></td>`
                         };
                         tableTag += `</tr>`
                     }
-                    tableTag += `
-                    </table>
-                    <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
-                    </div>
-                    `
+                    tableTag += `</table>
+                                <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
+                                </div>`;
+                    contents.push(tableTag);                           
                 } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
-                    lineType = 'CHECK';
                     lineValue = [];
                     let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
-                    checkBoxTag = `
-                                      <div class='check_box_list'>
-                                      `;
+                    checkBoxTag = `<div class='check_box_list'>`;
                     for (let j = 0; j < checkBoxList.length; j++) {
                         let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
                         let isChecked = lineCheckbox.checked;
-                        checkBoxTag += `
-                                    <input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="`
-                            + lineCheckText + `">
+                        checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
                                     <div class="box_container">
                                         <div class="checkbox_button_container">
                                             <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
                                             <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
                                         </div>
-                                    </div>
-                                    `
-                        lineValue.push({
+                                    </div>`
+                        contents.push({
                             status: isChecked,
                             text: lineCheckText
                         });
                     };
                     checkBoxTag += `</div>`
                     //이미지
-                }else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined ){ 
-                    lineType = 'IMG';
+                } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined ){ 
+                    contents.push('IMG');
                     //이미지 DB에 저장      
                     /*let formData = new FormData();
                     for(let image of this.images){
@@ -284,50 +270,61 @@ export default {
                      console.log("벨유 , " , value)
                        
                      })*/
-
-                    
                     //DB에 저장된 이미지의 경로랑 파일이름을 lineValue에 저장
                 }
             };
             //작성한 내용 보내기
             let title = document.querySelector('.note_title').value;
-            
-            let fetchData = {
-                "title": title,
-                "noteContents": contents,
-                "email": localStorage.getItem("email")
-
+            let formData = new FormData();
+            for(let image of this.images){
+                formData.append("files", image);
             }
-            //console.log(fetchData);
-
-            fetch('http://localhost:8087/java/WriteNote', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(fetchData)
-            }).then(result => {
-                //console.log(result);
-
-                //DB에 보낸 이미지
-
-                let formData = new FormData();
-                    for(let image of this.images){
-                        formData.append("files", image); 
-                    }
-                    
-                fetch('http://localhost:8087/java/WriteNoteImg', {
-                        method: 'POST',  
-                        redirect: 'follow',
-                        body: formData
-                    }).then(result => {
-                        console.log("이미지 fetch 결과")
-                        console.log(result);
-                        
-                    })
-
-                this.$router.push({ name: "MynoteList" });
+            formData.append("title", title);
+            formData.append("noteContents", contents); 
+            formData.append("email", this.$store.state.email);  
+            formData.forEach((value, key) => {
+                console.log(value);
             })
+            fetch('http://localhost:8087/java/WriteNoteInfo', {
+                method: 'POST',  
+                headers: {},
+                body: formData
+            }).then(result => {
+                console.log("이미지 fetch 결과")
+                console.log(result);
+                
+            })
+            
+
+
+            // fetch('http://localhost:8087/java/WriteNote', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(fetchData)
+            // }).then(result => {
+            //     //console.log(result);
+
+            //     //DB에 보낸 이미지
+            //     if(document.querySelector('.used-insert-image-preview') != undefined){
+            //     let formData = new FormData();
+            //         for(let image of this.images){
+            //             formData.append("files", image); 
+            //         }
+                    
+            //     fetch('http://localhost:8087/java/WriteNoteImg', {
+            //             method: 'POST',  
+            //             redirect: 'follow',
+            //             body: formData
+            //         }).then(result => {
+            //             console.log("이미지 fetch 결과")
+            //             console.log(result);
+                        
+            //         })
+            //     } 
+            //     this.$router.push({ name: "MynoteList" });
+            // })
         },
         //자식에서 이미지 정보 가져오기
         saveImg(images){ 
