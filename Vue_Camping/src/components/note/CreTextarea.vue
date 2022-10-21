@@ -48,20 +48,14 @@
                             @click="delCheckList"></button>
                 </div>
             </div>
-        </div>
-        <div v-if="type=='imgBox'" style="padding:30px;">
-            <input type="file" @change="changeImage($event)"/>
-            <p>
-                upload이미지 : {{file.name}} fileSize : ({{file.size}}) / fileType : {{file.type}}
-            </p>
-        </div> -->
-        <div class="img_container">
-            <div  v-if="type=='imgBox'" class='used-insert-image-preview'>
+        </div>        
+        <div class="img_container" v-if="type=='imgBox'">
+            <div  class='used-insert-image-preview'>
                 <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
             </div>
             <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
                 <label>사진등록
-                <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
+                <input name="files" @change="changeImage($event)" @dragenter.prevent @dragover.prevent
                     @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
                 </label>
             </div>

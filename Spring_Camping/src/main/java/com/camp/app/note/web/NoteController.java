@@ -1,5 +1,7 @@
+
 package com.camp.app.note.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.camp.app.note.service.NoteDto;
+import com.camp.app.note.service.NoteImgService;
 import com.camp.app.note.service.NoteService;
 import com.camp.app.note.service.NoteVO;
 
@@ -22,6 +26,7 @@ public class NoteController {
 	
 	@Autowired
 	NoteService service;
+	NoteImgService imgService;
 	
 	//작성한 노트 저장
 	@PostMapping("/WriteNote")
@@ -51,9 +56,10 @@ public class NoteController {
 		return service.getMyNote(noteId);
 	}
 	//imgDB에 저장
-	@PostMapping("/WriteNote/img")
-	public boolean saveImg(@RequestBody List<MultipartFile> files) { 
+	@PostMapping("/WriteNoteImg")
+	public boolean saveImg(@RequestParam List<MultipartFile> files) throws IOException { 
 		System.out.println(files);
-		return service.insertImg(files);
+		return imgService.insertImg(files);
 	}
 }
+

@@ -215,9 +215,6 @@ export default {
                     //<태그 자체를 저장>
                     textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' + lineValue + '"></textarea>'
 
-                    console.log(textTag);
-                    contents.push(textTag);
-
                 } else if (lineAll[i].querySelector('table') != undefined) {
                     lineType = 'TABLE';
                     lineValue = lineAll[i].querySelector('.maked_table');
@@ -278,38 +275,16 @@ export default {
                     //이미지
                 }else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined ){ 
                     lineType = 'IMG';
-                    //이미지 DB에 저장
-                    // let originName = this.images[0].name;
-                    // let imgFormat = this.images[0].type.substring(this.images[0].type.indexOf("/")+1,this.images[0].type.length);
-                    // let imgSize = this.images[0].size;
-                    
-                    // let imgData = {                      
-                    //        "originName" : originName,
-                    //        "imgFormat" : imgFormat,
-                    //        "imgSize" : imgSize  
-                    // }
-
-                    let temp = new FormData();
-
+                    //이미지 DB에 저장      
+                    /*let formData = new FormData();
                     for(let image of this.images){
-                        temp.append("files", image);
-                    }
+                        formData.append("files", image); 
+                    }*/
+                     /*formData.forEach((value, key)=>{
+                     console.log("벨유 , " , value)
+                       
+                     })*/
 
-                    temp.forEach((value, key)=>{
-                        console.log("벨유 ", value);
-                    }) 
-
-                    // fetch('http://localhost:8087/java/WriteNote/img', {
-                    //     method: 'POST',
-                    //     headers: {
-                    //         'Content-Type': 'application/json'
-                    //     },
-                    //     body: JSON.stringify(imgData)
-                    // }).then(result => {
-                    //     console.log("이미지 fetch 결과")
-                    //     console.log(result);
-                    //     //this.$router.push({ name: "MynoteList" });
-                    // })
                     
                     //DB에 저장된 이미지의 경로랑 파일이름을 lineValue에 저장
                 }
@@ -323,7 +298,7 @@ export default {
                 "email": localStorage.getItem("email")
 
             }
-            console.log(fetchData);
+            //console.log(fetchData);
 
             fetch('http://localhost:8087/java/WriteNote', {
                 method: 'POST',
@@ -332,7 +307,25 @@ export default {
                 },
                 body: JSON.stringify(fetchData)
             }).then(result => {
-                console.log(result);
+                //console.log(result);
+
+                //DB에 보낸 이미지
+
+                let formData = new FormData();
+                    for(let image of this.images){
+                        formData.append("files", image); 
+                    }
+                    
+                fetch('http://localhost:8087/java/WriteNoteImg', {
+                        method: 'POST',  
+                        redirect: 'follow',
+                        body: formData
+                    }).then(result => {
+                        console.log("이미지 fetch 결과")
+                        console.log(result);
+                        
+                    })
+
                 this.$router.push({ name: "MynoteList" });
             })
         },
