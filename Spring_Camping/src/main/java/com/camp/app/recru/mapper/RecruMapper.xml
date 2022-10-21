@@ -83,7 +83,6 @@
 				OR recru_content LIKE '%'||#{keyword}||'%'
 				OR my_gear LIKE '%'||#{keyword}||'%'
 				OR need_gear LIKE '%'||#{keyword}||'%'
-				AND WHERE status=0
 	</select>
 	
 	<!-- 단건조회 -->
