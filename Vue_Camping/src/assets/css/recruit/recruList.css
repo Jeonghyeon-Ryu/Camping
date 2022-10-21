@@ -87,3 +87,7 @@
     a{
         text-decoration: none;
     }
+      /* 카드 저장 아이콘 */
+    .recru-card-wish{
+        position: relative;
+    }

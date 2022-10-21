@@ -1,4 +1,4 @@
-package com.camp.app.recruEntry.service.impl;
++package com.camp.app.recruEntry.service.impl;
 
 import java.util.List;
 

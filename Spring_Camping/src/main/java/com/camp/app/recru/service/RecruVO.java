@@ -36,7 +36,7 @@ public class RecruVO {
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date closingDate;		//모집 마감일
 	private int recruStatus;		//모집상태(0 모집중, 1 모집완료, 2 실패)
-	private int status;				//게시글상태(0 공개, 1 비공개, 2 삭제)
+	private int status;				//게시글상태(0 공개, 1 유저삭제, 2 관리자삭제)
 	
 	private int memberRole;		//(0 일반상태,1 작성자,2 참가자,3 관리자)
 	
