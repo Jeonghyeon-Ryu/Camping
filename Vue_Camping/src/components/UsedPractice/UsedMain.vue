@@ -75,7 +75,7 @@
             </li>
             <li>
             <label for="inputPrice">가격범위</label>
-
+              <!-- <Slider></Slider> -->
              <VueSimpleRangeSlider
                 style="width : 200px;
                       font-size : 12px;"
@@ -141,7 +141,7 @@
   export default{
     components:{
     UsedCard,
-    VueSimpleRangeSlider
+    VueSimpleRangeSlider,
     },
     data(){
       return{

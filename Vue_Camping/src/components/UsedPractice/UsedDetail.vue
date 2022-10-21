@@ -20,9 +20,10 @@
               </div>
               <div class="used-status">
                 <li>
-                  <div v-if="usedList.dealStatus==0" class="dealGreen">거래가능</div>
-                  <div v-if="usedList.dealStatus==1" class="dealRed">거래중</div>
-                  <div v-if="usedList.dealStatus==2" class="dealGray">거래완료</div>
+                  <div v-if="usedList.dealStatus==0 && usedList.usedStatus === 0" class="dealGreen">거래가능</div>
+                  <div v-if="usedList.dealStatus==1 && usedList.usedStatus === 0" class="dealRed">거래중</div>
+                  <div v-if="usedList.dealStatus==2 && usedList.usedStatus === 0" class="dealGray">거래완료</div>
+                  <div v-if="usedList.usedStatus != 0" class="statusBlack">접근제한</div>
                 </li>
               </div>
             </div>
@@ -40,7 +41,7 @@
                   <!-- 신고기능가져오기(다른유저가쓴글) -->
                   <p v-if="usedList.email != memberId" @click="reportItem()">신고하기</p>
                   <!-- 거래상태변경(본인이쓴글) -->
-                  <div v-if="usedList.email === memberId">
+                  <div v-if="usedList.email === memberId && usedList.usedStatus === 0">
                     <select id="dealStatus" name="dealStatus" @change="dealChange()">
                       <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
                       <option name="dealStatus" value="0">거래가능</option>
@@ -100,8 +101,10 @@
             @click="usedUpdate()">수정하기</button>
           <button type="button" class="update-button2"
             v-if="usedList.email === memberId && usedList.dealStatus === 2">수정하기</button>
-          <button type="button" class="delete-button" v-if="usedList.email === memberId"
+          <button type="button" class="delete-button" v-if="usedList.email === memberId && usedList.dealStatus != 1"
             @click="usedDelete()">삭제하기</button>
+          <button type="button" class="delete-button2" v-if="usedList.email === memberId && usedList.dealStatus === 1"
+            @click="usedDeleteFail()">삭제하기</button>
           <button type="button" class="restrict-button" @click="usedRestrict()"
             v-if="memberId === 'admin'">접근제한</button>
         </div>
@@ -315,6 +318,20 @@ export default {
         }
       }
       );
+    },
+    usedDeleteFail: function(){
+      Swal.fire({
+                  icon: 'warning',
+                  title: '삭제 불가', 
+                  text: '거래중인 글입니다',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1200,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
     },
     //접근제한
     usedRestrict: function () {

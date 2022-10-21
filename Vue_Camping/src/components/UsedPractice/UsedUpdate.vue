@@ -5,15 +5,17 @@
         <div class="used-heads">
           <div class="usedId" name="usedId"></div>
           <!-- 사진 -->
-          <div class="used-pics">
+          <div class="used-insert-image-container">
             <h3>상품 사진</h3>
-            <div class="used-pic">
-              <div id='att_zone'>
-                <label class="input-file-button" for="btnAtt">
-                  <input type='file' name="files" id='btnAtt' accept="image/*" multiple />
+              <div class='used-insert-image-preview'>
+                <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
+              </div>
+              <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
+                <label>사진등록(정사각형 권장)
+                  <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
+                    @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
                 </label>
               </div>
-            </div>
           </div>
           <!-- 상품 -->
           <div class="used-info">
@@ -107,6 +109,8 @@
 <script>
   import district from "@/assets/district.js"
   import Swal from 'sweetalert2';
+  import ImagePreview from '../ImagePreview.vue';
+
 
   export default {
     created(){
@@ -116,28 +120,55 @@
                 .then(data => { 
                     console.log(data)
                     this.usedList = data;
+
+                    //const el = document.getElementById('fruit');  //select box
+                    //const len = el.options.length; //select box의 option 갯수
+                    //const str = document.getElementById('searchValue').value; //입력 받은 value 값
+                    //select box의 option 갯수만큼 for문 돌림
+                    //for (let i=0; i<len; i++){  
+                      //select box의 option value가 입력 받은 value의 값과 일치할 경우 selected
+                      //if(el.options[i].value == str){
+                        //el.options[i].selected = true;
+                      //}
+                    //}  
+
+
+
+                    // if(data.usedPlace != '전체' && data.usedPlace != null){
+                    //   let places = data.usedPlace.split(' ')
+                    //   console.log(places)
+                    //   document.querySelector('#districtSelect').value = places[0]
+                    //   document.querySelector('#citySelect').value = places[1]
+                    // }
                 }).catch(err=>console.log(err))
+
+
+    },
+    components:{
+      ImagePreview
     },
     data(){
       return{
         usedList : [],    
         usedId : this.$route.params.usedId,
+        images: [],
+        imagesUrl: [],
       }
     },
     methods: {
-      // upload : function(){
-      //   const picUpload = document.querySelector('.pic-upload');
-      //   const upload = document.querySelector('.uploadarea');
-      //   picUpload.click();
-      // },
-      // numOnly: function(){
-      //   let price = document.getElementById('inputPrice').value;
-      //   let st = /[^0-9]/g
-      //   if(st.test(price.value)){
-      //     console.log(price.value)
-      //     price.replace(st, "")
-      //   }
-      // },
+      deleteImages(updatedImages) {
+        this.images = updatedImages;
+        document.querySelector('.used-insert-image-container input[type="file"]').files = updatedImages;
+      },
+      changeImage(e) {
+        console.log(e.target);
+        let dt = new DataTransfer();
+        for (let i = 0; i < e.target.files.length; i++) {
+          dt.items.add(e.target.files[i]);
+        }
+        this.images = dt.files;
+        e.target.files = dt.files;
+      },
       confirm: function(){
         const form = document.forms.namedItem('#container2')
         let place = document.querySelector('#districtSelect'+'#citySelect')
@@ -185,7 +216,7 @@
                     headers : {"Content-Type" : "application/json"},
                     body : JSON.stringify(fetchData)
                 }) 
-                .then(Response => Response.json())  //json 파싱 
+                .then(Response => Response.text())  //json 파싱 
                 .then(data => { 
                     console.log(data)
 

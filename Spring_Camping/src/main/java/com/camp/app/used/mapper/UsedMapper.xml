@@ -10,7 +10,7 @@
 	
 	<!-- 게시글 조건조회 -->
 	<select id="searchUsedList" resultType="UsedVO">
-		<![CDATA[ SELECT * FROM used 
+		 SELECT * FROM used 
 		<where>
 				and used_status = 0
 			<if test="usedName != null and usedName != ''">
@@ -20,23 +20,24 @@
 				and used_category = #{usedCategory}
 			</if>
 			<if test="minPrice != null and minPrice != ''">
-				and used_price > #{minPrice}
+				and used_price >= #{minPrice}
 			</if>
 			<if test="maxPrice != null and maxPrice != ''">
-				and used_price < #{maxPrice}
+				<![CDATA[and used_price < #{maxPrice}]]>
 			</if>
 			<if test="usedPlace != null and usedPlace != ''">
 				and used_price = #{usedPlace}
 			</if>
 		</where>
-		ORDER BY used_write desc]]>
+		ORDER BY used_write desc
 	</select>
 	
 	<!-- 게시글 키워드조회 -->
   	<select id="findUsedKeyword" parameterType="String" resultType="UsedVO">
-      SELECT * FROM used
+        SELECT * 
+          FROM used
          WHERE used_status = 0
-         	AND (used_name LIKE '%'||#{keyword}||'%'
+           AND (used_name LIKE '%'||#{keyword}||'%'
             OR used_category LIKE '%'||#{keyword}||'%'
             OR used_place LIKE '%'||#{keyword}||'%')
    	</select>
@@ -48,7 +49,11 @@
 	
 	<!-- 내가쓴글조회 -->
 	<select id="findMyUsed" parameterType="String" resultType="UsedVO">
-		SELECT * FROM used WHERE email = #{email} AND used_status !=2 ORDER BY used_write DESC
+		SELECT * 
+		  FROM used 
+		 WHERE email = #{email} 
+		   AND used_status !=2 
+		 ORDER BY used_id DESC
 	</select>
 	
 	<!-- 수정 -->
@@ -119,7 +124,6 @@
 		)
 	</insert>
 	
-  <!-- 정현님코드,,, -->
 	<select id="count" resultType="Integer">
 		SELECT COUNT(*) FROM used
 	</select>
