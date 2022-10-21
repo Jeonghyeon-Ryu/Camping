@@ -43,26 +43,6 @@
  .recru-detail-title{
     margin: 50px 0 0 50px
  }
- /* 게시글 상태 */
- .recru-detail-status{
-    margin: 25px 0 20px 10px;
-    padding: 3px;
-    border-radius: 5px;
-    font-size: small;
-    font-weight: bold;
- }
- .recru_status_red{
-    background: rgb(255, 215, 221);
-    color: crimson;
- } 
- .recru_status_green{
-    background: rgba(228,239,231,0.7);
-    color: rgb(6,68,32) ;
- }
- .recru_status_gray{
-    background: gray;
-    color: white;
- }
 /* 유저 프로필 */
 .recru-detail-user{
     display: flex;  

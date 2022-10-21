@@ -5,8 +5,8 @@
                 <div class="recru-detail-title">
                     <h2>{{recruPost.recruTitle}}</h2>
                 </div>
-                <div class="recru-detail-status" :class="statusClass">
-                    <p>{{recruStatus}}</p>
+                <div class="recru-status-box" :class="statusClass">
+                    <RecruStatus :recruStatus="recruPost.recruStatus"></RecruStatus>
                 </div>
             </div>
             <div class="recru-detail-row recru-detail-post">
@@ -25,7 +25,7 @@
                         <img src="@/assets/img/bg9.jpg" name="profile_img" alt="profile img">
                         <p><span>{{recruPost.nickname}}</span></p>
                         <p>{{yyyyMMddhhmmss(recruPost.writeDate) }}</p>
-                        <button class="report-btn" @click="reportItem">신고</button>
+                        <button class="report-btn" @click="reportItem">🚨신고</button>
                     </div>
                     <div class="recru-detail-contents">
                         <br>
@@ -137,20 +137,22 @@ import DepositStatus from '@/components/recruit/DepositStatus.vue';
 import EntryInsert from '@/components/recruit/EntryInsert.vue';
 import ModalView from '@/components/recruit/ModalView.vue';
 import Swal from 'sweetalert2';
+import RecruStatus from './RecruStatus.vue';
 export default{
     name : "RecruDetail",
     props : {
         recruId : String
     },
     components :{
-        EntryStandByCard,
-        EntryCard,
-        RecruDetailImage,
-        RecruMap,
-        DepositStatus,
-        EntryInsert,
-        ModalView
-    },
+    EntryStandByCard,
+    EntryCard,
+    RecruDetailImage,
+    RecruMap,
+    DepositStatus,
+    EntryInsert,
+    ModalView,
+    RecruStatus
+},
     data:function(){
         return{
             //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
@@ -174,18 +176,6 @@ export default{
         this.loadRecruData();
     },
     computed : {
-        // recruStatus(){
-        //     if (this.recruPost.recruStatus==0){
-        //         this.statusClass = 'recru_status_red'
-        //         return '모집중'
-        //     }else if(this.recruPost.recruStatus==1){
-        //         this.statusClass = 'recru_status_green'
-        //         return '모집완료'
-        //     }else{
-        //         this.statusClass = 'recru_status_gray'
-        //         return '모집취소'
-        //     }
-        // },
         userage(){
             //희망 연령대 계산
             const today = new Date();          
