@@ -2,6 +2,7 @@ package com.camp.app.report.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,14 @@ public class ReportController {
 	ReportService service;
 	
 	@GetMapping("/report")
-	public List<ReportVO> showAll(HttpSession session){
-		String email = (String) session.getAttribute("email");
-		if(email.equals("admin")) {
+	public List<ReportVO> showAll(HttpServletRequest request){
+//		String email = (String) request.getSession().getAttribute("email");
+//		System.out.println("email " + email);
+//		if(email.equals("admin")) {
 			return service.showAll();
-		} else {
-			return service.showReportByUser(email);
-		}
+//		} else {
+//			return service.showReportByUser(email);
+//		}
 		
 	}
 	

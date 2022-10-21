@@ -186,6 +186,11 @@ const routes = [{
     name: 'RecruUpdate',
     path: '/recru/RecruUpdate/:recruId',
     component: () => import('@/components/recruit/RecruUpdate.vue'),
+  }, 
+  {
+    name: 'ReportUser',
+    path: '/User/Report',
+    component: () => import('@/components/User/ReportManage.vue'),
   },
 ]
 

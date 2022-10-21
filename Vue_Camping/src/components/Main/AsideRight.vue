@@ -13,7 +13,7 @@
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div"
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">저장 목록</router-link>
         <hr v-if="($store.state.email != null)&&($store.state.auth == 1)">
-        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div"
+        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/User/Report" tag="div"
             class="aside-right-button" @click="clickMenu">나의 신고</router-link>
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/MyInfo" tag="div"
             class="aside-right-button" @click="clickMenu">나의 정보</router-link>
@@ -21,12 +21,7 @@
             class="aside-right-button" @click="clickMenu">회원 관리</router-link>
         <router-link v-if="($store.state.email == 'admin')&&($store.state.auth == 0)" to="/Manage/Report" tag="div"
             class="aside-right-button" @click="clickMenu">신고 관리</router-link>
-        <!-- <router-link v-if="($store.state.email == 'admin')&&($store.state.auth == 0)" to="/" tag="div" class="aside-right-button" @click="clickMenu">모집 관리</router-link>
-        <router-link v-if="($store.state.email == 'admin')&&($store.state.auth == 0)" to="/" tag="div" class="aside-right-button" @click="clickMenu">중고 관리</router-link>
-        <router-link v-if="($store.state.email == 'admin')&&($store.state.auth == 0)" to="/" tag="div" class="aside-right-button" @click="clickMenu">피드 관리</router-link> -->
-        <router-link v-if="$store.state.email != null" to="/" tag="div" class="aside-right-button" @click="logout()">로그아웃
-        </router-link>
-
+        <router-link v-if="$store.state.email != null" to="/" tag="div" class="aside-right-button" @click="logout()">로그아웃</router-link>
     </div>
 </template>
 

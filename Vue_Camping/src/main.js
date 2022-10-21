@@ -56,7 +56,18 @@ app.config.globalProperties.$filters = {
     },
     formatWon(value) {
         return value + '원';
-    }
+    },
+    formatMemberStatus(value) {
+        if(value==0) {
+            return "탈퇴";
+        } else if (value==1) {
+            return "제한";
+        } else if (value==2) {
+            return "활성";
+        } else {
+            return "오류";
+        }
+    },
 }
 app.use(router);
 app.use(store);

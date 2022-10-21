@@ -11,17 +11,20 @@
                     <ExcelExport :inputData="userData"></ExcelExport>
                 </div>
             </li>
-            <li v-for="data of rows" class="table-body row">
+            <li v-for="(data,index) of rows" class="table-body row">
                 <input type="checkbox" name="checkedUser" value="" />
                 <div class="table-column" v-for="column of columns">
-                    <div v-if="column.type!=Date">{{data[column.prop]}}</div>
-                    <div v-if="column.type==Date">{{ $filters.formatDate(data[column.prop]) }}</div>
+                    <div v-if="column.type!=Date && column.prop!='status'">{{data[column.prop]}}</div>
+                    <div v-if="column.type==Date && column.prop!='status'">{{ $filters.formatDate(data[column.prop]) }}
+                    </div>
+                    <div v-if="column.type!=Date && column.prop=='status'">{{
+                    $filters.formatMemberStatus(data[column.prop]) }}</div>
                 </div>
-                <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data)"></TableButton>
-                <TableButton v-if="removebtn" :type="'remove'" @remove="remove(data)"></TableButton>
+                <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data,index)"></TableButton>
+                <TableButton v-if="removebtn" :type="'remove'" @remove="remove(data,index)"></TableButton>
                 <!-- v-if="data.status == 0 ? 1? 판별해서 limit active 둘중 하나만 띄우는거 필요" -->
-                <TableButton :type="'limit'" @limit="limit(data)"></TableButton>
-                <TableButton :type="'active'" @active="active(data)"></TableButton>
+                <TableButton :type="'limit'" @limit="limit(data,index)"></TableButton>
+                <TableButton :type="'active'" @active="active(data,index)"></TableButton>
             </li>
         </ul>
         <Pagination :startPage="startPage" :endPage="endPage" :totalPage="totalPage" @changePage="changePage">
@@ -74,7 +77,12 @@ export default {
                     name: "가입일",
                     prop: "regdate",
                     type: Date
-                }
+                },
+                {
+                    name: "상태",
+                    prop: "status",
+                    type: Number
+                },
             ],
             rows: [],
             totalPage: 0,
@@ -191,11 +199,11 @@ export default {
             styleResult = styleResult + ' 25px 25px';
             document.querySelector('.table').style.setProperty('--gridTemplate', styleResult);
         },
-        modify: function (data) {   // 업데이트 필요함
+        modify: function (data, index) {   // 업데이트 필요함
             this.modifyData = data;
             this.isModify = true;
         },
-        remove: function (data) {
+        remove: function (data, index) {
             Swal.fire({
                 title: '회원정보를 삭제하시겠습니까?',
                 text: '회원정보가 영구히 삭제됩니다.',
@@ -204,11 +212,52 @@ export default {
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire('삭제 취소 !', '', 'success')
+                    fetch('http://localhost:8087/java/member', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: data.email,
+                            auth: 1,
+                            status: 0   // 접속 제한
+                        })
+                    }).then(result => result.text())
+                        .then(result => {
+                            if (result == 'true') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '접속 제한 적용 !',
+                                    toast: true,
+                                    position: 'center-center',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        this.userData[index].status = 1;
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '접속 제한 실패 !',
+                                    text: '알수없는 오류로 접속제한이 실패하였습니다.',
+                                    toast: true,
+                                    position: 'center-center',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                            }
+                        })
                 }
             })
         },
-        limit: function (data) {
+        limit: function (data, index) {
             Swal.fire({
                 title: '회원 접근을 제한하시겠습니까?',
                 text: '회원의 접근이 제한됩니다.',
@@ -226,42 +275,43 @@ export default {
                             status: 1   // 접속 제한
                         })
                     }).then(result => result.text())
-                    .then(result => {
-                        if (result == 'true') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '접속 제한 적용 !',
-                                toast: true,
-                                position: 'center-center',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: '접속 제한 실패 !',
-                                text: '알수없는 오류로 접속제한이 실패하였습니다.',
-                                toast: true,
-                                position: 'center-center',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-                        }
-                    })
+                        .then(result => {
+                            if (result == 'true') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '접속 제한 적용 !',
+                                    toast: true,
+                                    position: 'center-center',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        this.userData[index].status = 1;
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '접속 제한 실패 !',
+                                    text: '알수없는 오류로 접속제한이 실패하였습니다.',
+                                    toast: true,
+                                    position: 'center-center',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                            }
+                        })
                 }
             })
         },
-        active: function (data) {
+        active: function (data, index) {
             Swal.fire({
                 title: '회원 접근을 허용하시겠습니까?',
                 text: '회원의 접근제한이 해제됩니다.',
@@ -279,38 +329,39 @@ export default {
                             status: 2   // 접속 허용
                         })
                     }).then(result => result.text())
-                    .then(result => {
-                        if (result == 'true') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '접속 제한 해제 !',
-                                toast: true,
-                                position: 'center-center',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: '접속 제한 해제 실패 !',
-                                text: '알수없는 오류로 접속제한이 실패하였습니다.',
-                                toast: true,
-                                position: 'center-center',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-                        }
-                    })
+                        .then(result => {
+                            if (result == 'true') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '접속 제한 해제 !',
+                                    toast: true,
+                                    position: 'center-center',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        this.userData[index].status = 2;
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '접속 제한 해제 실패 !',
+                                    text: '알수없는 오류로 접속제한이 실패하였습니다.',
+                                    toast: true,
+                                    position: 'center-center',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                            }
+                        })
                 }
             })
         },
