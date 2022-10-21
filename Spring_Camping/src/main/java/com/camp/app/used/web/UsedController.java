@@ -54,7 +54,7 @@ public class UsedController {
 	//거래상태수정
 	@PutMapping("/dealUpdate")
 	public void updateDealStatus(@RequestBody UsedVO used) {
-		service.updateUsed(used);
+		service.updateDeal(used);
 	}
 	
 	//게시물 상태 수정 (제한)
@@ -67,6 +67,12 @@ public class UsedController {
 	@PutMapping("/statusUpdate")
 	public void updateStatus(@RequestBody UsedVO used) {
 		service.deleteUsed(used);
+	}
+	
+	//좋아요
+	@PutMapping("/updateLike")
+	public void usedLike(@RequestBody UsedVO used) {
+		service.updateLike(used);
 	}
 	
 	//전체조회
@@ -107,6 +113,7 @@ public class UsedController {
 		return service.showUsedImageByUsedId(usedId);
 	}
 	
+	//사진보여주기
 	@GetMapping("/showImage/{usedPath}/{usedStoredName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String usedPath, @PathVariable String usedStoredName){
 		String fullPath = "d:\\upload\\used\\" + usedPath + "\\" + usedStoredName;
@@ -137,9 +144,5 @@ public class UsedController {
 		return service.insertReview(review);
 	}
 	
-	//좋아요
-	@PostMapping("/updateLike")
-	public void usedLike(@RequestBody UsedVO used) {
-		service.updateLike(used);
-	}
+
 }

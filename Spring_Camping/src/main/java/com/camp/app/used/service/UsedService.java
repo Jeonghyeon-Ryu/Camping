@@ -33,20 +33,20 @@ public interface UsedService {
 	//게시글 키워드조회
 	public List<UsedVO> findUsedKeyword(String keyword);
 	
+	//거래상태
+	public void updateDeal(UsedVO used);
+	
 	//게시글 제한(usedStatus=1)
 	public void restrictUsed(UsedVO used);
 	
 	//게시글 삭제(usedStatus=2)
 	public void deleteUsed(UsedVO used);
 	
-	//거래상태변경
-	public int updateDealStatus(int dealStatus);
-	
 	//조회수증가
 	public int updateCnt(int usedId);
 
 	//찜 증가
-	public int updateLike(UsedVO used);
+	public void updateLike(UsedVO used);
 
 	//??
 	int updateRestrict();

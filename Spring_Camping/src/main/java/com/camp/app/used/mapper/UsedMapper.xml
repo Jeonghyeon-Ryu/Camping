@@ -82,7 +82,7 @@
   	</update>
 	
 	<!-- 거래상태변경 -->
-	<update id="updateDeal" parameterType="UsedVO">
+	<update id="updateDeal" parameterType="Integer">
 		UPDATE used
 		SET deal_status = #{dealStatus}
 		WHERE used_id = #{usedId}
@@ -96,7 +96,7 @@
 	</update>
 	
 	<!-- 찜 증가 -->
-	<update id="updateLike" parameterType="UsedVO">
+	<update id="updateLike" parameterType="Integer">
 		UPDATE used
 		SET used_like = used_like+1
 		WHERE used_id = #{usedId}

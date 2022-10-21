@@ -23,10 +23,7 @@ public interface UsedMapper {
 	
 	//게시글 수정
 	public void updateUsed(UsedVO usedVO);
-	
-	//거래상태 수정
-	public int updateDealStatus(int dealStatus);
-	
+
 	//게시글 전체조회
 	public List<UsedVO> selectAllUsedList();
 	
@@ -43,7 +40,7 @@ public interface UsedMapper {
 	public List<UsedVO> findUsedKeyword(String keyword);
 	
 	//거래상태변경
-	public int updateDeal();
+	public void updateDeal(UsedVO used);
 	
 	//게시물 제한(usedStatus=1)
 	public void restrictUsed(UsedVO used);
@@ -55,7 +52,7 @@ public interface UsedMapper {
 	public int updateCnt(int usedId);
 
 	//찜 증가
-	public int updateLike(int usedId);
+	public int updateLike(UsedVO used);
 	
 	//후기 작성
 	public int insertReview(UsedReviewVO review);

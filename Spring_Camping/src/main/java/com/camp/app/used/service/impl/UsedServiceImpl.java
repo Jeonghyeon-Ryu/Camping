@@ -129,8 +129,8 @@ public class UsedServiceImpl implements UsedService {
 
 	//거래상태변경
 	@Override
-	public int updateDealStatus(int dealStatus) {
-		return mapper.updateDealStatus(dealStatus);
+	public void updateDeal(UsedVO used) {
+		mapper.updateDeal(used);
 	}
 	
 	//접근제한
@@ -174,8 +174,8 @@ public class UsedServiceImpl implements UsedService {
 
 	//좋아요증가
 	@Override
-	public int updateLike(UsedVO used) {
-		return 1;
+	public void updateLike(UsedVO used) {
+		mapper.updateLike(used);
 	}
 	
 	@Override

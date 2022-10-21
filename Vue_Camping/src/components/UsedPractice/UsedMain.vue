@@ -165,11 +165,10 @@
         }else{
           Swal.fire({
                     icon: 'warning',
-                    title: '로그인을 해주세요',
+                    title: '로그인 후에 작성해주세요',
                     toast: true,
                     showConfirmButton: false,
-                    timer: 1500,
-                    timerProgressBar: true,
+                    timer: 1300,
                     didOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)

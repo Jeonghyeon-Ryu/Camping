@@ -194,13 +194,12 @@
                     headers : { },
                     body : fetchData
                 }) 
-                .then(Response => Response.text())  //json 파싱 
+                .then(Response => Response.text())
                 .then(data => { 
                     if(data>="1"){
                       // 성공
                       console.log("입력되었습니다.")
                       // this.$router.push({name : 'usedMain'})
-                      let component = this;
                     } else {
                       // 실패                    
                       console.log("입력 실패")  
