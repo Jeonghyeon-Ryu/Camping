@@ -40,7 +40,7 @@ order by write_no desc </select>
 <select id="getHashTag" resultType="String">SELECT hashtag from sns </select>
 
 <!-- 검색 : 닉네임 -->
-<select id="getNickName" resultType="String">SELECT nickname from sns </select>
+<select id="getNickName" resultType="String">SELECT nickname from member </select>
 
 <!-- 글 등록 텍스트1013 -->
 <insert id="insertSns" parameterType="SnsVO">

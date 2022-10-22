@@ -2,6 +2,8 @@ package com.camp.app.report.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +22,14 @@ public class ReportController {
 	ReportService service;
 	
 	@GetMapping("/report")
-	public List<ReportVO> showAll(){
-		return service.showAll();
+	public List<ReportVO> showAll(HttpSession session){
+		String email = (String) session.getAttribute("email");
+		if(email.equals("admin")) {
+			return service.showAll();
+		} else {
+			return service.showReportByUser(email);
+		}
+		
 	}
 	
 	@PostMapping("/report")

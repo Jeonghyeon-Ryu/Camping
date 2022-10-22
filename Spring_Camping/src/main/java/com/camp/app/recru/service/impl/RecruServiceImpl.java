@@ -119,9 +119,20 @@ public class RecruServiceImpl implements RecruService {
 	public List<RecruVO> myRecru(String memberId) {
 		return mapper.myRecru(memberId);
 	}
+	//저장여부 확인(찜)
 	@Override
 	public boolean isExist(SaveVO save) {
 		return saveMapper.exist(save);
+	}
+	//수정
+	@Override
+	public int updateRecru(RecruVO recruVO) {
+		return mapper.updateRecru(recruVO);
+	}
+	//접근 상태 변경
+	@Override
+	public int changeShowStatus(RecruVO recruVO) {
+		return mapper.changeShowStatus(recruVO);
 	}
 
 }

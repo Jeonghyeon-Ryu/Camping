@@ -4,10 +4,10 @@
   <!-- 카드 헤더 -->
   <div class="recru-card-header" >
       <div class="card-header-img">
-        <div v-if="!image">
+        <div v-if="image.imageId==0">
           <img src="@/assets/img/bg9.jpg" alt="camping gear">
         </div>
-        <div v-if="image">
+        <div v-if="image.imageId>0">
           <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
         </div>
       </div>
@@ -20,19 +20,18 @@
       <h1>{{recruCard.recruTitle}}</h1>
     </div>
     <!--  카드 바디 내용 -->
-    <p class="card-body-my"><span>갖고있어요 : </span>{{gearList(recruCard.myGear)}} </p>
-    <p class="card-body-need"><span>필요해요 : </span>{{gearList(recruCard.needGear)}}</p>
-    <hr style="margin:5px;">
-    <p class="card-body-go"><span>여행 날짜 : </span>{{recruCard.goDate}}</p>
-    <p class="card-body-spot"><span>캠핑지 : </span> {{recruCard.campingPoint}}</p>
-  </div>
-  <div class = "recru-card-wish" >
-    <RecruSaveHeart :recruId="recruCard.recruId"></RecruSaveHeart>
+    <div class="card-body-content">
+      <p class="card-body-my"><span>갖고있어요 : </span> {{gearList(recruCard.myGear)}} </p>
+      <p class="card-body-need"><span>필요해요 : </span>{{gearList(recruCard.needGear)}}</p>
+      <hr >
+      <p class="card-body-go">{{recruCard.goDate}}</p>
+      <p class="card-body-spot">{{recruCard.campingPoint}}</p>
+    </div>
   </div>
 </div>  
 </template>
 <script>
-import RecruSaveHeart from './RecruSaveHeart.vue';
+
 export default{
     name: "RecruCard",
     props: { recruCard: Object },
@@ -71,7 +70,7 @@ export default{
             }
         }
     },
-    components: { RecruSaveHeart }
+
 }
 </script>
 

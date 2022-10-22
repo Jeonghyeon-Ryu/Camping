@@ -156,10 +156,13 @@
             <!-- 카드 -->
             <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
-                <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId">
+                <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
+                    <div v-if="this.$store.state.email" class = "recru-card-wish" style="position:absolute; top:20px; right: 20px;" >
+                        <RecruSaveHeart :recruId="recruInfo.recruId"></RecruSaveHeart>
+                    </div>
                 </div>
             </div>      
         </div>
@@ -170,10 +173,11 @@ import RecruCard from "@/components/recruit/RecruCard.vue";
 import img2 from "@/assets/img/search.png"
 import district from "@/assets/district.js"
 import { filter } from "dom7";
-
+import RecruSaveHeart from './RecruSaveHeart.vue';
 export default{
     components: {
-        RecruCard
+        RecruCard,
+        RecruSaveHeart
     },
     data : function(){
         return{

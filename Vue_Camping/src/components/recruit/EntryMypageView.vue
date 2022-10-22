@@ -43,11 +43,7 @@ export default{
         loadData : function(){
             //로그인한 유저의 아이디로 신청정보를 받아온다
             const component = this;
-            fetch(`http://localhost:8087/java/recru/entry/${component.memberId}`,{
-                method : "post",
-                headers : {"Content-Type" : "application/json"},
-                body : JSON.stringify(component.memberId)
-            })
+            fetch(`http://localhost:8087/java/recru/entry`)
             .then((response) =>response.json()) 
             .then(data => { 
                 console.log(data);

@@ -3,7 +3,7 @@
     <li v-for="camp of camps" @click="getCampDetail(camp.campId, $event)">
       <a href="" class="card">
         <div class="card-img-container">
-          <CampDetailImage :campId="camp.campId"></CampDetailImage>
+          <CampListImage :campId="camp.campId"></CampListImage>
         </div>
         <div class="card-overlay">
           <div class="card-header">
@@ -15,7 +15,7 @@
               <div v-text="camp.campId" class="camp-id" style="display:none"></div>
               <h3 v-text="camp.campName" class="card-title"></h3>
               <span v-text="camp.campAddress" class="card-tagline"></span>
-              <span class="card-status">1 hour ago</span>
+              <span v-text="camp.regdate" class="card-status"></span>
             </div>
           </div>
           <p class="card-description">
@@ -35,7 +35,7 @@
   </ul>
 </template>
 <script>
-import CampDetailImage from './CampDetailImage.vue';
+import CampListImage from './CampListImage.vue';
 export default {
     data: function () {
         return {
@@ -83,7 +83,7 @@ export default {
         this.$router.push({name:'CampDetail', params: {campId : id}});
       }
     },
-    components: { CampDetailImage }
+    components: { CampListImage }
 }
 </script>
 <style scoped src="@/assets/css/Camping/CampList.css">

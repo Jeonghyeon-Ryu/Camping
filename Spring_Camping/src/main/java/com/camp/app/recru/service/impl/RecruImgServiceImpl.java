@@ -65,7 +65,11 @@ public class RecruImgServiceImpl implements RecruImgService {
 	//게시물의 이미지 목록 조회
 	@Override
 	public List<RecruImgVO> findImg(int recruId) {
-		return mapper.findRecruImg(recruId);
+		List<RecruImgVO> list = mapper.findRecruImg(recruId);
+		if(list.size() ==0) {
+			list = mapper.findRecruImg(0);
+		}
+		return list;
 	}
 
 }

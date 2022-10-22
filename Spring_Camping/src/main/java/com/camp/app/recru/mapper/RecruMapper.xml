@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.camp.app.recru.mapper.RecruMapper">
-	<!-- 신규 글 번호 찾기 -->
+	<!-- 신규 글 번호 찾기 수정후 삭제-->
 	<select id="getMaxRecruId" resultType="Integer">
 		SELECT NVL(MAX(recru_id),0) FROM recruitment
 	</select>
@@ -73,6 +73,7 @@
 	<!-- 전체조회 -->
 	<select id="findAll" resultType ="RecruVO">
 		SELECT * FROM recruitment
+		WHERE status=0
 	</select>
 	
 	<!-- 검색조회 -->
@@ -97,13 +98,29 @@
 	</select>
 
 	<!-- 수정 : 글 수정 -->
-	
-	<!-- 수정 : 상태변경 -->
-<!-- 	<update id="changeStatus" parameterType="RecruVO">
-		UPDATE recruitment 
-		SET recru_status = #{recruStatus}
+	<update id="updateRecru" parameterType="recruVO">
+		UPDATE recruitment SET recru_title = #{recruTitle}
+		                    ,recru_content = #{recruContent}
+		                    ,wish_age = #{wishAge}
+		                    ,wish_sex = #{wishSex}
+		                    ,car_yn = #{carYn}
+		                    ,my_gear=#{myGear}
+		                    ,need_gear = #{needGear}
+		                    ,go_date = #{goDate}
+		                    ,come_date = #{comeDate}
+		                    ,starting_point = #{startingPoint}
+		                    ,camping_point = #{campingPoint}
+		                    ,note_id = #{noteId}
+		                    ,recru_num= #{recruNum}
+		                    ,closing_date = #{closingDate}
 		WHERE recru_id = #{recruId}
-	</update> -->
+	</update>
+	<!-- 수정 : 접근상태변경 -->
+	<update id="changeShowStatus" parameterType="RecruVO">
+		UPDATE recruitment 
+		   SET status = #{status}
+		 WHERE recru_id = #{recruId}
+	</update> 
 	
 	<!-- 수정 : 모집 완료로 상태변경시(1) 보증금 추가 -->
 	<update id="changeStatus" parameterType="RecruVO">

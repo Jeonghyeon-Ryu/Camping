@@ -136,13 +136,16 @@ export default {
       document.querySelector('.camp-register-image-container input[type="file"]').files = updatedImages;
     },
     changeImage(e) {
-      console.log(e.target);
       let dt = new DataTransfer();
+      for(let i = 0; i < this.images.length; i++){
+        dt.items.add(this.images[i]);
+      }
       for (let i = 0; i < e.target.files.length; i++) {
         dt.items.add(e.target.files[i]);
       }
       this.images = dt.files;
       e.target.files = dt.files;
+      console.log('aaa', this.images)
     },
     // dropImage(e) {
     //   let files = {};
@@ -246,13 +249,13 @@ export default {
           } else {
             fetch('http://localhost:8087/java/camp', {
               method: 'POST',
-              headers: {  },
+              headers: {},
               body: camp
             }).then(result => result.text())
               .then(result => {
                 if (result == "true") { // 캠핑장 등록이 정상적으로 되었을때
-                  this.$router.push({name:'CampList'});
-                  
+                  this.$router.push({ name: 'CampList' });
+
                 } else { // 캠핑장 등록이 DB에서 안되었을때
                   Swal.fire({
                     icon: 'error',

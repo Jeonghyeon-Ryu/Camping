@@ -176,6 +176,7 @@ export default {
             let fetchData = new FormData(document.querySelector('.camp-detail-container'));
             fetchData.append("email", this.$store.state.email);
             fetchData.append("campName", this.camp.campName);
+            fetchData.append("status", 2);
             // 데이터 변경이 없는 것을 초기화 시켜줌
             let countModifyData = 0;
             fetchData.forEach((value, key) => {

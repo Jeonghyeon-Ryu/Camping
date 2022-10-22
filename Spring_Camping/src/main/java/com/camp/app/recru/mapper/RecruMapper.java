@@ -24,4 +24,8 @@ public interface RecruMapper {
 	public RecruVO getMemberInfo(String email);
 	//모집글 이미지 찾기
 	public List<RecruImgVO> findImgByRecruId(int recruId);
+	//글 수정
+	public int updateRecru(RecruVO recruVO);
+	//접근 상태 변경
+	public int changeShowStatus(RecruVO recruVO);
 }

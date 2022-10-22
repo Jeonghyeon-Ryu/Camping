@@ -1,6 +1,6 @@
 <template>
     <div class="recru-input-container">
-        <div class="recru-input-back" >
+        <div class="recru-update-back recru-back-box" >
         </div>
         <div v-if="recruInfo" class="recru-input-box">
             <h3>동행 모집글 수정</h3>
@@ -38,23 +38,7 @@
                         <button class="btn badge bg-dark badge-md " type="button" @click="getGearList">내 장비 가져오기</button>
                     </div>
                     <ul @click="removeGear" id="recru-mygear-body">
-                        <li><input type="text" class="recru-mygear-name" placeholder="장비 이름">
-                            <select class="recru-mygear-type">
-                                <option value="기타" selected disabled>장비 분류</option>
-                                <option value="텐트">텐트</option>
-                                <option value="타프">타프</option>
-                                <option value="가구">가구</option>
-                                <option value="침구">침구</option>
-                                <option value="조리도구">조리도구</option>
-                                <option value="조명">조명</option>
-                                <option value="수납">수납</option>
-                                <option value="공구">공구</option>
-                                <option value="냉난방">냉난방</option>
-                                <option value="기타">기타</option>
-                            </select>
-                            <input type="number" class="gear-num recru-mygear-num" value="1" min="1">개
-                            <input type="file" class="btn recru-mygear-img img" name="mygear"  style="margin:0 5px;max-width:210px;" >
-                        </li>
+                         
                     </ul>
                 </div>
                 <div class="recru-info-box">
@@ -63,23 +47,7 @@
                         <button class="btn badge bg-info badge-md " type="button" v-on:click="addGear('recru-needgear-body')">추가</button>                    
                     </div>
                     <ul @click="removeGear" id="recru-needgear-body">
-                        <li><input type="text" class="recru-needgear-name" placeholder="장비 이름">
-                            <select class="recru-needgear-type">
-                                <option value="기타" selected disabled>장비 분류</option>
-                                <option value="텐트">텐트</option>
-                                <option value="타프">타프</option>
-                                <option value="가구">가구</option>
-                                <option value="침구">침구</option>
-                                <option value="조리도구">조리도구</option>
-                                <option value="조명">조명</option>
-                                <option value="수납">수납</option>
-                                <option value="공구">공구</option>
-                                <option value="냉난방">냉난방</option>
-                                <option value="기타">기타</option>
-                            </select>
-                            <input type="number" class="recru-needgear-num gear-num" value="1" min="1">개
-                            <input type="file" class="btn recru-needgear-img img" name="mygear" style="margin:0 5px;max-width:210px;">
-                        </li>
+                       
                     </ul>
                 </div>
                     
@@ -111,17 +79,24 @@
                     <span>여행정보</span>
                     <ul class="recru-box-name">
                         <li class="recru-info-startP">
-                            <label>출발지<input type="text" name="startP_address_kakao" readonly @click="searchAddr">
-                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
-                            <input type="text" name="startP_address_detail" placeholder="상세주소"/>
+                            <label for="startP_addr_kakao">출발지 : {{recruInfo.startingPoint}}</label>
+                        </li>
+                        <li><input type="text" name="startP_addr_kakao" id="startP_addr_kakao"  readonly
+                                    class="recru-addr-kakao" @click="searchAddr" placeholder="새로운 위치 검색">
+                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
+                            <input type="text" name="startP_addr_detail" class="recru-addr-detail" placeholder="상세주소" @click="chkSearchAddr"/>
                         </li>
                         <li class="recru-info-campP">
-                            <label >도착지<input type="text" name="campP_address_kakao" readonly @click="searchCamp" >
-                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0"></label>
-                            <input type="text" name="campP_address_detail" placeholder="상세주소" />
+                            <label for="campP_addr_kakao">도착지 : {{recruInfo.campingPoint}}</label>
+                        </li>
+                        <li>
+                            <input type="text" name="campP_addr_kakao" id="campP_addr_kakao"  readonly
+                                class="recru-addr-kakao" @click="searchAddr" placeholder="새로운 위치 검색" >
+                            <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
+                            <input type="text" name="campP_addr_detail" class="recru-addr-detail" placeholder="상세주소" @click="chkSearchAddr"/>
                         </li>
                         <li class="recru-info-number">
-                            <label>모집인원 <input type="number" :value="recruInfo.recruNum" min="1" de></label>
+                            <label>모집인원 <input type="number" name="recru_input_recruNum" :value="recruInfo.recruNum" min="1" de></label>
                         </li>
                         <li class="recru-info-day">
                             <label>여행 날짜 <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"></label> 
@@ -130,7 +105,7 @@
                     </ul>
                 </div>
                 <div class="recru-info-last">
-                    <label><span>마감일</span> <input type="date" name="recru_input_closeDate" v-model="recruInfo.closeDate" class="select-date"></label>
+                    <label><span>마감일</span> <input type="date" name="recru_input_closingDate" :value="recruInfo.closingDate" class="select-date"></label>
                 </div>
                 <div class="recru-info-btn" style="text-align: center;">
                     <button class="btn bg-gradient-success btn-md"
@@ -166,7 +141,7 @@ export default{
             recruNum : 1,
             goDate : '',
             comeDate : '',
-            closeDate: '',
+            closingDate: '',
             nickname : 'admin'
             },
         files:[],
@@ -205,14 +180,13 @@ export default{
                     })
                 }
                 //장비 목록 출력
-                var myGearList = this.recruInfo.myGear.split('');
+                var myGearList = this.recruInfo.myGear.split(',');
                 for(let i=0; i<myGearList.length ; i+=3){
-                    const box = document.getElementById(recru-needgear-body);
+                    var menu = 'recru-mygear'
+                    const box = document.getElementById('recru-mygear-body');
                     const li = document.createElement('li');
-                    menu = menu.substring(0,menu.indexOf("-b"));
-                    
-                    let str = "<input type='text' class='"+menu+"-name' style='padding:5px;margin:3px;border:white;'>"
-                                +" <select class='"+menu+"-type' style='padding:5px;margin:3px;border:white;'>"
+                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}">`
+                                +` <select class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}">`
                                     +"<option selected disabled>장비 분류</option>"
                                     +"<option value='기타' value='텐트'>텐트</option>"
                                     +"<option value='타프'>타프</option>"
@@ -231,31 +205,55 @@ export default{
                     li.innerHTML = str;
                     box.appendChild(li);
                 }
-            // myGear : '',
-            // needGear :'',
-            // recruTitle : '',
-            // recruContent :'',
-            // noteId: 0,
-            // startingPoint: '',
-            // campingPoint: '',
-            // recruNum : 1,
-            // goDate : '',
-            // comeDate : '',
-            // closeDate: '',
-            // nickname : 'admin'
-            // },
+                var needGearList = this.recruInfo.needGear.split(',');
+                for(let i=0; i<needGearList.length ; i+=3){
+                    var menu = 'recru-needgear'
+                    const box = document.getElementById('recru-needgear-body');
+                    const li = document.createElement('li');
+                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}">`
+                                +` <select class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}">`
+                                    +"<option selected disabled>장비 분류</option>"
+                                    +"<option value='기타' value='텐트'>텐트</option>"
+                                    +"<option value='타프'>타프</option>"
+                                    +"<option value='가구'>가구</option>"
+                                    +"<option value='침구'>침구</option>"
+                                    +"<option value='조리도구'>조리도구</option>"
+                                    +"<option value='조명'>조명</option>"
+                                    +"<option value='수납'>수납</option>"
+                                    +"<option value='공구'>공구</option>"
+                                    +"<option value='냉난방'>냉난방</option>"
+                                    +"<option value='기타'>기타</option>"
+                                +"</select>"
+                                +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>개"
+                                +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
+                                +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
+                    li.innerHTML = str;
+                    box.appendChild(li);
+                }
+
+            // noteId
                 
             })
+        },
+        loadImgs: function () {
+            const recruId = this.recruCard.recruId;
+            const component = this;
+            fetch("http://localhost:8087/java/recruImg/" + recruId)
+                .then(result => result.json())
+                .then(result => {
+                component.images=result;
+            })
+                .catch(err => console.log(err));
         },
         updateContent : function(){
         //기본입력확인
         const inputValue = [
                     'recru_input_title','recru_input_content',
-                    'startP_address_kakao','campP_address_kakao',
                     'recru_input_goDate','recru_input_comeDate',
-                    'recru_input_closeDate'
+                    'recru_input_recruNum','recru_input_closingDate'
                     ];
-            const inputName = ['제목을', '내용을', '출발지를', '도착지를', '출발날짜를', '도착날짜를', '마감날짜를']
+            const inputName = ['제목을', '내용을', '여행 출발날짜를', '여행 도착날짜를', '모집인원을','마감날짜를']
+            const dataName = ['recruTitle','recruContent','goDate','comeDate','recruNum','closingDate']
             for (let i=0; i<inputValue.length ; i++){
                 var chkInput = document.getElementsByName(inputValue[i])[0];
                 if(chkInput.value ==''){
@@ -269,6 +267,8 @@ export default{
                     })
                     chkInput.focus();
                     return;
+                }else{
+                   this.recruInfo[dataName[i]]= chkInput.value;
                 }
             }
             //장비 입력 확인
@@ -299,20 +299,29 @@ export default{
                     return;
                 }
             }
-           
-            //서버에 업로드
+
+            //새로 입력한 주소가 있는 경우 -> 검색주소 + 상세주소
+            if(document.querySelector('#startP_addr_kakao').value){
+                this.recruInfo.startingPoint = document.querySelector('#startP_addr_kakao').value 
+                                                + document.getElementsByName('startP_addr_detail')[0].value
+            }      
+            if(document.querySelector('#campP_addr_kakao').value) {
+                this.recruInfo.campingPoint = document.querySelector('#campP_addr_kakao').value
+                                             + document.getElementsByName('campP_addr_detail')[0].value
+            }
             // 장비와 희망연령을 string타입으로 변환
             this.setGearList('mygear'); 
             this.setGearList('needgear');
             this.setWishAge();
-            console.log(this.recruInfo)
             //파일 배열에 이미지 넣기
             this.addFile(); 
             
             let recruVO = this.recruInfo;
+            console.log(recruVO);
+
             //서버를 통해 게시글 내용 insert
-            fetch('http://localhost:8087/java/recru',{
-                method : "POST",
+            fetch('http://localhost:8087/java/recru/updateAll',{
+                method : "PUT",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(recruVO )
             }) 
@@ -320,12 +329,12 @@ export default{
             .then(data => { 
                 //이미지 업로드
                 if(this.files.length>0){
-                    this.fileUpload();  
+                   // this.fileUpdate();  
                 }
-                Swal.fire('등록 완료','캠핑 모집글이 등록되었습니다. 여행을 떠나요!','success')
+                Swal.fire('수정 완료','캠핑 모집글이 수정되었습니다.','success')
                 .then(result => {
                     if (result.isConfirmed) { 
-                        this.$router.push({name : 'RecruList'})
+                        this.$router.go(-1)
                     } 
                 })
             }).catch(err=>console.log(err))
@@ -340,14 +349,14 @@ export default{
                 }
             })            
         },
-        fileUpload : async function () {
-            //서버에 이미지 업로드
+        fileUpdate : async function () {
+            //서버에 이미지 수정
             const formData = new FormData();
             this.files.forEach(file=>{
                 formData.append('files', file);
             })
             fetch('http://localhost:8087/java/recruImg',{
-                    method : "POST",
+                    method : "PUT",
                     headers : {},
                     body : formData
                 }) 
@@ -418,25 +427,32 @@ export default{
         getGearList : function(){
             alert('장비가져오기');
         },
-        searchAddr : function(){
-            //출발지 검색
+        searchAddr : function(e){
+            //도로명주소 검색
             new daum.Postcode({
                 oncomplete: function(data) { //선택시 입력값 세팅
-                    document.getElementsByName("startP_address_kakao")[0].value = data.address; // 주소 넣기
-                    document.querySelector("input[name=startP_address_detail]").focus(); //상세입력 포커싱
+                    e.target.value = data.address; // 주소 넣기
+                    e.target.nextSibling.nextSibling.focus(); //상세입력 포커싱
                 }
             }).open();
         },
-        searchCamp : function(){
-            //도착지 검색
-            new daum.Postcode({
-                oncomplete: function(data) { //선택시 입력값 세팅
-                    document.getElementsByName("campP_address_kakao")[0].value = data.address; // 주소 넣기
-                    document.querySelector("input[name=campP_address_detail]").focus(); //상세입력 포커싱
-                }
-            }).open();
+        chkSearchAddr : function(e){
+            //상제 주소 입력 전 도로명 주소 체크
+            var searchAddr = e.target.previousSibling.previousSibling;
+            if(!searchAddr.value){
+                this.toastSwal.fire({
+                    text: `도로명 주소를 먼저 입력하세요`,
+                    icon : 'warning',
+                })
+                searchAddr.focus();
+            }
         },
-        
+        toastSwal: Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            timer: 1000,
+            position: 'center-center'
+        })
     }
 }
 </script>

@@ -47,6 +47,17 @@
               </select>
             </li>
             <li>
+              <label for="inputDeal">거래상태</label>
+              <select name="dealStatus" selected>
+                <option value='' disabled>거래상태 선택</option>
+                <option value="0">거래가능</option>
+                <option value="1">거래중</option>
+                <option value="2">거래완료</option>
+              </select>
+            </li>
+           </ul>   
+           <ul class="used-filter-ur">
+            <li>
               <label for="inputPlace">지역</label>
                 <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
                   <option value='' disabled>시/도</option> 
@@ -75,8 +86,8 @@
             </li>
             <li>
             <label for="inputPrice">가격범위</label>
-
-             <VueSimpleRangeSlider
+              <!-- <Slider></Slider> -->
+             <!-- <VueSimpleRangeSlider
                 style="width : 200px;
                       font-size : 12px;"
 
@@ -86,10 +97,10 @@
                 exponential
                 v-model="state.range">
                 <template #prefix="{ value }">￦ </template>
-              </VueSimpleRangeSlider>
-              <!-- <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
+              </VueSimpleRangeSlider> -->
+              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
               <p>~</p>
-              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000"> -->
+              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
             </li>
           </ul>
         </div>
@@ -141,7 +152,7 @@
   export default{
     components:{
     UsedCard,
-    VueSimpleRangeSlider
+    VueSimpleRangeSlider,
     },
     data(){
       return{
@@ -260,13 +271,13 @@
                 .then(data => { 
                     console.log(data);
                     this.usedList = data;
-                    this.selectMinUsedPrice();
+                    // this.selectMinUsedPrice();
                 }).catch(err=>console.log(err))
 
     },
     setup() {
-    const state = reactive({ range: [20, 1000], number: 10 });
-    return { state };
+    // const state = reactive({ range: [20, 1000], number: 10 });
+    // return { state };
   },
   }
 

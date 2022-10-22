@@ -26,9 +26,10 @@
         </ul>
         <ul class="card-info-r">
           <li>
-            <div v-if="usedCard.dealStatus==0" class="dealGreen">거래가능</div>
-            <div v-if="usedCard.dealStatus==1" class="dealRed">거래중</div>
-            <div v-if="usedCard.dealStatus==2" class="dealGray">거래완료</div>
+            <div v-if="usedCard.dealStatus==0 && usedCard.usedStatus === 0" class="dealGreen">거래가능</div>
+            <div v-if="usedCard.dealStatus==1 && usedCard.usedStatus === 0" class="dealRed">거래중</div>
+            <div v-if="usedCard.dealStatus==2 && usedCard.usedStatus === 0" class="dealGray">거래완료</div>
+            <div v-if="usedCard.usedStatus != 0" class="statusBlack">접근제한</div>
           </li>
         </ul>
       </div>
@@ -81,19 +82,19 @@ export default {
             this.$router.push({ name: "LoginSignup" });
           }
         })
-      }else if(this.$store.state.email === this.usedCard.email){
+      } else if (this.$store.state.email === this.usedCard.email) {
         Swal.fire({
-                    icon: 'warning',
-                    title: '내가 쓴 글은 찜할 수 없어요',
-                    toast: true,
-                    showConfirmButton: false,
-                    timer: 1000,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-      }else {
+          icon: 'warning',
+          title: '내가 쓴 글은 찜할 수 없어요',
+          toast: true,
+          showConfirmButton: false,
+          timer: 1000,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+      } else {
         this.liked = !this.liked
 
         let save = {
@@ -120,15 +121,15 @@ export default {
                 console.log("삭제되었습니다.")
 
                 Swal.fire({
-                    icon: 'error',
-                    title: '찜 목록에서 삭제되었어요',
-                    toast: true,
-                    showConfirmButton: false,
-                    timer: 1000,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
+                  icon: 'error',
+                  title: '찜 목록에서 삭제되었어요',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1000,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
                 })
 
               }
@@ -148,19 +149,19 @@ export default {
                 console.log("입력되었습니다.")
 
                 Swal.fire({
-                    icon: 'success',
-                    title: '찜 목록에 저장되었어요',
-                    toast: true,
-                    showConfirmButton: false,
-                    timer: 1000,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
+                  icon: 'success',
+                  title: '찜 목록에 저장되었어요',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1000,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
                 })
 
                 //업뎅이트
-                //this.updateLike();
+                this.updateLike();
                 // this.$router.push({name : 'usedMain'})
               }
             }).catch(err => console.log(err))
@@ -171,16 +172,16 @@ export default {
       }
     },
 
-    // updateLike: function () {
-    //   let fetchData = this.UsedCard.usedId;
+    updateLike: function () {
+      let fetchData = this.usedCard.usedId;
 
-    //   fetch('http://localhost:8087/java/used/updateLike', {
-    //     method: 'PUT',
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(fetchData)
-    //   })
+      fetch('http://localhost:8087/java/used/updateLike', {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fetchData)
+      })
 
-    // }
+    }
   },
   created() {
     fetch('http://localhost:8087/java/used/usedImage/' + this.usedCard.usedId)

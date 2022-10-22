@@ -2,6 +2,8 @@ package com.camp.app.recruEntry.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.camp.app.recruEntry.service.EntryService;
 import com.camp.app.recruEntry.service.EntryVO;
-
+/*
+ * @author : 최유리
+ * 캠핑 모집글에 참가 신청이 들어온 내역 관리
+ */
 @CrossOrigin(origins = "*")
 @RequestMapping("/recru")
 @RestController
@@ -35,8 +40,9 @@ public class EntryController {
 		return service.recruEntredList(recruid);
 	}
 	//마이페이지 전체 조회
-	@PostMapping("/entry/{memberId}")
-	public List<EntryVO> myEntryList(@PathVariable String memberId){
+	@GetMapping("/entry")
+	public List<EntryVO> myEntryList(HttpSession session){
+		String memberId = (String)session.getAttribute("email");
 		return service.myEntryList(memberId);
 	}
 	//모집완료된 참가글 목록(보증금관련)

@@ -1,10 +1,10 @@
-<!-- 게시글에담긴정보랑연계하기......어케함? -->
+<!-- 게시글에담긴정보랑연계하기......어케함 -->
 <template>
   <div id="container">
     <form class="container2" id="myform" method="post">
       <div id="used-head">
-        <h4>거래후기 작성하기</h4>
-        <h1>거래는 어떠셨나요?</h1>
+        <h4>캠핑 동행 후기 작성하기</h4>
+        <h1>여행은 어떠셨나요?</h1>
         <div class="deal">
           <div class="img-container">
               <img v-bind:src="reviewImg">
@@ -13,6 +13,7 @@
               <h2>{{usedName}}</h2>
               <p>{{usedContent}}</p>
           </div>
+          <button class="dealcomplete">거래 완료하기</button>
         </div>
         <div class="reviewRate">
           <p class="text-bold">별점을 선택해주세요</p>
@@ -27,7 +28,6 @@
               for="rate4">★</label>
             <input type="radio" name="reviewGrade" value=5 id="rate5"><label
               for="rate5">★</label>
-            <div class="review-grade">{{reviewGrade}}</div>
           </fieldset>
         </div>
       <div id="used-foot">
@@ -53,8 +53,7 @@
       return{
         reviewImg: img1,
         usedName: '4인용텐트',
-        usedContent: '1회 쓰고 보관만 했습니다 상태 굿',
-        reviewGrade: '0 - 선택할때마다이값이바뀌었으면좋겠음'
+        usedContent: '1회 쓰고 보관만 했습니다 상태 굿'
       }
     },
     methods: {
@@ -64,7 +63,6 @@
         let fetchData = [];
 
         let grade = document.querySelector("[name='reviewGrade']:checked")
-        let content = document.querySelector(".reviewContent").value
         fetchData = new FormData(document.querySelector('.container2'))
 
         fetchData.forEach((value,key)=>{
@@ -73,28 +71,12 @@
 
         if(grade === null){
           Swal.fire({
-                  icon: 'warning',
-                  title: '별점을 선택해주세요',
-                  toast: true,
-                  showConfirmButton: false,
-                  timer: 1200,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
-        }else if(content === null || content.trim() === '' || content.length < 10){
-          Swal.fire({
-                  icon: 'warning',
-                  title: '후기를 10자 이상 입력하세요', 
-                  toast: true,
-                  showConfirmButton: false,
-                  timer: 1200,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
+          title: '',
+          text: '별점을 선택해주세요',
+          icon: 'warning',
+          confirmButtonColor: '#3085d6', // confirm 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          })
         }else{
 
             fetch('http://localhost:8087/java/used/usedReview',{
