@@ -5,8 +5,8 @@
                 <div class="recru-detail-title">
                     <h2>{{recruPost.recruTitle}}</h2>
                 </div>
-                <div class="recru-detail-status" :class="statusClass">
-                    <p>{{recruStatus}}</p>
+                <div class="recru-status-box" :class="statusClass">
+                    <RecruStatus :recruStatus="recruPost.recruStatus"></RecruStatus>
                 </div>
             </div>
             <div class="recru-detail-row recru-detail-post">
@@ -25,7 +25,7 @@
                         <img src="@/assets/img/bg9.jpg" name="profile_img" alt="profile img">
                         <p><span>{{recruPost.nickname}}</span></p>
                         <p>{{yyyyMMddhhmmss(recruPost.writeDate) }}</p>
-                        <button class="report-btn" @click="reportItem">신고</button>
+                        <button class="report-btn" @click="reportItem">🚨신고</button>
                     </div>
                     <div class="recru-detail-contents">
                         <br>
@@ -61,6 +61,11 @@
 
             <!-- 게시글 관리 버튼 -->
             <div class=" recru-detail-btn">
+                <a id="kakaotalk-sharing-btn">
+                    <img src="@/assets/img/Table/share.png"
+                        alt="카카오톡 공유 보내기 버튼"
+                        @click="sendLinkDefault" />
+                </a>
                 <div class="recru-entry-btn">
                     <!-- 모집자/신청자가 아닌 경우 -->
                     <button v-if="userRole==0 && rStatus==0" class="btn-green hover-shadow" type="button" @click="entryInsertForm">동행신청</button>
@@ -137,20 +142,22 @@ import DepositStatus from '@/components/recruit/DepositStatus.vue';
 import EntryInsert from '@/components/recruit/EntryInsert.vue';
 import ModalView from '@/components/recruit/ModalView.vue';
 import Swal from 'sweetalert2';
+import RecruStatus from './RecruStatus.vue';
 export default{
     name : "RecruDetail",
     props : {
         recruId : String
     },
     components :{
-        EntryStandByCard,
-        EntryCard,
-        RecruDetailImage,
-        RecruMap,
-        DepositStatus,
-        EntryInsert,
-        ModalView
-    },
+    EntryStandByCard,
+    EntryCard,
+    RecruDetailImage,
+    RecruMap,
+    DepositStatus,
+    EntryInsert,
+    ModalView,
+    RecruStatus,
+},
     data:function(){
         return{
             //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
@@ -172,20 +179,9 @@ export default{
     },
     created (){
         this.loadRecruData();
+        Kakao.init('3f57d02e134f1067307cbaec0b42c437'); // 사용하려는 앱의 JavaScript 키 입력
     },
     computed : {
-        // recruStatus(){
-        //     if (this.recruPost.recruStatus==0){
-        //         this.statusClass = 'recru_status_red'
-        //         return '모집중'
-        //     }else if(this.recruPost.recruStatus==1){
-        //         this.statusClass = 'recru_status_green'
-        //         return '모집완료'
-        //     }else{
-        //         this.statusClass = 'recru_status_gray'
-        //         return '모집취소'
-        //     }
-        // },
         userage(){
             //희망 연령대 계산
             const today = new Date();          
@@ -264,7 +260,7 @@ export default{
                     if(component.userRole==2 || component.userRole==3){
                     }else if(component.memberId == writer){
                         component.userRole = 1;
-                    }else if(this.$router.state.auth == 0){
+                    }else if(this.$store.state.auth == 0){
                         component.userRole = 4;
                     }else{
                         component.userRole = 0;
@@ -485,15 +481,56 @@ export default{
                     })
         },
         sawl : Swal.mixin({
-                                toast: true,
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
+            toast: true,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        }),
+        sendLinkDefault(){
+            var infoTitle = this.recruPost.recruTitle;
+            var infoContent = this.recruPost.recruContent;
+            var num = this.recruPost.recruId;
+            Kakao.Share.createDefaultButton({
+                container: '#kakaotalk-sharing-btn',
+                objectType: 'feed',
+                content: {
+                title : infoTitle,
+                description: infoContent,
+                imageUrl:
+                    'https://ifh.cc/g/dTGkp9.jpg',
+                link: {
+                    mobileWebUrl: 'http://localhost:8088/RecruList',
+                    webUrl: 'http://localhost:8088/RecruList',
+                },
+                },
+                
+                social: {
+                likeCount: 286,
+                commentCount: 45,
+                sharedCount: 845,
+                },
+                buttons: [
+                {
+                    title: '캠핑갈래 홈',
+                    link: {
+                    mobileWebUrl: 'http://localhost:8087/',
+                    webUrl: 'http://localhost:8087/',
+                    },
+                },
+                {
+                    title: '페이지 이동',
+                    link: {
+                    mobileWebUrl: 'http://localhost:8087/recru/detail/'+num,
+                    webUrl: 'http://localhost:8087/recru/detail/'+num,
+                    },
+                },
+                ],
+            })    
+        }
     }
 }
 </script>

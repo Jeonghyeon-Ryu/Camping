@@ -73,7 +73,18 @@
 	<!-- 전체조회 -->
 	<select id="findAll" resultType ="RecruVO">
 		SELECT * FROM recruitment
-		WHERE status=0
+		<where>
+				status=0
+			<if test="memberRole != 3">
+				OR status IN (1,2)
+			</if>
+			<if test="keyword">
+				AND (recru_title LIKE '%'||#{keyword}||'%'
+				OR recru_content LIKE '%'||#{keyword}||'%'
+				OR my_gear LIKE '%'||#{keyword}||'%'
+				OR need_gear LIKE '%'||#{keyword}||'%')
+			</if>
+		</where>
 	</select>
 	
 	<!-- 검색조회 -->
