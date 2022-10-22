@@ -103,7 +103,7 @@ public class UsedController {
 	}
 	
 	//필터검색  ?
-	@GetMapping("/usedSearch")
+	@PostMapping("/usedSearch")
 	public List<UsedVO> searchUsedList(@RequestBody UsedVO used){
 		return service.searchUsedList(used);
 	}
