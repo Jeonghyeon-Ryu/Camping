@@ -15,6 +15,7 @@ import com.camp.app.note.mapper.NoteImgMapper;
 import com.camp.app.note.mapper.NoteMapper;
 import com.camp.app.note.service.NoteImgService;
 import com.camp.app.note.service.NoteImgVO;
+import com.camp.app.note.service.NoteVO;
 
 
 @Service
@@ -33,6 +34,8 @@ public class NoteImgServiceImpl implements NoteImgService{
 			String directoryPath = sdf.format(date);
 			String uploadPath = "C:\\upload\\note\\"+directoryPath;
 			
+			System.out.println("여기");
+			System.out.println(files);
 			
 			//폴더 주소
 			File uploadPathDir = new File(uploadPath);
@@ -40,16 +43,14 @@ public class NoteImgServiceImpl implements NoteImgService{
 				uploadPathDir.mkdirs();
 			}
 			files.forEach(file->{
-				
+				NoteVO vo = new NoteVO();
 				NoteImgVO img = new NoteImgVO();
 				img.setOriginName(file.getOriginalFilename());
 				img.setImgFormat(img.getOriginName().substring(img.getOriginName().indexOf('.')+1));
 				img.setImgSize(file.getSize());
 				img.setImgPath(directoryPath);
-				img.setNoteId(mapper.getMaxNoteId());
+				img.setNoteId(imgMapper.getMaxNoteId());
 				
-				System.out.println(file);
-				System.out.println(img);
 				
 				//uuid를 통한 랜덤으로 아이디 주기
 				UUID uuid = UUID.randomUUID();
