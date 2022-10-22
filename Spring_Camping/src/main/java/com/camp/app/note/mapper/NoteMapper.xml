@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.note.mapper.NoteMapper">
+	
+		
+	<select id="getMaxNoteId" resultType="Integer">
+		SELECT NVL(MAX(note_id), 0)+1 
+		FROM NOTE
+	</select>
+	
+	<!-- note insert -->
+	<insert id="writeCotents" parameterType="NoteVO">
+		INSERT INTO note
+		VALUES( 
+			#{noteId},
+			#{title},
+			#{noteContent},
+			#{invitedMember},
+			#{email},
+			SYSDATE,
+			#{noteStatus}
+		)
+	</insert>
+	<!-- select : MynoteList -->
+	<select id="getMyNoteList" resultType="NoteVO">
+		SELECT note_id, note_status, to_char(write_date,'yyyy-mm-dd') as write_date, title, invited_member
+		FROM note
+		WHERE email = #{email}
+	</select>
+	
+	
+	<delete id="deleteNote" parameterType="Integer">
+		DELETE FROM note
+		WHERE note_id = #{noteId}
+	
+	</delete>
+	
+	<!-- select : MynoteInfo -->
+	<select id="getMyNoteInfo" resultType="NoteVO">
+		SELECT *
+		FROM NOTE
+		WHERE note_id = #{noteId}
+	
+	</select>
+
+
+</mapper>

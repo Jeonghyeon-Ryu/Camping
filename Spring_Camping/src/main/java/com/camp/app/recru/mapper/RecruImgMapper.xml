@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.recru.mapper.RecruImgMapper">
+	
+	<!-- 입력 -->
+	<insert id="insertRecru" parameterType="RecruImgVO">
+		<selectKey keyProperty="imgId" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(image_id),0)+1 FROM recru_image
+		</selectKey>
+		INSERT INTO recru_image(
+				image_id,
+				origin_name,
+				stored_name,
+				img_format,
+				img_size,
+				img_path,
+				recru_id
+				)
+			VALUES(
+				#{imageId},
+				#{originName},
+				#{storedName},
+				#{imgFormat},
+				#{imgSize},
+				#{imgPath},
+				#{recruId}
+		)
+	</insert>
+	
+	<!-- 게시물별 사진 -->
+	<select id="findRecruImg" parameterType="Integer" resultType ="RecruImgVO">
+		SELECT * FROM recru_image
+		WHERE recru_id = #{recruId}
+	</select>
+	
+	<!-- 수정 : 사진 수정 -->
+	
+	
+	<!-- 삭제 -->
+	<delete id="deleteImg">
+		DELETE FROM recru_image 
+			WHERE image_id= #{imageId}
+	</delete>
+</mapper>

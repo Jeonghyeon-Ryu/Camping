@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.recru.mapper.RecruMapper">
+	<!-- 신규 글 번호 찾기 수정후 삭제-->
+	<select id="getMaxRecruId" resultType="Integer">
+		SELECT NVL(MAX(recru_id),0) FROM recruitment
+	</select>
+	<!-- 입력 -->
+	<insert id="insertRecru" parameterType="RecruVO">
+		<selectKey keyProperty="recruId" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(recru_id),0)+1 FROM recruitment
+		</selectKey>
+		INSERT INTO recruitment(
+				recru_id
+				,member_id
+				,recru_title
+				<if test="recruContent !=null">
+				,recru_content
+				</if>
+				<if test="wishAge !=null">
+				,wish_age
+				</if>
+				,wish_sex
+				,car_yn	
+				<if test="myGear !=null">
+				,my_gear	
+				</if>
+				<if test="needGear !=null">
+				,need_gear	
+				</if>
+				,go_date	
+				,come_date	
+				,starting_point	
+				,camping_point	
+				<if test="noteId !=null">
+				,note_id	
+				</if>
+				,recru_num	
+				,closing_date
+				,nickname	
+				)
+			VALUES(
+				#{recruId}
+				,#{memberId}
+				,#{recruTitle}
+				<if test="recruContent !=null">
+				,#{recruContent}
+				</if>
+				<if test="wishAge !=null">
+				,#{wishAge}
+				</if>
+				,#{wishSex}
+				,#{carYn}
+				<if test="myGear !=null">
+				,#{myGear}
+				</if>
+				<if test="needGear !=null">
+				,#{needGear}
+				</if>
+				,#{goDate}
+				,#{comeDate}
+				,#{startingPoint}
+				,#{campingPoint}
+				<if test="noteId !=null">
+				,#{noteId}
+				</if>
+				,#{recruNum}
+				,#{closingDate}
+				,#{nickname}
+		)
+	</insert>
+	
+	<!-- 전체조회 -->
+	<select id="findAll" resultType ="RecruVO">
+		SELECT * FROM recruitment
+		<where>
+				status=0
+			<if test="memberRole != 3">
+				OR status IN (1,2)
+			</if>
+			<if test="keyword">
+				AND (recru_title LIKE '%'||#{keyword}||'%'
+				OR recru_content LIKE '%'||#{keyword}||'%'
+				OR my_gear LIKE '%'||#{keyword}||'%'
+				OR need_gear LIKE '%'||#{keyword}||'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 검색조회 -->
+	<select id="findKeyword" parameterType="String" resultType="RecruVO">
+		SELECT * FROM recruitment
+			WHERE recru_title LIKE '%'||#{keyword}||'%'
+				OR recru_content LIKE '%'||#{keyword}||'%'
+				OR my_gear LIKE '%'||#{keyword}||'%'
+				OR need_gear LIKE '%'||#{keyword}||'%'
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="selectOne" parameterType="String" resultType="RecruVO">
+		SELECT * FROM recruitment
+		WHERE recru_id = #{ recruId }
+	</select>
+	
+	<!-- 마이페이지 조회 -->
+	<select id="myRecru" parameterType="String" resultType="RecruVO">
+		SELECT * FROM recruitment
+		WHERE member_id = #{ memberId }
+	</select>
+
+	<!-- 수정 : 글 수정 -->
+	<update id="updateRecru" parameterType="recruVO">
+		UPDATE recruitment SET recru_title = #{recruTitle}
+		                    ,recru_content = #{recruContent}
+		                    ,wish_age = #{wishAge}
+		                    ,wish_sex = #{wishSex}
+		                    ,car_yn = #{carYn}
+		                    ,my_gear=#{myGear}
+		                    ,need_gear = #{needGear}
+		                    ,go_date = #{goDate}
+		                    ,come_date = #{comeDate}
+		                    ,starting_point = #{startingPoint}
+		                    ,camping_point = #{campingPoint}
+		                    ,note_id = #{noteId}
+		                    ,recru_num= #{recruNum}
+		                    ,closing_date = #{closingDate}
+		WHERE recru_id = #{recruId}
+	</update>
+	<!-- 수정 : 접근상태변경 -->
+	<update id="changeShowStatus" parameterType="RecruVO">
+		UPDATE recruitment 
+		   SET status = #{status}
+		 WHERE recru_id = #{recruId}
+	</update> 
+	
+	<!-- 수정 : 모집 완료로 상태변경시(1) 보증금 추가 -->
+	<update id="changeStatus" parameterType="RecruVO">
+		<selectKey keyProperty="depositId" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(deposit_id),0)+1 FROM deposit
+		</selectKey>
+		DECLARE
+		BEGIN
+		    UPDATE recruitment 
+		    SET recru_status = #{recruStatus}
+		    WHERE recru_id = #{recruId};
+		<if test="recruStatus==1">
+		    INSERT INTO deposit ( 
+								deposit_id, 
+								recru_id, 
+								member_id 
+								)
+						VALUES( 
+		                        #{depositId},
+		                        #{recruId},
+		                        #{memberId}
+		                        );
+		</if>
+		END;
+	</update>
+
+	<select id="findImgByRecruId" parameterType="Integer" resultType="RecruImgVO">
+		SELECT * FROM recru_image WHERE recru_id = #{recruId}
+	</select>
+</mapper>

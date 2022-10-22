@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.camp.app.member.mapper.MemberMapper">
-	<select id="findAll">
+	<select id="findAll" resultType="MemberVO">
 		SELECT * FROM member
 	</select>
 	<select id="findByEmail" parameterType="String" resultType="MemberVO">
-		SELECT * FROM member WHERE member_id = #{memberId}
+		SELECT * FROM member WHERE email = #{email}
+	</select>
+	<select id="findByNickname" parameterType="String" resultType="MemberVO">
+		SELECT * FROM member WHERE nickname = #{nickname}
 	</select>
 	<select id="count" resultType="Integer">
 		SELECT COUNT(*) FROM member
@@ -38,7 +41,7 @@
 			SYSDATE,
 			SYSDATE,
 			1,
-			1
+			2
 		)
 	</insert>
 	<update id="update" parameterType="MemberVO">
@@ -55,4 +58,21 @@
 			<if test="status != null">, status =#{status}</if>
 		WHERE email=#{email}
 	</update>
+	<select id="findMaxByProfileImageId" resultType="Integer">
+		SELECT NVL(MAX(profile_image_id),0) FROM profile_image
+	</select>
+	<insert id="insertProfileImage" parameterType="ProfileImageVO">
+		INSERT INTO profile_image VALUES(
+			#{profileImageId},
+			#{originName},
+			#{storedName},
+			#{imageFormat},
+			#{imageSize},
+			#{imagePath},
+			#{email}
+		)
+	</insert>
+	<select id="findByEmailToProfileImage" parameterType="String" resultType="ProfileImageVO">
+		SELECT * FROM profile_image WHERE profile_image_id = (SELECT MAX(profile_image_id) FROM profile_image WHERE email = #{email})
+	</select>
 </mapper>

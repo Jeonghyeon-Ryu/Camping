@@ -115,6 +115,4 @@
     }
   
   </script>
-  <style scoped src="@/assets/css/used/UsedMain.css">
-    
-  </style>
+  <style scoped src="@/assets/css/used/UsedMain.css" />

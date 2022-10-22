@@ -38,7 +38,7 @@ import DepositPost from '@/assets/rectuitInfo/DepositPost.js';
 import ModalView from './ModalView.vue';
 
 export default {
-  props : {depositId : String}, //deposit
+  props : {recruId : String}, 
   components : {
     EntryPost,
     SendMoney,
@@ -62,42 +62,44 @@ export default {
     }
   },
   created(){
-     //보증 정보.. 나중엔 props로 받고 지우자 (임의로 recruId로 받아온 것 -> 틀린식)
-    for(let i=0 ; i<DepositPost.data.length; i++){
-      if((DepositPost.data[i]["recru_id"] === this.depositId)){
-          this.depositInfo = DepositPost.data[i];
-          console.log(this.depositInfo)
-      }
-    }
-    
-    //보증금 상태에 따라 active 설정을 준다
-    switch(this.depositInfo.deposit_status) {
-      case '4': 
-        this.depositLv4='active';
-        this.depositLv3='active';
-        this.depositLv2='active';
-        this.progressName4='active';
-        break;
-      case '3':  
-        this.depositLv3='active';
-        this.depositLv2='active';
-        this.progressName3='active';
-        break;
-      case '2':  
-        this.depositLv2='active';
-        this.progressName2='active';
-        break;
-      case '1':  
-        this.progressName1='active';
-    }
-    //보증금 입금 유무에 따라 버튼 상태를 바꾼다
-    if(this.depositInfo.in_date ==''){
-      this.isPayed =false;
-    }else{
-      this.isPayed = true;
-    }
-  },
-  methods : {
+    const recruId = this.recruId;
+    const memberId = this.$store.state.email;
+    const component = this;
+    fetch(`http://localhost:8087/java/recru/deposit/${memberId}/${recruId}`)
+    .then(Response => Response.json()) 
+    .then(data => { 
+      component.depositList = data;
+      console.log(data)
+        
+      //보증금 상태에 따라 active 설정을 준다
+      switch(component.depositInfo.depositStatus) {
+        case '4': 
+          component.depositLv4='active';
+          component.depositLv3='active';
+          component.depositLv2='active';
+          component.progressName4='active';
+          break;
+        case '3':  
+          component.depositLv3='active';
+          component.depositLv2='active';
+          component.progressName3='active';
+          break;
+        case '2':  
+          component.depositLv2='active';
+          component.progressName2='active';
+          break;
+          case '1':  
+          component.progressName1='active';
+        }
+        //보증금 입금 유무에 따라 버튼 상태를 바꾼다
+        if(component.depositInfo.inDate ==''){
+          component.isPayed =false;
+        }else{
+          component.isPayed = true;
+        }
+      })  
+    },
+    methods : {
     sendMoney : function(){
       this.isModalViewed = !this.isModalViewed;
     }
@@ -105,103 +107,4 @@ export default {
 }
 </script>
 
-<style scoped>
-  .deposit-progress{
-    width: 100%;
-    height: 120px;
-    min-width: 300px;
-    margin: auto 0;
-  }
-  .container{
-  width: 100%;
-  z-index: 1;
-}
-.gray{
-  color: lightgray;
-}
-.progressName-box{
-  height:20px;
-}
-.progressName li{
-  float: left;
-  width: 25%;
-  font-weight: bold;
-  position: relative;
-  text-align: center;
-  margin: 0;
-}
-.deposit-progressbar li{
-  float: left;
-  width: 25%;
-  position: relative;
-  text-align: center;
-}
-.deposit-progressbar{
-  margin-top: 10px;
-  list-style: none;
-  counter-reset: step;
-}
-/* 숫자 */
-.deposit-progressbar li:before{
-  content:"1";
-  width: 30px;
-  height: 30px;
-  border: 2px solid #bebebe;
-  display: block;
-  margin: 0 auto 10px auto;
-  border-radius: 50%;
-  line-height: 27px;
-  background: white;
-  color: #bebebe;
-  text-align: center;
-  font-weight: bold;
-}
-.deposit-progressbar li:before{
-  content:counter(step);
-  counter-increment: step;
-  width: 30px;
-  height: 30px;
-  border: 2px solid #bebebe;
-  display: block;
-  margin: 0 auto 10px auto;
-  border-radius: 50%;
-  line-height: 27px;
-  background: white;
-  color: #bebebe;
-  text-align: center;
-  font-weight: bold;
-}
-/* 라인 */
-.deposit-progressbar li:after{
-  content: '';
-  position: absolute;
-  width:100%;
-  height: 3px;
-  background: #979797;
-  top: 15px;
-  left: -50%;
-  z-index: -1;
-}
-.deposit-progressbar li:first-child:after{
-content: none;
-}
-/* 진행중표시 */
-.deposit-progressbar li:first-child:before{
-  border-color: #3aac5d;
-  background: #3aac5d;
-  color: white
-}
-.deposit-progressbar li.active + li:before{
-border-color: #3aac5d;
-background: #3aac5d;
-color: white
-}
-.deposit-progressbar li.active + li:after{
- background: #3aac5d;
-}
-.active span{
-  color: #3aac5d;
-  font-size: large;
-}
-
-</style>
+<style scoped src="@/assets/css/recruit/depositStatus.css" />

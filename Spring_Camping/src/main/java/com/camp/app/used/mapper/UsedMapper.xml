@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 1.dtd추가하기 2.namespace 등록-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.camp.app.used.mapper.UsedMapper">
+	
+	<!-- 게시글 전체조회 -->
+	<select id="selectAllUsedList" resultType="UsedVO">
+		SELECT * FROM used WHERE used_status = 0 ORDER BY used_write desc
+	</select>
+	
+	<!-- 게시글 조건조회 -->
+	<select id="searchUsedList" resultType="UsedVO" parameterType="UsedVO">
+		 SELECT * FROM used 
+		<where>
+				used_status = 0
+			<if test="usedName != null and usedName != ''">
+				and used_name LIKE '%'||#{usedName}||'%'
+			</if>
+			<if test="usedCategory != null and usedCategory != ''">
+				and used_category = #{usedCategory}
+			</if>
+			<if test="minPrice != null and minPrice != ''">
+				<![CDATA[and used_price >= #{minPrice}]]>
+			</if>
+			<if test="maxPrice != null and maxPrice != ''">
+				<![CDATA[and used_price < #{maxPrice}]]>
+			</if>
+			<if test="usedPlace != null and usedPlace != ''">
+				and used_place LIKE '%'||#{usedPlace}||'%'
+			</if>
+		</where>
+		ORDER BY used_id desc
+	</select>
+	
+	<!-- 게시글 키워드조회 -->
+  	<select id="findUsedKeyword" parameterType="String" resultType="UsedVO">
+        SELECT * 
+          FROM used
+         WHERE used_status = 0
+           AND (used_name LIKE '%'||#{keyword}||'%'
+            OR used_category LIKE '%'||#{keyword}||'%'
+            OR used_place LIKE '%'||#{keyword}||'%')
+   	</select>
+	 
+	<!-- 게시글 단건조회(상세보기) -->
+	<select id="findDetail" parameterType="Integer" resultType="UsedVO">
+		SELECT * FROM used WHERE used_id = #{usedId}
+	</select>
+	
+	<!-- 내가쓴글조회 -->
+	<select id="findMyUsed" parameterType="String" resultType="UsedVO">
+		SELECT * 
+		  FROM used 
+		 WHERE email = #{email} 
+		   AND used_status !=2 
+		 ORDER BY used_id DESC
+	</select>
+	
+	<!-- 수정 -->
+	<update id="updateUsed" parameterType="UsedVO">
+		UPDATE used
+		SET used_name = #{usedName},
+			used_category = #{usedCategory}, 
+			used_price = #{usedPrice}, 
+			<if test="usedPlace != null">
+			used_place = #{usedPlace},
+			</if>		 
+			used_content = #{usedContent},
+			<if test="usedPlace != null">
+			used_condition = #{usedCondition}
+			</if>
+		WHERE used_id = #{usedId}
+	</update>
+	
+	<!-- 접근제한 -->
+	<update id="restrictUsed" parameterType="Integer">
+	    UPDATE used 
+	    SET used_status = 1
+	    WHERE used_id = #{usedId}
+  	</update>
+	
+	<!-- 삭제(usedStatus변경) -->
+	<update id="deleteUsed" parameterType="Integer">
+	    UPDATE used 
+	    SET used_status = 2
+	    WHERE used_id = #{usedId}
+  	</update>
+	
+	<!-- 거래상태변경 -->
+	<update id="updateDeal" parameterType="Integer">
+		UPDATE used
+		SET deal_status = #{dealStatus}
+		WHERE used_id = #{usedId}
+	</update>
+	
+	<!-- 조회수증가 -->
+	<update id="updateCnt" parameterType="UsedVO">
+		UPDATE used
+		SET used_cnt = used_cnt+1
+		WHERE used_id = #{usedId}
+	</update>
+	
+	<!-- 찜 count -->
+	<select id="updateLike" resultType="Integer">
+		SELECT count(*) 
+		FROM save 
+		WHERE board_id = #{board_id} 
+		AND board_division = 2
+	</select>
+	
+	<!-- 후기 작성 -->
+	<insert id="insertReview" parameterType="UsedReviewVO">
+	<selectKey keyProperty="reviewId" resultType="Integer" order="BEFORE">
+		SELECT NVL(MAX(review_id),0)+1 FROM used_review <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+	</selectKey>
+		INSERT INTO used_review VALUES(
+			#{reviewId},
+			#{usedId},
+			#{email2},
+			#{reviewGrade},
+			#{reviewContent},
+			#{reviewRole},
+			#{email},
+			sysdate
+		)
+	</insert>
+	
+	<select id="count" resultType="Integer">
+		SELECT COUNT(*) FROM used
+	</select>
+	
+	<select id="findByPage" parameterType="Integer" resultType="UsedVO">
+		<![CDATA[
+			SELECT used_id, used_name, used_place, used_price, used_content
+		FROM ( 
+        	SELECT SEQ, used_id, used_name, used_place, used_price, used_content
+        	FROM (
+                SELECT ROWNUM AS SEQ, used_id, used_name, used_place, used_price, used_content
+                FROM ( SELECT * FROM used ORDER BY used_id )
+            	)
+        	WHERE SEQ >= ((5-1)*10+1)
+    		)
+		WHERE ROWNUM < 11
+		]]>
+	</select>
+	
+	<!-- 등록 관련 -->
+	<select id="findByUsedId" parameterType="Integer" resultType="UsedVO">
+		SELECT * FROM used WHERE used_id = #{usedId}
+	</select>
+	
+	<!-- 중복 -지우는거고려하삼.. -->
+	<select id="findMaxByUsedId" resultType="Integer">
+		SELECT NVL(MAX(used_id),0) FROM used
+	</select>
+	
+	<select id="findMaxByUsedImageId" resultType="Integer">
+		SELECT NVL(MAX(used_image_id),0) FROM used_image
+	</select>
+	
+	<select id="findByUsedIdToUsedImage" parameterType="Integer" resultType="UsedImageVO">
+		SELECT * FROM used_image WHERE used_id = #{usedId}
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertUsed" parameterType="UsedVO">
+	<selectKey keyProperty="usedId" resultType="Integer" order="BEFORE">
+		SELECT NVL(MAX(used_id),0)+1 FROM used <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+	</selectKey>
+		INSERT INTO used
+						(used_id,
+						used_name, 
+						used_category, 
+						used_price, 
+						used_place, 
+						used_content,
+						used_condition,
+						email,
+						nickname
+						)
+				VALUES <!-- VO에 있는 필드명 가져오기 -->
+					 (#{usedId}
+					 ,#{usedName}
+					 ,#{usedCategory}
+					 ,#{usedPrice}
+					 ,#{usedPlace}
+					 ,#{usedContent}
+					 ,#{usedCondition}
+					 ,#{email}
+					 ,#{nickName}
+					)
+	</insert>
+	
+	<!-- 이미지 등록 -->
+	<insert id="insertUsedImage" parameterType="UsedImageVO">
+		INSERT INTO used_image VALUES(
+			#{usedImageId},
+			#{usedId},
+			#{usedOriginName},
+			#{usedStoredName},
+			#{usedFormat},
+			#{usedSize},
+			#{usedPath}
+		)
+	</insert>
+</mapper>

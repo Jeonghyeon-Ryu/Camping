@@ -1,6 +1,11 @@
 <template>
-    <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
-        <swiper-slide v-for="image of images"><img src=""/></swiper-slide>
+    <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">    
+            <swiper-slide v-for="image of images">
+                <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName"/>
+            </swiper-slide>
+            <swiper-slide v-for="img of imgUrl">
+                <img :src="img"/>
+            </swiper-slide>
     </swiper>
 </template>
 <script>
@@ -15,7 +20,25 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper";
 
 export default {
-    props: ['images'],
+    props: ['recruId','addImage'],
+    data : function() {
+        return {
+            images : [],
+            imgUrl : []
+        }
+    },
+    created : function() {
+        const recruId = this.recruId;
+        const component=this;
+        fetch('http://localhost:8087/java/recruImg/'+recruId)
+        .then(result => result.json())
+        .then(result => {
+            component.images = result;
+            component.resultImages = result;
+            console.log(result)
+        })
+        .catch(err => console.log(err))
+    },  
     components: {
         Swiper,
         SwiperSlide,
@@ -25,6 +48,15 @@ export default {
             modules: [Navigation, Pagination],
         };
     },
+    watch: {
+        addImage() {
+            this.imgUrl = [];
+            for(let img of this.addImage){
+                this.imgUrl.push(URL.createObjectURL(img));
+            }
+            console.log(this.imgUrl)
+        }
+    }
 };
 </script>
 
@@ -50,23 +82,24 @@ export default {
     justify-content: center;
     -webkit-box-align: center;
     -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
+    /* -webkit-align-items: center;
+    align-items: center; */
 }
 
 .swiper-slide img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
 }
-</style>
-<style>
 .swiper-button-next,
 .swiper-button-prev,
 .swiper-container-rtl .swiper-button-prev,
 .swiper-container-rtl .swiper-button-next {
     color: #F7EDDA;
+}
+.swiper-pagination {
+    top: 10px;
 }
 .swiper-pagination-bullet {
     background: #F7EDDA;

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.camp.mapper.CampMapper">
+	<select id="findAll" resultType="CampVO">
+		SELECT * FROM camp
+	</select>
+	<select id="findByPage" parameterType="Integer" resultType="CampVO">
+		<![CDATA[
+		SELECT camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
+		FROM ( 
+        	SELECT SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
+        	FROM (
+                SELECT ROWNUM AS SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
+                FROM ( SELECT * FROM camp WHERE status=2 ORDER BY camp_id )
+            	)
+        	WHERE SEQ >= ((#{page}-1)*10+1)
+    		)
+		WHERE ROWNUM < 11
+		]]>
+	</select>
+	<select id="count" resultType="Integer">
+		SELECT COUNT(*) FROM camp
+	</select>
+	<select id="findMaxByCampId" resultType="Integer">
+		SELECT NVL(MAX(camp_id),0) FROM camp
+	</select>
+	<select id="findMaxByCampImageId" resultType="Integer">
+		SELECT NVL(MAX(camp_image_id),0) FROM camp_image
+	</select>
+	<select id="findByCampId" parameterType="Integer" resultType="CampVO">
+		SELECT * FROM camp WHERE camp_id = #{campId}
+	</select>
+	<select id="findByCampIdToCampImage" parameterType="Integer" resultType="CampImageVO">
+		SELECT * FROM camp_image WHERE camp_id = #{campId}
+	</select>
+	
+	<insert id="insertCamp" parameterType="CampVO">
+		INSERT INTO camp VALUES (
+			#{campId},
+			#{campName},
+			#{campAddress},
+			#{campPrice},
+			#{campSite},
+			#{campInfo},
+			2
+		)
+	</insert>
+	<insert id="insertCampImage" parameterType="CampImageVO">
+		INSERT INTO camp_image VALUES(
+			#{campImageId},
+			#{originName},
+			#{storedName},
+			#{imageFormat},
+			#{imageSize},
+			#{imagePath},
+			#{campId}
+		)
+	</insert>
+	<update id="update" parameterType="CampVO">
+		UPDATE camp SET
+			camp_info = #{campInfo} 
+			<if test="campAddress != null">, camp_address = #{campAddress}</if>
+			<if test="campPrice != null">, camp_price = #{campPrice}</if>
+			<if test="campSite != null">, camp_site = #{campSite}</if>
+			<if test="status != null">, status = #{status}</if>
+		WHERE camp_id = #{campId}
+	</update>
+	
+	
+	<insert id="insertCampModify" parameterType="CampModifyVO">
+		INSERT INTO camp_modify VALUES(
+			#{campModifyId},
+			#{campName},
+			#{campAddress},
+			#{campPrice},
+			#{campSite},
+			#{campInfo},
+			#{campId},
+			#{email},
+			#{status}
+		)
+	</insert>
+	<select id="findMaxByCampModifyId" resultType="Integer">
+		SELECT NVL(MAX(camp_modify_id),0) FROM camp_modify 
+	</select>
+	<insert id="insertCampModifyImage" parameterType="CampImageVO">
+		INSERT INTO camp_modify_image VALUES(
+			#{campImageId},
+			#{originName},
+			#{storedName},
+			#{imageFormat},
+			#{imageSize},
+			#{imagePath},
+			#{campId}
+		)
+	</insert>
+	<select id="findMaxByCampModifyImageId" resultType="Integer">
+		SELECT NVL(MAX(camp_image_id),0) FROM camp_modify_image
+	</select>
+	<select id="countCampModifyByCampId" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM camp_modify WHERE camp_id = #{campId}
+	</select>
+	
+	<select id="findByEmail" parameterType="String" resultType="CampVO">
+		SELECT * FROM camp WHERE email = #{email} AND status=2
+	</select>
+</mapper>

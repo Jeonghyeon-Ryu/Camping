@@ -50,16 +50,12 @@
         }
     }
 </script>
-<style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing: border-box;
-        }
+<style scoped>
         #modal{
             border-radius: 0.5em;
             background-color: #41b56c;
             /* color: white; */
+            margin-top : 150px;
             padding: 1em;
             height: 100%;
         }

@@ -7,18 +7,12 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import HeaderNav from './components/HeaderNav.vue'
-import MainSwiper from './components/MainSwiper.vue'
-import Sns from './components/SNS.vue'
-import NodeMenu from './components/NoteMenu.vue'
+import HeaderNav from './components/Main/HeaderNav.vue'
 
 export default {
   name: 'App',
   components: {
     HeaderNav,
-    MainSwiper,
-    Sns,
-    NodeMenu
   }
 }
 </script>
@@ -30,6 +24,9 @@ export default {
     list-style: none;
     font-style: none;
     box-sizing: border-box;
+  }
+  body {
+    overflow-x: hidden;
   }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -4,159 +4,74 @@
   <!-- 카드 헤더 -->
   <div class="recru-card-header" >
       <div class="card-header-img">
-          <img v-bind:src="recruCard.filename" alt="camping gear">
+        <div v-if="image.imageId==0">
+          <img src="@/assets/img/bg9.jpg" alt="camping gear">
+        </div>
+        <div v-if="image.imageId>0">
+          <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
+        </div>
       </div>
-      <div class = "card-header-text" > 모집중 </div >
+      <div class = "card-header-text" :class="myClass" > {{recruStatus}} </div >
   </div>
+ 
   <!--  카드 바디 -->
-  
   <div class="recru-card-body">
     <div class="card-body-title">
-      <h1>{{recruCard.title}}</h1>
+      <h1>{{recruCard.recruTitle}}</h1>
     </div>
     <!--  카드 바디 내용 -->
-    <p class="card-body-my"><span>갖고있어요 :</span>{{recruCard.my_gear}} </p>
-    <p class="card-body-need"><span>필요해요 :</span>{{recruCard.need_gear}}</p>
-    <hr style="margin:5px;">
-    <p class="card-body-go"><span>출발 :</span>{{recruCard.go_date}}</p>
-    <p class="card-body-spot"><span>도착지 :</span> {{recruCard.camping_point}}</p>
-  </div>
-  <div class = "recru-card-wish" > 
-    <img v-if="isHeart" src='@/assets/img/heart.png' @click="changeHeart" alt="찜한 카드">
-    <img v-if="!isHeart" src='@/assets/img/noheart.png' @click="changeHeart" alt="찜한 카드">
+    <div class="card-body-content">
+      <p class="card-body-my"><span>갖고있어요 : </span> {{gearList(recruCard.myGear)}} </p>
+      <p class="card-body-need"><span>필요해요 : </span>{{gearList(recruCard.needGear)}}</p>
+      <hr >
+      <p class="card-body-go">{{recruCard.goDate}}</p>
+      <p class="card-body-spot">{{recruCard.campingPoint}}</p>
+    </div>
   </div>
 </div>  
 </template>
-import img1 @/asset
 <script>
 
 export default{
-    name : "RecruList",
-    props : {recruCard : Object},
-    data : function(){
-      return {
-        isHeart : true, 
-        myHeart : 'heart.png'
-      }
+    name: "RecruCard",
+    props: { recruCard: Object },
+    data: function () {
+        return {
+            recruStatus: "",
+            myClass: "",
+            image: "",
+        };
+    },
+    created() {
+        this.loadImgs();
     },
     methods: {
-      changeHeart : function(){
-        this.isHeart=!this.isHeart;
-      }
-    }
+        loadImgs: function () {
+            const recruId = this.recruCard.recruId;
+            const component = this;
+            fetch("http://localhost:8087/java/recruImg/" + recruId)
+                .then(result => result.json())
+                .then(result => {
+                component.image = result[0];
+            })
+                .catch(err => console.log(err));
+        },
+        gearList(gears) {
+            //필요한 장비 배열 정리
+            if (gears) {
+                let gearList = gears.split(",");
+                let str = "";
+                for (let i = 0; i < gearList.length; i += 3) {
+                    if (i != 0)
+                        str += ", ";
+                    str += gearList[i] + "(" + gearList[i + 1] + ") " + gearList[i + 2] + "개";
+                }
+                return str;
+            }
+        }
+    },
+
 }
 </script>
 
-<style scoped>
-/* 공통 부분 */
-* {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-style: none;
-    box-sizing: border-box;
-  }
-
-  /* 카드설정 - 반응형 미디어쿼리 */
-  @media(min-width:550px) {
-    .recru-card {
-      /* max min */
-      height: 300px;
-      width: 20vw;
-      min-width: 240px;
-      border-radius: 15px;
-      margin : 10px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      overflow: hidden;
-    }
-  }
-  @media (max-width:549px) {
-    .recru-card {
-      /* max min */
-      height: 300px;
-      width: 70vw;
-      min-width: 220px;
-      border-radius: 15px;
-      margin : 10px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      overflow: hidden;
-      
-    }
-  }
-  
-  /* 카드 헤더 */
-  .recru-card-header {
-    width: 100%;
-    height: 70%;
-    border-radius: 15px 15px 0 0;
-    display: flex;
-    justify-content: space-between;
-    
-  }
-  .card-header-img{
-    width: 70%;
-  }
-  /* 카드 헤더 이미지 */
-  .card-header-img img{
-    height: 320px;
-    min-width: 100%;
-  }
-  .recru-card:hover .recru-card-header{
-    opacity: 0.2;
-    height: 0;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-  }
-  /* 카드 헤더 글씨 - 모집상태 */
-  .card-header-text{
-    font-weight: bold;
-    margin: 10px 10px;
-    min-width: 50px;
-    color: greenyellow;
-  } 
-  .recru-card:hover .card-header-text{
-    display: none;
-  }
-  /* 카드 바디 - 준상세 */
-  .recru-card-body{
-    padding: 10px;
-    margin-top: 10px;
-    height: 85%;
-    transition: all 0.3s;
-  }
-  .recru-card-body span{
-    color: darkred;
-  }
-  .recru-card-body h1 {
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-  }
-  .recru-card-body p{
-    font-weight: bold;
-    visibility: hidden;
-    margin: 0;
-    font-size: 14px;
-  }
-  .recru-card:hover .recru-card-body h1, .recru-card:hover .recru-card-body  p{
-    color: black;
-    visibility: visible;
-  }
-  
-  .card-body-my, .card-body-need{
-    max-height: 43.2px;
-    overflow: hidden;
-  }        
-  /* 카드 저장 아이콘 */
-  .recru-card-wish{
-    position: relative;
-    left: 45%;
-    margin-bottom:5px;
-  }
-  .recru-card-wish:hover{
-    color: crimson;
-  }
-  .recru-card-wish img{
-    width: 30px;
-  }
-</style>
+<style scoped src="@/assets/css/recruit/recruCard.css"/>

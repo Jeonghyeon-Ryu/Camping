@@ -1,12 +1,29 @@
 package com.camp.app.member.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.camp.app.member.mapper.MemberMapper;
 import com.camp.app.member.service.MemberService;
 import com.camp.app.member.service.MemberVO;
+import com.camp.app.member.service.ProfileImageVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -45,8 +62,45 @@ public class MemberServiceImpl implements MemberService{
 	
 	// 회원 정보 수정
 	@Override
-	public int modifyMember(MemberVO member) {
-		return mapper.update(member);
+	public int modifyMember(MemberVO member, MultipartFile file) {
+		
+		int result = mapper.update(member);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String directoryPath = sdf.format(date);
+		String uploadPath = "d:\\upload\\member\\" + directoryPath;
+		File uploadPathDir = new File(uploadPath);
+		if(!uploadPathDir.exists()) {
+			uploadPathDir.mkdirs();
+		}
+		if(file.getSize()!=0) {
+			ProfileImageVO image = new ProfileImageVO();
+			image.setProfileImageId(mapper.findMaxByProfileImageId()+1);
+			image.setOriginName(file.getOriginalFilename());
+			
+			image.setImageFormat(image.getOriginName().substring(image.getOriginName().lastIndexOf("."), image.getOriginName().length()));
+			image.setImageSize(file.getSize());
+			image.setImagePath(directoryPath);
+			image.setEmail(member.getEmail());
+			
+			UUID uuid = UUID.randomUUID();
+			String[] uuids = uuid.toString().split("-");
+			image.setStoredName(uuids[0] + "_" + image.getOriginName());
+			
+			File resultFile = new File(uploadPath,image.getStoredName());
+			try {
+				file.transferTo(resultFile);
+				// 문제가 있음. 제대로 들어갔는지 확인이 안됨.
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			result += mapper.insertProfileImage(image);
+			System.out.println("Image Info : " + image);
+		}
+		return result;
 	}
 	
 	// 회원 비밀번호 변경
@@ -65,5 +119,39 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberVO login(MemberVO member) {
 		return mapper.findByEmailAndPassword(member);
+	}
+
+	@Override
+	public MemberVO findByEmail(String memberId) {
+		return mapper.findByEmail(memberId);
+	}
+
+	// 프로필 사진 정보 가져오기
+	@Override
+	public ProfileImageVO showProfileImage(String email) {
+		return mapper.findByEmailToProfileImage(email);
+	}
+
+	@Override
+	public ResponseEntity<Resource> showImage(String imagePath, String storedName) {
+		String fullPath = "d:\\upload\\member\\" + imagePath + "\\" + storedName;
+		System.out.println("*** FullPath : " +fullPath);
+		Resource resource = new FileSystemResource(fullPath);
+		
+		if(!resource.exists()) {
+			System.out.println("File Not Found ! ");
+			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+		}
+		
+		HttpHeaders header = new HttpHeaders();
+		Path filePath = null;
+		
+		try {
+			filePath = Paths.get(fullPath);
+			header.add("Content-Type", Files.probeContentType(filePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
 }

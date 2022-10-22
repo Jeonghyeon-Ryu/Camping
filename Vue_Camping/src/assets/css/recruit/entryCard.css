@@ -12,6 +12,9 @@
       justify-content: center;
       margin: 10px 0;
   }
+  .entry-card-contents{
+    max-height:105px;
+  }
   .row{
       display: flex;
       flex-wrap: wrap;

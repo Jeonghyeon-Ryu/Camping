@@ -3,7 +3,6 @@
     <div class="sns-searchbox">
       <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
       <button @click="doSearch" style="display: none;">조회</button>
-      <!-- <input type="button" @click="doClear" value="X"> -->
     </div>
     <div class="sns-page-id-container">
       <div class="sns-page-id">
@@ -14,71 +13,57 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img v-bind:src="snsMaingImg5">
+            <img src=""> <!--프로필 이미지로 바꾸기 --> 
           </div>
         </div>
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <input type="text" value="작성자id">
+            <input type="text" :value="snsItem.nickname">
+          </div>
+          <div class="sns-write-location">
+            <input type="text" :value="snsItem.location">
+          </div>
+          <div class="sns-write-place">
+            <input type="text" :value="snsItem.place">
           </div>
         </div>
-        <!-- <div class="sns-write-form-id"> -->
         <div class="sns-control-button">
           <img v-bind:src="snsControlImg" @click="doSnsController">
-          <select disabled v-model="snsController" @change="doSelectController" name="choose-control-reason" value="게시글 관리">
-            <option value="글 수정">글 수정</option>
-            <option value="글 삭제">글 삭제</option>
-            <option value="비공개..?">비공개..?</option>
+          <select disabled @change="doSelectController($event)" name="choose-control-reason" value="게시글 관리">
+            <option v-if="$store.state.auth!=0" value="글 수정" id="btn-update">글 수정</option>
+            <option value="글 삭제" id="btn-delete">글 삭제</option>
           </select>
         </div>
-        <!-- </div> -->
       </div>
-
       <div class="sns-detail-container">
         <div class="sns-detail-form1">
           <div class="sns-img-container">
-            <swiper :navigation="true" :pagination="{ clickable:true }" :modules="modules" class="mySwiper">
-              <swiper-slide><img v-bind:src="snsMaingImg1"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg2"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg3"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg4"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg5"></swiper-slide>
-              <swiper-slide><img v-bind:src="snsMaingImg6"></swiper-slide>
-
+            <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
+              <swiper-slide v-for="snsImg of snsImgs">
+                <input type="text" :value="snsImg.writeNo" style="display :none;">
+                <img v-bind:src="'http://localhost:8087/java/showSnsImage/'+snsImg.snsPath+'/'+snsImg.storedName">
+              </swiper-slide>
             </swiper>
-            <!-- <input type="text" v-bind:value="snsWriteNumber1"  style="display :none;">
-        <img v-bind:src="snsMaingImg6"> -->
-
-
-
-            <!-- carousel 사진 -->
-            <!-- <div class="carousel">
-  <div class="carousel-inner">
-    <div class="carousel=item">
-      <img />
-    </div>
-  </div>
-</div> -->
-
-
-
           </div>
         </div>
-
         <div class="sns-detail-form1">
-          <div class="sns-write-all-form-container">
-
+          <form class="sns-write-all-form-container" id="snsForm">
             <div class="sns-write-context">
-              <textarea v-model="snsWriteText" placeholder="글내용 글내용 #태그"></textarea>
+              <textarea placeholder="글내용 글내용" :value="snsItem.content"></textarea>
+              <input type="text" :value="snsItem.writeNo" style="display :none;" name="writeNo">
             </div>
-          </div>
-
+            <div class="sns-write-hashtag">
+              <textarea placeholder="#태그" :value="snsItem.hashtag"></textarea>
+            </div>
+            <div class="sns-write-date">
+              <p>{{yyyyMMddhhmmss(snsItem.writeDate)}}</p>
+            </div>
+          </form>
           <div class="sns-push-button-container">
-
             <div class="sns-push-button-container1">
               <div class="sns-write-like-button">
-                <img v-if="liked" v-on:click='hearted()' v-bind:src="heartImg">
-                <img v-if="!liked" v-on:click="hearted()" v-bind:src="heartImg2">
+                <img v-if="liked==true" v-on:click='hearted()' v-bind:src="heartImg">
+                <img v-if="liked==false" v-on:click="hearted()" v-bind:src="heartImg2">
               </div>
             </div>
             <div class="sns-push-button-container1">
@@ -86,500 +71,579 @@
                 <img v-bind:src="commentImg">
               </div>
             </div>
-
             <div class="sns-push-button-container2">
               <div class="sns-notification">
-                <img v-bind:src="notifyImg">
+                <img v-bind:src="notifyImg" @click="reportItem()">
               </div>
             </div>
           </div>
-
-          <div class="sns-detail-comment-form-container" :key="comment.no" v-for="comment in comments">
+          <div class="sns-detail-comment-form-container" :key="snsCommentItem.writeNo"
+            v-for="snsCommentItem of snsCommentItems">
             <div class="sns-detail-comment-form">
               <div class="sns-comment-write-id-container">
                 <div class="sns-comment-write-id">
-                  <img v-bind:src="comment.Img">
+                  <img src="">
                 </div>
                 <div class="sns-comment-write-id">
-                  <input type="text" :value="comment.id">
+                  <input type="text" :value="snsCommentItem.nickname">
                 </div>
               </div>
               <div class="sns-comment-container">
                 <div class="sns-comment">
                   <div class="sns-comment-write-context">
-                    <textarea v-text="comment.text"></textarea>
-
+                    <textarea :value="snsCommentItem.commentContent"></textarea>
                   </div>
                 </div>
                 <div class="sns-comment-date">
-                  <input type="text" :value="comment.date">
+                  <p>{{yyyyMMddhhmmss(snsCommentItem.commentDate)}}</p>
                 </div>
               </div>
             </div>
           </div>
-          <hr />
           <div class="sns-write-comment-container">
-            <textarea placeholder="댓글을 작성하세요"></textarea>
-            <button type="submit" >게시</button>
+              <div class="sns-search-list-container">
+                <textarea placeholder="댓글을 작성하세요" v-model="commentTextarea"></textarea>
+                <button type="button" @click="doComment" @keyup.enter="doComment">게시</button>
+              </div>
+              <div class="sns-search-list" v-if="searchResultNick != ''">
+                <div class="sns-search-nick" @click="getNickname(item)" v-for="item of searchResultNick">{{item}}</div>
+              </div>
           </div>
         </div>
       </div>
     </div>
-
-
-    <!-- 모달창 -->
-    <!-- <SnsReport -if="isModify"
-
-      @cancelModify="cancelModify"
-      @confirmModify="confirmModify">
-
-    </SnsReport> -->
   </div>
 </template>
-
 <script>
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from "swiper/vue"
-import likeImg from "@/assets/img/used/heart.png"
-import dislikeImg from "@/assets/img/used/heart2.png"
+import likeImg from "@/assets/img/sns/heart.png"
+import dislikeImg from "@/assets/img/sns/heart2.png"
 import commentImage from "@/assets/img/sns/comment.png"
 import notify from "@/assets/img/sns/notify.png"
 import control from "@/assets/img/sns/snsControll.png"
-
-// // Import Swiper styles
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-
-// import required modules
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper";
-
-import img1 from "@/assets/img/sns/이미지1.jpg"
-import img2 from "@/assets/img/sns/이미지2.jpg"
-import img3 from "@/assets/img/sns/이미지3.jpg"
-import img4 from "@/assets/img/sns/이미지4.jpg"
-import img5 from "@/assets/img/sns/이미지5.jpg"
-import img6 from "@/assets/img/sns/이미지6.jpg"
-import SnsReport from "./SnsReport.vue"
-
-
-
+import Swal from "sweetalert2"
+import { lastIndexOf } from "sockjs-client/lib/transport-list"
 export default {
-  data: () => {
+  data: function () {
     return {
-      snsWriteText: "",
+      commentTextarea: '',
+      snsImgs: [],
+      writeNo: this.$route.params.writeNo,
+      snsItem: {},
+      snsCommentItems: [],
       snsCommentWriteText: "",
-      // snsWriteNumber1: "1111",
-      // snsWriteNumber2: "2222",
-      // snsWriteNumber3: "3333",
-      // snsWriteNumber4: "4444",
-      // snsWriteNumber5: "5555",
-      // snsWriteNumber6: "6666",
-      snsMaingImg1: img1,
-      snsMaingImg2: img2,
-      snsMaingImg3: img3,
-      snsMaingImg4: img4,
-      snsMaingImg5: img5,
-      snsMaingImg6: img6,
+      searchNick: '',
+      //닉네임모음
+      searchNickname: [],
+      //닉네임결과값
+      searchResultNick: [],
       searchText: "",
-
-      //댓글정보
-      comments: [
-        { Img: img3, id: "eee", no: "22", text: "매참김밥양파매움", date: "2022/08/08" },
-        { Img: img4, id: "qqq", no: "33", text: "매참김밥양파많이매움", date: "2022/08/09" }
-      ],
-
       //댓글 이미지
       commentImg: commentImage,
       //좋아요
       heartImg: likeImg,
       heartImg2: dislikeImg,
       liked: true,
-
       //신고 이미지
       notifyImg: notify,
-
       //글수정삭제
       //이미지
       snsControlImg: control,
-      //선택문자
-      snsController : '글 수정',
       //수정삭제show
       snsControlshow: true,
-
-
-
-
-      // //모달창
-      // isModify : false,
-
-      //이미지슬라이더
-      // slide : [
-      // snsMaingImg1: img1,
-      // snsMaingImg2: img2,
-      // snsMaingImg3: img3,
-      // snsMaingImg4: img4,
-      // snsMaingImg5: img5,
-      // snsMaingImg6: img6,
-      // ]
-
+      nameTagIndex: -1,
+      nameTagValue:'',
+      spaceIndex: -1,
+      isSearch: false,
     };
+  },
+  created: function () {
+    fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsItem = result
+      })
+      .catch(err => console.log(err));
 
+    //게시글 이미지 출력
+    fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        this.snsImgs = result
+      })
+      .catch(err => console.log(err));
+    //서버에서 제대로 받아왔는지 확인.
+
+    //게시글 별 댓글 출력
+    fetch('http://localhost:8087/java/snsComment/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        // console.log(result);
+        this.snsCommentItems = result
+      })
+      .catch(err => console.log(err));
+
+    //좋아요 상태 가져오기..
+    if (this.$store.state.email != null) {
+      fetch('http://localhost:8087/java/save?boardId=' + this.writeNo + '&email=' + this.$store.state.email + '&boardDivision=3')
+        .then(result => result.text())
+        .then(result => {
+          if (result == 'true') {
+            this.liked = false;
+            // console.log(this.liked);
+            // console.log('좋아요 상태되는지' + result);
+          }
+        })
+        .catch(err => console.log(err));
+    }
+
+    //닉네임검색일단쌔벼옴
+    //닉네임 검색... 왜안되ㅈ는지....그지같음...
+    fetch('http://localhost:8087/java/snsnickname')
+      .then(result => result.text())
+      .then(result => result.substring(2, result.length - 2))
+      .then(result => result.replaceAll('","', ' '))
+      .then(result => result.split(' '))
+      .then(result => result.join(' '))
+      .then(result => {
+        this.searchNickname.push(result)
+        // console.log(result)
+      })
   },
   //검색
   methods: {
-    doSearch() {
-      console.log(this.searchText);
-    },
-    checkEnter(event) {
-      if (event.keyCode == 13) {
-        this.doSearch();
-      }
-      // },
-
-      // //모달창
-      // modify : function(){
-      //   this.isModify = true;
-    },
-
+    // doSearch() {
+    //   console.log(this.searchText);
+    // },
+    // checkEnter(event) {
+    //   if (event.keyCode == 13) {
+    //     this.doSearch();
+    //   }
+    //   // },
+    //   // //모달창
+    //   // modify : function(){
+    //   //   this.isModify = true;
+    // },
     //좋아요
     hearted: function () {
-      this.liked = !this.liked
+      // this.liked = !this.liked
+      if (this.liked == true) {
+        // console.log("저장하기");
+        this.doLike();
+      }
+      else if (this.liked == false) {
+        // console.log("저장빼기");
+        this.doDislike();
+      }
     },
+    //좋아요 저장하기 insert
+    doLike() {
+      //좋아요한 게시글 번호, 좋아요 누른 로그인한 사람 이메일
+      //저장글번호
+      //sns글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //저장 분류(sns는 3)
+      let boardDivision = 3;
+      //이메일
+      let email = this.$store.state.email;
+      let like = {
+        boardId: writeNo,
+        boardDivision: boardDivision,
+        email: email
+      }
 
+      // console.log(like);
+      if (this.$store.state.email != null) {
+        fetch('http://localhost:8087/java/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(like)
+        }).then(result => result.text())
+          .then(result => {
+            // console.log(result);
+            if (result == "true") {
+              this.liked = false;
+              Swal.fire({
+                confirmButtonText: '확인',
+                title: '좋아요한 게시글에 저장되었습니다.',
+              })
+              // .then((result) => {
+              //   /* Read more about isConfirmed, isDenied below */
+              //   // if (result.isConfirmed) {
+              //   //   //현재페이지 새로고침!
+              //   //   this.$router.go(0)
+              //   // }
+              // })
+            }
+          })
+          .catch(err => console.log(err))
+      }
+    },
+    //좋아요 저장하기 delete
+    doDislike() {
+      //좋아요한 게시글 번호, 좋아요 누른 로그인한 사람 이메일
+      //저장글번호
+      //sns글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //저장 분류(sns는 3)
+      let boardDivision = 3;
+      //이메일
+      let email = this.$store.state.email;
+      let dislike = {
+        boardId: writeNo,
+        boardDivision: boardDivision,
+        email: email
+      }
+      fetch('http://localhost:8087/java/save', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dislike)
+      }).then(result => result.text())
+        .then(result => {
+          // console.log(result);
+          if (result == "true") {
+            this.liked = true;
+            Swal.fire({
+              confirmButtonText: '확인',
+              title: '좋아요가 취소되었습니다.',
+            })
+            // .then((result) => {
+            //   /* Read more about isConfirmed, isDenied below */
+            //   // if (result.isConfirmed) {
+            //   //   //현재페이지 새로고침!
+            //   //   this.$router.go(0)
+            //   // }
+            // })
+          }
+        })
+        .catch(err => console.log(err))
+    },
     //글 수정삭제 버튼
-    doSnsController(){
+    doSnsController() {
       //if안쓰고 active시키는방법인듯.. 싱기함...
       document.querySelector('.sns-control-button select').classList.toggle('active');
-      if(document.querySelector('.sns-control-button select').disabled){
-        document.querySelector('.sns-control-button select').disabled=false;
-      }else{
-        document.querySelector('.sns-control-button select').disabled=true;
+      if (document.querySelector('.sns-control-button select').disabled) {
+        document.querySelector('.sns-control-button select').disabled = false;
+      } else {
+        document.querySelector('.sns-control-button select').disabled = true;
       }
       // this.snsControlshow = !this.snsControlshow;
     },
+    // @click="getUpdate(snsItem.writeNo)"
     //글 수정삭제 컨트롤
-    doSelectController(){
-      console.log(this.snsController);      
+    doSelectController(e) {
+      console.log(e.target.value);
+      if (this.$store.state.auth != 0) {
+        if (e.target.value == "글 수정") {
+          this.getUpdate()
+        } else if (e.target.value == "글 삭제") {
+          this.getDelete()
+        }
+      } else {
+        if (e.target.value == "글 삭제") {
+          this.getDeleteByAdmin()
+        }
+      }
+    },
+    //글 수정
+    getUpdate() {
+      this.$router.push({ name: 'SnsRewrite', params: { writeNo: this.snsItem.writeNo } });
+      // console.log('글을 수정하겟음')
+      // fetch('http://localhost:8087/java/snsUpdate')
+      // console.log(result)
+      //   .then(result => console.log(result))
+
+    },
+    //글 삭제
+    getDelete() {
+      let snsInfo = [];
+      new FormData(document.querySelector('#snsForm')).forEach((value, key) => snsInfo[key] = value);
+
+      console.log(snsInfo);
+
+      if (confirm("삭제하시겠습니까?")) {
+        fetch('http://localhost:8087/java/snsDelete?writeNo=' + snsInfo.writeNo, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+
+          },
+          body: JSON.stringify(snsInfo)
+        })
+          .then(result => result.text())
+          .then(result => {
+            this.$router.push({ path: "/sns" })
+          })
+          .catch(err => console.log(err))
+      }
+    },
+    //관리자 삭제
+    getDeleteByAdmin() {
+      if (confirm("삭제하시겠습니까?")) {
+
+        fetch('http://localhost:8087/java/snsDeleteByAdmin?writeNo=' + this.writeNo, {
+          method: 'DELETE'
+        }).then(result => result.text())
+          .then(result => {
+            this.$router.push({ path: "/sns" })
+          }).catch(err => console.log(err))
+      }
+    },
+    //댓글 작성
+    doComment() {
+      //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
+      //작성텍스트
+      let commentContent = document.querySelector('.sns-write-comment-container textarea').value;
+      //글번호
+      let writeNo = document.querySelector('.sns-write-context input').value;
+      //닉네임
+      let nickname = this.$store.state.nickname;
+      // let nickname = "유저2";
+      //이메일
+      let email = this.$store.state.email;
+      // let email = "user2";
+
+      let comment = {
+        commentContent: commentContent,
+        writeNo: writeNo,
+        nickname: nickname,
+        email: email
+      }
+
+      console.log(comment);
+
+      fetch('http://localhost:8087/java/comment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+
+        },
+        body: JSON.stringify(comment)
+      }).then(result => result.text())
+        .then(result => {
+          console.log(result);
+          if (result == "true") {
+            Swal.fire({
+              title: '댓글이 등록되었습니다',
+              confirmButtonText: '확인',
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                //현재페이지 새로고침!
+                this.$router.go(0)
+              }
+            })
+
+
+          }
+        })
+        .catch(err => console.log(err))
+    },
+    doSearch() {
+      console.log(this.searchText)
+    },
+    checkEnter(event) {
+      let searchValue = event.target.value;
+      let tagIndex = searchValue.indexOf('@');
+      if (tagIndex >= 0) {
+        let temp = searchValue.substr(tagIndex + 1, searchValue.length);
+        searchValue = temp.substr(0, temp.indexOf(' '));
+        this.doNickHashtag(searchValue);
+      }
+      // console.log(event.target.value);
+      // searchValue 에서 맨앞이 #인지 확인
+      // let result1 = searchValue.substr(0, 1);
+      // searchValue = searchValue.substr(1, searchValue.length);
+      // #이면 -> 태그검색 함수로 function doSearchTag
+      // if (result1 == '@') {
+      //   this.doNickHashtag(searchValue); //searchVal의 흐름 2. 여기서 searchValue  =  searchVal인 것을 인지시켜줌
+      //   // #이 없으면 -> 아이디검색 함수로 function doSearchId
+      // } else {
+      //   this.doNickHashtag(searchValue);
+      // }
+
+      if (event.keyCode == 13) {
+        this.doSearch()
+      }
+    },
+    //댓글에 닉네임태그 검색..!
+    doNickHashtag(searchVal) {//searchValue의 공간만들어주기
+      this.searchResultNick = [];
+      // console.log(searchVal); // 내가 입력한거
+      for (let snsList of this.searchNickname) { //
+        // console.log(snsList.member_id);
+        // let searchIdList = snsList.member_id;
+        // console.log(searchId);
+        let result2 = snsList.indexOf(searchVal);
+        if (result2 >= 0) {
+          let results3 = snsList.split(' ');
+          let result5 = results3.filter(results4 => results4.includes(searchVal));
+          // console.log(this.searchId);
+          result5.forEach((element) => {
+            if (!this.searchResultNick.includes(element)) {
+              this.searchResultNick.push(element);
+            }
+          });
+        }
+      }
+    },
+    getNickname(item) {
+      //클릭한 닉네임 input창에 가져오기
+      console.log(item);
+      console.log(this.commentTextarea);
+     console.log(this.nameTagIndex);
+     console.log(this.spaceIndex)
+     let temp = this.commentTextarea.substring(0, this.nameTagIndex+1) + item + this.commentTextarea.substring(this.spaceIndex, this.commentTextarea.length);
+      console.log(temp);
+      this.commentTextarea = temp;
+      this.searchResultNick = '';
+
+    //  console.log(this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex));
+    //  console.log(this.commentTextarea.replace((this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex)), item));
+    
+    },
+    //유리언니..
+    yyyyMMddhhmmss: function (value) {
+      if (value == '') return '';
+
+      var js_date = new Date(value);
+
+      // 연도, 월, 일, 시, 분, 초 추출
+      var year = js_date.getFullYear();
+      var month = js_date.getMonth() + 1;
+      var day = js_date.getDate();
+      var hours = ('0' + js_date.getHours()).slice(-2);
+      var minutes = ('0' + js_date.getMinutes()).slice(-2);
+      var seconds = ('0' + js_date.getSeconds()).slice(-2);
+
+      if (month < 10) { month = '0' + month; }
+      if (day < 10) { day = '0' + day; }
+
+      return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    },
+
+    //신고
+    reportItem() {
+      let item = Swal.fire({
+        title: '신고',
+        html:
+          '<select id="swal-input1" class="swal2-select" style="font-size:13px;">' +
+          '<option value="" disabled="">신고 분류</option>' +
+          '<option value="잘못된 정보">잘못된 정보</option>' +
+          '<option value="게시글 규정 위반">게시글 규정 위반</option>' +
+          '<option value="기타">기타</option>' +
+          '</select>' +
+          '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; font-size:12px;" maxlength="450" placeholder="신고 사유를 입력하세요"></textarea>',
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: '신고',
+        cancelButtonText: '취소',
+        confirmButtonColor: 'rgba(6,68,32,0.8)',
+        preConfirm: () => {
+          let fetchData = {
+            "boardId": this.writeNo,
+            "boardDivision": 3,
+            "reportDivision": document.getElementById('swal-input1').value,
+            "reportContent": document.getElementById('swal-input2').value,
+            "email": this.$store.state.email
+          }
+
+          console.log(fetchData);
+          fetch('http://localhost:8087/java/report', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(fetchData)
+          }).then(result => result.text())
+            .then(result => {
+              if (result == "true") {
+                Swal.fire({
+                  icon: 'success',
+                  title: '신고 완료 !',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1500,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    this.$router.push({ name: 'SnsDetail', params: { writeNo: this.snsItem.writeNo } });
+                  }
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: '신고 실패 !',
+                  text: '계속 실패하면 고객센터에 문의해주세요.',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1500,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+              }
+              // console.log(result);
+            })
+          return false;
+        }
+      })
+    },
+    nameTagSearch(){
+      this.doNickHashtag(this.nameTagValue);
+      console.log('탐색 : ', this.nameTagValue);
+      console.log(this.searchResultNick);
+    }
+  },
+  watch: {
+    commentTextarea(newVal, oldVal) {
+      // 길이 필요, @인덱스 저장 필요
+      // 만약 @ 인덱스가 나오면 인덱스 저장, -부터 탐색시작 -> 공백까지
+      // 길이는 @ 삭제될거를 대비해서 저장 삭제되면 현재 길이보다 작으니까,
+      console.log('텍스트');
+      this.nameTagIndex = newVal.lastIndexOf('@');
+      this.spaceIndex = newVal.lastIndexOf(' ');
+    },
+    nameTagIndex(newVal, oldVal) {
+      if(newVal>oldVal){  // @ 입력했을때
+        this.isSearch = true;
+      } else if(newVal<oldVal){ // @ 지웟을때
+        this.isSearch = false;
+      }
+    },
+    spaceIndex(newVal, oldVal) {
+      if(this.nameTagIndex<newVal && this.isSearch == true){ // @ 이후에 공백입력했을때,
+        // 탐색시작 
+        this.nameTagValue = this.commentTextarea.substring(this.nameTagIndex+1,this.spaceIndex); // 이걸로 탐색함.
+        this.nameTagSearch(this.nameTagValue);
+        this.isSearch = false;
+      } else {  // @ 이후에 공백 입력이 되지 않았을때,
+          // 탐색 X 
+      }
     }
   },
   components: {
-    SnsReport,
     Swiper,
     SwiperSlide,
-
+    // SnsSearch
   },
   setup() {
     return {
       modules: [Navigation, Pagination],
     };
-  },
-};
-</script>
-
-<style scoped>
-/* .sns-container{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
   }
-  .sns-image{
-    
-    width: 30%;
-  } */
-/* 공통 부분 */
-* {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-style: none;
-  box-sizing: border-box;
 }
-
-.swiper {
-  width: 100%;
-  height: auto;
-}
-
-.sns-container {
-  width: 100vw;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.sns-searchbox {
-  width: 100vw;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-.sns-searchbox input[type=text] {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.sns-searchbox input[type=button] {
-  padding: 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: rgb(255, 255, 255);
-}
-
-.sns-page-id-container {
-  display: flex;
-  justify-content: center;
-}
-
-.sns-page-id {
-  background-color: rgba(228, 239, 231, 0.7);
-  width: 56vw;
-  height: 40px;
-  min-width: 800px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-
-}
-
-.sns-page-id span {
-  font-weight: bold;
-  margin-top: 7px;
-}
-
-.sns-detail-page-container {
-  width: 60vw;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-}
-
-.sns-detail-container {
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  margin-top: 15px;
-}
-
-.sns-write-id-container {
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  margin-top: 15px;
-  position: relative;
-
-}
-
-.sns-write-id img {
-  width: 3vw;
-  height: 3vw;
-  border-radius: 70%;
-  margin-right: 1vw;
-}
-
-.sns-write-id input {
-  margin-top: 0.5vw;
-  padding: 0.3vw;
-  border: none;
-}
-
-.sns-write-id input:focus {
-  outline: none;
-}
-
-.sns-control-button{
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  
-}
-.sns-control-button img{
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-}
-.sns-control-button select{
-  
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
-  
-  margin-right: 35px;
-}
-
-.active{
-  opacity: 1 !important;
-  cursor: pointer;
-}
-
-.sns-detail-form1 {
-  width: 50%;
-}
-
-.sns-img-container {
-  width: 100%;
-  height: 200px;
-}
-
-.sns-img-container img {
-  width: 100%;
-}
-
-.sns-comment-write-id-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-}
-
-.sns-comment-write-id {
-  width: 20%;
-}
-
-.sns-detail-comment-form {
-  width: 95%;
-  flex-wrap: wrap;
-  justify-content: left;
-}
+</script>
+<style scoped src="@/assets/css/sns/SnsDetailFeed.css"></style>
 
 
-.sns-comment-write-id-img img {
-  width: 3vw;
-  height: 3vw;
-  border-radius: 70%;
-  margin-right: 1vw;
-}
-
-.sns-push-button-container {
-  display: flex;
-  flex-wrap: wrap;
-  /* justify-content: left; */
-  width: 100%;
-  position: relative;
-}
-
-.sns-push-button-container1 {
-  margin-left: 15px;
-  width: 5%;
-}
-
-.sns-write-like-button img {
-  width: 100%;
-  cursor: pointer;
-}
-
-.sns-write-comment-button img {
-  width: 100%;
-  cursor: pointer;
-}
-
-.sns-push-button-container2 {
-  margin-right: 15px;
-  width: 5%;
-  position: absolute;
-  right: 0;
-}
-
-
-.sns-notification img {
-
-  width: 100%;
-  height: 100%;
-  /* min-width: 16.34px; */
-  /* min-height: 16.34px; */
-  cursor: pointer;
-  /* justify-content: right; */
-
-
-}
-
-.sns-detail-comment-form-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  width: 100%;
-}
-
-
-
-.sns-comment-write-id img {
-  width: 3vw;
-  height: 3vw;
-  border-radius: 70%;
-  margin-right: 1vw;
-}
-
-.sns-comment-write-id input {
-  margin-top: 0.5vw;
-  padding: 0.3vw;
-  border: none;
-}
-
-.sns-comment-write-id input:focus {
-  outline: none;
-}
-
-.sns-comment-write-context textarea {
-  margin-top: 5px;
-  width: 24vw;
-  height: 30px;
-  border: none;
-  resize: none;
-  border-radius: 5px;
-  margin-left: 15px;
-}
-
-.sns-comment-date input {
-  border: none;
-  text-align: right;
-  margin-left: 50%;
-}
-
-.sns-comment-date input:focus {
-  outline: none;
-}
-
-.sns-write-comment-container{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  width: 100%;
-  min-width: 285px;
-}
-
-.sns-write-comment-container textarea {
-  margin-top: 5px;
-  width: 24vw;
-  height: 30px;
-  border: none;
-  resize: none;
-  border-radius: 5px;
-  margin-left: 15px;
-}
-
-.sns-write-comment-container textarea:focus {
-  outline: none;
-}
-
-.sns-write-comment-container button{
-  cursor: pointer;
-  background-color: #337ab7;
-  border: 1px solid #2e6da4;
-  border-radius: 5px;
-  font-weight: bold;
-  color: azure;
-  padding: 2px;
-  margin-left: 3%;
-
-}
-</style>

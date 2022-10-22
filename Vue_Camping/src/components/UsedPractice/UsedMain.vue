@@ -2,7 +2,11 @@
   <!--상단(필터, 검색)-->
   <div id="container">
     <div id="container2">
+      <form onsubmit="return false">
       <div class="used-headd">
+        <div class="used-title">
+          <h2>중고장터</h2>
+        </div>
         <!--검색-->
         <div class="used-search">
           <div class="used-selected">
@@ -13,13 +17,13 @@
             <li v-if="minPrice != ''" @click="priceSelected">{{minPrice}} ~ {{maxPrice}} X</li>
             </ul>
           </div>
+          
           <div class="used-searchbox">
             <div>
-              <input type="text" placeholder="어떤 물건을 찾으시나요?">
-              <img v-on:click='searchBtn()' v-bind:src="searchImg">
+              <input type="text" name="search" placeholder="어떤 물건을 찾으시나요?" v-model="keyword" @keyup.enter="searchList()">
+              <img v-bind:src="searchImg" @click='searchList'>
            </div>
           </div>
-
         </div>
       </div>
         <!-- 필터 -->
@@ -27,8 +31,9 @@
           <ul class="used-filter-ul">
             <li>
               <label for="inputCate">카테고리</label>
-              <select v-model="myGearType" selected>
+              <select v-model="myGearType" name="usedCategory" selected>
                 <option value='' disabled>카테고리 선택</option>
+                <option value="전체">전체</option>
                 <option value="텐트">텐트</option>
                 <option value="타프">타프</option>
                 <option value="가구">가구</option>
@@ -42,40 +47,60 @@
               </select>
             </li>
             <li>
+              <label for="inputDeal">거래상태</label>
+              <select name="dealStatus" selected>
+                <option value='' disabled>거래상태 선택</option>
+                <option value="0">거래가능</option>
+                <option value="1">거래중</option>
+                <option value="2">거래완료</option>
+              </select>
+            </li>
+           </ul>   
+           <ul class="used-filter-ur">
+            <li>
               <label for="inputPlace">지역</label>
-              <form name=form>
                 <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
-                  <option value diabled>시/도</option> 
+                  <option value='' disabled>시/도</option> 
                   <option value='전체'>전체</option>
-                  <option value='서울특별시'>서울특별시</option>
-                  <option value='부산광역시'>부산광역시</option>
-                  <option value='대구광역시'>대구광역시</option>
-                  <option value='인천광역시'>인천광역시</option>
-                  <option value='광주광역시'>광주광역시</option>
-                  <option value='대전광역시'>대전광역시</option>
-                  <option value='울산광역시'>울산광역시</option>
-                  <option value='경기도'>경기도</option>
-                  <option value='강원도'>강원도</option>
-                  <option value='충청북도'>충청북도</option>
-                  <option value='충청남도'>충청남도</option>
-                  <option value='전라북도'>전라북도</option>
-                  <option value='전라남도'>전라남도</option>
-                  <option value='경상북도'>경상북도</option>
-                  <option value='경상남도'>경상남도</option>
-                  <option value='제주도'>제주도</option>
+                  <option value='서울'>서울특별시</option>
+                  <option value='부산'>부산광역시</option>
+                  <option value='대구'>대구광역시</option>
+                  <option value='인천'>인천광역시</option>
+                  <option value='광주'>광주광역시</option>
+                  <option value='대전'>대전광역시</option>
+                  <option value='울산'>울산광역시</option>
+                  <option value='경기'>경기도</option>
+                  <option value='강원'>강원도</option>
+                  <option value='충북'>충청북도</option>
+                  <option value='충남'>충청남도</option>
+                  <option value='전북'>전라북도</option>
+                  <option value='전남'>전라남도</option>
+                  <option value='경북'>경상북도</option>
+                  <option value='경남'>경상남도</option>
+                  <option value='제주특별자치도'>제주도</option>
                 </select>
                 <select v-model="regionSelect2" name='county' id="citySelect">
                   <option value disabled>시/군/구</option>
                   <option value='전체'>전체</option>
                 </select>
-              </form> 
             </li>
             <li>
-              <label for="inputPrice">가격범위</label>
-              <input v-model="minPrice" type="number" id="inputPrice" placeholder="0">
+            <label for="inputPrice">가격범위</label>
+              <!-- <Slider></Slider> -->
+             <!-- <VueSimpleRangeSlider
+                style="width : 200px;
+                      font-size : 12px;"
+
+                :min="this.minPrice"
+                :max="100"
+                
+                exponential
+                v-model="state.range">
+                <template #prefix="{ value }">￦ </template>
+              </VueSimpleRangeSlider> -->
+              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
               <p>~</p>
-              <input v-model="maxPrice" type="number" id="inputPrice" placeholder="0">
-              <!-- <div id="slider"></div> -->
+              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
             </li>
           </ul>
         </div>
@@ -83,94 +108,62 @@
 
       <!--본문-->
       <div class="used-body">
-        <div class="used-title">
-          <h2>중고거래</h2>
-        </div>
+        <!-- :min="this.minPrice"
+        :max="this.maxPrice" -->
+
+        <h2>{{recruMsg}}</h2>
         <div class="cards">
-          <div v-for="card in usedCards" :key="card.id">
-            <UsedCard v-bind:usedCard="card"></UsedCard>
+          <div v-for="card in usedList" :key="card.id">
+            <router-link tag="div" v-bind:to="{name:'usedDetail', params : {usedId : card.usedId}}">
+              <UsedCard v-bind:usedCard="card"></UsedCard>
+            </router-link>
           </div>
         </div>
-      </div>
 
+
+
+      </div>
+    </form>
       <!--하단-->
-    </div>
-    <div class="used-foote">
-      <button v-on:click='usedInsert()'>+</button>
-      <button v-on:click='usedInsert()'>♥</button>
+      <div class="used-foote">
+        <!-- <router-link tag="div" v-bind:to="{name:'usedInsert'}">
+          <button>+</button> 
+        </router-link> -->
+         <router-link tag="div" v-bind:to="{name:'usedReview'}">
+          <button>review</button> 
+        </router-link>
+        <button v-on:click='usedInsert'>+</button>
+                <!--<button v-on:click='usedInsert'>♥</button> -->
+      </div>
     </div>
   </div>
 </template>
 <script>
-  import img1 from "@/assets/img/bg9.jpg"
-  import img2 from "@/assets/img/search.png"
+  import img1 from "@/assets/img/search.png"
   import UsedCard from "@/components/UsedPractice/UsedCard.vue"
   import district from "@/assets/district.js"
+  import Swal from 'sweetalert2';
+
+  // 슬라이더
+  import VueSimpleRangeSlider from "vue-simple-range-slider";
+  import "vue-simple-range-slider/css";
+  import { reactive, defineComponent } from "vue";
 
   export default{
     components:{
     UsedCard,
+    VueSimpleRangeSlider,
     },
     data(){
       return{
+        keyword : '',
+        usedList: [],
         myGearType: '',
         regionSelect: '',
         regionSelect2: '',
         minPrice: '',
         maxPrice: '',
-        cardImg : img1,
-        searchImg : img2,
-        usedCards : [{
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '5인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '6인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        },
-        {
-          used_img : '',
-          used_name : '4인용 텐트',
-          used_place : '대구광역시 서구',
-          used_price : '￦100,000',
-          used_status : '거래중'
-        }
-      ],
-        
+        searchImg : img1,
       }
     },
     methods : {
@@ -178,10 +171,27 @@
         this.$router.push({name : 'usedDetail'})
       },
       usedInsert: function(){
-        this.$router.push({name : 'usedInsert'})
+        if(this.$store.state.email != null){
+          this.$router.push({name : 'usedInsert'})
+        }else{
+          Swal.fire({
+                    icon: 'warning',
+                    title: '로그인 후에 작성해주세요',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 1300,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        this.$router.push({name:"LoginSignup"});
+                    }
+                })
+        }
       },
-      searchBtn: function(){
-        SubmitEvent()
+      usedDetail: function(usedId){
+        //클릭하면은 디테일 페이지로 넘겨 넘길때, 번호를 넘겨야해
+        this.$router.push({name : 'usedDetail', params: {usedId:usedId }})
+      
       },
       gearSelected: function(){
         this.myGearType = '';
@@ -196,13 +206,12 @@
         this.minPrice = '';
         this.maxPrice = '';
       },
-
-      //지역선택
       districtChange: function(){
+        //지역선택
         let sido = document.querySelector('#districtSelect');
         let sigu = document.querySelector('#citySelect');
         let sidoName = sido.value;
-        let cityArr = ["서울특별시","부산광역시","인천광역시","대구광역시","광주광역시","대전광역시","울산광역시","경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도","제주도"];
+        let cityArr = ["서울","부산","인천","대구","광주","대전","울산","경기","강원","충북","충남","경북","경남","전북","전남","제주특별자치도"];
 
         sigu.options.length=1;  //저장내역 삭제
 
@@ -216,11 +225,61 @@
                     sigu.appendChild(opt);
        }
 
-      }
-    }
+      },
+      searchList : function(event){
+        //키워드 검색 결과 받아오기
+        const keyword = this.keyword;
+        fetch("http://localhost:8087/java/used/search/"+keyword,{
+          method : "POST",
+          headers : {"Content-Type" : "application/json"},
+          body : JSON.stringify(keyword)
+        })
+          .then((response) =>response.json()) 
+          .then(data => { 
+            console.log(data);
+            this.usedList = data;  
+            if(this.usedList.length<1){
+              this.recruMsg="검색 결과가 없습니다"
+            }else{
+               this.recruMsg="";
+            }
+          }).catch(err=>console.log(err));
+      },
+      selectMinUsedPrice() {
+        let priceList = [];
+
+        for(let i=0; i<this.usedList.length; i++) {
+          priceList.push(this.usedList[i].usedPrice);
+        }
+
+        let min = Math.min.apply(null,priceList);
+        let max = Math.max.apply(null,priceList);
+
+        this.minPrice = min;
+        this.maxPrice = max;
+
+        
+        console.log('최고가'+this.maxPrice)
+        console.log('최저가'+this.minPrice)
+      },
+    },
+    //created-페이지 열자마자 실행
+    created(){
+      //전체조회
+      fetch('http://localhost:8087/java/used/usedMain') 
+                .then(Response => Response.json())  //json 파싱 
+                .then(data => { 
+                    console.log(data);
+                    this.usedList = data;
+                    // this.selectMinUsedPrice();
+                }).catch(err=>console.log(err))
+
+    },
+    setup() {
+    // const state = reactive({ range: [20, 1000], number: 10 });
+    // return { state };
+  },
   }
 
 </script>
-<style scoped src="@/assets/css/used/UsedMain.css">
-  
-</style>
+<style scoped src="@/assets/css/used/UsedMain.css" />

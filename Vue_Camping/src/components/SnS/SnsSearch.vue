@@ -1,8 +1,5 @@
 <template>
   <div class="sns-container">
-
-
-
     <div class="sns-searchbox">
       <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
       <!-- <button @click="doSearch" style="display: none;">조회</button> -->
@@ -12,12 +9,14 @@
 
     <div class="sns-search-list-container">
       <div class="sns-search-list" v-for="searchHashTagKeyword of searchResult">
-        <input type="text" @click="" v-bind:value="searchHashTagKeyword">
+        <input v-show="this.doSearchTag" type="text" @click="getSnsHashtagList(searchHashTagKeyword)"
+          v-bind:value="searchHashTagKeyword" v-on:change="search()">
       </div>
     </div>
     <div class="sns-search-list-container">
-      <div class="sns-search-id-list" v-for="searchMemberId of searchId">
-        <input type="text" @click="" v-bind:value="searchMemberId">
+      <div class="sns-search-nick-list" v-for="searchMemberId of searchResultNick">
+        <input v-show="this.doSearchId" type="text" @click="getSnsNickFeed(searchMemberId)"
+          v-bind:value="searchMemberId" v-on:change="search()">
       </div>
     </div>
 
@@ -25,21 +24,71 @@
 </template>
 
 <script>
-import sns from "@/components/SnS/snsMember.js"
+// import sns from "@/components/SnS/snsMember.js"
 
 export default {
+
+  //DB연결
+  created: function () {
+    fetch('http://localhost:8087/java/hashtag')
+
+      .then(result => result.text())
+      .then(result => result.substring(2, result.length - 2))
+      .then(result => result.replaceAll('","', ' '))
+      // .then(result => {
+      //   result = result.split('","')
+      // console.log(result)})
+      // .then(result => result.text())
+      .then(result => result.split(' '))
+      .then(result => result.join(' '))
+
+      .then(result => {
+        console.log(result)
+        this.snsData.push(result)
+      })
+      .catch(err => console.log(err));
+
+
+    //닉네임 검색... 왜안되ㅈ는지....그지같음...
+    fetch('http://localhost:8087/java/snsnickname')
+      .then(result => result.text())
+
+
+      .then(result => result.substring(2, result.length - 2))
+      .then(result => result.replaceAll('","', ' '))
+      .then(result => result.split(' '))
+      .then(result => result.join(' '))
+
+      .then(result => {
+        this.searchNickname.push(result)
+        console.log(result)
+      })
+    // .then(result => console.log(result))
+    // .catch(err => console.log(err));
+
+  },
+
   components: {},
   data: () => {
     return {
       searchText: '',
-      snsData: sns,
+      //해시태그모음
+      snsData: [],
+      //닉네임모음
+      searchNickname: [],
+      //해시태그결과값
       searchResult: [],
-      searchId : [],
+      //닉네임결과값
+      searchResultNick: [],
 
     }
   },
   //검색
   methods: {
+    // search: function(){
+    //   this.hashNick = !this.hashNick;
+    // }
+    // ,
     doSearch() {
       console.log(this.searchText)
     },
@@ -67,12 +116,13 @@ export default {
       for (let snsList of this.snsData) {
         // console.log(snsList.hashtag);
         //result2 = hashtag와 searchVal이 일치하는게있으면 0보다 같,크고 아니면 -1
-        let result2 = snsList.hashtag.indexOf(searchVal);
+        console.log(snsList);
+        let result2 = snsList.indexOf(searchVal);
         // console.log(result2);
         if (result2 >= 0) {
           // console.log(snsList);
           //result3 = 나열된 해시태그들의 문자를 공백기준으로 각각 자른다
-          let results3 = snsList.hashtag.split(' ');
+          let results3 = snsList.split(' ');
           // console.log(results3);
 
 
@@ -98,30 +148,53 @@ export default {
 
     // 사용자 Id(숫자) 검색 함수
     doSearchId(searchVal) {//searchValue의 공간만들어주기
-
+      this.searchResultNick = [];
       console.log(searchVal); // 내가 입력한거
-      this.searchId = [];
-      for (let snsList of this.snsData) { //
+      for (let snsList of this.searchNickname) { //
         // console.log(snsList.member_id);
-        let searchIdList = snsList.member_id;
-        if (searchIdList.indexOf(searchVal) >= 0) {
+        // let searchIdList = snsList.member_id;
+        // console.log(searchId);
+        let result2 = snsList.indexOf(searchVal);
+        if (result2 >= 0) {
+          let results3 = snsList.split(' ');
+          let result5 = results3.filter(results4 => results4.includes(searchVal));
           // console.log(this.searchId);
-          this.searchId.push(searchIdList);
+          result5.forEach((element) => {
+            if (!this.searchResultNick.includes(element)) {
+              this.searchResultNick.push(element);
+            }
+          });
         }
       }
-      console.log(this.searchId);
-    }
+      console.log(this.searchResultNick);
+    },
+    //아이디 클릭시 그사람마이페이지로
+    getSnsNickFeed(nickname) {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickname } });
+    },
+    //해시태그검색시 해시태그 검색되서 해당하는 이미지 리스트 화면으로...
+    getSnsHashtagList(hashtag) {
+      // console.log("자식" + hashtag);
+      this.$emit('showHashList', hashtag)
+
+    
+    },
   }
 }
 
+
 </script>
 
-<style>
+<style scoped>
 .sns-container {
   margin-top: 150px;
 }
 
 .sns-search-list input {
+  cursor: pointer;
+}
+
+.sns-search-nick-list input {
   cursor: pointer;
 }
 </style>

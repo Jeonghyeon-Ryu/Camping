@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.sns.mapper.SnsCommentMapper">
+
+<!-- 댓글 작성 -->
+<insert id="insertSnsComment" parameterType="SnsCommentVO">
+
+<selectKey resultType="Integer" keyProperty="commentNo" order="BEFORE">
+SELECT NVL(MAX(comment_no),0)+1 FROM sns_comment
+</selectKey>
+
+	INSERT INTO sns_comment 
+	VALUES(
+	#{commentNo},
+	#{commentContent},
+	SYSDATE,
+	#{writeNo},
+	#{nickname},
+	#{email}
+	)
+</insert>
+
+<!-- 게시글별 댓글 전체 출력 -->
+<select id="findByWriteNoToSnsComment" resultType="SnsCommentVO" parameterType="Integer">
+	SELECT * FROM sns_comment WHERE write_no = #{writeNo} order by comment_no
+</select>
+</mapper>

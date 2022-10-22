@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.report.mapper.ReportMapper">
+	<select id="findAll" resultType="ReportVO">
+		SELECT * FROM report
+	</select>
+	<select id="findByEmail" parameterType="String" resultType="ReportVO">
+		SELECT * FROM report WHERE email=#{email}
+	</select>
+	<select id="findByBoardDivision" parameterType="Integer" resultType="ReportVO">
+		SELECT * FROM report WHERE board_division = #{boardDivision}
+	</select>
+	<insert id="insert" parameterType="ReportVO">
+		INSERT INTO report VALUES(
+			#{reportId},
+			#{boardId},
+			#{boardDivision},
+			#{reportDivision},
+			#{reportContent},
+			#{status},
+			#{email},
+			SYSDATE
+		)
+	</insert>
+	<update id="update" parameterType="ReportVO">
+		UPDATE report SET
+			status = #{status}
+		WHERE report_id = #{reportId}
+	</update>
+	<select id="findMaxByReportId" resultType="Integer">
+		SELECT NVL(MAX(report_id),0) FROM report
+	</select>
+</mapper>

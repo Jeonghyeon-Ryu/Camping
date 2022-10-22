@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.deposit.mapper.DepositMapper">
+
+<!-- 최신 보증금 번호 -->
+<select id="getMaxDepositId" resultType="int">
+	SELECT NVL(MAX(deposit_id),0) FROM deposit 
+</select>
+<!-- 등록 -->
+<insert id="insertDeposit" parameterType="DepositVO">
+	INSERT INTO deposit( 
+						deposit_id, 
+						recru_id, 
+						member_id 
+						)
+				VALUES( 
+						#{depositId}, 
+						#{recruId}, 
+						#{memeberId}
+						)
+</insert>
+
+<!-- 수정 -->
+<update id="changeStatus" parameterType="DepositVO">
+	SET deposit_status = 1
+	<if test="pay_method !=null">
+		,pay_method = #{payMethod}
+	</if>
+	<where>
+		deposit_id = 1;
+	</where> 
+</update>
+
+<!-- 마이페이지 단건출력 -->
+<select id="myDepositList" parameterType="DepositVO" resultType="DepositVO">
+	SELECT * FROM deposit 
+	WHERE member_id = #{memberId}
+	AND recru_id = #{recruId}
+</select>
+
+</mapper>
