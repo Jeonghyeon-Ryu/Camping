@@ -61,6 +61,11 @@
 
             <!-- 게시글 관리 버튼 -->
             <div class=" recru-detail-btn">
+                <a id="kakaotalk-sharing-btn">
+                    <img src="@/assets/img/Table/share.png"
+                        alt="카카오톡 공유 보내기 버튼"
+                        @click="sendLinkDefault" />
+                </a>
                 <div class="recru-entry-btn">
                     <!-- 모집자/신청자가 아닌 경우 -->
                     <button v-if="userRole==0 && rStatus==0" class="btn-green hover-shadow" type="button" @click="entryInsertForm">동행신청</button>
@@ -151,7 +156,7 @@ export default{
     DepositStatus,
     EntryInsert,
     ModalView,
-    RecruStatus
+    RecruStatus,
 },
     data:function(){
         return{
@@ -174,6 +179,7 @@ export default{
     },
     created (){
         this.loadRecruData();
+        Kakao.init('3f57d02e134f1067307cbaec0b42c437'); // 사용하려는 앱의 JavaScript 키 입력
     },
     computed : {
         userage(){
@@ -475,15 +481,56 @@ export default{
                     })
         },
         sawl : Swal.mixin({
-                                toast: true,
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
+            toast: true,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        }),
+        sendLinkDefault(){
+            var infoTitle = this.recruPost.recruTitle;
+            var infoContent = this.recruPost.recruContent;
+            var num = this.recruPost.recruId;
+            Kakao.Share.createDefaultButton({
+                container: '#kakaotalk-sharing-btn',
+                objectType: 'feed',
+                content: {
+                title : infoTitle,
+                description: infoContent,
+                imageUrl:
+                    'https://ifh.cc/g/dTGkp9.jpg',
+                link: {
+                    mobileWebUrl: 'http://localhost:8088/RecruList',
+                    webUrl: 'http://localhost:8088/RecruList',
+                },
+                },
+                
+                social: {
+                likeCount: 286,
+                commentCount: 45,
+                sharedCount: 845,
+                },
+                buttons: [
+                {
+                    title: '캠핑갈래 홈',
+                    link: {
+                    mobileWebUrl: 'http://localhost:8087/',
+                    webUrl: 'http://localhost:8087/',
+                    },
+                },
+                {
+                    title: '페이지 이동',
+                    link: {
+                    mobileWebUrl: 'http://localhost:8087/recru/detail/'+num,
+                    webUrl: 'http://localhost:8087/recru/detail/'+num,
+                    },
+                },
+                ],
+            })    
+        }
     }
 }
 </script>

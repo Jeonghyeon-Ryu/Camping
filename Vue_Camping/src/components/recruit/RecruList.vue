@@ -150,7 +150,6 @@
                 <li v-if="filter.searchNeedGear != ''" @click="filter.searchNeedGear=[]">필요해요 : {{toStringList(filter.searchNeedGear)}} X</li>
             </ul>
         </div>
-
         <!-- 리스트 -->
         <div class="container">
             <!-- 카드 -->
@@ -174,10 +173,12 @@ import img2 from "@/assets/img/search.png"
 import district from "@/assets/district.js"
 import { filter } from "dom7";
 import RecruSaveHeart from './RecruSaveHeart.vue';
+import KakaoShare from '@/components/recruit/KakaoShare.vue'
 export default{
     components: {
         RecruCard,
-        RecruSaveHeart
+        RecruSaveHeart,
+        KakaoShare
     },
     data : function(){
         return{
