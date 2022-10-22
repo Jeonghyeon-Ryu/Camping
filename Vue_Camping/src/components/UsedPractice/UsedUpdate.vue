@@ -161,13 +161,16 @@
         document.querySelector('.used-insert-image-container input[type="file"]').files = updatedImages;
       },
       changeImage(e) {
-        console.log(e.target);
         let dt = new DataTransfer();
-        for (let i = 0; i < e.target.files.length; i++) {
-          dt.items.add(e.target.files[i]);
-        }
-        this.images = dt.files;
-        e.target.files = dt.files;
+      for(let i = 0; i < this.images.length; i++){
+        dt.items.add(this.images[i]);
+      }
+      for (let i = 0; i < e.target.files.length; i++) {
+        dt.items.add(e.target.files[i]);
+      }
+      this.images = dt.files;
+      e.target.files = dt.files;
+      console.log('aaa', this.images)
       },
       confirm: function(){
         const form = document.forms.namedItem('#container2')

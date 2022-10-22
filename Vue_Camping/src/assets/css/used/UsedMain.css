@@ -153,6 +153,14 @@ label {
   margin-top: 20px;
   flex-direction: column;
 }
+.searched-filter{
+  width: 80%;
+  background-color: #f3f3f3;
+  border-radius: 100px;
+  margin: 0 auto;
+  margin-top: 2%;
+  margin-bottom: 10px;
+}
 
 /*본문-카드*/
 .cards {

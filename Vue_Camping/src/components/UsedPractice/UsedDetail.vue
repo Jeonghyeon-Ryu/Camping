@@ -39,7 +39,7 @@
                 </div>
                 <div class="used-report">
                   <!-- 신고기능가져오기(다른유저가쓴글) -->
-                  <p v-if="usedList.email != memberId" @click="reportItem()">신고하기</p>
+                  <p v-if="usedList.email != memberId" @click="reportItem()">🚨신고하기</p>
                   <!-- 거래상태변경(본인이쓴글) -->
                   <div v-if="usedList.email === memberId && usedList.usedStatus === 0">
                     <select id="dealStatus" name="dealStatus" @change="dealChange()">
@@ -79,7 +79,7 @@
         <div class="vertical_line"></div>
         <!-- 작성자 정보-->
         <div class="used-writer">
-          <!-- <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"> -->
+          <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
           {{usedList.nickName}}
           <input type="hidden" :value="usedList.email">
           <div class="used-writer-post">
@@ -128,6 +128,7 @@ export default {
       usedStatus: img1,
       liked: true,
       likeCnt: 0,
+      storedProfile : ''
     }
   },
   components: {
@@ -394,6 +395,19 @@ export default {
     },
     //신고
     reportItem: function () {
+      if(this.$store.state.email === null || this.$store.state.email === ''){
+        Swal.fire({
+                  icon: 'warning',
+                  title: '로그인 후에 신고할 수 있어요', 
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 1200,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+      }else{
       let item = Swal.fire({
         title: '신고',
         html:
@@ -466,6 +480,7 @@ export default {
       })
       console.log(item);
     }
+  }
   },
   //created-페이지 열자마자 실행
   created() {
@@ -481,6 +496,20 @@ export default {
         console.log(data)
         component.usedList = data;
         console.log(component.usedList.email)
+
+//
+
+fetch('http://localhost:8087/java/profile/' + component.usedList.email)
+      .then(result => result.json())
+      .then(result => {
+        this.storedProfile = result;
+
+        
+
+
+      }).catch(err => console.log(err));
+      //
+
       }).catch(err => console.log(err))
 
 
@@ -491,11 +520,15 @@ export default {
       })
       .catch(err => console.log(err))
 
-    fetch('http://localhost:8087/java/profile/' + component.usedList.email)
-      .then(result => result.json())
-      .then(result => {
-        this.storedProfile = result;
-      }).catch(err => console.log(err));
+    // fetch('http://localhost:8087/java/profile/' + component.usedList.email)
+    //   .then(result => result.json())
+    //   .then(result => {
+    //     this.storedProfile = result;
+
+
+
+
+    //   }).catch(err => console.log(err));
 
     if (this.$store.state.email != null) {
       fetch('http://localhost:8087/java/save?boardId=' + this.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
