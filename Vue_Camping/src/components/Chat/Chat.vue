@@ -4,55 +4,69 @@
         <div id="content">
             <div class="deal">
                 <div class="img-container">
-                    <img v-bind:src="prodImg">
+                    <img src="">
                 </div>
                 <div class="desc">
-                    <h2>{{used_name}}</h2>
-                    <p>{{used_content}}</p>
+                    <h2>이름</h2>
+                    <p>물건이름</p>
                 </div>
-                <button v-if="dealComplete" id="dealcomplete" v-on:click="dealComplete()">거래 완료하기</button>
-                <button v-if="!dealComplete" id="dealcomplete" v-on:click="dealComplete()">후기 작성하기</button>
+                <button id="dealcomplete" v-on:click="dealComplete()">거래 완료하기</button>
             </div>
             <div class="msg">
                 <div class="sender">
-                    {{sender_msg}}
                 </div>
                 <div class="receiver">
-                    {{receiver_msg}}
                 </div>
             </div>
             <div class="send">
                 <input type="text" class="sendContent">
                 <input type="file" class="sendPic">
-                <input type="submit" class="submit">
+                <input type="submit" class="submit" value="보내기" @click="send()">
             </div>
         </div>
     </div>
 </template>
 <script>
 import img1 from "@/assets/img/bg9.jpg"
-import { change } from "dom7";
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
 
 export default {
     data() {
         return {
             // 채팅에 필요한 데이터
-            email : this.$store.state.email,
-
-            dealComplete: true,
-            prodImg: img1,
-            used_name: '4인용 텐트',
-            used_content: '상태좋습니다',
-            sender_msg: '안녕하세요 텐트 팔렸나요?',
-            receiver_msg: '아직안팔렸어용^^'
+            email: this.$store.state.email,
+            rooms: [],
+            room: '',
+            chatInfo: [],
+            msg: {},
         }
     },
+    created: function () {
+        this.connect();
+        this.setMsg();
+        console.log(this.msg);
+    },
     methods: {
+        setMsg: function() {
+            // let date = new Date();
+            // date = date.getFullYear() +"/" + (+date.getMonth()+1) +"/"+ date.getDate()
+            this.msg = {
+                roomId : 1,    // 서버에서 하는게 맞을듯
+                email : this.$store.state.email,
+                targetEmail : [this.$store.state.email],
+                content : '예제22',
+                regdate : '' // 서버에서 하는게 맞을듯
+            }
+        },
         dealComplete: function () {
-            this.dealComplete = !this.dealComplete;
+            console.log(this.chatInfo.roomNo);
+            for(let info of this.chatInfo){
+                console.log(info);
+            }
         },
         connect() {
-            const serverURL = "http://localhost:8088/java/sock";
+            const serverURL = "http://localhost:8087/java/ws";
             let socket = new SockJS(serverURL);
             this.stompClient = Stomp.over(socket);
             let component = this;
@@ -65,8 +79,9 @@ export default {
                         "/queue/" + this.$store.state.email,
                         function (res) {
                             let changeContent = JSON.parse(res.body);
-                            
+                            component.chatInfo = changeContent;
                             console.log("구독", frame);
+                            console.log('aaaaaaaaa');
                             console.log(changeContent);
                         }
                     );
@@ -75,7 +90,41 @@ export default {
                     console.log("소켓 연결 실패", error);
                 }
             );
-        }
+        },
+        send() {
+            this.setMsg();
+            if (this.msg.content !== '') {
+
+                // Send 하기전에 채팅방 + 채팅참여자를 DB에 저장하는게 좋아보임
+                // 그리고 연결된 사람들은 Socket 연결될때(헤더에서) 채팅방 목록을 받아와서 Vuex에 저장하는게 좋아보임
+                // 
+                this.stompClient.send("/send",JSON.stringify(this.msg), (result) =>{
+                    console.log(result);
+                })
+
+            //     this.axios
+            //         .post("/InsertMessage/", {
+            //             memberId: this.memberId,
+            //             roomNo: this.roomId,
+            //             content: this.message,
+            //         })
+            //         .then(function (res) {
+            //             console.log(res);
+            //         })
+            //         .catch(function (error) {
+            //             console.log(error);
+            //         });
+            //     //현재 대화방에 채팅보내기
+            //     this.stompClient.send("/app/send", JSON.stringify(msg), (res) => {
+            //         console.log(res);
+            //     });
+            // }
+            // this.message = "";
+            // for (let i = 0; i < this.roomList.length; i++) {
+            //     console.log("=================a22222222222222222222sdadsadsadsadsadsadsadsadsadsad======")
+            //     console.log(this.roomList[i])
+            }
+        },
     }
 }
 </script>
