@@ -173,12 +173,10 @@ import img2 from "@/assets/img/search.png"
 import district from "@/assets/district.js"
 import { filter } from "dom7";
 import RecruSaveHeart from './RecruSaveHeart.vue';
-import KakaoShare from '@/components/recruit/KakaoShare.vue'
 export default{
     components: {
         RecruCard,
         RecruSaveHeart,
-        KakaoShare
     },
     data : function(){
         return{
