@@ -1,6 +1,6 @@
 <template>
   <MainSwiper></MainSwiper>
-<!-- <Chat></Chat> -->
+<Chat></Chat>
 </template>
 
 
