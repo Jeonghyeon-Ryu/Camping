@@ -12,7 +12,9 @@
             <div class="row">
                 <EntryMypageCard v-bind:recruId="entryPost.recruId" @goRecruDetail="goRecruDetail"></EntryMypageCard>
                 <div class="entry-mypage-btn">
-                        <button v-if="entryPost.recruStatus==3" class="entry-review-btn">동행자 평가</button>
+                        <button v-if="entryPost.recruStatus==0" class="entry-review-btn">신청 취소</button>
+                        <button v-if="entryPost.recruStatus==1" class="entry-review-btn">신청 취소</button>
+                        <button v-if="entryPost.recruStatus==3" @click="recruReview" class="entry-review-btn">후기 등록</button>
                         <button v-if="entryPost.recruStatus==3" class="entry-status-btn" disabled>여행완료</button>
                 </div>
             </div>
@@ -93,6 +95,9 @@ export default{
         goRecruDetail(recruId){
             //디테일 페이지로 이동
             this.$router.push({name:'recruDetail',params : {recruId : recruId}})
+        },
+        recruReview : function(){
+            this.$router.push({name : 'RecruReview',params : {recruId : this.recruId}})
         }
     }
 }

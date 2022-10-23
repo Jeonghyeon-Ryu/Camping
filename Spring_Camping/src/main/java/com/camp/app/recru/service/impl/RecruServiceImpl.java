@@ -1,5 +1,6 @@
 package com.camp.app.recru.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,18 @@ public class RecruServiceImpl implements RecruService {
 	//전체 조회
 	@Override
 	public List<RecruVO> recruAllList() {
-		return mapper.findAll();
+		Date now = new Date();
+		List<RecruVO> list = mapper.findAll();
+		for(RecruVO recru : list) {
+			if(recru.getRecruStatus()==1 && recru.getGoDate()!=null) {
+				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
+				if(status>=0 ) {//공개상태
+					recru.setRecruStatus(3);//여행완료
+					mapper.updateRecru(recru);//상태 업데이트
+				}
+			}
+		}
+		return list;
 	}
 	//검색 조회
 	@Override
@@ -63,6 +75,7 @@ public class RecruServiceImpl implements RecruService {
 	public RecruVO findOne(int recruId) {
 		//아이디로 게시글 가져오기
 		RecruVO info = mapper.selectOne(recruId);
+		
 		//게시글 작성자 정보 가져오기
 		String email = info.getMemberId();
 		MemberVO member = memberMapper.findByEmail(email);

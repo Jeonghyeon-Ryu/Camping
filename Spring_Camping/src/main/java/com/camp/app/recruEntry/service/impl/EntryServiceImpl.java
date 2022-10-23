@@ -48,17 +48,6 @@ public class EntryServiceImpl implements EntryService {
 	//마이페이지 참가글 목록
 	@Override
 	public List<EntryVO> myEntryList(String memberId) {
-		Date now = new Date();
-		List<EntryVO> list = mapper.myEntryList(memberId);
-		for(EntryVO vo : list) {
-			RecruVO recru = rMapper.selectOne(vo.getRecruId());
-			if(recru.getRecruStatus()==2 && recru.getGoDate()!=null) {
-				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
-				if(status>=0 ) {
-					vo.setRecruStatus(3);//여행완료
-				}
-			}
-		}
 		return mapper.myEntryList(memberId);
 	}
 	//모집완료된 참가글 목록(보증금관련)

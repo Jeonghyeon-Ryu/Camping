@@ -17,17 +17,17 @@ export default{
   },
   computed :{
     status(){
-            if (this.recruStatus==0){
-                this.statusClass = 'recru_status_green'
-                return '모집중'
-            }else if(this.recruStatus==1){
-                this.statusClass = 'recru_status_red'
-                return '모집완료'
-            }else{
-                this.statusClass = 'recru_status_gray'
-                return '모집취소'
-            }
-        },
+      if (this.recruStatus==0){
+        this.statusClass = 'recru_status_green'
+        return '모집중'
+      }else if(this.recruStatus==2){
+        this.statusClass = 'recru_status_gray'
+        return '모집취소'  
+      }else{
+        this.statusClass = 'recru_status_red'
+        return '모집완료'
+      }
+    },
   }
 }
 </script>
