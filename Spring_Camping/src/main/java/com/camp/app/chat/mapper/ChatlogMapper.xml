@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.chat.mapper.ChatlogMapper">
+	<insert id="insert" parameterType="ChatlogVO">
+		INSERT INTO chatlog VALUES (
+			#{roomId},
+			#{chatId},
+			#{email}
+		)
+	</insert>
+	<update id="update" parameterType="ChatlogVO">
+		UPDATE chatlog SET chat_id=#{chatId} WHERE room_id=#{roomId} AND email=#{email}
+	</update>
+	<delete id="delete" parameterType="ChatlogVO">
+		DELETE FROM chatlog WHERE room_id=#{roomId} AND email=#{email}
+	</delete>
+	<select id="findByEmailAndRoomId" parameterType="ChatlogVO" resultType="ChatlogVO">
+		SELECT * FROM WHERE room_id=#{roomId} AND email=#{email}
+	</select>
+</mapper>

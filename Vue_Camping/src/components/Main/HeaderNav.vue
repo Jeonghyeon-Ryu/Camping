@@ -136,7 +136,7 @@ export default {
     logout() {
       this.$store.commit('delUserInfo');
       this.$router.push({ name: "Home" });
-    }
+    },
   },
   watch: {
     auth: function () {

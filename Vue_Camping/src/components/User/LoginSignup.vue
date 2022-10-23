@@ -130,6 +130,7 @@ export default {
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
+                this.$emit("loginSuccess");
                 this.$router.replace('/');
               }
             })

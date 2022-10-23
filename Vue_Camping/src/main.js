@@ -3,18 +3,22 @@ import App from './App.vue'
 import router from "./router"
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
 
 const store = createStore({
-    plugins : [createPersistedState({
+    plugins: [createPersistedState({
         storage: window.sessionStorage
-      })],
+    })],
     state: {
         email: sessionStorage.getItem('email'),
-        nickname : sessionStorage.getItem('nickname'),
-        auth : sessionStorage.getItem('auth'),
-        currentCategory : sessionStorage.getItem('currentCategory')
+        nickname: sessionStorage.getItem('nickname'),
+        auth: sessionStorage.getItem('auth'),
+        currentCategory: sessionStorage.getItem('currentCategory'),
+        roomList:[],
+        roomChatList:{},
     },
-    mutations : {
+    mutations: {
         getUserInfo(state) {
             state.email = sessionStorage.getItem('email');
             state.nickname = sessionStorage.getItem('nickname');
@@ -27,19 +31,42 @@ const store = createStore({
             state.email = null;
             state.nickname = null;
             state.auth = null;
+            state.connectQueue = false;
+            roomList = [];
+            roomChatList = [];
+            stompClient.disconnect();
         },
-        setCurrentCategory(state){
+        setCurrentCategory(state) {
             state.currentCategory = sessionStorage.getItem('currentCategory');
         },
-        delCurrentCategory(state){
+        delCurrentCategory(state) {
             sessionStorage.removeItem('currentCategory');
             state.currentCategory = null;
-        }
+        },
     },
     actions: {
+        getRoomList(state) {
 
+        },
+        getChatList(state) {
+
+        }
     }
 })
+
+const serverURL = "http://localhost:8087/java/ws";
+const socket = new SockJS(serverURL);
+const stompClient = Stomp.over(socket);
+
+stompClient.connect(
+    {},
+    (frame) => {    // 콜백함수
+        console.log("소켓 연결 완료", frame);
+    },
+    (error) => {
+        console.log("소켓 연결 실패", error);
+    }
+);
 const app = createApp(App);
 app.config.globalProperties.$filters = {
     formatDate(value) {
@@ -58,11 +85,11 @@ app.config.globalProperties.$filters = {
         return value + '원';
     },
     formatMemberStatus(value) {
-        if(value==0) {
+        if (value == 0) {
             return "탈퇴";
-        } else if (value==1) {
+        } else if (value == 1) {
             return "제한";
-        } else if (value==2) {
+        } else if (value == 2) {
             return "활성";
         } else {
             return "오류";

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.camp.app.chat.mapper.RoomMapper">
+	<insert id="insert" parameterType="RoomVO">
+		INSERT INTO room VALUES(
+			#{roomId},
+			#{email}
+		)
+	</insert>
+	<delete id="delete" parameterType="RoomVO">
+		DELETE FROM room WHERE room_id=#{roomId} and email=#{email}
+	</delete>
+	<select id="findByEmail" parameterType="RoomVO" resultType="RoomVO">
+		SELECT * FROM email=#{email}
+	</select>
+	<select id="findByRoomId" parameterType="RoomVO" resultType="RoomVO">
+		SELECT * FROM room_id=#{roomId}
+	</select>
+	<select id="findByRoomIdAndEmail" parameterType="RoomVO" resultType="Integer">
+		SELECT NVL(COUNT(*),0) FROM room WHERE room_id=#{roomId} AND email=#{email}
+	</select>
+	<select id="findMaxRoomId" resultType="Integer">
+		SELECT NVL(MAX(room_id),0)+1 FROM room
+	</select>
+	<select id="existRoom" parameterType="hashmap" resultType="Integer">
+		SELECT NVL((
+		<foreach collection="list" item="item" separator="INTERSECT">
+			SELECT room_id FROM room WHERE email=#{item} AND room_id!=0
+		</foreach>
+		),0) FROM dual
+	</select>
+</mapper>

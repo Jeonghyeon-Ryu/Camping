@@ -59,7 +59,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.usedCard);
   },
   methods: {
     cardDetail: function (e) {
@@ -187,7 +186,6 @@ export default {
     fetch('http://localhost:8087/java/used/usedImage/' + this.usedCard.usedId)
       .then(result => result.json())
       .then(result => {
-        console.log('aaaa', result);
         this.images = result;
       })
       .catch(err => console.log(err))
@@ -198,8 +196,6 @@ export default {
         .then(result => {
           if (result == 'true') {
             this.liked = false;
-            console.log(this.liked);
-            console.log('좋아요 저장내역 = ' + result);
           }
         })
         .catch(err => console.log(err));

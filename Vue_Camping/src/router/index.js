@@ -170,7 +170,7 @@ const routes = [{
   {
     name: 'UsedChat',
     path: '/usedChat',
-    component: () => import('@/components/UsedPractice/UsedChat.vue'),
+    component: () => import('@/components/Chat/ChatView.vue'),
   },
   {
     name: 'ChatRoom',

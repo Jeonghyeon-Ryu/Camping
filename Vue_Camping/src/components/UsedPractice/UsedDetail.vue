@@ -94,7 +94,7 @@
             v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click="hearted()">🧡 찜
             취소</button>
           <button type="button" class="chat-button"
-            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0">채팅하기</button>
+            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0" @click="startChat">채팅하기</button>
           <button type="button" class="chat-button2"
             v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">채팅하기</button>
           <button type="button" class="update-button" v-if="usedList.email === memberId && usedList.dealStatus != 2"
@@ -116,7 +116,8 @@
 import img1 from "@/assets/img/sns/snsControll.png";
 import UsedDetailImage from "./UsedDetailImage.vue";
 import Swal from 'sweetalert2';
-
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
 
 export default {
   data: function () {
@@ -465,6 +466,15 @@ export default {
         }
       })
       console.log(item);
+    },
+    startChat() {
+      let message = {
+        roomId : 1,
+        email : this.$store.state.email,
+        targetEmail : [this.usedList.email],
+        type : 0
+      }
+      this.$emit("send",message);
     }
   },
   //created-페이지 열자마자 실행

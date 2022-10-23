@@ -1,15 +1,18 @@
 package com.camp.app.chat.service;
 
-import java.util.List;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
 @Data
 public class ChatVO {
-	private String roomId;
+	private long chatId;
+	private long roomId;
 	private String email;
-	private List<String> targetEmail;
-	private String content;
-	private String regdate;
+	private String message;
+	@DateTimeFormat(pattern = "yyyy-MM-dd-HH-mm")
+	private Date regdate;
 }
 
