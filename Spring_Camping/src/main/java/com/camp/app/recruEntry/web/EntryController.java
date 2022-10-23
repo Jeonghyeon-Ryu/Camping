@@ -35,9 +35,9 @@ public class EntryController {
 	}
 	//모집글에 참가 신청을 넣은 회원 목록 조회
 	@GetMapping("/entry/{recruId}")
-	public List<EntryVO> recruEntredList(@PathVariable String recruId) {
+	public List<EntryVO> recruEnteredList(@PathVariable String recruId) {
 		int recruid = Integer.parseInt(recruId);
-		return service.recruEntredList(recruid);
+		return service.recruEnteredList(recruid);
 	}
 	//마이페이지 전체 조회
 	@GetMapping("/entry/mypage/{memberId}")

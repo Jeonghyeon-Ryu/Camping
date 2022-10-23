@@ -6,18 +6,14 @@
         </div>
         <div v-for="entryPost in EntryList" :key="entryPost.entryId" class="entry-mypage-mini-box" >
             <div class="entry-mypage-status">
-                <p class="entry-recru-status status-box">{{rStatus}}</p>
+                <p class="entry-recru-status status-box">{{recruStatus(entryPost.recruStatus)}}</p>
                 <p class="entry-status status-box">{{eStatus(entryPost.entryStatus)}}</p>
             </div>
             <div class="row">
-                <EntryMypageCard v-bind:recruId="entryPost.recruId"
-                    @setRecruStatus="recruStatus"
-                    @setTripStatus="tripStatus"
-                    @goRecruDetail="goRecruDetail"
-                    ></EntryMypageCard>
+                <EntryMypageCard v-bind:recruId="entryPost.recruId" @goRecruDetail="goRecruDetail"></EntryMypageCard>
                 <div class="entry-mypage-btn">
-                        <button v-if="tStatus=='완료'" class="entry-review-btn">동행자 평가</button>
-                        <button class="entry-status-btn">{{dayStatus}}</button>
+                        <button v-if="entryPost.recruStatus==3" class="entry-review-btn">동행자 평가</button>
+                        <button v-if="entryPost.recruStatus==3" class="entry-status-btn" disabled>여행완료</button>
                 </div>
             </div>
             <div class="entry-mypage-bar"></div>
@@ -27,7 +23,7 @@
 </template>
 <script>
 import EntryMypageCard from "@/components/recruit/EntryMypageCard.vue";
-
+import Swal from 'sweetalert2';
 export default{
     components: {
         EntryMypageCard
@@ -37,10 +33,28 @@ export default{
             memberId : this.$store.state.email,//세션에서 받을 로그인 정보
             EntryList : [],
             rStatus : '',
-            tStatus : ''
+            tStatus : false
         }
     },
     mounted(){
+        if(this.$store.state.email==null){
+                Swal.fire({
+                        title: '로그인이 필요한 서비스입니다.',
+                        text: "로그인 페이지로 이동하겠습니까?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        // confirmButtonColor: '#3085d6',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: '네',
+                        cancelButtonText : '아니오'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push({ name: 'LoginSignup'})
+                    }else{
+                        this.$router.go(-1);
+                    }
+                })
+        }
         this.loadData();
     },
     methods : {
@@ -56,21 +70,18 @@ export default{
         },
         recruStatus: function(status){
             if (status==0){
-                    this.rStatus = '모집중'
+                return '모집중'
             }else if(status==1){
-                this.rStatus = '모집완료'
+                return '모집완료'
             }else{
-                this.rStatus = '모집취소'
+                return '모집취소'
             }
-        },
-        tripStatus : function(status){
-            this.tStatus = status
         },
         eStatus : function(status){
             if (status==0){
-                    return '신청중'
+                    return '수락 대기'
                 }else if(status==1){
-                    return '신청 수락'
+                    return '신청완료'
                 }else if(status==2){
                     return '거절됨'
                 }else if(status==2){

@@ -32,17 +32,13 @@
   </div>
 </template>
 <script>
-import EntryPost from '@/assets/rectuitInfo/EntryPost.js';
 import SendMoney from './SendMoney.vue';
-import DepositPost from '@/assets/rectuitInfo/DepositPost.js';
 import ModalView from './ModalView.vue';
 
 export default {
-  props : {recruId : String}, 
+  props : {recruId : Number}, 
   components : {
-    EntryPost,
     SendMoney,
-    DepositPost,
     ModalView
   },
   data :function() {

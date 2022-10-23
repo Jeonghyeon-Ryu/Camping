@@ -45,7 +45,7 @@ public class RecruTest {
 //        }
         
 		//아이디로 게시글 가져오기
-		RecruVO info =rservice.findOne("11");
+		RecruVO info =rservice.findOne(recruId);
 		//게시글 작성자 정보 가져오기
 		//String email = info.getMemberId();
 //		RecruVO member = rservice.getMemberInfo(email);

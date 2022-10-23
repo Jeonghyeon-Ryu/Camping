@@ -192,6 +192,12 @@ const routes = [{
     path: '/User/Report',
     component: () => import('@/components/User/ReportManage.vue'),
   },
+  {
+    name: 'RecruReview',
+    path: '/recru/review/:recruId',
+    component: () => import('@/components/recruit/RecruReviewView.vue'),
+    props: true
+  },
 ]
 
 const router = createRouter({

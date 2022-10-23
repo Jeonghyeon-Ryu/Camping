@@ -8,7 +8,9 @@
           <div class="container row">
               <!-- 카드 -->
               <div class="recru-card-box row">
-                  <div v-for="recruInfo in recruPosts" :key="recruInfo.title">
+                  <div v-for="recruInfo in recruPosts" :key="recruInfo.title" style="position:relative">
+                    
+                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
                       <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}">
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                       </router-link>
@@ -20,9 +22,12 @@
   </template>
   <script>  
   import RecruCard from "@/components/recruit/RecruCard.vue";
+  import RecruStatus from '@/components/recruit/RecruStatus.vue';
+  import Swal from 'sweetalert2';
   export default{
     components : {
-      RecruCard
+      RecruCard,
+      RecruStatus
     },
     data : function(){
         return{
@@ -31,6 +36,24 @@
         }
     },
     created(){
+      if(this.$store.state.email==null){
+                Swal.fire({
+                        title: '로그인이 필요한 서비스입니다.',
+                        text: "로그인 페이지로 이동하겠습니까?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        // confirmButtonColor: '#3085d6',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: '네',
+                        cancelButtonText : '아니오'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push({ name: 'LoginSignup'})
+                    }else{
+                        this.$router.go(-1);
+                    }
+                })
+        }
         //접속한 아이디의 동행모집글 가져오기
         this.loadData();
         //모집상태 : 0 모집중, 1 모집완료, 2 실패
@@ -83,8 +106,6 @@ display: block;
   text-align: left;
   padding: 30px 0 30px 50px;
 }
-.recru-card-box{
-  justify-content: left;  
-}
+
 </style>
   

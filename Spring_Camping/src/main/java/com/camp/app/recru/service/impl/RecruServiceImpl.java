@@ -88,7 +88,7 @@ public class RecruServiceImpl implements RecruService {
 		//2. 참가 수락된 회원(1)의 정보를 보증금 테이블에 저장
 			
 		//모집글 아이디로 참자가 목록 가져오기
-		List<EntryVO> list = entryMapper.recruEntredList(recruVO.getRecruId());
+		List<EntryVO> list = entryMapper.recruEnteredList(recruVO.getRecruId());
 		for(EntryVO entry: list) {
 			if(entry.getEntryStatus()==0) {
 				//1. 참가가 수락되지 않은 회원
@@ -134,5 +134,8 @@ public class RecruServiceImpl implements RecruService {
 	public int changeShowStatus(RecruVO recruVO) {
 		return mapper.changeShowStatus(recruVO);
 	}
-
+	//후기등록
+	public int insertReview(RecruVO recruVO) {
+		return mapper.insertReview(recruVO);
+	};
 }

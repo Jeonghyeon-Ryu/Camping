@@ -31,5 +31,6 @@ public interface RecruService {
 	public boolean isExist(SaveVO save);
 	//접근 상태 변경
 	public int changeShowStatus(RecruVO recruVO);
-	
+	//후기등록
+	public int insertReview(RecruVO recruVO);
 }

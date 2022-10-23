@@ -77,4 +77,9 @@ public class RecruController {
 		System.out.println(recruVO.getStatus());
 		return service.changeShowStatus(recruVO);
 	}
+	//후기등록
+	@PostMapping("/recru/review")
+	public int insertReview(@RequestBody RecruVO recruVO) {
+		return service.insertReview(recruVO);
+	}
 }

@@ -22,7 +22,7 @@
                 <div class="recru-detail-col" style="margin-top : 30px">
                     
                     <div class="recru-detail-user">
-                        <img src="@/assets/img/bg9.jpg" name="profile_img" alt="profile img">
+                        <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"  name="profile_img" alt="profile img">
                         <p><span>{{recruPost.nickname}}</span></p>
                         <p>{{yyyyMMddhhmmss(recruPost.writeDate) }}</p>
                         <button class="report-btn" @click="reportItem">🚨신고</button>
@@ -78,7 +78,7 @@
                     <button v-if="rStatus==0" type="button" @click="recruFinish">모집완료</button>
                     <button v-if="rStatus==0" type="button" @click="recruUpdate">수정</button>
                     <button type="button" @click="userDelete">삭제</button>
-                    <button v-if="rStatus==1" type="button" @click="recruFinish">후기등록</button>
+                    <button v-if="rStatus==1" type="button" @click="recruReview">후기등록</button>
                 </div>
                 <div v-if="userRole==4" class="recru-writer-btn">
                     <!-- 관리자인 경우 -->
@@ -111,11 +111,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="userRole==1&&recruPost.recruStatus>0" class="recru-detail-sol deposit-status-box">
-                <h3>보증금 상태</h3>
-                <DepositStatus :recruId="recruId"></DepositStatus>
-            </div>
-            <div v-if="userRole==3" class="recru-detail-sol deposit-status-box">
+            <div v-if="(userRole==1&&recruPost.recruStatus>0)||userRole==3" class="recru-detail-sol deposit-status-box">
                 <h3>보증금 상태</h3>
                 <DepositStatus :recruId="recruId"></DepositStatus>
             </div>
@@ -162,6 +158,7 @@ export default{
         return{
             //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
             memberId : sessionStorage.getItem("email"),
+            storedProfile : '',
             userRole : 0,
             recruPost : {},
             entryPost : [],
@@ -267,7 +264,12 @@ export default{
                     console.log('role ' + component.userRole)
                 }).catch(err=>console.log(err));
             })
-
+            fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
+                .then(result => result.json())
+                .then(result => {
+                    this.storedProfile = result;
+            }).catch(err => console.log(err));
+            
         }, 
         yyyyMMddhhmmss : function(value){
             if(value == '') return '';
@@ -450,6 +452,9 @@ export default{
         },
         adminDelete : function(){
             this.changeShowInfo(2)
+        },
+        recruReview : function(){
+            this.$router.push({name : 'RecruReview',params : {recruId : this.recruId}})
         },
         changeShowInfo : function(status){
             var changeInfo = {

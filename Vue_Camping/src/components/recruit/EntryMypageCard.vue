@@ -48,12 +48,6 @@ export default{
                     this.recruInfo = data;  
                     this.$emit('setRecruStatus',data.recruStatus)
                     var today = new Date();
-                    console.log(today-data.goDate)
-                    if(data.goDate < today){
-                        this.$emit('setTripStatus','대기')
-                    }else{
-                        this.$emit('setTripStatus','완료')
-                    }
                 }).catch(err=>console.log(err));
             
             fetch(`http://localhost:8087/java/recruImg/${recruId}`)

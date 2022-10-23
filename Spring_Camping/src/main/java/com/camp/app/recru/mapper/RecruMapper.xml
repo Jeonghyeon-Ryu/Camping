@@ -82,7 +82,8 @@
 				AND (recru_title LIKE '%'||#{keyword}||'%'
 				OR recru_content LIKE '%'||#{keyword}||'%'
 				OR my_gear LIKE '%'||#{keyword}||'%'
-				OR need_gear LIKE '%'||#{keyword}||'%')
+				OR need_gear LIKE '%'||#{keyword}||'%'
+				OR camping_point LIKE '%'||#{keyword}||'%')
 			</if>
 		</where>
 	</select>
@@ -94,6 +95,7 @@
 				OR recru_content LIKE '%'||#{keyword}||'%'
 				OR my_gear LIKE '%'||#{keyword}||'%'
 				OR need_gear LIKE '%'||#{keyword}||'%'
+				OR camping_point LIKE '%'||#{keyword}||'%'
 	</select>
 	
 	<!-- 단건조회 -->
@@ -126,6 +128,7 @@
 		                    ,closing_date = #{closingDate}
 		WHERE recru_id = #{recruId}
 	</update>
+	
 	<!-- 수정 : 접근상태변경 -->
 	<update id="changeShowStatus" parameterType="RecruVO">
 		UPDATE recruitment 
@@ -161,4 +164,19 @@
 	<select id="findImgByRecruId" parameterType="Integer" resultType="RecruImgVO">
 		SELECT * FROM recru_image WHERE recru_id = #{recruId}
 	</select>
+	
+	<!-- 후기 등록 -->
+	<insert id="insertReview" parameterType="RecruVO">
+		<selectKey keyProperty="reviewId" resultType="Integer" order="BEFORE">
+				SELECT NVL(MAX(review_id),0)+1 FROM recru_review
+		</selectKey>
+		INSERT INTO recru_review VALUES(
+										#{reviewId},
+										#{recruId},
+										#{memberId},
+										#{reviewTarget},
+										#{reviewGrade},
+										#{reviewContent}
+										)
+	</insert>
 </mapper>

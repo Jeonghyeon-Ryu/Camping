@@ -183,7 +183,6 @@ export default{
       }
     },
     created(){
-        console.log(this.$store.state.email)
         if(this.$store.state.email==null){
                 Swal.fire({
                         title: '로그인이 필요한 서비스입니다.',
