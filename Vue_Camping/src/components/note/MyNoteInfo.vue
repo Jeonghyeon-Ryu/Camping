@@ -170,22 +170,22 @@ export default {
             noteInfo: [],
             noteId: this.$route.params.noteId,
             showInfo: {},
-            datas: []
+            datas: [],
+            
         }
     },
     created() {
         //this.noteId = this.$router.params.myNoteId;
-
         fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
             .then(result => result.json())
             .then(result => {
                 this.title = result.title;
-               
+                console.log('===================================')
+                console.log(result)
                 for (let i = 0; i < result.noteContents.length; i++) {
                     //가져온 값을 textarea에 뿌려주기
                     if (result.noteContents[i].indexOf('textarea') >= 0) {
                         let temp = result.noteContents[i].substring(result.noteContents[i].indexOf('value="') + 7, result.noteContents[i].indexOf('"></textarea>'));
-
                         this.datas.push(
                             {
                                 type: 0,
@@ -196,7 +196,6 @@ export default {
                         //가져온 값을 table로 만들어주기 (2차원 배열 구조) 뿌려주기
                         let tempData = [];
                         let temp = result.noteContents[i].split('</tr>');
-
                         for (let j = 0; j < temp.length - 1; j++) {
                             let rowData = [];
                             while (temp[j].indexOf('value="') >= 0) {
@@ -213,12 +212,11 @@ export default {
                         )
                         //checkList
                     } else if (result.noteContents[i].indexOf('check_box_list') >= 0) {
-
                         let temp = result.noteContents[i].split('<div class="box_container">'); //배열의 형태로 5개의 덩어리
                         let checkVal = [];
                         let textVal = [];
                         let values = [];
-                      
+                        
                         for(let j=0; j<temp.length-1; j++){ 
                             temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
                             checkVal.push(temp[j].substring(0, temp[j].indexOf('">')));
@@ -228,17 +226,31 @@ export default {
                         }
                         values.push(checkVal);
                         values.push(textVal);
+                        
                         this.datas.push(
                             {
                                 type: 2,
                                 data: values
                             }
                         )
-                        
+                    } else if (result.noteContents[i].indexOf('IMG') >= 0){ 
+                        let values = [];
+                        fetch('http://localhost:8087/java/campImage/'+this.noteId)
+                        .then(result => result.json())
+                        .then(result => {
+                            
+                            this.images = result;
+                            this.resultImages = result;
+                            
+                            console.log(this.images);
+                            console.log(this.resultImages);
+                        })
+                        .catch(err => console.log(err))
                     }
                 }
                 this.$forceUpdate();
             })
+            
 
     },
     methods: {
@@ -263,9 +275,8 @@ export default {
         },
         saveNote: function (e) {
             let lineAll = document.querySelectorAll('.write_fn');
-           
             let contents = [];
-
+            console.log(contents);
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
                 let lineValue = '';
@@ -275,9 +286,6 @@ export default {
                     lineValue = lineAll[i].querySelector('textarea').value;
                     //<태그 자체를 저장>
                     textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)">' + lineValue + '</textarea>'
-
-                    // console.log(textTag);
-                    // contents.push(textTag);
 
                 } else if (lineAll[i].querySelector('table') != undefined) {
                     lineType = 'TABLE';

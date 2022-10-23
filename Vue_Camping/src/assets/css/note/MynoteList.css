@@ -1,4 +1,5 @@
 /*버튼임*/
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
     
 :root {
@@ -38,8 +39,8 @@ transition: 0.5s;
 }
 
 button.success {
---button-bg-color: #28a745;
---button-hover-bg-color: #218838;
+--button-bg-color: #83f0ad;
+--button-hover-bg-color:  #9cfbe0;
 }
 button.modal_delbtn {
 --button-bg-color: #c72939;
@@ -61,16 +62,17 @@ button:disabled {
 opacity: 0.5;
 }
 /* 모달임 */
-/*.black-bg { 
+.black-bg { 
     width : 100%;
     height: 100%;
-    background-color: rgba(230, 225, 225, 0.905);
+    background-color: rgba(222, 221, 221, 0.469);
     position: fixed;
     padding: 20px;
     z-index: 100;
-    align-items: center;
+    /*align-items: center;*/
     border : 1px solid rgb(59, 155, 59);
-}*/
+    top: 5%;
+}
  #del_modal { 
     width : 100%;
     height: 100%;
@@ -85,12 +87,12 @@ opacity: 0.5;
 } 
 
 .white-bg{ 
-    width: 400px;
-    height: 200px;
-    background-color: #fff;
+    width: 500px;
+    height: 500px;
+    background-color: rgb(255, 251, 251);
     border-radius: 8px;
     padding: 20px;
-    margin: 15% 30% 15% 40%;  
+    margin: 30% 30% 15% 40%;  
 }
 .modal_text { 
     margin: 20px 0 20px 0;
@@ -113,29 +115,46 @@ opacity: 0.5;
    color: #218838;
 }
 /* 초대모달임 */
-.invite-white-bg{ 
-    width: 500px;
-    height: 250px;
+.invite-white-bg{
+    display: flex;
+    flex-direction: column;
+    position: relative; 
+    width: 800px;
+    height: 600px;
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
-    margin: 10% 30% 15% 40%; 
+    margin: 10% 30% 15% 30%; 
 }
 .modal_info{ 
     font-size: 25px;
     font-weight: bolder;
     margin: 10px 0 15px 0;
 }
-  .input {
-    width: 400px;
+.invitedUser_list{ 
+    width: 700px;
+    margin: 0 0 3% 4%;
+    height: 600px;
+    outline: none !important; 
+    border-color: #9cfbe0; 
+    box-shadow: 0 0 10px #9cfbe0;
+}
+  .input_email {
+    width: 600px;
+    height: 50px;
+    text-align: center;
     margin: 30px 0;
     font-size: 20px;
     color: black;
+    
   }
   .input:focus {
     animation-name: border-focus;
     animation-duration: 1s;
     animation-fill-mode: forwards;
+    outline: none !important; 
+    border-color: #9cfbe0; 
+    box-shadow: 0 0 10px #9cfbe0;
   }
   @keyframes border-focus {
     from {

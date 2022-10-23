@@ -8,7 +8,7 @@
 		FROM NOTE
 	</select>
 	
-	<!-- note insert -->
+	<!-- 노트내용 DB저장 -->
 	<insert id="writeCotents" parameterType="NoteVO">
 		INSERT INTO note
 		VALUES( 
@@ -27,12 +27,9 @@
 		FROM note
 		WHERE email = #{email}
 	</select>
-	
-	
+	<!--  -->
 	<delete id="deleteNote" parameterType="Integer">
-		DELETE FROM note
-		WHERE note_id = #{noteId}
-	
+		{CALL del_note(#{ note_id, mode=IN })}
 	</delete>
 	
 	<!-- select : MynoteInfo -->
@@ -40,8 +37,27 @@
 		SELECT *
 		FROM NOTE
 		WHERE note_id = #{noteId}
-	
 	</select>
-
-
+	
+	<!-- 노트 이미지 불러오기 -->
+	<select id="findByNoteIdToImg" parameterType="Integer" resultType="NoteImgVO">
+		SELECT * FROM note_img 
+		WHERE note_id = #{note_id}
+	</select>
+	
+	<!-- 노트 초대하기(invitedMember추가) -->
+	
+	<update id="invitedMember" parameterType="NoteVO">
+		UPDATE NOTE
+		SET invited_member = #{invitedMember}
+		WHERE note_id = #{noteId}
+	</update>
+	
+	<select id="getInvitedNoteList" resultType="NoteVO">
+		SELECT note_id, note_status, to_char(write_date,'yyyy-mm-dd') as write_date, title, invited_member
+		FROM note
+		WHERE invted_member = #{email}
+	</select>
+	
+	
 </mapper>

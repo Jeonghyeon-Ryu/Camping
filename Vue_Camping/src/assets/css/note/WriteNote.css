@@ -95,7 +95,6 @@ textarea{
     display: inline-block;
     position: relative;
     display: flex;
-    /*flex-direction: row;*/
     margin-bottom: 10px;
     border: none;
     height: fit-content;
@@ -303,8 +302,11 @@ select:disabled {
 }
 .checkbox_place{ 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 400px;
+}
+.checkbox_list{ 
+    display : flex;
 }
 .box_container{ 
     padding:0;

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,5 +71,17 @@ public class NoteImgServiceImpl implements NoteImgService{
 				imgMapper.insertNoteImg(img);
 			});
 			return true;	
+		}
+
+		@Override
+		public List<NoteImgVO> findImg(int noteId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public ResponseEntity<Resource> showImg(String imgPath, String storedName) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 }

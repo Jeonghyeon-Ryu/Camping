@@ -7,12 +7,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface NoteService {
-	//mynoteList
+	//내 리스트 가져오기
 	public List<NoteVO> getMyNoteList(String email);
 //	
-//	//invitedNote
-//	public List<NoteVO> getInvitedList(NoteVO nvo);
+	//invited_user update
+	public boolean inviteUser(InvitedMemberVO ivo);
 	
+	//초대받은 노트 리스트
+	public List<NoteVO> showInvitedNoteList(String email);
 	//writeNote
 	public boolean writeContents(NoteVO nvo, List<MultipartFile> files);
 	
@@ -21,5 +23,6 @@ public interface NoteService {
 	
 	//GoMyNote
 	public NoteVO getMyNote(int noteId);
+
 	
 }

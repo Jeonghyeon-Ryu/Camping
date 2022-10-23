@@ -31,4 +31,9 @@
 		SELECT MAX(note_id)
 		FROM note		
 	</select>
+	
+	<select id="findNoteImg" parameterType="Integer" resultType="NoteImgVO">
+		SELECT * FROM note_img
+		WHERE note_id = #{noteId}
+	</select>
 </mapper>	

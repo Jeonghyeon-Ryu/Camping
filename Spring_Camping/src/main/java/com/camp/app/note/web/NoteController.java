@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.camp.app.note.service.InvitedMemberVO;
 import com.camp.app.note.service.NoteDto;
 import com.camp.app.note.service.NoteImgService;
 import com.camp.app.note.service.NoteService;
@@ -28,16 +30,6 @@ public class NoteController {
 	@Autowired
 	NoteImgService imgService;
 	
-	//작성한 노트 저장
-//	@PostMapping("/WriteNote")
-//	public boolean writeNote(@RequestBody NoteVO nvo) { 
-//		int result = service.writeContents(nvo);
-//		if(result > 0) { 
-//			return true;
-//		}else {
-//			return false;
-//		}
-//	};
 	//MynoteList조회
 	@GetMapping("/MyNoteList/{email}")
 	public List<NoteVO> showMyNoteList(@PathVariable("email") String email) { 
@@ -52,18 +44,35 @@ public class NoteController {
 	//노트 선택시 노트내용 가져오기
 	@GetMapping("/GoMyNote/{noteId}")
 	public NoteVO goMyNote(@PathVariable("noteId") int noteId) {
-		
 		return service.getMyNote(noteId);
+	}
+	//user초대하기
+	@PutMapping("/inviteUser")
+	public boolean inviteUser(@RequestBody InvitedMemberVO ivo) {
+		System.out.println("여길봐여기를");
+		System.out.println(ivo);
+		return service.inviteUser(ivo);
+	}
+	//초대받은 list보기
+	@GetMapping("/invitedList/{email}")
+	public List<NoteVO> showInvitedNoteList(@PathVariable("email") String email) { 
+		return service.showInvitedNoteList(email);
 	}
 	//imgDB에 저장
 	@PostMapping("/WriteNoteInfo")
 	public boolean saveImg(NoteVO nvo, List<MultipartFile> files) throws IOException { 
-		System.out.println(files);
-		System.out.println(nvo);
-		System.out.println("---------------------------------");
-		System.out.println(nvo.getNoteContents());
 		return service.writeContents(nvo, files);
 	}
-	
+//	//img 정보조회
+//	@GetMapping("/GoMyNote/{noteId}")
+//	public List<NoteImgVO> findNoteImg(@PathVariable int noteId){ 
+//		return imgService.findImg(noteId);
+//	}
+//	
+//	//img 불러오기
+//	@GetMapping("/GoMyNote/{imgPath}/{storedName}")
+//	public ResponseEntity<Resource> showImage(@PathVariable String imgPath, @PathVariable String storedName){
+//		return imgService.showImg(imgPath, storedName);
+//	}
 }
 

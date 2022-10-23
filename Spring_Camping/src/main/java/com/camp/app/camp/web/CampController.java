@@ -27,7 +27,7 @@ import com.camp.app.camp.service.InputCampVO;
 import retrofit2.http.POST;
 
 @RestController
-@CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
+@CrossOrigin(origins = "*")
 public class CampController {
 
 	@Autowired
@@ -37,7 +37,6 @@ public class CampController {
 	public boolean addCamp(InputCampVO camp) {
 		return service.addCamp(camp);
 	}
-
 	@GetMapping("/camp/{page}")
 	public List<CampVO> getCampList(@PathVariable("page") int page){
 		return service.showCampByPage(page);
