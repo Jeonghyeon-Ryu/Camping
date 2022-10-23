@@ -31,7 +31,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "D:\\upload\\recru\\"+directoryPath;
+		String uploadPath = "c:\\upload\\recru\\"+directoryPath;
 		//폴더 주소
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {

@@ -40,9 +40,9 @@ public class EntryController {
 		return service.recruEntredList(recruid);
 	}
 	//마이페이지 전체 조회
-	@GetMapping("/entry")
-	public List<EntryVO> myEntryList(HttpSession session){
-		String memberId = (String)session.getAttribute("email");
+	@GetMapping("/entry/mypage/{memberId}")
+	public List<EntryVO> myEntryList(@PathVariable String memberId){
+		//String memberId = (String)session.getAttribute("email");
 		return service.myEntryList(memberId);
 	}
 	//모집완료된 참가글 목록(보증금관련)

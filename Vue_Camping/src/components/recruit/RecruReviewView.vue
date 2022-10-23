@@ -6,6 +6,9 @@
         <h4>캠핑 동행 후기 작성하기</h4>
         <h1>여행은 어떠셨나요?</h1>
         <div class="deal">
+          <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
+        </div>
+        <!-- <div class="deal">
           <div class="img-container">
               <img v-bind:src="reviewImg">
           </div>
@@ -14,7 +17,7 @@
               <p>{{usedContent}}</p>
           </div>
           <button class="dealcomplete">거래 완료하기</button>
-        </div>
+        </div> -->
         <div class="reviewRate">
           <p class="text-bold">별점을 선택해주세요</p>
           <fieldset>
@@ -35,7 +38,7 @@
             <input type="hidden" name="email" :value="$store.state.email">
             <textarea name="reviewContent" class="reviewContent" placeholder="후기를 10자 이상 입력하세요"></textarea>
             <div class="submit-area">
-              <button class="dealcomplete" @click.prevent="confirm()">작성 완료</button>
+              <button class="dealcomplete" @click.prevent="confirm">작성 완료</button>
             </div>
           </div>
       </div>  
@@ -46,7 +49,7 @@
 <script>
   import img1 from "@/assets/img/bg9.jpg";
   import Swal from 'sweetalert2';
-
+  import RecruCard from '@/components/recruit/RecruCard.vue'
 
   export default{
     data(){
@@ -101,6 +104,9 @@
 
               }
     }
+  },
+  components : {
+    RecruCard
   }
 } 
 </script>  

@@ -26,7 +26,7 @@
     },
     data : function(){
         return{
-          memberId : sessionStorage.getItem("email"),
+          memberId : this.$store.state.email,
           recruPosts : [],
         }
     },

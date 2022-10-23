@@ -140,6 +140,9 @@
         </form>
         <!-- 필터 결과-->
         <div class="used-selected">
+            <ul v-if="keywordValue">
+                <span>'{{keywordValue}}'</span>검색 결과
+            </ul>
             <ul>
                 <li v-if="filter.wishSex" @click="filter.wishSex=''">희망 성별 : {{filter.wishSex==0? '무관': filter.wishSex==1? '남자' : '여자'}} X</li>
                 <li v-if="filter.wishAge != ''" @click="filter.wishAge=[]">희망 연령 : {{toStringList(filter.wishAge)}} X</li>
@@ -156,10 +159,11 @@
             <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
+                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
-                    <div v-if="this.$store.state.email" class = "recru-card-wish" style="position:absolute; top:20px; right: 20px;" >
+                    <div v-if="this.$store.state.email" class = "recru-card-wish" style="position:absolute; top:21px; right: 21px;" >
                         <RecruSaveHeart :recruId="recruInfo.recruId"></RecruSaveHeart>
                     </div>
                 </div>
@@ -173,14 +177,17 @@ import img2 from "@/assets/img/search.png"
 import district from "@/assets/district.js"
 import { filter } from "dom7";
 import RecruSaveHeart from './RecruSaveHeart.vue';
+import RecruStatus from '@/components/recruit/RecruStatus.vue'
 export default{
     components: {
         RecruCard,
         RecruSaveHeart,
+        RecruStatus
     },
     data : function(){
         return{
             keyword : '',
+            keywordValue : '',
             filter: {
                 wishSex :'',
                 wishAge :[],
@@ -248,6 +255,7 @@ export default{
         searchKeyword : function(){
             //키워드 검색 결과 받아오기
             const keyword = this.keyword;
+            this.keywordValue = keyword;
             fetch("http://localhost:8087/java/recru/search/"+keyword)
             .then((response) =>response.json()) 
             .then(data => { 

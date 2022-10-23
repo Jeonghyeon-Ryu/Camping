@@ -97,7 +97,7 @@
 	</select>
 	
 	<!-- 단건조회 -->
-	<select id="selectOne" parameterType="String" resultType="RecruVO">
+	<select id="selectOne" parameterType="Integer" resultType="RecruVO">
 		SELECT * FROM recruitment
 		WHERE recru_id = #{ recruId }
 	</select>

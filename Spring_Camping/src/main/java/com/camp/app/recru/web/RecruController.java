@@ -39,7 +39,7 @@ public class RecruController {
 	}
 	//단건조회
 	@GetMapping("/recru/{recruId}")
-	public RecruVO selectOne(@PathVariable String recruId) {
+	public RecruVO selectOne(@PathVariable int recruId) {
 		return service.findOne(recruId);
 	}
 	//마이페이지 조회 -수정

@@ -182,6 +182,27 @@ export default{
         }]
       }
     },
+    created(){
+        console.log(this.$store.state.email)
+        if(this.$store.state.email==null){
+                Swal.fire({
+                        title: '로그인이 필요한 서비스입니다.',
+                        text: "로그인 페이지로 이동하겠습니까?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        // confirmButtonColor: '#3085d6',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: '네',
+                        cancelButtonText : '아니오'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push({ name: 'LoginSignup'})
+                    }else{
+                        this.$router.go(-1);
+                    }
+                })
+        }
+    },
     methods : {
         uploadContent : function(){
         //입력확인

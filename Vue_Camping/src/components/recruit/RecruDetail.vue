@@ -179,7 +179,6 @@ export default{
     },
     created (){
         this.loadRecruData();
-        Kakao.init('3f57d02e134f1067307cbaec0b42c437'); // 사용하려는 앱의 JavaScript 키 입력
     },
     computed : {
         userage(){
@@ -322,72 +321,90 @@ export default{
             
         },
         reportItem() {
-            let item = Swal.fire({
-                title: '신고',
-                html:
-                    '<select id="swal-input1" class="swal2-select" style="font-size:13px;">' +
-                    '<option value="" disabled="">신고 분류</option>' +
-                    '<option value="잘못된 정보">잘못된 정보</option>' +
-                    '<option value="게시글 규정 위반">게시글 규정 위반</option>' +
-                    '<option value="기타">기타</option>' +
-                    '</select>' +
-                    '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; font-size:12px;" maxlength="450" placeholder="신고 사유를 입력하세요"></textarea>',
-                focusConfirm: false,
-                showCancelButton: true,
-                confirmButtonText: '신고',
-                cancelButtonText: '취소',
-                confirmButtonColor: 'rgba(6,68,32,0.8)',
-                preConfirm: () => {
-                    let fetchData = {
-                        "boardId": this.recruId,
-                        "boardDivision": 1,
-                        "reportDivision": document.getElementById('swal-input1').value,
-                        "reportContent": document.getElementById('swal-input2').value,
-                        "email": this.$store.state.email
+            console.log(this.$store.state.email);
+            if(this.$store.state.email==null){
+                console.log('널입니다')
+                Swal.fire({
+                        title: '로그인이 필요한 서비스입니다.',
+                        text: "로그인 페이지로 이동하겠습니까?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        // confirmButtonColor: '#3085d6',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: '네',
+                        cancelButtonText : '아니오'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$router.push({ name: 'LoginSignup'})
                     }
+                })
+            }else{
+                let item = Swal.fire({
+                    title: '신고',
+                    html:
+                        '<select id="swal-input1" class="swal2-select" style="font-size:13px;">' +
+                        '<option value="" disabled="">신고 분류</option>' +
+                        '<option value="잘못된 정보">잘못된 정보</option>' +
+                        '<option value="게시글 규정 위반">게시글 규정 위반</option>' +
+                        '<option value="기타">기타</option>' +
+                        '</select>' +
+                        '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; font-size:12px;" maxlength="450" placeholder="신고 사유를 입력하세요"></textarea>',
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: '신고',
+                    cancelButtonText: '취소',
+                    confirmButtonColor: 'rgba(6,68,32,0.8)',
+                    preConfirm: () => {
+                        let fetchData = {
+                            "boardId": this.recruId,
+                            "boardDivision": 1,
+                            "reportDivision": document.getElementById('swal-input1').value,
+                            "reportContent": document.getElementById('swal-input2').value,
+                            "email": this.$store.state.email
+                        }
 
-                    console.log(fetchData);
-                    fetch('http://localhost:8087/java/report', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json' },
-                        body: JSON.stringify(fetchData)
-                    }).then(result => result.text())
-                        .then(result => {
-                            if (result == "true") {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: '신고 완료 !',
-                                    toast: true,
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                        //this.$router.push({ path: '/recru/detail/' + this.recruId, });
-                                    }
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: '신고 실패 !',
-                                    text:'계속 실패하면 고객센터에 문의해주세요.',
-                                    toast: true,
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                    }
-                                })
-                            }
-                            console.log(result);
-                        })
-                    return false;
-                }
-            })
-            console.log(item);
+                        console.log(fetchData);
+                        fetch('http://localhost:8087/java/report', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json' },
+                            body: JSON.stringify(fetchData)
+                        }).then(result => result.text())
+                            .then(result => {
+                                if (result == "true") {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '신고 완료 !',
+                                        toast: true,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                            //this.$router.push({ path: '/recru/detail/' + this.recruId, });
+                                        }
+                                    })
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '신고 실패 !',
+                                        text:'계속 실패하면 고객센터에 문의해주세요.',
+                                        toast: true,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                    })
+                                }
+                                console.log(result);
+                            })
+                        return false;
+                    }
+                })
+            }
         },
         gearList(gears){
             //필요한 장비 배열 정리
@@ -491,6 +508,11 @@ export default{
             }
         }),
         sendLinkDefault(){
+            try {
+                if (Kakao) {
+                    Kakao.init('3f57d02e134f1067307cbaec0b42c437');// 사용하려는 앱의 JavaScript 키 입력
+                };
+            } catch(e) {};
             var infoTitle = this.recruPost.recruTitle;
             var infoContent = this.recruPost.recruContent;
             var num = this.recruPost.recruId;

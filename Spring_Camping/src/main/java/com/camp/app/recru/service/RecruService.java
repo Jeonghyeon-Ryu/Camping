@@ -18,7 +18,7 @@ public interface RecruService {
 	//검색조회
 	public List<RecruVO> recruKeywordList(String keyword);
 	//단건조회
-	public RecruVO findOne(String recruId);
+	public RecruVO findOne(int recruId);
 	//마이페이지 조회
 	public List<RecruVO> myRecru(String memberId);
 	//상태변경

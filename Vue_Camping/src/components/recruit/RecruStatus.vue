@@ -18,10 +18,10 @@ export default{
   computed :{
     status(){
             if (this.recruStatus==0){
-                this.statusClass = 'recru_status_red'
+                this.statusClass = 'recru_status_green'
                 return '모집중'
             }else if(this.recruStatus==1){
-                this.statusClass = 'recru_status_green'
+                this.statusClass = 'recru_status_red'
                 return '모집완료'
             }else{
                 this.statusClass = 'recru_status_gray'
@@ -40,8 +40,8 @@ export default{
     font-weight: bold;
  }
 .recru_status_red{
-    background: rgb(255, 215, 221);
-    color: crimson;
+    background: rgba(225, 208, 211, 0.7);
+    color: rgb(58, 18, 26);
  } 
  .recru_status_green{
     background: rgba(228,239,231,0.7);

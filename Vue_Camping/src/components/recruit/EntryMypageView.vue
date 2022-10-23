@@ -11,9 +11,12 @@
             </div>
             <div class="row">
                 <EntryMypageCard v-bind:recruId="entryPost.recruId"
-                    @setRecruStatus="recruStatus"></EntryMypageCard>
+                    @setRecruStatus="recruStatus"
+                    @setTripStatus="tripStatus"
+                    @goRecruDetail="goRecruDetail"
+                    ></EntryMypageCard>
                 <div class="entry-mypage-btn">
-                        <button class="entry-review-btn">동행자 평가</button>
+                        <button v-if="tStatus=='완료'" class="entry-review-btn">동행자 평가</button>
                         <button class="entry-status-btn">{{dayStatus}}</button>
                 </div>
             </div>
@@ -31,9 +34,10 @@ export default{
     },
     data : function(){
         return{
-            memberId : sessionStorage.getItem("email"),//세션에서 받을 로그인 정보
+            memberId : this.$store.state.email,//세션에서 받을 로그인 정보
             EntryList : [],
             rStatus : '',
+            tStatus : ''
         }
     },
     mounted(){
@@ -43,7 +47,7 @@ export default{
         loadData : function(){
             //로그인한 유저의 아이디로 신청정보를 받아온다
             const component = this;
-            fetch(`http://localhost:8087/java/recru/entry`)
+            fetch(`http://localhost:8087/java/recru/entry/mypage/${this.memberId}`)
             .then((response) =>response.json()) 
             .then(data => { 
                 console.log(data);
@@ -51,13 +55,16 @@ export default{
             }).catch(err=>console.log(err));
         },
         recruStatus: function(status){
-            if (this.status==0){
+            if (status==0){
                     this.rStatus = '모집중'
-                }else if(status==1){
-                    this.rStatus = '모집완료'
-                }else{
-                    this.rStatus = '모집취소'
-                }
+            }else if(status==1){
+                this.rStatus = '모집완료'
+            }else{
+                this.rStatus = '모집취소'
+            }
+        },
+        tripStatus : function(status){
+            this.tStatus = status
         },
         eStatus : function(status){
             if (status==0){
@@ -71,6 +78,10 @@ export default{
                 }else{
                     return '취소'
                 }
+        },
+        goRecruDetail(recruId){
+            //디테일 페이지로 이동
+            this.$router.push({name:'recruDetail',params : {recruId : recruId}})
         }
     }
 }
