@@ -5,7 +5,7 @@
       <form onsubmit="return false">
       <div class="used-headd">
         <div class="used-title">
-          <h2>중고장터</h2>
+          <div class="used-nav">중고</div>
         </div>
         <!--검색-->
         <div class="used-search">
@@ -54,7 +54,7 @@
                 <option value=2>거래완료</option>
               </select>
             </li>
-           </ul>   
+          </ul>   
            <ul class="used-filter-ur">
             <li>
               <label for="inputPlace">지역</label>
@@ -97,9 +97,9 @@
                 v-model="state.range">
                 <template #prefix="{ value }">￦ </template>
               </VueSimpleRangeSlider> -->
-              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
+              <input v-model="minPrice" type="number" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
               <p>~</p>
-              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
+              <input v-model="maxPrice" type="number" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
             </li>
           </ul>
         </div>

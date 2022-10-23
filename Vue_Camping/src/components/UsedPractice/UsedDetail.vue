@@ -35,7 +35,7 @@
             <div class="used-info2">
               <div class="used-info3">
                 <div class="used-cnt">
-                  🧡 찜 {{this.likeCnt}} · 👁‍🗨 조회수 {{usedList.usedCnt}}
+                  🧡 찜 {{this.likeCnt}} · 👁‍🗨 조회수 {{usedList.usedCnt}} · {{usedList.usedWrite}}
                 </div>
                 <div class="used-report">
                   <!-- 신고기능가져오기(다른유저가쓴글) -->
@@ -79,9 +79,9 @@
         <div class="vertical_line"></div>
         <!-- 작성자 정보-->
         <div class="used-writer">
-          <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
-          {{usedList.nickName}}
           <input type="hidden" :value="usedList.email">
+          <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+          <b>{{usedList.nickName}}</b>
           <div class="used-writer-post">
             <!-- 올린게시물정보(코드써야함) -->
           </div>
@@ -148,7 +148,7 @@ export default {
           didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
-            this.$router.push({ name: "LoginSignup" });
+            // this.$router.push({ name: "LoginSignup" });
           }
         })
       } else if (this.$store.state.email === this.usedList.email) {

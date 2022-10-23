@@ -33,7 +33,7 @@
 			<if test="usedPlace != null and usedPlace != ''">
 				and used_place LIKE '%'||#{usedPlace}||'%'
 			</if>
-			<if test="dealStatus != null and dealStatus != '' || dealStatus != 9">
+			<if test="dealStatus != null and dealStatus != '' and dealStatus != 9">
 				and deal_status = #{dealStatus}
 			</if>
 		</where>

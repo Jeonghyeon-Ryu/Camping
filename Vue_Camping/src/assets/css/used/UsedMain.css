@@ -76,6 +76,10 @@ label {
 .used-filter li{
   flex-wrap: wrap;
 }
+.used-filter p{
+  line-height: 40px;
+  color: #e6e6e6
+}
 .used-filter-ul input,
 .used-filter-ul select {
   width: 140px;
@@ -307,10 +311,22 @@ label {
 }
 /* select */
 select{
+  width: 100px;
+}
+input, select{
   border: 1px solid #e6e6e6;
   outline: 0 none;
   margin: 1px;
 }
-select:focus{
+input:focus, select:focus{
   border: 1px solid black;
+}
+input[type="number"]{
+  padding: 10px;
+  height: 40px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
