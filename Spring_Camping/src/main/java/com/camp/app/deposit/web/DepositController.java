@@ -37,8 +37,6 @@ public class DepositController {
 	@GetMapping("/deposit/{memberId}/{recruId}")
 	public DepositVO myDepositList(@PathVariable String memberId,@PathVariable int recruId) {
 		DepositVO vo = new DepositVO();
-		System.out.println(memberId);
-		System.out.println(recruId);
 		vo.setMemberId(memberId);
 		vo.setRecruId(recruId);
 		return service.myDepositList(vo);

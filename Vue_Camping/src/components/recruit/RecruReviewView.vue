@@ -6,14 +6,7 @@
         <h4>캠핑 동행 후기 작성하기</h4>
         <h1>여행은 어떠셨나요?</h1>
         <div class="deal">
-          <div class="img-container">
-              <img v-bind:src="reviewImg">
-          </div>
-          <div class="desc">
-              <h2>{{usedName}}</h2>
-              <p>{{usedContent}}</p>
-          </div>
-          <button class="dealcomplete">거래 완료하기</button>
+          <EntryMypageCard v-bind:recruId="recruId" @goRecruDetail="this.$router.push({name:'recruDetail',params : {recruId : recruId}})"></EntryMypageCard>
         </div>
         <div class="reviewRate">
           <p class="text-bold">별점을 선택해주세요</p>
@@ -35,7 +28,7 @@
             <input type="hidden" name="email" :value="$store.state.email">
             <textarea name="reviewContent" class="reviewContent" placeholder="후기를 10자 이상 입력하세요"></textarea>
             <div class="submit-area">
-              <button class="dealcomplete" @click.prevent="confirm()">작성 완료</button>
+              <button class="dealcomplete" @click.prevent="confirm">작성 완료</button>
             </div>
           </div>
       </div>  
@@ -46,17 +39,33 @@
 <script>
   import img1 from "@/assets/img/bg9.jpg";
   import Swal from 'sweetalert2';
-
-
+  import RecruCard from '@/components/recruit/RecruCard.vue'
+  import EntryMypageCard from '@/components/recruit/EntryMypageCard.vue'
   export default{
+    props : {
+       recruId : String
+    },
     data(){
       return{
+        recruInfo : {},
         reviewImg: img1,
         usedName: '4인용텐트',
         usedContent: '1회 쓰고 보관만 했습니다 상태 굿'
       }
     },
+    created (){
+      this.loadData();
+    },  
     methods: {
+      loadData : function(){
+        var recruId = this.recruId;
+            fetch(`http://localhost:8087/java/recru/${recruId}`)
+            .then((response) =>response.json()) 
+            .then(data => { 
+                console.log(data);
+                this.recruInfo = data;  
+            }).catch(err=>console.log(err));
+        },
       confirm: function(){
 
         // const form = document.forms.namedItem('#container2')
@@ -79,7 +88,7 @@
           })
         }else{
 
-            fetch('http://localhost:8087/java/used/usedReview',{
+            fetch('http://localhost:8087/java/recru/review',{
                     method : "POST",
                     headers : { },
                     body : fetchData
@@ -101,12 +110,18 @@
 
               }
     }
+  },
+  components : {
+    RecruCard,
+    EntryMypageCard
   }
 } 
 </script>  
 <style scoped src="@/assets/css/used/UsedReview.css" />
 <style scoped>
-
+#container{
+  margin-top: 150px;
+}
 #myform fieldset{
     display: inline-block;
     direction: rtl;

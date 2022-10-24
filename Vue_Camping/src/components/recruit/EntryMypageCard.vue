@@ -2,11 +2,16 @@
     <div class="entry-mini-container">
         <div class="entry-mini-box">
             <div class="entry-mini-card row">
-                <div class="recru-mini-img">
-                    <img src="@/assets/img/camping_gear07.jpg" alt="">
+                <div class="recru-mini-img" @click="goDetail" style="cursor: pointer;">
+                    <div v-if="image.imageId==0">
+                        <img src="@/assets/img/bg9.jpg" alt="camping gear">
+                    </div>
+                    <div v-if="image.imageId>0">
+                        <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
+                    </div>
                 </div>
                 <div class="col">
-                    <div class="recru-mini-title row">
+                    <div class="recru-mini-title row" @click="goDetail" style="cursor: pointer;">
                         <h3>{{recruInfo.recruTitle}}</h3>
                     </div>
                     <div class="recru-mini-contents">
@@ -27,6 +32,7 @@ export default{
     data: function(){
         return{
             recruInfo : {},
+            image: "",
         }
     },
     created : function(){
@@ -34,17 +40,28 @@ export default{
     },
     methods :{
         getEntryRecru(){
-            const component = this;
+            const recruId = this.recruId;
             //서버에서 신청 대상 모집글 정보를 가져온다
-            fetch(`http://localhost:8087/java/recru/${component.recruId}`)
+            fetch(`http://localhost:8087/java/recru/${recruId}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
-                    console.log(data);
-                    component.recruInfo = data;  
-                    component.$emit('setRecruStatus',data.recruStatus)
+                    this.recruInfo = data;  
+                    this.$emit('setRecruStatus',data.recruStatus)
+                    var today = new Date();
                 }).catch(err=>console.log(err));
+            
+            fetch(`http://localhost:8087/java/recruImg/${recruId}`)
+                .then(result => result.json())
+                .then(result => {
+                this.image = result[0];
+            })
+                .catch(err => console.log(err));
+        },
+        goDetail(){
+            //상세페이지로 이동하는 메소드 호출
+            this.$emit('goRecruDetail',this.recruInfo.recruId)
         }
-    }
+    },
 }
 </script>
 <style scoped src="@/assets/css/recruit/EntryMypageCard.css" />

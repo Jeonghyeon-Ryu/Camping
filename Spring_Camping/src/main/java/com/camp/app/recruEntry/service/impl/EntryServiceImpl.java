@@ -1,5 +1,6 @@
 package com.camp.app.recruEntry.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.camp.app.member.mapper.MemberMapper;
 import com.camp.app.member.service.MemberVO;
+import com.camp.app.recru.mapper.RecruMapper;
+import com.camp.app.recru.service.RecruService;
+import com.camp.app.recru.service.RecruVO;
 import com.camp.app.recruEntry.mapper.EntryMapper;
 import com.camp.app.recruEntry.service.EntryService;
 import com.camp.app.recruEntry.service.EntryVO;
@@ -17,6 +21,10 @@ public class EntryServiceImpl implements EntryService {
 	EntryMapper mapper;
 	@Autowired
 	MemberMapper mMapper;
+	@Autowired
+	RecruMapper rMapper;
+	@Autowired
+	RecruService service;
 	
 	//동행신청 등록
 	@Override
@@ -25,9 +33,9 @@ public class EntryServiceImpl implements EntryService {
 	}
 	//모집글에 참가 신청을 넣은 회원 목록 조회
 	@Override
-	public List<EntryVO> recruEntredList(int recruId) {
+	public List<EntryVO> recruEnteredList(int recruId) {
 		//모집글 아이디로 참자가 목록 가져오기
-		List<EntryVO> list = mapper.recruEntredList(recruId);
+		List<EntryVO> list = mapper.recruEnteredList(recruId);
 		//각 참가자의 성별과 생년월일 정보에 추가
 		for(EntryVO info : list) {
 			String email = info.getMemberId();
@@ -50,7 +58,14 @@ public class EntryServiceImpl implements EntryService {
 	//동행신청 상태수정 
 	@Override
 	public int updateEntryStatus(EntryVO entry) {
-		return mapper.updateEntryStatus(entry);
+		int result = mapper.updateEntryStatus(entry);
+		RecruVO recru = rMapper.selectOne(entry.getRecruId());
+		int enteredNum = mapper.recruEnteredNum(entry);
+		if(recru.getRecruNum()<= enteredNum) {
+			recru.setRecruStatus(0);
+			service.changeStatus(recru);
+		}
+		return result;
 	}
 
 }

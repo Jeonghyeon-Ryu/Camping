@@ -35,7 +35,7 @@ public class RecruVO {
 	private int recruNum;			//모집 인원
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date closingDate;		//모집 마감일
-	private int recruStatus;		//모집상태(0 모집중, 1 모집완료, 2 실패)
+	private int recruStatus;		//모집상태(0 모집중, 1 모집완료, 2 실패, 3 여행완료)
 	private int status;				//게시글상태(0 공개, 1 유저삭제, 2 관리자삭제)
 	
 	private int memberRole;		//(0 일반상태,1 작성자,2 참가자,3 관리자)
@@ -43,4 +43,9 @@ public class RecruVO {
 	private int depositId;		//게시글 모집 완료시 보증정보 인서트
 	
 	private String keyword;
+	
+	private int reviewId;
+	private String reviewTarget;
+	private int reviewGrade;
+	private String reviewContent;
 }

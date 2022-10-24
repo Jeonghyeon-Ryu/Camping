@@ -15,7 +15,7 @@ public interface RecruMapper {
 	//검색 조회
 	public List<RecruVO> findKeyword(String keyword);
 	//단건 조회
-	public RecruVO selectOne(String recruId);
+	public RecruVO selectOne(int recruId);
 	//마이페이지 조회
 	public List<RecruVO> myRecru(String memberId);
 	//상태변경
@@ -28,4 +28,6 @@ public interface RecruMapper {
 	public int updateRecru(RecruVO recruVO);
 	//접근 상태 변경
 	public int changeShowStatus(RecruVO recruVO);
+	//후기등록
+	public int insertReview(RecruVO recruVO);
 }

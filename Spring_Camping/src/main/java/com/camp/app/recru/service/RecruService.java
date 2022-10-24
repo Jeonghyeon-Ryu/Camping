@@ -18,7 +18,7 @@ public interface RecruService {
 	//검색조회
 	public List<RecruVO> recruKeywordList(String keyword);
 	//단건조회
-	public RecruVO findOne(String recruId);
+	public RecruVO findOne(int recruId);
 	//마이페이지 조회
 	public List<RecruVO> myRecru(String memberId);
 	//상태변경
@@ -31,5 +31,6 @@ public interface RecruService {
 	public boolean isExist(SaveVO save);
 	//접근 상태 변경
 	public int changeShowStatus(RecruVO recruVO);
-	
+	//후기등록
+	public int insertReview(RecruVO recruVO);
 }
