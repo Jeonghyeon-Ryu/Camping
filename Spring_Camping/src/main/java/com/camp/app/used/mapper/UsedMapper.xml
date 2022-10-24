@@ -13,10 +13,15 @@
 		 SELECT * FROM used 
 		<where>
 				used_status = 0
+			<if test="keyword != null and keyword !=''">
+				 AND (used_name LIKE '%'||#{keyword}||'%'
+            	 OR used_category LIKE '%'||#{keyword}||'%'
+           		 OR used_place LIKE '%'||#{keyword}||'%')
+			</if>	
 			<if test="usedName != null and usedName != ''">
 				and used_name LIKE '%'||#{usedName}||'%'
 			</if>
-			<if test="usedCategory != null and usedCategory != ''">
+			<if test="usedCategory != null and usedCategory != ''"> 
 				and used_category = #{usedCategory}
 			</if>
 			<if test="minPrice != null and minPrice != ''">
@@ -28,11 +33,14 @@
 			<if test="usedPlace != null and usedPlace != ''">
 				and used_place LIKE '%'||#{usedPlace}||'%'
 			</if>
+			<if test="dealStatus != null and dealStatus != '' and dealStatus != 9">
+				and deal_status = #{dealStatus}
+			</if>
 		</where>
 		ORDER BY used_id desc
 	</select>
 	
-	<!-- 게시글 키워드조회 -->
+	<!-- 게시글 키워드조회
   	<select id="findUsedKeyword" parameterType="String" resultType="UsedVO">
         SELECT * 
           FROM used
@@ -40,7 +48,7 @@
            AND (used_name LIKE '%'||#{keyword}||'%'
             OR used_category LIKE '%'||#{keyword}||'%'
             OR used_place LIKE '%'||#{keyword}||'%')
-   	</select>
+   	</select> -->
 	 
 	<!-- 게시글 단건조회(상세보기) -->
 	<select id="findDetail" parameterType="Integer" resultType="UsedVO">

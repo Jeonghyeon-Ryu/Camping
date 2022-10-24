@@ -5,13 +5,13 @@
       <form onsubmit="return false">
       <div class="used-headd">
         <div class="used-title">
-          <h2>중고장터</h2>
+          <div class="used-nav">중고</div>
         </div>
         <!--검색-->
         <div class="used-search">
           <div class="used-selected">
             <ul>
-            <li v-if="myGearType != ''" @click="gearSelected">{{myGearType}} X</li>
+            <li v-if="myCategory != ''" @click="gearSelected">{{myCategory}} X</li>
             <li v-if="regionSelect != ''" @click="regionSelected">{{regionSelect}} X</li>
             <li v-if="regionSelect2 != ''" @click="region2Selected">{{regionSelect2}} X</li>
             <li v-if="minPrice != ''" @click="priceSelected">{{minPrice}} ~ {{maxPrice}} X</li>
@@ -31,9 +31,8 @@
           <ul class="used-filter-ul">
             <li>
               <label for="inputCate">카테고리</label>
-              <select v-model="myGearType" name="usedCategory" selected>
+              <select v-model="myCategory" name="usedCategory" selected>
                 <option value='' disabled>카테고리 선택</option>
-                <option value="전체">전체</option>
                 <option value="텐트">텐트</option>
                 <option value="타프">타프</option>
                 <option value="가구">가구</option>
@@ -48,20 +47,20 @@
             </li>
             <li>
               <label for="inputDeal">거래상태</label>
-              <select name="dealStatus" selected>
-                <option value='' disabled>거래상태 선택</option>
-                <option value="0">거래가능</option>
-                <option value="1">거래중</option>
-                <option value="2">거래완료</option>
+              <select v-model="dealStatus" name="dealStatus" selected>
+                <option value='9' disabled>거래상태 선택</option>
+                <option value=0>거래가능</option>
+                <option value=1>거래중</option>
+                <option value=2>거래완료</option>
               </select>
             </li>
-           </ul>   
+          </ul>   
            <ul class="used-filter-ur">
             <li>
               <label for="inputPlace">지역</label>
                 <select v-model="regionSelect" id="districtSelect" name='city' @change="districtChange">
                   <option value='' disabled>시/도</option> 
-                  <option value='전체'>전체</option>
+                  <option value=''>전체</option>
                   <option value='서울'>서울특별시</option>
                   <option value='부산'>부산광역시</option>
                   <option value='대구'>대구광역시</option>
@@ -98,9 +97,9 @@
                 v-model="state.range">
                 <template #prefix="{ value }">￦ </template>
               </VueSimpleRangeSlider> -->
-              <input v-model="minPrice" type="range" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
+              <input v-model="minPrice" type="number" id="inputPrice" placeholder="0" name="minPrice" min="1000" max="10000000" step="1000">
               <p>~</p>
-              <input v-model="maxPrice" type="range" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
+              <input v-model="maxPrice" type="number" id="inputPrice" placeholder="0" name="maxPrice" min="1000" max="10000000" step="1000">
             </li>
           </ul>
         </div>
@@ -111,6 +110,12 @@
         <!-- :min="this.minPrice"
         :max="this.maxPrice" -->
 
+        <div v-if="keywordValue" class="검색결과">
+          <h4>'{{keywordValue}}' 에 대한 검색 결과</h4>
+          <div class="searched-filter">
+            최신순 | 낮은가격순 | 높은가격순
+          </div>
+        </div>
         <h2>{{recruMsg}}</h2>
         <div class="cards">
           <div v-for="card in usedList" :key="card.id">
@@ -156,14 +161,16 @@
     },
     data(){
       return{
+        keywordValue : '',
         keyword : '',
         usedList: [],
-        myGearType: '',
+        myCategory: '',
         regionSelect: '',
         regionSelect2: '',
         minPrice: '',
         maxPrice: '',
         searchImg : img1,
+        dealStatus: 9
       }
     },
     methods : {
@@ -194,7 +201,7 @@
       
       },
       gearSelected: function(){
-        this.myGearType = '';
+        this.myCategory = '';
       },
       regionSelected: function(){
         this.regionSelect = '';
@@ -227,12 +234,25 @@
 
       },
       searchList : function(event){
-        //키워드 검색 결과 받아오기
+        //키워드 검색+필터검색 결과 받아오기
+        let data = {
+          keyword: this.keyword,
+          usedCategory: this.myCategory,
+          minPrice: this.minPrice,
+          maxPrice: this.maxPrice,
+          usedPlace: this.regionSelect,
+          dealStatus: this.dealStatus,
+        }
+        if(this.regionSelect2){
+          data.usedPlace += ' '+this.regionSelect2;
+        }
         const keyword = this.keyword;
-        fetch("http://localhost:8087/java/used/search/"+keyword,{
+        this.keywordValue = keyword;
+        console.log(data)
+        fetch("http://localhost:8087/java/used/usedSearch",{
           method : "POST",
           headers : {"Content-Type" : "application/json"},
-          body : JSON.stringify(keyword)
+          body : JSON.stringify(data)
         })
           .then((response) =>response.json()) 
           .then(data => { 

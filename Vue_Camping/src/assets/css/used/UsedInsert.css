@@ -144,7 +144,9 @@ ul{
   border: 1px solid #e6e6e6;
   resize: none;
   font-size: 1.2em;
+  white-space: pre-wrap;
   /* margin-left: 15px; */
+
 }
 .used_content:focus{
   border: 1px solid black;
