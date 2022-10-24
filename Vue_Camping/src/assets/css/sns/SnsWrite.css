@@ -24,15 +24,6 @@
   border-radius: 5px;
 }
 
-/* 
-.sns-searchbox input[type=button] {
-  padding: 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: rgb(255, 255, 255);
-} */
-
-
 .sns-write-container {
   width: 100vw;
   display: flex;
@@ -83,8 +74,46 @@
   justify-content: center;
 }
 
+.sns-upload-image-container{
+  /* min-width : 480px; */
+  min-height : 250px;
+  max-width: 500px;
+  margin-right: 15px;
+}
+
 .sns-upload-img {
   margin-right: 2vw;
+}
+
+/* 정현님 이미지프리뷰 쌔빔 */
+.image-preview-div {
+  display: inline-block;
+  position: relative;
+  width: 150px;
+  height: 120px;
+  margin: 5px;
+  border: 1px solid #00f;
+  z-index: 1;
+}
+
+.image-preview-div img {
+  width: 100%;
+  height: 100%;
+  z-index: none;
+}
+
+.image-preview-delete-button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  font-size: 24px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f00;
+  border: none;
+  cursor: pointer;
 }
 
 .sns-write-form-id-form {
@@ -141,7 +170,9 @@
   color: rgb(87, 87, 87);
   font-weight: bold;
 }
-
+.sns-write-location{
+  position: relative;
+}
 .sns-write-location input {
   margin-top : 15px;
   width: 28vw;
@@ -154,23 +185,17 @@
   font-weight: bold;
 }
 
-.sss{
-width: 660px;
-min-height:150px;
-padding:10px;
-border:1px dotted #00f;
+.address-search-button{
+  position: absolute;
+  right: 6px;
+  top: 25px
 }
-.sss:empty:before{
-content : attr(data-placeholder);
-color : #999;
-font-size:.9em;
-}
-
 .sns-image-preview img {
 width:100%;
 height:100%;
 z-index:none;
 }
+
 .sns-image-preview-delete-button {
 width:30px;
 height:30px;
@@ -216,6 +241,7 @@ cursor:pointer;
   display:flex;
   flex-wrap: wrap;
   overflow: auto;
+  border-radius: 5px;
 }
 /* total width */
 .sns-register-image-preview::-webkit-scrollbar {

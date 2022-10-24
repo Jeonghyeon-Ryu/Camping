@@ -1,9 +1,7 @@
 <template>
   <div class="sns-container">
     <div class="sns-searchbox">
-      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
-      <button @click="doSearch" style="display: none;">조회</button>
-      <!-- <input type="button" @click="doClear" value="X"> -->
+      <SnsSearch @showHashList="showHashList"></SnsSearch>
     </div>
     <div class="sns-page-nickname-container">
       <div class="sns-page-nickname">
@@ -52,6 +50,8 @@
 
 
 <script>
+import SnsSearch from './SnsSearch.vue';
+
 export default {
   created: function () {
     // 이메일 + 프로필소개글 + 닉네임 가져오기
@@ -141,7 +141,10 @@ export default {
     getSnsDetail(writeNo) {
       this.$router.push({ name: 'SnsDetail', params: { writeNo: writeNo } });
     }
-  }
+  },
+  components: {
+    SnsSearch
+  },
 }
 </script>
 
@@ -159,7 +162,6 @@ export default {
 /* 공통 부분 */
 
 .sns-container {
-  margin-top: 300px;
   width: 100vw;
   display: flex;
   flex-wrap: wrap;

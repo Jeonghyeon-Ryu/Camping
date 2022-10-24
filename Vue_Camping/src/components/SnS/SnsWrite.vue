@@ -166,6 +166,9 @@ export default {
       // location.value = (document.querySelector('.info h5').value);
       // console.log(location);
 
+      //null이 아닌 값들이 null일때
+
+
       fetch('http://localhost:8087/java/sns', {
         method: 'POST',
         headers: {},
@@ -188,7 +191,24 @@ export default {
                 this.$router.push({ name: 'SnsMain' })
               }
             })
+          }else if(result != "true"){
+            // alert("사진과 내용은 필수입력항목입니다.");
+            Swal.fire({
+                    icon: 'info',
+                    title: '사진과 내용을 반드시 입력해주세요.',
+                    // text: '계속해서 등록되지 않으면 고객센터로 문의해주세요.',
+                    toast: true,
+                    position: 'center-center',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
           }
+          //null이 아닌 값들이 null일때
         })
     },
 
@@ -259,36 +279,4 @@ export default {
 </script>
 
 <style scoped src="@/assets/css/sns/SnsWrite.css">
-
-/* 정현님 이미지프리뷰 쌔빔 */
-.image-preview-div {
-  display: inline-block;
-  position: relative;
-  width: 150px;
-  height: 120px;
-  margin: 5px;
-  border: 1px solid #00f;
-  z-index: 1;
-}
-
-.image-preview-div img {
-  width: 100%;
-  height: 100%;
-  z-index: none;
-}
-
-.image-preview-delete-button {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  font-size: 24px;
-  right: 0px;
-  bottom: 0px;
-  z-index: 999;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #f00;
-  border: none;
-  cursor: pointer;
-}
-
 </style>

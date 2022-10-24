@@ -72,8 +72,6 @@ export default {
 }
 </script>
 
-
-
 <style scoped>
 .sns-container{
     display: flex;

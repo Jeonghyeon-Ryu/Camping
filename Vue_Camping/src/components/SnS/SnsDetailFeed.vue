@@ -1,8 +1,7 @@
 <template>
   <div class="sns-container">
     <div class="sns-searchbox">
-      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
-      <button @click="doSearch" style="display: none;">조회</button>
+      <SnsSearch @showHashList="showHashList"></SnsSearch>
     </div>
     <div class="sns-page-id-container">
       <div class="sns-page-id">
@@ -13,7 +12,8 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+            <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"
+            @click="getSnsNickFeed(snsItem.nickname)">
             <!--프로필 이미지로 바꾸기 -->
           </div>
         </div>
@@ -84,7 +84,8 @@
               <div class="sns-comment-write-id-container">
                 <div class="sns-comment-write-id">
                   <img
-                    :src="'http://localhost:8087/java/profile/'+snsCommentItem.profile.imagePath+'/'+snsCommentItem.profile.storedName">
+                    :src="'http://localhost:8087/java/profile/'+snsCommentItem.profile.imagePath+'/'+snsCommentItem.profile.storedName"
+                    @click="getSnsNickFeed(snsCommentItem.nickname)">
                     <input type="text" :value="snsCommentItem.email" style="display :none;">
                   </div>
                 <div class="sns-comment-write-id">
@@ -94,7 +95,7 @@
               <div class="sns-comment-container">
                 <div class="sns-comment">
                   <div class="sns-comment-write-context">
-                    <div v-html="snsCommentItem.commentContent"></div>
+                    <div class="sns-comment-write-context-html" v-html="snsCommentItem.commentContent"></div>
                   </div>
                 </div>
                 <div class="sns-comment-date">
@@ -118,6 +119,7 @@
   </div>
 </template>
 <script>
+import SnsSearch from './SnsSearch.vue';
 import likeImg from "@/assets/img/sns/heart.png"
 import dislikeImg from "@/assets/img/sns/heart2.png"
 import commentImage from "@/assets/img/sns/comment.png"
@@ -242,6 +244,10 @@ export default {
   },
   //검색
   methods: {
+    //아이디프로필사진 클릭시 그사람마이페이지로
+    getSnsNickFeed(nickname) {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickname } });
+    },
     // doSearch() {
     //   console.log(this.searchText);
     // },
@@ -662,6 +668,7 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+    SnsSearch
     // SnsSearch
   },
   setup() {

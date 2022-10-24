@@ -129,6 +129,7 @@
   height: 3vw;
   border-radius: 70%;
   margin-right: 1vw;
+  cursor: pointer;
 }
 
 .sns-write-id input {
@@ -222,14 +223,6 @@
   justify-content: left;
 }
 
-
-.sns-comment-write-id-img img {
-  width: 3vw;
-  height: 3vw;
-  border-radius: 70%;
-  margin-right: 1vw;
-}
-
 .sns-write-context textarea {
   margin-top: 5px;
   width: 90%;
@@ -319,6 +312,7 @@
   height: 3vw;
   border-radius: 70%;
   margin-right: 1vw;
+  cursor: pointer;
 }
 
 .sns-comment-write-id input {
@@ -331,7 +325,16 @@
   outline: none;
 }
 
-.sns-comment-write-context textarea {
+.sns-comment-write-context {
+  margin-top: 5px;
+  width: 24vw;
+  height: 30px;
+  border: none;
+  resize: none;
+  border-radius: 5px;
+  margin-left: 15px;
+}
+.sns-comment-write-context-html{
   margin-top: 5px;
   width: 24vw;
   height: 30px;
