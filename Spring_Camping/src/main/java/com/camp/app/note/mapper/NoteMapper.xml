@@ -48,16 +48,30 @@
 	<!-- 노트 초대하기(invitedMember추가) -->
 	
 	<update id="invitedMember" parameterType="NoteVO">
+
 		UPDATE NOTE
 		SET invited_member = #{invitedMember}
 		WHERE note_id = #{noteId}
+		
 	</update>
 	
 	<select id="getInvitedNoteList" resultType="NoteVO">
-		SELECT note_id, note_status, to_char(write_date,'yyyy-mm-dd') as write_date, title, invited_member
-		FROM note
-		WHERE invted_member = #{email}
+	
+		SELECT * 
+		FROM NOTE 
+		WHERE REGEXP_LIKE(invited_member, #{email})
+		
 	</select>
 	
+ 	<select id="getInvitedMember" resultType="NoteVO">
+		SELECT invited_member
+		FROM NOTE
+		WHERE note_id = #{noteId}
+	</select>
+	
+	<delete id="delInvitedMember" parameterType="NoteVO">
+		DELETE FROM note
+    	WHERE note_id = #{noteId} AND email = #{email};
+	</delete>	
 	
 </mapper>

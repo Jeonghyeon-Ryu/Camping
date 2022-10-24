@@ -58,6 +58,16 @@ public class NoteController {
 	public List<NoteVO> showInvitedNoteList(@PathVariable("email") String email) { 
 		return service.showInvitedNoteList(email);
 	}
+	//공유중인 유저정보 가져오기
+	@GetMapping("/BlockUser/{noteId}")
+	public InvitedMemberVO showInvitedMember(@PathVariable("noteId") int noteId) { 
+		return service.showInvitedMember(noteId);
+	}
+	//공유끊기
+	public void delInvitedMember(@PathVariable("noteId") int noteId) { 
+		//System.out.print(nodeDto.getNoteIds().get(0));
+		service.delMember(noteId);
+	}
 	//imgDB에 저장
 	@PostMapping("/WriteNoteInfo")
 	public boolean saveImg(NoteVO nvo, List<MultipartFile> files) throws IOException { 

@@ -160,42 +160,59 @@ public class NoteServiceImpl implements NoteService {
 		
 		String invitedMember = "";
 		
-		for(int i=0; i<ivo.getInvitedMember().size()-1; i++) {
-			
-			invitedMember += ivo.getInvitedMember().get(i) + ',';
-		}
-		invitedMember += ivo.getInvitedMember().get(ivo.getInvitedMember().size()-1);
+		String temp = mapper.getMyNoteInfo(ivo.getNoteId()).getInvitedMember();
 		
-		nvo.setInvitedMember(invitedMember);
+		for(int i=0; i<ivo.getInvitedMember().size(); i++) {
+			
+			invitedMember += ivo.getInvitedMember().get(i);
+		}
+		//invitedMember += ivo.getInvitedMember().get(ivo.getInvitedMember().size()-1);
+		
+		nvo.setInvitedMember(temp + invitedMember);
+		System.out.println("확인---");
+		System.out.println(nvo.getInvitedMember());
 		
 		mapper.invitedMember(nvo);
-		System.out.println("여길보세요");
-		System.out.println(invitedMember);
-		//자르기는 노트 불러올 때 메일확인할때 잘라서
-		/*System.out.println("자르기");
-		System.out.println(nvo.getInvitedMember().indexOf(","));
-		System.out.println(nvo.getInvitedMember().substring(0, nvo.getInvitedMember().indexOf(",")));
 		
-		while(nvo.getInvitedMember().indexOf(",") !=-1) {
-			invitedMember = nvo.getInvitedMember().substring(0, nvo.getInvitedMember().indexOf(","));
-		}*/
-	
-		//nvo.getInvitedMember().substring(0, nvo.getInvitedMember().indexOf(","));
 		return true;
 		
 	}
 	@Override
 	public List<NoteVO> showInvitedNoteList(String email) {
 		
-		if(email.indexOf(",") != -1) { 
-			email = email + ',';
-			System.out.println("------------email");
-			System.out.println(email);
+		email = ","+ email +",";
+		List<NoteVO> InvitedList = mapper.getInvitedNoteList(email);
+
+		return InvitedList;	
+	}
+	@Override
+	public InvitedMemberVO showInvitedMember(int noteId) {
+		
+		
+		NoteVO nvo = mapper.getInvitedMember(noteId);
+		
+		System.out.println(nvo.getInvitedMember());
+		
+		List<String> tempList = new ArrayList<>();
+		
+		String temp = nvo.getInvitedMember();
+		temp = temp.substring(5,temp.length());
+		
+		tempList.add(temp.substring(0,temp.indexOf(",,")));
+		
+		while(temp.indexOf(",,") != -1) {
+			temp = temp.substring(temp.indexOf(",,"),temp.length());
+			tempList.add(temp.substring(0, temp.indexOf(",,")));
 		}
-		System.out.println("------------email");
-		System.out.println(email);	
-		List<NoteVO> InvitedListInfo = mapper.getInvitedNoteList(email);
-		return InvitedListInfo;
+		tempList.add(temp.substring(0, temp.length()-1));
+		
+		InvitedMemberVO ivo = new InvitedMemberVO();
+		ivo.setInvitedMember(tempList);
+		return ivo;
+	}
+	@Override
+	public void delMember(int noteId) {
+		mapper.delInvitedMember(noteId);
 		
 	}
 
