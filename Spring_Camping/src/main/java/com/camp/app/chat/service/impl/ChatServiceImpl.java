@@ -139,4 +139,11 @@ public class ChatServiceImpl implements ChatService {
 		sendTemplate.convertAndSend("/queue/"+inputChat.getEmail(), chatList);
 	}
 
+	@Override
+	public List<RoomVO> getRoomList(String email) {
+		RoomVO room = new RoomVO();
+		room.setEmail(email);
+		return rMapper.findByEmail(room);
+	}
+
 }

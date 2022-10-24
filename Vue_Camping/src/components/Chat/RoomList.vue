@@ -21,6 +21,9 @@
 <script>
 export default {
     props: ['roomList'],
+    created : function() {
+        
+    }
 }
 </script>
 <style scoped src="./RoomList.css"></style>

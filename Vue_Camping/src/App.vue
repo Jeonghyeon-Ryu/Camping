@@ -46,7 +46,6 @@ export default {
             console.log("소켓 연결 실패", error);
           }
         );
-
       }
     },
     isConnectQueue() {
@@ -103,14 +102,14 @@ export default {
       if (this.stompClient == '' && this.$store.state.email != null) {
         this.connect();
       }
-      //   // 채팅 연결 메세지 보내기
-      //   // 돌아오는 Room 번호로 구독하기.
-      //   // 연결여부 확인 연결 안되있을때 연결하기 ( 새로고침때문 )
-      //   // 구독 여부 확인이 중요.
-      //   // Socket 연결 여부 사전 확인 필요.
-      //   // 방생성 -> Queue 사전 구독 필요
-      //   // 채팅방 접속 -> Queue 구독 + Room 구독 필요( Room 구독은 Chatlog로 확인 ).
-      //   // 방나가기 -> Room 구독 취소 필요
+      // 채팅 연결 메세지 보내기
+      // 돌아오는 Room 번호로 구독하기.
+      // 연결여부 확인 연결 안되있을때 연결하기 ( 새로고침때문 )
+      // 구독 여부 확인이 중요.
+      // Socket 연결 여부 사전 확인 필요.
+      // 방생성 -> Queue 사전 구독 필요
+      // 채팅방 접속 -> Queue 구독 + Room 구독 필요( Room 구독은 Chatlog로 확인 ).
+      // 방나가기 -> Room 구독 취소 필요
 
       // if (this.stompClient == '') {  // 연결되지 않았을때.
       //   this.connect();

@@ -13,7 +13,7 @@ public interface ChatService {
 	// 일반 메세지
 	public void sendMessage(InputChatVO inputChat);
 	// 채팅방 전체 조회
-	
+	public List<RoomVO> getRoomList(String email);
 	// Queue 연결여부 조회
 	public int isConnectQueue(String email);
 	// Queue 연결 저장

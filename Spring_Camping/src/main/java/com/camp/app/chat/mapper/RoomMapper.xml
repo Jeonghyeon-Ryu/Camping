@@ -11,10 +11,10 @@
 		DELETE FROM room WHERE room_id=#{roomId} and email=#{email}
 	</delete>
 	<select id="findByEmail" parameterType="RoomVO" resultType="RoomVO">
-		SELECT * FROM email=#{email}
+		SELECT * FROM room WHERE email=#{email}
 	</select>
 	<select id="findByRoomId" parameterType="RoomVO" resultType="RoomVO">
-		SELECT * FROM room_id=#{roomId}
+		SELECT * FROM room WHERE room_id=#{roomId}
 	</select>
 	<select id="findByRoomIdAndEmail" parameterType="RoomVO" resultType="Integer">
 		SELECT NVL(COUNT(*),0) FROM room WHERE room_id=#{roomId} AND email=#{email}

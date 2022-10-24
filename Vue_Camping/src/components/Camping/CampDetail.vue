@@ -3,8 +3,9 @@
         <div class="camp-detail-title-container">
             <input :value="camp.campName" class="camp-detail-title" readonly />
             <div class="camp-detail-title-info">
-                <div class="camp-detail-review-count"><a href="#camp-detail-sns-container">후기(30)</a></div>
-                <div class="camp-detail-address"><a href="#" v-text="camp.campAddress"></a></div>
+                <div class="camp-detail-review-count"><a href="#camp-detail-sns-container">후기({{ snsImgs.length }})</a>
+                </div>
+                <div class="camp-detail-address"><a v-text="camp.campAddress"></a></div>
             </div>
         </div>
         <div class="camp-detail-image-container">
@@ -103,14 +104,15 @@
                 <button v-if="!isSaved" type="button" @click="saveItem($event)">저장하기</button>
                 <button v-if="isSaved" type="button" @click="noSaveItem($event)"
                     style="background:lavenderblush">저장취소</button>
-                <button v-if="$store.state.auth!=0" type="button" @click="getCompanion()">동행자 구하기</button>
-                <button v-if="$store.state.auth!=0" type="button" @click="modifyItemByUser()">수정신청</button>
-                <button v-if="$store.state.auth==0" type="button" @click="modifyItemByAdmin()">수정하기</button>
-                <button v-if="$store.state.auth!=0" type="button" @click="reportItem()">신고하기</button>
+                <button v-if="$store.state.auth != 0" type="button" @click="getCompanion()">동행자 구하기</button>
+                <button v-if="$store.state.auth != 0" type="button" @click="modifyItemByUser()">수정신청</button>
+                <button v-if="$store.state.auth == 0" type="button" @click="modifyItemByAdmin()">수정하기</button>
+                <button v-if="$store.state.auth != 0" type="button" @click="reportItem()">신고하기</button>
             </div>
         </div>
-        <div id="camp-detail-sns-container" class="camp-detail-sns-container">
-
+        <div class="camp-detail-sns-container-title">후기</div>
+        <div v-if="snsImgs.length > 0" id="camp-detail-sns-container" class="camp-detail-sns-container">
+            <CampSns :snsImgs="snsImgs"></CampSns>
         </div>
     </div>
 </template>
@@ -119,6 +121,7 @@
 import KakaoMap from "../KakaoMap.vue";
 import CampDetailImage from "./CampDetailImage.vue";
 import Swal from 'sweetalert2';
+import CampSns from "./CampSns.vue";
 export default {
     data: function () {
         return {
@@ -127,6 +130,8 @@ export default {
             campId: this.$route.params.campId,
             camp: {},
             isSaved: false,
+            snsImgs: [],
+            page: 1,
         }
     },
     created: function () {
@@ -135,6 +140,12 @@ export default {
             .then(result => {
                 result.campInfo = result.campInfo.split(" ");
                 this.camp = result;
+                fetch("http://localhost:8087/java/hashtagList/" + this.camp.campName + "/" + this.page)
+                    .then(result => result.json())
+                    .then(result => {
+                        this.snsImgs = result;
+                    })
+                    .catch(err => console.log(err));
             }).catch(err => console.log(err));
         if (this.$store.state.email != null) {
             fetch('http://localhost:8087/java/save?boardId=' + this.campId + '&email=' + this.$store.state.email)
@@ -146,6 +157,7 @@ export default {
                 })
                 .catch(err => console.log(err));
         }
+
     },
     methods: {
         // 후기 셋팅 필요
@@ -326,7 +338,7 @@ export default {
             console.log(item);
         },
     },
-    components: { KakaoMap, CampDetailImage },
+    components: { KakaoMap, CampDetailImage, CampSns },
 }
 </script>
 

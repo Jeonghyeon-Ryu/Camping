@@ -1,12 +1,16 @@
 package com.camp.app.chat.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.camp.app.chat.service.ChatService;
+import com.camp.app.chat.service.ChatVO;
 import com.camp.app.chat.service.InputChatVO;
 
 @Controller
@@ -48,6 +52,11 @@ public class ChatController {
 		} else {					// 그외 오류처리
 			
 		}
+	}
+	
+	@GetMapping("/chat")
+	public List<ChatVO> getChat(){
+		return null;
 	}
 
 }

@@ -8,6 +8,9 @@
 import RoomList from "./RoomList.vue";
 import Chat from "./Chat.vue";
 export default {
+    created: function() {
+        this.$store.dispatch('getRoomList');
+    },
     components: { RoomList, Chat }
 }
 </script>

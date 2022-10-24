@@ -17,7 +17,7 @@
 <script>
 import MyMessage from "./MyMessage.vue";
 import OtherMessage from "./OtherMessage.vue";
-export default{
+export default{ 
     components: { MyMessage, OtherMessage }
 }
 </script>

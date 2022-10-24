@@ -23,7 +23,7 @@ public class RoomController {
 
 	@GetMapping("/roomlist/{email}")
 	public List<RoomVO> getRoomAll(@PathVariable String email){
-		return null;
+		return service.getRoomList(email);
 	}
 	
 	@GetMapping("/room/{email}")
