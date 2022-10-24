@@ -94,13 +94,14 @@
             v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click="hearted()">🧡 찜
             취소</button>
           <button type="button" class="chat-button"
-            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0" @click="startChat">채팅하기</button>
+            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0"
+            @click="startChat">채팅하기</button>
           <button type="button" class="chat-button2"
             v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">채팅하기</button>
           <button type="button" class="update-button" v-if="usedList.email === memberId && usedList.dealStatus != 2"
             @click="usedUpdate()">수정하기</button>
-          <button type="button" class="update-button2"
-            v-if="usedList.email === memberId && usedList.dealStatus === 2" @click="usedUpdateFail()" >수정하기</button>
+          <button type="button" class="update-button2" v-if="usedList.email === memberId && usedList.dealStatus === 2"
+            @click="usedUpdateFail()">수정하기</button>
           <button type="button" class="delete-button" v-if="usedList.email === memberId && usedList.dealStatus != 1"
             @click="usedDelete()">삭제하기</button>
           <button type="button" class="delete-button2" v-if="usedList.email === memberId && usedList.dealStatus === 1"
@@ -129,7 +130,7 @@ export default {
       usedStatus: img1,
       liked: true,
       likeCnt: 0,
-      storedProfile : ''
+      storedProfile: ''
     }
   },
   components: {
@@ -203,8 +204,8 @@ export default {
                 })
               }
             }).catch(err => console.log(err))
-            this.$router.go()
-          } else if (this.liked === false) {
+          this.$router.go()
+        } else if (this.liked === false) {
           fetch('http://localhost:8087/java/save', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
@@ -257,29 +258,29 @@ export default {
         showCancelButton: true,
 
       })
-      .then(result => {
-        // 만약 Promise리턴을 받으면,
-        if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-          fetch('http://localhost:8087/java/used/dealUpdate', {
-        method: "PUT",
-        // body : fetchData
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fetchData)
-      })
-        .then(Response => Response.json())  //json 파싱 
-        .then(data => {
-          if (data >= "1") {
-            // 성공
-            console.log("입력되었습니다.")
-          } else {
-            // 실패                    
-            console.log("입력 실패")
+        .then(result => {
+          // 만약 Promise리턴을 받으면,
+          if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+            fetch('http://localhost:8087/java/used/dealUpdate', {
+              method: "PUT",
+              // body : fetchData
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(fetchData)
+            })
+              .then(Response => Response.json())  //json 파싱 
+              .then(data => {
+                if (data >= "1") {
+                  // 성공
+                  console.log("입력되었습니다.")
+                } else {
+                  // 실패                    
+                  console.log("입력 실패")
+                }
+              }).catch(err => console.log(err))
+            this.$router.go()
           }
-        }).catch(err => console.log(err))
-      this.$router.go()
         }
-      }
-      );
+        );
     },
     //수정
     usedUpdate: function () {
@@ -321,33 +322,33 @@ export default {
       }
       );
     },
-    usedUpdateFail: function(){
+    usedUpdateFail: function () {
       Swal.fire({
-                  icon: 'warning',
-                  title: '수정 불가', 
-                  text: '거래 완료된 글입니다',
-                  toast: true,
-                  showConfirmButton: false,
-                  timer: 1200,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
+        icon: 'warning',
+        title: '수정 불가',
+        text: '거래 완료된 글입니다',
+        toast: true,
+        showConfirmButton: false,
+        timer: 1200,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
     },
-    usedDeleteFail: function(){
+    usedDeleteFail: function () {
       Swal.fire({
-                  icon: 'warning',
-                  title: '삭제 불가', 
-                  text: '거래중인 글입니다',
-                  toast: true,
-                  showConfirmButton: false,
-                  timer: 1200,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
+        icon: 'warning',
+        title: '삭제 불가',
+        text: '거래중인 글입니다',
+        toast: true,
+        showConfirmButton: false,
+        timer: 1200,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
     },
     //접근제한
     usedRestrict: function () {
@@ -375,7 +376,7 @@ export default {
           })
             .then(Response => Response.json())  //json 파싱 
             .then(data => {
-              console.log(data)
+              console.log(data);
 
             }).catch(err => console.log(err))
             .then(Swal.fire({
@@ -396,101 +397,101 @@ export default {
     },
     //신고
     reportItem: function () {
-      if(this.$store.state.email === null || this.$store.state.email === ''){
+      if (this.$store.state.email === null || this.$store.state.email === '') {
         Swal.fire({
-                  icon: 'warning',
-                  title: '로그인 후에 신고할 수 있어요', 
-                  toast: true,
-                  showConfirmButton: false,
-                  timer: 1200,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
-      }else{
-      let item = Swal.fire({
-        title: '신고',
-        html:
-          '<select id="swal-input1" class="swal2-select" style="font-size:13px;">' +
-          '<option value="" disabled="">신고 분류</option>' +
-          '<option value="판매 금지 물품">판매 금지 물품</option>' +
-          '<option value="사기 게시물">사기 게시물</option>' +
-          '<option value="중고거래 게시물이 아님">중고거래 게시물이 아님</option>' +
-          '<option value="게시글 규정 위반">게시글 규정 위반</option>' +
-          '<option value="기타">기타</option>' +
-          '</select>' +
-          '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; font-size:12px;" maxlength="450" placeholder="신고 사유를 입력하세요"></textarea>',
-        focusConfirm: false,
-        showCancelButton: true,
-        confirmButtonText: '신고',
-        cancelButtonText: '취소',
-        confirmButtonColor: 'rgba(6,68,32,0.8)',
-        preConfirm: () => {
-          let fetchData = {
-            "boardId": this.usedId,
-            "boardDivision": 2,
-            "reportDivision": document.getElementById('swal-input1').value,
-            "reportContent": document.getElementById('swal-input2').value,
-            "email": this.$store.state.email
+          icon: 'warning',
+          title: '로그인 후에 신고할 수 있어요',
+          toast: true,
+          showConfirmButton: false,
+          timer: 1200,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
+        })
+      } else {
+        let item = Swal.fire({
+          title: '신고',
+          html:
+            '<select id="swal-input1" class="swal2-select" style="font-size:13px;">' +
+            '<option value="" disabled="">신고 분류</option>' +
+            '<option value="판매 금지 물품">판매 금지 물품</option>' +
+            '<option value="사기 게시물">사기 게시물</option>' +
+            '<option value="중고거래 게시물이 아님">중고거래 게시물이 아님</option>' +
+            '<option value="게시글 규정 위반">게시글 규정 위반</option>' +
+            '<option value="기타">기타</option>' +
+            '</select>' +
+            '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; font-size:12px;" maxlength="450" placeholder="신고 사유를 입력하세요"></textarea>',
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: '신고',
+          cancelButtonText: '취소',
+          confirmButtonColor: 'rgba(6,68,32,0.8)',
+          preConfirm: () => {
+            let fetchData = {
+              "boardId": this.usedId,
+              "boardDivision": 2,
+              "reportDivision": document.getElementById('swal-input1').value,
+              "reportContent": document.getElementById('swal-input2').value,
+              "email": this.$store.state.email
+            }
 
-          console.log(fetchData);
-          fetch('http://localhost:8087/java/report', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(fetchData)
-          }).then(result => result.text())
-            .then(result => {
-              if (result == "true") {
-                Swal.fire({
-                  icon: 'success',
-                  title: '신고 완료 !',
-                  toast: true,
-                  showConfirmButton: false,
-                  timer: 1500,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    this.$router.push({ path: '/used/UsedDetail/' + this.usedId, });
-                  }
-                })
-              } else {
-                Swal.fire({
-                  icon: 'error',
-                  title: '신고 실패 !',
-                  text: '계속 실패하면 고객센터에 문의해주세요.',
-                  toast: true,
-                  showConfirmButton: false,
-                  timer: 1500,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                  }
-                })
-              }
-              console.log(result);
-            })
+            console.log(fetchData);
+            fetch('http://localhost:8087/java/report', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(fetchData)
+            }).then(result => result.text())
+              .then(result => {
+                if (result == "true") {
+                  Swal.fire({
+                    icon: 'success',
+                    title: '신고 완료 !',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      this.$router.push({ path: '/used/UsedDetail/' + this.usedId, });
+                    }
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: '신고 실패 !',
+                    text: '계속 실패하면 고객센터에 문의해주세요.',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
+                }
+                console.log(result);
+              })
 
-          return false;
-        }
-      })
-      console.log(item);
+            return false;
+          }
+        })
+        console.log(item);
+      }
     },
     startChat() {
       let message = {
-        roomId : 1,
-        email : this.$store.state.email,
-        targetEmail : [this.usedList.email],
-        type : 0
+        roomId: 1,
+        email: this.$store.state.email,
+        targetEmail: [this.usedList.email],
+        type: 0
       }
-      this.$emit("send",message);
+      this.$emit("send", message);
     }
-  }
   },
   //created-페이지 열자마자 실행
   created() {
@@ -507,18 +508,13 @@ export default {
         component.usedList = data;
         console.log(component.usedList.email)
 
-//
+        fetch('http://localhost:8087/java/profile/' + component.usedList.email)
+          .then(result => result.json())
+          .then(result => {
+            this.storedProfile = result;
 
-fetch('http://localhost:8087/java/profile/' + component.usedList.email)
-      .then(result => result.json())
-      .then(result => {
-        this.storedProfile = result;
-
-        
-
-
-      }).catch(err => console.log(err));
-      //
+          }).catch(err => console.log(err));
+        //
 
       }).catch(err => console.log(err))
 
@@ -553,17 +549,23 @@ fetch('http://localhost:8087/java/profile/' + component.usedList.email)
         .catch(err => console.log(err));
     }
 
-        //좋아요count
-      fetch('http://localhost:8087/java/used/updateLike/'+ this.usedId)
+    //좋아요count
+    fetch('http://localhost:8087/java/used/updateLike/' + this.usedId)
       .then(result => result.json())
       .then(result => {
         this.likeCnt = result;
       })
       .catch(err => console.log(err))
-    },
-  }
+  },
+}
 
 </script>
+
+
+
+
+
+
 
 
 
