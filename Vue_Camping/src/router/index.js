@@ -198,6 +198,11 @@ const routes = [{
     component: () => import('@/components/recruit/RecruReviewView.vue'),
     props: true
   },
+  {
+    name: 'UsedSearch',
+    path: '/used/usedSearch',
+    component: () => import('@/components/UsedPractice/UsedSearch.vue'),
+  }
 ]
 
 const router = createRouter({

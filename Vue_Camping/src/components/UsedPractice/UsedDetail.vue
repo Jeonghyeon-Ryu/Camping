@@ -64,9 +64,9 @@
                   · 거래지역 : {{usedList.usedPlace}}
                 </li>
               </div>
-              <div class="used-head-btns">
+              <!-- <div class="used-head-btns">
                 <input type="button" value="수정하기">
-              </div>
+              </div> -->
             </div>
           </ul>
         </div>
@@ -89,6 +89,9 @@
           <b>{{usedList.nickName}}</b>
           <div class="used-writer-post">
             <!-- 올린게시물정보(코드써야함) -->
+            <div class="used-writer-home">
+              {{usedList.nickName}}님이 판매중인 상품 구경하기 >
+            </div>
           </div>
         </div>
         <div class="info-buttons">
@@ -207,7 +210,7 @@ export default {
                 })
               }
             }).catch(err => console.log(err))
-            this.$router.go()
+            // this.$router.go()
           } else if (this.liked === false) {
           fetch('http://localhost:8087/java/save', {
             method: 'POST',
@@ -231,7 +234,7 @@ export default {
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                   }
                 })
-                this.$router.go()
+                // this.$router.go()
                 // this.$router.push({name : 'usedMain'})
               }
             }).catch(err => console.log(err))

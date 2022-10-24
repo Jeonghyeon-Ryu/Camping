@@ -127,7 +127,7 @@ ul{
   background-color: rgba(221, 87, 63, 0.873);
 }
 .like-button2{
-  background-color: rgba(176, 73, 55, 0.666);
+  background-color: rgba(201, 80, 59, 0.873);
 }
 .chat-button, .update-button{
   background-color:  rgba(101, 198, 109, 0.773);
@@ -244,4 +244,7 @@ select{
   cursor: pointer;
   font-size: 0.8em;
   font-weight: bold;
+}
+.used-writer-home{
+  
 }

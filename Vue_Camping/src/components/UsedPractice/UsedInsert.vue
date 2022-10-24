@@ -52,7 +52,7 @@
                 <li>
                   <label for="inputPlace">지역<span class="essential">*</span></label>
                     <div class="usedPlace">
-                    <select name="usedPlace" v-model="regionSelect" class="districtSelect" @change="districtChange">
+                    <select name="usedPlace" v-model="regionSelect" id="districtSelect" @change="districtChange">
                       <option value='' disabled>시/도</option> 
                       <option value='전체'>전체</option>
                       <option value='서울'>서울특별시</option>
@@ -93,7 +93,7 @@
               <li id="textbox">
                 <label for="used_content">상품설명<span class="essential">*</span></label>
                 <div class="used-desc">
-                  <textarea name="usedContent" class="used_content" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"></textarea>
+                  <textarea name="usedContent" class="used_content" maxlength="500" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상 500자 이하)"></textarea>
                 </div>
               </li>
             </ul>
@@ -177,7 +177,7 @@
         let price = document.getElementById('inputPrice').value;
         let category = document.getElementById('used_cate').value;
         let content = document.querySelector('.used_content').value;
-        let placeVal = document.querySelector('.districtSelect').value;
+        let placeVal = document.querySelector('#districtSelect').value;
 
         // fetchData.append('nickName', this.nickName)
         fetchData.forEach((value,key)=>{
@@ -191,7 +191,7 @@
         }else if(category == null || category.trim() === ""){
           this.swCategory();
         }else if(placeVal == null || placeVal.trim() === ""){
-          this.swCategory();
+          this.swPlace();
         }else if(content == null || content.trim() === "" ||content.length < 10){
           this.swContent();
         }else{
@@ -281,6 +281,20 @@
         Swal.fire({
           title: '',
           text: '카테고리는 필수 선택 사항입니다',
+          icon: 'warning',
+          
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+          confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+          
+          reverseButtons: true, // 버튼 순서 거꾸로
+          
+        })
+      },
+      swPlace: function(){
+        Swal.fire({
+          title: '',
+          text: '지역은 필수 선택 사항입니다',
           icon: 'warning',
           
           confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정

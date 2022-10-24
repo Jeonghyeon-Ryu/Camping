@@ -1,42 +1,6 @@
 <template>
-  <!--상단(필터, 검색)-->
-  <div id="container">
-    <div id="container2">
-      <form onsubmit="return false">
-      <div class="used-headd">
-        <div class="used-title">
-          <div class="used-nav"></div>
-          <div class="used-main">
-            <swiper :pagination="true" :navigation="true"
-            :modules="modules" autoplay="true" class="mySwiper">
-              <swiper-slide><img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고" /></swiper-slide>
-              <swiper-slide><img src="@/assets/img/bg11.png" alt="의자 중고거래 광고" /></swiper-slide>
-            </swiper>
-            <!-- <img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고"> -->
-          </div>
-        </div>
-        <!--검색-->
-        <div class="used-search">
-          <div class="used-selected">
-            <ul>
-            <li v-if="myCategory != ''" @click="gearSelected">{{myCategory}} X</li>
-            <!-- <li v-if="dealStatus != ''" @click="dealSelected">{{dealStatus}} X</li> -->
-            <li v-if="regionSelect != ''" @click="regionSelected">{{regionSelect}} X</li>
-            <li v-if="regionSelect2 != ''" @click="region2Selected">{{regionSelect2}} X</li>
-            <li v-if="minPrice != ''" @click="priceSelected">{{minPrice}} ~ {{maxPrice}} X</li>
-            </ul>
-          </div>
-          
-          <div class="used-searchbox">
-            <div>
-              <input type="text" name="search" placeholder="어떤 물건을 찾으시나요?" v-model="keyword" @keyup.enter="searchList()">
-              <img v-bind:src="searchImg" @click='searchList'>
-           </div>
-          </div>
-        </div>
-      </div>
-        필터
-        <div class="used-filter">
+     <!-- 필터 -->
+     <div class="used-filter">
           <ul class="used-filter-ul">
             <li>
               <label for="inputCate">카테고리</label>
@@ -112,72 +76,12 @@
             </li>
           </ul>
         </div>
-
-
-      <!--본문-->
-      <div class="used-body">
-        <!-- :min="this.minPrice"
-        :max="this.maxPrice" -->
-
-        <div v-if="keywordValue" class="검색결과">
-          <h4>'{{keywordValue}}' 에 대한 검색 결과</h4>
-          <div class="searched-filter">
-            최신순 | 낮은가격순 | 높은가격순
-          </div>
-        </div>
-        <h2>{{recruMsg}}</h2>
-        <div class="cards">
-          <div v-for="card in usedList" :key="card.id">
-            <router-link tag="div" v-bind:to="{name:'usedDetail', params : {usedId : card.usedId}}">
-              <UsedCard v-bind:usedCard="card"></UsedCard>
-            </router-link>
-          </div>
-        </div>
-
-
-
-      </div>
-    </form>
-      <!--하단-->
-      <div class="used-foote">
-        <!-- <router-link tag="div" v-bind:to="{name:'usedInsert'}">
-          <button>+</button> 
-        </router-link> -->
-         <router-link tag="div" v-bind:to="{name:'usedReview'}">
-          <button>찜</button> 
-         </router-link>
-         <router-link tag="div" v-bind:to="{name:'usedReview'}">
-          <button>review</button> 
-        </router-link>
-        <button v-on:click='usedInsert'>+</button>
-                <!--<button v-on:click='usedInsert'>♥</button> -->
-      </div>
-    </div>
-  </div>
 </template>
 <script>
-  import img1 from "@/assets/img/used/search.png"
-  import UsedCard from "@/components/UsedPractice/UsedCard.vue"
-  import district from "@/assets/district.js"
-  import Swal from 'sweetalert2';
-
-  import { Swiper, SwiperSlide } from "swiper/vue";
-  import "swiper/css";
-  import "swiper/css/navigation";
-  import "swiper/css/pagination";
-  import { Navigation, Pagination } from "swiper";
-
-  // 슬라이더
-  import VueSimpleRangeSlider from "vue-simple-range-slider";
-  import "vue-simple-range-slider/css";
-  import { reactive, defineComponent } from "vue";
-
-  export default{
+   export default{
     components:{
     UsedCard,
     VueSimpleRangeSlider,
-    Swiper,
-    SwiperSlide,
     },
     data(){
       return{
@@ -194,37 +98,8 @@
       }
     },
     methods : {
-      cardDetail: function(){
-        this.$router.push({name : 'usedDetail'})
-      },
-      usedInsert: function(){
-        if(this.$store.state.email != null){
-          this.$router.push({name : 'usedInsert'})
-        }else{
-          Swal.fire({
-                    icon: 'warning',
-                    title: '로그인 후에 작성해주세요',
-                    toast: true,
-                    showConfirmButton: false,
-                    timer: 1300,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        this.$router.push({name:"LoginSignup"});
-                    }
-                })
-        }
-      },
-      usedDetail: function(usedId){
-        //클릭하면은 디테일 페이지로 넘겨 넘길때, 번호를 넘겨야해
-        this.$router.push({name : 'usedDetail', params: {usedId:usedId }})
-      
-      },
       gearSelected: function(){
         this.myCategory = '';
-      },
-      dealSelected: function(){
-        this.dealStatus = '';
       },
       regionSelected: function(){
         this.regionSelect = '';
@@ -319,11 +194,9 @@
 
     },
     setup() {
-    return {
-      modules: [Navigation, Pagination],
-    };
+    // const state = reactive({ range: [20, 1000], number: 10 });
+    // return { state };
   },
   }
 
 </script>
-<style scoped src="@/assets/css/used/UsedMain.css" />
