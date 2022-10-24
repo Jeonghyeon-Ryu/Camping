@@ -32,36 +32,41 @@
             </li>
             <hr>
             <!-- 좋아요, 조회수, 신고 -->
-            <div class="used-info2">
-              <div class="used-info3">
-                <div class="used-cnt">
-                  🧡 찜 {{this.likeCnt}} · 👁‍🗨 조회수 {{usedList.usedCnt}} · {{usedList.usedWrite}}
-                </div>
-                <div class="used-report">
-                  <!-- 신고기능가져오기(다른유저가쓴글) -->
-                  <p v-if="usedList.email != memberId" @click="reportItem()">🚨신고하기</p>
-                  <!-- 거래상태변경(본인이쓴글) -->
-                  <div v-if="usedList.email === memberId && usedList.usedStatus === 0">
-                    <select id="dealStatus" name="dealStatus" @change="dealChange()">
-                      <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
-                      <option name="dealStatus" value="0">거래가능</option>
-                      <option name="dealStatus" value="1">거래중</option>
-                      <option name="dealStatus" value="2">거래완료</option>
-                    </select>
+            <div class="used-info4">
+              <div class="used-info2">
+                <div class="used-info3">
+                  <div class="used-cnt">
+                    🧡 찜 {{this.likeCnt}} · 👁‍🗨 조회수 {{usedList.usedCnt}} · {{usedList.usedWrite}}
+                  </div>
+                  <div class="used-report">
+                    <!-- 신고기능가져오기(다른유저가쓴글) -->
+                    <p v-if="usedList.email != memberId" @click="reportItem()">🚨신고하기</p>
+                    <!-- 거래상태변경(본인이쓴글) -->
+                    <div v-if="usedList.email === memberId && usedList.usedStatus === 0">
+                      <select id="dealStatus" name="dealStatus" @change="dealChange()">
+                        <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
+                        <option name="dealStatus" value="0">거래가능</option>
+                        <option name="dealStatus" value="1">거래중</option>
+                        <option name="dealStatus" value="2">거래완료</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
+                <!-- 상품정보2 -->
+                <li>
+                  · 카테고리 : {{usedList.usedCategory}}
+                </li>
+                <li>· 상태 : <span v-if="usedList.usedCondition==0">상</span>
+                  <span v-if="usedList.usedCondition==1">중</span>
+                  <span v-if="usedList.usedCondition==2">하</span>
+                </li>
+                <li>
+                  · 거래지역 : {{usedList.usedPlace}}
+                </li>
               </div>
-              <!-- 상품정보2 -->
-              <li>
-                · 카테고리 : {{usedList.usedCategory}}
-              </li>
-              <li>· 상태 : <span v-if="usedList.usedCondition==0">상</span>
-                <span v-if="usedList.usedCondition==1">중</span>
-                <span v-if="usedList.usedCondition==2">하</span>
-              </li>
-              <li>
-                · 거래지역 : {{usedList.usedPlace}}
-              </li>
+              <div class="used-head-btns">
+                <input type="button" value="수정하기">
+              </div>
             </div>
           </ul>
         </div>

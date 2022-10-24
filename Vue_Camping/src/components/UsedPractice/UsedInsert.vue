@@ -52,7 +52,7 @@
                 <li>
                   <label for="inputPlace">지역<span class="essential">*</span></label>
                     <div class="usedPlace">
-                    <select name="usedPlace" v-model="regionSelect" id="districtSelect" @change="districtChange">
+                    <select name="usedPlace" v-model="regionSelect" class="districtSelect" @change="districtChange">
                       <option value='' disabled>시/도</option> 
                       <option value='전체'>전체</option>
                       <option value='서울'>서울특별시</option>
@@ -177,6 +177,7 @@
         let price = document.getElementById('inputPrice').value;
         let category = document.getElementById('used_cate').value;
         let content = document.querySelector('.used_content').value;
+        let placeVal = document.querySelector('.districtSelect').value;
 
         // fetchData.append('nickName', this.nickName)
         fetchData.forEach((value,key)=>{
@@ -188,6 +189,8 @@
         }else if(price == null || price.trim() === ""){
           this.swPrice();
         }else if(category == null || category.trim() === ""){
+          this.swCategory();
+        }else if(placeVal == null || placeVal.trim() === ""){
           this.swCategory();
         }else if(content == null || content.trim() === "" ||content.length < 10){
           this.swContent();
