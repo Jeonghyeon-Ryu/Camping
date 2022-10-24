@@ -1,22 +1,6 @@
 <template>
     <div class="myNoteList">
         <div class="all_container">
-            <div class="black-bg" v-if="inviteCancleModalOpen == true">
-                <div class="invite-cancel-white-bg">
-                    <div class="modal_info">공유를 중지할 유저를 선택해주세요</div>
-                    <hr>
-                    <div class="block_user_container">
-                        <label for="select_user">
-                            <input type="checkbox" id="select_user" class="check_block_user" :value="checked">
-                            {{nickName}}
-                        </label>
-                    </div>
-                    <div class="invite_btn_container">
-                        <button class="success" @click="inviteCancleModalOpen = true">초대</button>
-                        <button class="modal_cancel" @click="inviteCancleModalOpen = false">ㄴㄴ</button>
-                    </div>
-                </div>
-            </div>
             <!-- 화면 -->
             <div class="mynote_container">
                 <div class="select_container">
@@ -38,8 +22,8 @@
                     <div class="row">
                         <div class="card text-white bg-success mb-3" v-for="info in listInfo" :key="info.noteId">
                             <div class="card-header">
-                                <div class="noteId">{{info.noteId}}</div>
-                                <div class="note_state">{{info.noteState}}</div>
+                                <div class="noteId">{{ info.noteId }}</div>
+                                <div class="note_state">{{ info.noteState }}</div>
                                 <div class="checkbox">
                                     <input type="checkbox" v-bind:id="info.noteId" name="check_one" v-if="show">
                                     <label for="select_card"></label>
@@ -48,35 +32,47 @@
                                     <button id="delete_btn" @click="findId($event)">삭제</button>
                                     <button id="invite_btn"
                                         @click="[inviteModalOpen = true, inviteForm($event)]">초대</button>
-                                    <button id="block_btn" @click="inviteCancleModalOpen == true">공유취소</button>
+                                    <button id="block_btn"
+                                        @click="[inviteCancleModalOpen = true, inviteCancleForm($event)]">공유취소</button>
                                 </div>
                             </div>
                             <div class="card-body" @click="goMynote($event)">
-                                <div class="card-text">{{info.writeDate}}</div>
+                                <div class="card-text">{{ info.writeDate }}</div>
                                 <hr>
-                                <div class="card-title">{{info.title}}</div>
+                                <div class="card-title">{{ info.title }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="all_container">
-                    <div class="black-bg" v-if="inviteModalOpen == true">
-                        <div class="invite-white-bg">
-                            <div class="modal_info">초대할 유저의 닉네임을 입력해주세요</div>
-                            <hr>
-                            <div class="input_container">
+                <div class="black-bg" v-if="inviteModalOpen == true">
+                    <div class="invite-white-bg">
+                        <div class="modal_info">초대할 유저의 닉네임을 입력해주세요</div>
+                        <hr>
+                        <div class="input_container">
+                            <div class="input_box">
                                 <input class="input_email" placeholder="닉네임을 입력해주세요">
-                                <input class="input_email" placeholder="닉네임을 입력해주세요">
-                                <input class="input_email" placeholder="닉네임을 입력해주세요">
-                                <input class="input_email" placeholder="닉네임을 입력해주세요">
-                                <input class="input_email" placeholder="닉네임을 입력해주세요">
+                                <button class="add_inviteMember" @click="addInviteMember($event)">추가</button>
+                                <button class="add_inviteMember" @click="delInviteMember($event)">삭제</button>
                             </div>
-                            <div class="invitedUser_list">
-                            </div>
-                            <div class="invite_btn_container">
-                                <button class="success" @click="inviteUser($event)">초대</button>
-                                <button class="modal_cancel" @click="inviteModalOpen = false">ㄴㄴ</button>
-                            </div>
+                        </div>
+                        <div class="invite_btn_container">
+                            <button class="success" @click="inviteUser($event)">초대</button>
+                            <button class="modal_cancel" @click="inviteModalOpen = false">취소</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="black-bg" v-if="inviteCancleModalOpen == true">
+                    <div class="invite-cancel-white-bg">
+                        <div class="modal_info">공유를 중지할 유저를 선택해주세요</div>
+                        <hr>
+                        <div class="block_user_container">
+                            <label for="select_user">
+                                <input type="checkbox" id="select_user" class="check_block_user" :value="checked">
+                            </label>
+                        </div>
+                        <div class="invite_btn_container">
+                            <button class="success" @click="[inviteCancleModalOpen = true, getInvitedMember($event)]">공유끊기</button>
+                            <button class="modal_cancel" @click="inviteCancleModalOpen = false">취소</button>
                         </div>
                     </div>
                 </div>
@@ -93,6 +89,7 @@ export default {
     name: "MynoteList",
     data() {
         return {
+            oneNoteId : '',
             noteId: [],
             myNoteId: this.$route.params.noteId,
             listInfo: [],
@@ -144,9 +141,7 @@ export default {
             })
                 .then((response) => response.json())
                 .then(data => {
-
                     this.listInfo = data;
-
                 }).catch(err => console.log(err));
         },
         findId(e) {
@@ -183,7 +178,7 @@ export default {
                     let noteIds = []; //new Array();
                     for (let i = 0; i < noteIdObj.length; i++) {
                         noteIds.push(noteIdObj[i]);
-                    }
+                    }get
                     let fetchData = {
                         "noteIds": noteIds
                     }
@@ -227,28 +222,16 @@ export default {
         inviteUser(e) {
             //노트id가져오기
             let noteId = this.noteId[0];
-            console.log(noteId);
             let userEmails = [];
             //email입력
-        
             let userEmail = document.querySelectorAll('.input_email');
-            for(let i=0; i<userEmail.length; i++){
-                userEmails.push(userEmail[i].value);
-                console.log("sssssssssssssss")
-            console.log(userEmails)
+            for (let i = 0; i < userEmail.length; i++) {
+                userEmails.push(',' + userEmail[i].value + ',');
             }
-            
-            //let inviteUserObj = this.inviteUserEmail;
-
-            /*for (let i = 0; i < inviteUserObj.length; i++) {
-                invitedUser.push(inviteUserObj[i])
-            }*/
             let fetchData = {
                 "noteId": noteId,
                 "invitedMember": userEmails
             }
-            console.log("-----------fetch")
-            console.log(fetchData)
             fetch('http://localhost:8087/java/inviteUser', {
                 method: 'PUT',
                 //mode: 'cors',
@@ -256,11 +239,78 @@ export default {
                 body: JSON.stringify(fetchData)
             })
                 .then((response) => {
-                    this.$router.go(0)
+                    Swal.fire({
+                        title: '초대완료!',
+                        text: '초대받은 유저는 내용을 수정할 수 있습니다!!',
+                        cancelButtonText: '돌아가기'
+                    })
+                    this.inviteModalOpen = true
                 }).catch(err => {
                     console.log(err)
                 });
         },
+        addInviteMember(e) {
+            let inputContainer = e.target.parentElement.parentElement;
+            console.log(inputContainer);
+            inputContainer.setAttribute('style', 'display:flex; flex-direction:column;')
+            let inputEmail = document.createElement('input');
+            inputEmail.setAttribute('class', 'input_email');
+            inputEmail.setAttribute('style', 'width: 600px; margin: 3% 0 0 10%; height: 50px; outline: none !important; text-align: center; box-shadow: 0 0 10px #9cfbe0; font-size: 20px; color:black;')
+
+            inputContainer.append(inputEmail);
+        },
+        inviteCancleForm(e) {
+            let target = e.target;
+            while (!target.classList.contains('card')) {
+                target = target.parentElement;
+            }
+            let noteId = target.querySelector('.noteId').innerText;
+            this.oneNoteId = noteId;
+        },
+        //공유중인 맴버 보여주기
+        getInvitedMember(e){ 
+            let noteId = this.oneNoteId;
+           
+            fetch(`http://localhost:8087/java/BlockUser/${noteId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then((response) => {
+
+                })
+                .then(data => {
+                    this.listInfo = data;
+                    console.log(data);
+                    console.log(this.listInfo)
+                }).catch(err => console.log(err));
+        },
+        delInvitedMember(e){ 
+            
+
+            Swal.fire({
+                title: '공유를 중지하시겠습니까??',
+                showCancelButton: true,
+                confirmButtonText: '중지',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    let noteId = this.oneNoteId;
+                    
+                    fetch(`http://localhost:8087/java/delInvitedMember/${noteId}`, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                    })
+                        .then((response) => {
+                            this.$router.go(0)
+                        }).catch(err => {
+                            console.log(err)
+                        });
+                }
+            })
+
+
+        }
     },
     components: { Modal }
 };

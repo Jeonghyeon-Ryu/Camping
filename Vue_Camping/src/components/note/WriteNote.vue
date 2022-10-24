@@ -103,47 +103,68 @@
                                 @creArea="CreArea($event)"></CreateLine>
                         </template>
 
-                        <CreTextarea :type="childOrder[0]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 1">
+                        <CreTextarea :type="childOrder[0]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 1">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 2">
+                        <CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 2">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[2]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 3">
+                        <CreTextarea :type="childOrder[2]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 3">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[3]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 4">
+                        <CreTextarea :type="childOrder[3]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 4">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[4]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 5">
+                        <CreTextarea :type="childOrder[4]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 5">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[5]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 6">
+                        <CreTextarea :type="childOrder[5]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 6">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[6]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 7">
+                        <CreTextarea :type="childOrder[6]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 7">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[7]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 8">
+                        <CreTextarea :type="childOrder[7]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 8">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[8]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 9">
+                        <CreTextarea :type="childOrder[8]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 9">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[9]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 10">
+                        <CreTextarea :type="childOrder[9]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 10">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[10]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 11">
+                        <CreTextarea :type="childOrder[10]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 11">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[11]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 12">
+                        <CreTextarea :type="childOrder[11]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 12">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[12]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 13">
+                        <CreTextarea :type="childOrder[12]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 13">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[13]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 14">
+                        <CreTextarea :type="childOrder[13]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 14">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[14]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 15">
+                        <CreTextarea :type="childOrder[14]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 15">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[15]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 16">
+                        <CreTextarea :type="childOrder[15]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 16">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[16]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 17">
+                        <CreTextarea :type="childOrder[16]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 17">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[17]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 18">
+                        <CreTextarea :type="childOrder[17]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 18">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[18]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 19">
+                        <CreTextarea :type="childOrder[18]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 19">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[19]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 20">
+                        <CreTextarea :type="childOrder[19]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 20">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[20]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 21">
+                        <CreTextarea :type="childOrder[20]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 21">
                         </CreTextarea>
                     </div>
                 </div>
@@ -168,9 +189,9 @@ export default {
             noteInfo: [],
             noteId: this.$route.params.noteId,
             showInfo: {},
-            images : []
+            images: []
         }
-    },  
+    },
 
     methods: {
         CreArea: function (e) {
@@ -236,7 +257,7 @@ export default {
                     tableTag += `</table>
                                 <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
                                 </div>`;
-                    contents.push(tableTag);                           
+                    contents.push(tableTag);
                 } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
                     lineValue = [];
                     let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
@@ -245,7 +266,7 @@ export default {
                         let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
                         let isChecked = lineCheckbox.checked;
-                        checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
+                        checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="` + isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
                                             <div class="box_container">
                                                 <div class="checkbox_button_container">
                                                     <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
@@ -261,35 +282,35 @@ export default {
                     //체크박스 content
                     contents.push(checkBoxTag);
                     //이미지
-                } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) { 
-                    
+                } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) {
+
                     let imgContainer = lineAll[i].querySelector('.img_container');
                     let imgBox = imgContainer.querySelectorAll('.image-preview-div');
                     let imgCount = imgBox.length;
-                    
+
                     contents.push(
-                        'IMG:'+ imgCount
+                        'IMG:' + imgCount
                     );
                     console.log("contents에 imgCount와 잘 들어갔나 확인")
                     console.log(contents);
                     //console.log("contents");
                     //console.log(contents);     
-            }
+                }
             };
             //작성한 내용 보내기
             let title = document.querySelector('.note_title').value;
             let formData = new FormData();
-            for(let image of this.images){
+            for (let image of this.images) {
                 formData.append("files", image);
             }
             formData.append("title", title);
-            formData.append("noteContents", contents); 
-            formData.append("email", this.$store.state.email);  
+            formData.append("noteContents", contents);
+            formData.append("email", this.$store.state.email);
             formData.forEach((value, key) => {
                 console.log(value);
             })
             fetch('http://localhost:8087/java/WriteNoteInfo', {
-                method: 'POST',  
+                method: 'POST',
                 headers: {},
                 body: formData
             }).then(result => {
@@ -298,20 +319,20 @@ export default {
                 this.$router.push({
                     name: "MynoteList"
                 })
-                
+
             })
         },
         //자식에서 이미지 정보 가져오기
-        saveImg(images){ 
+        saveImg(images) {
             let dt = new DataTransfer();
             for (let i = 0; i < images.length; i++) {
                 dt.items.add(images[i]); //kind와 type
             }
-            for(let i=0; i < this.images.length; i++){ 
+            for (let i = 0; i < this.images.length; i++) {
                 dt.items.add(this.images[i]);
             }
             this.images = dt.files;
-            console.log('image ' , this.images);
+            console.log('image ', this.images);
         }
     },
     components: { CreTextarea }
