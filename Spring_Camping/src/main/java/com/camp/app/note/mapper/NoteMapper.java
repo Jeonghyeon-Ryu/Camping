@@ -28,9 +28,19 @@ public interface NoteMapper {
 	//노트삭제
 	public int deleteNote(int noteId);
 	
-	//노트번호로 노트내용 가져오기
+	//노트ID로 노트내용 가져오기
 	public NoteVO getMyNoteInfo(int noteId);
 	
 	//이미지 저장
 	public int insertNoteImg(NoteImgVO img);
+	
+	//노트ID로 img불러오기
+	public List<NoteImgVO> findByNoteIdToImg(int noteId);
+	
+	//초대하기
+	public int invitedMember(NoteVO nvo);
+	
+	//초대받은 리스트 
+	public List<NoteVO> getInvitedNoteList(String email);
+	
 }

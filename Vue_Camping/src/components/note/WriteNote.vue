@@ -98,10 +98,10 @@
                 <div id="pdfDiv">
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
-                        <!-- <template v-if="datas">
+                        <template v-if="datas">
                             <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
                                 @creArea="CreArea($event)"></CreateLine>
-                        </template> -->
+                        </template>
 
                         <CreTextarea :type="childOrder[0]" @saveImg="saveImg" @creArea="CreArea($event)" v-if="textAmount >= 1">
                         </CreTextarea>
@@ -201,8 +201,9 @@ export default {
             let textTag;
             let tableTag;
             let checkBoxTag;
+            let imgTag;
             let contents = [];
-
+            console.log(contents);
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
                 let lineValue = '';
@@ -228,7 +229,6 @@ export default {
                                             <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
                                         </td>`
                         for (let k = 0; k < lineTd.length; k++) {
-                            //temp.push(lineTd[k].value);
                             tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text" value="` + lineTd[k].value + `"></td>`
                         };
                         tableTag += `</tr>`
@@ -246,32 +246,35 @@ export default {
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
                         let isChecked = lineCheckbox.checked;
                         checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="`+ isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
-                                    <div class="box_container">
-                                        <div class="checkbox_button_container">
-                                            <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
-                                            <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
-                                        </div>
-                                    </div>`
+                                            <div class="box_container">
+                                                <div class="checkbox_button_container">
+                                                    <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
+                                                    <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
+                                                </div>
+                                            </div>`
                         contents.push({
                             status: isChecked,
                             text: lineCheckText
                         });
                     };
                     checkBoxTag += `</div>`
+                    //체크박스 content
+                    contents.push(checkBoxTag);
                     //이미지
-                } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined ){ 
-                    contents.push('IMG');
-                    //이미지 DB에 저장      
-                    /*let formData = new FormData();
-                    for(let image of this.images){
-                        formData.append("files", image); 
-                    }*/
-                     /*formData.forEach((value, key)=>{
-                     console.log("벨유 , " , value)
-                       
-                     })*/
-                    //DB에 저장된 이미지의 경로랑 파일이름을 lineValue에 저장
-                }
+                } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) { 
+                    
+                    let imgContainer = lineAll[i].querySelector('.img_container');
+                    let imgBox = imgContainer.querySelectorAll('.image-preview-div');
+                    let imgCount = imgBox.length;
+                    
+                    contents.push(
+                        'IMG:'+ imgCount
+                    );
+                    console.log("contents에 imgCount와 잘 들어갔나 확인")
+                    console.log(contents);
+                    //console.log("contents");
+                    //console.log(contents);     
+            }
             };
             //작성한 내용 보내기
             let title = document.querySelector('.note_title').value;
@@ -292,44 +295,23 @@ export default {
             }).then(result => {
                 console.log("이미지 fetch 결과")
                 console.log(result);
+                this.$router.push({
+                    name: "MynoteList"
+                })
                 
             })
-            
-
-
-            // fetch('http://localhost:8087/java/WriteNote', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(fetchData)
-            // }).then(result => {
-            //     //console.log(result);
-
-            //     //DB에 보낸 이미지
-            //     if(document.querySelector('.used-insert-image-preview') != undefined){
-            //     let formData = new FormData();
-            //         for(let image of this.images){
-            //             formData.append("files", image); 
-            //         }
-                    
-            //     fetch('http://localhost:8087/java/WriteNoteImg', {
-            //             method: 'POST',  
-            //             redirect: 'follow',
-            //             body: formData
-            //         }).then(result => {
-            //             console.log("이미지 fetch 결과")
-            //             console.log(result);
-                        
-            //         })
-            //     } 
-            //     this.$router.push({ name: "MynoteList" });
-            // })
         },
         //자식에서 이미지 정보 가져오기
         saveImg(images){ 
-            this.images = images;
-
+            let dt = new DataTransfer();
+            for (let i = 0; i < images.length; i++) {
+                dt.items.add(images[i]); //kind와 type
+            }
+            for(let i=0; i < this.images.length; i++){ 
+                dt.items.add(this.images[i]);
+            }
+            this.images = dt.files;
+            console.log('image ' , this.images);
         }
     },
     components: { CreTextarea }

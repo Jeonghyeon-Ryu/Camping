@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class='table_container'>
-      <button class='row_addbtn'><img src="@/assets/img/note/down_arrow.png" @click="addRow"
+      <button class='row_addbtn'><img src="@/assets/img/note/down_arrow.png" @click="addRow($event)"
                         @mouseover="changeShow"></button>
       <table class='maked_table'>
         <template v-for="(tr, i) in data" :key="i">
@@ -22,7 +22,7 @@
           </tr>
         </template>
       </table>
-      <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button>
+      <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button>
     </div>
   </div>
 </template>
@@ -33,9 +33,6 @@ export default {
     return {
       btnActive: true
     }
-  },
-  created () {
-    console.log(this.data);
   },
   methods: {
     // addRow: function (e) {

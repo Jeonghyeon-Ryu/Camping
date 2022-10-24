@@ -1,0 +1,38 @@
+.invite-white-bg{ 
+    width: 500px;
+    height: 250px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10% 30% 15% 40%; 
+}
+.modal_info{ 
+    font-size: 25px;
+    font-weight: bolder;
+    margin: 10px 0 15px 0;
+}
+  .input {
+    width: 400px;
+    margin: 30px 0;
+    font-size: 20px;
+    color: black;
+  }
+  .input:focus {
+    animation-name: border-focus;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+  @keyframes border-focus {
+    from {
+      border-radius: 0;
+    }
+    to {
+      border-radius: 15px;
+    }
+  }
+.invite_btn_container{ 
+    margin-top : 15px;
+}
+.invite_btn_container>button{ 
+    margin-right: 10px;
+}

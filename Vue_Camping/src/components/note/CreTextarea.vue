@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { append, width } from 'dom7';
 import $ from 'jquery'
 import ImagePreview from '../ImagePreview.vue'; 
 
@@ -107,7 +108,6 @@ export default {
 
         },
         addCol: function (e) {
-            //let tablePlace = e.target.parentElement.parentElement.parentElement;
             let thisTable = e.target.parentElement.previousSibling;
 
             for (let i = 0; i < $('.maked_table').children().length; i++) {
@@ -150,21 +150,77 @@ export default {
             this.style.opacity = "opacity: 0.6";
         },
         addCheckList: function (e) {
-            let checkboxPlace = e.target.parentElement.parentElement.parentElement.parentElement;
-            let checkboxList = checkboxPlace.querySelector(".check_box_list");
 
-            $(checkboxPlace).append(`
-                <div class='check_box_list' style="display : flex">
-                    <div class="box_container">
-                        <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
-                        <input type="text" class="checkbox_text" name="myCheck">
-                    </div>
-                    <div class="checkbox_button_container" style="display:flex; margin-left: 5px; width:40px">
-                        <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
-                        <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
-                    </div>
-                </div>
-            `);
+             let checkboxPlace = e.target;
+                          
+            while(!checkboxPlace.classList.contains('checkbox_place')){ 
+                checkboxPlace = checkboxPlace.parentElement;
+            }
+            console.log(checkboxPlace);
+            
+            //let checkboxList = checkboxPlace.querySelector('.check_box_list');
+            //let btnContainer = checkboxPlace.querySelector('.checkbox_button_container');
+            
+                checkboxPlace.setAttribute('style', 'display: flex; width: 300px;')
+                
+                 let checkboxList = document.createElement('div');
+                 checkboxList.setAttribute('class', 'check_box_list');
+                 //checkboxList.setAttribute('style', 'display:flex;');
+
+                 let boxContainer = document.createElement('div');
+                 boxContainer.setAttribute('class', 'box_container');
+                 boxContainer.setAttribute('style', 'padding:0; display:inline-block; margin-left: 1%; width: 40px;');
+
+                 let btnContainer = document.createElement('div');
+                 btnContainer.setAttribute('class', 'checkbox_button_container');
+                 btnContainer.setAttribute('style', 'display:flex; margin-left: 5px; width:40px;');
+
+                 let checkbox = document.createElement('input');
+                 checkbox.setAttribute('type', 'checkbox');
+                 checkbox.setAttribute('class', 'noteCheckbox');
+                 checkbox.setAttribute('name','myCheck');
+                 checkbox.setAttribute('style', 'border:none;');
+                
+                 boxContainer.append(checkbox);
+
+                 let textbox = document.createElement('input');
+                 textbox.setAttribute('type', 'text');
+                 textbox.setAttribute('class', 'checkbox_text');
+                 textbox.setAttribute('name','myCheck');
+                 textbox.setAttribute('style', 'margin: 10px 0px 5px 10px; border: 1px solid lightgray; border-radius: 5%;');
+
+                 boxContainer.append(textbox);
+
+                 let addButton = document.createElement('button');
+                 addButton.setAttribute('class', 'add_checkbox');
+                 addButton.setAttribute('style', 'width: 25px; height: 25px;, background-color: transparent; border: none;  padding: 10px; margin: 0;');
+                 addButton.style.cssText
+                
+                 //add버튼
+                 let addImg = document.createElement('img')
+                 addImg.setAttribute('class', 'add_img');
+                 let addImgSrc = document.querySelector('.add_img')
+                 addImg.src = addImgSrc.src;
+                 addButton.append(addImg);
+
+                 //del버튼
+                 let delButton = document.createElement('button');
+                 delButton.setAttribute('class', 'del_checkbox');
+                 delButton.setAttribute('style', 'width: 25px; height: 25px;, background-color: transparent; border: none;  padding: 10px; margin: 0;');
+                let delImg = document.createElement('img')
+                 delImg.setAttribute('class', 'del_img');
+                 delImg.src = "src/assets/img/note/minus.png"
+                 let delImgSrc = document.querySelector('.del_img')
+                 delImg.src = delImgSrc.src;
+                 delButton.append(delImg);
+
+                 btnContainer.append(addButton);
+                 btnContainer.append(delButton);
+                
+                 checkboxList.append(boxContainer);
+                 checkboxList.append(btnContainer)
+                 checkboxPlace.append(checkboxList);
+        
         },
         delCheckList: function (e) {
             let checkboxPlace = e.target.parentElement.parentElement.parentElement;
@@ -182,14 +238,14 @@ export default {
             let dt = new DataTransfer();
             for (let i = 0; i < e.target.files.length; i++) {
                 dt.items.add(e.target.files[i]); //kind와 type
+                
             }
             for(let i=0; i < this.images.length; i++){ 
                 dt.items.add(this.images[i]);
             }
             this.images=dt.files; //파일 name, date
             e.target.files = dt.files;
-            console.log("here");
-            console.log(this.images);
+           
             
             this.$emit("saveImg", this.images);
         },
