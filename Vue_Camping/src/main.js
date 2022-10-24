@@ -16,6 +16,7 @@ const store = createStore({
         auth: sessionStorage.getItem('auth'),
         currentCategory: sessionStorage.getItem('currentCategory'),
         roomList:[],
+        subscribeRoomList: [],
         roomChatList:{},
     },
     mutations: {

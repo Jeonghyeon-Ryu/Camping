@@ -1,5 +1,7 @@
 package com.camp.app.chat.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.camp.app.chat.service.ChatService;
 import com.camp.app.chat.service.InputChatVO;
+import com.camp.app.chat.service.RoomVO;
 
 @RestController
 @CrossOrigin(originPatterns = "*")
@@ -17,6 +20,11 @@ public class RoomController {
 	
 	@Autowired
 	ChatService service;
+
+	@GetMapping("/roomlist/{email}")
+	public List<RoomVO> getRoomAll(@PathVariable String email){
+		return null;
+	}
 	
 	@GetMapping("/room/{email}")
 	public int isConnectQueue(@PathVariable String email) {
