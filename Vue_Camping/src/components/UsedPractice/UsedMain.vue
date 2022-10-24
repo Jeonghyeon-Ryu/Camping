@@ -7,12 +7,12 @@
         <div class="used-title">
           <div class="used-nav"></div>
           <div class="used-main">
-            <swiper :pagination="true" :navigation="true"
-            :modules="modules" autoplay="true" class="mySwiper">
+            <!-- <swiper :autoplay="true" 
+            :modules="modules" class="mySwiper">
               <swiper-slide><img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고" /></swiper-slide>
               <swiper-slide><img src="@/assets/img/bg11.png" alt="의자 중고거래 광고" /></swiper-slide>
-            </swiper>
-            <!-- <img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고"> -->
+            </swiper> -->
+            <img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고">
           </div>
         </div>
         <!--검색-->
@@ -163,8 +163,6 @@
 
   import { Swiper, SwiperSlide } from "swiper/vue";
   import "swiper/css";
-  import "swiper/css/navigation";
-  import "swiper/css/pagination";
   import { Navigation, Pagination } from "swiper";
 
   // 슬라이더
@@ -320,7 +318,6 @@
     },
     setup() {
     return {
-      modules: [Navigation, Pagination],
     };
   },
   }
