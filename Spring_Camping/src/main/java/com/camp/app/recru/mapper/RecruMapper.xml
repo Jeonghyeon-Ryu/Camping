@@ -80,6 +80,11 @@
 		SELECT B.* 
 		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
 			  FROM( SELECT * FROM recruitment 
+				  <where>
+					  <if test="memberRole==0">
+					  	status=0
+					  </if>
+				  </where>
                   	ORDER BY recru_id desc) A ) B 
 		WHERE page = #{pageNum}
 	</select>

@@ -159,6 +159,8 @@
             <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
+                    <p class="card-status-btn" v-if="recruInfo.status==1" >작성자 삭제</p>
+                    <p class="card-status-btn" v-if="recruInfo.status==2" >관리자 삭제</p>
                     <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
@@ -215,9 +217,11 @@ export default{
     },
     methods: {
         loadDataPage : function(){
+            var memberRole = 0;
+            if(this.role==0) memberRole=3;
             var pageNum = this.pageNum;
              //서버에서 전체 리스트 가져오기 - 페이징
-             fetch(`http://localhost:8087/java/recru/page/${pageNum}`)
+             fetch(`http://localhost:8087/java/recru/page/${memberRole}/${pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
                 for(let key in data){
@@ -229,7 +233,6 @@ export default{
             const bottomSensor = document.querySelector("#bottomSensor")
             const watcher = scrollMonitor.create(bottomSensor)
             watcher.enterViewport(() => {
-                console.log('scroll event')
                 // 서버 과부하를 막기 위한 딜레이
                 setTimeout(() => {
                   this.pageNum = this.pageNum+1;
