@@ -3,11 +3,12 @@ package com.camp.app.member.web;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,6 +67,13 @@ public class MemberController {
 	public MemberVO user(@PathVariable String email) {
 		return service.findByEmail(email);
 	}
+	
+	@GetMapping("/emailByNickname/{nickname}")
+	public MemberVO emailByNickname(@PathVariable("nickname") String nickname) {
+		System.out.println(nickname);
+		return service.findByNickname(nickname);
+	}
+	
 	@GetMapping("/member/{email}/{password}")
 	public boolean verifyMember(@PathVariable String email, @PathVariable String password) {
 		MemberVO member = new MemberVO();
@@ -118,10 +126,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public MemberVO login(@RequestBody MemberVO member, HttpSession session) {
+	public MemberVO login(@RequestBody MemberVO member, HttpServletRequest request) {
 		MemberVO result = service.login(member);
+		System.out.println("email " + result.getEmail());
 		if(result != null) {
-			session.setAttribute("email", result.getEmail());
+			request.getSession(true).setAttribute("email", result.getEmail());
+			System.out.println(request.getSession().getAttribute("email"));
 		}
 		return result;
 	}

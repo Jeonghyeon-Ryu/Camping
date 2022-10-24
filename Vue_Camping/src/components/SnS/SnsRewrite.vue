@@ -130,7 +130,6 @@ export default {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
-
         },
         body: JSON.stringify(snsInfo)
       }).then(result => result.text())

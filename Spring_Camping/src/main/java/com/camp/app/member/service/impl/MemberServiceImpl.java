@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -153,5 +152,16 @@ public class MemberServiceImpl implements MemberService{
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+	}
+
+	//닉네임으로 이메일찾기
+	@Override
+	public MemberVO findByNickname(String nickname) {
+		MemberVO member = mapper.findByNickname(nickname);	//DB에 한번 접속
+		MemberVO result = new MemberVO();
+		result.setNickname(member.getNickname());
+		result.setProfileInfo(member.getProfileInfo());
+		result.setEmail(member.getEmail());
+		return result;
 	}
 }

@@ -45,7 +45,6 @@ public class SnsController {
 	// 전체조회
 	@GetMapping("/getSnsList")
 	public List<SnsVO> getSnsList() {
-		SnsVO vo = new SnsVO();
 		return service.getSnsList();
 
 	}

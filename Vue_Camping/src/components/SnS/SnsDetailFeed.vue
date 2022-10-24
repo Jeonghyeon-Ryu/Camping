@@ -13,7 +13,8 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img src=""> <!--프로필 이미지로 바꾸기 --> 
+            <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+            <!--프로필 이미지로 바꾸기 -->
           </div>
         </div>
         <div class="sns-write-form-id">
@@ -82,8 +83,10 @@
             <div class="sns-detail-comment-form">
               <div class="sns-comment-write-id-container">
                 <div class="sns-comment-write-id">
-                  <img src="">
-                </div>
+                  <img
+                    :src="'http://localhost:8087/java/profile/'+snsCommentItem.profile.imagePath+'/'+snsCommentItem.profile.storedName">
+                    <input type="text" :value="snsCommentItem.email" style="display :none;">
+                  </div>
                 <div class="sns-comment-write-id">
                   <input type="text" :value="snsCommentItem.nickname">
                 </div>
@@ -91,7 +94,7 @@
               <div class="sns-comment-container">
                 <div class="sns-comment">
                   <div class="sns-comment-write-context">
-                    <textarea :value="snsCommentItem.commentContent"></textarea>
+                    <div v-html="snsCommentItem.commentContent"></div>
                   </div>
                 </div>
                 <div class="sns-comment-date">
@@ -101,13 +104,13 @@
             </div>
           </div>
           <div class="sns-write-comment-container">
-              <div class="sns-search-list-container">
-                <textarea placeholder="댓글을 작성하세요" v-model="commentTextarea"></textarea>
-                <button type="button" @click="doComment" @keyup.enter="doComment">게시</button>
-              </div>
-              <div class="sns-search-list" v-if="searchResultNick != ''">
-                <div class="sns-search-nick" @click="getNickname(item)" v-for="item of searchResultNick">{{item}}</div>
-              </div>
+            <div class="sns-search-list-container">
+              <textarea placeholder="댓글을 작성하세요" v-model="commentTextarea"></textarea>
+              <button type="button" @click="doComment" @keyup.enter="doComment">게시</button>
+            </div>
+            <div class="sns-search-list" v-if="searchResultNick != ''">
+              <div class="sns-search-nick" @click="getNickname(item)" v-for="item of searchResultNick">{{item}}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -135,6 +138,8 @@ export default {
       snsItem: {},
       snsCommentItems: [],
       snsCommentWriteText: "",
+      //프로필 이미지
+      storedProfile: '',
       searchNick: '',
       //닉네임모음
       searchNickname: [],
@@ -155,7 +160,7 @@ export default {
       //수정삭제show
       snsControlshow: true,
       nameTagIndex: -1,
-      nameTagValue:'',
+      nameTagValue: '',
       spaceIndex: -1,
       isSearch: false,
     };
@@ -165,6 +170,14 @@ export default {
       .then(response => response.json())
       .then(result => {
         this.snsItem = result
+
+        //프로필 이미지
+        fetch('http://localhost:8087/java/profile/' + this.snsItem.email)
+          .then(result => result.json())
+          .then(result => {
+            this.storedProfile = result;
+          }).catch(err => console.log(err));
+
       })
       .catch(err => console.log(err));
 
@@ -183,6 +196,20 @@ export default {
       .then(result => {
         // console.log(result);
         this.snsCommentItems = result
+        
+        for(let i=0; i<this.snsCommentItems.length ; i++){
+          
+          let emails = this.snsCommentItems[i].email;
+          //댓글프로필이미지
+          //프로필 이미지
+          fetch('http://localhost:8087/java/profile/' + emails)
+            .then(result => result.json())
+            .then(result => {
+              //객체 안에 객체 추가 snsCommentItems에 profile라는 이름으로 객체 추가된것임...짱신기
+              this.snsCommentItems[i].profile = result;              
+              console.log(this.snsCommentItems[i]);
+            }).catch(err => console.log(err));
+        }
       })
       .catch(err => console.log(err));
 
@@ -498,16 +525,16 @@ export default {
       //클릭한 닉네임 input창에 가져오기
       console.log(item);
       console.log(this.commentTextarea);
-     console.log(this.nameTagIndex);
-     console.log(this.spaceIndex)
-     let temp = this.commentTextarea.substring(0, this.nameTagIndex+1) + item + this.commentTextarea.substring(this.spaceIndex, this.commentTextarea.length);
+      console.log(this.nameTagIndex);
+      console.log(this.spaceIndex)
+      let temp = this.commentTextarea.substring(0, this.nameTagIndex + 1) + item + this.commentTextarea.substring(this.spaceIndex, this.commentTextarea.length);
       console.log(temp);
       this.commentTextarea = temp;
       this.searchResultNick = '';
 
-    //  console.log(this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex));
-    //  console.log(this.commentTextarea.replace((this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex)), item));
-    
+      //  console.log(this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex));
+      //  console.log(this.commentTextarea.replace((this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex)), item));
+
     },
     //유리언니..
     yyyyMMddhhmmss: function (value) {
@@ -599,7 +626,7 @@ export default {
         }
       })
     },
-    nameTagSearch(){
+    nameTagSearch() {
       this.doNickHashtag(this.nameTagValue);
       console.log('탐색 : ', this.nameTagValue);
       console.log(this.searchResultNick);
@@ -615,20 +642,20 @@ export default {
       this.spaceIndex = newVal.lastIndexOf(' ');
     },
     nameTagIndex(newVal, oldVal) {
-      if(newVal>oldVal){  // @ 입력했을때
+      if (newVal > oldVal) {  // @ 입력했을때
         this.isSearch = true;
-      } else if(newVal<oldVal){ // @ 지웟을때
+      } else if (newVal < oldVal) { // @ 지웟을때
         this.isSearch = false;
       }
     },
     spaceIndex(newVal, oldVal) {
-      if(this.nameTagIndex<newVal && this.isSearch == true){ // @ 이후에 공백입력했을때,
+      if (this.nameTagIndex < newVal && this.isSearch == true) { // @ 이후에 공백입력했을때,
         // 탐색시작 
-        this.nameTagValue = this.commentTextarea.substring(this.nameTagIndex+1,this.spaceIndex); // 이걸로 탐색함.
+        this.nameTagValue = this.commentTextarea.substring(this.nameTagIndex + 1, this.spaceIndex); // 이걸로 탐색함.
         this.nameTagSearch(this.nameTagValue);
         this.isSearch = false;
       } else {  // @ 이후에 공백 입력이 되지 않았을때,
-          // 탐색 X 
+        // 탐색 X 
       }
     }
   },
@@ -644,6 +671,8 @@ export default {
   }
 }
 </script>
-<style scoped src="@/assets/css/sns/SnsDetailFeed.css"></style>
+<style scoped src="@/assets/css/sns/SnsDetailFeed.css">
+
+</style>
 
 
