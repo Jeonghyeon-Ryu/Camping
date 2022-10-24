@@ -15,6 +15,8 @@ public interface RecruService {
 	public int insertRecru(RecruVO recruVO);
 	//전체조회
 	public List<RecruVO> recruAllList();
+	//전체조회 - 페이징
+	public List<RecruVO> findAllPaging(RecruVO recruVO);
 	//검색조회
 	public List<RecruVO> recruKeywordList(String keyword);
 	//단건조회

@@ -37,6 +37,13 @@ public class RecruController {
 	public List<RecruVO> recruAllList(){
 		return service.recruAllList();
 	}
+	//전체조회- 페이징
+	@GetMapping("/recru/page/{pageNum}")
+	public List<RecruVO> findPageList(@PathVariable int pageNum){
+		RecruVO vo = new RecruVO();
+		vo.setPageNum(pageNum);
+		return service.findAllPaging(vo);
+	}
 	//단건조회
 	@GetMapping("/recru/{recruId}")
 	public RecruVO selectOne(@PathVariable int recruId) {

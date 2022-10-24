@@ -168,6 +168,8 @@
                     </div>
                 </div>
             </div>      
+            <div id="app"></div>
+            <div id="bottomSensor"></div>
         </div>
     </div>
 </template>
@@ -186,6 +188,8 @@ export default{
     },
     data : function(){
         return{
+            role : this.$store.state.auth,
+            pageNum : 1,
             keyword : '',
             keywordValue : '',
             filter: {
@@ -204,17 +208,34 @@ export default{
         }
     },
     created(){
-        this.loadData();
+        this.loadDataPage();
+    },
+    mounted(){
+        this.addScrollWatcher();
     },
     methods: {
-        loadData : function(){
-            // 서버에서 전체 리스트 가져오기
-            fetch("http://localhost:8087/java/recru")
+        loadDataPage : function(){
+            var pageNum = this.pageNum;
+             //서버에서 전체 리스트 가져오기 - 페이징
+             fetch(`http://localhost:8087/java/recru/page/${pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
-                console.log(data);
-                this.recruPosts = data;  
+                for(let key in data){
+                    this.recruPosts.push(data[key]);  
+                }
             }).catch(err=>console.log(err));
+        }, 
+        addScrollWatcher: function () {
+            const bottomSensor = document.querySelector("#bottomSensor")
+            const watcher = scrollMonitor.create(bottomSensor)
+            watcher.enterViewport(() => {
+                console.log('scroll event')
+                // 서버 과부하를 막기 위한 딜레이
+                setTimeout(() => {
+                  this.pageNum = this.pageNum+1;
+                  this.loadDataPage();
+                },300)
+            })
         },
         toStringList : function(array){
             var stringList = '';

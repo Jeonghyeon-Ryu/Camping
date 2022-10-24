@@ -108,6 +108,10 @@
  
     margin-bottom:5px;
   }
+  .recru-heart:hover{
+    cursor: pointer;
+    width: 32px;
+  }
   .recru-heart:active{
     padding: 5px;
   }

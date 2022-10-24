@@ -12,6 +12,8 @@ public interface RecruMapper {
 	public int insertRecru(RecruVO recru);
 	//전체조회
 	public List<RecruVO> findAll();
+	//전체조회 - 페이징
+	public List<RecruVO> findAllPaging(RecruVO recruVO);
 	//검색 조회
 	public List<RecruVO> findKeyword(String keyword);
 	//단건 조회

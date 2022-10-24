@@ -60,6 +60,22 @@ public class RecruServiceImpl implements RecruService {
 		}
 		return list;
 	}
+	//전체조회 - 페이징
+	@Override
+	public List<RecruVO> findAllPaging(RecruVO recruVO) {
+		Date now = new Date();
+		List<RecruVO> list = mapper.findAllPaging(recruVO);
+		for(RecruVO recru : list) {
+			if(recru.getRecruStatus()==1 && recru.getGoDate()!=null) {
+				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
+				if(status>=0 ) {//공개상태
+					recru.setRecruStatus(3);//여행완료
+					mapper.updateRecru(recru);//상태 업데이트
+				}
+			}
+		}
+		return list;
+	};
 	//검색 조회
 	@Override
 	public List<RecruVO> recruKeywordList(String keyword) {
@@ -148,7 +164,9 @@ public class RecruServiceImpl implements RecruService {
 		return mapper.changeShowStatus(recruVO);
 	}
 	//후기등록
+	@Override
 	public int insertReview(RecruVO recruVO) {
 		return mapper.insertReview(recruVO);
-	};
+	}
+
 }
