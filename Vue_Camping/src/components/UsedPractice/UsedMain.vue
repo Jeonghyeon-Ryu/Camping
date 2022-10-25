@@ -189,7 +189,7 @@
         maxPrice: '',
         searchImg : img1,
         dealStatus: 9,
-        pageNum : 1
+        pageNum: 1,
       }
     },
     methods : {
@@ -319,8 +319,11 @@
         fetch('http://localhost:8087/java/used/usedMain/'+this.pageNum) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
+                    for(let key in data){
+                      this.usedList.push(data[key]);  
+                    }
                     console.log(data);
-                    this.usedList = data;
+                    // this.usedList = data;
                     // this.selectMinUsedPrice();
                 }).catch(err=>console.log(err))
       }
