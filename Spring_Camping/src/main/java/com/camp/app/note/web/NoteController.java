@@ -35,7 +35,7 @@ public class NoteController {
 	public List<NoteVO> showMyNoteList(@PathVariable("email") String email) { 
 		return service.getMyNoteList(email);
 	}
-	//Note단건삭제
+	//Note삭제
 	@DeleteMapping("/MyNoteList")
 	public void deleteNote(@RequestBody NoteDto nodeDto) { 
 		//System.out.print(nodeDto.getNoteIds().get(0));
@@ -59,14 +59,17 @@ public class NoteController {
 		return service.showInvitedNoteList(email);
 	}
 	//공유중인 유저정보 가져오기
-	@GetMapping("/BlockUser/{noteId}")
+	@GetMapping("/showBlockMember/{noteId}")
 	public String showInvitedMember(@PathVariable("noteId") int noteId) { 
 		return service.showInvitedMember(noteId);
 	}
 	//공유끊기
-	public void delInvitedMember(@PathVariable("noteId") int noteId) { 
-		//System.out.print(nodeDto.getNoteIds().get(0));
-		service.delMember(noteId);
+	@DeleteMapping("/blockMember")
+	public void delInvitedMember(@RequestBody InvitedMemberVO ivo) { 
+		System.out.println("-----공유끊기");
+		System.out.println(ivo);
+		
+		service.delMember(ivo);
 	}
 	//imgDB에 저장
 	@PostMapping("/WriteNoteInfo")

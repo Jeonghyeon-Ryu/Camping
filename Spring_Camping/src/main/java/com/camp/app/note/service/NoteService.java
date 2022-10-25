@@ -22,7 +22,7 @@ public interface NoteService {
 	public String showInvitedMember(int noteId);
 	
 	//공유 끊기
-	public void delMember(int noteId);
+	public void delMember(InvitedMemberVO ivo);
 	
 	//노트삭제
 	public void deleteNote(NoteDto dto);

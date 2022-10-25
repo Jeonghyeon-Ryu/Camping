@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.camp.app.note.service.InvitedMemberVO;
 import com.camp.app.note.service.NoteImgVO;
 import com.camp.app.note.service.NoteVO;
 @Component
@@ -47,6 +48,6 @@ public interface NoteMapper {
 	public String getInvitedMember(int noteId);
 	
 	//공유끊기
-	public int delInvitedMember(int noteId);
+	public int delInvitedMember(NoteVO nvo);
 	
 }

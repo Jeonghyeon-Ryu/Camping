@@ -163,7 +163,7 @@ public class NoteServiceImpl implements NoteService {
 		String temp = mapper.getMyNoteInfo(ivo.getNoteId()).getInvitedMember();
 		
 		for(int i=0; i<ivo.getInvitedMember().size(); i++) {
-			
+
 			invitedMember += ivo.getInvitedMember().get(i);
 		}
 		//invitedMember += ivo.getInvitedMember().get(ivo.getInvitedMember().size()-1);
@@ -192,43 +192,22 @@ public class NoteServiceImpl implements NoteService {
 		
 		
 		String InvitedMember = mapper.getInvitedMember(noteId);
-		
-//		System.out.println(nvo.getInvitedMember());
-//		
-//		List<String> tempList = new ArrayList<>();
-//		
-//		String temp = nvo.getInvitedMember();
-//		temp = temp.substring(5,temp.length());
-//		
-//		tempList.add(temp.substring(0,temp.indexOf(",,")));
-//		
-//		System.out.println("-----------temp");
-//		System.out.println(temp);
-//		System.out.println("----------tempList");
-//		System.out.println(tempList);
-//		System.out.println("--------temp쪼개기");
-//		System.out.println(temp.substring(temp.indexOf(",,"),temp.length()));
-//		System.out.println("tempList에 add하는 값");
-//		System.out.println(temp.substring(0, temp.indexOf(",,")));
-//		
-//		while(temp.indexOf(",,") == -1) {
-//			temp = temp.substring(temp.indexOf(",,"),temp.length());
-//			tempList.add(temp.substring(0, temp.indexOf(",,")));
-//		}
-//		
-//		tempList.add(temp.substring(2, temp.length()-1));
-//		
-//		System.out.println("========tempList=========");
-//		System.out.println(tempList);
-//		
-//		InvitedMemberVO ivo = new InvitedMemberVO();
-//		ivo.setInvitedMember(tempList);
+	
 		System.out.println(InvitedMember);
 		return InvitedMember;
 	}
 	@Override
-	public void delMember(int noteId) {
-		mapper.delInvitedMember(noteId);
+	public void delMember(InvitedMemberVO ivo) {
+		NoteVO nvo = new NoteVO();
+		
+		nvo.setNoteId(ivo.getNoteId());
+		
+		
+		for (int i = 0; i < ivo.getInvitedMember().size(); i++) {
+			nvo.setInvitedMember(ivo.getInvitedMember().get(i));
+			
+		}
+		mapper.delInvitedMember(nvo);
 		
 	}
 
