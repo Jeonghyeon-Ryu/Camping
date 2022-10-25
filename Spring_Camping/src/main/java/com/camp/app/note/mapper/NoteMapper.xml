@@ -63,7 +63,7 @@
 		
 	</select>
 	
- 	<select id="getInvitedMember" resultType="NoteVO">
+ 	<select id="getInvitedMember" resultType="String">
 		SELECT invited_member
 		FROM NOTE
 		WHERE note_id = #{noteId}

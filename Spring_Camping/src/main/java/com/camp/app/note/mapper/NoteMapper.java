@@ -44,7 +44,7 @@ public interface NoteMapper {
 	public List<NoteVO> getInvitedNoteList(String email);
 	
 	//초대한 유저 리스트
-	public NoteVO getInvitedMember(int noteId);
+	public String getInvitedMember(int noteId);
 	
 	//공유끊기
 	public int delInvitedMember(int noteId);

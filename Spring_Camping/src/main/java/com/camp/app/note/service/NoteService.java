@@ -19,7 +19,7 @@ public interface NoteService {
 	public boolean writeContents(NoteVO nvo, List<MultipartFile> files);
 	
 	//공유중인 맴버 리스트
-	public InvitedMemberVO showInvitedMember(int noteId);
+	public String showInvitedMember(int noteId);
 	
 	//공유 끊기
 	public void delMember(int noteId);

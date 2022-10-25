@@ -177,6 +177,7 @@ public class NoteServiceImpl implements NoteService {
 		return true;
 		
 	}
+	//공유중인 노션 리스트
 	@Override
 	public List<NoteVO> showInvitedNoteList(String email) {
 		
@@ -185,30 +186,45 @@ public class NoteServiceImpl implements NoteService {
 
 		return InvitedList;	
 	}
+	//공유중인 회원 메일 가져오기
 	@Override
-	public InvitedMemberVO showInvitedMember(int noteId) {
+	public String showInvitedMember(int noteId) {
 		
 		
-		NoteVO nvo = mapper.getInvitedMember(noteId);
+		String InvitedMember = mapper.getInvitedMember(noteId);
 		
-		System.out.println(nvo.getInvitedMember());
-		
-		List<String> tempList = new ArrayList<>();
-		
-		String temp = nvo.getInvitedMember();
-		temp = temp.substring(5,temp.length());
-		
-		tempList.add(temp.substring(0,temp.indexOf(",,")));
-		
-		while(temp.indexOf(",,") != -1) {
-			temp = temp.substring(temp.indexOf(",,"),temp.length());
-			tempList.add(temp.substring(0, temp.indexOf(",,")));
-		}
-		tempList.add(temp.substring(0, temp.length()-1));
-		
-		InvitedMemberVO ivo = new InvitedMemberVO();
-		ivo.setInvitedMember(tempList);
-		return ivo;
+//		System.out.println(nvo.getInvitedMember());
+//		
+//		List<String> tempList = new ArrayList<>();
+//		
+//		String temp = nvo.getInvitedMember();
+//		temp = temp.substring(5,temp.length());
+//		
+//		tempList.add(temp.substring(0,temp.indexOf(",,")));
+//		
+//		System.out.println("-----------temp");
+//		System.out.println(temp);
+//		System.out.println("----------tempList");
+//		System.out.println(tempList);
+//		System.out.println("--------temp쪼개기");
+//		System.out.println(temp.substring(temp.indexOf(",,"),temp.length()));
+//		System.out.println("tempList에 add하는 값");
+//		System.out.println(temp.substring(0, temp.indexOf(",,")));
+//		
+//		while(temp.indexOf(",,") == -1) {
+//			temp = temp.substring(temp.indexOf(",,"),temp.length());
+//			tempList.add(temp.substring(0, temp.indexOf(",,")));
+//		}
+//		
+//		tempList.add(temp.substring(2, temp.length()-1));
+//		
+//		System.out.println("========tempList=========");
+//		System.out.println(tempList);
+//		
+//		InvitedMemberVO ivo = new InvitedMemberVO();
+//		ivo.setInvitedMember(tempList);
+		System.out.println(InvitedMember);
+		return InvitedMember;
 	}
 	@Override
 	public void delMember(int noteId) {

@@ -60,7 +60,7 @@ public class NoteController {
 	}
 	//공유중인 유저정보 가져오기
 	@GetMapping("/BlockUser/{noteId}")
-	public InvitedMemberVO showInvitedMember(@PathVariable("noteId") int noteId) { 
+	public String showInvitedMember(@PathVariable("noteId") int noteId) { 
 		return service.showInvitedMember(noteId);
 	}
 	//공유끊기
