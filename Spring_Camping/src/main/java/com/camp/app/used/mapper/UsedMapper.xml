@@ -6,7 +6,7 @@
 	<!-- 게시글 전체조회 페이징-->
 	<select id="selectAllUsedList" resultType="UsedVO">
 		SELECT B.* FROM (SELECT CEIL(ROWNUM/12) page, A.* 
-		FROM(SELECT * FROM used WHERE used_status = 0 ORDER BY used_id desc)A)B 
+		FROM(SELECT * FROM used ORDER BY used_id desc)A)B 
 		WHERE page = #{page}
 	</select>
 	
