@@ -135,25 +135,25 @@
         </div>
 
 
-
       </div>
     </form>
-      <!--하단-->
-      <div class="used-foote">
-        <!-- <router-link tag="div" v-bind:to="{name:'usedInsert'}">
-          <button>+</button> 
-        </router-link> -->
-         <router-link tag="div" v-bind:to="{name:'usedReview'}">
-          <button>찜</button> 
-         </router-link>
-         <router-link tag="div" v-bind:to="{name:'usedReview'}">
-          <button>review</button> 
-        </router-link>
-        <button v-on:click='usedInsert'>+</button>
-                <!--<button v-on:click='usedInsert'>♥</button> -->
-      </div>
+    <!--하단-->
+    <div class="used-foote">
+      <!-- <router-link tag="div" v-bind:to="{name:'usedInsert'}">
+        <button>+</button> 
+      </router-link> -->
+      <router-link tag="div" v-bind:to="{name:'usedReview'}">
+        <button>찜</button> 
+      </router-link>
+      <router-link tag="div" v-bind:to="{name:'usedReview'}">
+        <button>review</button> 
+      </router-link>
+      <button v-on:click='usedInsert'>+</button>
+      <!--<button v-on:click='usedInsert'>♥</button> -->
     </div>
   </div>
+</div>
+<div id="bottomSensor"></div>
 </template>
 <script>
   import img1 from "@/assets/img/used/search.png"
@@ -188,7 +188,8 @@
         minPrice: '',
         maxPrice: '',
         searchImg : img1,
-        dealStatus: 9
+        dealStatus: 9,
+        pageNum : 1
       }
     },
     methods : {
@@ -303,18 +304,34 @@
         console.log('최고가'+this.maxPrice)
         console.log('최저가'+this.minPrice)
       },
-    },
-    //created-페이지 열자마자 실행
-    created(){
-      //전체조회
-      fetch('http://localhost:8087/java/used/usedMain') 
+      addScrollWatcher: function () {
+            const bottomSensor = document.querySelector("#bottomSensor")
+            const watcher = scrollMonitor.create(bottomSensor)
+            watcher.enterViewport(() => {
+                // 서버 과부하를 막기 위한 딜레이
+                setTimeout(() => {
+                  this.pageNum = this.pageNum+1;
+                  this.loadDataPage();
+                },300)
+            })
+      },
+      loadDataPage: function(){
+        fetch('http://localhost:8087/java/used/usedMain/'+this.pageNum) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data);
                     this.usedList = data;
                     // this.selectMinUsedPrice();
                 }).catch(err=>console.log(err))
-
+      }
+    },
+    mounted(){
+      this.addScrollWatcher()
+    },
+    //created-페이지 열자마자 실행
+    created(){
+      //전체조회
+      this.loadDataPage()
     },
     setup() {
     return {

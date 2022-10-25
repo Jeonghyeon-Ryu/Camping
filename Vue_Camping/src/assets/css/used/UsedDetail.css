@@ -214,15 +214,18 @@ ul{
 .used-writer-info{
   display: flex;
 }
+.used-pf{
+  height: 60px;
+}
 .used-writer-info img{
-  width: 40x;
+  width: 40px;
   height: 40px;
-  border-radius: 90%;
-  margin: 10px;
+  border-radius: 100%;
+  margin: 8px;
   margin-right: 15px;
 }
 .used-nk{
-  line-height: 60px;
+  line-height: 55px;
   font-size: 1.2em;
 }
 .used-writer-home, .used-writer-sns{

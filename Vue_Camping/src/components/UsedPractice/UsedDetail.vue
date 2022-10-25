@@ -117,9 +117,9 @@
             v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click="hearted()">🧡 찜
             취소</button>
           <button type="button" class="chat-button"
-            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0">채팅하기</button>
+            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0">쪽지하기</button>
           <button type="button" class="chat-button2"
-            v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">채팅하기</button>
+            v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">쪽지하기</button>
           <button type="button" class="update-button" v-if="usedList.email === memberId && usedList.dealStatus != 2"
             @click="usedUpdate()">수정하기</button>
           <button type="button" class="update-button2" v-if="usedList.email === memberId && usedList.dealStatus === 2"
