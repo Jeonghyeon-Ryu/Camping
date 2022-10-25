@@ -107,8 +107,8 @@ public class UsedServiceImpl implements UsedService {
 	
 	//전체조회
 	@Override
-	public List<UsedVO> selectAllUsedList() {
-		return mapper.selectAllUsedList();
+	public List<UsedVO> selectAllUsedList(int page) {
+		return mapper.selectAllUsedList(page);
 	}
 
 	//단건조회

@@ -84,10 +84,16 @@ public class UsedController {
 	}
 	
 	//전체조회
-	@GetMapping("/usedMain")
-	public List<UsedVO> selectAllUsedList() {
-		return service.selectAllUsedList();
+	@GetMapping("/usedMain/{page}")
+	public List<UsedVO> selectAllUsedList(@PathVariable int page) {
+		return service.selectAllUsedList(page);
 	}
+	
+	//전체조회
+//	@GetMapping("/usedMain")
+//	public List<UsedVO> selectAllUsedList() {
+//		return service.selectAllUsedList();
+//	}
 	
 	//내가쓴글조회 
 	@PostMapping("/myUsed")

@@ -26,7 +26,7 @@ public interface UsedMapper {
 	public void updateUsed(UsedVO usedVO);
 
 	//게시글 전체조회
-	public List<UsedVO> selectAllUsedList();
+	public List<UsedVO> selectAllUsedList(int page);
 	
 	//게시글 단건조회
 	public UsedVO findDetail(int usedId);
