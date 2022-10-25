@@ -241,6 +241,10 @@ export default {
         this.searchNickname.push(result)
         // console.log(result)
       })
+
+
+    //   //댓글태그~~~~~ 가능하면 ..좋겠다... (입력한 상태에서 @닉네임  < 뽑아내기)
+    // let result = this.commentTextarea.replaceAll(/@/gi, '<span></span>')
   },
   //검색
   methods: {
@@ -429,11 +433,22 @@ export default {
           }).catch(err => console.log(err))
       }
     },
+
+    testClick : function(){
+      console.log("test");
+    },  
     //댓글 작성
     doComment() {
       //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
       //작성텍스트
       let commentContent = document.querySelector('.sns-write-comment-container textarea').value;
+
+      console.log(commentContent,"=======================");
+      //닉네임만 스판태그로 감싸기
+      commentContent = commentContent.replace(/(\@[a-zA-Z가-힣]*)/gi, '<span class="ttt">$1</span>');
+      
+      console.log(document.querySelector('.ttt'));
+      
       //글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
       //닉네임
@@ -450,13 +465,16 @@ export default {
         email: email
       }
 
+      // //닉네임만 스판태그로 감싸기
+      // this.commentTextarea = this.commentTextarea.replace(/(\@[a-zA-Z]*)/gi, '<span>$1</span>');
+
+      // debugger
       console.log(comment);
 
       fetch('http://localhost:8087/java/comment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-
         },
         body: JSON.stringify(comment)
       }).then(result => result.text())
@@ -536,12 +554,15 @@ export default {
       let temp = this.commentTextarea.substring(0, this.nameTagIndex + 1) + item + this.commentTextarea.substring(this.spaceIndex, this.commentTextarea.length);
       console.log(temp);
       this.commentTextarea = temp;
+      
       this.searchResultNick = '';
 
       //  console.log(this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex));
       //  console.log(this.commentTextarea.replace((this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex)), item));
 
     },
+
+    
     //유리언니..
     yyyyMMddhhmmss: function (value) {
       if (value == '') return '';
