@@ -133,7 +133,7 @@
                 
                 </div>
                 <div class="recru-filter-btn-box recru-row">
-                    <button type="submit" class="recru-filter-btn submit" @click.prevent="searchFilter">검색</button>
+                    <button type="submit" class="recru-filter-btn submit" @click="this.isFilter=0" @click.prevent="searchFilter">검색</button>
                     <button type="reset" class="recru-filter-btn reset" @click.prevent="resetFilter">초기화</button>
                 </div>
             </div>
@@ -190,6 +190,7 @@ export default{
     },
     data : function(){
         return{
+            ifFilter : 0,
             role : this.$store.state.auth,
             memberRole : 0,
             pageNum : 1,
@@ -229,6 +230,8 @@ export default{
             this.recruPosts=[];
         },
         loadDataPage : function(){
+            if(this.isFilter!=0) this.resetPage();
+            this.isFilter=0;
              //서버에서 전체 리스트 가져오기 - 페이징
              fetch(`http://localhost:8087/java/recru/page/${this.memberRole}/${this.pageNum}`)
             .then((response) =>response.json()) 
@@ -237,6 +240,7 @@ export default{
                     this.recruPosts.push(data[key]);  
                 }
             }).catch(err=>console.log(err));
+            console.log(this.recruPosts)
         }, 
         addScrollWatcher: function () {
             const bottomSensor = document.querySelector("#bottomSensor")
@@ -244,13 +248,16 @@ export default{
             watcher.enterViewport(() => {
                 // 서버 과부하를 막기 위한 딜레이
                 setTimeout(() => {
-                  this.pageNum = this.pageNum+1;
-                  if(!this.isFilter){
-                    this.loadDataPage();
-                  }else{
-                    this.searchFilter();
-                  }
+                    this.pageNum = this.pageNum+1;
+                    if(this.isFilter==0){
+                        this.loadDataPage();
+                    }else if(this.isFilter==1){
+                        this.searchKeyword();
+                    }else{
+                        this.searchFilter();
+                    }
                 },300)
+                console.log(this.pageNum)
             })
         },
         toStringList : function(array){
@@ -290,6 +297,8 @@ export default{
             }
         },
         searchKeyword : function(){
+            if(this.isFilter!=1) this.resetPage();
+            this.isFilter=1;
             //키워드 검색 결과 받아오기
             var keyword = this.keyword;
             var memberRole = this.memberRole;
@@ -298,17 +307,20 @@ export default{
             fetch(`http://localhost:8087/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
-                console.log(data);
-                this.recruPosts = data;  
+                for(let key in data){
+                    this.recruPosts.push(data[key]);  
+                }
                 if(this.recruPosts.length<1){
                     this.recruMsg="검색 결과가 없습니다."
                 }else{
                     this.recruMsg="";
                 }
             }).catch(err=>console.log(err));
+            console.log(this.recruPosts)
         },
         searchFilter : function(){
-            if(this.pageNum==1) this.recruPosts=[];//초기화
+            if(this.isFilter!=2) this.resetPage();
+            this.isFilter=2;
             var pageNum = this.pageNum;
             //키워드 검색 결과 받아오기
             var keyword = this.keyword;
@@ -317,18 +329,27 @@ export default{
                 fetch(`http://localhost:8087/java/recru/page/${this.memberRole}/${pageNum}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
-                    this.recruPosts = data;  
-                    doFilter();
+                    for(let key in data){
+                        this.recruPosts.push(data[key]);  
+                    }  
+                    this.doFilter();
                 }).catch(err=>console.log(err));
             }else{
                 fetch(`http://localhost:8087/java/recru/search/${this.memberRole}/${keyword}/${this.pageNum}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
-                    this.recruPosts = data;  
-                    doFilter();
+                    for(let key in data){
+                        this.recruPosts.push(data[key]);  
+                    }  
+                    this.doFilter();
                 }).catch(err=>console.log(err));
             }
-
+            if(this.recruPosts.length<1){
+                this.recruMsg="검색 결과가 없습니다."
+            }else{
+                this.recruMsg="";
+            }
+            console.log(this.recruPosts)
         },
         doFilter(){
             const fil = this.filter;
@@ -343,7 +364,6 @@ export default{
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 }
 
                 //나이대 필터
@@ -366,7 +386,6 @@ export default{
                                 }
                         }
                     }
-                    console.log(filterList)
                 }
 
                  //출발지필터
@@ -385,7 +404,6 @@ export default{
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 } 
                 if(startSigu!=''&& startSigu!='전체'){ 
                     //출발시 시/구
@@ -400,7 +418,6 @@ export default{
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 }
 
                 //도착지(캠핑장)필터
@@ -434,7 +451,6 @@ export default{
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 }
                 
                 // 출발 날짜
@@ -452,7 +468,6 @@ export default{
                             i--;
                         }
                     }
-                    console.log(filterList)
                 }
                 if(fil.goDateMax){
                     console.log(fil.goDateMax)
@@ -468,7 +483,6 @@ export default{
                             i--;
                         }
                     }
-                    console.log(filterList)
                 }
 
                 // 보유한 필터 (->게시글의 필요장비 검색)
@@ -518,12 +532,12 @@ export default{
                             }
                         }
                     }
-                    console.log(filterList)
                 }
+                console.log(filterList)
         },
         resetFilter (){
-            this.isFilter=false;
             this.resetFilter;
+            this.keyword='';
             this.keywordValue='';
             //필터 초기화버튼
             this.filter.wishSex=0;

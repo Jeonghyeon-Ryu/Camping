@@ -33,19 +33,23 @@ export default{
     data : function(){
         return{
             memberId : this.$store.state.email,//세션에서 받을 로그인 정보
+            pageNum : 1,
             EntryList : [],
             rStatus : '',
             tStatus : false
         }
+    },    
+    created(){
+        this.loadData();
     },
     mounted(){
         if(this.$store.state.email==null){
-                Swal.fire({
-                        title: '로그인이 필요한 서비스입니다.',
-                        text: "로그인 페이지로 이동하겠습니까?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        // confirmButtonColor: '#3085d6',
+            Swal.fire({
+                title: '로그인이 필요한 서비스입니다.',
+                text: "로그인 페이지로 이동하겠습니까?",
+                icon: 'warning',
+                showCancelButton: true,
+                // confirmButtonColor: '#3085d6',
                         // cancelButtonColor: '#d33',
                         confirmButtonText: '네',
                         cancelButtonText : '아니오'
@@ -56,8 +60,9 @@ export default{
                         this.$router.go(-1);
                     }
                 })
-        }
-        this.loadData();
+            }
+            this.loadData();
+            this.addScrollWatcher();       
     },
     methods : {
         loadData : function(){
@@ -69,6 +74,23 @@ export default{
                 console.log(data);
                 component.EntryList = data;
             }).catch(err=>console.log(err));
+        },
+        addScrollWatcher: function () {
+            const bottomSensor = document.querySelector("#bottomSensor")
+            const watcher = scrollMonitor.create(bottomSensor)
+            watcher.enterViewport(() => {
+                // 서버 과부하를 막기 위한 딜레이
+                setTimeout(() => {
+                  this.pageNum = this.pageNum+1;
+                  if(this.isFilter==0){
+                    this.loadDataPage();
+                  }else if(this.isFilter==1){
+                    this.searchKeyword();
+                  }else{
+                    this.searchFilter();
+                  }
+                },300)
+            })
         },
         recruStatus: function(status){
             if (status==0){
