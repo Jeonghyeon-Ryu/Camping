@@ -55,10 +55,14 @@ public class RecruController {
 	public List<RecruVO> myRecru(@PathVariable String memberId){
 		return service.myRecru(memberId);
 	}
-	//검색 조회
-	@GetMapping("/recru/search/{keyword}")
-	public List<RecruVO> recruSearchList(@PathVariable String keyword){
-		return service.recruKeywordList(keyword);
+	//검색 조회 - 페이징
+	@GetMapping("/recru/search/{memberRole}/{keyword}/{pageNum}")
+	public List<RecruVO> recruSearchList(@PathVariable int memberRole, @PathVariable String keyword, @PathVariable int pageNum){
+		RecruVO vo = new RecruVO();
+		vo.setMemberRole(memberRole);
+		vo.setKeyword(keyword);
+		vo.setPageNum(pageNum);
+		return service.recruKeywordList(vo);
 	}
 	//모집상태변경
 	@PutMapping("/recru")

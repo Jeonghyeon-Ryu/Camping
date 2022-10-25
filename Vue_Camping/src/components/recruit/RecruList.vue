@@ -191,6 +191,7 @@ export default{
     data : function(){
         return{
             role : this.$store.state.auth,
+            memberRole : 0,
             pageNum : 1,
             keyword : '',
             keywordValue : '',
@@ -204,6 +205,7 @@ export default{
                 goDateMin: '',
                 goDateMax: ''
             },
+            isFilter : false,
             recruPosts : [ ],
             searchImg : img2,
             recruMsg : ''
@@ -213,15 +215,22 @@ export default{
         this.loadDataPage();
     },
     mounted(){
-        this.addScrollWatcher();
+        this.addScrollWatcher();       
+    },
+    computed:{
+        memberRole(){
+            if(this.role==0) 
+            return 3;
+        }
     },
     methods: {
+        resetPage : function(){
+            this.pageNum=1;
+            this.recruPosts=[];
+        },
         loadDataPage : function(){
-            var memberRole = 0;
-            if(this.role==0) memberRole=3;
-            var pageNum = this.pageNum;
              //서버에서 전체 리스트 가져오기 - 페이징
-             fetch(`http://localhost:8087/java/recru/page/${memberRole}/${pageNum}`)
+             fetch(`http://localhost:8087/java/recru/page/${this.memberRole}/${this.pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
                 for(let key in data){
@@ -236,7 +245,11 @@ export default{
                 // 서버 과부하를 막기 위한 딜레이
                 setTimeout(() => {
                   this.pageNum = this.pageNum+1;
-                  this.loadDataPage();
+                  if(!this.isFilter){
+                    this.loadDataPage();
+                  }else{
+                    this.searchFilter();
+                  }
                 },300)
             })
         },
@@ -278,9 +291,11 @@ export default{
         },
         searchKeyword : function(){
             //키워드 검색 결과 받아오기
-            const keyword = this.keyword;
-            this.keywordValue = keyword;
-            fetch("http://localhost:8087/java/recru/search/"+keyword)
+            var keyword = this.keyword;
+            var memberRole = this.memberRole;
+            var pageNum = this.pageNum;
+            this.keywordValue = keyword;    //현재 키워드 저장
+            fetch(`http://localhost:8087/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
                 console.log(data);
@@ -293,12 +308,30 @@ export default{
             }).catch(err=>console.log(err));
         },
         searchFilter : function(){
-            // 서버에서 전체 리스트 가져오기
-            fetch("http://localhost:8087/java/recru")
-            .then((response) =>response.json()) 
-            .then(data => { 
-                this.recruPosts = data;  
-                const fil = this.filter;
+            if(this.pageNum==1) this.recruPosts=[];//초기화
+            var pageNum = this.pageNum;
+            //키워드 검색 결과 받아오기
+            var keyword = this.keyword;
+            this.keywordValue = keyword;    //현재 키워드 저장
+            if(keyword==''){
+                fetch(`http://localhost:8087/java/recru/page/${this.memberRole}/${pageNum}`)
+                .then((response) =>response.json()) 
+                .then(data => { 
+                    this.recruPosts = data;  
+                    doFilter();
+                }).catch(err=>console.log(err));
+            }else{
+                fetch(`http://localhost:8087/java/recru/search/${this.memberRole}/${keyword}/${this.pageNum}`)
+                .then((response) =>response.json()) 
+                .then(data => { 
+                    this.recruPosts = data;  
+                    doFilter();
+                }).catch(err=>console.log(err));
+            }
+
+        },
+        doFilter(){
+            const fil = this.filter;
                 const filterList = this.recruPosts;
 
                 //성별필터
@@ -487,13 +520,13 @@ export default{
                     }
                     console.log(filterList)
                 }
-
-
-            }).catch(err=>console.log(err));
         },
         resetFilter (){
+            this.isFilter=false;
+            this.resetFilter;
+            this.keywordValue='';
             //필터 초기화버튼
-            this.filter.wishSex;
+            this.filter.wishSex=0;
             this.filter.wishAge=[];
             this.filter.regionSelect=null;
             this.filter.citySelect=null;
@@ -501,6 +534,7 @@ export default{
             this.filter.goDateMax='';
             this.filter.searchMyGear=[];
             this.filter.searchNeedGear=[];
+            this.loadDataPage();
         },       
     }
 }

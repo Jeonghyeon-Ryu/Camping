@@ -81,7 +81,7 @@
 		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
 			  FROM( SELECT * FROM recruitment 
 				  <where>
-					  <if test="memberRole==0">
+					  <if test="memberRole!=3">
 					  	status=0
 					  </if>
 				  </where>
@@ -90,13 +90,27 @@
 	</select>
 	
 	<!-- 검색조회 -->
-	<select id="findKeyword" parameterType="String" resultType="RecruVO">
-		SELECT * FROM recruitment
-			WHERE recru_title LIKE '%'||#{keyword}||'%'
-				OR recru_content LIKE '%'||#{keyword}||'%'
-				OR my_gear LIKE '%'||#{keyword}||'%'
-				OR need_gear LIKE '%'||#{keyword}||'%'
-				OR camping_point LIKE '%'||#{keyword}||'%'
+	<select id="findKeyword" parameterType="RecruVO" resultType="RecruVO">
+		SELECT B.* 
+		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
+			  FROM(SELECT * FROM recruitment
+			<where>
+				1=1
+				<if test="memberRole!=3">
+				  	AND status=0 
+				</if>
+				<if test="keyword != ''">
+					AND (recru_title LIKE '%'||#{keyword}||'%'
+					OR recru_content LIKE '%'||#{keyword}||'%'
+					OR my_gear LIKE '%'||#{keyword}||'%'
+					OR need_gear LIKE '%'||#{keyword}||'%'
+					OR camping_point LIKE '%'||#{keyword}||'%')
+				</if>
+			</where> 
+				) A ) B 
+		WHERE page = #{pageNum}
+		
+		
 	</select>
 	
 	<!-- 단건조회 -->

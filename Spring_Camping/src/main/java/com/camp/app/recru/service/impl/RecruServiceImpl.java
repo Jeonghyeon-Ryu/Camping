@@ -78,8 +78,8 @@ public class RecruServiceImpl implements RecruService {
 	};
 	//검색 조회
 	@Override
-	public List<RecruVO> recruKeywordList(String keyword) {
-		return mapper.findKeyword(keyword);
+	public List<RecruVO> recruKeywordList(RecruVO recruVO) {
+		return mapper.findKeyword(recruVO);
 	}
 	//최신아이디 조회
 	@Override

@@ -18,7 +18,7 @@ public interface RecruService {
 	//전체조회 - 페이징
 	public List<RecruVO> findAllPaging(RecruVO recruVO);
 	//검색조회
-	public List<RecruVO> recruKeywordList(String keyword);
+	public List<RecruVO> recruKeywordList(RecruVO vo);
 	//단건조회
 	public RecruVO findOne(int recruId);
 	//마이페이지 조회
