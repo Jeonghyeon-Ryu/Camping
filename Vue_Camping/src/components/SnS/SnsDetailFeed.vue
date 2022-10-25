@@ -95,7 +95,7 @@
               <div class="sns-comment-container">
                 <div class="sns-comment">
                   <div class="sns-comment-write-context">
-                    <div class="sns-comment-write-context-html" v-html="snsCommentItem.commentContent"></div>
+                    <div class="sns-comment-write-context-html" v-html="snsCommentItem.commentContent" @click="clickCommentHash"></div>
                   </div>
                 </div>
                 <div class="sns-comment-date">
@@ -210,8 +210,12 @@ export default {
               //객체 안에 객체 추가 snsCommentItems에 profile라는 이름으로 객체 추가된것임...짱신기
               this.snsCommentItems[i].profile = result;              
               console.log(this.snsCommentItems[i]);
+
+              //댓글태그내용 출력..
+              console.log(this.snsCommentItems[i].commentContent);
             }).catch(err => console.log(err));
         }
+
       })
       .catch(err => console.log(err));
 
@@ -445,9 +449,17 @@ export default {
 
       console.log(commentContent,"=======================");
       //닉네임만 스판태그로 감싸기
-      commentContent = commentContent.replace(/(\@[a-zA-Z가-힣]*)/gi, '<span class="ttt">$1</span>');
+      commentContent = commentContent.replace(/(\@[a-zA-Z가-힣]*)/gi, '<span style="cursor: pointer; color:#3f729b;" class="ttt">$1</span>');
       
-      console.log(document.querySelector('.ttt'));
+      console.log(document.querySelectorAll('.ttt')[1]);
+
+      // console.log(document.querySelectorAll('.ttt').innerText);
+
+      // console.log(document.querySelectorAll('.ttt').value);
+
+      // console.log(document.querySelectorAll('.ttt').innerHtml);
+
+      // console.log(document.querySelectorAll('.sns-search-list-container').innerHtml);
       
       //글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
@@ -497,6 +509,46 @@ export default {
         })
         .catch(err => console.log(err))
     },
+
+    //댓글에서 @닉네임 부분 가져오기
+    clickCommentHash(){
+      for (let i = 0; i<document.querySelectorAll('.ttt').length ; i++){
+        // let nickList = (document.querySelectorAll('.ttt')[i].innerText);
+        // console.log(nickList);
+        // let elnickList = nickList.substring(1, nickList.length);
+        // console.log(elnickList);
+
+        // // if(nickList.substring(1, nickList.length) == document.querySelector('.sns-comment-write-context-html')[i].
+        // // this.commentNickFeed(elnickList);
+        // this.$router.push({ name: 'SnsMyFeed', params: { nickname: elnickList } });
+    
+        // document.querySelectorAll('.ttt')[i].style="cursor: pointer";
+        let nickList = (document.querySelectorAll('.ttt')[i].innerText);
+        console.log(nickList);
+        let elnickList = nickList.substring(1, nickList.length);
+        console.log(elnickList);
+        let nicknameAll = [];
+        nicknameAll.push(elnickList);
+        console.log(nicknameAll[i].innerHTML);
+        console.log(nicknameAll[i].value);
+        
+        // if(nickList.substring(1, nickList.length) == document.querySelector('.sns-comment-write-context-html')[i].
+        // this.commentNickFeed(elnickList);
+        this.$router.push({ name: 'SnsMyFeed', params: { nickname: elnickList } });
+       
+      //  let nickList = (document.querySelectorAll('.ttt')[i].innerText);
+      //   console.log(nickList);
+      //   let elnickList = [];
+      //   elnickList.push(nickList.substring(1, nickList.length));
+      //   console.log(elnickList[i].innerText);
+      //   this.$router.push({ name: 'SnsMyFeed', params: { nickname: elnickList[i].innerText } });
+      }
+    },
+    commentNickFeed(nickname){
+
+      
+    },
+
     doSearch() {
       console.log(this.searchText)
     },
