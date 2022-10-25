@@ -226,7 +226,7 @@ export default {
       this.images = dt.files;
       e.target.files = dt.files;
     },
-    //정현님 위치지도 쌔빔
+    //정현님 위치지도 참고
     snsAddress() {
       let search = document.querySelector('.sns-register-address').value;
       let kakaoContainer = document.querySelector('.sns-register-kakaomap');
