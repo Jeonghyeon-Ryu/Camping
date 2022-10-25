@@ -6,8 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.camp.app.save.service.SaveVO;
 import com.camp.app.used.service.InputUsedVO;
 import com.camp.app.used.service.UsedImageVO;
 import com.camp.app.used.service.UsedReviewVO;
@@ -95,10 +92,16 @@ public class UsedController {
 //		return service.selectAllUsedList();
 //	}
 	
-	//내가쓴글조회 
-	@PostMapping("/myUsed")
-	public List<UsedVO> findMyUsed(HttpSession session){
-		String usedWriter = (String)session.getAttribute("email");
+//	//내가쓴글조회 
+//	@PostMapping("/myUsed")
+//	public List<UsedVO> findMyUsed(HttpSession session){
+//		String usedWriter = (String)session.getAttribute("email");
+//		return service.findMyUsed(usedWriter);
+//	}
+	
+	//내가쓴글조회
+	@PostMapping("/myUsed/{usedWriter}")
+	public List<UsedVO> findMyUsed(@PathVariable String usedWriter){
 		return service.findMyUsed(usedWriter);
 	}
 	

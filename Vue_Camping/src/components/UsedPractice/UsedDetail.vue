@@ -104,7 +104,7 @@
             <div class="used-writer-home" @click="writerDetail()">
               <b>{{usedList.nickName}}</b> 님의 판매상품 더 구경하기
             </div>
-            <div class="used-writer-sns" @click="writerSns()">
+            <div class="used-writer-sns" @click="writerSns(usedList.nickName)">
               <b>{{usedList.nickName}}</b> 님의 피드 방문하기
             </div>
           </div>
@@ -159,11 +159,11 @@ export default {
     UsedDetailImage, UsedCard
   },
   methods: {
-    writerDetail: function(){
-      $this.$router.push("")
+    writerDetail: function () {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickName } })
     },
-    writerSns: function(){
-      $this.$router.push({name : 'usedDetail', params: {usedId:usedId }})
+    writerSns: function (nickName) {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickName } })
     },
     //찜하기
     hearted: function () {
@@ -525,21 +525,12 @@ export default {
       .then(data => {
         console.log(data)
         component.usedList = data;
-        console.log(component.usedList.email)
-
-        //
 
         fetch('http://localhost:8087/java/profile/' + component.usedList.email)
           .then(result => result.json())
           .then(result => {
             this.storedProfile = result;
-
-
-
-
           }).catch(err => console.log(err));
-        //
-
       }).catch(err => console.log(err))
 
 
@@ -554,10 +545,6 @@ export default {
     //   .then(result => result.json())
     //   .then(result => {
     //     this.storedProfile = result;
-
-
-
-
     //   }).catch(err => console.log(err));
 
     if (this.$store.state.email != null) {
@@ -584,6 +571,10 @@ export default {
 }
 
 </script>
+
+
+
+
 
 
 

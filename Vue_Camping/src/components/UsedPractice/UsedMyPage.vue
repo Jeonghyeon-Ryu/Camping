@@ -43,7 +43,6 @@
     },
     data(){
       return{
-        email : this.$store.state.email,
         usedList: [],
         myGearType: '',
         regionSelect: '',
@@ -95,15 +94,14 @@
     },
     //created-페이지 열자마자 실행
     created(){
-      const email = this.email;
-      console.log(email)
+      // const email = this.usedList.email;
+      // console.log(email)
       
       //내가쓴글전체조회
-      fetch("http://localhost:8087/java/used/myUsed/"
-      +email,{
+      fetch("http://localhost:8087/java/used/myUsed/"+this.usedList.email,{
         method: "POST",
         headers : {"Content-Type" : "application/json"},
-        body : JSON.stringify(email)
+        body : JSON.stringify(this.usedList.email)
       }) 
             .then((Response) => Response.json())  //json 파싱 
             .then(data => { 

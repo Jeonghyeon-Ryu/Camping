@@ -6,7 +6,7 @@
 	<!-- 게시글 전체조회 페이징-->
 	<select id="selectAllUsedList" resultType="UsedVO">
 		SELECT B.* FROM (SELECT CEIL(ROWNUM/12) page, A.* 
-		FROM(SELECT * FROM used ORDER BY used_id desc)A)B 
+		FROM(SELECT * FROM used WHERE used_status = 0 ORDER BY used_id desc)A)B 
 		WHERE page = #{page}
 	</select>
 	
@@ -70,6 +70,10 @@
 		   AND used_status !=2 
 		 ORDER BY used_id DESC
 	</select>
+	
+	<!-- 내가찜한글 -->
+	<select id=
+	select * from save where email = #{email}
 	
 	<!-- 수정 -->
 	<update id="updateUsed" parameterType="UsedVO">
