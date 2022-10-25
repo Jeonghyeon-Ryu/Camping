@@ -181,7 +181,7 @@ export default {
                     let noteIds = []; //new Array();
                     for (let i = 0; i < noteIdObj.length; i++) {
                         noteIds.push(noteIdObj[i]);
-                    } get
+                    }
                     let fetchData = {
                         "noteIds": noteIds
                     }
@@ -275,15 +275,22 @@ export default {
         getInvitedMember() {
             let noteId = this.oneNoteId;
             console.log(noteId);
-            fetch(`http://localhost:8087/java/BlockUser/${noteId}`, {
+            fetch(`http://localhost:8087/java/showBlockMember/${noteId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
                 .then((response) => response.text())
                 .then(data => {
                     let invitedMember = [];
-                    invitedMember = data.split(',');
-                    for (let i = 1; i < invitedMember.length; i += 2) {
+                    invitedMember = data.split(',')
+                    invitedMember = invitedMember.filter((element)=> {
+                        return element !== '' && element !== null;
+                    });
+                    console.log(invitedMember);
+                    // for (let i = 1; i < invitedMember.length; i += 2) {
+                    //     this.InvitedmemberList.push(invitedMember[i]);
+                    // }
+                    for (let i=1; i<invitedMember.length; i++){ 
                         this.InvitedmemberList.push(invitedMember[i]);
                     }
                 }).catch(err => console.log(err));
@@ -322,26 +329,29 @@ export default {
                     let blockMember = document.querySelectorAll('.invitedMemberInfo')[i].innerHTML;
                     this.blockMeber.push(blockMember);
                 }
-
             }
             let fetchData = {
-                "invitedMember": this.blockMember,
+                "invitedMember": this.blockMeber,
                 "noteId": noteId
             }
             console.log("fetchData")
             console.log(fetchData);
             //공유끊기 back단 시작
             
-            /*fetch(`http://localhost:8087/java/blockMember`, {
+            fetch(`http://localhost:8087/java/blockMember`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(fetchData)
             })
                 .then((response) => {
-                    this.$router.go(0)
+                    Swal.fire({
+                        title: '성공!',
+                        cancelButtonText: '돌아가기'
+                    })
+                    
                 }).catch(err => {
                     console.log(err)
-                });*/
+                });
                 
             console.log(this.blockMeber);
 
