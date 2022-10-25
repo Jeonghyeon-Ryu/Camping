@@ -66,12 +66,13 @@
                         <div class="modal_info">공유를 중지할 유저를 선택해주세요</div>
                         <hr>
                         <div class="block_user_container">
-                            <label for="select_user">
-                                <input type="checkbox" id="select_user" class="check_block_user" :value="checked">
-                            </label>
+                            <div class="invited_list_info" v-for="(member, i) in InvitedmemberList" :key="i">
+                                <input type="checkbox" class="check_block_user">
+                                <div class="invitedMemberInfo">{{ member }} </div>
+                            </div>
                         </div>
                         <div class="invite_btn_container">
-                            <button class="success" @click="[inviteCancleModalOpen = true, getInvitedMember($event)]">공유끊기</button>
+                            <button class="success" @click="blockMember($event)">공유끊기</button>
                             <button class="modal_cancel" @click="inviteCancleModalOpen = false">취소</button>
                         </div>
                     </div>
@@ -89,10 +90,12 @@ export default {
     name: "MynoteList",
     data() {
         return {
-            oneNoteId : '',
+            oneNoteId: '',
             noteId: [],
+            blockMeber: [],
             myNoteId: this.$route.params.noteId,
             listInfo: [],
+            InvitedmemberList: [],
             cardClass: [
                 "card text-white bg-secondary mb-3",
                 "card text-white bg-success mb-3",
@@ -110,6 +113,7 @@ export default {
     },
     created() {
         this.getMyListInfo();
+
     },
     methods: {
         showCheckBox(e) {
@@ -154,7 +158,6 @@ export default {
             let checkedId = [];
             let checkedIds = {};
             for (let i = 0; i < checkBoxes.length; i++) {
-
                 if (checkBoxes[i].checked == true) {
                     this.noteId.push(checkBoxes[i].id);
                 }
@@ -178,7 +181,7 @@ export default {
                     let noteIds = []; //new Array();
                     for (let i = 0; i < noteIdObj.length; i++) {
                         noteIds.push(noteIdObj[i]);
-                    }get
+                    } get
                     let fetchData = {
                         "noteIds": noteIds
                     }
@@ -266,27 +269,26 @@ export default {
             }
             let noteId = target.querySelector('.noteId').innerText;
             this.oneNoteId = noteId;
+            this.getInvitedMember();
         },
         //공유중인 맴버 보여주기
-        getInvitedMember(e){ 
+        getInvitedMember() {
             let noteId = this.oneNoteId;
-           
+            console.log(noteId);
             fetch(`http://localhost:8087/java/BlockUser/${noteId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
-                .then((response) => {
-
-                })
+                .then((response) => response.text())
                 .then(data => {
-                    this.listInfo = data;
-                    console.log(data);
-                    console.log(this.listInfo)
+                    let invitedMember = [];
+                    invitedMember = data.split(',');
+                    for (let i = 1; i < invitedMember.length; i += 2) {
+                        this.InvitedmemberList.push(invitedMember[i]);
+                    }
                 }).catch(err => console.log(err));
         },
-        delInvitedMember(e){ 
-            
-
+        delInvitedMember(e) {
             Swal.fire({
                 title: '공유를 중지하시겠습니까??',
                 showCancelButton: true,
@@ -296,7 +298,7 @@ export default {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     let noteId = this.oneNoteId;
-                    
+
                     fetch(`http://localhost:8087/java/delInvitedMember/${noteId}`, {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json" },
@@ -308,6 +310,41 @@ export default {
                         });
                 }
             })
+        },
+        blockMember(e) {
+            let noteId = this.oneNoteId;
+
+            let checkBoxes = document.querySelectorAll('input[type="checkbox"]');
+
+            for (let i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].checked == true) {
+                    //  console.log(document.querySelectorAll('.invitedMemberInfo'))
+                    let blockMember = document.querySelectorAll('.invitedMemberInfo')[i].innerHTML;
+                    this.blockMeber.push(blockMember);
+                }
+
+            }
+            let fetchData = {
+                "invitedMember": this.blockMember,
+                "noteId": noteId
+            }
+            console.log("fetchData")
+            console.log(fetchData);
+            //공유끊기 back단 시작
+            
+            /*fetch(`http://localhost:8087/java/blockMember`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(fetchData)
+            })
+                .then((response) => {
+                    this.$router.go(0)
+                }).catch(err => {
+                    console.log(err)
+                });*/
+                
+            console.log(this.blockMeber);
+
 
 
         }
