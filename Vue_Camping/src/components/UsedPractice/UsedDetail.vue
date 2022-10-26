@@ -117,7 +117,7 @@
             v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click="hearted()">🧡 찜
             취소</button>
           <button type="button" class="chat-button"
-            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0" @click="">쪽지하기</button>
+            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0" @click="sendingMsg()">쪽지하기</button>
           <button type="button" class="chat-button2"
             v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">쪽지하기</button>
           <button type="button" class="update-button" v-if="usedList.email === memberId && usedList.dealStatus != 2"
@@ -166,66 +166,66 @@ export default {
       this.$router.push({ name: 'SnsMyFeed', params: { nickname: this.usedList.email } })
     },
     //쪽지보내기
-    // sendingMsg: function(){
-      // let item = Swal.fire({
-      //     title: this.usedList.usedName+' 상품 판매자에게 쪽지 보내기',
-      //     html:
-      //       '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 250px; font-size:12px;" maxlength="500" placeholder="판매자에게 보낼 내용을 입력하세요"></textarea>',
-      //     focusConfirm: false,
-      //     showCancelButton: true,
-      //     confirmButtonText: '전송',
-      //     cancelButtonText: '취소',
-      //     confirmButtonColor: 'rgba(6,68,32,0.8)',
-      //     preConfirm: () => {
-      //       let fetchData = {
-      //         "usedId": this.usedId,
-      //         "mailSender": this.$store.state.email,
-      //         "mailReceiver": this.usedList.email,
-      //         "mailContent": document.getElementById('swal-input2').value,
-      //       }
+    sendingMsg: function(){
+      let item = Swal.fire({
+          title: this.usedList.usedName+' 상품 판매자에게 쪽지 보내기',
+          html:
+            '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 250px; font-size:12px;" maxlength="500" placeholder="판매자에게 보낼 내용을 입력하세요"></textarea>',
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: '전송',
+          cancelButtonText: '취소',
+          confirmButtonColor: 'rgba(6,68,32,0.8)',
+          preConfirm: () => {
+            let fetchData = {
+              "usedId": this.usedId,
+              "mailSender": this.$store.state.email,
+              "mailReceiver": this.usedList.email,
+              "mailContent": document.getElementById('swal-input2').value,
+            }
 
-      //       console.log(fetchData);
-      //       fetch('http://localhost:8087/java/used/sendMail', {
-      //         method: 'POST',
-      //         headers: {'Content-Type': 'application/json'},
-      //         body: JSON.stringify(fetchData)
-      //       }).then(result => result.text())
-      //         .then(result => {
-      //           if (result == "true") {
-      //             Swal.fire({
-      //               icon: 'success',
-      //               title: '전송되었습니다',
-      //               toast: true,
-      //               showConfirmButton: false,
-      //               timer: 900,
-      //               didOpen: (toast) => {
-      //                 toast.addEventListener('mouseenter', Swal.stopTimer)
-      //                 toast.addEventListener('mouseleave', Swal.resumeTimer)
-      //                 this.$router.push({ path: '/used/UsedDetail/' + this.usedId, });
-      //               }
-      //             })
-      //           } else {
-      //             Swal.fire({
-      //               icon: 'error',
-      //               title: '전송 실패 !',
-      //               text: '계속 실패하면 고객센터에 문의해주세요.',
-      //               toast: true,
-      //               showConfirmButton: false,
-      //               timer: 900,
-      //               didOpen: (toast) => {
-      //                 toast.addEventListener('mouseenter', Swal.stopTimer)
-      //                 toast.addEventListener('mouseleave', Swal.resumeTimer)
-      //               }
-      //             })
-      //           }
-      //           console.log(result);
-      //         })
+            console.log(fetchData);
+            fetch('http://localhost:8087/java/used/sendMail', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify(fetchData)
+            }).then(result => result.text())
+              .then(result => {
+                if (result == "true") {
+                  Swal.fire({
+                    icon: 'success',
+                    title: '전송되었습니다',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 900,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      this.$router.push({ path: '/used/UsedDetail/' + this.usedId, });
+                    }
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: '전송 실패 !',
+                    text: '계속 실패하면 고객센터에 문의해주세요.',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 900,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
+                }
+                console.log(result);
+              })
 
-      //       return false;
-      //     }
-      //   })
-      //   console.log(item);
-    // },    
+            return false;
+          }
+        })
+        console.log(item);
+    },    
     //찜하기
     hearted: function () {
       event.preventDefault();
