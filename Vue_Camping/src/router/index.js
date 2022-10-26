@@ -210,6 +210,12 @@ const routes = [{
     component: () => import('@/components/UsedPractice/UsedMySave.vue'),
     props: true
   },
+  {
+    name: 'SendMail',
+    path: '/used/sendMail',
+    component: () => import('@/components/Mail/SendMail.vue'),
+    props: true
+  },
 ]
 
 const router = createRouter({

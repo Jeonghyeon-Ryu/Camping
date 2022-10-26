@@ -52,7 +52,7 @@ a:active {
 }
 
 .used-main img {
-  width: 92.5%;
+  width: 85%;
   height: 250px;
   object-fit: cover;
 }
@@ -211,6 +211,10 @@ label {
   font-weight: bold;
   color: rgb(7, 107, 7);
 }
+.usedMsg{
+  padding: 7%;
+}
+
 /*본문-카드*/
 .cards {
   display: flex;

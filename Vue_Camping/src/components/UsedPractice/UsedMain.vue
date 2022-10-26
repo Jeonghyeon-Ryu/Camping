@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-        필터
+        <!-- 필터 -->
         <div class="used-filter">
           <ul class="used-filter-ul">
             <li>
@@ -121,11 +121,15 @@
 
         <div v-if="keywordValue" class="검색결과">
           <h4>'{{keywordValue}}' 에 대한 검색 결과</h4>
-          <div class="searched-filter">
+          <!-- <div class="searched-filter">
             최신순 | 낮은가격순 | 높은가격순
-          </div>
+          </div> -->
         </div>
-        <h2>{{recruMsg}}</h2>
+        <div v-if="usedMsg" class="usedMsg">
+          <img src="@/assets/img/used/nosearch.png" alt="검색결과없음" style="width:200px">
+          <h2>{{usedMsg}}</h2>
+          <h4>다른 키워드로 검색해주세요</h4>
+        </div>
         <div class="cards">
           <div v-for="card in usedList" :key="card.id">
             <router-link tag="div" v-bind:to="{name:'usedDetail', params : {usedId : card.usedId}}">
@@ -190,6 +194,7 @@
         searchImg : img1,
         dealStatus: 9,
         pageNum: 1,
+        usedMsg: false,
       }
     },
     methods : {
@@ -255,7 +260,7 @@
        }
 
       },
-      searchList : function(event){
+      searchList : function(){
         //키워드 검색+필터검색 결과 받아오기
         let data = {
           keyword: this.keyword,
@@ -281,9 +286,9 @@
             console.log(data);
             this.usedList = data;  
             if(this.usedList.length<1){
-              this.recruMsg="검색 결과가 없습니다"
+              this.usedMsg="검색 결과가 없어요"
             }else{
-               this.recruMsg="";
+               this.usedMsg="";
             }
           }).catch(err=>console.log(err));
       },

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class mailVO {
+public class MailVO {
 	private int mailId;
 	private String mailSender;
 	private String mailReceiver;

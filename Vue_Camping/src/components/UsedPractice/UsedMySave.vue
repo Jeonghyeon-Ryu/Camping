@@ -5,7 +5,7 @@
       <form onsubmit="return false">
       <div class="used-headd">
         <div class="used-title">
-          <h2>중고장터 {{this.usedList.nickName}}님이 쓴 글</h2>
+          <h2>중고장터 {{this.usedList.nickName}}님이 찜한 글</h2>
         </div>
       </div>
 
