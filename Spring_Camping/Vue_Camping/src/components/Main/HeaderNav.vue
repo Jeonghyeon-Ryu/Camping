@@ -84,6 +84,7 @@ export default {
           "노트 작성하기": "/WriteNote"
         },
       ],
+      responsiveFlag : false,
     }
   },
   methods: {

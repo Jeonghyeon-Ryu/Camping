@@ -135,12 +135,12 @@ export default {
         }
     },
     created: function () {
-        fetch('http://localhost:8087/java/campDetail/' + this.campId)
+        fetch('/java/campDetail/' + this.campId)
             .then(result => result.json())
             .then(result => {
                 result.campInfo = result.campInfo.split(" ");
                 this.camp = result;
-                fetch("http://localhost:8087/java/hashtagList/" + this.camp.campName + "/" + this.page)
+                fetch("/java/hashtagList/" + this.camp.campName + "/" + this.page)
                     .then(result => result.json())
                     .then(result => {
                         this.snsImgs = result;
@@ -148,7 +148,7 @@ export default {
                     .catch(err => console.log(err));
             }).catch(err => console.log(err));
         if (this.$store.state.email != null) {
-            fetch('http://localhost:8087/java/save?boardId=' + this.campId + '&email=' + this.$store.state.email)
+            fetch('/java/save?boardId=' + this.campId + '&email=' + this.$store.state.email)
                 .then(result => result.text())
                 .then(result => {
                     if (result == 'true') {
@@ -172,7 +172,7 @@ export default {
             }
             console.log(save);
             if (this.$store.state.email != null) {
-                fetch('http://localhost:8087/java/save', {
+                fetch('/java/save', {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(save)
@@ -191,7 +191,7 @@ export default {
                 'boardDivision': 0,
                 'email': this.$store.state.email
             }
-            fetch('http://localhost:8087/java/save', {
+            fetch('/java/save', {
                 method: 'DELETE',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(save)
@@ -208,7 +208,7 @@ export default {
         },
         modifyItemByUser() {
             if (this.$store.state.email != null) {
-                fetch('http://localhost:8087/java/campModify/' + this.campId)
+                fetch('/java/campModify/' + this.campId)
                     .then(result => result.text())
                     .then(result => {
                         if (result == 'true')    // 수정중인게 있을때
@@ -247,7 +247,7 @@ export default {
             }
         },
         modifyItemByAdmin() {
-            fetch('http://localhost:8087/java/campModify/' + this.campId)
+            fetch('/java/campModify/' + this.campId)
                 .then(result => result.text())
                 .then(result => {
                     if (result == 'true')    // 수정중인게 있을때
@@ -293,7 +293,7 @@ export default {
                     }
 
                     console.log(fetchData);
-                    fetch('http://localhost:8087/java/report', {
+                    fetch('/java/report', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

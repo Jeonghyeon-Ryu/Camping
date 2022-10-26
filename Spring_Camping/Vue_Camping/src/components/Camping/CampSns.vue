@@ -2,7 +2,7 @@
   <div class="camp-sns-container">
     <div class="camp-sns-card" v-for="snsImg of snsImgs" @click="clickSnsCard(snsImg.writeNo)">
       <input type="text" :value="snsImg.writeNo" style="display :none;">
-      <img :src="'http://localhost:8087/java/showSnsImage/' + snsImg.snsPath + '/' + snsImg.storedName">
+      <img :src="'/java/showSnsImage/' + snsImg.snsPath + '/' + snsImg.storedName">
     </div>
   </div>
 </template>

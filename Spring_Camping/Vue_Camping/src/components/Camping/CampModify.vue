@@ -142,7 +142,7 @@ export default {
         }
     },
     created: function () {
-        fetch('http://localhost:8087/java/campDetail/' + this.campId)
+        fetch('/java/campDetail/' + this.campId)
             .then(result => result.json())
             .then(result => {
                 result.campInfo = result.campInfo.split(" ");
@@ -200,7 +200,7 @@ export default {
                     if (result.isConfirmed) {
                         Swal.fire('취소 !', '', 'success')
                     } else {
-                        fetch('http://localhost:8087/java/campModify', {
+                        fetch('/java/campModify', {
                             method: 'POST',
                             headers: {},
                             body: fetchData
@@ -236,7 +236,7 @@ export default {
                     if (result.isConfirmed) {
                         Swal.fire('취소 !', '', 'success')
                     } else {
-                        fetch('http://localhost:8087/java/admin/camp', {
+                        fetch('/java/admin/camp', {
                             method: 'POST',
                             headers: {},
                             body: fetchData

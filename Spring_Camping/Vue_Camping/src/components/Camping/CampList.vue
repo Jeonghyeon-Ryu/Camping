@@ -44,7 +44,7 @@ export default {
         };
     },
     created: function () {
-        fetch("http://localhost:8087/java/camp/" + this.page)
+        fetch("/java/camp/" + this.page)
             .then(result => result.json())
             .then(result => {
             for (let i = 0; i < result.length; i++) {

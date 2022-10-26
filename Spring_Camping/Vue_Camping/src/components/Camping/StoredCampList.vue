@@ -45,7 +45,7 @@ export default {
   },
   created: function () {
     if (this.$store.state.email != null) {
-      fetch("http://localhost:8087/java/savedCamp/" + this.$store.state.email)
+      fetch("/java/savedCamp/" + this.$store.state.email)
         .then(result => result.json())
         .then(result => {
           for (let i = 0; i < result.length; i++) {

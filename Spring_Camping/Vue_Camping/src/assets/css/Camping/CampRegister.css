@@ -19,6 +19,21 @@
         left: 0;
         top : 50px;
     }
+    .camp-register-form>div {
+        width:100%;
+        padding:10px 20px;
+        display:flex;
+        flex-direction: column;
+        flex-wrap:wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    .camp-register-form>div>div{
+        width:100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 @media screen and (min-width:1201px) {
     .camp-register-container {
@@ -46,6 +61,19 @@
     .camp-register-kakaomap {
         left: 100%;
         top : 10px;
+    }
+    .camp-register-form>div {
+        width:100%;
+        padding:10px 20px;
+        display:flex;
+        flex-wrap:wrap;
+        justify-content: space-between;
+    }
+    .camp-register-form>div>div{
+        width:60%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 .camp-register-image-container {
@@ -143,12 +171,12 @@
     box-shadow: 1px 1px 2px gray !important;
 }
 .camp-register-form label input {
-    width:50%;
+    width:60%;
 }
 .camp-register-address-container {
 }
 .camp-register-address-container>div:first-child{
-    width:50%;
+    width:60%;
 }
 .camp-register-address {
     width:100% !important;
@@ -173,19 +201,7 @@
 .camp-register-price {
 
 }
-.camp-register-form>div {
-    width:100%;
-    padding:10px 20px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content: space-between;
-}
-.camp-register-form>div>div{
-    width:50%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+
 /* .camp-register-form .camp-register-info button[type="button"] {
     width:60px;
     margin:3px 2px;
@@ -203,7 +219,7 @@
     margin: 10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .row label {

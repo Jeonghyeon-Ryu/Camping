@@ -247,7 +247,7 @@ export default {
               }
             })
           } else {
-            fetch('http://localhost:8087/java/camp', {
+            fetch('/java/camp', {
               method: 'POST',
               headers: {},
               body: camp

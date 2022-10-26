@@ -27,6 +27,7 @@
 
 <script>
 export default {
+    props: ['responsiveFlag'],
     methods: {
         logout() {
             this.$emit("hideMenu");
