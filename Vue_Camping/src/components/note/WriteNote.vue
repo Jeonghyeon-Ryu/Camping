@@ -319,7 +319,6 @@ export default {
                 this.$router.push({
                     name: "MynoteList"
                 })
-
             })
         },
         //자식에서 이미지 정보 가져오기

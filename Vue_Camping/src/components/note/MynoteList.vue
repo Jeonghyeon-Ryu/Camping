@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="card text-white bg-success mb-3" v-for="info in listInfo" :key="info.noteId">
                             <div class="card-header">
-                                <div class="noteId">{{ info.noteId }}</div>
+                                <div class="noteId" style="opacity : 0">{{ info.noteId }}</div>
                                 <div class="note_state">{{ info.noteState }}</div>
                                 <div class="checkbox">
                                     <input type="checkbox" v-bind:id="info.noteId" name="check_one" v-if="show">
@@ -46,11 +46,11 @@
                 </div>
                 <div class="black-bg" v-if="inviteModalOpen == true">
                     <div class="invite-white-bg">
-                        <div class="modal_info">초대할 유저의 닉네임을 입력해주세요</div>
+                        <div class="modal_info">초대할 유저의 메일(id)을 입력해주세요</div>
                         <hr>
                         <div class="input_container">
                             <div class="input_box">
-                                <input class="input_email" placeholder="닉네임을 입력해주세요">
+                                <input class="input_email" placeholder="메일(id)을 입력해주세요">
                                 <button class="add_inviteMember" @click="addInviteMember($event)">추가</button>
                                 <button class="add_inviteMember" @click="delInviteMember($event)">삭제</button>
                             </div>
@@ -73,7 +73,8 @@
                         </div>
                         <div class="invite_btn_container">
                             <button class="success" @click="blockMember($event)">공유끊기</button>
-                            <button class="modal_cancel" @click="inviteCancleModalOpen = false">취소</button>
+                            <button class="modal_cancel"
+                                @click="[inviteCancleModalOpen = false, delMemberList($event)]">취소</button>
                         </div>
                     </div>
                 </div>
@@ -205,7 +206,8 @@ export default {
             }
             let noteId = target.querySelector('.noteId').innerText;
             this.myNoteId = noteId;
-
+            console.log("====나와야대")
+            console.log(this.myNoteId)
             this.$router.push({
                 name: "MyNoteInfo",
                 params: {
@@ -222,14 +224,20 @@ export default {
             let noteId = target.querySelector('.noteId').innerText;
             this.noteId.push(noteId);
         },
+        //초대하기
         inviteUser(e) {
             //노트id가져오기
             let noteId = this.noteId[0];
             let userEmails = [];
             //email입력
             let userEmail = document.querySelectorAll('.input_email');
+            
             for (let i = 0; i < userEmail.length; i++) {
-                userEmails.push(',' + userEmail[i].value + ',');
+                if(userEmail[i] != null){
+                    userEmails.push(',' + userEmail[i].value + ',');
+                }
+                console.log("userEmail");
+                console.log(userEmail[i].value)
             }
             let fetchData = {
                 "noteId": noteId,
@@ -241,17 +249,18 @@ export default {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(fetchData)
             })
-                .then((response) => {
-                    Swal.fire({
-                        title: '초대완료!',
-                        text: '초대받은 유저는 내용을 수정할 수 있습니다!!',
-                        cancelButtonText: '돌아가기'
-                    })
-                    this.inviteModalOpen = true
-                }).catch(err => {
-                    console.log(err)
-                });
+            .then((response) => {
+                Swal.fire({
+                    title: '초대완료!',
+                    text: '초대받은 유저는 내용을 수정할 수 있습니다!!',
+                    cancelButtonText: '돌아가기'
+                })
+                this.inviteModalOpen = false;
+            }).catch(err => {
+                console.log(err)
+            });
         },
+        //초대하기
         addInviteMember(e) {
             let inputContainer = e.target.parentElement.parentElement;
             console.log(inputContainer);
@@ -283,41 +292,40 @@ export default {
                 .then(data => {
                     let invitedMember = [];
                     invitedMember = data.split(',')
-                    invitedMember = invitedMember.filter((element)=> {
+                    invitedMember = invitedMember.filter((element) => {
                         return element !== '' && element !== null;
                     });
-                    console.log(invitedMember);
-                    // for (let i = 1; i < invitedMember.length; i += 2) {
-                    //     this.InvitedmemberList.push(invitedMember[i]);
-                    // }
-                    for (let i=1; i<invitedMember.length; i++){ 
+                    
+                    for (let i = 0; i < invitedMember.length; i++) {
                         this.InvitedmemberList.push(invitedMember[i]);
                     }
                 }).catch(err => console.log(err));
         },
-        delInvitedMember(e) {
-            Swal.fire({
-                title: '공유를 중지하시겠습니까??',
-                showCancelButton: true,
-                confirmButtonText: '중지',
-                cancelButtonText: '취소'
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    let noteId = this.oneNoteId;
+        // delInvitedMember(e) {
+        //     Swal.fire({
+        //         title: '공유를 중지하시겠습니까??',
+        //         showCancelButton: true,
+        //         confirmButtonText: '중지',
+        //         cancelButtonText: '취소'
+        //     }).then((result) => {
+        //         /* Read more about isConfirmed, isDenied below */
+        //         if (result.isConfirmed) {
+        //             let noteId = this.oneNoteId;
 
-                    fetch(`http://localhost:8087/java/delInvitedMember/${noteId}`, {
-                        method: "DELETE",
-                        headers: { "Content-Type": "application/json" },
-                    })
-                        .then((response) => {
-                            this.$router.go(0)
-                        }).catch(err => {
-                            console.log(err)
-                        });
-                }
-            })
-        },
+        //             fetch(`http://localhost:8087/java/delInvitedMember/${noteId}`, {
+        //                 method: "DELETE",
+        //                 headers: { "Content-Type": "application/json" },
+        //             })
+        //                 .then((response) => {
+        //                     //this.$router.push(0)
+
+        //                 }).catch(err => {
+        //                     console.log(err)
+        //                 });
+        //         }
+        //     })
+        // },
+        //공유 끊기
         blockMember(e) {
             let noteId = this.oneNoteId;
 
@@ -336,8 +344,8 @@ export default {
             }
             console.log("fetchData")
             console.log(fetchData);
-            //공유끊기 back단 시작
-            
+
+
             fetch(`http://localhost:8087/java/blockMember`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -348,16 +356,30 @@ export default {
                         title: '성공!',
                         cancelButtonText: '돌아가기'
                     })
+                    let removeTarget = '';
+                    let parent = '';
+                    let listAll = document.querySelectorAll('.invitedMemberInfo');
                     
+                    if (response.isConfirmed) {
+                        for (let i = 0; i < listAll.length; i++) {
+                            if (listAll[i].innerHTML == null) {
+                                removeTarget = listAll[i].parentElement;
+                               
+                                parent = removeTarget.parentElement;
+                                
+                                parent.removeChild(removeTarget);
+                            }
+                        }
+
+                    }
+                    this.inviteCancleModalOpen = false
+
                 }).catch(err => {
                     console.log(err)
                 });
-                
+
             console.log(this.blockMeber);
-
-
-
-        }
+        },
     },
     components: { Modal }
 };
