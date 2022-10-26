@@ -215,7 +215,7 @@ export default {
                 }
             })
         },
-        //초대하기
+        //초대하기(폼열기)
         inviteForm(e) {
             let target = e.target;
             while (!target.classList.contains('card')) {
@@ -224,16 +224,16 @@ export default {
             let noteId = target.querySelector('.noteId').innerText;
             this.noteId.push(noteId);
         },
-        //초대하기
+        //초대하기(유저초대)
         inviteUser(e) {
             //노트id가져오기
             let noteId = this.noteId[0];
             let userEmails = [];
             //email입력
             let userEmail = document.querySelectorAll('.input_email');
-            
+
             for (let i = 0; i < userEmail.length; i++) {
-                if(userEmail[i] != null){
+                if (userEmail[i] != null) {
                     userEmails.push(',' + userEmail[i].value + ',');
                 }
                 console.log("userEmail");
@@ -249,18 +249,18 @@ export default {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(fetchData)
             })
-            .then((response) => {
-                Swal.fire({
-                    title: '초대완료!',
-                    text: '초대받은 유저는 내용을 수정할 수 있습니다!!',
-                    cancelButtonText: '돌아가기'
-                })
-                this.inviteModalOpen = false;
-            }).catch(err => {
-                console.log(err)
-            });
+                .then((response) => {
+                    Swal.fire({
+                        title: '초대완료!',
+                        text: '초대받은 유저는 내용을 수정할 수 있습니다!!',
+                        cancelButtonText: '돌아가기'
+                    })
+                    this.inviteModalOpen = false;
+                }).catch(err => {
+                    console.log(err)
+                });
         },
-        //초대하기
+        //초대하기(초대인원추가)
         addInviteMember(e) {
             let inputContainer = e.target.parentElement.parentElement;
             console.log(inputContainer);
@@ -271,6 +271,7 @@ export default {
 
             inputContainer.append(inputEmail);
         },
+        //폼 닫기
         inviteCancleForm(e) {
             let target = e.target;
             while (!target.classList.contains('card')) {
@@ -288,43 +289,18 @@ export default {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
-                .then((response) => response.text())
-                .then(data => {
-                    let invitedMember = [];
-                    invitedMember = data.split(',')
-                    invitedMember = invitedMember.filter((element) => {
-                        return element !== '' && element !== null;
-                    });
-                    
-                    for (let i = 0; i < invitedMember.length; i++) {
-                        this.InvitedmemberList.push(invitedMember[i]);
-                    }
-                }).catch(err => console.log(err));
-        },
-        // delInvitedMember(e) {
-        //     Swal.fire({
-        //         title: '공유를 중지하시겠습니까??',
-        //         showCancelButton: true,
-        //         confirmButtonText: '중지',
-        //         cancelButtonText: '취소'
-        //     }).then((result) => {
-        //         /* Read more about isConfirmed, isDenied below */
-        //         if (result.isConfirmed) {
-        //             let noteId = this.oneNoteId;
-
-        //             fetch(`http://localhost:8087/java/delInvitedMember/${noteId}`, {
-        //                 method: "DELETE",
-        //                 headers: { "Content-Type": "application/json" },
-        //             })
-        //                 .then((response) => {
-        //                     //this.$router.push(0)
-
-        //                 }).catch(err => {
-        //                     console.log(err)
-        //                 });
-        //         }
-        //     })
-        // },
+            .then((response) => response.text())
+            .then(data => {
+                let invitedMember = [];
+                invitedMember = data.split(',')
+                invitedMember = invitedMember.filter((element) => {
+                    return element !== '' && element !== null;
+                });
+                for (let i = 0; i < invitedMember.length; i++) {
+                    this.InvitedmemberList.push(invitedMember[i]);
+                }
+            }).catch(err => console.log(err));
+    },
         //공유 끊기
         blockMember(e) {
             let noteId = this.oneNoteId;
@@ -359,14 +335,14 @@ export default {
                     let removeTarget = '';
                     let parent = '';
                     let listAll = document.querySelectorAll('.invitedMemberInfo');
-                    
+
                     if (response.isConfirmed) {
                         for (let i = 0; i < listAll.length; i++) {
                             if (listAll[i].innerHTML == null) {
                                 removeTarget = listAll[i].parentElement;
-                               
+
                                 parent = removeTarget.parentElement;
-                                
+
                                 parent.removeChild(removeTarget);
                             }
                         }
