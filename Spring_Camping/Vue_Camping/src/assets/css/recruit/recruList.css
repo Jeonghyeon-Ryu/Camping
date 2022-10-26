@@ -1,0 +1,93 @@
+/* 공통부분 */
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-style: none;
+    box-sizing: border-box;
+    }
+    .recru-row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    }
+    .recru-col{
+    display: block;
+    }
+    .recru-left{
+        justify-content: left ;
+    }
+    .bold{
+        font-weight: bold;
+    }
+    .recru-list-container{
+        margin: 150px 0;
+    }
+    /* 필터 */
+    #recru-filter-form{
+        min-width: 1150px;
+        border: 1px solid rgb(238, 238, 238);
+        padding-top: 20px;
+        border-radius: 5px;
+        margin: 0 10px 10px 10px;
+        box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px;
+    }
+    #recru-filter-form input {
+        margin: 3px;
+    }
+    .recru-filter-container{
+       width: 100%;
+    }
+    .recru-filter-box{
+        width: 32%;
+        padding: 10px 5px;
+        margin: 5px;
+        background: rgb(247, 250, 255);
+        border-radius: 10px;
+    }
+    .recru-filter-container h3{
+        text-align: center;
+        margin-bottom: 10px;    
+    }
+    .recru-filter-trip select, .recru-filter-trip input{
+        padding : 3px;
+        border : 1px solid lightgray;
+    }
+    .recru-filter-box label{
+        width : auto;
+        padding: 7px;
+        line-height: 0;
+    }
+    #recru-start-districtSelect, #recru-camp-districtSelect{
+        width: 50%;
+    }
+    .recru-filter-btn-box{
+        width: 100%;
+        padding: 10px;
+    }
+    .recru-filter-btn{
+        width: 100px;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 2px;
+        border: none;
+        font-weight: bold;
+        font-size: 15px;
+    }
+    .recru-filter-btn:hover{
+        box-shadow: #848786 0.8px 0.8px 2px 0.4px;
+    }
+    /* 카드 목록 */
+    .recru-card-box{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    }
+    a{
+        text-decoration: none;
+    }
+      /* 카드 저장 아이콘 */
+    .recru-card-wish{
+        position: relative;
+    }

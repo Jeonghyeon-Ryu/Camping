@@ -1,0 +1,307 @@
+
+@media screen and (max-width:1200px) {
+    .camp-register-container {
+        padding:150px 30px 30px 30px;
+        width:100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .camp-register-container h2{
+        padding:20px;
+    }
+    
+    .camp-register {
+        width:90%;
+    }
+    .camp-register-kakaomap {
+        z-index: 100;
+        left: 0;
+        top : 50px;
+    }
+}
+@media screen and (min-width:1201px) {
+    .camp-register-container {
+        padding:150px 100px 100px 100px;
+        width:100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .camp-register-container h2{
+        padding:20px;
+    }
+    
+    .camp-register {
+        width:100%;
+        display:flex;
+        justify-content: center;
+    }
+    .camp-register>div {
+        width:40%;
+    }
+    .camp-register-form-button-container button {
+        width:50%;
+    }
+    .camp-register-kakaomap {
+        left: 100%;
+        top : 10px;
+    }
+}
+.camp-register-image-container {
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.camp-register-form {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+}
+.camp-register-image-preview {
+    width:100%;
+    height:240px;
+    border : 1px solid gray;
+    display:flex;
+    flex-wrap: wrap;
+    overflow: auto;
+}
+/* total width */
+.camp-register-image-preview::-webkit-scrollbar {
+    background-color:#fff;
+    width:16px
+}
+
+/* background of the scrollbar except button or resizer */
+.camp-register-image-preview::-webkit-scrollbar-track {
+    background-color:#fff
+}
+.camp-register-image-preview::-webkit-scrollbar-track:hover {
+    background-color:#f4f4f4
+}
+
+/* scrollbar itself */
+.camp-register-image-preview::-webkit-scrollbar-thumb {
+    background-color:rgb(228,239,231) ;
+    border-radius:16px;
+    border:5px solid #fff
+}
+.camp-register-image-preview::-webkit-scrollbar-thumb:hover {
+    background-color:rgb(6,68,32);
+    border:4px solid #f4f4f4
+}
+
+/* set button(top and bottom of the scrollbar) */
+.camp-register-image-preview::-webkit-scrollbar-button {display:none}
+
+
+.camp-register-image-container label {
+    border:1px solid rgb(220,220,220);
+    border-radius: 5px;
+    padding:10px 100px 10px 100px;  
+    color:gray;
+    font-size: 0.8rem;
+    margin:5px;
+    cursor: pointer;
+    
+}
+.camp-register-image-container label:hover {
+    background-color: rgb(228,239,231);
+    box-shadow: 1px 1px 2px gray;
+}
+
+.camp-register-form label {
+    width:100%;
+    padding:10px 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor:pointer;
+    position: relative;
+}
+.address-search-button {
+    width:20px;
+    height:20px;
+    position: absolute;
+    right:25px;
+    top:13px; 
+}
+.camp-register-kakaomap {
+    opacity:0;
+    width: 100%;
+    position:absolute;
+    transform: scale(0);
+    transform-origin: center;
+    transition: all 0.4s cubic-bezier(0.54, -0.10, 0.57, 0.57);
+}
+.active {
+    transform: scale(1);
+    opacity: 1;
+}
+.clicked {
+    background-color: rgb(228,239,231) !important;
+    box-shadow: 1px 1px 2px gray !important;
+}
+.camp-register-form label input {
+    width:50%;
+}
+.camp-register-address-container {
+}
+.camp-register-address-container>div:first-child{
+    width:50%;
+}
+.camp-register-address {
+    width:100% !important;
+}
+.camp-register-name,
+.camp-register-address,
+.camp-register-site,
+.camp-register-price {
+    padding : 5px;
+    border : 1px solid rgb(220,220,220);
+    border-radius: 5px;
+}
+.camp-register-name {
+
+}
+.camp-register-address {
+
+}
+.camp-register-site {
+
+}
+.camp-register-price {
+
+}
+.camp-register-form>div {
+    width:100%;
+    padding:10px 20px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+}
+.camp-register-form>div>div{
+    width:50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+/* .camp-register-form .camp-register-info button[type="button"] {
+    width:60px;
+    margin:3px 2px;
+    height:50px;
+    background: none;
+    border: 1px solid rgb(220,220,220);
+    cursor: pointer;
+}
+.camp-register-form .camp-register-info button[type="button"]:hover{
+    background-color: rgb(228,239,231);
+    box-shadow: 1px 1px 2px gray;
+} */
+
+.row {
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.row label {
+    width:fit-content;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+}
+
+.row label input[type="checkbox"] {
+    display: none;
+}
+
+.row label .icon-box {
+    position: relative;
+    display: flex;
+    width: 60px;
+    padding: 5px;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid rgb(220, 220, 220);
+    border-radius: 10px;
+    font-size: 10px;
+    transition: 0.5s;
+    user-select: none;
+}
+
+.row label input[type="checkbox"]:checked~.icon-box {
+    box-shadow: 2px 2px 5px rgb(180, 180, 180);
+    background: linear-gradient(160deg, rgb(250,241,230),rgb(228,239,231), rgb(6,68,32));
+    color: #fff;
+}
+.row label .icon-box>img {
+    width:40px;
+    height:40px;
+}
+.row label .icon-box span {
+    margin-top: 5px;
+    font-size: 10px;
+}
+
+.camp-register-etc-info {
+    width:50%;
+    height:150px;
+    padding : 5px;
+    border : 1px solid rgb(220,220,220);
+    border-radius: 5px;
+    resize: none;
+}
+/* total width */
+.camp-register-etc-info::-webkit-scrollbar {
+    background-color:#fff;
+    width:16px
+}
+
+/* background of the scrollbar except button or resizer */
+.camp-register-etc-info::-webkit-scrollbar-track {
+    background-color:#fff
+}
+.camp-register-etc-info::-webkit-scrollbar-track:hover {
+    background-color:#f4f4f4
+}
+
+/* scrollbar itself */
+.camp-register-etc-info::-webkit-scrollbar-thumb {
+    background-color:rgb(228,239,231) ;
+    border-radius:16px;
+    border:5px solid #fff
+}
+.camp-register-etc-info::-webkit-scrollbar-thumb:hover {
+    background-color:rgb(6,68,32);
+    border:4px solid #f4f4f4
+}
+
+/* set button(top and bottom of the scrollbar) */
+.camp-register-etc-info::-webkit-scrollbar-button {display:none}
+
+.camp-register-form-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.camp-register-form-button-container button {
+    width:60%;
+    border:1px solid rgb(220,220,220);
+    border-radius: 5px;
+    padding:10px;  
+    color:gray;
+    font-size: 0.8rem;
+    margin:5px;
+    cursor: pointer;
+    background: none;
+}
+
+.camp-register-form-button-container button[type="button"]:hover,
+.camp-register-form-button-container button[type="reset"]:hover {
+    background-color: rgb(228,239,231);
+    box-shadow: 1px 1px 2px gray;
+}

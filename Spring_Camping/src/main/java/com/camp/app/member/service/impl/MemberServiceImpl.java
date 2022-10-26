@@ -73,7 +73,7 @@ public class MemberServiceImpl implements MemberService{
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
 		}
-		if(file.getSize()!=0) {
+		if(file != null && file.getSize()!=0) {
 			ProfileImageVO image = new ProfileImageVO();
 			image.setProfileImageId(mapper.findMaxByProfileImageId()+1);
 			image.setOriginName(file.getOriginalFilename());

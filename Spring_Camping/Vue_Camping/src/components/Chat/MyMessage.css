@@ -1,0 +1,22 @@
+.my-message-container{
+    width:100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 10px;
+}
+.my-message {
+    max-width: 300px;
+    word-break: break-all;
+    padding:5px;
+    border:none;
+    background: rgb(255, 217, 0);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-size: 0.9rem;
+}
+.my-message-regdate {
+    font-size: 0.7rem;
+}
