@@ -11,7 +11,6 @@
           <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
         </div>
       </div>
-      <div class = "card-header-text" :class="myClass" > {{recruStatus}} </div >
   </div>
  
   <!--  카드 바디 -->
@@ -37,7 +36,6 @@ export default{
     props: { recruCard: Object },
     data: function () {
         return {
-            recruStatus: "",
             myClass: "",
             image: "",
         };

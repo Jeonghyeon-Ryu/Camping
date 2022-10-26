@@ -89,6 +89,11 @@ public class RecruController {
 		System.out.println(recruVO.getStatus());
 		return service.changeShowStatus(recruVO);
 	}
+	//완료된 모집의 참가자들 조회(모집자+참가자)
+	@GetMapping("/recru/members/{recruId}")
+	public List<RecruVO> findRecruMembers(@PathVariable int recruId){
+		return service.findRecruMembers(recruId);
+	}
 	//후기등록
 	@PostMapping("/recru/review")
 	public int insertReview(@RequestBody RecruVO recruVO) {

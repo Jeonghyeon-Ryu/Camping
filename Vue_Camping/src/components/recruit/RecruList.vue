@@ -9,26 +9,28 @@
         </div>
         <!-- 필터 -->
         <form id="recru-filter-form" class="recru-list-filter recru-row">
-            <div class="recru-filter-container recru-row">
+            <div class="recru-filter-container">
                 <div class="recru-filter-box recru-col">
                     <h3>나의 정보</h3>
-                    <div class="recru-search-sex ">
-                        <label class="bold">나이</label>
-                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="1">남</label>
-                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="2">여</label>
-                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0" checked>무관</label>
-                    </div>
-                    <div class="recru-search-age recru-col">
-                        <div class=" recru-left">
-                            <label class="bold">연령대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="20대" name="test"> 20대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="30대" name="test"> 30대</label>
+                    <div class="recru-filter-myInfo">
+                        <div class="recru-search-sex ">
+                            <label class="bold">나이</label>
+                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="1">남</label>
+                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="2">여</label>
+                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0" checked>무관</label>
                         </div>
-                        <div class="recru-row ">
-                            <label><input type="checkbox" v-model="filter.wishAge" value="40대" style="margin-left:100px"> 40대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="50대이상"> 50대 이상</label>
+                        <div class="recru-search-age recru-col">
+                            <div class=" recru-left">
+                                <label class="bold">연령대</label>
+                                <label><input type="checkbox" v-model="filter.wishAge" value="20대" name="test"> 20대</label>
+                                <label><input type="checkbox" v-model="filter.wishAge" value="30대" name="test"> 30대</label>
+                            </div>
+                            <div class="recru-row ">
+                                <label><input type="checkbox" v-model="filter.wishAge" value="40대" style="margin-left:100px"> 40대</label>
+                                <label><input type="checkbox" v-model="filter.wishAge" value="50대이상"> 50대 이상</label>
+                            </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
                 <div class="recru-filter-box recru-col">
                     <h3>여행정보</h3>
@@ -93,9 +95,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="recru-filter-box recru-col">
+                <div class="recru-filter-box recru-filter-gears recru-col">
                     <div class="recru-mygear-header">
-                        <h3>갖고있어요</h3>
+                        <h3>나의 장비</h3>
                     </div>
                     <div class="recru-row ">
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="텐트">텐트</label>
@@ -114,7 +116,7 @@
                     </div>
                     <br>
                     <div class="recru-mygear-header">
-                        <h3>필요해요</h3>
+                        <h3>찾는 장비</h3>
                     </div>
                     <div class="recru-row">
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="텐트">텐트</label>
@@ -132,10 +134,10 @@
                     </div>
                 
                 </div>
-                <div class="recru-filter-btn-box recru-row">
-                    <button type="submit" class="recru-filter-btn submit" @click="this.isFilter=0" @click.prevent="searchFilter">검색</button>
-                    <button type="reset" class="recru-filter-btn reset" @click.prevent="resetFilter">초기화</button>
-                </div>
+            </div>
+            <div class="recru-filter-btn-box recru-row">
+                <button type="submit" class="recru-filter-btn submit" @click="this.isFilter=0" @click.prevent="searchFilter">검색</button>
+                <button type="reset" class="recru-filter-btn reset" @click.prevent="resetFilter">초기화</button>
             </div>
         </form>
         <!-- 필터 결과-->
@@ -325,35 +327,41 @@ export default{
             //키워드 검색 결과 받아오기
             var keyword = this.keyword;
             this.keywordValue = keyword;    //현재 키워드 저장
+            const component = this;
             if(keyword==''){
-                fetch(`http://localhost:8087/java/recru/page/${this.memberRole}/${pageNum}`)
+                fetch(`http://localhost:8087/java/recru/page/${component.memberRole}/${pageNum}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     for(let key in data){
-                        this.recruPosts.push(data[key]);  
+                        component.recruPosts.push(data[key]);  
                     }  
-                    this.doFilter();
+                    component.doFilter();
+                    if(component.recruPosts.length<1){
+                        component.recruMsg="검색 결과가 없습니다."
+                    }else{
+                        component.recruMsg="";
+                    }
                 }).catch(err=>console.log(err));
             }else{
-                fetch(`http://localhost:8087/java/recru/search/${this.memberRole}/${keyword}/${this.pageNum}`)
+                fetch(`http://localhost:8087/java/recru/search/${component.memberRole}/${keyword}/${pageNum}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     for(let key in data){
-                        this.recruPosts.push(data[key]);  
+                        component.recruPosts.push(data[key]);  
                     }  
-                    this.doFilter();
+                    component.doFilter();
+                    if(component.recruPosts.length<1){
+                        component.recruMsg="검색 결과가 없습니다."
+                    }else{
+                        component.recruMsg="";
+                    }
                 }).catch(err=>console.log(err));
-            }
-            if(this.recruPosts.length<1){
-                this.recruMsg="검색 결과가 없습니다."
-            }else{
-                this.recruMsg="";
             }
             console.log(this.recruPosts)
         },
         doFilter(){
             const fil = this.filter;
-                const filterList = this.recruPosts;
+            const filterList = this.recruPosts;
 
                 //성별필터
                 if(fil.wishSex!=0 && fil.wishSex != ''){

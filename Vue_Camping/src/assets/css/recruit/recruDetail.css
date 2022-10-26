@@ -35,6 +35,8 @@
 }
 .recru-detail-post span{
     font-weight: bold;
+    display: inline-block;
+    width: 120px;
 }
 .recru-detail-post h3{
     color: rgb(132, 167, 147);
@@ -93,6 +95,13 @@
 }
 .recru-detail-info p {
     margin: 7px;
+}
+/* 내용 */
+.recruPost-content{
+    border: 5px solid lightgray;
+    border-radius: 10px;
+    width: 90%;
+    padding: 15px;    
 }
 /* 버튼 */
 .recru-detail-btn{

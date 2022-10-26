@@ -12,14 +12,15 @@
             <div class="row">
                 <EntryMypageCard v-bind:recruId="entryPost.recruId" @goRecruDetail="goRecruDetail"></EntryMypageCard>
                 <div class="entry-mypage-btn">
-                        <button v-if="entryPost.recruStatus==0" class="entry-review-btn">신청 취소</button>
-                        <button v-if="entryPost.recruStatus==1" class="entry-review-btn">신청 취소</button>
+                        <button v-if="entryPost.recruStatus==0" @click="cencleEntry" class="entry-review-btn">신청 취소</button>
+                        <button v-if="entryPost.recruStatus==1" @click="deleteEntry" class="entry-review-btn">취소 신청</button>
                         <button v-if="entryPost.recruStatus==3" @click="recruReview" class="entry-review-btn">후기 등록</button>
                         <button v-if="entryPost.recruStatus==3" class="entry-status-btn" disabled>여행완료</button>
                 </div>
             </div>
             <div class="entry-mypage-bar"></div>
         </div>
+        <div id="bottomSensor"></div>
       </div>
   </div>
 </template>
@@ -40,7 +41,7 @@ export default{
         }
     },    
     created(){
-        this.loadData();
+        this.loadDataPage();
     },
     mounted(){
         if(this.$store.state.email==null){
@@ -61,18 +62,19 @@ export default{
                     }
                 })
             }
-            this.loadData();
             this.addScrollWatcher();       
     },
     methods : {
-        loadData : function(){
+        loadDataPage : function(){
             //로그인한 유저의 아이디로 신청정보를 받아온다
             const component = this;
-            fetch(`http://localhost:8087/java/recru/entry/mypage/${this.memberId}`)
+            fetch(`http://localhost:8087/java/recru/entry/mypage/${this.memberId}/${this.pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
-                console.log(data);
-                component.EntryList = data;
+                for(let key in data){
+                    component.EntryList.push(data[key]);  
+                }
+                console.log(component.EntryList);
             }).catch(err=>console.log(err));
         },
         addScrollWatcher: function () {
@@ -82,13 +84,7 @@ export default{
                 // 서버 과부하를 막기 위한 딜레이
                 setTimeout(() => {
                   this.pageNum = this.pageNum+1;
-                  if(this.isFilter==0){
-                    this.loadDataPage();
-                  }else if(this.isFilter==1){
-                    this.searchKeyword();
-                  }else{
-                    this.searchFilter();
-                  }
+                    this.loadDataPage();          
                 },300)
             })
         },
@@ -120,6 +116,36 @@ export default{
         },
         recruReview : function(){
             this.$router.push({name : 'RecruReview',params : {recruId : this.recruId}})
+        },
+        cencleEntry : function(){
+            var updateInfo = {
+                entryStatus : 2,    // 신청상태 : 0신청중, 1수락, 2거절, 3취소대기, 4취소
+                entryId : 0
+            }
+            Swal.fire({
+                    icon: 'warning',
+                    title: '신청을 취소하시겠습니까?',
+                    position: 'center-center',
+                    showCancelButton: true,              
+                }).then(result => {
+                    if(result.isConfirmed){
+                        this.updateStatus.entryId = this.entryCard.entryId;
+                        let updateInfo = this.updateStatus;
+                        let component = this;
+                         //등록상태변화
+                         fetch("http://localhost:8087/java/recru/entry",{
+                            method : "PUT",
+                            headers : {"Content-Type" : "application/json"},
+                            body : JSON.stringify(updateInfo)
+                        })
+                        .then(Response => Response.json())  
+                        .then(data => { 
+                            console.log(data)
+                            Swal.fire('동행을 거절하였습니다.','다음에 함께해요','');
+                        }).catch(err=>console.log(err))
+                        component.$router.go(0) ;
+                    }
+                })
         }
     }
 }

@@ -47,7 +47,7 @@
                         <p><span>갖고있어요  </span>{{ gearList(recruPost.myGear)}}</p>
                         <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
                         <br>
-                        <p>{{recruPost.recruContent}}</p>
+                        <p class="recruPost-content">{{recruPost.recruContent}}</p>
                         <br>
                         <p><span>모집기간 : </span>{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
                     </div>

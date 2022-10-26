@@ -34,4 +34,6 @@ public class EntryVO {
 	private Date goDate;
 	@JsonFormat(pattern = "yyyyMMdd")
 	private Date comeDate;
+	
+	private int pageNum;
 }

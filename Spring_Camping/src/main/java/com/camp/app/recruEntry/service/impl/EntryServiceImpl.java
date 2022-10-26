@@ -47,8 +47,8 @@ public class EntryServiceImpl implements EntryService {
 	}
 	//마이페이지 참가글 목록
 	@Override
-	public List<EntryVO> myEntryList(String memberId) {
-		return mapper.myEntryList(memberId);
+	public List<EntryVO> myEntryList(EntryVO entry) {
+		return mapper.myEntryList(entry);
 	}
 	//모집완료된 참가글 목록(보증금관련)
 	@Override

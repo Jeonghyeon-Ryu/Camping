@@ -180,6 +180,17 @@
 		SELECT * FROM recru_image WHERE recru_id = #{recruId}
 	</select>
 	
+	<!-- 모임에 참가한 사람들 목록(모집자+신청자) -->
+	<select id="findRecruMembers" parameterType="Integer" resultType="RecruVO">
+		select recru_id, member_id
+			from recruitment 
+			WHERE recru_id = #{recruId}
+		UNION
+		select recru_id, member_id
+			from recru_entry
+			WHERE recru_id = #{recruId}
+	</select>
+	
 	<!-- 후기 등록 -->
 	<insert id="insertReview" parameterType="RecruVO">
 		<selectKey keyProperty="reviewId" resultType="Integer" order="BEFORE">

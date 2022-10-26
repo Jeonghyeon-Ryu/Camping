@@ -30,6 +30,8 @@ public interface RecruMapper {
 	public int updateRecru(RecruVO recruVO);
 	//접근 상태 변경
 	public int changeShowStatus(RecruVO recruVO);
+	//완료된 모집의 참가자들 조회(모집자+참가자)
+	public List<RecruVO> findRecruMembers(int recruId);
 	//후기등록
 	public int insertReview(RecruVO recruVO);
 }
