@@ -105,6 +105,12 @@ public class UsedController {
 		return service.findMyUsed(usedWriter);
 	}
 	
+	//내가찜한글조회
+	@GetMapping("/mySave/{email}")
+	public List<UsedVO> findUsedSave(@PathVariable String email){
+		return service.findUsedSave(email);
+	}
+	
 	//키워드검색 조회
 	@PostMapping("/search/{keyword}")
 	public List<UsedVO> findUsedKeyword(@PathVariable String keyword){

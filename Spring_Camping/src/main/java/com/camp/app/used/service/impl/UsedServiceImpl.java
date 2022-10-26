@@ -118,8 +118,15 @@ public class UsedServiceImpl implements UsedService {
 	}
 	
 	//내가쓴글조회
+	@Override
 	public List<UsedVO> findMyUsed(String email){
 		return mapper.findMyUsed(email);
+	}
+	
+	//내가찜한글조회
+	@Override
+	public List<UsedVO> findUsedSave(String email) {
+		return mapper.findUsedSave(email);
 	}
 	 
 	//수정
@@ -194,6 +201,7 @@ public class UsedServiceImpl implements UsedService {
 	public int insertReview(UsedReviewVO review) {
 		 return mapper.insertReview(review);
 	}
+
 
 
 }

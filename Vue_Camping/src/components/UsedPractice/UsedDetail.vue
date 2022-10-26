@@ -160,10 +160,10 @@ export default {
   },
   methods: {
     writerDetail: function () {
-      this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickName } })
+      this.$router.push({ name: 'myUsed', params: { email: this.usedList.email } })
     },
     writerSns: function (nickName) {
-      this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickName } })
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: this.usedList.email } })
     },
     //찜하기
     hearted: function () {

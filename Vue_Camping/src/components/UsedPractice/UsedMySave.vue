@@ -80,19 +80,15 @@
       usedDetail: function(usedId){
         //클릭하면은 디테일 페이지로 넘겨 넘길때, 번호를 넘겨야해
         this.$router.push({name : 'usedDetail', params: {usedId:usedId }})
-      },
+      }
     },
     //created-페이지 열자마자 실행
     created(){
       // const email = this.usedList.email;
-      console.log(this.usedList.nickname)
+      console.log(this.email)
       
       //내가쓴글전체조회
-      fetch("http://localhost:8087/java/used/myUsed/"+this.email,{
-        method: "POST",
-        headers : {"Content-Type" : "application/json"},
-        body : JSON.stringify(this.email)
-      }) 
+      fetch("http://localhost:8087/java/used/mySave/"+this.email)
             .then((Response) => Response.json())  //json 파싱 
             .then(data => { 
               console.log(data)

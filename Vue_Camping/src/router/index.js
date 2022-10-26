@@ -159,8 +159,9 @@ const routes = [{
   },
   {
     name: 'myUsed',
-    path: '/used/myUsed',
+    path: '/used/myUsed/:email',
     component: () => import('@/components/UsedPractice/UsedMyPage.vue'),
+    props: true
   },
   {
     name: 'StoredCampList',
@@ -202,7 +203,13 @@ const routes = [{
     name: 'UsedSearch',
     path: '/used/usedSearch',
     component: () => import('@/components/UsedPractice/UsedSearch.vue'),
-  }
+  },
+  {
+    name: 'myUsedSave',
+    path: '/used/mySave/:email',
+    component: () => import('@/components/UsedPractice/UsedMySave.vue'),
+    props: true
+  },
 ]
 
 const router = createRouter({

@@ -34,6 +34,9 @@ public interface UsedMapper {
 	//내가쓴글조회
 	public List<UsedVO> findMyUsed(String email);
 	
+	//내가찜한글조회
+	public List<UsedVO> findUsedSave(String email);
+	
 	//게시글 조건조회
 	public List<UsedVO> searchUsedList(UsedVO used);
 	
