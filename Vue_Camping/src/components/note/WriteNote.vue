@@ -1,5 +1,4 @@
 <template>
-
     <div class="mynote_container">
         <div class="mynote_region">
             <div class="write_menu">
@@ -98,15 +97,16 @@
                 <div id="pdfDiv">
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
-                        <template v-if="datas">
+                        <!--<template v-if="datas">
                             <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
                                 @creArea="CreArea($event)"></CreateLine>
+                        </template>-->
+                        <template v-for="(child, i) of childOrder" :key="i">
+                            <CreTextarea :type="child" @saveImg="saveImg" @creArea="CreArea($event)"
+                                v-if="textAmount >= i + 1">
+                            </CreTextarea>
                         </template>
-
-                        <CreTextarea :type="childOrder[0]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 1">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)"
+                        <!--<CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)"
                             v-if="textAmount >= 2">
                         </CreTextarea>
                         <CreTextarea :type="childOrder[2]" @saveImg="saveImg" @creArea="CreArea($event)"
@@ -165,7 +165,7 @@
                         </CreTextarea>
                         <CreTextarea :type="childOrder[20]" @saveImg="saveImg" @creArea="CreArea($event)"
                             v-if="textAmount >= 21">
-                        </CreTextarea>
+                        </CreTextarea>-->
                     </div>
                 </div>
             </div>
@@ -192,7 +192,6 @@ export default {
             images: []
         }
     },
-
     methods: {
         CreArea: function (e) {
             this.childOrder.push('textBox');

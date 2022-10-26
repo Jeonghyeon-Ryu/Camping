@@ -103,10 +103,11 @@
                             <CreateLine v-for="item of datas" :type="item.type" :data="item.data" :storedImages="storedImages"
                                 @creArea="CreArea($event)"></CreateLine>
                         </template>
-
-                        <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
+                        <template v-for="(child,i) of childOrder" :key="i">
+                        <CreTextarea :type="childOrder[i]" @creArea="CreArea($event)" v-if="textAmount >= i+1">
                         </CreTextarea>
-                        <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
+                        </template>
+                        <!-- <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
                         </CreTextarea>
                         <CreTextarea :type="childOrder[2]" @creArea="CreArea($event)" v-if="textAmount >= 3">
                         </CreTextarea>
@@ -145,7 +146,7 @@
                         <CreTextarea :type="childOrder[19]" @creArea="CreArea($event)" v-if="textAmount >= 20">
                         </CreTextarea>
                         <CreTextarea :type="childOrder[20]" @creArea="CreArea($event)" v-if="textAmount >= 21">
-                        </CreTextarea>
+                        </CreTextarea>  -->
                     </div>
                 </div>
             </div>
@@ -240,25 +241,20 @@ export default {
                         console.log("============this.noteId")
                         console.log(this.noteId);
                         fetch('http://localhost:8087/java/getImageInfo/'+this.noteId)
-                        .then(result => result.text())
+                        .then(result => result.json())
                         .then(result => {
                             console.log("+====저장된 이미지 정보")
                             console.log(result)
-                            this.storedImages.push(result);
-                            for(let i=0; i< this.storedImages.length; i++){
-                                console.log(this.storedImages[i][i]);
-                            }
-                            console.log("==============originName")
-                            console.log(this.storedImages[0]);
+                            this.datas.push({
+                                type:3,
+                                data: result
+                            });  
                         })
                         .catch(err => console.log(err))
                     }
                 }
                 this.$forceUpdate();
             });
-           
-        
-
     },
     methods: {
         CreArea: function (e) {
@@ -357,16 +353,12 @@ export default {
                         'IMG:' + imgCount
                     );
                     console.log("contents에 imgCount와 잘 들어갔나 확인")
-                    console.log(contents);
-                    //console.log("contents");
-                    //console.log(contents);     
+                    console.log(contents);    
                 }
             };
-            //작성한 내용 보내기
+            //작성한 DB에 저장(수정버튼)
             let title = document.querySelector('.note_title').value;
             let noteId = this.noteId;
-            console.log("noteId====")
-            console.log(noteId)
             let formData = new FormData();
             for (let image of this.images) {
                 formData.append("files", image);
@@ -378,7 +370,7 @@ export default {
             formData.forEach((value, key) => {
                 console.log(value);
             })
-            /*fetch('http://localhost:8087/java/UpdateNoteInfo', {
+            fetch('http://localhost:8087/java/UpdateNoteInfo', {
                 method: 'PUT',
                 headers: {},
                 body: formData
@@ -389,7 +381,7 @@ export default {
                     name: "MynoteList"
                 })
 
-            })*/
+            })
         },
         saveImg(images) {
             let dt = new DataTransfer();

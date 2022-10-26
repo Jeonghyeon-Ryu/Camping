@@ -7,17 +7,19 @@
       <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
         @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
     </label>
-  </div>
-  <div class="show_img" v-for="(info,i) in storedImages" :key="i">
+    <div class="show_img" v-for="(info,i) in data" :key="i">
     <img :src="'http://localhost:8087/java/GoMyNote/' +info.imgPath+'/'+info.storedName">
   </div>
+  </div>
+  <!-- <div class="show_img" v-for="(info,i) in data" :key="i">
+    <img :src="'http://localhost:8087/java/GoMyNote/' +info.imgPath+'/'+info.storedName">
+  </div> -->
 </template>
 
 <script>
 import ImagePreview from '../ImagePreview.vue';
 export default {
-  props : 'storedImages',
-
+  props : ['data'],
   data(){ 
     return{ 
       images: [],
@@ -25,7 +27,9 @@ export default {
     }
   },
   created() { 
-    console.log(storedImages);
+    console.log("typeof this.data")
+    
+    console.log(typeof this.data);
   },
   components: {
     ImagePreview
@@ -51,4 +55,7 @@ export default {
 </script>
 
 <style>
+.camp-register-image-form{ 
+  display:flex;
+}
 </style>
