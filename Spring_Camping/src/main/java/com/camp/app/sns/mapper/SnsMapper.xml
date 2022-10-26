@@ -147,7 +147,6 @@ WHERE write_no = #{writeNo}
 
 <![CDATA[
 
-      
       SELECT write_no, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path
       FROM ( 
            SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no

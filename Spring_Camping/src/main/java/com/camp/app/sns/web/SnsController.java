@@ -218,5 +218,19 @@ public class SnsController {
 		System.out.println(hashtag +","+ page);
 		return service.showSnsByPageByHashtag(hashtag, page);
 	}
+	
+	//해시태그당한 페이지!
+	// 유저가 해시태그당한 총게시글 수
+	@GetMapping("/memberTagCount/{nickname}")
+	public int getTagCountSnsByUser(@PathVariable("nickname") String nickname) {
+		System.out.println(nickname);
+		return service.countTagSnsByUser(nickname);
+	}
+
+	// 유저가 해시태그당한 게시글 리스트 출력
+	@GetMapping("/memberSnsTagList/{nickname}/{page}")
+	public List<SnsImageVO> getSnsTagListByUser(@PathVariable("nickname") String nickname, @PathVariable("page") int page) {
+		return service.showSnsTagByPageByUser(nickname, page);
+	}
 
 }
