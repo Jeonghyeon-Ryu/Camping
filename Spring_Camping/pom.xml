@@ -356,7 +356,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<workingDirectory>${basedir}/front</workingDirectory>
+					<workingDirectory>${basedir}/Vue_Camping</workingDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -374,7 +374,7 @@
 							<outputDirectory>${basedir}/src/main/webapp</outputDirectory>
 							<resources>
 								<resource>
-									<directory>front/dist</directory>
+									<directory>Vue_Camping/dist</directory>
 									<includes>
 										<include>index.html</include>
 									</includes>
