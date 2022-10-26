@@ -35,6 +35,9 @@ public interface NoteMapper {
 	//이미지 저장
 	public int insertNoteImg(NoteImgVO img);
 	
+	//노트 수정
+	public int updateContents(NoteVO nvo);
+	
 	//노트ID로 img불러오기
 	public List<NoteImgVO> findByNoteIdToImg(int noteId);
 	

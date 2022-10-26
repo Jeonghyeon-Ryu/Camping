@@ -21,6 +21,15 @@
 			#{noteStatus}
 		)
 	</insert>
+	
+	<update id="updateContents" parameterType="NoteVO">
+
+		UPDATE NOTE
+		SET note_content = #{noteContent}, title = #{title}
+		WHERE note_id = #{noteId}
+		
+	</update>
+
 	<!-- select : MynoteList -->
 	<select id="getMyNoteList" resultType="NoteVO">
 		SELECT note_id, note_status, to_char(write_date,'yyyy-mm-dd') as write_date, title, invited_member
