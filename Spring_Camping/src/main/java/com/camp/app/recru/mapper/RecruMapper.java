@@ -2,6 +2,7 @@ package com.camp.app.recru.mapper;
 
 import java.util.List;
 
+import com.camp.app.camp.service.CampVO;
 import com.camp.app.recru.service.RecruImgVO;
 import com.camp.app.recru.service.RecruVO;
 
@@ -34,4 +35,6 @@ public interface RecruMapper {
 	public List<RecruVO> findRecruMembers(int recruId);
 	//후기등록
 	public int insertReview(RecruVO recruVO);
+	//캠핑장검색
+	public List<CampVO> searchCamp(String region);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.camp.app.camp.service.CampVO;
 import com.camp.app.recru.service.RecruService;
 import com.camp.app.recru.service.RecruVO;
 import com.camp.app.save.service.SaveVO;
@@ -98,5 +99,10 @@ public class RecruController {
 	@PostMapping("/recru/review")
 	public int insertReview(@RequestBody RecruVO recruVO) {
 		return service.insertReview(recruVO);
+	}
+	//캠핑장검색
+	@GetMapping("/recru/campingPoint/{region}")
+	public List<CampVO> searchCamp(@PathVariable String region) {
+		return service.searchCamp(region);
 	}
 }

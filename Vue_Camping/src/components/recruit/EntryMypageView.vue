@@ -12,8 +12,10 @@
             <div class="row">
                 <EntryMypageCard v-bind:recruId="entryPost.recruId" @goRecruDetail="goRecruDetail"></EntryMypageCard>
                 <div class="entry-mypage-btn">
-                        <button v-if="entryPost.recruStatus==0" @click="cencleEntry" class="entry-review-btn">신청 취소</button>
-                        <button v-if="entryPost.recruStatus==1" @click="deleteEntry" class="entry-review-btn">취소 신청</button>
+                        <button v-if="entryPost.recruStatus==0 && (entryPost.entryStatus==0||entryPost.entryStatus==1)" 
+                                @click="cencelEntry(entryPost.entryId)" class="entry-review-btn">참가 취소</button>
+                        <!-- <button v-if="entryPost.recruStatus==1 && entryPost.entryStatus==1"
+                                @click="deleteEntry(entryPost.entryId)" class="entry-review-btn">취소 신청</button> -->
                         <button v-if="entryPost.recruStatus==3" @click="recruReview" class="entry-review-btn">후기 등록</button>
                         <button v-if="entryPost.recruStatus==3" class="entry-status-btn" disabled>여행완료</button>
                 </div>
@@ -104,7 +106,7 @@ export default{
                     return '신청완료'
                 }else if(status==2){
                     return '거절됨'
-                }else if(status==2){
+                }else if(status==3){
                     return '취소대기'
                 }else{
                     return '취소'
@@ -117,10 +119,10 @@ export default{
         recruReview : function(){
             this.$router.push({name : 'RecruReview',params : {recruId : this.recruId}})
         },
-        cencleEntry : function(){
+        cencelEntry : function(entryId){
             var updateInfo = {
                 entryStatus : 2,    // 신청상태 : 0신청중, 1수락, 2거절, 3취소대기, 4취소
-                entryId : 0
+                entryId : entryId
             }
             Swal.fire({
                     icon: 'warning',
@@ -129,9 +131,6 @@ export default{
                     showCancelButton: true,              
                 }).then(result => {
                     if(result.isConfirmed){
-                        this.updateStatus.entryId = this.entryCard.entryId;
-                        let updateInfo = this.updateStatus;
-                        let component = this;
                          //등록상태변화
                          fetch("http://localhost:8087/java/recru/entry",{
                             method : "PUT",
@@ -143,10 +142,37 @@ export default{
                             console.log(data)
                             Swal.fire('동행을 거절하였습니다.','다음에 함께해요','');
                         }).catch(err=>console.log(err))
-                        component.$router.go(0) ;
+                        this.$router.go(0) ;
                     }
                 })
-        }
+        },
+        deleteEntry: function(entryId){
+            var updateInfo = {
+                entryStatus : 3,    // 신청상태 : 0신청중, 1수락, 2거절, 3취소대기, 4취소
+                entryId : entryId
+            }
+            Swal.fire({
+                    icon: 'warning',
+                    title: '모집이 완료된 글입니다. 취소신청 수락시 취소가 진행됩니다',
+                    position: 'center-center',
+                    showCancelButton: true,              
+                }).then(result => {
+                    if(result.isConfirmed){
+                         //등록상태변화
+                         fetch("http://localhost:8087/java/recru/entry",{
+                            method : "PUT",
+                            headers : {"Content-Type" : "application/json"},
+                            body : JSON.stringify(updateInfo)
+                        })
+                        .then(Response => Response.json())  
+                        .then(data => { 
+                            console.log(data)
+                            Swal.fire('동행을 거절하였습니다.','다음에 함께해요','');
+                        }).catch(err=>console.log(err))
+                        this.$router.go(0) ;
+                    }
+                })
+        },
     }
 }
 </script>

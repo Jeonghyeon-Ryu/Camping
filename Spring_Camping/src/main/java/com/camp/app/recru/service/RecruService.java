@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.camp.app.camp.service.CampVO;
 import com.camp.app.save.service.SaveVO;
 
 @Service
@@ -37,4 +38,6 @@ public interface RecruService {
 	public List<RecruVO> findRecruMembers(int recruId);
 	//후기등록
 	public int insertReview(RecruVO recruVO);
+	//캠핑장검색
+	public List<CampVO> searchCamp(String region);
 }

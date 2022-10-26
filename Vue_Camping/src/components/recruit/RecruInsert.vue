@@ -127,7 +127,8 @@
                             <label for="recru-insert-num">모집인원</label> <input type="number" id="recru-insert-num" v-model="recruInfo.recruNum" min="1">
                         </li>
                         <li class="recru-info-day">
-                            <label>여행 날짜 <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"></label> 
+                            <label for="recru-insert-goDate">여행 날짜</label> 
+                            <input type="date" id="recru-insert-goDate" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"> 
                             ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate">
                         </li>
                     </ul>

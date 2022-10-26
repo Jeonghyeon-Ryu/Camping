@@ -58,14 +58,7 @@ public class EntryServiceImpl implements EntryService {
 	//동행신청 상태수정 
 	@Override
 	public int updateEntryStatus(EntryVO entry) {
-		int result = mapper.updateEntryStatus(entry);
-		RecruVO recru = rMapper.selectOne(entry.getRecruId());
-		int enteredNum = mapper.recruEnteredNum(entry);
-		if(recru.getRecruNum()<= enteredNum) {
-			recru.setRecruStatus(0);
-			service.changeStatus(recru);
-		}
-		return result;
+		return mapper.updateEntryStatus(entry);
 	}
 
 }

@@ -89,6 +89,10 @@
 .recru-box-name li{
     margin: 5px 0 0 20px;
 }
+.recru-box-name label{
+    display: inline-block;
+    width: 70px;
+}
 /* 버튼 */
 .recru-info-btn{
     margin: 5px;
@@ -101,17 +105,17 @@
     cursor: pointer;
 }
 .gear-add-btn{
-    background: rgb(29, 119, 56);
+    background: rgb(79, 196, 155);
 }
 .gear-mylist-btn{
     background: rgb(87, 87, 87);
 }
 .recru-submit-btn{
     padding: 10px 15px;
-    background: rgb(6,68,32);
+    background: rgb(79, 196, 155);
 }
 .recru-submit-btn:hover{
-   background: rgb(95, 149, 8);
+   background: rgb(35, 189, 135);
    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 14px 16px -5px rgba(0, 0, 0, 0.05)
 }
 /* 들여쓰기 */

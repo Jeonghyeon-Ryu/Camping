@@ -182,13 +182,17 @@
 	
 	<!-- 모임에 참가한 사람들 목록(모집자+신청자) -->
 	<select id="findRecruMembers" parameterType="Integer" resultType="RecruVO">
-		select recru_id, member_id
-			from recruitment 
-			WHERE recru_id = #{recruId}
-		UNION
-		select recru_id, member_id
-			from recru_entry
-			WHERE recru_id = #{recruId}
+		SELECT recru_id, member_id, nickname
+		FROM(	select recru_id, member_id
+		        from recruitment 
+		        WHERE recru_id=3
+		        UNION
+		        select recru_id, member_id
+		        from recru_entry
+		        WHERE recru_id= #{recruId}
+		        ) a
+		JOIN member b
+		ON (a.member_id = b.email)
 	</select>
 	
 	<!-- 후기 등록 -->
@@ -205,4 +209,10 @@
 										#{reviewContent}
 										)
 	</insert>
+	
+	<!-- 캠핑장 검색 -->
+	<select id="searchCamp" parameterType="String" resultType="campVO">
+		SELECT camp_id, camp_name, camp_address FROM  camp
+		WHERE camp_address LIKE '%'||#{region}||'%'
+	</select>
 </mapper>

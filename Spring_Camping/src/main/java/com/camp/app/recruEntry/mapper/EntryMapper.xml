@@ -34,19 +34,21 @@
 	
 	<!-- 현재 수락중인 참가자 수  -->
 	<select id="recruEnteredNum" parameterType="EntryVO" resultType="Integer">
-		SELECT *
+		SELECT count(*)
 		FROM recru_entry
 		WHERE recru_id=#{recruId}
-		AND member_id=#{memberId}
+		AND entry_status=#{entryStatus}
 	</select>
 	
 	<!-- 마이페이지 전체조회 - 페이징 -->
 	<select id="myEntryList" parameterType="EntryVO" resultType="EntryVO">
 		SELECT B.* 
 		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
-			  FROM(SELECT *
-					FROM recru_entry
-					WHERE member_id=#{memberId}) A ) B 
+			  FROM(SELECT e.*, r.recru_status
+					FROM recru_entry e
+                    JOIN recruitment r
+                    ON(e.recru_id = r.recru_id)
+					WHERE e.member_id= #{memberId}) A ) B 
 		WHERE page = #{pageNum}
 	</select>
 	

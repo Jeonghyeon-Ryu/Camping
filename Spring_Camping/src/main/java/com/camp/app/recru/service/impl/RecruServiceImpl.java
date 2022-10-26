@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.camp.app.camp.service.CampVO;
 import com.camp.app.deposit.mapper.DepositMapper;
 import com.camp.app.deposit.service.DepositVO;
 import com.camp.app.member.mapper.MemberMapper;
@@ -173,6 +174,18 @@ public class RecruServiceImpl implements RecruService {
 	public int insertReview(RecruVO recruVO) {
 		return mapper.insertReview(recruVO);
 	}
-	
+	//캠핑장검색
+	@Override
+	public List<CampVO> searchCamp(String region) {
+		System.out.println("초기지역 : "+region);
+		List<CampVO> list = mapper.searchCamp(region);
+		if(list.size()== 0) {
+			String city[] = region.split(" ");
+			region= city[0]+" "+city[1];
+			System.out.println("지역 : "+region);
+			list = mapper.searchCamp(region);
+		}
+		return list;
+	}
 
 }
