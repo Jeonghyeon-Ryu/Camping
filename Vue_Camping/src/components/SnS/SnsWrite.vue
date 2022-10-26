@@ -1,9 +1,7 @@
 <template>
   <div class="sns-container">
     <div class="sns-searchbox">
-      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
-      <button @click="doSearch" style="display: none;">조회</button>
-      <!-- <input type="button" @click="doClear" value="X"> -->
+      <SnsSearch @showHashList="showHashList"></SnsSearch>
     </div>
     <div class="sns-write-container">
       <div class="sns-write-button">
@@ -38,8 +36,8 @@
             </div>
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <input type="text" :value=this.nickname name="nickname">
-                <input type="text" :value=this.email name="email" style="display :none;">
+                <input type="text" :value=this.nickname name="nickname" readonly>
+                <input type="text" :value=this.email name="email" style="display :none;" readonly>
               </div>
             </div>
           </div>
@@ -73,9 +71,8 @@
 </template>
 
 <script>
-import img1 from "@/assets/img/sns/이미지1.jpg";
+import SnsSearch from './SnsSearch.vue';
 import KakaoMap from '../KakaoMap.vue';
-
 import ImagePreview from '../ImagePreview.vue';
 import Swal from 'sweetalert2';
 export default {
@@ -273,6 +270,9 @@ export default {
       document.querySelector('.sns-write-place input').value = place;
 
     },
+  },
+  components: {
+    SnsSearch
   },
 }
 

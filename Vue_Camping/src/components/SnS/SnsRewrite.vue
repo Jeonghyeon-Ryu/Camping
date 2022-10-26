@@ -1,9 +1,7 @@
 <template>
   <div class="sns-container">
     <div class="sns-searchbox">
-      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
-      <button @click="doSearch" style="display: none;">조회</button>
-      <!-- <input type="button" @click="doClear" value="X"> -->
+      <SnsSearch @showHashList="showHashList"></SnsSearch>
     </div>
     <div class="sns-write-container">
       <div class="sns-write-button">
@@ -29,7 +27,7 @@
             </div>
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <input type="text" :value="snsItem.nickname">
+                <input type="text" :value="snsItem.nickname" readonly>
               </div>
             </div>
           </div>
@@ -41,15 +39,22 @@
             <textarea :value="snsItem.hashtag" name="hashtag"></textarea>
           </div>
           <div class="sns-write-place">
-            <input :value="snsItem.place" type="text" name="place">
-
-            <p class="result"></p>
-
-
+            <input :value="snsItem.place" type="text" name="place" placeholder="장소">
           </div>
-          <div class="sns-write-location">
-            <input :value="snsItem.location" type="text" name="location">
-          </div>
+          <!-- 위치검색 -->
+          <!-- <div class="sns-write-location">
+            <input v-model="snsWriteLocation" type="text" name="location" placeholder="위치등록">
+          </div> -->
+          <label class="sns-register-address-container">
+            <div class="sns-write-location">
+              <input @keyup.enter="snsAddress()" type="text" :value="snsItem.location" name="location" class="sns-register-address"
+                placeholder="예시 : 주소 입력후 엔터를 누르세요.">
+              <img @click="snsAddress()" class="address-search-button" src="@/assets/img/icons/search-20.png" />
+            </div>
+            <div class="sns-register-kakaomap">
+              <KakaoMap @setAddress="setAddress" :search="search" ref="kamap"></KakaoMap>
+            </div>
+          </label>
         </form>
       </div>
     </div>
@@ -57,7 +62,9 @@
 </template>
 
 <script>
-import img1 from "@/assets/img/sns/이미지1.jpg";
+import SnsSearch from './SnsSearch.vue';
+import KakaoMap from '../KakaoMap.vue';
+import Swal from 'sweetalert2';
 export default {
 
   //DB연결
@@ -97,14 +104,19 @@ export default {
 
       writeNo: this.$route.params.writeNo,
       snsItem: {},
-      // snsWriteIdImg: img1,
+      place: '',
+      search: '',
       //프로필 이미지
       storedProfile: '',
       searchText: '',
+      
       images: [],
       imagesUrl: [],
 
     };
+  },
+  components: {
+    KakaoMap,
   },
   //검색
   methods: {
@@ -119,8 +131,6 @@ export default {
     //게시글 공유
     //-텍스트
     doPost() {
-
-
       let snsInfo = {};
       console.log(new FormData(document.querySelector('#snsForm')));
       new FormData(document.querySelector('#snsForm')).forEach((value, key) => snsInfo[key] = value);
@@ -140,8 +150,89 @@ export default {
       if (confirm("수정하시겠습니까?")) {
         window.location.href = ("/sns/detail/" + this.writeNo)
       }
+
+
+      //스윗알러트
+      // Swal.fire({
+      //     title: '게시글을 공유하겠습니까?',
+      //     // text: '다시 되돌릴 수 없습니다. 신중하세요.',
+      //     icon: 'warning',
+
+      //     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+      //     confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+      //     cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+      //     confirmButtonText: '공유', // confirm 버튼 텍스트 지정
+      //     cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+
+      //     // reverseButtons: true, // 버튼 순서 거꾸로
+
+      //   }).then(result => {
+      //     // 만약 Promise리턴을 받으면,
+      //     if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+
+      //       Swal.fire('승인이 완료되었습니다.', '화끈하시네요~!', 'success');
+      //       window.location.href = ("/sns/detail/" + this.writeNo)
+      //     }
+      //   });
+      // }
     },
-  }
+    //정현님 위치지도 참고
+    snsAddress() {
+      let search = document.querySelector('.sns-register-address').value;
+      //enter치기전까지 입력한 값
+      console.log(search);
+
+      this.snsItem.location = search;
+      let kakaoContainer = document.querySelector('.sns-register-kakaomap');
+      if (search == null || search == '') {
+        Swal.fire({
+          icon: 'warning',
+          title: '검색할 장소를 입력하세요.',
+          toast: true,
+          position: 'center-center',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        kakaoContainer.classList.remove('active');
+      } else {
+        if (!kakaoContainer.classList.contains('active')) {
+          kakaoContainer.classList.toggle('active');
+        }
+        this.search = search;
+        this.$refs.kamap.searchPlace(search);
+        console.log(this.$refs.kamap.searchPlace(search))
+      }
+    },
+    setAddress(address) {
+      let kakaoContainer = document.querySelector('.sns-register-kakaomap');
+      kakaoContainer.classList.remove('active');
+      document.querySelector('.sns-register-address').value = address;
+      console.log(address);
+
+      //지도 검색한 장소 이름 가져오기
+      let list = document.querySelector('#placesList');
+      let items = list.querySelectorAll('.item');
+      let place = '';
+
+      for (let item of items) {
+        if (item.querySelector('.info').querySelectorAll('span')[1].innerText == address) {
+          place = item.querySelector('.info').querySelector('h5').innerText;
+          break;
+        }
+      }
+      document.querySelector('.sns-write-place input').value = place;
+
+    }
+
+  },
+  components: {
+    SnsSearch
+  },
 }
 
 

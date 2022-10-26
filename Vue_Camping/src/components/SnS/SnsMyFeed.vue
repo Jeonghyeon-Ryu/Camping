@@ -29,7 +29,7 @@
           <p>{{this.snsMyData.email}}</p>
         </div>
         <div class="sns-profile-text">
-          <textarea :value="snsMyData.profileInfo"></textarea>
+          <textarea :value="snsMyData.profileInfo" readonly></textarea>
           <!-- / <textarea v-model="snsWriteText" placeholder="내용을 입력하세요"></textarea> -->
         </div>
       </div>
@@ -40,7 +40,7 @@
       <div class="sns-img-row-container" :key="snsMyList.writeNo" v-for="snsMyList in snsMyLists"
         @click="getSnsDetail(snsMyList.writeNo)">
         <div class="sns-img">
-          <input type="text" :value="snsMyList.writeNo" style="display :none;">
+          <input type="text" :value="snsMyList.writeNo" style="display :none;" readonly>
           <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyList.snsPath+'/'+snsMyList.storedName">
         </div>
       </div>
@@ -140,7 +140,8 @@ export default {
     //상세페이지
     getSnsDetail(writeNo) {
       this.$router.push({ name: 'SnsDetail', params: { writeNo: writeNo } });
-    }
+    },
+    
   },
   components: {
     SnsSearch

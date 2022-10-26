@@ -2,7 +2,6 @@
 /* 공통 부분 */
 
 .sns-container {
-  margin-top: 150px;
   width: 100vw;
   display: flex;
   flex-wrap: wrap;

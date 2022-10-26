@@ -68,6 +68,7 @@ export default {
   components: {},
   data: () => {
     return {
+
       searchText: '',
       //해시태그모음
       snsData: [],
@@ -109,7 +110,15 @@ export default {
       if (event.keyCode == 13) {
         this.doSearch()
       }
+      //onblur 아웃포커스
+      let focus = document.querySelector('.sns-searchbox input')
+      focus.onblur = function(e){
+        document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
+        document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
+      }
     },
+
+
     // 태그검색 함수
     doSearchTag(searchVal) { //searchVal의 흐름 1. 여기서 searchValue의 공간을 만들어주고
       // if(searchVal.substr(0, 1) == '#'){
@@ -136,15 +145,22 @@ export default {
           result5.forEach((element) => {
             if (!this.searchResult.includes(element)) {
               this.searchResult.push(element);
+              console.log(element);
             }
           });
         }
       }
       console.log(this.searchResult);
+
+      for (let clickHashtag of this.searchResult){
+        let hashtag = clickHashtag;
+        console.log(hashtag);
+      }
       // console.log(this.searchResult[0]);
 
       // document.querySelector('.sns-search-list-container').style.display="none";
     
+
     },
     // snsData -> for문 HashTag를 하나씩 읽으면서
     // searchValue 가 있는지 확인
@@ -182,9 +198,8 @@ export default {
     getSnsHashtagList(hashtag) {
       // console.log("자식" + hashtag);
       this.$emit('showHashList', hashtag)
-
-    
-    },
+      this.$router.push({ name : 'SnsMain', params : {hashtag}});
+    }
   }
 }
 
@@ -215,9 +230,13 @@ export default {
 
 .sns-search-list input {
   cursor: pointer;
+  position: relative;
+  z-index: 2;
 }
 
 .sns-search-nick-list input {
   cursor: pointer;
+  position: relative;
+  z-index: 2;
 }
 </style>

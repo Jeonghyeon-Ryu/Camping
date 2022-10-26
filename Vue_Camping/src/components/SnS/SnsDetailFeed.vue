@@ -12,26 +12,26 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"
-            @click="getSnsNickFeed(snsItem.nickname)">
+            <img :src="'http://localhost:8087/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName"
+              @click="getSnsNickFeed(snsItem.nickname)">
             <!--프로필 이미지로 바꾸기 -->
           </div>
         </div>
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <input type="text" :value="snsItem.nickname">
+            <input type="text" :value="snsItem.nickname" readonly>
           </div>
           <div class="sns-write-location">
-            <input type="text" :value="snsItem.location">
+            <input type="text" :value="snsItem.location" readonly>
           </div>
           <div class="sns-write-place">
-            <input type="text" :value="snsItem.place">
+            <input type="text" :value="snsItem.place" readonly>
           </div>
         </div>
-        <div class="sns-control-button">
+        <div class="sns-control-button" v-show="$store.state.email == this.snsItem.email">
           <img v-bind:src="snsControlImg" @click="doSnsController">
           <select disabled @change="doSelectController($event)" name="choose-control-reason" value="게시글 관리">
-            <option v-if="$store.state.auth!=0" value="글 수정" id="btn-update">글 수정</option>
+            <option v-if="$store.state.auth != 0" value="글 수정" id="btn-update">글 수정</option>
             <option value="글 삭제" id="btn-delete">글 삭제</option>
           </select>
         </div>
@@ -39,10 +39,10 @@
       <div class="sns-detail-container">
         <div class="sns-detail-form1">
           <div class="sns-img-container">
-            <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
+            <swiper :navigation="true" :pagination="{ clickable: true, }" :modules="modules" class="mySwiper">
               <swiper-slide v-for="snsImg of snsImgs">
-                <input type="text" :value="snsImg.writeNo" style="display :none;">
-                <img v-bind:src="'http://localhost:8087/java/showSnsImage/'+snsImg.snsPath+'/'+snsImg.storedName">
+                <input type="text" :value="snsImg.writeNo" style="display :none;" readonly>
+                <img v-bind:src="'http://localhost:8087/java/showSnsImage/' + snsImg.snsPath + '/' + snsImg.storedName">
               </swiper-slide>
             </swiper>
           </div>
@@ -50,21 +50,21 @@
         <div class="sns-detail-form1">
           <form class="sns-write-all-form-container" id="snsForm">
             <div class="sns-write-context">
-              <textarea placeholder="글내용 글내용" :value="snsItem.content"></textarea>
-              <input type="text" :value="snsItem.writeNo" style="display :none;" name="writeNo">
+              <textarea placeholder="글내용 글내용" :value="snsItem.content" readonly></textarea>
+              <input type="text" :value="snsItem.writeNo" style="display :none;" name="writeNo" readonly>
             </div>
             <div class="sns-write-hashtag">
-              <textarea placeholder="#태그" :value="snsItem.hashtag"></textarea>
+              <textarea placeholder="#태그" :value="snsItem.hashtag" readonly></textarea>
             </div>
             <div class="sns-write-date">
-              <p>{{yyyyMMddhhmmss(snsItem.writeDate)}}</p>
+              <p>{{ yyyyMMddhhmmss(snsItem.writeDate) }}</p>
             </div>
           </form>
           <div class="sns-push-button-container">
             <div class="sns-push-button-container1">
               <div class="sns-write-like-button">
-                <img v-if="liked==true" v-on:click='hearted()' v-bind:src="heartImg">
-                <img v-if="liked==false" v-on:click="hearted()" v-bind:src="heartImg2">
+                <img v-if="liked == true" v-on:click='hearted()' v-bind:src="heartImg">
+                <img v-if="liked == false" v-on:click="hearted()" v-bind:src="heartImg2">
               </div>
             </div>
             <div class="sns-push-button-container1">
@@ -84,22 +84,23 @@
               <div class="sns-comment-write-id-container">
                 <div class="sns-comment-write-id">
                   <img
-                    :src="'http://localhost:8087/java/profile/'+snsCommentItem.profile.imagePath+'/'+snsCommentItem.profile.storedName"
+                    :src="'http://localhost:8087/java/profile/' + snsCommentItem.profile.imagePath + '/' + snsCommentItem.profile.storedName"
                     @click="getSnsNickFeed(snsCommentItem.nickname)">
-                    <input type="text" :value="snsCommentItem.email" style="display :none;">
-                  </div>
+                  <input type="text" :value="snsCommentItem.email" style="display :none;" readonly>
+                </div>
                 <div class="sns-comment-write-id">
-                  <input type="text" :value="snsCommentItem.nickname">
+                  <input type="text" :value="snsCommentItem.nickname" readonly>
                 </div>
               </div>
               <div class="sns-comment-container">
                 <div class="sns-comment">
                   <div class="sns-comment-write-context">
-                    <div class="sns-comment-write-context-html" v-html="snsCommentItem.commentContent" @click="clickCommentHash"></div>
+                    <div class="sns-comment-write-context-html" v-html="snsCommentItem.commentContent"
+                      @click="clickCommentHash($event)"></div>
                   </div>
                 </div>
                 <div class="sns-comment-date">
-                  <p>{{yyyyMMddhhmmss(snsCommentItem.commentDate)}}</p>
+                  <p>{{ yyyyMMddhhmmss(snsCommentItem.commentDate) }}</p>
                 </div>
               </div>
             </div>
@@ -110,7 +111,7 @@
               <button type="button" @click="doComment" @keyup.enter="doComment">게시</button>
             </div>
             <div class="sns-search-list" v-if="searchResultNick != ''">
-              <div class="sns-search-nick" @click="getNickname(item)" v-for="item of searchResultNick">{{item}}</div>
+              <div class="sns-search-nick" @click="getNickname(item)" v-for="item of searchResultNick">{{ item }}</div>
             </div>
           </div>
         </div>
@@ -198,9 +199,9 @@ export default {
       .then(result => {
         // console.log(result);
         this.snsCommentItems = result
-        
-        for(let i=0; i<this.snsCommentItems.length ; i++){
-          
+
+        for (let i = 0; i < this.snsCommentItems.length; i++) {
+
           let emails = this.snsCommentItems[i].email;
           //댓글프로필이미지
           //프로필 이미지
@@ -208,7 +209,7 @@ export default {
             .then(result => result.json())
             .then(result => {
               //객체 안에 객체 추가 snsCommentItems에 profile라는 이름으로 객체 추가된것임...짱신기
-              this.snsCommentItems[i].profile = result;              
+              this.snsCommentItems[i].profile = result;
               console.log(this.snsCommentItems[i]);
 
               //댓글태그내용 출력..
@@ -438,19 +439,19 @@ export default {
       }
     },
 
-    testClick : function(){
+    testClick: function () {
       console.log("test");
-    },  
+    },
     //댓글 작성
     doComment() {
       //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
       //작성텍스트
       let commentContent = document.querySelector('.sns-write-comment-container textarea').value;
 
-      console.log(commentContent,"=======================");
+      console.log(commentContent, "=======================");
       //닉네임만 스판태그로 감싸기
-      commentContent = commentContent.replace(/(\@[a-zA-Z가-힣]*)/gi, '<span style="cursor: pointer; color:#3f729b;" class="ttt">$1</span>');
-      
+      commentContent = commentContent.replace(/(\@[a-zA-Z가-힣0-9]*)/gi, '<span style="cursor: pointer; color:#3f729b;" class="ttt">$1</span>');
+
       console.log(document.querySelectorAll('.ttt')[1]);
 
       // console.log(document.querySelectorAll('.ttt').innerText);
@@ -460,7 +461,7 @@ export default {
       // console.log(document.querySelectorAll('.ttt').innerHtml);
 
       // console.log(document.querySelectorAll('.sns-search-list-container').innerHtml);
-      
+
       //글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
       //닉네임
@@ -511,44 +512,29 @@ export default {
     },
 
     //댓글에서 @닉네임 부분 가져오기
-    clickCommentHash(){
-      for (let i = 0; i<document.querySelectorAll('.ttt').length ; i++){
-        // let nickList = (document.querySelectorAll('.ttt')[i].innerText);
-        // console.log(nickList);
-        // let elnickList = nickList.substring(1, nickList.length);
-        // console.log(elnickList);
-
-        // // if(nickList.substring(1, nickList.length) == document.querySelector('.sns-comment-write-context-html')[i].
-        // // this.commentNickFeed(elnickList);
-        // this.$router.push({ name: 'SnsMyFeed', params: { nickname: elnickList } });
-    
-        // document.querySelectorAll('.ttt')[i].style="cursor: pointer";
-        let nickList = (document.querySelectorAll('.ttt')[i].innerText);
-        console.log(nickList);
-        let elnickList = nickList.substring(1, nickList.length);
-        console.log(elnickList);
-        let nicknameAll = [];
-        nicknameAll.push(elnickList);
-        console.log(nicknameAll[i].innerHTML);
-        console.log(nicknameAll[i].value);
-        
-        // if(nickList.substring(1, nickList.length) == document.querySelector('.sns-comment-write-context-html')[i].
-        // this.commentNickFeed(elnickList);
-        this.$router.push({ name: 'SnsMyFeed', params: { nickname: elnickList } });
-       
-      //  let nickList = (document.querySelectorAll('.ttt')[i].innerText);
-      //   console.log(nickList);
-      //   let elnickList = [];
-      //   elnickList.push(nickList.substring(1, nickList.length));
-      //   console.log(elnickList[i].innerText);
-      //   this.$router.push({ name: 'SnsMyFeed', params: { nickname: elnickList[i].innerText } });
+    clickCommentHash(e) {
+      let target = e.target;
+      let elnickList;
+      if (!target.classList.contains('ttt')) {
+        return;
+      } else {
+        elnickList = target.innerText;
+        console.log(target);
       }
-    },
-    commentNickFeed(nickname){
-
+      //나의...
+      // for (let i = 0; i<document.querySelectorAll('.ttt').length ; i++){
+      //   let nickList = (document.querySelectorAll('.ttt')[i].innerText);
+      // console.log(nickList);
+      // let elnickList = nickList.substring(1, nickList.length);
+      // console.log(elnickList);
       
-    },
+      //가져온다음 @자르기
+      elnickList = elnickList.substring(1, elnickList.length);
+      // if(nickList.substring(1, nickList.length) == document.querySelector('.sns-comment-write-context-html')[i].
+      // this.commentNickFeed(elnickList);
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: elnickList } });
 
+    },
     doSearch() {
       console.log(this.searchText)
     },
@@ -606,7 +592,7 @@ export default {
       let temp = this.commentTextarea.substring(0, this.nameTagIndex + 1) + item + this.commentTextarea.substring(this.spaceIndex, this.commentTextarea.length);
       console.log(temp);
       this.commentTextarea = temp;
-      
+
       this.searchResultNick = '';
 
       //  console.log(this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex));
@@ -614,7 +600,7 @@ export default {
 
     },
 
-    
+
     //유리언니..
     yyyyMMddhhmmss: function (value) {
       if (value == '') return '';
@@ -742,7 +728,6 @@ export default {
     Swiper,
     SwiperSlide,
     SnsSearch
-    // SnsSearch
   },
   setup() {
     return {
