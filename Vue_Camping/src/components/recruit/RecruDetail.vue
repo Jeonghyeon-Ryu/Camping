@@ -29,22 +29,32 @@
                     </div>
                     <div class="recru-detail-contents">
                         <br>
-                        <h3 style="font-weight: bold;">모집자 정보</h3>
+                        <div class="recru-detail-row">
+                            <span><h3 style="margin-top:6px">모집기간</h3></span>
+                            <p >{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
+                        </div>
+                        <h3>모집자 정보</h3>
                         <p><span>성별 </span>{{recruPost.sex}}</p>
                         <p><span>연령대  </span>{{userage}}</p>
                         <p><span>차량 유무 </span>{{recruPost.carYn==1 ? '있음':'없음'}}</p>
                         <br>
-                        <h3 style="font-weight: bold;">이런 분</h3>
+                        
+                        <h3>이런 분</h3>
                         <p><span>성별  </span>{{userSex}}</p>
                         <p><span>연령대  </span>{{recruPost.wishAge}}</p>
                         <br>
-                        <h3 style="font-weight: bold;">함께 해요</h3>
+                        <h3>함께 해요</h3>
                         <p><span>여행 예정 날짜  </span>{{recruPost.goDate}} ~ {{recruPost.comeDate}}</p>
                         <p><span>출발지역  </span>{{recruPost.startingPoint}}</p>
-                        <p><span>도착지 </span>{{recruPost.campingPoint}} <button class="findCamp">🚩</button></p>  
-                        <div  class="show_region_camp">
+                        <p><span>도착지 </span>{{recruPost.campingPoint}} <button class="findCamp" @click="isCampViewed=!isCampViewed">🚩</button></p>  
+                        <div v-if="isCampViewed"  class="show_region_camp">
+                            <h4>이 지역의 캠핑스팟</h4>
+                            <p v-if="campSites.length==0" style="text-align:center">등록된 캠핑스팟이 없습니다!
+                                <br>새로운 정보를 등록해주세요
+                                <br><button @click="$router.push({name:'CampRegister'})">등록하러 가기</button>
+                            </p>
                             <p v-for="site in campSites" :key="site.campId">
-                                <span @click="getCampDetail(site.campId, $event)">{{site.campName}}</span> {{site.campAddress}}
+                                <span class="recruPost_camp" @click="getCampDetail(site.campId, $event)">{{site.campName}}</span> {{site.campAddress}}
                             </p>                      
                         </div>
                             <p><span>모집 인원  </span>{{recruPost.recruNum}}</p>
@@ -52,9 +62,7 @@
                         <p><span>갖고있어요  </span>{{ gearList(recruPost.myGear)}}</p>
                         <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
                         <br>
-                        <p class="recruPost-content">{{recruPost.recruContent}}</p>
-                        <br>
-                        <p><span>모집기간 : </span>{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
+                        <div class="recruPost-content">{{recruPost.recruContent}}</div>
                     </div>
                 </div>
             </div>
@@ -182,6 +190,7 @@ export default{
                 memberId : ''
             },
             isModalViewed : false,
+            isCampViewed : false,
             campSites :[]
         }
     },

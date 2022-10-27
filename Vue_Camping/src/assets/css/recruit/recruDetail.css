@@ -25,10 +25,17 @@
     display: flex;
     flex-wrap: wrap;
 }
-.recru-detail-col{
-    width: 45%;
-    min-width: 420px;
-    margin-right: 10px;
+@media(min-width:1000px) {
+    .recru-detail-col{
+        width: 45%;
+        min-width: 420px;
+        margin-right: 10px;
+    }
+}
+@media(max-width:999px) {
+    .recru-detail-col{
+        width: 90%;
+    }
 }
 .recru-detail-post{
     justify-content: center;
@@ -40,6 +47,7 @@
 }
 .recru-detail-post h3{
     color: rgb(132, 167, 147);
+    font-weight: bold;
 }
  /* 제목 */
  .recru-detail-title{
@@ -97,16 +105,19 @@
     margin: 7px;
 }
 /* 내용 */
-.recruPost-content{
+.recruPost-content, .show_region_camp{
     border: 5px solid lightgray;
     border-radius: 10px;
-    width: 90%;
     padding: 15px;    
 }
-.show_region_camp{
-    border: 2px solid gray;
-    border-radius: 20px;
-    padding: 20px;
+.show_region_camp h4{
+    color: cadetblue;
+}
+.recruPost_camp{
+    cursor: pointer;
+}
+.recruPost_camp:hover{
+    color: rgb(155, 194, 165);
 }
 /* 버튼 */
 .recru-detail-btn{
@@ -146,9 +157,6 @@
     padding: 20px;
     background: rgba(228,239,231,0.7) ;
     margin-top: 20px;
-}
-.recru-entry-post h3{
-    margin-bottom: 20px;
 }
 .recru-entry-list{
     display: flex;
