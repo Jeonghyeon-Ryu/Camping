@@ -282,7 +282,7 @@ export default {
                     contents.push(checkBoxTag);
                     //이미지
                 } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) {
-
+                    
                     let imgContainer = lineAll[i].querySelector('.img_container');
                     let imgBox = imgContainer.querySelectorAll('.image-preview-div');
                     let imgCount = imgBox.length;
@@ -313,7 +313,7 @@ export default {
                 headers: {},
                 body: formData
             }).then(result => {
-                console.log("이미지 fetch 결과")
+                console.log("insert fetch 결과")
                 console.log(result);
                 this.$router.push({
                     name: "MynoteList"
