@@ -172,7 +172,6 @@
   export default{
     components:{
     UsedCard,
-    VueSimpleRangeSlider,
     Swiper,
     SwiperSlide,
     },
