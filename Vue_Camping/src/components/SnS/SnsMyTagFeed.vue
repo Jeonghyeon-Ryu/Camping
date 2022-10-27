@@ -37,11 +37,11 @@
     <!--  -->
 
     <div class="sns-img-container">
-      <div class="sns-img-row-container" :key="snsMyLikeList.writeNo" v-for="snsMyLikeList in snsMyLikeLists"
-        @click="getSnsDetail(snsMyLikeList.writeNo)">
+      <div class="sns-img-row-container" :key="snsMyTagList.writeNo" v-for="snsMyTagList in snsMyTagLists"
+        @click="getSnsDetail(snsMyTagList.writeNo)">
         <div class="sns-img">
-          <input type="text" :value="snsMyLikeList.writeNo" style="display :none;" readonly>
-          <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyLikeList.snsPath+'/'+snsMyLikeList.storedName">
+          <input type="text" :value="snsMyTagList.writeNo" style="display :none;" readonly>
+          <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyTagList.snsPath+'/'+snsMyTagList.storedName">
         </div>
       </div>
     </div>
@@ -66,7 +66,7 @@ export default {
     console.log(this.snsMyData);
 
     // 작성자의 좋아요 총 게시글 숫자 표시
-    fetch('http://localhost:8087/java/memberLikeCount/' + this.email)
+    fetch('http://localhost:8087/java/memberTagCount/' + this.nickname)
       .then(response => response.json())
       .then(result => {
         console.log(result);
@@ -77,15 +77,15 @@ export default {
     console.log(this.snsMyCount);
 
     // 로그인한 유저가 좋아요한 게시글목록 리스트
-    fetch('http://localhost:8087/java/memberSnsLikeList/' + this.email + "/" + this.page)
+    fetch('http://localhost:8087/java/memberSnsTagList/' + this.nickname + "/" + this.page)
       .then(response => response.json())
       .then(result => {
         console.log(result);
-        this.snsMyLikeLists = result
+        this.snsMyTagLists = result
       })
       .catch(err => console.log(err));
 
-    console.log(this.snsMyLikeList);
+    console.log(this.snsMyTagLists);
 
     //프로필 이미지
     fetch('http://localhost:8087/java/profile/' + this.email)
@@ -103,13 +103,13 @@ export default {
       //닉네임, 
       //로그인하며 가져오는 것 목록 : email, nickname, auth
       email: this.$store.state.email,
-      // nickname : this.$store.state.nickname,
+      nickname : this.$store.state.nickname,
       // profileInfo : this.$store.state.profileInfo,
       snsMyData: {},
       //총게시글수
       snsMyCount: "",
-      //내가 좋아요한 게시글 리스트
-      snsMyLikeLists: [],
+      //내가 태그당한 게시글 리스트
+      snsMyTagLists: [],
       //프로필 이미지
       storedProfile: '',
       //페이지

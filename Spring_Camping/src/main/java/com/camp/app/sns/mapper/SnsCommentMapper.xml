@@ -24,4 +24,38 @@ SELECT NVL(MAX(comment_no),0)+1 FROM sns_comment
 <select id="findByWriteNoToSnsComment" resultType="SnsCommentVO" parameterType="Integer">
 	SELECT * FROM sns_comment WHERE write_no = #{writeNo} order by comment_no
 </select>
+
+<!-- 유저가 댓글에서 태그당한 -->
+<!-- 유저가 댓글에서 태그당한 총게시글 수 -->
+	<select id="countTagSnsByUser" resultType="Integer" parameterType="String">
+	SELECT COUNT(DISTINCT write_no) FROM sns_comment WHERE comment_content like '%'||#{nickname}||'%'
+	</select>
+	
+	<!-- 유저가 댓글에서 태그당한 목록 이미지리스트보기 페이징? -->
+ <select id="showSnsTagByPageByUser" resultType="SnsImageVO" parameterType="MySnsTagVO">
+
+<![CDATA[
+      
+      SELECT write_no, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path
+      FROM ( 
+           SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+           FROM (
+                SELECT ROWNUM AS SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
+                FROM ( SELECT *
+                            FROM sns_image 
+                            WHERE sns_image_no = ANY
+                                    (SELECT MAX(sns_image_no) 
+                                    FROM sns_image
+                                    WHERE write_no IN (SELECT write_no
+                                                                FROM sns_comment
+                                                                WHERE comment_content like '%'||#{nickname}||'%')
+                                                       
+                                    GROUP BY write_no)
+                            ORDER BY write_no desc)
+               )
+           WHERE SEQ >= ((#{page}-1)*10+1)
+          )
+      WHERE ROWNUM < 11
+		]]>
+</select> 
 </mapper>

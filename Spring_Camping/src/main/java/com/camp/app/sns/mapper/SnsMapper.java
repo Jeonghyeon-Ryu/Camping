@@ -2,6 +2,7 @@ package com.camp.app.sns.mapper;
 
 import java.util.List;
 
+import com.camp.app.sns.service.MySnsTagVO;
 import com.camp.app.sns.service.MySnsVO;
 import com.camp.app.sns.service.SnsHashtagVO;
 import com.camp.app.sns.service.SnsImageVO;
@@ -63,6 +64,8 @@ public interface SnsMapper {
 
 	//해시태그검색한 게시글 이미지리스트 출력
 	public List<SnsImageVO> showSnsByPageByHashtag(SnsHashtagVO snsHashtag);
+
+
 
 	
 

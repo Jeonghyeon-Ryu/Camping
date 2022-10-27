@@ -37,10 +37,10 @@ order by write_no desc </select>
 </select>
 
 <!-- 검색 : 해시태그 -->
-<select id="getHashTag" resultType="String">SELECT hashtag from sns </select>
+<select id="getHashTag" resultType="String">SELECT hashtag from sns where status = 2 </select>
 
 <!-- 검색 : 닉네임 -->
-<select id="getNickName" resultType="String">SELECT nickname from member </select>
+<select id="getNickName" resultType="String">SELECT nickname from member where status = 2</select>
 
 <!-- 글 등록 텍스트1013 -->
 <insert id="insertSns" parameterType="SnsVO">
@@ -147,7 +147,6 @@ WHERE write_no = #{writeNo}
 
 <![CDATA[
 
-      
       SELECT write_no, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path
       FROM ( 
            SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no

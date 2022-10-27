@@ -18,6 +18,7 @@ public interface MemberMapper {
 	public int findMaxByProfileImageId();
 	public int insertProfileImage(ProfileImageVO image);
 	public ProfileImageVO findByEmailToProfileImage(String email);
+	
 //	persist
 //	delete	
 }
