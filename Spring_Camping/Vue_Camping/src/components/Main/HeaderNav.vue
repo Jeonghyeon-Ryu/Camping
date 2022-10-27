@@ -48,6 +48,7 @@ export default {
     return {
       currentCategory: 0,
       isLogin : false,
+      email : '',
       topCategory: {
         "어디갈래?": "/CampList",
         "같이갈래?": "/RecruList",

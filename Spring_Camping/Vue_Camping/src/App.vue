@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderNav ref="headerNav"></HeaderNav>
-    <router-view @loginout="loginout" @send="send"></router-view>
+    <router-view @loginout="loginout" @send="send" @scroll="onScroll($event)"></router-view>
   </div>
 </template>
 
@@ -182,6 +182,7 @@ export default {
 }
 body {
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #app {
@@ -190,6 +191,7 @@ body {
   -moz-osx-font-smoothing: grayscale; */
   text-align: center;
   color: #2c3e50;
+  overflow-y: auto;
 }
 
 /* total width */
