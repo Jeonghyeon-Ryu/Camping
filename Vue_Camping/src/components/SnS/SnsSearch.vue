@@ -6,9 +6,9 @@
       <!-- <input type="button" @click="doClear" value="X"> -->
     </div>
     <div class="sns-search-list-container">
-      <div class="sns-search-list" v-for="searchHashTagKeyword of searchResult">
+      <div class="sns-search-list" v-for="searchHashTagKeyword of searchResult" @focusout="focusOut()">
         <input v-show="this.doSearchTag" type="text" @click="getSnsHashtagList(searchHashTagKeyword)"
-          v-bind:value="searchHashTagKeyword" v-on:change="search()">
+          v-bind:value="searchHashTagKeyword" v-on:change="search()" >
       </div>
     </div>
     <div class="sns-search-list-container">
@@ -111,13 +111,40 @@ export default {
         this.doSearch()
       }
       //onblur 아웃포커스
-      let focus = document.querySelector('.sns-searchbox input')
-      focus.onblur = function(e){
-        document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
-        document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
-      }
-    },
+      // let focus = document.querySelector('.sns-searchbox input')
+      // let focus = document.querySelectorAll('.sns-search-list input');
+      // focus.onfocusout = function(e){
+      //   // document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
+      //   document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
+      // }
 
+        //onblur 아웃포커스
+      // let focus = document.querySelector('.sns-searchbox input')
+      //for문으로 함 해봄...
+      // for(let i; i<this.searchResult.length; i++){
+      //   let focus = document.querySelector('.sns-search-list')[i];
+      //   focus.onblur = function(e){
+      //     console.log(focus);
+      //     // document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
+      //     document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
+      //   }
+      // }
+
+    },
+    
+    //onblur 아웃포커스
+   // let focus = document.querySelector('.sns-searchbox input')
+  //  let focus = e.target;
+  //  focus.onblur = function(e){
+  //    console.log(focus);
+  //    // document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
+  //    document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
+  //  },
+  focusOut(){
+    let focus = document.querySelectorAll('.sns-search-list input');
+    focus.onfocusout;
+        document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
+  },
 
     // 태그검색 함수
     doSearchTag(searchVal) { //searchVal의 흐름 1. 여기서 searchValue의 공간을 만들어주고
@@ -197,7 +224,7 @@ export default {
     //해시태그검색시 해시태그 검색되서 해당하는 이미지 리스트 화면으로...
     getSnsHashtagList(hashtag) {
       // console.log("자식" + hashtag);
-      this.$emit('showHashList', hashtag)
+      // this.$emit('showHashList', hashtag)
       this.$router.push({ name : 'SnsMain', params : {hashtag}});
     }
   }
