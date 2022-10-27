@@ -21,11 +21,21 @@
 			#{noteStatus}
 		)
 	</insert>
+	
+	<update id="updateContents" parameterType="NoteVO">
+
+		UPDATE NOTE
+		SET note_content = #{noteContent}, title = #{title}
+		WHERE note_id = #{noteId}
+		
+	</update>
+
 	<!-- select : MynoteList -->
 	<select id="getMyNoteList" resultType="NoteVO">
 		SELECT note_id, note_status, to_char(write_date,'yyyy-mm-dd') as write_date, title, invited_member
 		FROM note
 		WHERE email = #{email}
+		ORDER BY write_date
 	</select>
 	<!--  -->
 	<delete id="deleteNote" parameterType="Integer">
@@ -37,6 +47,7 @@
 		SELECT *
 		FROM NOTE
 		WHERE note_id = #{noteId}
+		
 	</select>
 	
 	<!-- 노트 이미지 불러오기 -->
@@ -46,18 +57,33 @@
 	</select>
 	
 	<!-- 노트 초대하기(invitedMember추가) -->
-	
 	<update id="invitedMember" parameterType="NoteVO">
+
 		UPDATE NOTE
 		SET invited_member = #{invitedMember}
 		WHERE note_id = #{noteId}
+		
 	</update>
-	
+	<!-- 공유중인 노트 -->
 	<select id="getInvitedNoteList" resultType="NoteVO">
-		SELECT note_id, note_status, to_char(write_date,'yyyy-mm-dd') as write_date, title, invited_member
-		FROM note
-		WHERE invted_member = #{email}
-	</select>
 	
+		SELECT * 
+		FROM NOTE 
+		WHERE REGEXP_LIKE(invited_member, #{email})
+		ORDER BY write_date
+		
+	</select>
+	<!-- 공유중인 맴버 리스트 -->
+ 	<select id="getInvitedMember" resultType="String">
+		SELECT invited_member
+		FROM NOTE
+		WHERE note_id = #{noteId}
+	</select>
+	<!-- 공유 끊기 -->
+	<update id="delInvitedMember" parameterType="NoteVO">
+		UPDATE note
+		SET invited_member = substr(invited_member, 0, instr(invited_member, #{invitedMember})-3) || substr(invited_member, to_number(instr(invited_member, #{invitedMember}))+length(#{invitedMember})+2)
+		WHERE note_id=#{noteId}
+	</update>	
 	
 </mapper>

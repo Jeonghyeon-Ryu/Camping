@@ -80,6 +80,14 @@ export default {
     props: ["type"],
     
     methods: {
+         // startDrag
+         startDrag(event, item) {
+            event.dataTransfer.dropEffect = "move"
+            event.dataTransfer.effectAllowed = "move"
+            event.dataTransfer.setData("selectedItem", item.content)
+        },
+
+        /**드래그 연습*/
         creTextarea: function (e) {
             if (!this.shiftSatus) {
                 e.preventDefault();

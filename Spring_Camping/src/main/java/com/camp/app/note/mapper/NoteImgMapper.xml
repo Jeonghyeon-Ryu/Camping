@@ -15,7 +15,7 @@
 				img_format,
 				img_path,
 				img_size
-								)
+							)
 			VALUES(
 				#{imgId},
 				#{noteId},
@@ -32,8 +32,28 @@
 		FROM note		
 	</select>
 	
-	<select id="findNoteImg" parameterType="Integer" resultType="NoteImgVO">
+	<select id="findNoteImgInfo" parameterType="Integer" resultType="NoteImgVO">
 		SELECT * FROM note_img
 		WHERE note_id = #{noteId}
 	</select>
+	
+
+	<!-- <update id="updateNoteImg" parameterType="NoteImgVO">
+
+		UPDATE note_img
+		SET 	
+				origin_name = #{originName},
+				stored_name = #{storedName},
+				img_format = #{imgFormat},
+				img_path = #{imgPath},
+				img_size = #{imgSize},
+		WHERE note_id = #{noteId}
+		
+	</update>  -->
+	
+	 <delete id="deleteImg" parameterType="Integer">
+		DELETE note_img
+		where note_id = #{note_id}
+	
+	</delete>
 </mapper>	

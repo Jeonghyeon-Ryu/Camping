@@ -8,11 +8,11 @@ import lombok.Data;
 public class NoteVO {
 	private int noteId;
 	private String title;
-	private List<String> noteContents;
 	private String noteContent;
 	private String invitedMember;
 	private String email;
 	//@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String writeDate;
 	private String noteStatus;
+	private List<String> noteContents;
 }
