@@ -18,12 +18,12 @@
 	</insert>
 	
 	<!-- 전체조회 -->
-		<!-- 내가받은쪽지조회 -->
+		<!-- 내가받은쪽지조회 : 읽지않은쪽지가위로/그중에서날짜순-->
 		<select id="receivedMsg" parameterType="String" resultType="MailVO">
 			select * 
 			from mail 
 			where mail_receiver = #{mailReceiver}
-			order by mail_id desc
+			order by mail_status, mail_id desc
 		</select>
 		
 		<!-- 내가보낸쪽지조회 -->
@@ -31,7 +31,7 @@
 			select * 
 			from mail 
 			where mail_sender = #{mailSender}
-			order by mail_id desc
+			order by mail_status, mail_id desc
 		</select>
 	
 	<!-- 쪽지단건조회(상세보기) -->
@@ -41,7 +41,7 @@
 	
 
 	<!-- 쪽지읽음처리 -->
-	<update id="updateMail" parameterType="MailVO">
+	<update id="updateMail" parameterType="Integer">
 		UPDATE mail 
 		SET mail_status = 1 
 		WHERE mail_id = #{mailId}

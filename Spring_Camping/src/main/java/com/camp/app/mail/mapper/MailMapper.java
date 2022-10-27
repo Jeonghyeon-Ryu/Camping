@@ -18,6 +18,6 @@ public interface MailMapper {
 	public MailVO detailMsg(int mailId);
 	
 	//쪽지읽음처리
-	public void updateMail(int mailStatus);
+	public void updateMail(MailVO mail);
 	
 }

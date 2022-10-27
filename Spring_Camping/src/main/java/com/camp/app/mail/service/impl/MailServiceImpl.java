@@ -37,10 +37,11 @@ public class MailServiceImpl implements MailService{
 	public MailVO detailMsg(int mailId) {
 		return mapper.detailMsg(mailId);
 	}
-
+	
+	//읽음확인
 	@Override
-	public void updateMail(int mailStatus) {
-		mapper.updateMail(mailStatus);
+	public void updateMail(MailVO mail) {
+		mapper.updateMail(mail);
 	}
 
 }
