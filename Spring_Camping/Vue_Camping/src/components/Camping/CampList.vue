@@ -1,5 +1,5 @@
 <template>
-  <ul class="cards" @scroll="onScroll($event)">
+  <ul class="cards">
     <li v-for="camp of camps" @click="getCampDetail(camp.campId, $event)">
       <a href="" class="card">
         <div class="card-img-container">
@@ -90,7 +90,6 @@ export default {
       if ((currScrollY >= (document.body.offsetHeight - 100)) && this.scrollIsStop != true && this.page <= this.endPage) {
         // 200 남기고 ajax 호출 필요.
         this.scrollIsStop = true;
-        this.page++;
         this.getPageItem();
         // 만약 모든 Card 출력 후  위로올라가는 스크롤이면 ajax 호출안되게 해야됨. ( 완료 ) 
         // 더 Append 할 데이터가 남은게 있는지 없는지 확인하여야함. ( 완료 )
@@ -99,6 +98,7 @@ export default {
       }
     },
     getPageItem() {
+      this.page++;
       fetch("http://13.125.95.210:85/java/camp/" + this.page)
         .then(result => result.json())
         .then(result => {
