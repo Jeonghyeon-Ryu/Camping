@@ -74,11 +74,10 @@ export default {
           title: '로그인 후에 찜해주세요',
           toast: true,
           showConfirmButton: false,
-          timer: 1500,
+          timer: 850,
           didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)
-            this.$router.push({ name: "LoginSignup" });
           }
         })
       } else if (this.$store.state.email === this.usedCard.email) {
@@ -87,7 +86,7 @@ export default {
           title: '내가 쓴 글은 찜할 수 없어요',
           toast: true,
           showConfirmButton: false,
-          timer: 1000,
+          timer: 900,
           didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
             toast.addEventListener('mouseleave', Swal.resumeTimer)

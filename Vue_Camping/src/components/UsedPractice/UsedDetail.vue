@@ -32,36 +32,41 @@
             </li>
             <hr>
             <!-- 좋아요, 조회수, 신고 -->
-            <div class="used-info2">
-              <div class="used-info3">
-                <div class="used-cnt">
-                  🧡 찜 {{this.likeCnt}} · 👁‍🗨 조회수 {{usedList.usedCnt}} · {{usedList.usedWrite}}
-                </div>
-                <div class="used-report">
-                  <!-- 신고기능가져오기(다른유저가쓴글) -->
-                  <p v-if="usedList.email != memberId" @click="reportItem()">🚨신고하기</p>
-                  <!-- 거래상태변경(본인이쓴글) -->
-                  <div v-if="usedList.email === memberId && usedList.usedStatus === 0">
-                    <select id="dealStatus" name="dealStatus" @change="dealChange()">
-                      <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
-                      <option name="dealStatus" value="0">거래가능</option>
-                      <option name="dealStatus" value="1">거래중</option>
-                      <option name="dealStatus" value="2">거래완료</option>
-                    </select>
+            <div class="used-info4">
+              <div class="used-info2">
+                <div class="used-info3">
+                  <div class="used-cnt">
+                    🧡 찜 {{this.likeCnt}} · 👁‍🗨 조회수 {{usedList.usedCnt}} · 🕑 {{usedList.usedWrite}}
+                  </div>
+                  <div class="used-report">
+                    <!-- 신고기능가져오기(다른유저가쓴글) -->
+                    <p v-if="usedList.email != memberId" @click="reportItem()">신고하기</p>
+                    <!-- 거래상태변경(본인이쓴글) -->
+                    <div v-if="usedList.email === memberId && usedList.usedStatus === 0">
+                      <select id="dealStatus" name="dealStatus" @change="dealChange()">
+                        <option name="dealStatus" value='' disabled selected>거래상태 변경</option>
+                        <option name="dealStatus" value="0">거래가능</option>
+                        <option name="dealStatus" value="1">거래중</option>
+                        <option name="dealStatus" value="2">거래완료</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
+                <!-- 상품정보2 -->
+                <li>
+                  · 카테고리 : {{usedList.usedCategory}}
+                </li>
+                <li>· 상태 : <span v-if="usedList.usedCondition==0">상</span>
+                  <span v-if="usedList.usedCondition==1">중</span>
+                  <span v-if="usedList.usedCondition==2">하</span>
+                </li>
+                <li>
+                  · 거래지역 : {{usedList.usedPlace}}
+                </li>
               </div>
-              <!-- 상품정보2 -->
-              <li>
-                · 카테고리 : {{usedList.usedCategory}}
-              </li>
-              <li>· 상태 : <span v-if="usedList.usedCondition==0">상</span>
-                <span v-if="usedList.usedCondition==1">중</span>
-                <span v-if="usedList.usedCondition==2">하</span>
-              </li>
-              <li>
-                · 거래지역 : {{usedList.usedPlace}}
-              </li>
+              <!-- <div class="used-head-btns">
+                <input type="button" value="수정하기">
+              </div> -->
             </div>
           </ul>
         </div>
@@ -76,14 +81,32 @@
             {{usedList.usedContent}}
           </div>
         </div>
-        <div class="vertical_line"></div>
         <!-- 작성자 정보-->
         <div class="used-writer">
-          <input type="hidden" :value="usedList.email">
-          <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
-          <b>{{usedList.nickName}}</b>
+          <div class="used-writer-info">
+            <input type="hidden" :value="usedList.email">
+            <div class="used-pf"><img
+                :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"></div>
+            <div class="used-nk"><b>{{usedList.nickName}}</b></div>
+          </div>
+          <hr class="horizontal_line2">
           <div class="used-writer-post">
             <!-- 올린게시물정보(코드써야함) -->
+            <div class="used-writer-deals">
+              최근 상품
+              <div class="used-writer-deal">
+                <img src="@/assets/img/bg9.jpg">
+                <!-- <router-link tag="div" v-bind:to="{name:'usedDetail', params : {usedId : card.usedId}}">
+                  <UsedCard v-bind:usedCard="card"></UsedCard>
+                </router-link> -->
+              </div>
+            </div>
+            <div class="used-writer-home" @click="writerDetail()">
+              <b>{{usedList.nickName}}</b> 님의 판매상품 더 구경하기
+            </div>
+            <div class="used-writer-sns" @click="writerSns(usedList.nickName)">
+              <b>{{usedList.nickName}}</b> 님의 피드 방문하기
+            </div>
           </div>
         </div>
         <div class="info-buttons">
@@ -94,10 +117,9 @@
             v-if="usedList.email != memberId && memberId !='admin' && this.liked === false" @click="hearted()">🧡 찜
             취소</button>
           <button type="button" class="chat-button"
-            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0"
-            @click="startChat">채팅하기</button>
+            v-if="usedList.email != memberId && memberId !='admin'  && usedList.dealStatus === 0" @click="sendingMsg()">쪽지하기</button>
           <button type="button" class="chat-button2"
-            v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">채팅하기</button>
+            v-if="usedList.email != memberId && memberId !='admin' && usedList.dealStatus != 0">쪽지하기</button>
           <button type="button" class="update-button" v-if="usedList.email === memberId && usedList.dealStatus != 2"
             @click="usedUpdate()">수정하기</button>
           <button type="button" class="update-button2" v-if="usedList.email === memberId && usedList.dealStatus === 2"
@@ -117,8 +139,8 @@
 import img1 from "@/assets/img/sns/snsControll.png";
 import UsedDetailImage from "./UsedDetailImage.vue";
 import Swal from 'sweetalert2';
-import Stomp from "webstomp-client";
-import SockJS from "sockjs-client";
+import UsedCard from "@/components/UsedPractice/UsedCard.vue";
+
 
 export default {
   data: function () {
@@ -134,9 +156,94 @@ export default {
     }
   },
   components: {
-    UsedDetailImage
+    UsedDetailImage, UsedCard
   },
   methods: {
+    writerDetail: function () {
+      this.$router.push({ name: 'myUsed', params: { email: this.usedList.email } })
+    },
+    writerSns: function (nickName) {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: this.usedList.email } })
+    },
+    //쪽지보내기
+    sendingMsg: function(){
+      if(this.$store.state.email === null){
+        Swal.fire({
+          icon: 'warning',
+          title: '로그인 후에 쪽지할 수 있어요',
+          toast: true,
+          showConfirmButton: false,
+          timer: 1200,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            // this.$router.push({ name: "LoginSignup" });
+          }
+        })
+      }else{
+      let item = Swal.fire({
+          title: '<div class="mail-Title" style="font-size:0.6em; color: green;">판매자에게 쪽지 보내기</div>',
+          html: 
+          '<div class="mail-info" style="dislay:flex; border-radius:2px; width:80%; margin: 0 auto; padding: 5px; background-color:#f7f7f7"><div class="mail-usedName"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품명 </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'
+            +this.usedList.usedName+'</span></div>'+
+            '<div class="mail-usedPrice"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품가격 </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'+this.usedList.usedPrice+'</span><span style="font-size:0.8em; font-weight:bold;">원<span></div></div>'+
+            '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 200px; font-size:12px;" maxlength="200" placeholder="판매자에게 보낼 내용을 입력하세요"></textarea>',
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: '전송',
+          cancelButtonText: '취소',
+          confirmButtonColor: '#54b06d',
+          preConfirm: () => {
+            let fetchData = {
+              "usedId": this.usedId,
+              "mailSender": this.$store.state.email,
+              "mailReceiver": this.usedList.email,
+              "mailContent": document.getElementById('swal-input2').value,
+            }
+
+            console.log(fetchData);
+            fetch('http://localhost:8087/java/mail/sendMail', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify(fetchData)
+            }).then(result => result.text())
+              .then(result => {
+                if (result == "true") {
+                  Swal.fire({
+                    icon: 'success',
+                    title: '전송되었습니다',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 900,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      this.$router.push({ path: '/used/UsedDetail/' + this.usedId, });
+                    }
+                  })
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: '전송 실패 !',
+                    text: '계속 실패하면 고객센터에 문의해주세요.',
+                    toast: true,
+                    showConfirmButton: false,
+                    timer: 900,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
+                }
+                console.log(result);
+              })
+
+            return false;
+          }
+        })
+        console.log(item);
+      }
+    },    
     //찜하기
     hearted: function () {
       event.preventDefault();
@@ -204,7 +311,7 @@ export default {
                 })
               }
             }).catch(err => console.log(err))
-          this.$router.go()
+          // this.$router.go()
         } else if (this.liked === false) {
           fetch('http://localhost:8087/java/save', {
             method: 'POST',
@@ -228,7 +335,7 @@ export default {
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                   }
                 })
-                this.$router.go()
+                // this.$router.go()
                 // this.$router.push({name : 'usedMain'})
               }
             }).catch(err => console.log(err))
@@ -340,7 +447,7 @@ export default {
       Swal.fire({
         icon: 'warning',
         title: '삭제 불가',
-        text: '거래중인 글입니다',
+        text: '거래 중인 글입니다',
         toast: true,
         showConfirmButton: false,
         timer: 1200,
@@ -376,7 +483,7 @@ export default {
           })
             .then(Response => Response.json())  //json 파싱 
             .then(data => {
-              console.log(data);
+              console.log(data)
 
             }).catch(err => console.log(err))
             .then(Swal.fire({
@@ -482,15 +589,6 @@ export default {
         })
         console.log(item);
       }
-    },
-    startChat() {
-      let message = {
-        roomId: 1,
-        email: this.$store.state.email,
-        targetEmail: [this.usedList.email],
-        type: 0
-      }
-      this.$emit("send", message);
     }
   },
   //created-페이지 열자마자 실행
@@ -506,16 +604,12 @@ export default {
       .then(data => {
         console.log(data)
         component.usedList = data;
-        console.log(component.usedList.email)
 
         fetch('http://localhost:8087/java/profile/' + component.usedList.email)
           .then(result => result.json())
           .then(result => {
             this.storedProfile = result;
-
           }).catch(err => console.log(err));
-        //
-
       }).catch(err => console.log(err))
 
 
@@ -530,10 +624,6 @@ export default {
     //   .then(result => result.json())
     //   .then(result => {
     //     this.storedProfile = result;
-
-
-
-
     //   }).catch(err => console.log(err));
 
     if (this.$store.state.email != null) {

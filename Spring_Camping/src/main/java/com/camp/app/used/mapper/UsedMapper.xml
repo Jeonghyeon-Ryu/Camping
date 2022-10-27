@@ -3,10 +3,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "com.camp.app.used.mapper.UsedMapper">
 	
-	<!-- 게시글 전체조회 -->
+	<!-- 게시글 전체조회 페이징-->
 	<select id="selectAllUsedList" resultType="UsedVO">
-		SELECT * FROM used WHERE used_status = 0 ORDER BY used_write desc
+		SELECT B.* FROM (SELECT CEIL(ROWNUM/12) page, A.* 
+		FROM(SELECT * FROM used WHERE used_status = 0 ORDER BY used_id desc)A)B 
+		WHERE page = #{page}
 	</select>
+	
+	<!-- 게시글 전체조회 -->
+	<!-- <select id="selectAllUsedList" resultType="UsedVO">
+		SELECT * FROM used WHERE used_status = 0 ORDER BY used_write desc
+	</select> -->
 	
 	<!-- 게시글 조건조회 -->
 	<select id="searchUsedList" resultType="UsedVO" parameterType="UsedVO">
@@ -62,6 +69,11 @@
 		 WHERE email = #{email} 
 		   AND used_status !=2 
 		 ORDER BY used_id DESC
+	</select>
+	
+	<!-- 내가찜한글 -->
+	<select id="findUsedSave" parameterType="String" resultType="UsedVO">
+		select * from save where email = #{email}
 	</select>
 	
 	<!-- 수정 -->

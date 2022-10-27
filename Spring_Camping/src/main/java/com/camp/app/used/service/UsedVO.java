@@ -28,4 +28,5 @@ public class UsedVO {
 	private int minPrice; //최소가격
 	private int maxPrice; //최대가격
 	private String keyword;
+	private int page; //페이지
 }
