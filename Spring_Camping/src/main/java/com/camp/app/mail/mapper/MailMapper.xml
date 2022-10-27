@@ -19,18 +19,19 @@
 	
 	<!-- 전체조회 -->
 		<!-- 내가받은쪽지조회 -->
-		<select id="receivedMsg" parameterType="Integer" resultType="MailVO">
+		<select id="receivedMsg" parameterType="String" resultType="MailVO">
 			select * 
 			from mail 
 			where mail_receiver = #{mailReceiver}
-			order by mail_id desc;
+			order by mail_id desc
 		</select>
 		
 		<!-- 내가보낸쪽지조회 -->
-		<select id="sendedMsg" parameterType="Integer" resultType="MailVO">
+		<select id="sendedMsg" parameterType="String" resultType="MailVO">
 			select * 
 			from mail 
 			where mail_sender = #{mailSender}
+			order by mail_id desc
 		</select>
 	
 	<!-- 쪽지단건조회(상세보기) -->

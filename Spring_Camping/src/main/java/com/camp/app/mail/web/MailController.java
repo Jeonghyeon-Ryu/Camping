@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import com.camp.app.mail.service.MailVO;
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
 //@CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/used")
+@RequestMapping("/mail")
 public class MailController {
 	
 	@Autowired
@@ -36,8 +37,14 @@ public class MailController {
 	}
 	
 	//받은메시지전체조회
-	@GetMapping("/receivedMail")
-	public List<MailVO> receivedMsg(@RequestBody MailVO mail){
-		return service.receivedMsg(mail);
+	@GetMapping("/receivedMail/{email}")
+	public List<MailVO> receivedMsg(@PathVariable String email){
+		return service.receivedMsg(email);
+	}
+	
+	//보낸메시지전체조회
+	@GetMapping("/sendedMail/{email}")
+	public List<MailVO> sendedMsg(@PathVariable String email){
+		return service.sendedMsg(email);
 	}
 }

@@ -146,8 +146,8 @@
       <!-- <router-link tag="div" v-bind:to="{name:'usedInsert'}">
         <button>+</button> 
       </router-link> -->
-      <router-link tag="div" v-bind:to="{name:'myUsedSave', params:{ email : $store.state.email}}">
-        <button>찜</button> 
+      <router-link tag="div" v-if="this.$store.state.email != null" v-bind:to="{name:'myUsedSave'}">
+        <button>💗</button> 
       </router-link>
       <router-link tag="div" v-bind:to="{name:'usedReview'}">
         <button>review</button> 

@@ -206,14 +206,20 @@ const routes = [{
   },
   {
     name: 'myUsedSave',
-    path: '/used/mySave/:email',
+    path: '/used/mySave',
     component: () => import('@/components/UsedPractice/UsedMySave.vue'),
     props: true
   },
   {
     name: 'SendMail',
-    path: '/used/sendMail',
+    path: '/mail/sendMail',
     component: () => import('@/components/Mail/SendMail.vue'),
+    props: true
+  },
+  {
+    name: 'MailList',
+    path: '/mail/mailList',
+    component: () => import('@/components/Mail/MailList.vue'),
     props: true
   },
 ]

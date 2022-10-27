@@ -38,9 +38,6 @@
   import Swal from 'sweetalert2';
 
   export default{
-    props:[
-      'email'
-  ],
     components:{
     UsedCard,
     },
@@ -52,6 +49,7 @@
         regionSelect2: '',
         minPrice: '',
         maxPrice: '',
+        email: this.$store.state.email,
       }
     },
     methods : {

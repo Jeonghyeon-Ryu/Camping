@@ -8,10 +8,10 @@ public interface MailService {
 	public boolean sendMsg(MailVO mail);
 	
 	//내가받은쪽지조회
-	public List<MailVO> receivedMsg(MailVO mail);
+	public List<MailVO> receivedMsg(String email);
 	
 	//내가보낸쪽지조회
-	public List<MailVO> sendedMsg(int page);
+	public List<MailVO> sendedMsg(String email);
 	
 	//쪽지상세보기
 	public MailVO detailMsg(int mailId);

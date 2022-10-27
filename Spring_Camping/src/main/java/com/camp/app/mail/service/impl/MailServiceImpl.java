@@ -20,15 +20,17 @@ public class MailServiceImpl implements MailService{
 		mapper.sendMsg(mail);
 		return true;
 	}
-
+	
+	//받은쪽지
 	@Override
-	public List<MailVO> receivedMsg(MailVO mail) {
-		return mapper.receivedMsg(mail);
+	public List<MailVO> receivedMsg(String email) {
+		return mapper.receivedMsg(email);
 	}
-
+	
+	//보낸쪽지
 	@Override
-	public List<MailVO> sendedMsg(int page) {
-		return mapper.sendedMsg(page);
+	public List<MailVO> sendedMsg(String email) {
+		return mapper.sendedMsg(email);
 	}
 
 	@Override

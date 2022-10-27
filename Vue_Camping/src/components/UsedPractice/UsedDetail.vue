@@ -167,13 +167,27 @@ export default {
     },
     //쪽지보내기
     sendingMsg: function(){
+      if(this.$store.state.email === null){
+        Swal.fire({
+          icon: 'warning',
+          title: '로그인 후에 쪽지할 수 있어요',
+          toast: true,
+          showConfirmButton: false,
+          timer: 1200,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            // this.$router.push({ name: "LoginSignup" });
+          }
+        })
+      }else{
       let item = Swal.fire({
           title: '<div class="mail-Title" style="font-size:0.6em; color: green;">판매자에게 쪽지 보내기</div>',
           html: 
           '<div class="mail-info" style="dislay:flex; border-radius:2px; width:80%; margin: 0 auto; padding: 5px; background-color:#f7f7f7"><div class="mail-usedName"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품명 </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'
             +this.usedList.usedName+'</span></div>'+
             '<div class="mail-usedPrice"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품가격 </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'+this.usedList.usedPrice+'</span><span style="font-size:0.8em; font-weight:bold;">원<span></div></div>'+
-            '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 200px; font-size:12px;" maxlength="500" placeholder="판매자에게 보낼 내용을 입력하세요"></textarea>',
+            '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 200px; font-size:12px;" maxlength="200" placeholder="판매자에게 보낼 내용을 입력하세요"></textarea>',
           focusConfirm: false,
           showCancelButton: true,
           confirmButtonText: '전송',
@@ -188,7 +202,7 @@ export default {
             }
 
             console.log(fetchData);
-            fetch('http://localhost:8087/java/used/sendMail', {
+            fetch('http://localhost:8087/java/mail/sendMail', {
               method: 'POST',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify(fetchData)
@@ -228,6 +242,7 @@ export default {
           }
         })
         console.log(item);
+      }
     },    
     //찜하기
     hearted: function () {
