@@ -31,7 +31,7 @@ import retrofit2.http.POST;
 @CrossOrigin(origins = "*")
 @RequestMapping("/java")
 public class CampController {
-	private String imagePath = "/home/upload/member/";
+	private String imagePath = "/home/upload/camp/";
 //	private String imagePath = "d:\\upload\\member\\";
 	
 	@Autowired
@@ -111,5 +111,11 @@ public class CampController {
 	public boolean modifyCampByAdmin(InputCampVO camp) {
 		System.out.println("캠핑장 수정 관리자 : " + camp);
 		return service.modifyCampByAdmin(camp);
+	}
+	
+	// 캠핑장 총 수
+	@GetMapping("/camp/endPage")
+	public int getEndPage() {
+		return service.count();
 	}
 }
