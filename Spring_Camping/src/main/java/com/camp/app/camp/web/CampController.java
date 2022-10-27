@@ -56,13 +56,13 @@ public class CampController {
 	
 	@GetMapping("/showImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName){
-		String fullPath = "\\upload\\camp\\" + imagePath + "\\" + storedName;
+		String fullPath = "/upload/camp/" + imagePath + "/" + storedName;
 		System.out.println("*** FullPath : " +fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 		
 		if(!resource.exists()) {
 			System.out.println("File Not Found ! ");
-			fullPath = "\\upload\\default.png";
+			fullPath = "/upload/default.png";
 			resource = new FileSystemResource(fullPath);
 			if(!resource.exists()) {
 				return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
