@@ -31,7 +31,9 @@ import retrofit2.http.POST;
 @CrossOrigin(origins = "*")
 @RequestMapping("/java")
 public class CampController {
-
+	private String imagePath = "/home/upload/member/";
+//	private String imagePath = "d:\\upload\\member\\";
+	
 	@Autowired
 	CampService service;
 	
@@ -56,7 +58,7 @@ public class CampController {
 	
 	@GetMapping("/showImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName){
-		String fullPath = "/home/upload/camp/" + imagePath + "/" + storedName;
+		String fullPath = this.imagePath + imagePath + "/" + storedName;
 		System.out.println("*** FullPath : " +fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 		

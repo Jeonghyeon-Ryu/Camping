@@ -26,6 +26,8 @@ import com.camp.app.member.service.ProfileImageVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
+	private String imagePath = "/home/upload/member/";
+//	private String imagePath = "d:\\upload\\member\\";
 	@Autowired
 	MemberMapper mapper;
 	
@@ -68,7 +70,7 @@ public class MemberServiceImpl implements MemberService{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\member\\" + directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
@@ -133,7 +135,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public ResponseEntity<Resource> showImage(String imagePath, String storedName) {
-		String fullPath = "d:\\upload\\member\\" + imagePath + "\\" + storedName;
+		String fullPath = this.imagePath + imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " +fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 		

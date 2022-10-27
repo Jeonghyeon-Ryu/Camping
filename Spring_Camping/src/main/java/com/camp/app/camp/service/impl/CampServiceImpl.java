@@ -26,7 +26,8 @@ import com.camp.app.save.service.SaveVO;
 
 @Service
 public class CampServiceImpl implements CampService{
-
+	private String imagePath = "/home/upload/camp/";
+//	private String imagePath = "d:\\upload\\camp\\";
 	@Autowired
 	CampMapper mapper;
 	@Autowired
@@ -85,7 +86,7 @@ public class CampServiceImpl implements CampService{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "/home/upload/camp/" + directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
@@ -169,7 +170,7 @@ public class CampServiceImpl implements CampService{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "/home/upload/camp/" + directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
@@ -256,7 +257,7 @@ public class CampServiceImpl implements CampService{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "/home/upload/camp/" + directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();

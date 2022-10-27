@@ -31,7 +31,7 @@ import com.siot.IamportRestClient.response.Certification;
 import com.siot.IamportRestClient.response.IamportResponse;
 
 @RestController
-@CrossOrigin(originPatterns = "*")
+@CrossOrigin(origins = "*")
 @RequestMapping("/java")
 public class MemberController {
 	
