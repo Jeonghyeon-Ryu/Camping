@@ -407,7 +407,7 @@ export default{
                             i--;
                             continue;
                         }
-                        if (filterList[i].startingPoint.indexOf(startSido)<0) {      
+                        if (filterList[i].startingPoint.indexOf(startSido)!=0) {      
                             filterList.splice(i, 1); 
                             i--; 
                         }
@@ -439,7 +439,7 @@ export default{
                             i--;
                             continue;
                         }
-                        if (filterList[i].campingPoint.indexOf(campSido)<0) {      
+                        if (filterList[i].campingPoint.indexOf(campSido)!=0) {      
                             filterList.splice(i, 1); 
                             i--; 
                         }
