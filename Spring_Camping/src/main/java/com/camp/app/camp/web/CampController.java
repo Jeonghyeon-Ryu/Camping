@@ -56,7 +56,7 @@ public class CampController {
 	
 	@GetMapping("/showImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName){
-		String fullPath = "/upload/camp/" + imagePath + "/" + storedName;
+		String fullPath = "/home/upload/camp/" + imagePath + "/" + storedName;
 		System.out.println("*** FullPath : " +fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 		
