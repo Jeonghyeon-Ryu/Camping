@@ -72,7 +72,7 @@ export default {
           "채팅방": "/chat/rooms2",
         },
         {
-          "게시글": "/sns",
+          "게시글": "/sns/"+undefined,
           "글쓰기": "/sns/write",
           "좋아요": "/sns/myLikeFeed/" + this.$store.state.nickname,
           "댓글태그당한피드모음": "/sns/myTagFeed/" + this.$store.state.nickname,

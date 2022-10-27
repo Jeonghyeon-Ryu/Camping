@@ -10,8 +10,9 @@ const routes = [{
   },
   {
     name: 'SnsMain',
-    path: '/sns',
+    path: '/sns/:hashtag',
     component: () => import('../components/SnS/SnsMain.vue'),
+    props :true
   },
   {
     name: 'SnsDetail',
