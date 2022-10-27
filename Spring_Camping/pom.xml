@@ -297,7 +297,6 @@
 					<compilerArgument>-Xlint:all</compilerArgument>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
-					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -317,102 +316,6 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			<plugin> 
-				<groupId>org.codehaus.mojo</groupId> <!-- 명령어를 실행 시키도록 해주는 plugin -->
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<executions>
-					<!-- npm install -->
-					<execution>
-						<id>front-end install</id>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<executable>npm</executable>
-							<arguments>
-								<argument>install</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<!-- npm run build -->
-					<execution>
-						<id>front-end build package</id>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<executable>npm</executable>
-							<arguments>
-								<argument>run</argument>
-								<argument>build</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<workingDirectory>${basedir}/camping</workingDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<!-- disc 폴더 에서 html 파일을 /src/main/resources/templates 로 이동 -->
-					<execution>
-						<id>copy front-end template</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<outputDirectory>${basedir}/src/main/webapp</outputDirectory>
-							<resources>
-								<resource>
-									<directory>camping/dist</directory>
-									<includes>
-										<include>index.html</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					
-					<!-- disc 폴더 에서 html 파일을 제외하고 /src/main/resources/static 폴더로 이동 -->
-					<execution>
-						<id>copy front-end static assets</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>prepare-package</phase>
-						<configuration>
-							<outputDirectory>${basedir}/src/main/webapp</outputDirectory>
-							<resources>
-								<resource>
-									<directory>camping/dist</directory>
-									<excludes>
-										<exclude>index.html</exclude>
-									</excludes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			
 		</plugins>
-		<resources>
-          		<resource>
-			   <directory>src/main/resources</directory>
-          		</resource>
-          		<resource>          						                                  <directory>src/main/java</directory>
-          			<includes>
-          				<include>**/*.xml</include>
-          			</includes>
-          		</resource>
-          	</resources>
-		
 	</build>
 </project>
