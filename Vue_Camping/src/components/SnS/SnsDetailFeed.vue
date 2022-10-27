@@ -54,7 +54,9 @@
               <input type="text" :value="snsItem.writeNo" style="display :none;" name="writeNo" readonly>
             </div>
             <div class="sns-write-hashtag">
-              <textarea placeholder="#태그" :value="snsItem.hashtag" readonly></textarea>
+              <div placeholder="#태그" v-for="hashOne of snsItem.hashtag" readonly>
+                <div v-html="hashOne" @click="ClickHashtag($event)"></div>
+              </div>
             </div>
             <div class="sns-write-date">
               <p>{{ yyyyMMddhhmmss(snsItem.writeDate) }}</p>
@@ -69,7 +71,7 @@
             </div>
             <div class="sns-push-button-container1">
               <div class="sns-write-comment-button">
-                <img v-bind:src="commentImg">
+                <img v-bind:src="commentImg" @click="writeComment()">
               </div>
             </div>
             <div class="sns-push-button-container2">
@@ -174,6 +176,13 @@ export default {
       .then(result => {
         this.snsItem = result
 
+        let temp = this.snsItem.hashtag;
+        let tempArr =temp.split(" ");
+        for(let i=0; i<tempArr.length; i++){
+          tempArr[i] = '<span style="cursor: pointer; color:#3f729b;" class="sss">' + tempArr[i] + '</span>';
+          console.log(tempArr[i]);
+        }
+        this.snsItem.hashtag = tempArr;
         //프로필 이미지
         fetch('http://localhost:8087/java/profile/' + this.snsItem.email)
           .then(result => result.json())
@@ -253,6 +262,20 @@ export default {
   },
   //검색
   methods: {
+    //해시태그 클릭시 해시태그 검색출력페이지로
+    ClickHashtag(e) {
+      let target = e.target
+      console.log(target);
+      target = target.innerText;
+
+      this.$router.push({ name: 'SnsMain', params: { hashtag : target } });
+  
+      // for(let cutTag of cutTags ){
+      //   console.log(cutTag);
+      // }
+
+      // sss = sss.substring(1, sss.length);
+    },
     //아이디프로필사진 클릭시 그사람마이페이지로
     getSnsNickFeed(nickname) {
       this.$router.push({ name: 'SnsMyFeed', params: { nickname: nickname } });
@@ -442,6 +465,10 @@ export default {
     testClick: function () {
       console.log("test");
     },
+    writeComment(){
+      let coFocus = document.querySelector('.sns-search-list-container textarea');
+      coFocus.focus();
+    },
     //댓글 작성
     doComment() {
       //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
@@ -514,6 +541,7 @@ export default {
     //댓글에서 @닉네임 부분 가져오기
     clickCommentHash(e) {
       let target = e.target;
+      console.log(target);
       let elnickList;
       if (!target.classList.contains('ttt')) {
         return;
@@ -527,7 +555,7 @@ export default {
       // console.log(nickList);
       // let elnickList = nickList.substring(1, nickList.length);
       // console.log(elnickList);
-      
+
       //가져온다음 @자르기
       elnickList = elnickList.substring(1, elnickList.length);
       // if(nickList.substring(1, nickList.length) == document.querySelector('.sns-comment-write-context-html')[i].
