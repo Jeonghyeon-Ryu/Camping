@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.camp.app.camp.service.CampVO;
 import com.camp.app.recru.service.RecruService;
 import com.camp.app.recru.service.RecruVO;
 import com.camp.app.save.service.SaveVO;
@@ -37,6 +38,14 @@ public class RecruController {
 	public List<RecruVO> recruAllList(){
 		return service.recruAllList();
 	}
+	//전체조회- 페이징
+	@GetMapping("/recru/page/{memberRole}/{pageNum}")
+	public List<RecruVO> findPageList(@PathVariable int memberRole, @PathVariable int pageNum){
+		RecruVO vo = new RecruVO();
+		vo.setMemberRole(memberRole);
+		vo.setPageNum(pageNum);
+		return service.findAllPaging(vo);
+	}
 	//단건조회
 	@GetMapping("/recru/{recruId}")
 	public RecruVO selectOne(@PathVariable int recruId) {
@@ -47,10 +56,14 @@ public class RecruController {
 	public List<RecruVO> myRecru(@PathVariable String memberId){
 		return service.myRecru(memberId);
 	}
-	//검색 조회
-	@GetMapping("/recru/search/{keyword}")
-	public List<RecruVO> recruSearchList(@PathVariable String keyword){
-		return service.recruKeywordList(keyword);
+	//검색 조회 - 페이징
+	@GetMapping("/recru/search/{memberRole}/{keyword}/{pageNum}")
+	public List<RecruVO> recruSearchList(@PathVariable int memberRole, @PathVariable String keyword, @PathVariable int pageNum){
+		RecruVO vo = new RecruVO();
+		vo.setMemberRole(memberRole);
+		vo.setKeyword(keyword);
+		vo.setPageNum(pageNum);
+		return service.recruKeywordList(vo);
 	}
 	//모집상태변경
 	@PutMapping("/recru")
@@ -77,9 +90,19 @@ public class RecruController {
 		System.out.println(recruVO.getStatus());
 		return service.changeShowStatus(recruVO);
 	}
+	//완료된 모집의 참가자들 조회(모집자+참가자)
+	@GetMapping("/recru/members/{recruId}")
+	public List<RecruVO> findRecruMembers(@PathVariable int recruId){
+		return service.findRecruMembers(recruId);
+	}
 	//후기등록
 	@PostMapping("/recru/review")
 	public int insertReview(@RequestBody RecruVO recruVO) {
 		return service.insertReview(recruVO);
+	}
+	//캠핑장검색
+	@GetMapping("/recru/campingPoint/{region}")
+	public List<CampVO> searchCamp(@PathVariable String region) {
+		return service.searchCamp(region);
 	}
 }

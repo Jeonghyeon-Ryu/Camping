@@ -34,8 +34,13 @@ const routes = [{
     component: () => import('../components/SnS/SnsMyFeed.vue'),
   },
   {
+    name: 'SnsMyTagFeed',
+    path: '/sns/myTagFeed/:nickname',
+    component: () => import('../components/SnS/SnsMyTagFeed.vue'),
+  },
+  {
     name: 'SnsMyLikeFeed',
-    path: '/sns/myLikeFeed/:email',
+    path: '/sns/myLikeFeed/:nickname',
     component: () => import('../components/SnS/SnsMyLikeFeed.vue'),
   },
   {

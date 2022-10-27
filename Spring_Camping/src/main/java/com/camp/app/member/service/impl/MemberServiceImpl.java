@@ -155,4 +155,15 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
+
+	//닉네임으로 이메일찾기
+	@Override
+	public MemberVO findByNickname(String nickname) {
+		MemberVO member = mapper.findByNickname(nickname);	//DB에 한번 접속
+		MemberVO result = new MemberVO();
+		result.setNickname(member.getNickname());
+		result.setProfileInfo(member.getProfileInfo());
+		result.setEmail(member.getEmail());
+		return result;
+	}
 }

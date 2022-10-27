@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.camp.app.camp.service.CampVO;
 import com.camp.app.deposit.mapper.DepositMapper;
 import com.camp.app.deposit.service.DepositVO;
 import com.camp.app.member.mapper.MemberMapper;
@@ -60,10 +61,26 @@ public class RecruServiceImpl implements RecruService {
 		}
 		return list;
 	}
+	//전체조회 - 페이징
+	@Override
+	public List<RecruVO> findAllPaging(RecruVO recruVO) {
+		Date now = new Date();
+		List<RecruVO> list = mapper.findAllPaging(recruVO);
+		for(RecruVO recru : list) {
+			if(recru.getRecruStatus()==1 && recru.getGoDate()!=null) {
+				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
+				if(status>=0 ) {//공개상태
+					recru.setRecruStatus(3);//여행완료
+					mapper.updateRecru(recru);//상태 업데이트
+				}
+			}
+		}
+		return list;
+	};
 	//검색 조회
 	@Override
-	public List<RecruVO> recruKeywordList(String keyword) {
-		return mapper.findKeyword(keyword);
+	public List<RecruVO> recruKeywordList(RecruVO recruVO) {
+		return mapper.findKeyword(recruVO);
 	}
 	//최신아이디 조회
 	@Override
@@ -147,8 +164,28 @@ public class RecruServiceImpl implements RecruService {
 	public int changeShowStatus(RecruVO recruVO) {
 		return mapper.changeShowStatus(recruVO);
 	}
+	//완료된 모집의 참가자들 조회(모집자+참가자)
+	@Override
+	public List<RecruVO> findRecruMembers(int recruId) {
+		return mapper.findRecruMembers(recruId);
+	}
 	//후기등록
+	@Override
 	public int insertReview(RecruVO recruVO) {
 		return mapper.insertReview(recruVO);
-	};
+	}
+	//캠핑장검색
+	@Override
+	public List<CampVO> searchCamp(String region) {
+		System.out.println("초기지역 : "+region);
+		List<CampVO> list = mapper.searchCamp(region);
+		if(list.size()== 0) {
+			String city[] = region.split(" ");
+			region= city[0]+" "+city[1];
+			System.out.println("지역 : "+region);
+			list = mapper.searchCamp(region);
+		}
+		return list;
+	}
+
 }

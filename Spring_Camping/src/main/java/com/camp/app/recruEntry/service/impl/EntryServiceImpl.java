@@ -47,8 +47,8 @@ public class EntryServiceImpl implements EntryService {
 	}
 	//마이페이지 참가글 목록
 	@Override
-	public List<EntryVO> myEntryList(String memberId) {
-		return mapper.myEntryList(memberId);
+	public List<EntryVO> myEntryList(EntryVO entry) {
+		return mapper.myEntryList(entry);
 	}
 	//모집완료된 참가글 목록(보증금관련)
 	@Override
@@ -58,14 +58,7 @@ public class EntryServiceImpl implements EntryService {
 	//동행신청 상태수정 
 	@Override
 	public int updateEntryStatus(EntryVO entry) {
-		int result = mapper.updateEntryStatus(entry);
-		RecruVO recru = rMapper.selectOne(entry.getRecruId());
-		int enteredNum = mapper.recruEnteredNum(entry);
-		if(recru.getRecruNum()<= enteredNum) {
-			recru.setRecruStatus(0);
-			service.changeStatus(recru);
-		}
-		return result;
+		return mapper.updateEntryStatus(entry);
 	}
 
 }

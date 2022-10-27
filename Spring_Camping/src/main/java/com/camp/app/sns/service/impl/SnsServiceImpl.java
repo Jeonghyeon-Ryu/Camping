@@ -13,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.camp.app.save.mapper.SaveMapper;
+import com.camp.app.sns.mapper.SnsCommentMapper;
 import com.camp.app.sns.mapper.SnsMapper;
 import com.camp.app.sns.service.InputSnsVO;
 import com.camp.app.sns.service.MySnsLikeVO;
+import com.camp.app.sns.service.MySnsTagVO;
 import com.camp.app.sns.service.MySnsVO;
 import com.camp.app.sns.service.SnsHashtagVO;
 import com.camp.app.sns.service.SnsImageVO;
@@ -29,6 +31,8 @@ public class SnsServiceImpl implements SnsService {
 	SnsMapper mapper;
 	@Autowired
 	SaveMapper saveMapper;
+	@Autowired
+	SnsCommentMapper sCoMapper;
 
 	// 텍스트 출력
 	@Override
@@ -216,5 +220,21 @@ public class SnsServiceImpl implements SnsService {
 		snsHashtag.setPage(page);
 		System.out.println(snsHashtag);
 		return mapper.showSnsByPageByHashtag(snsHashtag);
+	}
+
+	// 유저가 태그당한 총게시글 수
+	@Override
+	public int countTagSnsByUser(String nickname) {
+		return sCoMapper.countTagSnsByUser(nickname);
+	}
+
+	// 유저가 태그당한 게시글 이미지리스트
+	@Override
+	public List<SnsImageVO> showSnsTagByPageByUser(String nickname, int page) {
+		System.out.println(nickname + ", " + page);
+		MySnsTagVO mySnsTag = new MySnsTagVO();
+		mySnsTag.setNickname(nickname);
+		mySnsTag.setPage(page);
+		return sCoMapper.showSnsTagByPageByUser(mySnsTag);
 	}
 }

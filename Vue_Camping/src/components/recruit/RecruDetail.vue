@@ -29,27 +29,40 @@
                     </div>
                     <div class="recru-detail-contents">
                         <br>
-                        <h3 style="font-weight: bold;">모집자 정보</h3>
+                        <div class="recru-detail-row">
+                            <span><h3 style="margin-top:6px">모집기간</h3></span>
+                            <p >{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
+                        </div>
+                        <h3>모집자 정보</h3>
                         <p><span>성별 </span>{{recruPost.sex}}</p>
                         <p><span>연령대  </span>{{userage}}</p>
                         <p><span>차량 유무 </span>{{recruPost.carYn==1 ? '있음':'없음'}}</p>
                         <br>
-                        <h3 style="font-weight: bold;">이런 분</h3>
+                        
+                        <h3>이런 분</h3>
                         <p><span>성별  </span>{{userSex}}</p>
                         <p><span>연령대  </span>{{recruPost.wishAge}}</p>
                         <br>
-                        <h3 style="font-weight: bold;">함께 해요</h3>
+                        <h3>함께 해요</h3>
                         <p><span>여행 예정 날짜  </span>{{recruPost.goDate}} ~ {{recruPost.comeDate}}</p>
                         <p><span>출발지역  </span>{{recruPost.startingPoint}}</p>
-                        <p><span>도착지 </span>{{recruPost.campingPoint}}</p>
-                        <p><span>모집 인원  </span>{{recruPost.recruNum}}</p>
+                        <p><span>도착지 </span>{{recruPost.campingPoint}} <button class="findCamp" @click="isCampViewed=!isCampViewed">🚩</button></p>  
+                        <div v-if="isCampViewed"  class="show_region_camp">
+                            <h4>이 지역의 캠핑스팟</h4>
+                            <p v-if="campSites.length==0" style="text-align:center">등록된 캠핑스팟이 없습니다!
+                                <br>새로운 정보를 등록해주세요
+                                <br><button @click="$router.push({name:'CampRegister'})">등록하러 가기</button>
+                            </p>
+                            <p v-for="site in campSites" :key="site.campId">
+                                <span class="recruPost_camp" @click="getCampDetail(site.campId, $event)">{{site.campName}}</span> {{site.campAddress}}
+                            </p>                      
+                        </div>
+                            <p><span>모집 인원  </span>{{recruPost.recruNum}}</p>
                         <br>
                         <p><span>갖고있어요  </span>{{ gearList(recruPost.myGear)}}</p>
                         <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
                         <br>
-                        <p>{{recruPost.recruContent}}</p>
-                        <br>
-                        <p><span>모집기간 : </span>{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
+                        <div class="recruPost-content">{{recruPost.recruContent}}</div>
                     </div>
                 </div>
             </div>
@@ -59,32 +72,7 @@
                 </div>
             </div>
 
-            <!-- 게시글 관리 버튼 -->
-            <div class=" recru-detail-btn">
-                <a id="kakaotalk-sharing-btn">
-                    <img src="@/assets/img/Table/share.png"
-                        alt="카카오톡 공유 보내기 버튼"
-                        @click="sendLinkDefault" />
-                </a>
-                <div class="recru-entry-btn">
-                    <!-- 모집자/신청자가 아닌 경우 -->
-                    <button v-if="userRole==0 && rStatus==0" class="btn-green hover-shadow" type="button" @click="entryInsertForm">동행신청</button>
-                    <!-- 신청자인 경우 -->
-                    <button v-if="userRole==2" type="button" style="color: green;background: rgba(228,239,231,0.7);font-weight: bold;">신청 중</button>
-                    <button v-if="userRole==2||userRole==3" class="hover-shadow" type="button" @click="entryDelete" style="color:gray; background: nlightgray; ">신청 취소</button>
-                </div>
-                <div v-if="userRole==1" class="recru-writer-btn">
-                    <!-- 모집자(작성자)인 경우 -->
-                    <button v-if="rStatus==0" type="button" @click="recruFinish">모집완료</button>
-                    <button v-if="rStatus==0" type="button" @click="recruUpdate">수정</button>
-                    <button type="button" @click="userDelete">삭제</button>
-                    <button v-if="rStatus==1" type="button" @click="recruReview">후기등록</button>
-                </div>
-                <div v-if="userRole==4" class="recru-writer-btn">
-                    <!-- 관리자인 경우 -->
-                    <button type="button" @click="adminDelete">접근제한</button>
-                </div>
-            </div>
+            
             <!-- 신청내역 : 글 작성자에게만 보임 -->
             <div v-if="userRole==1" class="recru-detail-sol recru-entry-post">
                 <h3>함께해요 신청 내역</h3>
@@ -124,6 +112,34 @@
                 @close-recru="recruPost.recruStatus=1" >
             </EntryInsert>
         </ModalView>
+
+        <!-- 게시글 관리 버튼 -->
+        <div class=" recru-detail-btn">
+            <a id="kakaotalk-sharing-btn">
+                <img src="@/assets/img/Table/share.png"
+                    alt="카카오톡 공유 보내기 버튼"
+                    @click="sendLinkDefault"
+                    style="width:30px;margin: 10px;" />
+            </a>
+            <div class="recru-entry-btn">
+                <!-- 모집자/신청자가 아닌 경우 -->
+                <button v-if="userRole==0 && rStatus==0" class="btn-green hover-shadow" type="button" @click="entryInsertForm">동행신청</button>
+                <!-- 신청자인 경우 -->
+                <button v-if="userRole==2" type="button" style="color: green;background: rgba(228,239,231,0.7);font-weight: bold;">신청 중</button>
+                <button v-if="userRole==2||userRole==3" class="hover-shadow" type="button" @click="entryDelete" style="color:gray; background: nlightgray; ">신청 취소</button>
+            </div>
+            <div v-if="userRole==1" class="recru-writer-btn">
+                <!-- 모집자(작성자)인 경우 -->
+                <button v-if="rStatus==0" type="button" @click="recruFinish">모집완료</button>
+                <button v-if="rStatus==0" type="button" @click="recruUpdate">수정</button>
+                <button type="button" @click="userDelete">삭제</button>
+                <button v-if="rStatus==1" type="button" @click="recruReview">후기등록</button>
+            </div>
+            <div v-if="userRole==4" class="recru-writer-btn">
+                <!-- 관리자인 경우 -->
+                <button type="button" @click="adminDelete">접근제한</button>
+            </div>
+        </div>
     </div>
     
 
@@ -138,7 +154,8 @@ import DepositStatus from '@/components/recruit/DepositStatus.vue';
 import EntryInsert from '@/components/recruit/EntryInsert.vue';
 import ModalView from '@/components/recruit/ModalView.vue';
 import Swal from 'sweetalert2';
-import RecruStatus from './RecruStatus.vue';
+import RecruStatus from '@/components/recruit/RecruStatus.vue';
+import RecruSaveHeart from './RecruSaveHeart.vue';
 export default{
     name : "RecruDetail",
     props : {
@@ -153,6 +170,7 @@ export default{
     EntryInsert,
     ModalView,
     RecruStatus,
+    RecruSaveHeart
 },
     data:function(){
         return{
@@ -172,6 +190,8 @@ export default{
                 memberId : ''
             },
             isModalViewed : false,
+            isCampViewed : false,
+            campSites :[]
         }
     },
     created (){
@@ -231,8 +251,25 @@ export default{
             .then(data => { 
                 component.recruPost = data;  
                 console.log(component.recruPost);
-        
-                // 서버에서 모집글에 대한 참가목록 조회
+
+                //프로필 이미지 가져오기
+                fetch('http://localhost:8087/java/profile/' + component.recruPost.memberId)
+                .then(result => result.json())
+                .then(result => {
+                    component.storedProfile = result;
+                }).catch(err => console.log(err));
+
+                //캠핑장 정보 조회
+                var region = component.recruPost.campingPoint;
+                console.log(region)
+                fetch(`http://localhost:8087/java/recru/campingPoint/${region}`)
+                .then(result => result.json())
+                .then(result => {
+                    component.campSites = result;
+                    console.log(component.campSites)
+                }).catch(err => console.log(err));
+
+                //서버에서 모집글에 대한 참가목록 조회
                 let recruId = 0;
                 recruId = this.recruId;
                 fetch("http://localhost:8087/java/recru/entry/"+recruId)
@@ -263,14 +300,13 @@ export default{
                     }
                     console.log('role ' + component.userRole)
                 }).catch(err=>console.log(err));
-            })
-            fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
-                .then(result => result.json())
-                .then(result => {
-                    this.storedProfile = result;
-            }).catch(err => console.log(err));
-            
+            })            
         }, 
+        getCampDetail(campId, e) {
+            e.preventDefault();
+            let id = campId;
+            this.$router.push({name:'CampDetail', params: {campId : id}});
+        },
         yyyyMMddhhmmss : function(value){
             if(value == '') return '';
     

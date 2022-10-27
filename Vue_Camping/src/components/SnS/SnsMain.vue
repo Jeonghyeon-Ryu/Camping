@@ -72,8 +72,6 @@ export default {
 }
 </script>
 
-
-
 <style scoped>
 .sns-container{
     display: flex;
@@ -120,6 +118,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  position: absolute;
+  margin-top: 240px;
 }
 
 .sns-img-row-container {

@@ -40,10 +40,13 @@ public class EntryController {
 		return service.recruEnteredList(recruid);
 	}
 	//마이페이지 전체 조회
-	@GetMapping("/entry/mypage/{memberId}")
-	public List<EntryVO> myEntryList(@PathVariable String memberId){
+	@GetMapping("/entry/mypage/{memberId}/{pageNum}")
+	public List<EntryVO> myEntryList(@PathVariable String memberId, @PathVariable int pageNum){
 		//String memberId = (String)session.getAttribute("email");
-		return service.myEntryList(memberId);
+		EntryVO info = new EntryVO();
+		info.setMemberId(memberId);
+		info.setPageNum(pageNum);
+		return service.myEntryList(info);
 	}
 	//모집완료된 참가글 목록(보증금관련)
 	@PostMapping("/entry/success/{memberId}")

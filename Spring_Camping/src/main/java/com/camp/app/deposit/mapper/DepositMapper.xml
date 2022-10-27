@@ -27,7 +27,7 @@
 		,pay_method = #{payMethod}
 	</if>
 	<where>
-		deposit_id = 1;
+		deposit_id = 1
 	</where> 
 </update>
 

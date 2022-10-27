@@ -43,6 +43,7 @@ public class RecruVO {
 	private int depositId;		//게시글 모집 완료시 보증정보 인서트
 	
 	private String keyword;
+	private int pageNum;
 	
 	private int reviewId;
 	private String reviewTarget;

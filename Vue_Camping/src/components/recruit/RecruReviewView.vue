@@ -3,8 +3,7 @@
   <div id="container">
     <form class="container2" id="myform" method="post">
       <div id="used-head">
-        <h4>캠핑 동행 후기 작성하기</h4>
-        <h1>여행은 어떠셨나요?</h1>
+        <h1>여행은 즐거우셨나요?</h1>
         <div class="deal">
           <EntryMypageCard v-bind:recruId="recruId" @goRecruDetail="this.$router.push({name:'recruDetail',params : {recruId : recruId}})"></EntryMypageCard>
         </div>
@@ -48,9 +47,7 @@
     data(){
       return{
         recruInfo : {},
-        reviewImg: img1,
-        usedName: '4인용텐트',
-        usedContent: '1회 쓰고 보관만 했습니다 상태 굿'
+        recruMember : {}
       }
     },
     created (){
@@ -59,13 +56,21 @@
     methods: {
       loadData : function(){
         var recruId = this.recruId;
-            fetch(`http://localhost:8087/java/recru/${recruId}`)
-            .then((response) =>response.json()) 
-            .then(data => { 
-                console.log(data);
-                this.recruInfo = data;  
-            }).catch(err=>console.log(err));
-        },
+        fetch(`http://localhost:8087/java/recru/${recruId}`)
+        .then((response) =>response.json()) 
+        .then(data => { 
+            console.log(data);
+            this.recruInfo = data;  
+        }).catch(err=>console.log(err));
+
+        fetch(`http://localhost:8087/java/recru/members/${recruId}`)
+        .then((response) =>response.json()) 
+        .then(data => { 
+            console.log(data);
+            this.recruMember = data;  
+        }).catch(err=>console.log(err));
+          
+      },
       confirm: function(){
 
         // const form = document.forms.namedItem('#container2')

@@ -68,7 +68,7 @@ public interface SnsService {
 	public List<SnsImageVO> showSnsByPageByUser(String email, int page);
 //	// 마이페이지 - 이미지 전체출력
 //	public List<SnsImageVO> showSnsListByUser()
-
+	// 좋아요한 페이지!
 	// 유저가 좋아요한 총게시글 수
 	public int countLikeSnsByUser(String email);
 
@@ -77,5 +77,12 @@ public interface SnsService {
 
 	// 해시태그검색한 게시글 이미지리스트 출력
 	public List<SnsImageVO> showSnsByPageByHashtag(String hashtag, int page);
+
+	// 해시태그당한 페이지!
+	// 유저가 해시태그당한 총게시글 수
+	public int countTagSnsByUser(String nickname);
+
+	// 유저가 해시태그당한 게시글 리스트 출력
+	public List<SnsImageVO> showSnsTagByPageByUser(String nickname, int page);
 
 }

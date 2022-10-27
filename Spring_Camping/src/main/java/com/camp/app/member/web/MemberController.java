@@ -69,6 +69,13 @@ public class MemberController {
 	public MemberVO user(@PathVariable String email) {
 		return service.findByEmail(email);
 	}
+	
+	@GetMapping("/emailByNickname/{nickname}")
+	public MemberVO emailByNickname(@PathVariable("nickname") String nickname) {
+		System.out.println(nickname);
+		return service.findByNickname(nickname);
+	}
+	
 	@GetMapping("/member/{email}/{password}")
 	public boolean verifyMember(@PathVariable String email, @PathVariable String password) {
 		MemberVO member = new MemberVO();
