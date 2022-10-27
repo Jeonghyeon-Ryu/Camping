@@ -15,10 +15,20 @@ public interface NoteService {
 	
 	//초대받은 노트 리스트
 	public List<NoteVO> showInvitedNoteList(String email);
-	//writeNote
+	
+	//노트insert
 	public boolean writeContents(NoteVO nvo, List<MultipartFile> files);
 	
-	//deleteNote
+	//노트update
+	public boolean updateContents(NoteVO nvo, List<MultipartFile> files);
+	
+	//공유중인 맴버 리스트
+	public String showInvitedMember(int noteId);
+	
+	//공유 끊기
+	public void delMember(InvitedMemberVO ivo);
+	
+	//노트삭제
 	public void deleteNote(NoteDto dto);
 	
 	//GoMyNote

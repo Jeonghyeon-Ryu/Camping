@@ -2,13 +2,19 @@ package com.camp.app.note.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,13 +81,30 @@ public class NoteImgServiceImpl implements NoteImgService{
 
 		@Override
 		public List<NoteImgVO> findImg(int noteId) {
-			// TODO Auto-generated method stub
-			return null;
+		List<NoteImgVO> temp =imgMapper.findNoteImgInfo(noteId);
+		
+			return imgMapper.findNoteImgInfo(noteId);
 		}
-
+		//src에 넣을 경로와 이름 가져오기
 		@Override
 		public ResponseEntity<Resource> showImg(String imgPath, String storedName) {
-			// TODO Auto-generated method stub
-			return null;
+			String fullPath = "c:\\upload\\note\\" + imgPath + "\\" + storedName;
+			Resource resource = new FileSystemResource(fullPath);
+			
+			if(!resource.exists()) {
+				System.out.println("File Not Found ! ");
+				return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+			}
+			
+			HttpHeaders header = new HttpHeaders();
+			Path filePath = null;
+			
+			try {
+				filePath = Paths.get(fullPath);
+				header.add("Content-Type", Files.probeContentType(filePath));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 		}
 }

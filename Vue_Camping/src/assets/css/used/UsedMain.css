@@ -3,11 +3,28 @@
   padding: 0;
   box-sizing: border-box;
 }
-a{text-decoration: none; color:black;}
-a:visited { text-decoration: none; }
-a:hover { text-decoration: none; }
-a:focus { text-decoration: none; }
-a:hover, a:active { text-decoration: none; }
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+}
 
 
 #container {
@@ -29,13 +46,25 @@ a:hover, a:active { text-decoration: none; }
   flex-direction: column;
 }
 
+.used-main {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.used-main img {
+  width: 85%;
+  height: 250px;
+  object-fit: cover;
+}
 
 .used-head ul,
 .used-head li {
   list-style: none;
   display: flex;
 }
-
+.used-selected li{
+  cursor: pointer;
+}
 .used-filter-ul {
   display: flex;
   font-size: 1.2em;
@@ -45,6 +74,7 @@ a:hover, a:active { text-decoration: none; }
 .used-filter li {
   display: flex;
 }
+
 label {
   width: 100px;
   display: inline-block;
@@ -67,19 +97,23 @@ label {
   display: flex;
   justify-content: center;
 }
-.used-filter ul{
+
+.used-filter ul {
   display: flex;
   flex-direction: column;
-  
+
   /* grid-template-columns: 1fr minmax(384px, 1fr) 1fr; */
 }
-.used-filter li{
+
+.used-filter li {
   flex-wrap: wrap;
 }
-.used-filter p{
+
+.used-filter p {
   line-height: 40px;
   color: #e6e6e6
 }
+
 .used-filter-ul input,
 .used-filter-ul select {
   width: 140px;
@@ -92,6 +126,7 @@ label {
   text-align: center;
   flex-direction: column;
 }
+
 .used-searchbox {
   display: flex;
   justify-content: center;
@@ -99,17 +134,19 @@ label {
   padding-bottom: 1%;
   /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png'); */
 }
+
 .used-searchbox input {
   width: 100%;
   height: 60px;
   text-align: center;
   font-size: 1.2em;
   padding: 10px;
-  border: 1px solid #e6e6e6;
-  border-radius: 7px;
-  box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px;
+  border: 2px solid #e6e6e6;
+  /* border-radius: 7px; */
+  /* box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px; */
   margin-bottom: 2%;
 }
+
 .used-searchbox>div {
   width: 55%;
   height: fit-content;
@@ -157,13 +194,25 @@ label {
   margin-top: 20px;
   flex-direction: column;
 }
-.searched-filter{
+
+.searched-filter {
   width: 80%;
   background-color: #f3f3f3;
   border-radius: 100px;
   margin: 0 auto;
   margin-top: 2%;
   margin-bottom: 10px;
+}
+
+.used-main-msg{
+  margin-left: 10%;
+  text-align: left;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: rgb(7, 107, 7);
+}
+.usedMsg{
+  padding: 7%;
 }
 
 /*본문-카드*/
@@ -213,7 +262,8 @@ label {
   border: 1px solid #e6e6e6;
 }
 
-.card-pic img, .card-pic div {
+.card-pic img,
+.card-pic div {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -226,25 +276,29 @@ label {
   display: flex;
   flex-direction: column;
 }
-.card-top{
+
+.card-top {
   display: flex;
   justify-content: space-between;
 }
-.card-bottom{
+
+.card-bottom {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  padding: 8px 8px 0px 8px;
+  padding: 0px 8px 0px 8px;
   font-size: 0.8em;
   font-weight: 500;
   width: 100%;
 }
-.card-info-l{
+
+.card-info-l {
   padding: 10px;
   text-align: left;
   word-wrap: normal;
 }
-.card-info-r{
+
+.card-info-r {
   padding: 10px;
 }
 
@@ -256,6 +310,7 @@ label {
   display: flex;
   flex-direction: column;
 }
+
 .used-foote button {
   width: 60px;
   height: 60px;
@@ -270,63 +325,76 @@ label {
   font-weight: 100;
   /* position:fixed; */
 }
+
 .used-foote button:hover {
   cursor: pointer;
 }
+
 /* 글자색 */
-.font-gray{
+.font-gray {
   color: rgb(160, 160, 160);
 }
-.dealGreen{
+
+.dealGreen {
   color: green;
   font-size: 0.8em;
   font-weight: bold;
   background-color: rgba(181, 209, 133, 0.459);
-  padding:2px;
+  padding: 2px;
   border-radius: 3px;
 }
-.dealRed{
+
+.dealRed {
   color: rgb(156, 32, 11);
   font-size: 0.8em;
   font-weight: bold;
   background-color: rgba(250, 80, 80, 0.288);
-  padding:2px;
+  padding: 2px;
   border-radius: 3px;
 }
-.dealGray{
+
+.dealGray {
   color: darkgray;
   font-size: 0.8em;
   font-weight: bold;
   background-color: rgba(226, 226, 226, 0.459);
-  padding:2px;
+  padding: 2px;
   border-radius: 3px;
 }
-.statusBlack{
+
+.statusBlack {
   color: rgb(255, 255, 255);
   font-size: 0.8em;
   font-weight: bold;
   background-color: rgb(0, 0, 0);
-  padding:2px;
+  padding: 2px;
   border-radius: 3px;
 }
+
 /* select */
-select{
+select {
   width: 100px;
 }
-input, select{
+
+input,
+select {
   border: 1px solid #e6e6e6;
   outline: 0 none;
   margin: 1px;
 }
-input:focus, select:focus{
+
+input:focus,
+select:focus {
   border: 1px solid black;
 }
-input[type="number"]{
+
+input[type="number"] {
   padding: 10px;
   height: 40px;
 }
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }

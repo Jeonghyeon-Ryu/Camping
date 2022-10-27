@@ -26,13 +26,16 @@ public interface UsedMapper {
 	public void updateUsed(UsedVO usedVO);
 
 	//게시글 전체조회
-	public List<UsedVO> selectAllUsedList();
+	public List<UsedVO> selectAllUsedList(int page);
 	
 	//게시글 단건조회
 	public UsedVO findDetail(int usedId);
 	
 	//내가쓴글조회
 	public List<UsedVO> findMyUsed(String email);
+	
+	//내가찜한글조회
+	public List<UsedVO> findUsedSave(String email);
 	
 	//게시글 조건조회
 	public List<UsedVO> searchUsedList(UsedVO used);

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.camp.app.mail.mapper.MailMapper">
+
+	<!-- 메시지 전송 -->
+	<insert id="sendMsg" parameterType="MailVO">
+	<selectKey keyProperty="mailId" resultType="Integer" order="BEFORE">
+		SELECT NVL(MAX(mail_id),0)+1 FROM mail <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+	</selectKey>
+		 INSERT INTO mail VALUES
+		 (#{mailId}
+		  ,#{mailSender}
+		  ,#{mailReceiver}
+		  ,#{mailContent}
+		  ,0
+		  ,#{usedId}
+		  ,sysdate)
+	</insert>
+	
+	<!-- 전체조회 -->
+		<!-- 내가받은쪽지조회 : 읽지않은쪽지가위로/그중에서날짜순-->
+		<select id="receivedMsg" parameterType="String" resultType="MailVO">
+			select * 
+			from mail 
+			where mail_receiver = #{mailReceiver}
+			order by mail_status, mail_id desc
+		</select>
+		
+		<!-- 내가보낸쪽지조회 -->
+		<select id="sendedMsg" parameterType="String" resultType="MailVO">
+			select * 
+			from mail 
+			where mail_sender = #{mailSender}
+			order by mail_status, mail_id desc
+		</select>
+	
+	<!-- 쪽지단건조회(상세보기) -->
+	<select id="detailMsg" parameterType="Integer" resultType="MailVO">
+		SELECT * FROM mail WHERE mail_id = #{mailId}
+	</select>
+	
+
+	<!-- 쪽지읽음처리 -->
+	<update id="updateMail" parameterType="Integer">
+		UPDATE mail 
+		SET mail_status = 1 
+		WHERE mail_id = #{mailId}
+	</update>
+	
+</mapper>

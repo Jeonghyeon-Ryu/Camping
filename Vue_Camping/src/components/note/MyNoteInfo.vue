@@ -92,7 +92,7 @@
                     </div>
                     <button type="button" class="btn btn-primary" id="savePdf"><img
                             src="@/assets/img/note/save_pdf.png"></button>
-                    <button type="submit" class="save_btn" @click="saveNote($event)">저장</button>
+                    <button type="submit" class="save_btn" @click="updateNote($event)">수정</button>
                 </div>
             </div>
             <div class="write_region">
@@ -100,13 +100,17 @@
                     <input placeholder="제목" class="note_title" :value=title>
                     <div class="sortable">
                         <template v-if="datas">
-                            <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
-                                @creArea="CreArea($event)"></CreateLine>
+                            <template v-for="item of datas">
+                                <CreateLine :type="item.type" :data="item.data" :storedImages="storedImages"
+                                    @creArea="CreArea($event)" @changeImage="changeImage"></CreateLine>
+                            </template>
                         </template>
-
-                        <CreTextarea :type="childOrder[0]" @creArea="CreArea($event)" v-if="textAmount >= 1">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
+                        <template v-for="(child, i) of childOrder" :key="i">
+                            <CreTextarea :type="childOrder[i]" @creArea="CreArea($event)" @saveImg="saveImg"
+                                v-if="textAmount >= i + 1">
+                            </CreTextarea>
+                        </template>
+                        <!-- <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
                         </CreTextarea>
                         <CreTextarea :type="childOrder[2]" @creArea="CreArea($event)" v-if="textAmount >= 3">
                         </CreTextarea>
@@ -145,7 +149,7 @@
                         <CreTextarea :type="childOrder[19]" @creArea="CreArea($event)" v-if="textAmount >= 20">
                         </CreTextarea>
                         <CreTextarea :type="childOrder[20]" @creArea="CreArea($event)" v-if="textAmount >= 21">
-                        </CreTextarea>
+                        </CreTextarea>  -->
                     </div>
                 </div>
             </div>
@@ -171,16 +175,20 @@ export default {
             noteId: this.$route.params.noteId,
             showInfo: {},
             datas: [],
-            
+            images: [],
+            storedImages: []
+
         }
     },
     created() {
-        //this.noteId = this.$router.params.myNoteId;
+        // this.noteId = this.$router.params.myNoteId;
+        
+
         fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
             .then(result => result.json())
             .then(result => {
                 this.title = result.title;
-                console.log('===================================')
+                console.log('=============기존에 작성했던 정보======================')
                 console.log(result)
                 for (let i = 0; i < result.noteContents.length; i++) {
                     //가져온 값을 textarea에 뿌려주기
@@ -216,42 +224,56 @@ export default {
                         let checkVal = [];
                         let textVal = [];
                         let values = [];
-                        
-                        for(let j=0; j<temp.length-1; j++){ 
+
+                        for (let j = 0; j < temp.length - 1; j++) {
                             temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
                             checkVal.push(temp[j].substring(0, temp[j].indexOf('">')));
-                            
+
                             temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
-                            textVal.push(temp[j].substring(0, temp[j].indexOf('">')));    
+                            textVal.push(temp[j].substring(0, temp[j].indexOf('">')));
                         }
                         values.push(checkVal);
                         values.push(textVal);
-                        
+
                         this.datas.push(
                             {
                                 type: 2,
                                 data: values
                             }
                         )
-                    } else if (result.noteContents[i].indexOf('IMG') >= 0){ 
+                    } else if (result.noteContents[i].indexOf('IMG') >= 0) {
+                        //저장된 이미지 이름, 경로 가져오기
+                        let temp = result.noteContents[i];
                         let values = [];
-                        fetch('http://localhost:8087/java/campImage/'+this.noteId)
-                        .then(result => result.json())
-                        .then(result => {
-                            
-                            this.images = result;
-                            this.resultImages = result;
-                            
-                            console.log(this.images);
-                            console.log(this.resultImages);
-                        })
-                        .catch(err => console.log(err))
+
+                        while (temp.indexOf("imgPath:") >= 0) {
+                            let imgPathIndex = temp.indexOf("imgPath:");
+                            let storedNameIndex = temp.indexOf(",storedName:");
+                            let imgPathValue = temp.substring(imgPathIndex + 8, storedNameIndex);
+                            let storedNameValue = '';
+                            temp = temp.substring(storedNameIndex, temp.length);
+
+                            storedNameValue = temp.substring(12, temp.indexOf('$'));
+
+                            temp = temp.substring(temp.indexOf('$'), temp.length);
+
+                            values.push(
+                                {
+                                    imgPath: imgPathValue,
+                                    storedName: storedNameValue
+                                }
+                            )
+                        }
+                        this.datas.push(
+                            {
+                                type: 3,
+                                data: values
+                            }
+                        )
                     }
                 }
                 this.$forceUpdate();
-            })
-            
-
+            });
     },
     methods: {
         CreArea: function (e) {
@@ -273,93 +295,164 @@ export default {
         showCheckBox(e) {
             this.show = !this.show;
         },
-        saveNote: function (e) {
+        changeImage(images) {
+            this.images = images;
+        },
+        updateNote: function (e) {
             let lineAll = document.querySelectorAll('.write_fn');
+            let lineText = [];
+            let lineTable = [];
+            let textTag;
+            let tableTag;
+            let checkBoxTag;
+            let imgTag;
             let contents = [];
-            console.log(contents);
+           
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
                 let lineValue = '';
 
                 if (lineAll[i].querySelector('textarea') != undefined) {
-                    lineType = 'TEXT';
                     lineValue = lineAll[i].querySelector('textarea').value;
                     //<태그 자체를 저장>
-                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)">' + lineValue + '</textarea>'
-
+                    textTag = '<textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)" v-on:keydown.enter="creTextarea($event)" value="' + lineValue + '"></textarea>'
+                    contents.push(textTag);
                 } else if (lineAll[i].querySelector('table') != undefined) {
-                    lineType = 'TABLE';
                     lineValue = lineAll[i].querySelector('.maked_table');
                     tableTag = `<div class='table_container'>
-                                  <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
-                                  <table class='maked_table'>`
+                                    <button class='row_addbtn' ><img src="@/assets/img/note/down_arrow.png" @click="addRow" @mouseover="changeShow"></button>
+                                    <table class='maked_table'>`
                     // tr 행 반복
                     let lineTr = lineValue.querySelectorAll('tr');
                     lineValue = [];
                     for (let j = 0; j < lineTr.length; j++) {
-                        let temp = [];
-                        tableTag += `<tr class='item' > 
-                                      <td class="row-button-container" @mouseover="showBtn">
-                                          <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
-                                      </td>`
                         // td 열 반복
                         let lineTd = lineTr[j].querySelectorAll('td input');
-
+                        tableTag += `<tr class='item' > 
+                                        <td class="row-button-container" @mouseover="showBtn">
+                                            <button class='row_delbtn'  v-if="btnActive==true"><img src="@/assets/img/note/trash.png" @click="delRow($event)" @mouseout="hideBtn"></button>
+                                        </td>`
                         for (let k = 0; k < lineTd.length; k++) {
-                            //temp.push(lineTd[k].value);
                             tableTag += ` <td class='item_td'><input width="100px" type="text" class="input_text" value="` + lineTd[k].value + `"></td>`
                         };
                         tableTag += `</tr>`
                     }
-                    tableTag += `
-                  </table>
-                  <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
-                  </div>
-                  `
+                    tableTag += `</table>
+                                <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
+                                </div>`;
+                    contents.push(tableTag);
                 } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
-                    lineType = 'CHECK';
                     lineValue = [];
                     let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
                     checkBoxTag = `<div class='check_box_list'>`;
-
                     for (let j = 0; j < checkBoxList.length; j++) {
-
                         let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
                         let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
                         let isChecked = lineCheckbox.checked;
-                        checkBoxTag += `
-                                  <input type='checkbox' class='noteCheckbox' value="`+ isChecked + `" name="myCheck"><input type="text" class="checkbox_text" name="myCheck" value="`
-                            + lineCheckText + `">
-                                  <div class="checkbox_button_container">
-                                      <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
-                                      <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
-                                  </div>
-                                  `
-                        lineValue.push({
+                        checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="` + isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
+                                            <div class="box_container">
+                                                <div class="checkbox_button_container">
+                                                    <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img" @click="addCeheckList"></button>
+                                                    <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" @click="delCeheckList"></button>
+                                                </div>
+                                            </div>`
+                        contents.push({
                             status: isChecked,
                             text: lineCheckText
                         });
                     };
                     checkBoxTag += `</div>`
+                    //체크박스 content
+                    contents.push(checkBoxTag);
+                    //이미지
+                } else if (lineAll[i].querySelector('.image-preview-div') != undefined) {
+                    
+                    let imgs = lineAll[i].querySelectorAll('.image-preview-div');
+                    let newImgCount = 0;
+                    // let temp = 'IMG:'
+                    for(let img of imgs){
+                        if(img.getAttribute("id").indexOf('b')>=0){
+                            newImgCount++;
+                        } else if(img.getAttribute("id").indexOf('a')>=0) {
+                            // let ~~~ = img.queryselector('img').getAttribute('src') => http://~~ 
+                            // ~~~ = ~~~.substring(~~~.indexOf(/), ~~~.length)
+                            //temp += 'imgPath:' + 이미지패스값 + ',storedName:' + 저장이름 +'&'
+                        }
+                    }
+                    console.log(newImgCount);
+                    // temp += 'IMG' + newImgCount
+                    // 기존 있던 값은 contents.push(temp)
+
+
+
+
+                    // console.log("---" , this.images);
+                    // console.log("--", this.datas[2])
+                    
+                    // 추가된이미지
+                    //contents.push(this.images);
+
+                    // let temp = '';
+                    // for(let i=0; i<imgBox.length; i++){
+                        
+                    //     temp = imgBox[i].querySelector('img').src;
+                    //     let imagePathIndex = temp.substring(temp.indexOf('GoMyNote/' + 9, temp.length))                        
+                    //     //imagePath = substring(temp.substring(imagePathIndex, ))
+                    //     console.log("---" , imagePathIndex);
+                        
+                    // }
+                    //이 형식은 IMG:0으로 contents에 push된다.
+
+                    // console.log("lineAll :", lineAll[i].querySelectorAll('.image-preview-div'))
+                    // let imgContainer = lineAll[i].querySelector('.img_container');
+                    // let imgBox = imgContainer.querySelectorAll('.image-preview-div');
+                    // let imgCount = imgBox.length;
+
+                    // contents.push(
+                    //     'IMG:' + imgCount
+                     //);
+                 
                 }
             };
-            //작성한 내용 보내기
+            //작성한 DB에 저장(수정버튼)
             let title = document.querySelector('.note_title').value;
-            let fetchData = {
-                "title": title,
-                "noteContents": contents,
-                "email": sessionStorage.getItem("email")
+            let noteId = this.noteId;
+            let formData = new FormData();
+            for (let image of this.images) {
+                formData.append("files", image);
             }
-            fetch('http://localhost:8087/java/WriteNote', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(fetchData)
-            }).then(result => {
-                // console.log(result);
-                this.$router.push({ name: "MynoteList" });
+
+            formData.append("title", title);
+            formData.append("noteId", noteId);
+            formData.append("noteContents", contents);
+            formData.append("email", this.$store.state.email);
+            formData.forEach((value, key) => {
+                console.log(key +" : " , value);
             })
+          
+            /*fetch('http://localhost:8087/java/UpdateNoteInfo', {
+                method: 'POST',
+                headers: {},
+                body: formData
+            }).then(result => {
+                console.log("이미지 fetch 결과")
+                console.log(result);
+                this.$router.push({
+                    name: "MynoteList"
+                })
+            })*/
+        
+        },
+        saveImg(images) {
+            let dt = new DataTransfer();
+            for (let i = 0; i < images.length; i++) {
+                dt.items.add(images[i]); //kind와 type
+            }
+            for (let i = 0; i < this.images.length; i++) {
+                dt.items.add(this.images[i]);
+            }
+            this.images = dt.files;
+            console.log('image ', this.images);
         }
     },
     components: { CreTextarea, CreateLine }

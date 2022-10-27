@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.camp.app.note.service.InvitedMemberVO;
 import com.camp.app.note.service.NoteImgVO;
 import com.camp.app.note.service.NoteVO;
 @Component
@@ -34,6 +35,9 @@ public interface NoteMapper {
 	//이미지 저장
 	public int insertNoteImg(NoteImgVO img);
 	
+	//노트 수정
+	public int updateContents(NoteVO nvo);
+	
 	//노트ID로 img불러오기
 	public List<NoteImgVO> findByNoteIdToImg(int noteId);
 	
@@ -42,5 +46,11 @@ public interface NoteMapper {
 	
 	//초대받은 리스트 
 	public List<NoteVO> getInvitedNoteList(String email);
+	
+	//초대한 유저 리스트
+	public String getInvitedMember(int noteId);
+	
+	//공유끊기
+	public int delInvitedMember(NoteVO nvo);
 	
 }

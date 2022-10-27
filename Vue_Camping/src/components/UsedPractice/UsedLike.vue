@@ -84,7 +84,6 @@
             used_status : '거래중'
           }
         ],
-          
         }
       },
       methods : {

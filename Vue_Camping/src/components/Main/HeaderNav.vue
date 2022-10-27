@@ -15,7 +15,7 @@
           <router-link v-if="$store.state.email != null" to="/" tag="div" class="header-button"><img
               src="@/assets/img/icons/logout.png" alt="" @click="clickTopCategory('로그아웃')"></router-link>
           <!-- <div @click="showLoginForm()"><img src="../assets/img/login-30.png" alt=""></div> -->
-          <router-link to="/usedChat" tag="div" class="header-button"><img src="@/assets/img/icons/chat.png" alt=""
+          <router-link to="/mail/mailList" tag="div" class="header-button"><img src="@/assets/img/icons/chat.png" alt=""
               @click="clickTopCategory('채팅')"></router-link>
           <router-link to="/" tag="div" class="header-button"><img src="@/assets/img/icons/alarm.png" alt=""
               @click="clickTopCategory('알람')"></router-link>
@@ -72,7 +72,7 @@ export default {
           "채팅방": "/chat/rooms2",
         },
         {
-          "게시글": "/sns",
+          "게시글": "/sns/"+undefined,
           "글쓰기": "/sns/write",
           "좋아요": "/sns/myLikeFeed/" + this.$store.state.nickname,
           "댓글태그당한피드모음": "/sns/myTagFeed/" + this.$store.state.nickname,

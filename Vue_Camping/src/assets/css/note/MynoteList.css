@@ -177,11 +177,18 @@ opacity: 0.5;
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
-    margin: 5% 10% 10% 30%; 
+    margin: 10% 10% 10% 32%; 
 }
 .block_user_container{ 
-    margin-top: 10px;
-    
+    margin-top: 10px;  
+}
+.invited_list_info{ 
+    display : flex;
+    margin-bottom: 5%;
+    left: 20%;
+}
+.invitedMemberInfo{ 
+    margin-left: 3%;
 }
 
 .textbox input[type="text"],

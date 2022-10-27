@@ -2,7 +2,7 @@
   <CTextArea v-if="type==0" :data="data" ></CTextArea>
   <CTableArea v-if="type==1" :data="data"></CTableArea>
   <CCheckList v-if="type==2" :data="data"></CCheckList>
-  <Cimg v-if="type==3" :data="data"></Cimg>
+  <Cimg v-if="type==3" :data="data" @changeImage="changeImage"></Cimg>
 </template>
 
 <script>
@@ -13,6 +13,11 @@ import Cimg from './Cimg.vue';
 
 export default {
   props: ['type', 'data'],
+  methods : {
+    changeImage(images) {
+      this.$emit('changeImage', images)
+    }
+  },
   components: { CTextArea, CTableArea, CCheckList, Cimg }
 }
 </script>
