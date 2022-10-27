@@ -78,13 +78,19 @@ public class NoteController {
 	//이미지를 포함한 노트내용 저장(saveButton)
 	@PostMapping("/WriteNoteInfo")
 	public boolean saveImg(NoteVO nvo, List<MultipartFile> files) throws IOException { 
+		System.out.println("==========insert 결과 ======");
+		System.out.println(nvo);
+		System.out.println(files);
 		return service.writeContents(nvo, files);
 	}
-	@PutMapping("/UpdateNoteInfo")
+	// 수정
+	@PostMapping("/UpdateNoteInfo")
 	public boolean UpdateImg(NoteVO nvo, List<MultipartFile> files) throws IOException { 
+		System.out.println("nvo : " + nvo);
+		System.out.println("files : " + files) ;
 		return service.updateContents(nvo, files);
 	}
-	
+	                                                                                                                                                                                                                                            
 	//저장된 이미지 경로, 이름 가져오기
 	@GetMapping("/getImageInfo/{noteId}")
 	public List<NoteImgVO> findNoteImg(@PathVariable int noteId){ 

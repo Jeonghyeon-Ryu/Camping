@@ -51,9 +51,9 @@
 		
 	</update>  -->
 	
-	<!--  <delete id="deleteImg" parameterType="Integer">
+	 <delete id="deleteImg" parameterType="Integer">
 		DELETE note_img
 		where note_id = #{note_id}
 	
-	</delete>-->
+	</delete>
 </mapper>	

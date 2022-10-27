@@ -100,12 +100,15 @@
                     <input placeholder="제목" class="note_title" :value=title>
                     <div class="sortable">
                         <template v-if="datas">
-                            <CreateLine v-for="item of datas" :type="item.type" :data="item.data" :storedImages="storedImages"
-                                @creArea="CreArea($event)"></CreateLine>
+                            <template v-for="item of datas">
+                                <CreateLine :type="item.type" :data="item.data" :storedImages="storedImages"
+                                    @creArea="CreArea($event)" @changeImage="changeImage"></CreateLine>
+                            </template>
                         </template>
-                        <template v-for="(child,i) of childOrder" :key="i">
-                        <CreTextarea :type="childOrder[i]" @creArea="CreArea($event)" v-if="textAmount >= i+1">
-                        </CreTextarea>
+                        <template v-for="(child, i) of childOrder" :key="i">
+                            <CreTextarea :type="childOrder[i]" @creArea="CreArea($event)" @saveImg="saveImg"
+                                v-if="textAmount >= i + 1">
+                            </CreTextarea>
                         </template>
                         <!-- <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
                         </CreTextarea>
@@ -173,17 +176,19 @@ export default {
             showInfo: {},
             datas: [],
             images: [],
-            storedImages : []
-            
+            storedImages: []
+
         }
     },
     created() {
-        //this.noteId = this.$router.params.myNoteId;
+        // this.noteId = this.$router.params.myNoteId;
+        
+
         fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
             .then(result => result.json())
             .then(result => {
                 this.title = result.title;
-                console.log('===================================')
+                console.log('=============기존에 작성했던 정보======================')
                 console.log(result)
                 for (let i = 0; i < result.noteContents.length; i++) {
                     //가져온 값을 textarea에 뿌려주기
@@ -219,38 +224,52 @@ export default {
                         let checkVal = [];
                         let textVal = [];
                         let values = [];
-                        
-                        for(let j=0; j<temp.length-1; j++){ 
+
+                        for (let j = 0; j < temp.length - 1; j++) {
                             temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
                             checkVal.push(temp[j].substring(0, temp[j].indexOf('">')));
-                            
+
                             temp[j] = temp[j].substring(temp[j].indexOf('value="') + 7, temp[j].length);
-                            textVal.push(temp[j].substring(0, temp[j].indexOf('">')));    
+                            textVal.push(temp[j].substring(0, temp[j].indexOf('">')));
                         }
                         values.push(checkVal);
                         values.push(textVal);
-                        
+
                         this.datas.push(
                             {
                                 type: 2,
                                 data: values
                             }
                         )
-                    } else if (result.noteContents[i].indexOf('imgPath') >= 0){ 
+                    } else if (result.noteContents[i].indexOf('IMG') >= 0) {
                         //저장된 이미지 이름, 경로 가져오기
-                        console.log("============this.noteId")
-                        console.log(this.noteId);
-                        fetch('http://localhost:8087/java/getImageInfo/'+this.noteId)
-                        .then(result => result.json())
-                        .then(result => {
-                            console.log("+====저장된 이미지 정보")
-                            console.log(result)
-                            this.datas.push({
-                                type:3,
-                                data: result
-                            });  
-                        })
-                        .catch(err => console.log(err))
+                        let temp = result.noteContents[i];
+                        let values = [];
+
+                        while (temp.indexOf("imgPath:") >= 0) {
+                            let imgPathIndex = temp.indexOf("imgPath:");
+                            let storedNameIndex = temp.indexOf(",storedName:");
+                            let imgPathValue = temp.substring(imgPathIndex + 8, storedNameIndex);
+                            let storedNameValue = '';
+                            temp = temp.substring(storedNameIndex, temp.length);
+
+                            storedNameValue = temp.substring(12, temp.indexOf('$'));
+
+                            temp = temp.substring(temp.indexOf('$'), temp.length);
+
+                            values.push(
+                                {
+                                    imgPath: imgPathValue,
+                                    storedName: storedNameValue
+                                }
+                            )
+                        }
+                        this.datas.push(
+                            {
+                                type: 3,
+                                data: values
+                            }
+                        )
                     }
                 }
                 this.$forceUpdate();
@@ -276,6 +295,9 @@ export default {
         showCheckBox(e) {
             this.show = !this.show;
         },
+        changeImage(images) {
+            this.images = images;
+        },
         updateNote: function (e) {
             let lineAll = document.querySelectorAll('.write_fn');
             let lineText = [];
@@ -285,7 +307,7 @@ export default {
             let checkBoxTag;
             let imgTag;
             let contents = [];
-            console.log(contents);
+           
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
                 let lineValue = '';
@@ -343,17 +365,53 @@ export default {
                     //체크박스 content
                     contents.push(checkBoxTag);
                     //이미지
-                } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) {
+                } else if (lineAll[i].querySelector('.image-preview-div') != undefined) {
+                    
+                    let imgs = lineAll[i].querySelectorAll('.image-preview-div');
+                    let newImgCount = 0;
+                    // let temp = 'IMG:'
+                    for(let img of imgs){
+                        if(img.getAttribute("id").indexOf('b')>=0){
+                            newImgCount++;
+                        } else if(img.getAttribute("id").indexOf('a')>=0) {
+                            // let ~~~ = img.queryselector('img').getAttribute('src') => http://~~ 
+                            // ~~~ = ~~~.substring(~~~.indexOf(/), ~~~.length)
+                            //temp += 'imgPath:' + 이미지패스값 + ',storedName:' + 저장이름 +'&'
+                        }
+                    }
+                    console.log(newImgCount);
+                    // temp += 'IMG' + newImgCount
+                    // 기존 있던 값은 contents.push(temp)
 
-                    let imgContainer = lineAll[i].querySelector('.img_container');
-                    let imgBox = imgContainer.querySelectorAll('.image-preview-div');
-                    let imgCount = imgBox.length;
 
-                    contents.push(
-                        'IMG:' + imgCount
-                    );
-                    console.log("contents에 imgCount와 잘 들어갔나 확인")
-                    console.log(contents);    
+
+
+                    // console.log("---" , this.images);
+                    // console.log("--", this.datas[2])
+                    
+                    // 추가된이미지
+                    //contents.push(this.images);
+
+                    // let temp = '';
+                    // for(let i=0; i<imgBox.length; i++){
+                        
+                    //     temp = imgBox[i].querySelector('img').src;
+                    //     let imagePathIndex = temp.substring(temp.indexOf('GoMyNote/' + 9, temp.length))                        
+                    //     //imagePath = substring(temp.substring(imagePathIndex, ))
+                    //     console.log("---" , imagePathIndex);
+                        
+                    // }
+                    //이 형식은 IMG:0으로 contents에 push된다.
+
+                    // console.log("lineAll :", lineAll[i].querySelectorAll('.image-preview-div'))
+                    // let imgContainer = lineAll[i].querySelector('.img_container');
+                    // let imgBox = imgContainer.querySelectorAll('.image-preview-div');
+                    // let imgCount = imgBox.length;
+
+                    // contents.push(
+                    //     'IMG:' + imgCount
+                     //);
+                 
                 }
             };
             //작성한 DB에 저장(수정버튼)
@@ -363,15 +421,17 @@ export default {
             for (let image of this.images) {
                 formData.append("files", image);
             }
+
             formData.append("title", title);
-            formData.append("noteId", noteId)
+            formData.append("noteId", noteId);
             formData.append("noteContents", contents);
             formData.append("email", this.$store.state.email);
             formData.forEach((value, key) => {
-                console.log(value);
+                console.log(key +" : " , value);
             })
-            fetch('http://localhost:8087/java/UpdateNoteInfo', {
-                method: 'PUT',
+          
+            /*fetch('http://localhost:8087/java/UpdateNoteInfo', {
+                method: 'POST',
                 headers: {},
                 body: formData
             }).then(result => {
@@ -380,8 +440,8 @@ export default {
                 this.$router.push({
                     name: "MynoteList"
                 })
-
-            })
+            })*/
+        
         },
         saveImg(images) {
             let dt = new DataTransfer();

@@ -44,8 +44,7 @@ public class NoteServiceImpl implements NoteService {
 		String directoryPath = sdf.format(date);
 		String uploadPath = "c:\\upload\\note\\" + directoryPath;
 		// 폴더 주소
-		System.out.println("-----------------------------------files");
-		System.out.println(files);
+		
 		if (files != null && files.size() != 0) {
 			File uploadPathDir = new File(uploadPath);
 			if (!uploadPathDir.exists()) {
@@ -87,16 +86,17 @@ public class NoteServiceImpl implements NoteService {
 
 				if (nvo.getNoteContents().get(i).substring(0, 3).equals("IMG")) {// 줄 수
 
-					int imgCnt = Integer
-							.parseInt(nvo.getNoteContents().get(i).substring(4, nvo.getNoteContents().get(i).length()));
+					int imgCnt = Integer.parseInt(nvo.getNoteContents().get(i).substring(4, nvo.getNoteContents().get(i).length()));
 					// 줄 이미지 개수
 
 					int tempLimit = imgCnt + temp;
+					
+					noteContent += "IMG"+i+">";
 
 					for (int j = temp; j < tempLimit; j++) {
 
-						noteContent = noteContent + "imgPath:" + imgInfo.get(j).getImgPath() + ",stroedName:"
-								+ imgInfo.get(j).getStoredName();
+						noteContent = noteContent + "imgPath:" + imgInfo.get(j).getImgPath() + ",storedName:"
+								+ imgInfo.get(j).getStoredName() + "$";
 						temp++;
 					}
 					noteContent = noteContent + "|||||||||";
@@ -147,13 +147,17 @@ public class NoteServiceImpl implements NoteService {
 		};
 		
 		nvo.setNoteContent(noteContent);
-		nvo.setNoteId(mapper.getMaxNoteId());
+		//nvo.setNoteId(mapper.getMaxNoteId());
 
 		mapper.updateContents(nvo);
 
-		if (files.size() != 0) {
-			imgMapper.deleteImg(nvo.getNoteId());
-
+		if (files != null && files.size() != 0) {
+			
+			
+			//imgMapper.deleteImg(nvo.getNoteId());
+			
+			System.out.println("여기files  :" + files);
+			
 			File uploadPathDir = new File(uploadPath);
 
 			if (!uploadPathDir.exists()) {
@@ -190,7 +194,7 @@ public class NoteServiceImpl implements NoteService {
 			noteContent = "";
 			int temp = 0;
 			for (int i = 0; i < nvo.getNoteContents().size(); i++) {
-
+				// 이부분 다 수정해야댐
 				// System.out.println(nvo.getNoteContents().get(i).substring(4,
 				// nvo.getNoteContents().get(i).length()));
 
@@ -212,9 +216,9 @@ public class NoteServiceImpl implements NoteService {
 				} else {
 					noteContent += nvo.getNoteContents().get(i) + "|||||||||";
 				}
-			}
-			;
-			nvo.setNoteContent(noteContent);
+			};
+			nvo.setNoteContent(noteContent); 
+			// nvo.setNoteContent(nvo.getNoteContent+noteContent)여기 문제생김 더하기
 
 			mapper.updateContents(nvo);
 		}
