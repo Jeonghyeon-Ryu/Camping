@@ -17,7 +17,7 @@ export default {
         };
     },
     created: function () {
-      fetch('http://localhost:8087/java/camp/'+1)
+      fetch('http://13.125.95.210:85/java/camp/'+1)
       .then(result=>result.json())
       .then(result => {
         console.log(result)
