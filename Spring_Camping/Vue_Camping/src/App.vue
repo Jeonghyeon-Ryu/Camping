@@ -1,7 +1,7 @@
 <template>
   <div>
-    <HeaderNav></HeaderNav>
-    <router-view @loginSuccess="loginSuccess" @send="send"></router-view>
+    <HeaderNav ref="headerNav"></HeaderNav>
+    <router-view @loginout="loginout" @send="send"></router-view>
   </div>
 </template>
 
@@ -24,11 +24,12 @@ export default {
     }
   },
   methods: {
-    loginSuccess() {
-      this.connect();
+    loginout() {
+      // this.connect();
+      this.$refs.headerNav.setInfo();
     },
     connect() { // 소켓연결
-      const serverURL = "http://localhost:8087/java/ws";
+      const serverURL = "/java/ws";
       let component = this;
       let socket = new SockJS(serverURL);
       if (this.$store.state.email != null) {
@@ -51,7 +52,7 @@ export default {
     isConnectQueue() {
       let component = this;
       // Queue 연결 조회
-      fetch('http://localhost:8087/java/room/' + this.$store.state.email)
+      fetch('/java/room/' + this.$store.state.email)
         .then(result => result.text())
         .then(result => {
           console.log('isConnectQueue Result : ', result);
@@ -86,7 +87,7 @@ export default {
           );
           // Queue 연결 DB저장
           if (+result == 0) {
-            fetch('http://localhost:8087/java/room/' + this.$store.state.email, {
+            fetch('/java/room/' + this.$store.state.email, {
               method: 'POST'
             }).then(result => result.text())
               .then(result => {
@@ -123,7 +124,7 @@ export default {
       }
     },
     createRoom(message) {  // 기존 연결되어있는 방 없으면 방 만들기 / 
-      fetch('http://localhost:8087/java/room', {
+      fetch('/java/room', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(message)
@@ -152,7 +153,7 @@ export default {
     },
     getChatAll() {    // 모든 채팅 내용 가져오기
       // 모든채팅 읽고 -> 채팅방 이동( 채팅들고 )
-      // fetch('http://localhost:8087/java/chat')
+      // fetch('/java/chat')
     },
     setSubscribe() {  // getExistRoom 에서 조회된 방으로 구독하기
 

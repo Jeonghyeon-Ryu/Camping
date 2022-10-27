@@ -93,7 +93,7 @@ export default {
         "password": loginForm.querySelector('input[type="password"]').value
       };
       console.log(member)
-      fetch('http://localhost:8087/java/login', {
+      fetch('http://13.125.95.210:85/java/login', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -128,10 +128,13 @@ export default {
               }
             })
           } else {
-            sessionStorage.setItem("nickname", result.nickname);
-            sessionStorage.setItem("email", result.email);
-            sessionStorage.setItem("auth", result.auth);
-            this.$store.commit('getUserInfo');
+            let info = {
+              nickname : result.nickname,
+              email : result.email,
+              auth : result.auth
+            }
+            console.log(info);
+            this.$store.commit('getUserInfo',info);
 
             Swal.fire({
               icon: 'success',
@@ -143,7 +146,7 @@ export default {
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
-                this.$emit("loginSuccess");
+                this.$emit("loginout");
                 this.$router.replace('/');
               }
             })
@@ -205,7 +208,7 @@ export default {
           console.log("성공", result.imp_uid);
           imp_uid = result.imp_uid;
           console.log(imp_uid);
-          fetch('http://localhost:8087/java/auth?impUid=' + imp_uid)
+          fetch('http://13.125.95.210:85/java/auth?impUid=' + imp_uid)
             .then(result => result.json())
             .then(result => {
               if (result.name != signupForm.querySelector('input[name="name"]').value) {
@@ -217,7 +220,7 @@ export default {
             }).catch(err => console.log("본인인증 오류", err))
             .finally(() => {
               // 본인인증 성공 후, 회원가입 자동 요청
-              fetch('http://localhost:8087/java/member', {
+              fetch('http://13.125.95.210:85/java/member', {
                 method: "POST",
                 headers: {
                   'Content-Type': 'application/json'
@@ -303,7 +306,7 @@ export default {
     isEmail: function (e) {
       let asValue = e.target;
       let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-      let url = 'http://localhost:8087/java/email?email=' + e.target.value
+      let url = 'http://13.125.95.210:85/java/email?email=' + e.target.value
       fetch(url).then(result => result.text())
         .then(result => {
           if (result == "true") {
@@ -331,7 +334,7 @@ export default {
     },
     isNickname: function (e) {
       let asValue = e.target;
-      let url = 'http://localhost:8087/java/nickname?nickname=' + e.target.value
+      let url = 'http://13.125.95.210:85/java/nickname?nickname=' + e.target.value
       fetch(url).then(result => result.text())
         .then(result => {
           if (result == "true") {

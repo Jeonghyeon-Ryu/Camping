@@ -247,7 +247,7 @@ export default {
               }
             })
           } else {
-            fetch('/java/camp', {
+            fetch('http://13.125.95.210:85/java/camp', {
               method: 'POST',
               headers: {},
               body: camp

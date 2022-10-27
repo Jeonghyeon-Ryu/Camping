@@ -20,7 +20,7 @@ export default {
         }
     },
     created : function(){
-        fetch('http://localhost:8087/java/member')
+        fetch('http://13.125.95.210:85/java/member')
             .then(result => result.json())
             .then(result => {
                 console.log(result);

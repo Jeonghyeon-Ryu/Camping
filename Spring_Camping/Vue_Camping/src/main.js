@@ -10,7 +10,7 @@ import createPersistedState from 'vuex-persistedstate';
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 
-const serverURL = "http://localhost:8087/java/ws";
+const serverURL = "/java/ws";
 const socket = new SockJS(serverURL);
 const stompClient = Stomp.over(socket);
 
@@ -19,19 +19,21 @@ const store = createStore({
         storage: window.sessionStorage
     })],
     state: {
-        email: sessionStorage.getItem('email'),
-        nickname: sessionStorage.getItem('nickname'),
-        auth: sessionStorage.getItem('auth'),
+        email: null,
+        nickname: null,
+        auth: null,
         currentCategory: sessionStorage.getItem('currentCategory'),
         roomList: [],
         subscribeRoomList: [],
         roomChatList: {},
     },
     mutations: {
-        getUserInfo(state) {
-            state.email = sessionStorage.getItem('email');
-            state.nickname = sessionStorage.getItem('nickname');
-            state.auth = sessionStorage.getItem('auth');
+        getUserInfo(state, info) {
+            console.log('aaa', info);
+            state.email = info.email;
+            state.nickname = info.nickname;
+            state.auth = info.auth;
+            console.log('bbb', state);
         },
         delUserInfo(state) {
             sessionStorage.removeItem('email');
@@ -56,7 +58,7 @@ const store = createStore({
     actions: {
         getRoomList() {
             let component = this;
-            fetch('http://localhost:8087/java/roomlist/' + this.state.email)
+            fetch('/java/roomlist/' + this.state.email)
                 .then(result => result.json())
                 .then(result => {
                     console.log(this.state);

@@ -6,7 +6,7 @@
           <img src="@/assets/img/logo.png" class="header-logo">
         </router-link>
         <div class="header-top-category">
-          <router-link v-for="(category,key) of topCategory" :to="category" @click="clickTopCategory(key)">{{key}}
+          <router-link v-for="(category, key) of topCategory" :to="category" @click="clickTopCategory(key)">{{ key }}
           </router-link>
         </div>
         <div class="header-top-button">
@@ -27,11 +27,13 @@
       </div>
       <div class="header-middle-container">
         <!-- <NavbarDefault dark transparent></NavbarDefault> -->
-        <div v-if="($store.state.currentCategory!='0')&&($store.state.currentCategory!=null)"
-          class="header-middle-button">
-          <div v-for="(info,key) of middleCategory[$store.state.currentCategory-1]">
-            <router-link :to="info" tag="div">{{key}}</router-link>
-          </div>
+        <div v-if="($store.state.currentCategory != '0') && ($store.state.currentCategory != null)"
+          class="header-middle-button">{{auth}}
+          <template v-for="(info, key) of middleCategory[$store.state.currentCategory - 1]">
+            <div v-show="info[1]">
+              <router-link :to="info[0]" tag="div">{{ key }}</router-link>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -44,8 +46,8 @@ export default {
   name: "HeaderNav",
   data: function () {
     return {
-      currentCategory: this.$store.state.currentCategory,
-      auth: this.$store.state.auth,
+      currentCategory: 0,
+      isLogin : false,
       topCategory: {
         "어디갈래?": "/CampList",
         "같이갈래?": "/RecruList",
@@ -55,9 +57,9 @@ export default {
       },
       middleCategory: [
         {
-          "캠핑장 리스트": "/CampList",
-          "캠핑장 등록": "/CampRegister",
-          "저장 목록": "/StoredCampList"
+          "캠핑장 리스트": ["/CampList", true],
+          "캠핑장 등록": ["/CampRegister", false],
+          "저장 목록": ["/StoredCampList", false],
         },
         {
           "같이 갈래?": "/RecruList",
@@ -84,7 +86,7 @@ export default {
           "노트 작성하기": "/WriteNote"
         },
       ],
-      responsiveFlag : false,
+      responsiveFlag: false,
     }
   },
   methods: {
@@ -136,24 +138,31 @@ export default {
     },
     logout() {
       this.$store.commit('delUserInfo');
+      this.isLogin=false;
       this.$router.push({ name: "Home" });
+    },
+    setInfo() {
+      if(this.$store.state.email != null){
+        this.isLogin = true;
+      } else {
+        this.isLogin = false;
+      }
     },
   },
   watch: {
-    auth: function () {
-      if (auth != 1) {
+    isLogin: function () {
+      if (!this.isLogin) {
         this.middleCategory[0] = {
-          "캠핑장 리스트": "/CampList",
-          "캠핑장 등록": "/CampRegister",
+          "캠핑장 리스트": ["/CampList",true],
         }
       } else {
         this.middleCategory[0] = {
-          "캠핑장 리스트": "/CampList",
-          "캠핑장 등록": "/CampRegister",
-          "저장 목록": "/StoredCampList"
+          "캠핑장 리스트": ["/CampList",true],
+          "캠핑장 등록": ["/CampRegister",true],
+          "저장 목록": ["/StoredCampList",true]
         }
       }
-    }
+    },
   },
   components: { AsideRight }
 }

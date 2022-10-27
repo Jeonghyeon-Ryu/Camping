@@ -1,9 +1,9 @@
 <template>
     <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
-        <swiper-slide v-for="image of images"><img :src="'/java/showImage/'+image.imagePath+'/'+image.storedName"/></swiper-slide>
+        <swiper-slide v-for="image of images"><img :src="'http://13.125.95.210:85/java/showImage/'+image.imagePath+'/'+image.storedName"/></swiper-slide>
         <swiper-slide v-for="img of imgUrl"><img :src="img"/></swiper-slide>
         <swiper-slide v-if="images.length==0"><img
-                :src="'/java/showImage/default/default.png'" /></swiper-slide>
+                :src="'http://13.125.95.210:85/java/showImage/default/default.png'" /></swiper-slide>
     </swiper>
 </template>
 <script>
@@ -26,7 +26,7 @@ export default {
         }
     },
     created : function() {
-        fetch('/java/campImage/'+this.campId)
+        fetch('http://13.125.95.210:85/java/campImage/'+this.campId)
         .then(result => result.json())
         .then(result => {
             this.images = result;

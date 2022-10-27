@@ -44,7 +44,7 @@ export default {
         };
     },
     created: function () {
-        fetch("/java/camp/" + this.page)
+        fetch("http://13.125.95.210:85/java/camp/" + this.page)
             .then(result => result.json())
             .then(result => {
             for (let i = 0; i < result.length; i++) {

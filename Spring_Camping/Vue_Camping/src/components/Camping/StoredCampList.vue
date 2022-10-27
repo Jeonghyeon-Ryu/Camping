@@ -45,9 +45,10 @@ export default {
   },
   created: function () {
     if (this.$store.state.email != null) {
-      fetch("/java/savedCamp/" + this.$store.state.email)
+      fetch("http://13.125.95.210:85/java/savedCamp/" + this.$store.state.email)
         .then(result => result.json())
         .then(result => {
+          console.log(result);
           for (let i = 0; i < result.length; i++) {
             result[i].campInfo = result[i].campInfo.split(" ");
             let info = {
@@ -67,6 +68,7 @@ export default {
             result[i].campInfo = info;
           }
           this.camps = result;
+          console.log(reuslt);
         })
         .catch(err => console.log(err));
     }

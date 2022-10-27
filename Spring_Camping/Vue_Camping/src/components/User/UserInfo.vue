@@ -3,7 +3,7 @@
     <div class="my-info-left">
       <div class="my-info-left-top">
         <div class="profile-image">
-          <img :src="'http://localhost:8087/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName">
+          <img :src="'http://13.125.95.210:85/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName">
           <!-- <ImagePreviewOne :image="profile_image"></ImagePreviewOne> -->
         </div>
         <div class="nickname" v-text="user.nickname"></div>
@@ -23,7 +23,7 @@
           <div class="profile-image-preview">
             <img v-if="imgUrl != ''" :src="imgUrl">
             <img v-if="imgUrl == ''"
-              :src="'http://localhost:8087/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName">
+              :src="'http://13.125.95.210:85/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName">
             <!-- <ImagePreviewOne ref="previewOne" v-if="profile-image!=[]" :image="profile_image"></ImagePreviewOne> -->
           </div>
           <label>사진변경
@@ -68,13 +68,13 @@ export default {
     };
   },
   created: function () {
-    fetch('http://localhost:8087/java/member/' + this.$store.state.email)
+    fetch('http://13.125.95.210:85/java/member/' + this.$store.state.email)
       .then(result => result.json())
       .then(result => {
         this.user = result;
       }).catch(err => console.log(err));
 
-    fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
+    fetch('http://13.125.95.210:85/java/profile/' + this.$store.state.email)
       .then(result => result.json())
       .then(result => {
         this.storedProfile = result;
@@ -119,7 +119,7 @@ export default {
         if (result.isConfirmed) {
           Swal.fire('취소 !', '', 'success')
         } else {
-          fetch('http://localhost:8087/java/member/modify', {
+          fetch('http://13.125.95.210:85/java/member/modify', {
             method: 'POST',
             headers: {},
             body: fetchData
@@ -214,12 +214,12 @@ export default {
             nextPw2.value = '';
             nextPw2.focus();
           } else {
-            fetch('http://localhost:8087/java/member/' + this.$store.state.email + '/' + prevPw.value)
+            fetch('http://13.125.95.210:85/java/member/' + this.$store.state.email + '/' + prevPw.value)
               .then(result => result.text())
               .then(result => {
                 console.log('이전 비밀번호와 비교', result);
                 if (result == "true") {
-                  fetch('http://localhost:8087/java/member', {
+                  fetch('http://13.125.95.210:85/java/member', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -328,12 +328,12 @@ export default {
             Swal.showValidationMessage(`비밀번호를 입력해주세요.`);
             prevPw.focus();
           } else {
-            fetch('http://localhost:8087/java/member/' + this.$store.state.email + '/' + prevPw.value)
+            fetch('http://13.125.95.210:85/java/member/' + this.$store.state.email + '/' + prevPw.value)
               .then(result => result.text())
               .then(result => {
                 console.log('이전 비밀번호와 비교', result);
                 if (result == "true") {
-                  fetch('http://localhost:8087/java/member/modify', {
+                  fetch('http://13.125.95.210:85/java/member/modify', {
                     method: 'POST',
                     headers: {},
                     body: fetchData
