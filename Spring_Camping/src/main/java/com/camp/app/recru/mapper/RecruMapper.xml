@@ -70,32 +70,47 @@
 		)
 	</insert>
 	
-	<!-- 전체조회 -->
-	<select id="findAll" resultType ="RecruVO">
+<!-- 전체조회 -->
+	<!--<select id="findAll" resultType ="RecruVO">
 		SELECT * FROM recruitment
-		<where>
-				status=0
-			<if test="memberRole != 3">
-				OR status IN (1,2)
-			</if>
-			<if test="keyword">
-				AND (recru_title LIKE '%'||#{keyword}||'%'
-				OR recru_content LIKE '%'||#{keyword}||'%'
-				OR my_gear LIKE '%'||#{keyword}||'%'
-				OR need_gear LIKE '%'||#{keyword}||'%'
-				OR camping_point LIKE '%'||#{keyword}||'%')
-			</if>
-		</where>
+	</select> -->
+
+	<!-- 전체조회 - 페이징 -->
+	<select id="findAllPaging" parameterType="RecruVO" resultType ="RecruVO">
+		SELECT B.* 
+		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
+			  FROM( SELECT * FROM recruitment 
+				  <where>
+					  <if test="memberRole!=3">
+					  	status=0
+					  </if>
+				  </where>
+                  	ORDER BY recru_id desc) A ) B 
+		WHERE page = #{pageNum}
 	</select>
 	
 	<!-- 검색조회 -->
-	<select id="findKeyword" parameterType="String" resultType="RecruVO">
-		SELECT * FROM recruitment
-			WHERE recru_title LIKE '%'||#{keyword}||'%'
-				OR recru_content LIKE '%'||#{keyword}||'%'
-				OR my_gear LIKE '%'||#{keyword}||'%'
-				OR need_gear LIKE '%'||#{keyword}||'%'
-				OR camping_point LIKE '%'||#{keyword}||'%'
+	<select id="findKeyword" parameterType="RecruVO" resultType="RecruVO">
+		SELECT B.* 
+		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
+			  FROM(SELECT * FROM recruitment
+			<where>
+				1=1
+				<if test="memberRole!=3">
+				  	AND status=0 
+				</if>
+				<if test="keyword != ''">
+					AND (recru_title LIKE '%'||#{keyword}||'%'
+					OR recru_content LIKE '%'||#{keyword}||'%'
+					OR my_gear LIKE '%'||#{keyword}||'%'
+					OR need_gear LIKE '%'||#{keyword}||'%'
+					OR camping_point LIKE '%'||#{keyword}||'%')
+				</if>
+			</where> 
+				) A ) B 
+		WHERE page = #{pageNum}
+		
+		
 	</select>
 	
 	<!-- 단건조회 -->
@@ -165,6 +180,21 @@
 		SELECT * FROM recru_image WHERE recru_id = #{recruId}
 	</select>
 	
+	<!-- 모임에 참가한 사람들 목록(모집자+신청자) -->
+	<select id="findRecruMembers" parameterType="Integer" resultType="RecruVO">
+		SELECT recru_id, member_id, nickname
+		FROM(	select recru_id, member_id
+		        from recruitment 
+		        WHERE recru_id=3
+		        UNION
+		        select recru_id, member_id
+		        from recru_entry
+		        WHERE recru_id= #{recruId}
+		        ) a
+		JOIN member b
+		ON (a.member_id = b.email)
+	</select>
+	
 	<!-- 후기 등록 -->
 	<insert id="insertReview" parameterType="RecruVO">
 		<selectKey keyProperty="reviewId" resultType="Integer" order="BEFORE">
@@ -179,4 +209,10 @@
 										#{reviewContent}
 										)
 	</insert>
+	
+	<!-- 캠핑장 검색 -->
+	<select id="searchCamp" parameterType="String" resultType="campVO">
+		SELECT camp_id, camp_name, camp_address FROM  camp
+		WHERE camp_address LIKE '%'||#{region}||'%'
+	</select>
 </mapper>

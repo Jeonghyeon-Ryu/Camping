@@ -50,7 +50,9 @@
                        
                     </ul>
                 </div>
-                    
+                <div v-for="image of images">
+                    <img class="img" :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName" @click="deleteImg"/>
+                </div>    
                 <hr>
                 <div class="recru-info-box">
                     <div class="recru-info-title">
@@ -127,7 +129,7 @@ export default{
         searchImg : img2,
         wishAge :[],
         recruInfo : {  
-            memberId :sessionStorage.getItem("email"),
+            memberId :this.$store.state.email,
             wishSex : '',
             wishAge : '',
             carYn : '',
@@ -166,11 +168,11 @@ export default{
             fetch("http://localhost:8087/java/recru/"+recruId)
             .then((response) =>response.json()) 
             .then(data => { 
-                this.recruInfo = data;  
-                console.log(this.recruInfo);
+                component.recruInfo = data;  
+                console.log(component.recruInfo);
                 //나이 넣어주기
-                if(this.recruInfo.wishAge){
-                    var ages = this.recruInfo.wishAge.split(' ');
+                if(component.recruInfo.wishAge){
+                    var ages = component.recruInfo.wishAge.split(' ');
                     var ageChkBox = document.getElementsByName('wishAge');
                     ageChkBox.forEach(ageChk=>{
                         ages.forEach(age=>{
@@ -179,29 +181,18 @@ export default{
                         })
                     })
                 }
-                //장비 목록 출력
-                var myGearList = this.recruInfo.myGear.split(',');
+//장비 목록 출력
+var myGearList = this.recruInfo.myGear.split(',');
+//장비 목록 출력
+var myGearList = this.recruInfo.myGear.split(',');
                 for(let i=0; i<myGearList.length ; i+=3){
                     var menu = 'recru-mygear'
                     const box = document.getElementById('recru-mygear-body');
                     const li = document.createElement('li');
-                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}">`
-                                +` <select class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}">`
-                                    +"<option selected disabled>장비 분류</option>"
-                                    +"<option value='기타' value='텐트'>텐트</option>"
-                                    +"<option value='타프'>타프</option>"
-                                    +"<option value='가구'>가구</option>"
-                                    +"<option value='침구'>침구</option>"
-                                    +"<option value='조리도구'>조리도구</option>"
-                                    +"<option value='조명'>조명</option>"
-                                    +"<option value='수납'>수납</option>"
-                                    +"<option value='공구'>공구</option>"
-                                    +"<option value='냉난방'>냉난방</option>"
-                                    +"<option value='기타'>기타</option>"
-                                +"</select>"
-                                +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>개"
-                                +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
-                                +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
+                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}" disabled>
+                                <input class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}"disabled>
+                                <input type='number' class='${menu}-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;'disabled value='${myGearList[i+2]}'>개
+                                <button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>`;
                     li.innerHTML = str;
                     box.appendChild(li);
                 }
@@ -210,23 +201,10 @@ export default{
                     var menu = 'recru-needgear'
                     const box = document.getElementById('recru-needgear-body');
                     const li = document.createElement('li');
-                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}">`
-                                +` <select class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}">`
-                                    +"<option selected disabled>장비 분류</option>"
-                                    +"<option value='기타' value='텐트'>텐트</option>"
-                                    +"<option value='타프'>타프</option>"
-                                    +"<option value='가구'>가구</option>"
-                                    +"<option value='침구'>침구</option>"
-                                    +"<option value='조리도구'>조리도구</option>"
-                                    +"<option value='조명'>조명</option>"
-                                    +"<option value='수납'>수납</option>"
-                                    +"<option value='공구'>공구</option>"
-                                    +"<option value='냉난방'>냉난방</option>"
-                                    +"<option value='기타'>기타</option>"
-                                +"</select>"
-                                +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>개"
-                                +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
-                                +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
+                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${needGearList[i]}" disabled>
+                                <input class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${needGearList[i+1]}"disabled>
+                                <input type='number' class='${menu}-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='${needGearList[i+2]}' disabled>개
+                                <button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>`;
                     li.innerHTML = str;
                     box.appendChild(li);
                 }
@@ -282,7 +260,7 @@ export default{
                     return;
                 }
                 if(myGearNames[i].value===''){
-                    Swal.fire('장비 이름을 입력해주세요','장비는 하나 이상 입력해야 합니다. 추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
+                    Swal.fire('장비 이름을 입력해주세요',' 추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
                     myGearNames[i].focus();
                     return;
                 }
@@ -294,7 +272,7 @@ export default{
                     return;
                 }
                 if(needGearNames[i].value===''){
-                    Swal.fire('장비 이름을 입력해주세요','장비는 하나 이상 입력해야 합니다. 추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
+                    Swal.fire('장비 이름을 입력해주세요','추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
                     needGearNames[i].focus();
                     return;
                 }
@@ -329,7 +307,7 @@ export default{
             .then(data => { 
                 //이미지 업로드
                 if(this.files.length>0){
-                   // this.fileUpdate();  
+                   //this.fileUpdate();  
                 }
                 Swal.fire('수정 완료','캠핑 모집글이 수정되었습니다.','success')
                 .then(result => {
@@ -395,13 +373,15 @@ export default{
                 e.target.parentNode.remove();
             }
         },
+        deleteImg : function(e){
+            console.log(e.target)
+        },
         setGearList :function(menu){
             let gearNames = document.querySelectorAll('.recru-'+menu+'-name');
             let gearTypes = document.querySelectorAll('.recru-'+menu+'-type');
             let gearNum = document.querySelectorAll('.recru-'+menu+'-num');
             let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
-            //특수문자 체크 정규식
-            const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
+            
             for(let i=1 ; i<gearNames.length ; i++){
                 gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
             }

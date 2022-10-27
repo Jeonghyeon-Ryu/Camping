@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.camp.app.camp.service.CampVO;
 import com.camp.app.save.service.SaveVO;
 
 @Service
@@ -15,8 +16,10 @@ public interface RecruService {
 	public int insertRecru(RecruVO recruVO);
 	//전체조회
 	public List<RecruVO> recruAllList();
+	//전체조회 - 페이징
+	public List<RecruVO> findAllPaging(RecruVO recruVO);
 	//검색조회
-	public List<RecruVO> recruKeywordList(String keyword);
+	public List<RecruVO> recruKeywordList(RecruVO vo);
 	//단건조회
 	public RecruVO findOne(int recruId);
 	//마이페이지 조회
@@ -31,6 +34,10 @@ public interface RecruService {
 	public boolean isExist(SaveVO save);
 	//접근 상태 변경
 	public int changeShowStatus(RecruVO recruVO);
+	//완료된 모집의 참가자들 조회(모집자+참가자)
+	public List<RecruVO> findRecruMembers(int recruId);
 	//후기등록
 	public int insertReview(RecruVO recruVO);
+	//캠핑장검색
+	public List<CampVO> searchCamp(String region);
 }

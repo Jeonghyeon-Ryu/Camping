@@ -9,26 +9,28 @@
         </div>
         <!-- 필터 -->
         <form id="recru-filter-form" class="recru-list-filter recru-row">
-            <div class="recru-filter-container recru-row">
+            <div class="recru-filter-container">
                 <div class="recru-filter-box recru-col">
                     <h3>나의 정보</h3>
-                    <div class="recru-search-sex ">
-                        <label class="bold">나이</label>
-                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="1">남</label>
-                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="2">여</label>
-                        <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0" checked>무관</label>
-                    </div>
-                    <div class="recru-search-age recru-col">
-                        <div class=" recru-left">
-                            <label class="bold">연령대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="20대" name="test"> 20대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="30대" name="test"> 30대</label>
+                    <div class="recru-filter-myInfo">
+                        <div class="recru-search-sex ">
+                            <label class="bold">나이</label>
+                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="1">남</label>
+                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="2">여</label>
+                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0" checked>무관</label>
                         </div>
-                        <div class="recru-row ">
-                            <label><input type="checkbox" v-model="filter.wishAge" value="40대" style="margin-left:100px"> 40대</label>
-                            <label><input type="checkbox" v-model="filter.wishAge" value="50대이상"> 50대 이상</label>
+                        <div class="recru-search-age recru-col">
+                            <div class=" recru-left">
+                                <label class="bold">연령대</label>
+                                <label><input type="checkbox" v-model="filter.wishAge" value="20대" name="test"> 20대</label>
+                                <label><input type="checkbox" v-model="filter.wishAge" value="30대" name="test"> 30대</label>
+                            </div>
+                            <div class="recru-row ">
+                                <label><input type="checkbox" v-model="filter.wishAge" value="40대" style="margin-left:100px"> 40대</label>
+                                <label><input type="checkbox" v-model="filter.wishAge" value="50대이상"> 50대 이상</label>
+                            </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
                 <div class="recru-filter-box recru-col">
                     <h3>여행정보</h3>
@@ -93,9 +95,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="recru-filter-box recru-col">
+                <div class="recru-filter-box recru-filter-gears recru-col">
                     <div class="recru-mygear-header">
-                        <h3>갖고있어요</h3>
+                        <h3>나의 장비</h3>
                     </div>
                     <div class="recru-row ">
                         <label><input type="checkbox" v-model="filter.searchMyGear" value="텐트">텐트</label>
@@ -114,7 +116,7 @@
                     </div>
                     <br>
                     <div class="recru-mygear-header">
-                        <h3>필요해요</h3>
+                        <h3>찾는 장비</h3>
                     </div>
                     <div class="recru-row">
                         <label><input type="checkbox" v-model="filter.searchNeedGear" value="텐트">텐트</label>
@@ -132,10 +134,10 @@
                     </div>
                 
                 </div>
-                <div class="recru-filter-btn-box recru-row">
-                    <button type="submit" class="recru-filter-btn submit" @click.prevent="searchFilter">검색</button>
-                    <button type="reset" class="recru-filter-btn reset" @click.prevent="resetFilter">초기화</button>
-                </div>
+            </div>
+            <div class="recru-filter-btn-box recru-row">
+                <button type="submit" class="recru-filter-btn submit" @click="this.isFilter=0" @click.prevent="searchFilter">검색</button>
+                <button type="reset" class="recru-filter-btn reset" @click.prevent="resetFilter">초기화</button>
             </div>
         </form>
         <!-- 필터 결과-->
@@ -159,6 +161,8 @@
             <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
+                    <p class="card-status-btn" v-if="recruInfo.status==1" >작성자 삭제</p>
+                    <p class="card-status-btn" v-if="recruInfo.status==2" >관리자 삭제</p>
                     <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
@@ -168,6 +172,8 @@
                     </div>
                 </div>
             </div>      
+            <div id="app"></div>
+            <div id="bottomSensor"></div>
         </div>
     </div>
 </template>
@@ -186,6 +192,10 @@ export default{
     },
     data : function(){
         return{
+            ifFilter : 0,
+            role : this.$store.state.auth,
+            memberRole : 0,
+            pageNum : 1,
             keyword : '',
             keywordValue : '',
             filter: {
@@ -198,23 +208,59 @@ export default{
                 goDateMin: '',
                 goDateMax: ''
             },
+            isFilter : false,
             recruPosts : [ ],
             searchImg : img2,
             recruMsg : ''
         }
     },
     created(){
-        this.loadData();
+        this.loadDataPage();
+    },
+    mounted(){
+        this.addScrollWatcher();       
+    },
+    computed:{
+        memberRole(){
+            if(this.role==0) 
+            return 3;
+        }
     },
     methods: {
-        loadData : function(){
-            // 서버에서 전체 리스트 가져오기
-            fetch("http://localhost:8087/java/recru")
+        resetPage : function(){
+            this.pageNum=1;
+            this.recruPosts=[];
+        },
+        loadDataPage : function(){
+            if(this.isFilter!=0) this.resetPage();
+            this.isFilter=0;
+             //서버에서 전체 리스트 가져오기 - 페이징
+             fetch(`http://localhost:8087/java/recru/page/${this.memberRole}/${this.pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
-                console.log(data);
-                this.recruPosts = data;  
+                for(let key in data){
+                    this.recruPosts.push(data[key]);  
+                }
             }).catch(err=>console.log(err));
+            console.log(this.recruPosts)
+        }, 
+        addScrollWatcher: function () {
+            const bottomSensor = document.querySelector("#bottomSensor")
+            const watcher = scrollMonitor.create(bottomSensor)
+            watcher.enterViewport(() => {
+                // 서버 과부하를 막기 위한 딜레이
+                setTimeout(() => {
+                    this.pageNum = this.pageNum+1;
+                    if(this.isFilter==0){
+                        this.loadDataPage();
+                    }else if(this.isFilter==1){
+                        this.searchKeyword();
+                    }else{
+                        this.searchFilter();
+                    }
+                },300)
+                console.log(this.pageNum)
+            })
         },
         toStringList : function(array){
             var stringList = '';
@@ -253,29 +299,69 @@ export default{
             }
         },
         searchKeyword : function(){
+            if(this.isFilter!=1) this.resetPage();
+            this.isFilter=1;
             //키워드 검색 결과 받아오기
-            const keyword = this.keyword;
-            this.keywordValue = keyword;
-            fetch("http://localhost:8087/java/recru/search/"+keyword)
+            var keyword = this.keyword;
+            var memberRole = this.memberRole;
+            var pageNum = this.pageNum;
+            this.keywordValue = keyword;    //현재 키워드 저장
+            fetch(`http://localhost:8087/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
-                console.log(data);
-                this.recruPosts = data;  
+                for(let key in data){
+                    this.recruPosts.push(data[key]);  
+                }
                 if(this.recruPosts.length<1){
                     this.recruMsg="검색 결과가 없습니다."
                 }else{
                     this.recruMsg="";
                 }
             }).catch(err=>console.log(err));
+            console.log(this.recruPosts)
         },
         searchFilter : function(){
-            // 서버에서 전체 리스트 가져오기
-            fetch("http://localhost:8087/java/recru")
-            .then((response) =>response.json()) 
-            .then(data => { 
-                this.recruPosts = data;  
-                const fil = this.filter;
-                const filterList = this.recruPosts;
+            if(this.isFilter!=2) this.resetPage();
+            this.isFilter=2;
+            var pageNum = this.pageNum;
+            //키워드 검색 결과 받아오기
+            var keyword = this.keyword;
+            this.keywordValue = keyword;    //현재 키워드 저장
+            const component = this;
+            if(keyword==''){
+                fetch(`http://localhost:8087/java/recru/page/${component.memberRole}/${pageNum}`)
+                .then((response) =>response.json()) 
+                .then(data => { 
+                    for(let key in data){
+                        component.recruPosts.push(data[key]);  
+                    }  
+                    component.doFilter();
+                    if(component.recruPosts.length<1){
+                        component.recruMsg="검색 결과가 없습니다."
+                    }else{
+                        component.recruMsg="";
+                    }
+                }).catch(err=>console.log(err));
+            }else{
+                fetch(`http://localhost:8087/java/recru/search/${component.memberRole}/${keyword}/${pageNum}`)
+                .then((response) =>response.json()) 
+                .then(data => { 
+                    for(let key in data){
+                        component.recruPosts.push(data[key]);  
+                    }  
+                    component.doFilter();
+                    if(component.recruPosts.length<1){
+                        component.recruMsg="검색 결과가 없습니다."
+                    }else{
+                        component.recruMsg="";
+                    }
+                }).catch(err=>console.log(err));
+            }
+            console.log(this.recruPosts)
+        },
+        doFilter(){
+            const fil = this.filter;
+            const filterList = this.recruPosts;
 
                 //성별필터
                 if(fil.wishSex!=0 && fil.wishSex != ''){
@@ -286,7 +372,6 @@ export default{
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 }
 
                 //나이대 필터
@@ -309,7 +394,6 @@ export default{
                                 }
                         }
                     }
-                    console.log(filterList)
                 }
 
                  //출발지필터
@@ -323,12 +407,11 @@ export default{
                             i--;
                             continue;
                         }
-                        if (filterList[i].startingPoint.indexOf(startSido)<0) {      
+                        if (filterList[i].startingPoint.indexOf(startSido)!=0) {      
                             filterList.splice(i, 1); 
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 } 
                 if(startSigu!=''&& startSigu!='전체'){ 
                     //출발시 시/구
@@ -343,7 +426,6 @@ export default{
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 }
 
                 //도착지(캠핑장)필터
@@ -357,7 +439,7 @@ export default{
                             i--;
                             continue;
                         }
-                        if (filterList[i].campingPoint.indexOf(campSido)<0) {      
+                        if (filterList[i].campingPoint.indexOf(campSido)!=0) {      
                             filterList.splice(i, 1); 
                             i--; 
                         }
@@ -377,7 +459,6 @@ export default{
                             i--; 
                         }
                     }
-                    console.log(filterList)
                 }
                 
                 // 출발 날짜
@@ -395,7 +476,6 @@ export default{
                             i--;
                         }
                     }
-                    console.log(filterList)
                 }
                 if(fil.goDateMax){
                     console.log(fil.goDateMax)
@@ -411,7 +491,6 @@ export default{
                             i--;
                         }
                     }
-                    console.log(filterList)
                 }
 
                 // 보유한 필터 (->게시글의 필요장비 검색)
@@ -461,15 +540,15 @@ export default{
                             }
                         }
                     }
-                    console.log(filterList)
                 }
-
-
-            }).catch(err=>console.log(err));
+                console.log(filterList)
         },
         resetFilter (){
+            this.resetFilter;
+            this.keyword='';
+            this.keywordValue='';
             //필터 초기화버튼
-            this.filter.wishSex;
+            this.filter.wishSex=0;
             this.filter.wishAge=[];
             this.filter.regionSelect=null;
             this.filter.citySelect=null;
@@ -477,6 +556,7 @@ export default{
             this.filter.goDateMax='';
             this.filter.searchMyGear=[];
             this.filter.searchNeedGear=[];
+            this.loadDataPage();
         },       
     }
 }
