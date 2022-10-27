@@ -168,14 +168,17 @@ export default {
     //쪽지보내기
     sendingMsg: function(){
       let item = Swal.fire({
-          title: this.usedList.usedName+' 상품 판매자에게 쪽지 보내기',
-          html:
-            '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 250px; font-size:12px;" maxlength="500" placeholder="판매자에게 보낼 내용을 입력하세요"></textarea>',
+          title: '<div class="mail-Title" style="font-size:0.6em; color: green;">판매자에게 쪽지 보내기</div>',
+          html: 
+          '<div class="mail-info" style="dislay:flex; border-radius:2px; width:80%; margin: 0 auto; padding: 5px; background-color:#f7f7f7"><div class="mail-usedName"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품명 </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'
+            +this.usedList.usedName+'</span></div>'+
+            '<div class="mail-usedPrice"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품가격 </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'+this.usedList.usedPrice+'</span><span style="font-size:0.8em; font-weight:bold;">원<span></div></div>'+
+            '<textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 200px; font-size:12px;" maxlength="500" placeholder="판매자에게 보낼 내용을 입력하세요"></textarea>',
           focusConfirm: false,
           showCancelButton: true,
           confirmButtonText: '전송',
           cancelButtonText: '취소',
-          confirmButtonColor: 'rgba(6,68,32,0.8)',
+          confirmButtonColor: '#54b06d',
           preConfirm: () => {
             let fetchData = {
               "usedId": this.usedId,
