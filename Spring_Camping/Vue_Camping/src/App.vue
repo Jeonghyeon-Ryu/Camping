@@ -21,9 +21,29 @@ export default {
       stompClient: '',
       chatInfo: {},
       roomList: [],
+      waiting: false
     }
   },
+  mounted: function () {
+    document.addEventListener('scroll', this.scrollHandler);
+  },
   methods: {
+    scrollHandler(e) {
+      if (!this.waiting) {
+        this.waiting = true;
+        let target = e.target;
+        console.log(window.scrollY); // 스크롤 위
+        console.log(document.body.scrollTop);
+        console.log(document.body.scrollHeight); // 전체 높이
+        console.log(document.body.scrollHeight - window.scrollY) // 스크롤 높이
+        // scrollY:스크롤 상단 + innerHeight:현재화면 높이 = 현재까지 스크롤된 부분 하단
+        let currScrollY = target.innerHeight + target.scrollY;
+
+        setTimeout(()=>{
+          this.waiting = false;
+        },100);
+      }
+    },
     loginout() {
       // this.connect();
       this.$refs.headerNav.setInfo();
@@ -163,7 +183,8 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -171,18 +192,16 @@ export default {
   font-style: none;
   box-sizing: border-box;
 }
+
 @font-face {
   font-family: 'Noto Sans KR';
-  src :url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap');
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap');
 }
+
 @font-face {
   font-family: 'Open Sans';
-  src :url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap');
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap');
   unicode-range: U+0041-005A, U+0061-007A;
-}
-body {
-  overflow-x: hidden;
-  overflow-y: hidden;
 }
 
 #app {
@@ -196,30 +215,33 @@ body {
 
 /* total width */
 *::-webkit-scrollbar {
-    background-color:#fff;
-    width:16px
+  background-color: #fff;
+  width: 16px
 }
 
 /* background of the scrollbar except button or resizer */
 *::-webkit-scrollbar-track {
-    background-color:#fff
+  background-color: #fff
 }
+
 *::-webkit-scrollbar-track:hover {
-    background-color:#f4f4f4
+  background-color: #f4f4f4
 }
 
 /* scrollbar itself */
 *::-webkit-scrollbar-thumb {
-    background-color:rgb(228,239,231) ;
-    border-radius:16px;
-    border:5px solid #fff
+  background-color: rgb(228, 239, 231);
+  border-radius: 16px;
+  border: 5px solid #fff
 }
+
 *::-webkit-scrollbar-thumb:hover {
-    background-color:rgb(6,68,32);
-    border:4px solid #f4f4f4
+  background-color: rgb(6, 68, 32);
+  border: 4px solid #f4f4f4
 }
 
 /* set button(top and bottom of the scrollbar) */
-*::-webkit-scrollbar-button {display:none}
-
+*::-webkit-scrollbar-button {
+  display: none
+}
 </style>
