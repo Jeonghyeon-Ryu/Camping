@@ -50,7 +50,18 @@
                        
                     </ul>
                 </div>
-                    
+                <div class="recru-info-box">
+                   <span>현재 이미지</span> (클릭시 삭제)
+                    <div class="recru-show-image">
+                        <div class="recru-show-image-box" v-for="image of images">
+                            <div v-if="image.imageId!=0">
+                                <p class="existing-img">{{image.originName}}</p>
+                                <img class="show-image" :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName">
+                                <img class="delete-image" src="@/assets/img/icons/close.png" @click="deleteImg">
+                            </div>
+                        </div>    
+                    </div>
+                </div>
                 <hr>
                 <div class="recru-info-box">
                     <div class="recru-info-title">
@@ -79,7 +90,7 @@
                     <span>여행정보</span>
                     <ul class="recru-box-name">
                         <li class="recru-info-startP">
-                            <label for="startP_addr_kakao">출발지 : {{recruInfo.startingPoint}}</label>
+                            <label for="startP_addr_kakao">출발지 :</label> {{recruInfo.startingPoint}}
                         </li>
                         <li><input type="text" name="startP_addr_kakao" id="startP_addr_kakao"  readonly
                                     class="recru-addr-kakao" @click="searchAddr" placeholder="새로운 위치 검색">
@@ -87,7 +98,7 @@
                             <input type="text" name="startP_addr_detail" class="recru-addr-detail" placeholder="상세주소" @click="chkSearchAddr"/>
                         </li>
                         <li class="recru-info-campP">
-                            <label for="campP_addr_kakao">도착지 : {{recruInfo.campingPoint}}</label>
+                            <label for="campP_addr_kakao">도착지 :</label> {{recruInfo.campingPoint}}
                         </li>
                         <li>
                             <input type="text" name="campP_addr_kakao" id="campP_addr_kakao"  readonly
@@ -127,7 +138,7 @@ export default{
         searchImg : img2,
         wishAge :[],
         recruInfo : {  
-            memberId :sessionStorage.getItem("email"),
+            memberId :this.$store.state.email,
             wishSex : '',
             wishAge : '',
             carYn : '',
@@ -144,6 +155,7 @@ export default{
             closingDate: '',
             nickname : 'admin'
             },
+        deleteFiles :[],
         files:[],
         myNote:[{
             noteId : 1,
@@ -152,11 +164,13 @@ export default{
             {
             noteId : 2,
             noteTitle : '노트제목입니다'
-        }]
+        }],
+        images:[]
       }
     },
     mounted (){
        this.loadData();
+       this.loadImgs();
     },
     methods : {
         loadData : function(){
@@ -166,11 +180,11 @@ export default{
             fetch("http://localhost:8087/java/recru/"+recruId)
             .then((response) =>response.json()) 
             .then(data => { 
-                this.recruInfo = data;  
-                console.log(this.recruInfo);
+                component.recruInfo = data;  
+                console.log(component.recruInfo);
                 //나이 넣어주기
-                if(this.recruInfo.wishAge){
-                    var ages = this.recruInfo.wishAge.split(' ');
+                if(component.recruInfo.wishAge){
+                    var ages = component.recruInfo.wishAge.split(' ');
                     var ageChkBox = document.getElementsByName('wishAge');
                     ageChkBox.forEach(ageChk=>{
                         ages.forEach(age=>{
@@ -181,27 +195,16 @@ export default{
                 }
                 //장비 목록 출력
                 var myGearList = this.recruInfo.myGear.split(',');
+                //장비 목록 출력
+                var myGearList = this.recruInfo.myGear.split(',');
                 for(let i=0; i<myGearList.length ; i+=3){
                     var menu = 'recru-mygear'
                     const box = document.getElementById('recru-mygear-body');
                     const li = document.createElement('li');
-                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}">`
-                                +` <select class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}">`
-                                    +"<option selected disabled>장비 분류</option>"
-                                    +"<option value='기타' value='텐트'>텐트</option>"
-                                    +"<option value='타프'>타프</option>"
-                                    +"<option value='가구'>가구</option>"
-                                    +"<option value='침구'>침구</option>"
-                                    +"<option value='조리도구'>조리도구</option>"
-                                    +"<option value='조명'>조명</option>"
-                                    +"<option value='수납'>수납</option>"
-                                    +"<option value='공구'>공구</option>"
-                                    +"<option value='냉난방'>냉난방</option>"
-                                    +"<option value='기타'>기타</option>"
-                                +"</select>"
-                                +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>개"
-                                +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
-                                +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
+                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}" disabled>
+                                <input class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}"disabled>
+                                <input type='number' class='${menu}-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;'disabled value='${myGearList[i+2]}'>개
+                                <button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>`;
                     li.innerHTML = str;
                     box.appendChild(li);
                 }
@@ -210,23 +213,10 @@ export default{
                     var menu = 'recru-needgear'
                     const box = document.getElementById('recru-needgear-body');
                     const li = document.createElement('li');
-                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${myGearList[i]}">`
-                                +` <select class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${myGearList[i+1]}">`
-                                    +"<option selected disabled>장비 분류</option>"
-                                    +"<option value='기타' value='텐트'>텐트</option>"
-                                    +"<option value='타프'>타프</option>"
-                                    +"<option value='가구'>가구</option>"
-                                    +"<option value='침구'>침구</option>"
-                                    +"<option value='조리도구'>조리도구</option>"
-                                    +"<option value='조명'>조명</option>"
-                                    +"<option value='수납'>수납</option>"
-                                    +"<option value='공구'>공구</option>"
-                                    +"<option value='냉난방'>냉난방</option>"
-                                    +"<option value='기타'>기타</option>"
-                                +"</select>"
-                                +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>개"
-                                +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
-                                +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
+                    let str = `<input type='text' class='${menu}-name' style='padding:5px;margin:3px;border:white;' value="${needGearList[i]}" disabled>
+                                <input class='${menu}-type' style='padding:5px;margin:3px;border:white;' value="${needGearList[i+1]}"disabled>
+                                <input type='number' class='${menu}-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='${needGearList[i+2]}' disabled>개
+                                <button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>`;
                     li.innerHTML = str;
                     box.appendChild(li);
                 }
@@ -236,12 +226,13 @@ export default{
             })
         },
         loadImgs: function () {
-            const recruId = this.recruCard.recruId;
+            const recruId = this.recruId;
             const component = this;
             fetch("http://localhost:8087/java/recruImg/" + recruId)
                 .then(result => result.json())
                 .then(result => {
                 component.images=result;
+                console.log(component.images)
             })
                 .catch(err => console.log(err));
         },
@@ -282,7 +273,7 @@ export default{
                     return;
                 }
                 if(myGearNames[i].value===''){
-                    Swal.fire('장비 이름을 입력해주세요','장비는 하나 이상 입력해야 합니다. 추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
+                    Swal.fire('장비 이름을 입력해주세요',' 추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
                     myGearNames[i].focus();
                     return;
                 }
@@ -294,7 +285,7 @@ export default{
                     return;
                 }
                 if(needGearNames[i].value===''){
-                    Swal.fire('장비 이름을 입력해주세요','장비는 하나 이상 입력해야 합니다. 추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
+                    Swal.fire('장비 이름을 입력해주세요','추가할 장비가 없을 경우 x 버튼을 눌러 지워주세요','warning');
                     needGearNames[i].focus();
                     return;
                 }
@@ -328,22 +319,14 @@ export default{
             .then(Response => Response.json())  //json 파싱 
             .then(data => { 
                 //이미지 업로드
-                if(this.files.length>0){
-                   // this.fileUpdate();  
-                }
-                Swal.fire('수정 완료','캠핑 모집글이 수정되었습니다.','success')
-                .then(result => {
-                    if (result.isConfirmed) { 
-                        this.$router.go(-1)
-                    } 
-                })
+                this.fileUpdate();  
             }).catch(err=>console.log(err))
         },
         addFile : function(){
             //파일 배열에 이미지 넣기
-            const imgfiles = document.querySelectorAll('.img');
+            const newfiles = document.querySelectorAll('.img');
             this.files.length=1;
-            imgfiles.forEach((imgfile) => {           
+            newfiles.forEach((imgfile) => {           
                 if(imgfile.value !=''){
                     this.files.push(imgfile.files[0])
                 }
@@ -352,18 +335,47 @@ export default{
         fileUpdate : async function () {
             //서버에 이미지 수정
             const formData = new FormData();
-            this.files.forEach(file=>{
-                formData.append('files', file);
-            })
-            fetch('http://localhost:8087/java/recruImg',{
-                    method : "PUT",
-                    headers : {},
+            if(this.files.length<=1){
+                this.files ={};
+                console.log('추가이미지없음')
+            }else{
+                this.files.forEach(file=>{
+                    formData.append('files', file);
+                })
+                
+                console.log(this.files)
+            }
+            if(this.deleteFiles.length<=0){
+                this.deleteFiles =[0];
+                console.log('삭제이미지없음')
+            }else{
+                this.deleteFiles.forEach(file=>{
+                    formData.append('imgList', file);
+                })
+                
+                console.log(this.deleteFiles)
+            }
+            formData.append('recruId', this.recruId);
+        
+            fetch('http://localhost:8087/java/recruImg/update',{
+                    method : "POST",
+                    headers :{},
                     body : formData
                 }) 
                 .then(Response => Response.json())  
                 .then(data => { 
                     console.log(data)
-                }).catch(err=>console.log(err))
+                    Swal.fire('수정 완료','캠핑 모집글이 수정되었습니다.','success')
+                    .then(result => {
+                        if (result.isConfirmed) { 
+                            this.$router.go(-1)
+                        } 
+                    })
+                }).catch(err=>{
+                    Swal.fire('수정 실패','문제가 계속 될 경우 문의를 남겨주세요.','error')
+                    console.log(err)
+                })
+            
         },
         addGear : function(menu){                
             const box = document.getElementById(menu);
@@ -385,7 +397,7 @@ export default{
                             +"<option value='기타'>기타</option>"
                         +"</select>"
                         +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>개"
-                        +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
+                        +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile' accept='image/*'>"
                         +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
             li.innerHTML = str;
             box.appendChild(li);
@@ -395,13 +407,21 @@ export default{
                 e.target.parentNode.remove();
             }
         },
+        deleteImg : function(e){
+            let imgs = this.images;
+            for(let i=0;i<imgs.length; i++){
+                if(imgs[i].originName === e.target.parentNode.firstChild.innerHTML){
+                    this.deleteFiles.push(imgs[i].originName)
+                    this.images.splice(i,1)
+                }
+            }
+        },
         setGearList :function(menu){
             let gearNames = document.querySelectorAll('.recru-'+menu+'-name');
             let gearTypes = document.querySelectorAll('.recru-'+menu+'-type');
             let gearNum = document.querySelectorAll('.recru-'+menu+'-num');
             let gearList = gearNames[0].value+','+gearTypes[0].value+','+gearNum[0].value;
-            //특수문자 체크 정규식
-            const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g
+            
             for(let i=1 ; i<gearNames.length ; i++){
                 gearList = gearList+ ','+ gearNames[i].value+','+gearTypes[i].value+','+gearNum[i].value ;
             }
@@ -450,7 +470,7 @@ export default{
         toastSwal: Swal.mixin({
             toast: true,
             showConfirmButton: false,
-            timer: 1000,
+            timer: 1500,
             position: 'center-center'
         })
     }

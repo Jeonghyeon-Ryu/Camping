@@ -3,7 +3,7 @@
         <div class="recru-input-back recru-back-box" >
         </div>
         <div class="recru-input-box">
-            <h3>캠핑 동행 모집 등록</h3>
+            <h3>캠핑 동행 모집글 등록</h3>
             <form id="recru-form" role="form" method="post" enctype="multipart/form-data">
                 <div class="recru-info-box">
                     <div class="recru-info-car">
@@ -34,8 +34,8 @@
                 <div class="recru-info-box">
                     <div class="recru-mygear-header">
                         <span>보유한 장비</span>
-                        <button class="btn badge bg-info badge-md " type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
-                        <button class="btn badge bg-dark badge-md " type="button" @click="getGearList">내 장비 가져오기</button>
+                        <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
+                        <button class="gear-mylist-btn recru-info-btn" type="button" @click="getGearList">내 장비 가져오기</button>
                     </div>
                     <ul @click="removeGear" id="recru-mygear-body">
                         <li><input type="text" class="recru-mygear-name" placeholder="장비 이름">
@@ -60,7 +60,7 @@
                 <div class="recru-info-box">
                     <div class="recru-needgear-header">
                         <span>필요한 장비</span>
-                        <button class="btn badge bg-info badge-md " type="button" v-on:click="addGear('recru-needgear-body')">추가</button>                    
+                        <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-needgear-body')">추가</button>                    
                     </div>
                     <ul @click="removeGear" id="recru-needgear-body">
                         <li><input type="text" class="recru-needgear-name" placeholder="장비 이름">
@@ -98,11 +98,11 @@
                         <div>
                             <span>나의 노트</span>
                             <ul v-for="note in myNote" v-bind:key="myNote.noteId">
-                                <li class="recru-mynote-select"><input type="radio" v-model="recruInfo.noteId">{{note.noteTitle}}</li>
+                                <li class="recru-mynote-select in-level"><input type="radio" v-model="recruInfo.noteId">{{note.noteTitle}}</li>
                             </ul>
                         </div>
                         <div>
-                            <button type="button" class="write-note-btn" @click="writeNewNote">새 노트 쓰기</button>
+                            <button type="button" class="write-note-btn recru-info-btn" @click="writeNewNote">새 노트 쓰기</button>
                         </div>
                     </div>
                 </div>
@@ -121,22 +121,25 @@
                             <input type="text" name="campP_address_kakao" readonly @click="searchAddr" placeholder="도로명 주소 검색">
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
                             <input type="text" name="campP_address_detail" placeholder="상세주소" @click="chkSearchAddr" />
-                            <button type="button" @click="searchCamp">캠핑장 검색</button>
+                            <button type="button" class="recru-info-btn" @click="searchCamp">캠핑장 검색</button>
                         </li>
                         <li class="recru-info-number">
-                            <label>모집인원 <input type="number" v-model="recruInfo.recruNum" min="1" de></label>
+                            <label for="recru-insert-num">모집인원</label> <input type="number" id="recru-insert-num" v-model="recruInfo.recruNum" min="1">
                         </li>
                         <li class="recru-info-day">
-                            <label>여행 날짜 <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"></label> 
+                            <label for="recru-insert-goDate">여행 날짜</label> 
+                            <input type="date" id="recru-insert-goDate" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"> 
                             ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate">
                         </li>
                     </ul>
                 </div>
-                <div class="recru-info-last">
-                    <label><span>마감일</span> <input type="date" name="recru_input_closingDate" v-model="recruInfo.closingDate" class="select-date"></label>
+                <div class="recru-info-box">    
+                    <div class="recru-info-last">
+                        <label><span>마감일</span> <input type="date" name="recru_input_closingDate" v-model="recruInfo.closingDate" class="select-date"></label>
+                    </div>
                 </div>
-                <div class="recru-info-btn" style="text-align: center;">
-                    <button class="btn bg-gradient-success btn-md"
+                <div class="recru-insert-btn" style="text-align: center;">
+                    <button class="recru-submit-btn recru-info-btn"
                     v-on:click.prevent="uploadContent">등록</button>
                 </div>
             </form>
@@ -293,6 +296,7 @@ export default{
             })            
         },
         fileUpload : async function () {
+            console.log( this.files)
             //서버에 이미지 업로드
             const formData = new FormData();
             this.files.forEach(file=>{
@@ -303,7 +307,7 @@ export default{
                     headers : {},
                     body : formData
                 }) 
-                .then(Response => Response.json())  
+                .then(Response => Response.text())  
                 .then(data => { 
                     console.log(data)
                 }).catch(err=>console.log(err))
@@ -313,7 +317,7 @@ export default{
             const li = document.createElement('li');
             menu = menu.substring(0,menu.indexOf("-b"));
 
-            let str = "<input type='text' class='"+menu+"-name' style='padding:5px;margin:3px;border:white;'>"
+            let str = "<input type='text' class='"+menu+"-name' style='padding:5px;margin:3px;border:white;' placeholder='장비 이름'>"
                         +" <select class='"+menu+"-type' style='padding:5px;margin:3px;border:white;'>"
                             +"<option selected disabled>장비 분류</option>"
                             +"<option value='기타' value='텐트'>텐트</option>"
