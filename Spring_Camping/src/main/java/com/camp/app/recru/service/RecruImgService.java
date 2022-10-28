@@ -13,5 +13,8 @@ public interface RecruImgService {
 	//게시물별 사진
 	public List<RecruImgVO> findImg(int recruId);
 	//수정
-	
+	public int updateRecruImg(String[] imgList, int recruid);
+	//추가 등록
+	public boolean addRecruImg(List<MultipartFile> files, int recruid);
+
 }

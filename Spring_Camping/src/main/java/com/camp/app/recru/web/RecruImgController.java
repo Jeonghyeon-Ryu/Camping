@@ -1,6 +1,5 @@
 package com.camp.app.recru.web;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,37 +30,37 @@ public class RecruImgController {
 
 	@Autowired
 	RecruImgService imgService;
-	
+
 	@Autowired
 	RecruService recruService;
-	
-	//이미지 저장
+
+	// 이미지 저장
 	@PostMapping("/recruImg")
 	public boolean imgInsert(@RequestParam List<MultipartFile> files) throws IOException {
 		return imgService.insertRecruImg(files);
 	}
-	
-	//이미지 정보 조회
+
+	// 이미지 정보 조회
 	@GetMapping("/recruImg/{recruId}")
-	public List<RecruImgVO> findRecruImg(@PathVariable int recruId){
+	public List<RecruImgVO> findRecruImg(@PathVariable int recruId) {
 		return imgService.findImg(recruId);
 	}
-	
-	//이미지 출력
+
+	// 이미지 출력
 	@GetMapping("/recruImg/{imgPath}/{storedName}")
-	public ResponseEntity<Resource> showImage(@PathVariable String imgPath, @PathVariable String storedName){
+	public ResponseEntity<Resource> showImage(@PathVariable String imgPath, @PathVariable String storedName) {
 		String fullPath = "d:\\upload\\recru\\" + imgPath + "\\" + storedName;
-		System.out.println("*** FullPath : " +fullPath);
+		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
-		
-		if(!resource.exists()) {
+
+		if (!resource.exists()) {
 			System.out.println("File Not Found ! ");
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 		}
-		
+
 		HttpHeaders header = new HttpHeaders();
 		Path filePath = null;
-		
+
 		try {
 			filePath = Paths.get(fullPath);
 			header.add("Content-Type", Files.probeContentType(filePath));
@@ -70,7 +69,22 @@ public class RecruImgController {
 		}
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
-	
-	
 
+	// 이미지 수정
+	@PostMapping(value="/recruImg/update")
+	public int UpdateImage(List<MultipartFile> files,RecruImgVO imgVO){
+		int id = imgVO.getRecruId();
+		System.out.println("게시글 아이디  : " +id);
+		//새로 추가하는 파일
+		if(files!=null) {
+			imgService.addRecruImg(files,imgVO.getRecruId());			
+		}
+		// 삭제하는 파일
+		if(imgVO.getImgList()!=null) {
+			String[] list = imgVO.getImgList();
+			imgService.updateRecruImg(list, imgVO.getRecruId());
+		}
+		return 1;
+		
+	}
 }

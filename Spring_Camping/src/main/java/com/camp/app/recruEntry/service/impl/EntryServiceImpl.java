@@ -1,6 +1,5 @@
 package com.camp.app.recruEntry.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import com.camp.app.member.mapper.MemberMapper;
 import com.camp.app.member.service.MemberVO;
 import com.camp.app.recru.mapper.RecruMapper;
 import com.camp.app.recru.service.RecruService;
-import com.camp.app.recru.service.RecruVO;
 import com.camp.app.recruEntry.mapper.EntryMapper;
 import com.camp.app.recruEntry.service.EntryService;
 import com.camp.app.recruEntry.service.EntryVO;
