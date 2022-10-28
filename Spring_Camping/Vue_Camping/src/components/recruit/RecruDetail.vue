@@ -260,12 +260,18 @@ export default{
                 }).catch(err => console.log(err));
 
                 //캠핑장 정보 조회
-                var region = component.recruPost.campingPoint;
-                console.log(region)
-                fetch(`http://13.125.95.210:85/java/recru/campingPoint/${region}`)
+                var regionInfo = {
+                    campAddress : component.recruPost.campingPoint
+                }
+                fetch(`http://13.125.95.210:85/java/recru/campingPoint`,{
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(regionInfo)
+                }) 
                 .then(result => result.json())
                 .then(result => {
                     component.campSites = result;
+                    console.log(component.campSites)
                 }).catch(err => console.log(err));
 
                 //서버에서 모집글에 대한 참가목록 조회

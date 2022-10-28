@@ -103,8 +103,8 @@ public class RecruController {
 		return service.insertReview(recruVO);
 	}
 	//캠핑장검색
-	@GetMapping("/recru/campingPoint/{region}")
-	public List<CampVO> searchCamp(@PathVariable String region) {
-		return service.searchCamp(region);
+	@PostMapping("/recru/campingPoint")
+	public List<CampVO> searchCamp(@RequestBody CampVO campVO) {
+		return service.searchCamp(campVO);
 	}
 }

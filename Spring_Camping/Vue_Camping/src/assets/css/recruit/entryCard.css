@@ -10,10 +10,7 @@
     .entry-card-box{
         display: flex;
         justify-content: center;
-        margin: 10px 0;
-    }
-    .entry-card-contents{
-      max-height:105px;
+        margin: 15px 0;
     }
     .row{
         display: flex;
@@ -21,6 +18,14 @@
     }
     .col{
         display: block;
+    }    
+    .entry-card-info{
+        width: 170px;
+        margin: 0 10px;
+        border: 1px solid lightgray;
+        border-radius: 3px;
+        background: white;
+        box-shadow: 0 3px 3px #1d552526, 0 3px 1px -2px #1c773f33, 0 1px 5px #2b702126;
     }
     /* 프로필사진 */
     .entry-card-img{
@@ -34,22 +39,15 @@
         height: 50px;
         min-width: 100%;
     }
-    .entry-card-info{
-        width: 170px;
-        margin: 0 10px;
-        border: 1px solid lightgray;
-        border-radius: 3px;
-        background: white;
-        box-shadow: 0 3px 3px #1d552526, 0 3px 1px -2px #1c773f33, 0 1px 5px #2b702126;
+    /* 내용 */
+    .entry-card-contents{
+        margin: 10px;
+        height: 120px;
+        overflow-y: scroll;
     }
     .entry-card-contents p{
         margin: 5px 0;
         font-size: smaller;
-      }
-      .entry-card-contents{
-          margin: 10px;
-          height: 180px;
-          overflow: hidden;
       }
     .entry-date{
         color: gray;
@@ -59,8 +57,7 @@
     .entry-yesno-btn{
         display: flex;
         justify-content: space-between;
-    }
-    
+    }  
     .entry-yesno-btn button{
         padding: 5px;
         border : none;

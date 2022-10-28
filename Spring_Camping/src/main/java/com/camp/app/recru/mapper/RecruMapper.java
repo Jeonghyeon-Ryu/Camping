@@ -36,5 +36,5 @@ public interface RecruMapper {
 	//후기등록
 	public int insertReview(RecruVO recruVO);
 	//캠핑장검색
-	public List<CampVO> searchCamp(String region);
+	public List<CampVO> searchCamp(CampVO campVO);
 }

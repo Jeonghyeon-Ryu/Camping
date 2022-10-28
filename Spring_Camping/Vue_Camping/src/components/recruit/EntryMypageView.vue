@@ -105,7 +105,7 @@
                     }else if(status==1){
                         return '신청완료'
                     }else if(status==2){
-                        return '거절됨'
+                        return '거절/취소됨'
                     }else if(status==3){
                         return '취소대기'
                     }else{
