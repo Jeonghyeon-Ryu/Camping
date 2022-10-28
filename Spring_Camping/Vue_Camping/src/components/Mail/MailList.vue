@@ -1,7 +1,7 @@
 <template>
   <div class="container">
   <h2 style="text-align:center;">📫</h2>
-  <h3 style="text-align:center; padding-bottom: 20px;">{{this.$store.state.nickname}} 님의 쪽지함</h3>
+  <h3 style="text-align:center; padding-bottom: 20px;">{{this.$store.state.nickname}} 님의 쪽지함 </h3>
 
   <div class="container2">
     <div class="rcvMail">

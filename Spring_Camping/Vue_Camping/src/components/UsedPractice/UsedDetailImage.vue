@@ -69,7 +69,6 @@ export default {
     -webkit-align-items: center;
     align-items:center;
 }
-
 .swiper-slide img {
     display: block;
     width: 100%;

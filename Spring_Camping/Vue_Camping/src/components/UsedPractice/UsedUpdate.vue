@@ -4,7 +4,7 @@
       <!-- <h3>상품 등록</h3> -->
         <div class="used-heads">
           <div class="usedId" name="usedId"></div>
-          <!-- 사진 -->
+          <!-- 사진  -->
           <div class="used-insert-image-container">
             <h3>상품 사진</h3>
               <div class='used-insert-image-preview'>

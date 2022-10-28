@@ -252,7 +252,6 @@
                     opt.innerHTML = cityList[i];
                     sigu.appendChild(opt);
        }
-
       },
       searchList : function(){
         //키워드 검색+필터검색 결과 받아오기
