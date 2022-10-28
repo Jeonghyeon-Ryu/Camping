@@ -74,10 +74,10 @@ export default {
         },
         {
           "게시글": ["/sns/" + undefined, true],
-          "글쓰기": ["/sns/write", false],
-          "좋아요": ["/sns/myLikeFeed/" + this.$store.state.nickname, false],
-          "태그피드": ["/sns/myTagFeed/" + this.$store.state.nickname, false],
-          "나의피드": ["/sns/myFeed/" + this.$store.state.nickname, false],
+          "글쓰기": ["/sns/write", true],
+          "좋아요": ["/sns/myLikeFeed/" + this.$store.state.nickname, true],
+          "태그피드": ["/sns/myTagFeed/" + this.$store.state.nickname, true],
+          "나의피드": ["/sns/myFeed/" + this.$store.state.nickname, true],
         },
         {
           "이용방법": ["/MynoteList", true],

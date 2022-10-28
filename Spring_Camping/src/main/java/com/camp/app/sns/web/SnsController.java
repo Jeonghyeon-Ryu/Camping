@@ -216,8 +216,8 @@ public class SnsController {
 	}
 
 	// 게시글에 좋아요한 수 배포 후 추가
-	@GetMapping("/memberLikeCount/{boardId}")
-	public int getLikeSnsToWriteNo(@PathVariable("boardId") String boardId) {
+	@GetMapping("/memberLikeWriteNoCount/{boardId}")
+	public int getLikeSnsToWriteNo(@PathVariable("boardId") int boardId) {
 		System.out.println(boardId);
 		return service.countLikeSnsToWriteNo(boardId);
 	}

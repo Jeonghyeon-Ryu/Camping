@@ -10,10 +10,9 @@
       </div>
       <div class="sns-write-form-container">
         <div class="sns-write-form">
-
           <div class="sns-upload-image-container">
             <div class="sns-register-image-preview">
-            <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
+              <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
           </div>
             <form class="sns-upload-image-preview" id="sns-register-image-form" encrypt="multipart/form-data"
               style="padding:20px;">
@@ -24,9 +23,6 @@
             </form>
           </div>
         </div>
-
-
-
         <form class="sns-write-form" id="snsForm">
           <div class="sns-write-form-id-form">
             <div class="sns-write-form-id">
@@ -50,10 +46,6 @@
           <div class="sns-write-place">
             <input :value="this.place" type="text" name="place" placeholder="장소">
           </div>
-          <!-- 위치검색 -->
-          <!-- <div class="sns-write-location">
-            <input v-model="snsWriteLocation" type="text" name="location" placeholder="위치등록">
-          </div> -->
           <label class="sns-register-address-container">
             <div class="sns-write-location">
               <input @keyup.enter="snsAddress()" type="text" name="location" class="sns-register-address"
@@ -69,30 +61,12 @@
     </div>
   </div>
 </template>
-
 <script>
 import SnsSearch from './SnsSearch.vue';
+import Swal from 'sweetalert2';
 import KakaoMap from '../KakaoMap.vue';
 import ImagePreview from '../ImagePreview.vue';
-import Swal from 'sweetalert2';
 export default {
-  //DB연결
-  created: function () {
-    //현재위치..노...
-    //     navigator.geolocation.getCurrentPosition(function(pos) {
-    //     var latitude = pos.coords.latitude;
-    //     var longitude = pos.coords.longitude;
-    //     alert("현재 위치는 : " + latitude + ", "+ longitude);
-    // });
-
-    //프로필 이미지
-    fetch('http://13.125.95.210:85/java/profile/' + this.$store.state.email)
-      .then(result => result.json())
-      .then(result => {
-        this.storedProfile = result;
-      }).catch(err => console.log(err));
-  },
-
   data: function () {
     return {
       nickname: this.$store.state.nickname,
@@ -115,6 +89,22 @@ export default {
   components: {
     KakaoMap,
     ImagePreview
+  },
+  //DB연결
+  created: function () {
+    //현재위치..노...
+    //     navigator.geolocation.getCurrentPosition(function(pos) {
+    //     var latitude = pos.coords.latitude;
+    //     var longitude = pos.coords.longitude;
+    //     alert("현재 위치는 : " + latitude + ", "+ longitude);
+    // });
+
+    //프로필 이미지
+    fetch('http://13.125.95.210:85/java/profile/' + this.$store.state.email)
+      .then(result => result.json())
+      .then(result => {
+        this.storedProfile = result;
+      }).catch(err => console.log(err));
   },
   //검색
   methods: {
@@ -272,8 +262,10 @@ export default {
     },
   },
   components: {
-    SnsSearch
-  },
+    SnsSearch,
+    KakaoMap,
+    ImagePreview
+},
 }
 
 </script>
