@@ -2,6 +2,7 @@
   <div>
     <HeaderNav ref="headerNav"></HeaderNav>
     <router-view @loginout="loginout" @send="send" @scroll="onScroll($event)"></router-view>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -10,12 +11,14 @@ import { RouterLink, RouterView } from 'vue-router'
 import HeaderNav from './components/Main/HeaderNav.vue'
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import Footer from './components/Main/Footer.vue';
 
 export default {
   name: 'App',
   components: {
     HeaderNav,
-  },
+    Footer
+},
   data() {
     return {
       stompClient: '',
@@ -181,8 +184,6 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      console.log(to);
-      console.log('현재 ',from);
       if(from.name == undefined) {
         this.$router.push({name:to.name});
         this.$refs.headerNav.setInfo();
@@ -204,17 +205,6 @@ export default {
 }
 body {
   overflow-x: hidden;  
-}
-
-@font-face {
-  font-family: 'Noto Sans KR';
-  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap');
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Open+Sans&display=swap');
-  unicode-range: U+0041-005A, U+0061-007A;
 }
 
 #app {

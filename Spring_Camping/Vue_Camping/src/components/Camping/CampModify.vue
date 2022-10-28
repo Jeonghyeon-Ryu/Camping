@@ -3,7 +3,7 @@
         <div class="camp-detail-title-container">
             <input :value="camp.campName" class="camp-detail-title" readonly />
             <div class="camp-detail-title-info">
-                <div class="camp-detail-review-count"><a href="#camp-detail-sns-container">후기(30)</a></div>
+                <!-- <div class="camp-detail-review-count"><a href="#camp-detail-sns-container">후기(30)</a></div> -->
                 <div class="camp-detail-address"><a href="#" v-text="camp.campAddress"></a></div>
             </div>
         </div>

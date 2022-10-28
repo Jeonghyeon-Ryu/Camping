@@ -28,6 +28,7 @@ export default {
 </script>
 <style scoped>
 .main-container {
+  margin-top:1rem;
   width:100%;
   padding:1rem;
 }

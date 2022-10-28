@@ -1,6 +1,6 @@
 <template>
   <div class="vertical-card-container">
-    <div class="card" v-for="data of datas">
+    <div class="card" v-for="data of resultDatas">
       <div class="card-image">
         <CampListImage :campId="data.campId"></CampListImage>
       </div>
@@ -20,7 +20,7 @@
             <img v-if="data.campInfo.lease" width="20" src="@/assets/img/Camping/lease.png" />
           </p>
         </div>
-        <button class="card-button" type="button">More Info</button>
+        <button class="card-button" type="button" @click="moreInfo(data.campId)">More Info</button>
       </div>
     </div>
   </div>
@@ -30,9 +30,40 @@ import CampListImage from '../Camping/CampListImage.vue';
 
 export default {
   props: ["datas"],
+  beforeUpdate() {
+    this.dataProcess();
+  },
   data: function () {
     return {
       resultDatas: '',
+    }
+  },
+  methods: {
+    moreInfo: function (campId) {
+      this.$router.push({ name: 'CampDetail', params: { campId: campId } });
+    },
+    dataProcess: function () {
+      let temp = this.datas;
+      console.log(temp);
+      for (let i = 0; i < temp.length; i++) {
+        temp[i].campInfo = temp[i].campInfo.split(" ");
+        let info = {
+          toilet: false,
+          parking: false,
+          shower: false,
+          disposal: false,
+          deck: false,
+          bbq: false,
+          swin: false,
+          spoon: false,
+          lease: false
+        };
+        for (let infoTemp of temp[i].campInfo) {
+          info[infoTemp] = true;
+        }
+        temp[i].campInfo = info;
+      }
+      this.resultDatas = temp;
     }
   },
   components: { CampListImage }

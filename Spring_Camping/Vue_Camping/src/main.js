@@ -10,9 +10,9 @@ import createPersistedState from 'vuex-persistedstate';
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 
-const serverURL = "/java/ws";
-const socket = new SockJS(serverURL);
-const stompClient = Stomp.over(socket);
+// const serverURL = "/java/ws";
+// const socket = new SockJS(serverURL);
+// const stompClient = Stomp.over(socket);
 
 const store = createStore({
     plugins: [createPersistedState({
