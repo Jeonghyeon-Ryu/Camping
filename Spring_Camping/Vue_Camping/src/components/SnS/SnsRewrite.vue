@@ -22,7 +22,7 @@
           <div class="sns-write-form-id-form">
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+                <img :src="'http://13.125.95.210:85/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
               </div>
             </div>
             <div class="sns-write-form-id">
@@ -69,7 +69,7 @@ export default {
 
   //DB연결
   created: function () {
-    fetch('http://localhost:8087/java/snsDetail/' + this.writeNo)
+    fetch('http://13.125.95.210:85/java/snsDetail/' + this.writeNo)
       .then(response => response.json())
       .then(result => {
         this.snsItem = result
@@ -78,7 +78,7 @@ export default {
     //서버에서 제대로 받아왔는지 확인.
     console.log(this.snsItem);
 
-    fetch('http://localhost:8087/java/snsImage/' + this.writeNo)
+    fetch('http://13.125.95.210:85/java/snsImage/' + this.writeNo)
       .then(response => response.json())
       .then(result => {
         this.snsImgs = result
@@ -87,7 +87,7 @@ export default {
     //서버에서 제대로 받아왔는지 확인.
     
     //프로필 이미지
-    fetch('http://localhost:8087/java/profile/' + this.$store.state.email)
+    fetch('http://13.125.95.210:85/java/profile/' + this.$store.state.email)
       .then(result => result.json())
       .then(result => {
         this.storedProfile = result;
@@ -136,7 +136,7 @@ export default {
       new FormData(document.querySelector('#snsForm')).forEach((value, key) => snsInfo[key] = value);
       console.log(snsInfo);
 
-      fetch('http://localhost:8087/java/snsUpdate', {
+      fetch('http://13.125.95.210:85/java/snsUpdate', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

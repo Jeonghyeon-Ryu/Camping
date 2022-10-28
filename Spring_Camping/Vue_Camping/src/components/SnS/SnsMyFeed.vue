@@ -15,7 +15,7 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+            <img :src="'http://13.125.95.210:85/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
           </div>
         </div>
         <div class="sns-write-form-id">
@@ -41,7 +41,7 @@
         @click="getSnsDetail(snsMyList.writeNo)">
         <div class="sns-img">
           <input type="text" :value="snsMyList.writeNo" style="display :none;" readonly>
-          <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyList.snsPath+'/'+snsMyList.storedName">
+          <img :src="'http://13.125.95.210:85/java/showSnsImage/'+snsMyList.snsPath+'/'+snsMyList.storedName">
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@ export default {
 
     //닉네임을 이용해서 닉네임, 이메일, 프로필 소개글을 가져오는걸로 바꿈
     //왜냐면 헤더네비에서 눌렀을때는 store가 맞는데 검색창으로 했을땐 누는 사람의 닉네임에 맞게 들어가줘야하니까 엄청 헷갈림.. 내용정리필요
-    fetch('http://localhost:8087/java/emailByNickname/' + nick)
+    fetch('http://13.125.95.210:85/java/emailByNickname/' + nick)
       .then(response => response.json())
       .then(result => {
         console.log(result);
@@ -67,7 +67,7 @@ export default {
 
         //위의 패치문이 실행되고 난 이후에 실행되어야 하는 애들
         // 작성자의 총 게시글 숫자 표시
-        fetch('http://localhost:8087/java/memberCount/' + this.snsMyData.email)
+        fetch('http://13.125.95.210:85/java/memberCount/' + this.snsMyData.email)
           .then(response => response.json())
           .then(result => {
             console.log(result);
@@ -79,7 +79,7 @@ export default {
 
         // 해당 유저가 작성한 게시글 리스트
         // 페이징
-        fetch('http://localhost:8087/java/memberSnsList/' + this.snsMyData.email + "/" + this.page)
+        fetch('http://13.125.95.210:85/java/memberSnsList/' + this.snsMyData.email + "/" + this.page)
           .then(response => response.json())
           .then(result => {
             console.log(result);
@@ -92,7 +92,7 @@ export default {
 
 
         //프로필 이미지
-        fetch('http://localhost:8087/java/profile/' + this.snsMyData.email)
+        fetch('http://13.125.95.210:85/java/profile/' + this.snsMyData.email)
           .then(result => result.json())
           .then(result => {
             this.storedProfile = result;

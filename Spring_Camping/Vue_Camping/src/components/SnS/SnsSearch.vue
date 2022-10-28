@@ -27,7 +27,7 @@ export default {
 
   //DB연결
   created: function () {
-    fetch('http://localhost:8087/java/hashtag')
+    fetch('http://13.125.95.210:85/java/hashtag')
 
       .then(result => result.text())
       .then(result => result.substring(2, result.length - 2))
@@ -47,7 +47,7 @@ export default {
 
 
     //닉네임 검색... 왜안되ㅈ는지....그지같음...
-    fetch('http://localhost:8087/java/snsnickname')
+    fetch('http://13.125.95.210:85/java/snsnickname')
       .then(result => result.text())
 
 
