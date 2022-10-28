@@ -15,10 +15,10 @@
           <router-link v-if="$store.state.email != null" to="/" tag="div" class="header-button"><img
               src="@/assets/img/icons/logout.png" alt="" @click="clickTopCategory('로그아웃')"></router-link>
           <!-- <div @click="showLoginForm()"><img src="../assets/img/login-30.png" alt=""></div> -->
-          <router-link to="/usedChat" tag="div" class="header-button"><img src="@/assets/img/icons/chat.png" alt=""
-              @click="clickTopCategory('채팅')"></router-link>
-          <router-link to="/" tag="div" class="header-button"><img src="@/assets/img/icons/alarm.png" alt=""
-              @click="clickTopCategory('알람')"></router-link>
+          <router-link v-if="isLogin" to="/mail/mailList" tag="div" class="header-button"><img
+              src="@/assets/img/icons/chat.png" alt="" @click="clickTopCategory('채팅')"></router-link>
+          <!-- <router-link to="/" tag="div" class="header-button"><img src="@/assets/img/icons/alarm.png" alt=""
+              @click="clickTopCategory('알람')"></router-link> -->
           <div class="header-button" @click="showMenuForm()"><img src="@/assets/img/icons/menu.png" alt=""></div>
         </div>
       </div>
@@ -28,7 +28,7 @@
       <div class="header-middle-container">
         <!-- <NavbarDefault dark transparent></NavbarDefault> -->
         <div v-if="($store.state.currentCategory != '0') && ($store.state.currentCategory != null)"
-          class="header-middle-button">{{auth}}
+          class="header-middle-button">{{ auth }}
           <template v-for="(info, key) of middleCategory[$store.state.currentCategory - 1]">
             <div v-show="info[1]">
               <router-link :to="info[0]" tag="div">{{ key }}</router-link>
@@ -47,13 +47,13 @@ export default {
   data: function () {
     return {
       currentCategory: 0,
-      isLogin : false,
-      email : '',
+      isLogin: false,
+      email: '',
       topCategory: {
         "어디갈래?": "/CampList",
         "같이갈래?": "/RecruList",
         "중고장터": "/used/usedMain",
-        "후기피드": "/sns/"+undefined,
+        "후기피드": "/sns/" + undefined,
         "나의노트": "/MynoteList",
       },
       middleCategory: [
@@ -65,26 +65,25 @@ export default {
         {
           "같이 갈래?": ["/RecruList", true],
           "같이 가자!": ["/recru/RecruInsert", true],
-          "나의 동행 모집글": ["/recru/RecruMypage", true],
-          "나의 신청 목록": ["/recru/EntryMypage", true],
-          "보증금 관리": ["/recru/DepositMypage", true],
+          "나의 동행 모집글": ["/recru/RecruMypage", false],
+          "나의 신청 목록": ["/recru/EntryMypage", false],
         },
         {
           "물건 사기": ["/used/UsedMain", true],
-          "물건 팔기": ["/used/UsedInsert", true],
-          "채팅방": ["/chat/rooms2", true],
+          "물건 팔기": ["/used/UsedInsert", false],
         },
         {
-          "게시글": ["/sns", true],
-          "글쓰기": ["/sns/write", true],
-          "좋아요": ["/sns/myLikeFeed/" + this.$store.state.email, true],
-          "나의피드": ["/sns/myFeed/" + this.$store.state.email, true],
+          "게시글": ["/sns/" + undefined, true],
+          "글쓰기": ["/sns/write", false],
+          "좋아요": ["/sns/myLikeFeed/" + this.$store.state.nickname, false],
+          "태그피드": ["/sns/myTagFeed/" + this.$store.state.nickname, false],
+          "나의피드": ["/sns/myFeed/" + this.$store.state.nickname, false],
         },
         {
           "이용방법": ["/MynoteList", true],
-          "내가 작성한 노트": ["/MynoteList", true],
-          "내가 초대받은 노트": ["/InvitedList", true],
-          "노트 작성하기": ["/WriteNote", true],
+          "내가 작성한 노트": ["/MynoteList", false],
+          "내가 초대받은 노트": ["/InvitedList", false],
+          "노트 작성하기": ["/WriteNote", false],
         },
       ],
       responsiveFlag: false,
@@ -139,11 +138,11 @@ export default {
     },
     logout() {
       this.$store.commit('delUserInfo');
-      this.isLogin=false;
+      this.isLogin = false;
       this.$router.push({ name: "Home" });
     },
     setInfo() {
-      if(this.$store.state.email != null){
+      if (this.$store.state.email != null) {
         this.isLogin = true;
       } else {
         this.isLogin = false;
@@ -153,15 +152,67 @@ export default {
   watch: {
     isLogin: function () {
       if (!this.isLogin) {
-        this.middleCategory[0] = {
-          "캠핑장 리스트": ["/CampList",true],
-        }
+        middleCategory = [
+          {
+            "캠핑장 리스트": ["/CampList", true],
+            "캠핑장 등록": ["/CampRegister", false],
+            "저장 목록": ["/StoredCampList", false],
+          },
+          {
+            "같이 갈래?": ["/RecruList", true],
+            "같이 가자!": ["/recru/RecruInsert", true],
+            "나의 동행 모집글": ["/recru/RecruMypage", false],
+            "나의 신청 목록": ["/recru/EntryMypage", false],
+          },
+          {
+            "물건 사기": ["/used/UsedMain", true],
+            "물건 팔기": ["/used/UsedInsert", false],
+          },
+          {
+            "게시글": ["/sns/" + undefined, true],
+            "글쓰기": ["/sns/write", false],
+            "좋아요": ["/sns/myLikeFeed/" + this.$store.state.nickname, false],
+            "태그피드": ["/sns/myTagFeed/" + this.$store.state.nickname, false],
+            "나의피드": ["/sns/myFeed/" + this.$store.state.nickname, false],
+          },
+          {
+            "이용방법": ["/MynoteList", true],
+            "내가 작성한 노트": ["/MynoteList", false],
+            "내가 초대받은 노트": ["/InvitedList", false],
+            "노트 작성하기": ["/WriteNote", false],
+          },
+        ]
       } else {
-        this.middleCategory[0] = {
-          "캠핑장 리스트": ["/CampList",true],
-          "캠핑장 등록": ["/CampRegister",true],
-          "저장 목록": ["/StoredCampList",true]
-        }
+        middleCategory = [
+          {
+            "캠핑장 리스트": ["/CampList", true],
+            "캠핑장 등록": ["/CampRegister", true],
+            "저장 목록": ["/StoredCampList", true],
+          },
+          {
+            "같이 갈래?": ["/RecruList", true],
+            "같이 가자!": ["/recru/RecruInsert", true],
+            "나의 동행 모집글": ["/recru/RecruMypage", true],
+            "나의 신청 목록": ["/recru/EntryMypage", true],
+          },
+          {
+            "물건 사기": ["/used/UsedMain", true],
+            "물건 팔기": ["/used/UsedInsert", true],
+          },
+          {
+            "게시글": ["/sns/" + undefined, true],
+            "글쓰기": ["/sns/write", true],
+            "좋아요": ["/sns/myLikeFeed/" + this.$store.state.nickname, true],
+            "태그피드": ["/sns/myTagFeed/" + this.$store.state.nickname, true],
+            "나의피드": ["/sns/myFeed/" + this.$store.state.nickname, true],
+          },
+          {
+            "이용방법": ["/MynoteList", true],
+            "내가 작성한 노트": ["/MynoteList", true],
+            "내가 초대받은 노트": ["/InvitedList", true],
+            "노트 작성하기": ["/WriteNote", true],
+          },
+        ]
       }
     },
   },

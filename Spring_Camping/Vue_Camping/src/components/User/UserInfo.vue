@@ -137,7 +137,7 @@ export default {
                   didOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer)
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    this.$router.go(0);
+                    this.$router.push({name:'UserInfo'});
                   }
                 })
               } else {

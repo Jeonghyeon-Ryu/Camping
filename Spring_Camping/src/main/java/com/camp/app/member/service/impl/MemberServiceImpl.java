@@ -135,7 +135,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public ResponseEntity<Resource> showImage(String imagePath, String storedName) {
-		String fullPath = this.imagePath + imagePath + "\\" + storedName;
+		String fullPath = this.imagePath + imagePath + "/" + storedName;
 		System.out.println("*** FullPath : " +fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 		
