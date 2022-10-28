@@ -86,7 +86,7 @@
       console.log(this.email)
       
       //내가쓴글전체조회
-      fetch("http://localhost:8087/java/used/mySave/"+this.email)
+      fetch("http://13.125.95.210:85/java/used/mySave/"+this.email)
             .then((Response) => Response.json())  //json 파싱 
             .then(data => { 
               console.log(data)

@@ -4,7 +4,7 @@
       <!-- <h3>상품 등록</h3> -->
         <div class="used-heads">
           <div class="usedId" name="usedId"></div>
-          <!-- 사진 -->
+          <!-- 사진  -->
           <div class="used-insert-image-container">
             <h3>상품 사진</h3>
               <div class='used-insert-image-preview'>
@@ -115,7 +115,7 @@
   export default {
     created(){
       //created-페이지 열자마자 실행
-      fetch('http://localhost:8087/java/used/usedDetail/'+this.usedId) 
+      fetch('http://13.125.95.210:85/java/used/usedDetail/'+this.usedId) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data)
@@ -213,7 +213,7 @@
         }).then(result => {
           // 만약 Promise리턴을 받으면,
 
-          fetch('http://localhost:8087/java/used/usedUpdate',{
+          fetch('http://13.125.95.210:85/java/used/usedUpdate',{
                     method : "PUT",
                     // body : fetchData
                     headers : {"Content-Type" : "application/json"},

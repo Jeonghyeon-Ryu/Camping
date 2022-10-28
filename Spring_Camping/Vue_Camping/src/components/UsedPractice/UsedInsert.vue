@@ -195,7 +195,7 @@
         }else if(content == null || content.trim() === "" ||content.length < 10){
           this.swContent();
         }else{
-            fetch('http://localhost:8087/java/used/usedInsert',{
+            fetch('http://13.125.95.210:85/java/used/usedInsert',{
                     method : "POST",
                     headers : { },
                     body : fetchData
