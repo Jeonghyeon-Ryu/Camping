@@ -373,8 +373,8 @@ export default{
             this.recruInfo.wishAge = result;
 
             //주소 -> 검색주소 + 상세주소
-            this.recruInfo.startingPoint = document.getElementsByName('startP_address_kakao')[0].value+document.getElementsByName('startP_address_detail')[0].value;
-            this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+document.getElementsByName('campP_address_detail')[0].value;
+            this.recruInfo.startingPoint = document.getElementsByName('startP_address_kakao')[0].value+' '+document.getElementsByName('startP_address_detail')[0].value;
+            this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+' '+document.getElementsByName('campP_address_detail')[0].value;
         },
         writeNewNote : function(){
             this.toastSwal.fire({
