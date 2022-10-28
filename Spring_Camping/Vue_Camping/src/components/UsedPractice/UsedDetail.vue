@@ -104,8 +104,8 @@
             <div class="used-writer-home" @click="writerDetail()">
               <b>{{usedList.nickName}}</b> 님의 판매상품 더 구경하기
             </div>
-            <div class="used-writer-sns" @click="writerSns(usedList.nickName)">
-              <b>{{usedList.nickName}}</b> 님의 피드 방문하기
+            <div class="used-writer-sns" @click="writerSns(usedList.nickname)">
+              <b>{{usedList.nickname}}</b> 님의 피드 방문하기
             </div>
           </div>
         </div>
@@ -162,8 +162,8 @@ export default {
     writerDetail: function () {
       this.$router.push({ name: 'myUsed', params: { email: this.usedList.email } })
     },
-    writerSns: function (nickName) {
-      this.$router.push({ name: 'SnsMyFeed', params: { nickname: this.usedList.email } })
+    writerSns: function (nickname) {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: this.usedList.nickName } })
     },
     //쪽지보내기
     sendingMsg: function(){
