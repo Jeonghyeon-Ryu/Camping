@@ -28,7 +28,7 @@
               </div>
             </div>
             <li>
-              <h3>￦{{usedList.usedPrice}}</h3>
+              <h3>￦ {{usedList.usedPrice.toLocaleString('ko-KR')}}</h3>
             </li>
             <hr>
             <!-- 좋아요, 조회수, 신고 -->
@@ -152,7 +152,7 @@ export default {
       usedStatus: img1,
       liked: true,
       likeCnt: 0,
-      storedProfile: ''
+      storedProfile: '',
     }
   },
   components: {

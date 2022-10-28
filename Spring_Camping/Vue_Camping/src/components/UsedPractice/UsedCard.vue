@@ -16,12 +16,20 @@
     <div class="card-info">
       <div class="card-top">
         <ul class="card-info-l">
-          <li class="blue-btn">
-            <a class="first-link" href=""><h3>{{usedCard.usedName}}</h3></a>
-            <input class="used-id" type="hidden" :value="usedCard.usedId">
-          </li>
+          <div v-if="usedCard.usedName.length > 12">
+            <li class="blue-btn">
+              <a class="first-link" href=""><h3>{{usedCard.usedName}}</h3></a>
+              <input class="used-id" type="hidden" :value="usedCard.usedId">
+            </li>
+          </div>
+          <div v-if="usedCard.usedName.length < 12">
+            <li class="blue-btnn">
+              <a class="first-linkk" href=""><h3>{{usedCard.usedName}}</h3></a>
+              <input class="used-id" type="hidden" :value="usedCard.usedId">
+            </li>
+          </div>
           <li>
-            <h4><span class="font-gray">￦ {{usedCard.usedPrice}}</span></h4>
+            <h4><span class="font-gray">￦ {{usedCard.usedPrice.toLocaleString('ko-KR')}}</span></h4>
           </li>
         </ul>
         <ul class="card-info-r">
@@ -255,7 +263,7 @@ export default {
 }
 
 .blue-btn:hover .first-link{
-  margin-left: -270px;
+  margin-left: -210px;
 }
 
 </style>
