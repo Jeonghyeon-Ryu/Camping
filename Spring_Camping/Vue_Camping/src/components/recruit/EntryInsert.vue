@@ -55,8 +55,8 @@ export default{
                 recruId : '',
                 entryCar : '0',
                 entryGear : '',
-                memberId : sessionStorage.getItem("email"), //작성자정보 -->세션에서 받아오기
-                nickname : sessionStorage.getItem("nickname")
+                memberId : this.$store.state.email,
+                nickname : this.$store.state.nickname
             },
             memberId : ''
         }

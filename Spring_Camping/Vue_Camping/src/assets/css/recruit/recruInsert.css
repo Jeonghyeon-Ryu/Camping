@@ -21,7 +21,7 @@
         position: absolute;
         left: 25vw;
         width: 45%;
-        min-width: 660px;
+        min-width: 676px;
         padding: 30px;
         border-radius: 20px;
         backdrop-filter:saturate(100%) blur(30px) ;
