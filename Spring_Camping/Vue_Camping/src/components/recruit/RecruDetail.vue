@@ -28,7 +28,7 @@
                         <button class="report-btn" @click="reportItem">🚨신고</button>
                     </div>
                     <div class="recru-detail-contents">
-                        <br>
+                        
                         <div class="recru-detail-row">
                             <span><h3 style="margin-top:6px">모집기간</h3></span>
                             <p >{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
@@ -462,8 +462,6 @@ export default{
                         text: "로그인 페이지로 이동하겠습니까?",
                         icon: 'warning',
                         showCancelButton: true,
-                        // confirmButtonColor: '#3085d6',
-                        // cancelButtonColor: '#d33',
                         confirmButtonText: '네',
                         cancelButtonText : '아니오'
                     }).then((result) => {

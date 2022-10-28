@@ -373,14 +373,20 @@ export default{
             this.recruInfo.wishAge = result;
 
             //주소 -> 검색주소 + 상세주소
-            this.recruInfo.startingPoint = document.getElementsByName('startP_address_kakao')[0].value+document.getElementsByName('startP_address_detail')[0].value;
-            this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+document.getElementsByName('campP_address_detail')[0].value;
+            this.recruInfo.startingPoint = document.getElementsByName('startP_address_kakao')[0].value+' '+document.getElementsByName('startP_address_detail')[0].value;
+            this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+' '+document.getElementsByName('campP_address_detail')[0].value;
         },
         writeNewNote : function(){
-            alert('노트쓰기 페이지로 연결하기');
+            this.toastSwal.fire({
+            icon:'error',
+            text : '준비중입니다'
+           })
         },
         getGearList : function(){
-            alert('장비가져오기');
+            this.toastSwal.fire({
+            icon:'error',
+            text : '준비중입니다'
+           })
         },
         searchAddr : function(e){
             //도로명주소 검색

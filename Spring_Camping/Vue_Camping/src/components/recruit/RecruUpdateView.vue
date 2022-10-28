@@ -110,7 +110,8 @@
                             <label>모집인원 <input type="number" name="recru_input_recruNum" :value="recruInfo.recruNum" min="1" de></label>
                         </li>
                         <li class="recru-info-day">
-                            <label>여행 날짜 <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"></label> 
+                            <label>여행 날짜 </label>
+                                <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"> 
                             ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate">
                         </li>
                     </ul>
