@@ -52,6 +52,12 @@ public class MailController {
 	//읽음확인
 	@PutMapping("/updateMail")
 	public void updateMail(@RequestBody MailVO mail) {
-		service.updateMail(mail);
+		service.updateMail(mail);	
+	}
+	
+	//쪽지삭제
+	@PutMapping("/deleteMail")
+	public void deleteMail(@RequestBody MailVO mail) {
+		service.deleteMail(mail);
 	}
 }

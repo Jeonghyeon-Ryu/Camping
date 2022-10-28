@@ -19,4 +19,5 @@ public class MailVO {
 	private String usedName;
 	private String sendNick;
 	private String rcvNick;
+	private int mailDel;
 }
