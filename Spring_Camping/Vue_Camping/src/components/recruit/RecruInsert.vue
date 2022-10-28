@@ -266,7 +266,7 @@ export default{
             
             let recruVO = this.recruInfo;
             //서버를 통해 게시글 내용 insert
-            fetch('http://localhost:8087/java/recru',{
+            fetch('/java/recru',{
                 method : "POST",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(recruVO )
@@ -302,7 +302,7 @@ export default{
             this.files.forEach(file=>{
                 formData.append('files', file);
             })
-            fetch('http://localhost:8087/java/recruImg',{
+            fetch('/java/recruImg',{
                     method : "POST",
                     headers : {},
                     body : formData

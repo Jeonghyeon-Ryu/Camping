@@ -65,14 +65,14 @@
       loadData : function(){
         var recruId = this.recruId;
         //게시글 정보 
-        fetch(`http://localhost:8087/java/recru/${recruId}`)
+        fetch(`/java/recru/${recruId}`)
         .then((response) =>response.json()) 
         .then(data => { 
             console.log(data);
             this.recruInfo = data;  
         }).catch(err=>console.log(err));
         //모임 참여자 정보
-        fetch(`http://localhost:8087/java/recru/members/${recruId}`)
+        fetch(`/java/recru/members/${recruId}`)
         .then((response) =>response.json()) 
         .then(data => { 
             this.recruMember = data;  
@@ -102,7 +102,7 @@
           })
         }else{
 
-            fetch('http://localhost:8087/java/recru/review',{
+            fetch('/java/recru/review',{
                     method : "POST",
                     headers : { },
                     body : fetchData

@@ -246,14 +246,14 @@ export default{
             // 서버에서 단건조회
             let recruId = this.recruId;
             let component = this;
-            fetch("http://localhost:8087/java/recru/"+recruId)
+            fetch("/java/recru/"+recruId)
             .then((response) =>response.json()) 
             .then(data => { 
                 component.recruPost = data;  
                 console.log(component.recruPost);
 
                 //프로필 이미지 가져오기
-                fetch('http://localhost:8087/java/profile/' + component.recruPost.memberId)
+                fetch('/java/profile/' + component.recruPost.memberId)
                 .then(result => result.json())
                 .then(result => {
                     component.storedProfile = result;
@@ -262,7 +262,7 @@ export default{
                 //캠핑장 정보 조회
                 var region = component.recruPost.campingPoint;
                 console.log(region)
-                fetch(`http://localhost:8087/java/recru/campingPoint/${region}`)
+                fetch(`/java/recru/campingPoint/${region}`)
                 .then(result => result.json())
                 .then(result => {
                     component.campSites = result;
@@ -272,7 +272,7 @@ export default{
                 //서버에서 모집글에 대한 참가목록 조회
                 let recruId = 0;
                 recruId = this.recruId;
-                fetch("http://localhost:8087/java/recru/entry/"+recruId)
+                fetch("/java/recru/entry/"+recruId)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     component.entryPost = data;  
@@ -343,7 +343,7 @@ export default{
                         component.sendRecruInfo.recruId = component.recruId;
                         component.sendRecruInfo.memberId = component.memberId;
                         component.sendRecruInfo.recruStatus = 1;
-                        fetch('http://localhost:8087/java/recru',{
+                        fetch('/java/recru',{
                             method : "PUT",
                             headers : {"Content-Type" : "application/json"},
                             body :  JSON.stringify(component.sendRecruInfo)
@@ -498,7 +498,7 @@ export default{
                 status : status
             };
             console.log(changeInfo)
-            fetch('http://localhost:8087/java/recru/showStatus', {
+            fetch('/java/recru/showStatus', {
                 method : "PUT",
                 headers : {"Content-Type" : "application/json"},
                 body :  JSON.stringify(changeInfo)

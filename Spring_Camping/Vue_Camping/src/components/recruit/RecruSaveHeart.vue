@@ -25,7 +25,7 @@
             loadSaveData: function () {
                 const recruId = this.recruId;
                 const component = this;
-                fetch(`http://localhost:8087/java/recru/save/${this.save.email}/${this.save.boardDivision}/${this.save.boardId}`)
+                fetch(`/java/recru/save/${this.save.email}/${this.save.boardDivision}/${this.save.boardId}`)
                     .then(result => result.text())
                     .then(result => {
                     component.isHeart = result == "true" ? true : false;
@@ -37,7 +37,7 @@
                 e.preventDefault();
                 const component = this;
                 if (this.$store.state.email != null) {
-                    fetch("http://localhost:8087/java/save", {
+                    fetch("/java/save", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(component.save)
@@ -55,7 +55,7 @@
                 e.preventDefault();
                 const component = this;
                 if (this.$store.state.email != null) {
-                    fetch("http://localhost:8087/java/save", {
+                    fetch("/java/save", {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(component.save)

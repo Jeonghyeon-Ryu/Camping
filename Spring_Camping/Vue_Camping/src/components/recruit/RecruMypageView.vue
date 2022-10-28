@@ -62,7 +62,7 @@
     methods : {
       loadData : function(){
             // 서버에서 전체 리스트 가져오기
-            fetch("http://localhost:8087/java/recru/mypage/"+this.memberId)
+            fetch("/java/recru/mypage/"+this.memberId)
             .then((response) =>response.json()) 
             .then(data => { 
                 console.log(data);

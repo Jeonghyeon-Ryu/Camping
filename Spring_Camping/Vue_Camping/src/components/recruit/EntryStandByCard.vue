@@ -2,7 +2,7 @@
     <div class="entry-card-box ">
         <div class="entry-card-row row">
             <div class="entry-card-img col">
-              <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+              <img :src="'/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
             </div>
             <div class="entry-card-info col">
                 <div class="entry-card-contents">
@@ -38,13 +38,13 @@
           created(){
               this.entryCard.entryDate = this.entryCard.entryDate.toLocaleString('en-US');
               var email = this.entryCard.memberId;
-              fetch('http://localhost:8087/java/member/' +email)
+              fetch('/java/member/' +email)
                   .then(result => result.json())
                   .then(result => {
                       this.user = result;
                   }).catch(err => console.log(err));
   
-                  fetch('http://localhost:8087/java/profile/' + email)
+                  fetch('/java/profile/' + email)
                   .then(result => result.json())
                   .then(result => {
                       this.storedProfile = result;
@@ -94,7 +94,7 @@
                           this.updateStatus.entryId = this.entryCard.entryId;
                           let updateInfo = this.updateStatus;
                           //등록상태변화
-                          fetch("http://localhost:8087/java/recru/entry",{
+                          fetch("/java/recru/entry",{
                               method : "PUT",
                               headers : {"Content-Type" : "application/json"},
                               body : JSON.stringify(updateInfo)
@@ -122,7 +122,7 @@
                           let updateInfo = this.updateStatus;
                           let component = this;
                            //등록상태변화
-                           fetch("http://localhost:8087/java/recru/entry",{
+                           fetch("/java/recru/entry",{
                               method : "PUT",
                               headers : {"Content-Type" : "application/json"},
                               body : JSON.stringify(updateInfo)

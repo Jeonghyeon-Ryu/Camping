@@ -7,7 +7,7 @@
                         <img src="@/assets/img/bg9.jpg" alt="camping gear">
                     </div>
                     <div v-if="image.imageId>0">
-                        <img :src="'http://localhost:8087/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
+                        <img :src="'/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
                     </div>
                 </div>
                 <div class="col">
@@ -42,7 +42,7 @@ export default{
         getEntryRecru(){
             const recruId = this.recruId;
             //서버에서 신청 대상 모집글 정보를 가져온다
-            fetch(`http://localhost:8087/java/recru/${recruId}`)
+            fetch(`/java/recru/${recruId}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     this.recruInfo = data;  
@@ -50,7 +50,7 @@ export default{
                     var today = new Date();
                 }).catch(err=>console.log(err));
             
-            fetch(`http://localhost:8087/java/recruImg/${recruId}`)
+            fetch(`/java/recruImg/${recruId}`)
                 .then(result => result.json())
                 .then(result => {
                 this.image = result[0];
