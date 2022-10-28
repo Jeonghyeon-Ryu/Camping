@@ -38,6 +38,8 @@ import com.camp.app.used.service.UsedVO;
 @RestController
 @RequestMapping("/java/used")
 public class UsedController {
+	private String imagePath = "/home/upload/used/";
+//	private String imagePath = "d:\\upload\\used\\";
 	
 	
 	@Autowired
@@ -140,7 +142,7 @@ public class UsedController {
 	//사진보여주기
 	@GetMapping("/showImage/{usedPath}/{usedStoredName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String usedPath, @PathVariable String usedStoredName){
-		String fullPath = "/home/upload/used" + usedPath + "/" + usedStoredName;
+		String fullPath = this.imagePath + usedPath + "/" + usedStoredName;
 		System.out.println("*** FullPath : " +fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 		
