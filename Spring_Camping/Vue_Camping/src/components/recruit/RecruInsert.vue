@@ -121,8 +121,23 @@
                             <input type="text" name="campP_address_kakao" readonly @click="searchAddr" placeholder="도로명 주소 검색">
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
                             <input type="text" name="campP_address_detail" placeholder="상세주소" @click="chkSearchAddr" />
-                            <button type="button" class="recru-info-btn" @click="searchCamp">캠핑장 검색</button>
+                            <button type="button" class="recru-info-btn" @click="isCampFindView=!isCampFindView">캠핑장 검색</button>
                         </li>
+                        <div v-if="isCampFindView" class="search-camp">
+                            <div>
+                                <input type="text" id="search_camp_name" placeholder="캠핑장 이름 입력">
+                                <button type="button" class="recru-info-btn" @click="searchCamp">검색</button>
+                                <div v-if="isCampViewed"  class="show-camp-list">
+                                    <p v-if="campSites.length==0" style="text-align:center">
+                                        등록된 캠핑지가 없습니다!
+                                        <br>새로운 정보를 등록해주세요</p>
+                                    <button  class="recru-info-btn"  @click="$router.push({name:'CampRegister'})">등록하러 가기</button>
+                                    <p v-for="site in campSites" :key="site.campId">
+                                        <span class="recruPost_camp" @click="getCampDetail(site.campAddress, $event)">{{site.campName}}</span> {{site.campAddress}}
+                                    </p>                      
+                                </div>
+                            </div>
+                        </div>
                         <li class="recru-info-number">
                             <label for="recru-insert-num">모집인원</label> <input type="number" id="recru-insert-num" v-model="recruInfo.recruNum" min="1">
                         </li>
@@ -175,6 +190,10 @@ export default{
             nickname :this.$store.state.nickname
             },
         files:[],
+        isCampFindView:false,
+        isCampViewed : false,
+        campName : '',
+        campSites : [],
         myNote:[{
             noteId : 1,
             noteTitle : '노트제목입니다'
@@ -373,14 +392,21 @@ export default{
             this.recruInfo.wishAge = result;
 
             //주소 -> 검색주소 + 상세주소
-            this.recruInfo.startingPoint = document.getElementsByName('startP_address_kakao')[0].value+document.getElementsByName('startP_address_detail')[0].value;
-            this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+document.getElementsByName('campP_address_detail')[0].value;
+            this.recruInfo.startingPoint = document.getElementsByName('startP_address_kakao')[0].value+' '+document.getElementsByName('startP_address_detail')[0].value;
+            this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+' '+document.getElementsByName('campP_address_detail')[0].value;
         },
         writeNewNote : function(){
-            alert('노트쓰기 페이지로 연결하기');
+            this.toastSwal.fire({
+            icon:'error',
+            text : '준비중입니다'
+           })
         },
         getGearList : function(){
-            alert('장비가져오기');
+            
+            this.toastSwal.fire({
+            icon:'error',
+            text : '준비중입니다'
+           })
         },
         searchAddr : function(e){
             //도로명주소 검색
@@ -390,6 +416,11 @@ export default{
                     e.target.nextSibling.nextSibling.focus(); //상세입력 포커싱
                 }
             }).open();
+        },
+        getCampDetail(address, e) {
+            e.preventDefault();
+            document.getElementsByName('campP_address_kakao')[0].value = address;
+            document.getElementsByName('campP_address_detail')[0].value = '';
         },
         chkSearchAddr : function(e){
             //상제 주소 입력 전 도로명 주소 체크
@@ -402,11 +433,22 @@ export default{
                 searchAddr.focus();
             }
         },
-        searchCamp : function(e){
-           this.toastSwal.fire({
-            icon:'error',
-            text : '준비중입니다'
-           })
+        searchCamp : function(){
+            this.isCampViewed =true;
+            //이름으로 캠핑장 검색
+            var campName = document.querySelector('#search_camp_name')
+            var regionInfo = {
+                    campName : campName
+                }
+                fetch(`http://13.125.95.210:85/java/recru/campingPoint`,{
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(regionInfo)
+                }) 
+                .then(result => result.json())
+                .then(result => {
+                    component.campSites = result;
+                }).catch(err => console.log(err));
         },
         toastSwal: Swal.mixin({
             toast: true,

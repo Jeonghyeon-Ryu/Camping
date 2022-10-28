@@ -90,7 +90,7 @@ public class NoteImgServiceImpl implements NoteImgService{
 		//src에 넣을 경로와 이름 가져오기
 		@Override
 		public ResponseEntity<Resource> showImg(String imgPath, String storedName) {
-			String fullPath =  this.imagePath + imgPath + "\\" + storedName;
+			String fullPath =  this.imagePath + imgPath + "/" + storedName;
 			Resource resource = new FileSystemResource(fullPath);
 			
 			if(!resource.exists()) {

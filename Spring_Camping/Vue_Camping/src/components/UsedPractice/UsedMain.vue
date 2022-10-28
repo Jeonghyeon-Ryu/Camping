@@ -19,11 +19,15 @@
         <div class="used-search">
           <div class="used-selected">
             <ul>
-            <li v-if="myCategory != ''" @click="gearSelected">{{myCategory}} X</li>
-            <!-- <li v-if="dealStatus != ''" @click="dealSelected">{{dealStatus}} X</li> -->
-            <li v-if="regionSelect != ''" @click="regionSelected">{{regionSelect}} X</li>
-            <li v-if="regionSelect2 != ''" @click="region2Selected">{{regionSelect2}} X</li>
-            <li v-if="minPrice != ''" @click="priceSelected">{{minPrice}} ~ {{maxPrice}} X</li>
+            <li v-if="myCategory != ''" @click="gearSelected">{{myCategory}} ✖</li>
+            <li v-if="dealStatus != '' && dealStatus!=9" @click="dealSelected">{{dealStatus}} X</li>
+            <li v-if="dealStatus != '' && dealStatus===0" @click="dealSelected">거래가능 ✖</li> 
+            <li v-if="dealStatus != '' && dealStatus===1" @click="dealSelected">거래중 ✖</li>
+            <li v-if="dealStatus != '' && dealStatus===2" @click="dealSelected">거래완료 ✖</li>
+
+            <li v-if="regionSelect != ''" @click="regionSelected">{{regionSelect}} ✖</li>
+            <li v-if="regionSelect2 != ''" @click="region2Selected">{{regionSelect2}} ✖</li>
+            <li v-if="minPrice != ''" @click="priceSelected">{{minPrice}} ~ {{maxPrice}} ✖</li>
             </ul>
           </div>
           
@@ -147,7 +151,7 @@
         <button>+</button> 
       </router-link> -->
       <router-link tag="div" v-if="this.$store.state.email != null" v-bind:to="{name:'myUsedSave'}">
-        <button>💗</button> 
+        <button>🤍</button> 
       </router-link>
       <!-- <router-link tag="div" v-bind:to="{name:'usedReview'}">
         <button>review</button> 

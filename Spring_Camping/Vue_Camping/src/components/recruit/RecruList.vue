@@ -17,7 +17,7 @@
                             <label class="bold">나이</label>
                             <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="1">남</label>
                             <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="2">여</label>
-                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0" checked>무관</label>
+                            <label><input type="radio" name='wishSex' v-model="filter.wishSex" value="0">무관</label>
                         </div>
                         <div class="recru-search-age recru-col">
                             <div class=" recru-left">
@@ -364,7 +364,7 @@ export default{
             const filterList = this.recruPosts;
 
                 //성별필터
-                if(fil.wishSex!=0 && fil.wishSex != ''){
+                if(fil.wishSex != ''){
                     for(var i = 0; i < filterList.length; i++){ 
                         if (filterList[i].wishSex != fil.wishSex) { 
                             //필터의 희망성별과 다른 경우 배열에서 제거

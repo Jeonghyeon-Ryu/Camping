@@ -30,6 +30,11 @@
 	SELECT COUNT(*) FROM save WHERE email = #{email} AND board_division = 3
 	</select>
 	
+	<!-- 게시글에 좋아요한 수 배포 후 추가 -->
+	<select id="countLikeSnsToWriteNo" resultType="Integer" parameterType="String">
+	SELECT COUNT(*) FROM save WHERE board_id = #{boardId} AND board_division = 3
+	</select>
+	
 	<!-- 좋아요한 목록 이미지리스트보기 페이징? -->
  <select id="showLikeSnsByPageByUser" resultType="SnsImageVO" parameterType="MySnsLikeVO">
 

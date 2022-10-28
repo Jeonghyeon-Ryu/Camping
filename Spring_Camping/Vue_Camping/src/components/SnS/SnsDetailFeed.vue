@@ -12,7 +12,8 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img :src="'http://13.125.95.210:85/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName"
+            <img
+              :src="'http://13.125.95.210:85/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName"
               @click="getSnsNickFeed(snsItem.nickname)">
             <!--프로필 이미지로 바꾸기 -->
           </div>
@@ -42,7 +43,8 @@
             <swiper :navigation="true" :pagination="{ clickable: true, }" :modules="modules" class="mySwiper">
               <swiper-slide v-for="snsImg of snsImgs">
                 <input type="text" :value="snsImg.writeNo" style="display :none;" readonly>
-                <img v-bind:src="'http://13.125.95.210:85/java/showSnsImage/' + snsImg.snsPath + '/' + snsImg.storedName">
+                <img
+                  v-bind:src="'http://13.125.95.210:85/java/showSnsImage/' + snsImg.snsPath + '/' + snsImg.storedName">
               </swiper-slide>
             </swiper>
           </div>
@@ -64,7 +66,11 @@
           </form>
           <div class="sns-push-button-container">
             <div class="sns-push-button-container1">
+              <div>
+                <p>{{this.snsWriteCount}}</p>
+              </div>
               <div class="sns-write-like-button">
+                
                 <img v-if="liked == true" v-on:click='hearted()' v-bind:src="heartImg">
                 <img v-if="liked == false" v-on:click="hearted()" v-bind:src="heartImg2">
               </div>
@@ -154,6 +160,7 @@ export default {
       //댓글 이미지
       commentImg: commentImage,
       //좋아요
+      snsWriteCount : "",
       heartImg: likeImg,
       heartImg2: dislikeImg,
       liked: true,
@@ -177,8 +184,8 @@ export default {
         this.snsItem = result
 
         let temp = this.snsItem.hashtag;
-        let tempArr =temp.split(" ");
-        for(let i=0; i<tempArr.length; i++){
+        let tempArr = temp.split(" ");
+        for (let i = 0; i < tempArr.length; i++) {
           tempArr[i] = '<span style="cursor: pointer; color:#3f729b;" class="sss">' + tempArr[i] + '</span>';
           console.log(tempArr[i]);
         }
@@ -243,6 +250,17 @@ export default {
         .catch(err => console.log(err));
     }
 
+    // 게시글의 좋아요 총 게시글 숫자 표시
+    fetch('http://13.125.95.210:85/java/memberLikeWriteNoCount/' + this.writeNo)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        this.snsWriteCount = result
+      })
+      .catch(err => console.log(err));
+
+    console.log(this.snsWriteCount);
+
     //닉네임검색일단쌔벼옴
     //닉네임 검색... 왜안되ㅈ는지....그지같음...
     fetch('http://13.125.95.210:85/java/snsnickname')
@@ -268,8 +286,8 @@ export default {
       console.log(target);
       target = target.innerText;
 
-      this.$router.push({ name: 'SnsMain', params: { hashtag : target } });
-  
+      this.$router.push({ name: 'SnsMain', params: { hashtag: target } });
+
       // for(let cutTag of cutTags ){
       //   console.log(cutTag);
       // }
@@ -465,7 +483,7 @@ export default {
     testClick: function () {
       console.log("test");
     },
-    writeComment(){
+    writeComment() {
       let coFocus = document.querySelector('.sns-search-list-container textarea');
       coFocus.focus();
     },

@@ -6,7 +6,7 @@
             </div>
             <div class="entry-card-info col">
                 <div class="entry-card-contents">
-                    <h3>{{user.nickname}}</h3>
+                    <h4>{{user.nickname}}</h4>
                     <p class="entry-date">{{entryCard.entryDate}}</p>
                     <p>{{user.sex}}, {{userage}}, 차 {{entryCard.entryCar==1?'있음' :'없음'}}</p>
                     <p><span>보유장비 : </span> {{gearList}}</p>

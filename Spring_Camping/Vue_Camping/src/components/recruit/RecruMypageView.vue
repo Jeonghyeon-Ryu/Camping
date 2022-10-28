@@ -9,7 +9,9 @@
               <!-- 카드 -->
               <div class="recru-card-box row">
                   <div v-for="recruInfo in recruPosts" :key="recruInfo.title" style="position:relative">
-                    
+                    <div class = "recru-entry-chk" style="position:absolute; top:21px; right: 21px;" >
+                        <NewEntry :recruId="recruInfo.recruId"></NewEntry>
+                    </div>
                     <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
                       <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}">
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
@@ -24,11 +26,13 @@
   import RecruCard from "@/components/recruit/RecruCard.vue";
   import RecruStatus from '@/components/recruit/RecruStatus.vue';
   import Swal from 'sweetalert2';
+  import NewEntry from "./NewEntry.vue";
   export default{
     components : {
-      RecruCard,
-      RecruStatus
-    },
+    RecruCard,
+    RecruStatus,
+    NewEntry
+},
     data : function(){
         return{
           memberId : this.$store.state.email,
@@ -103,7 +107,7 @@ display: block;
   justify-content: center;
 }
 .recru-mypage-title h2{
-  text-align: left;
+  text-align: center;
   padding: 30px 0 30px 50px;
 }
 

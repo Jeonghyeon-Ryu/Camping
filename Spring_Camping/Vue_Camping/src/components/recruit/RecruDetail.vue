@@ -28,7 +28,7 @@
                         <button class="report-btn" @click="reportItem">🚨신고</button>
                     </div>
                     <div class="recru-detail-contents">
-                        <br>
+                        
                         <div class="recru-detail-row">
                             <span><h3 style="margin-top:6px">모집기간</h3></span>
                             <p >{{recruPost.closingDate}}<span v-if="recruPost.closingDate==null">미정</span></p>
@@ -260,12 +260,18 @@ export default{
                 }).catch(err => console.log(err));
 
                 //캠핑장 정보 조회
-                var region = component.recruPost.campingPoint;
-                console.log(region)
-                fetch(`http://13.125.95.210:85/java/recru/campingPoint/${region}`)
+                var regionInfo = {
+                    campAddress : component.recruPost.campingPoint
+                }
+                fetch(`http://13.125.95.210:85/java/recru/campingPoint`,{
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(regionInfo)
+                }) 
                 .then(result => result.json())
                 .then(result => {
                     component.campSites = result;
+                    console.log(component.campSites)
                 }).catch(err => console.log(err));
 
                 //서버에서 모집글에 대한 참가목록 조회
@@ -462,8 +468,6 @@ export default{
                         text: "로그인 페이지로 이동하겠습니까?",
                         icon: 'warning',
                         showCancelButton: true,
-                        // confirmButtonColor: '#3085d6',
-                        // cancelButtonColor: '#d33',
                         confirmButtonText: '네',
                         cancelButtonText : '아니오'
                     }).then((result) => {

@@ -72,6 +72,9 @@ public interface SnsService {
 	// 유저가 좋아요한 총게시글 수
 	public int countLikeSnsByUser(String email);
 
+	//게시글에 좋아요한 수 배포 후 추가
+	public int countLikeSnsToWriteNo(int boardId);
+	
 	// 유저가 좋아요한 게시글 리스트 출력(위의 전체이미지 불러오기에서 가져옴)
 	public List<SnsImageVO> showSnsLikeByPageByUser(String email, int page);
 
@@ -84,5 +87,6 @@ public interface SnsService {
 
 	// 유저가 해시태그당한 게시글 리스트 출력
 	public List<SnsImageVO> showSnsTagByPageByUser(String nickname, int page);
+
 
 }

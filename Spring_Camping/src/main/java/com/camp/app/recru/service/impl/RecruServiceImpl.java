@@ -176,15 +176,17 @@ public class RecruServiceImpl implements RecruService {
 	}
 	//캠핑장검색
 	@Override
-	public List<CampVO> searchCamp(String region) {
-		List<CampVO> list = mapper.searchCamp(region);
-		if(list.size()== 0) {
-			String city[] = region.split(" ");
-			region= city[0];
+	public List<CampVO> searchCamp(CampVO campVO) {
+		List<CampVO> list = mapper.searchCamp(campVO);
+		//주소검색의 경우 결과가 없을 때 지역을 잘라서 다시 검색 (대구 중구)
+		if(list.size()== 0 && campVO.getCampAddress() != null) {
+			String city[] = campVO.getCampAddress().split(" ");
+			String region= city[0];
 			if(city.length>1) {
 				region +=" "+city[1];
 			}
-			list = mapper.searchCamp(region);
+			campVO.setCampAddress(region);
+			list = mapper.searchCamp(campVO);
 		}
 		return list;
 	}

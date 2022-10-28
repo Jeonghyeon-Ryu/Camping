@@ -16,8 +16,8 @@
     <div class="card-info">
       <div class="card-top">
         <ul class="card-info-l">
-          <li>
-            <h3>{{usedCard.usedName}}</h3>
+          <li class="blue-btn">
+            <a class="first-link" href=""><h3>{{usedCard.usedName}}</h3></a>
             <input class="used-id" type="hidden" :value="usedCard.usedId">
           </li>
           <li>
@@ -207,6 +207,55 @@ export default {
 
 }
 </script>
-<style scoped src="@/assets/css/used/UsedMain.css">
+<style scoped src="@/assets/css/used/UsedMain.css" />
+<style>
+
+.blue-btn{
+  width: 190px;
+  height: 30px;
+}
+.blue-btn a{
+  color: rgb(34, 34, 34);
+  text-decoration:none;
+  /* margin-top: 0em; */
+  text-align: center;
+  display:inline-block; /* important */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blue-btn, .first-link{
+  -webkit-transition: 3.3s;
+  -moz-transition: 3.3s;
+  transition: 3.3s;     
+  -webkit-transition-timing-function: linear;
+  -moz-transition-timing-function: linear;
+  transition-timing-function: linear;
+}
+
+
+.blue-btn{
+  height: 25px;
+  overflow: hidden;
+  width: 190px;
+  background-color: #ffffff;
+}
+
+.blue-btn:hover{
+   background-color: #ffffff;
+}
+
+.blue-btn a:hover{
+  text-decoration: none;
+}
+
+.first-link{
+  margin-left: 0em;   
+}
+
+.blue-btn:hover .first-link{
+  margin-left: -270px;
+}
 
 </style>

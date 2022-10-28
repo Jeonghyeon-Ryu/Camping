@@ -1,7 +1,7 @@
 <template>
   <div class="sns-container">
     <div class="sns-searchbox">
-      <SnsSearch @showHashList="showHashList"></SnsSearch>
+      <SnsSearch @showHashList="showHashList" ref="sSearch"></SnsSearch>
     </div>
 
     <div class="sns-img-container">
@@ -28,11 +28,10 @@ export default {
       snsImgs: [],
     };
   },
-  created: function () {
+  mounted: function () {
     if(this.hashtag != undefined && this.hashtag != 'undefined'){
-      this.showHashList();
+      this.showHashList(this.hashtag);
     }else{
-
       fetch('http://13.125.95.210:85/java/sns/' + this.page)
       .then(result => result.json())
       .then(result => {
@@ -56,10 +55,10 @@ export default {
     getSnsDetail(writeNo) {
       this.$router.push({ name: 'SnsDetail', params: { writeNo: writeNo } });
     },
-    showHashList(){
-      // console.log("부모" + hashtag);
-      let hash = this.hashtag.substring(1, this.hashtag.length);
-      
+    showHashList(hashtag){
+      let hash = hashtag.substring(1, hashtag.length);
+      this.$refs.sSearch.setTag(hashtag);
+
       console.log('http://13.125.95.210:85/java/hashtagList/' + hash + "/" +this.page);
         fetch('http://13.125.95.210:85/java/hashtagList/' + hash + "/" +this.page)
         .then(result => result.json())
@@ -71,7 +70,6 @@ export default {
         .catch(err => console.log(err));
     }
   },
-  
   components: {
     SnsSearch
   },

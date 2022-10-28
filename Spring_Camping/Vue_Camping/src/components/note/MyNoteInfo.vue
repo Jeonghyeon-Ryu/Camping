@@ -182,7 +182,7 @@ export default {
     },
     created() {
         // this.noteId = this.$router.params.myNoteId;
-        
+
 
         fetch("http://13.125.95.210:85/java/GoMyNote/" + this.noteId)
             .then(result => result.json())
@@ -307,7 +307,7 @@ export default {
             let checkBoxTag;
             let imgTag;
             let contents = [];
-           
+
             //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
                 let lineValue = '';
@@ -366,79 +366,50 @@ export default {
                     contents.push(checkBoxTag);
                     //이미지
                 } else if (lineAll[i].querySelector('.image-preview-div') != undefined) {
-                    console.log('>>>>',(lineAll[i].querySelector('.image-preview-div')));
+                    console.log('>>>>', (lineAll[i].querySelector('.image-preview-div')));
                     let imgs = lineAll[i].querySelectorAll('.image-preview-div');
                     let newImgCount = 0;
                     let imgValue = '';
                     let imgValues = '';
-                    
-                    // let temp = 'IMG:'
-                    for(let img of imgs){
-                        if(img.getAttribute("id").indexOf('b')>=0){
-                            newImgCount++;
-                        } else if(img.getAttribute("id").indexOf('a')>=0) { //기존 파일(id=a)이라면
-                             //let imgSrcs = img.querySelectorAll('img');
-                             //console.log(imgs.length);
-                            
-                            let imgSrc = img.querySelector('img').getAttribute('src');
-                            
-                            
-                            //console.log(imgSrc.indexOf('GoMyNote/'))
-                            let temp = imgSrc.substring(imgSrc.indexOf('GoMyNote/')+9,imgSrc.length)
-                            let imgPath = temp.substring(0,temp.indexOf('/'));
-                            
-                            temp = temp.substring(temp.indexOf('/'),temp.length) +'&';
-                            
-                            let storedName = temp.substring(1,temp.length);
-                            console.log('storedName', storedName)
-                            console.log('imgPath',imgPath);
-                         
-                            imgValue = 'imgPath:' + imgPath  + ',storedName:' + storedName;
-                            console.log("imgValue > " , imgValue)
 
-                            imgValues += imgValue;
-                            console.log('imgValues>>>>>>', imgValues)
-                            
-                            /* let imgSrc = img.querySelector('img').getAttribute('src');
+                    // let temp = 'IMG:'
+                    for (let img of imgs) {
+                        if (img.getAttribute("id").indexOf('b') >= 0) {
+                            newImgCount++;
+                        } else if (img.getAttribute("id").indexOf('a') >= 0) { //기존 파일(id=a)이라면
+                            //let imgSrcs = img.querySelectorAll('img');
+                            //console.log(imgs.length);
+
+                            let imgSrc = img.querySelector('img').getAttribute('src');
+
                             //console.log(imgSrc.indexOf('GoMyNote/'))
-                            let temp = imgSrc.substring(imgSrc.indexOf('GoMyNote/')+9,imgSrc.length)
-                            let imgPath = temp.substring(0,temp.indexOf('/'));
-                            temp = temp.substring(temp.indexOf('/'),temp.length);
-                            //console.log('temp',temp)
-                            let storedName = temp.substring(1,temp.length) + '&';
+                            let temp = imgSrc.substring(imgSrc.indexOf('GoMyNote/') + 9, imgSrc.length)
+                            let imgPath = temp.substring(0, temp.indexOf('/'));
+
+                            temp = temp.substring(temp.indexOf('/'), temp.length);
+
+                            let storedName = temp.substring(1, temp.length);
                             //console.log('storedName', storedName)
                             //console.log('imgPath',imgPath);
-                         
-                            let imgValue = 'imgPath:' + imgPath + ',storedName:' + storedName +'&';*/
-                            
-                            // let ~~~ = img.queryselector('img').getAttribute('src') => http://~~ 
-                            // ~~~ = ~~~.substring(~~~.indexOf(/), ~~~.length)
-                            //temp += 'imgPath:' + 이미지패스값 + ',storedName:' + 저장이름 +'&'
+                            imgValue += 'imgPath:' + imgPath + ',storedName:' + storedName +'$';
                         }
-                        console.log('imgValue', imgValue);
-
+                        
                     }
-                    console.log(newImgCount);
-                    // temp += 'IMG' + newImgCount
+                    //console.log(newImgCount);
+                    imgValue += newImgCount;
+
+                    console.log('imgValue>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', imgValue);
+                     //temp += 'IMG' + newImgCount
                     // 기존 있던 값은 contents.push(temp)
-
-
-
-
-                    // console.log("---" , this.images);
-                    // console.log("--", this.datas[2])
-                    
-                    // 추가된이미지
-                    //contents.push(this.images);
 
                     // let temp = '';
                     // for(let i=0; i<imgBox.length; i++){
-                        
+
                     //     temp = imgBox[i].querySelector('img').src;
                     //     let imagePathIndex = temp.substring(temp.indexOf('GoMyNote/' + 9, temp.length))                        
                     //     //imagePath = substring(temp.substring(imagePathIndex, ))
                     //     console.log("---" , imagePathIndex);
-                        
+
                     // }
                     //이 형식은 IMG:0으로 contents에 push된다.
 
@@ -449,8 +420,8 @@ export default {
 
                     // contents.push(
                     //     'IMG:' + imgCount
-                     //);
-                 
+                    //);
+
                 }
             };
             //작성한 DB에 저장(수정버튼)
@@ -466,10 +437,10 @@ export default {
             formData.append("noteContents", contents);
             formData.append("email", this.$store.state.email);
             formData.forEach((value, key) => {
-                console.log(key +" : " , value);
+                console.log(key + " : ", value);
             })
-          
-            /*fetch('http://http://13.125.95.210:85/java/UpdateNoteInfo', {
+
+            fetch('http://13.125.95.210:85/java/UpdateNoteInfo', {
                 method: 'POST',
                 headers: {},
                 body: formData
@@ -479,8 +450,8 @@ export default {
                 this.$router.push({
                     name: "MynoteList"
                 })
-            })*/
-        
+            })
+
         },
         saveImg(images) {
             let dt = new DataTransfer();

@@ -22,6 +22,9 @@ public interface SaveMapper {
 	// 유저가 좋아요한 총게시글 수
 	public int countLikeSnsByUser(String email);
 
+	// 게시글에 좋아요한 수 배포 후 추가
+	public int countLikeSnsToWriteNo(int boardId);
+	
 	// 유저가 좋아요한 게시글 리스트 이미지보기
 	public List<SnsImageVO> showLikeSnsByPageByUser(MySnsLikeVO mySnsLike);
 }

@@ -69,12 +69,13 @@ public class SnsServiceImpl implements SnsService {
 		mapper.snsUpdate(vo);
 	}
 
-	//유저 삭제
+	// 유저 삭제
 	@Override
 	public void snsDelete(int writeNo) {
 		mapper.snsDelete(writeNo);
 	}
-	//admin 삭제
+
+	// admin 삭제
 	@Override
 	public void snsDeleteByAdmin(int writeNo) {
 		mapper.snsDeleteByAdmin(writeNo);
@@ -204,6 +205,12 @@ public class SnsServiceImpl implements SnsService {
 		return saveMapper.countLikeSnsByUser(email);
 	}
 
+	// 게시글에 좋아요한 수 배포 후 추가
+	@Override
+	public int countLikeSnsToWriteNo(int boardId) {
+		return saveMapper.countLikeSnsToWriteNo(boardId);
+	}
+
 	// 유저가 좋아요한 게시글 이미지리스트
 	@Override
 	public List<SnsImageVO> showSnsLikeByPageByUser(String email, int page) {
@@ -214,7 +221,7 @@ public class SnsServiceImpl implements SnsService {
 		return saveMapper.showLikeSnsByPageByUser(mySnsLike);
 	}
 
-	//해시태그검색한 게시글 이미지리스트 출력
+	// 해시태그검색한 게시글 이미지리스트 출력
 	@Override
 	public List<SnsImageVO> showSnsByPageByHashtag(String hashtag, int page) {
 		SnsHashtagVO snsHashtag = new SnsHashtagVO();
@@ -239,4 +246,5 @@ public class SnsServiceImpl implements SnsService {
 		mySnsTag.setPage(page);
 		return sCoMapper.showSnsTagByPageByUser(mySnsTag);
 	}
+
 }

@@ -199,6 +199,9 @@ export default {
               "mailSender": this.$store.state.email,
               "mailReceiver": this.usedList.email,
               "mailContent": document.getElementById('swal-input2').value,
+              "usedName": this.usedList.usedName,
+              "sendNick": this.$store.state.nickname,
+              "rcvNick": this.usedList.nickName,
             }
 
             console.log(fetchData);
