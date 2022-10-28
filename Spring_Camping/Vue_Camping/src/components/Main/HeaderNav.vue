@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="aside-right-container">
-        <AsideRight @hideMenu="hideMenuForm"></AsideRight>
+        <AsideRight @hideMenu="hideMenuForm" @loginout="setInfo"></AsideRight>
       </div>
       <div class="header-middle-container">
         <!-- <NavbarDefault dark transparent></NavbarDefault> -->

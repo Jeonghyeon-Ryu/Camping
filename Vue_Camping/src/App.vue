@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     loginSuccess() {
-      this.connect();
+      // this.connect();
     },
     connect() { // 소켓연결
       const serverURL = "http://localhost:8087/java/ws";
