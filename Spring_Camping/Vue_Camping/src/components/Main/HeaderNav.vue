@@ -152,7 +152,7 @@ export default {
   watch: {
     isLogin: function () {
       if (!this.isLogin) {
-        middleCategory = [
+        this.middleCategory = [
           {
             "캠핑장 리스트": ["/CampList", true],
             "캠핑장 등록": ["/CampRegister", false],
@@ -183,7 +183,7 @@ export default {
           },
         ]
       } else {
-        middleCategory = [
+        this.middleCategory = [
           {
             "캠핑장 리스트": ["/CampList", true],
             "캠핑장 등록": ["/CampRegister", true],
