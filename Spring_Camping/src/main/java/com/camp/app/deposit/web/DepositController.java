@@ -14,7 +14,7 @@ import com.camp.app.deposit.service.DepositService;
 import com.camp.app.deposit.service.DepositVO;
 
 @CrossOrigin
-@RequestMapping("/recru")
+@RequestMapping("/java/recru")
 @RestController
 public class DepositController {
 

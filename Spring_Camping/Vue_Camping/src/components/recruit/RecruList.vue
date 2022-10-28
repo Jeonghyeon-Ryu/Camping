@@ -235,7 +235,7 @@ export default{
             if(this.isFilter!=0) this.resetPage();
             this.isFilter=0;
              //서버에서 전체 리스트 가져오기 - 페이징
-             fetch(`/java/recru/page/${this.memberRole}/${this.pageNum}`)
+             fetch(`http://13.125.95.210:85/java/recru/page/${this.memberRole}/${this.pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
                 for(let key in data){
@@ -306,7 +306,7 @@ export default{
             var memberRole = this.memberRole;
             var pageNum = this.pageNum;
             this.keywordValue = keyword;    //현재 키워드 저장
-            fetch(`/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
+            fetch(`http://13.125.95.210:85/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
                 for(let key in data){
@@ -329,7 +329,7 @@ export default{
             this.keywordValue = keyword;    //현재 키워드 저장
             const component = this;
             if(keyword==''){
-                fetch(`/java/recru/page/${component.memberRole}/${pageNum}`)
+                fetch(`http://13.125.95.210:85/java/recru/page/${component.memberRole}/${pageNum}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     for(let key in data){
@@ -343,7 +343,7 @@ export default{
                     }
                 }).catch(err=>console.log(err));
             }else{
-                fetch(`/java/recru/search/${component.memberRole}/${keyword}/${pageNum}`)
+                fetch(`http://13.125.95.210:85/java/recru/search/${component.memberRole}/${keyword}/${pageNum}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     for(let key in data){

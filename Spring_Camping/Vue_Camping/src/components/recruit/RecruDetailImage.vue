@@ -1,7 +1,7 @@
 <template>
     <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">    
             <swiper-slide v-for="image of images">
-                <img :src="'/java/recruImg/'+image.imgPath+'/'+image.storedName"/>
+                <img :src="'http://13.125.95.210:85/java/recruImg/'+image.imgPath+'/'+image.storedName"/>
             </swiper-slide>
             <swiper-slide v-for="img of imgUrl">
                 <img :src="img"/>
@@ -30,7 +30,7 @@ export default {
     created : function() {
         const recruId = this.recruId;
         const component=this;
-        fetch('/java/recruImg/'+recruId)
+        fetch('http://13.125.95.210:85/java/recruImg/'+recruId)
         .then(result => result.json())
         .then(result => {
             component.images = result;

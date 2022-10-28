@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,9 +26,12 @@ import com.camp.app.recru.service.RecruImgVO;
 import com.camp.app.recru.service.RecruService;
 
 @CrossOrigin(origins = "*")
+@RequestMapping("/java")
 @RestController
 public class RecruImgController {
-
+	private String imagePath = "/home/upload/recru/";
+//	private String imagePath = "d:\\upload\\recru\\";
+	
 	@Autowired
 	RecruImgService imgService;
 
@@ -49,7 +53,7 @@ public class RecruImgController {
 	// 이미지 출력
 	@GetMapping("/recruImg/{imgPath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imgPath, @PathVariable String storedName) {
-		String fullPath = "/home/upload/recru/" + imgPath + "\\" + storedName;
+		String fullPath = this.imagePath + imgPath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
