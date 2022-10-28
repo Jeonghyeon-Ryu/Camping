@@ -2,6 +2,7 @@
   margin: 1rem;
   padding : 0.5rem;
   width: calc(100% - 1.5rem);
+  height: 100%;
   display: flex;
   flex-wrap: nowrap;
   overflow-x : auto;
@@ -28,7 +29,7 @@
 }
 
 .card {
-  height: 100%;
+  height: calc(100% - 1rem);
   border: 0 solid rgba(0, 0, 0, .125);
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
@@ -38,7 +39,7 @@
 
 .card-image {
   width: 100%;
-  height: calc(100% - 300px);
+  height: calc(100% - 200px);
   position: relative;
 }
 
