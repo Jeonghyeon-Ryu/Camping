@@ -29,7 +29,9 @@ import com.camp.app.recru.service.RecruService;
 @RequestMapping("/java")
 @RestController
 public class RecruImgController {
-
+	private String imagePath = "/home/upload/recru/";
+//	private String imagePath = "d:\\upload\\recru\\";
+	
 	@Autowired
 	RecruImgService imgService;
 
@@ -51,7 +53,7 @@ public class RecruImgController {
 	// 이미지 출력
 	@GetMapping("/recruImg/{imgPath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imgPath, @PathVariable String storedName) {
-		String fullPath = "/home/upload/recru/" + imgPath + "\\" + storedName;
+		String fullPath = this.imagePath + imgPath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
