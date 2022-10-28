@@ -251,7 +251,7 @@ export default {
     }
 
     // 게시글의 좋아요 총 게시글 숫자 표시
-    fetch('http://13.125.95.210:85/java/memberLikeCount/' + this.writeNo)
+    fetch('http://13.125.95.210:85/java/memberLikeWriteNoCount/' + this.writeNo)
       .then(response => response.json())
       .then(result => {
         console.log(result);
