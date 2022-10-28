@@ -241,28 +241,35 @@ export default {
                                 data: values
                             }
                         )
-                    } else if (result.noteContents[i].indexOf('IMG') >= 0) {
+                    } else if (result.noteContents[i].indexOf('imgPath') >= 0) {
                         //저장된 이미지 이름, 경로 가져오기
                         let temp = result.noteContents[i];
                         let values = [];
+                        console.log('tempIndexOf>>', temp.indexOf("imgPath:"))
 
-                        while (temp.indexOf("imgPath:") >= 0) {
-                            let imgPathIndex = temp.indexOf("imgPath:");
-                            let storedNameIndex = temp.indexOf(",storedName:");
-                            let imgPathValue = temp.substring(imgPathIndex + 8, storedNameIndex);
-                            let storedNameValue = '';
-                            temp = temp.substring(storedNameIndex, temp.length);
+                        // while (temp.indexOf("imgPath") != -1) {
+                        for (let k = 0; k < 3; k++) {
+                            if (temp.indexOf('imgPath') >= 0) {
+                                let imgPathIndex = temp.indexOf("imgPath:");
+                                let storedNameIndex = temp.indexOf("|storedName:");
+                                console.log('tempIndexOf>>', storedNameIndex)
+                                let imgPathValue = temp.substring(imgPathIndex + 8, storedNameIndex);
+                                let storedNameValue = '';
+                                temp = temp.substring(storedNameIndex, temp.length);
+                                console.log('tempIndexOf>>', imgPathValue)
+                                storedNameValue = temp.substring(12, temp.indexOf('$'));
+                                console.log('tempIndexOf>>', storedNameValue)
 
-                            storedNameValue = temp.substring(12, temp.indexOf('$'));
+                                temp = temp.substring(temp.indexOf('$'), temp.length);
+                                console.log('tempIndexOf>>', temp)
+                                values.push(
+                                    {
+                                        imgPath: imgPathValue,
+                                        storedName: storedNameValue
+                                    }
+                                )
+                            }
 
-                            temp = temp.substring(temp.indexOf('$'), temp.length);
-
-                            values.push(
-                                {
-                                    imgPath: imgPathValue,
-                                    storedName: storedNameValue
-                                }
-                            )
                         }
                         this.datas.push(
                             {
@@ -391,15 +398,17 @@ export default {
                             let storedName = temp.substring(1, temp.length);
                             //console.log('storedName', storedName)
                             //console.log('imgPath',imgPath);
-                            imgValue += 'imgPath:' + imgPath + ',storedName:' + storedName +'$';
+                            imgValue += 'imgPath:' + imgPath + '|storedName:' + storedName + '$';
                         }
-                        
+
                     }
                     //console.log(newImgCount);
                     imgValue += newImgCount;
+                    contents.push(imgValue);
 
-                    console.log('imgValue>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', imgValue);
-                     //temp += 'IMG' + newImgCount
+
+                    console.log('contents>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', contents);
+                    //temp += 'IMG' + newImgCount
                     // 기존 있던 값은 contents.push(temp)
 
                     // let temp = '';
@@ -440,7 +449,7 @@ export default {
                 console.log(key + " : ", value);
             })
 
-            fetch('http://13.125.95.210:85/java/UpdateNoteInfo', {
+            fetch('http://localhost:8087/java/UpdateNoteInfo', {
                 method: 'POST',
                 headers: {},
                 body: formData
