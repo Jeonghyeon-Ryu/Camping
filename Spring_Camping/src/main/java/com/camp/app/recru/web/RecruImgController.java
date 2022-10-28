@@ -53,7 +53,7 @@ public class RecruImgController {
 	// 이미지 출력
 	@GetMapping("/recruImg/{imgPath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imgPath, @PathVariable String storedName) {
-		String fullPath = this.imagePath + imgPath + "\\" + storedName;
+		String fullPath = this.imagePath + imgPath + "/" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 

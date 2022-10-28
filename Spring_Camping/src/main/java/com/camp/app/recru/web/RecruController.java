@@ -32,6 +32,7 @@ public class RecruController {
 	//등록
 	@PostMapping("/recru")
 	public int recruInsert(@RequestBody RecruVO recruVO) {
+		System.out.println(recruVO.getMemberId());
 		return service.insertRecru(recruVO);
 	}
 	//전체조회

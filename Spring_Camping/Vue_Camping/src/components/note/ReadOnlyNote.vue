@@ -176,7 +176,7 @@ export default {
     showCheckBox(e) {
       this.show = !this.show;
     },
-    saveNote: function (e) {
+      /*saveNote: function (e) {
       let lineAll = document.querySelectorAll('.write_fn');
       let contents = [];
       console.log(contents);
@@ -253,7 +253,7 @@ export default {
         "noteContents": contents,
         "email": sessionStorage.getItem("email")
       }
-      fetch('http://localhost:8087/java/WriteNote', {
+      fetch('http://13.125.95.210:85/java/MyNoteInfo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -263,7 +263,7 @@ export default {
         // console.log(result);
         this.$router.push({ name: "MynoteList" });
       })
-    }
+    }*/
   },
   components: { CreTextarea, CreateLine }
 }

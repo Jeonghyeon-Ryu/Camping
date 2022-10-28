@@ -157,7 +157,7 @@ export default{
         searchImg : img2,
         wishAge :[],
         recruInfo : {  
-            memberId :sessionStorage.getItem("email"),
+            memberId : this.$store.state.email,
             wishSex : 0,
             wishAge : '',
             carYn : 0,
@@ -310,7 +310,10 @@ export default{
                 .then(Response => Response.text())  
                 .then(data => { 
                     console.log(data)
-                }).catch(err=>console.log(err))
+                }).catch(err=>{
+                    Swal.fire('등록 실패','문제가 계속될 경우 문의해주세요','error')
+                    console.log(err)
+                })
         },
         addGear : function(menu){                
             const box = document.getElementById(menu);

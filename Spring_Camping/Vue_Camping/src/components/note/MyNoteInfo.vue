@@ -366,18 +366,57 @@ export default {
                     contents.push(checkBoxTag);
                     //이미지
                 } else if (lineAll[i].querySelector('.image-preview-div') != undefined) {
-                    
+                    console.log('>>>>',(lineAll[i].querySelector('.image-preview-div')));
                     let imgs = lineAll[i].querySelectorAll('.image-preview-div');
                     let newImgCount = 0;
+                    let imgValue = '';
+                    let imgValues = '';
+                    
                     // let temp = 'IMG:'
                     for(let img of imgs){
                         if(img.getAttribute("id").indexOf('b')>=0){
                             newImgCount++;
-                        } else if(img.getAttribute("id").indexOf('a')>=0) {
+                        } else if(img.getAttribute("id").indexOf('a')>=0) { //기존 파일(id=a)이라면
+                             //let imgSrcs = img.querySelectorAll('img');
+                             //console.log(imgs.length);
+                            
+                            let imgSrc = img.querySelector('img').getAttribute('src');
+                            
+                            
+                            //console.log(imgSrc.indexOf('GoMyNote/'))
+                            let temp = imgSrc.substring(imgSrc.indexOf('GoMyNote/')+9,imgSrc.length)
+                            let imgPath = temp.substring(0,temp.indexOf('/'));
+                            
+                            temp = temp.substring(temp.indexOf('/'),temp.length) +'&';
+                            
+                            let storedName = temp.substring(1,temp.length);
+                            console.log('storedName', storedName)
+                            console.log('imgPath',imgPath);
+                         
+                            imgValue = 'imgPath:' + imgPath  + ',storedName:' + storedName;
+                            console.log("imgValue > " , imgValue)
+
+                            imgValues += imgValue;
+                            console.log('imgValues>>>>>>', imgValues)
+                            
+                            /* let imgSrc = img.querySelector('img').getAttribute('src');
+                            //console.log(imgSrc.indexOf('GoMyNote/'))
+                            let temp = imgSrc.substring(imgSrc.indexOf('GoMyNote/')+9,imgSrc.length)
+                            let imgPath = temp.substring(0,temp.indexOf('/'));
+                            temp = temp.substring(temp.indexOf('/'),temp.length);
+                            //console.log('temp',temp)
+                            let storedName = temp.substring(1,temp.length) + '&';
+                            //console.log('storedName', storedName)
+                            //console.log('imgPath',imgPath);
+                         
+                            let imgValue = 'imgPath:' + imgPath + ',storedName:' + storedName +'&';*/
+                            
                             // let ~~~ = img.queryselector('img').getAttribute('src') => http://~~ 
                             // ~~~ = ~~~.substring(~~~.indexOf(/), ~~~.length)
                             //temp += 'imgPath:' + 이미지패스값 + ',storedName:' + 저장이름 +'&'
                         }
+                        console.log('imgValue', imgValue);
+
                     }
                     console.log(newImgCount);
                     // temp += 'IMG' + newImgCount
@@ -430,7 +469,7 @@ export default {
                 console.log(key +" : " , value);
             })
           
-            /*fetch('http://localhost:8087/java/UpdateNoteInfo', {
+            /*fetch('http://http://13.125.95.210:85/java/UpdateNoteInfo', {
                 method: 'POST',
                 headers: {},
                 body: formData
