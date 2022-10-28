@@ -36,7 +36,7 @@ import com.camp.app.used.service.UsedVO;
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
 //@CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/used")
+@RequestMapping("/java/used")
 public class UsedController {
 	
 	
