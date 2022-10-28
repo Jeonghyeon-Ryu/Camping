@@ -23,7 +23,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 	RecruMapper recruMapper;
 	@Autowired
 	RecruImgMapper mapper;
-	//이미지 출력
+	//이미지 등록
 	@Override
 	public boolean insertRecruImg(List<MultipartFile> files) {
 		//경로 설정
@@ -31,7 +31,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\recru\\"+directoryPath;
+		String uploadPath = "/home/upload/recru/"+directoryPath;
 		//폴더 주소
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
@@ -70,6 +70,52 @@ public class RecruImgServiceImpl implements RecruImgService {
 			list = mapper.findRecruImg(0);
 		}
 		return list;
+	}
+	//추가 등록
+	public boolean addRecruImg(List<MultipartFile> files, int recruId) {
+		//경로 설정
+		//등록날짜로 경로 설정
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		String directoryPath = sdf.format(date);
+		String uploadPath = "/home/upload/recru/"+directoryPath;
+		//폴더 주소
+		File uploadPathDir = new File(uploadPath);
+		if(!uploadPathDir.exists()) {
+			uploadPathDir.mkdirs();
+		}
+		files.forEach(file->{
+			RecruImgVO img = new RecruImgVO();
+			img.setOriginName(file.getOriginalFilename());
+			img.setImgFormat(img.getOriginName().substring(img.getOriginName().indexOf('.')+1));
+			img.setImgSize(file.getSize());
+			img.setImgPath(directoryPath);
+			img.setRecruId(recruId);
+			//uuid를 통한 랜덤으로 아이디 주기
+			UUID uuid = UUID.randomUUID();
+			String[] uuids = uuid.toString().split("-");
+			img.setStoredName(uuids[0]+"_"+img.getOriginName());
+			//업로드
+			File uploadFile = new File(uploadPath, img.getStoredName());
+			
+			try {
+				file.transferTo(uploadFile);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			mapper.insertRecru(img);
+		});
+		return true;
+	}
+	//이미지 수정 (목록에 없는 부분 삭제)
+	@Override
+	public int updateRecruImg(String[] imgList, int recruId) {
+		RecruImgVO vo = new RecruImgVO();
+		vo.setImgList(imgList);
+		vo.setRecruId(recruId);
+		return mapper.deleteImg(vo);
 	}
 
 }
