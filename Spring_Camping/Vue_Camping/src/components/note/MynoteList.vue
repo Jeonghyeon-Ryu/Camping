@@ -139,8 +139,8 @@ export default {
         },
         //card에 들어갈 info
         getMyListInfo() {
-            const email = sessionStorage.getItem("email");
-            fetch(`http://13.125.95.210:85/java/${email}`, {
+            const email = this.$store.state.email;
+            fetch(`http://13.125.95.210:85/java/MyNoteList/${email}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })

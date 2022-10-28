@@ -89,7 +89,7 @@ export default {
         },
         //card에 들어갈 info
         getInvitedListInfo() {
-            const email = sessionStorage.getItem("email");
+            const email = this.$store.state.email;
             console.log(email);
             fetch(`http://13.125.95.210:85/java/invitedList/${email}`, {
                 method: "GET",
