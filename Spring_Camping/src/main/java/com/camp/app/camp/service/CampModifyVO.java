@@ -12,4 +12,5 @@ public class CampModifyVO {
 	private String campInfo;
 	private int campId;
 	private String email;
+	private String campDetail;
 }

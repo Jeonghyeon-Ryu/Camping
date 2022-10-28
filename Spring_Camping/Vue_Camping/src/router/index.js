@@ -180,16 +180,6 @@ const routes = [{
     component: () => import('@/components/Chat/ChatView.vue'),
   },
   {
-    name: 'ChatRoom',
-    path: '/chat/rooms',
-    component: () => import('@/components/UsedPractice/room.vue'),
-  },
-  {
-    name: 'ChatRoom2',
-    path: '/chat/rooms2',
-    component: () => import('@/components/UsedPractice/Chatting.vue'),
-  },
-  {
     name: 'RecruUpdate',
     path: '/recru/RecruUpdate/:recruId',
     component: () => import('@/components/recruit/RecruUpdateView.vue'),

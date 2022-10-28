@@ -81,7 +81,7 @@ export default {
   },
   created() {
     //this.noteId = this.$router.params.myNoteId;
-    fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
+    fetch("http://13.125.95.210:85/java/GoMyNote/" + this.noteId)
       .then(result => result.json())
       .then(result => {
         this.title = result.title;
@@ -138,9 +138,9 @@ export default {
                 data: values
               }
             )
-          } else if (result.noteContents[i].indexOf('IMG') >= 0) {
+          } /*else if (result.noteContents[i].indexOf('IMG') >= 0) {
             let values = [];
-            fetch('http://localhost:8087/java/campImage/' + this.noteId)
+            fetch('http://13.125.95.210:85/java/WriteNoteInfo' + this.noteId)
               .then(result => result.json())
               .then(result => {
 
@@ -151,7 +151,7 @@ export default {
                 console.log(this.resultImages);
               })
               .catch(err => console.log(err))
-          }
+          }*/
         }
         this.$forceUpdate();
       })
@@ -176,7 +176,7 @@ export default {
     showCheckBox(e) {
       this.show = !this.show;
     },
-    saveNote: function (e) {
+      /*saveNote: function (e) {
       let lineAll = document.querySelectorAll('.write_fn');
       let contents = [];
       console.log(contents);
@@ -253,7 +253,7 @@ export default {
         "noteContents": contents,
         "email": sessionStorage.getItem("email")
       }
-      fetch('http://localhost:8087/java/WriteNote', {
+      fetch('http://13.125.95.210:85/java/MyNoteInfo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -263,7 +263,7 @@ export default {
         // console.log(result);
         this.$router.push({ name: "MynoteList" });
       })
-    }
+    }*/
   },
   components: { CreTextarea, CreateLine }
 }

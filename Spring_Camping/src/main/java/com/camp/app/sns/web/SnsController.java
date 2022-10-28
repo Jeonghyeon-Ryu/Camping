@@ -134,7 +134,7 @@ public class SnsController {
 	// 이미지 (jpg 등 불러오기)
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
-		String fullPath = this.imagePath + imagePath + "\\" + storedName;
+		String fullPath = this.imagePath+ imagePath + "/" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 

@@ -19,7 +19,7 @@ import com.camp.app.recruEntry.service.EntryVO;
  * 캠핑 모집글에 참가 신청이 들어온 내역 관리
  */
 @CrossOrigin(origins = "*")
-@RequestMapping("/recru")
+@RequestMapping("/java/recru")
 @RestController
 public class EntryController {
 

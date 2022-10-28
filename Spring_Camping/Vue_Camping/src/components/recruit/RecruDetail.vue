@@ -22,7 +22,7 @@
                 <div class="recru-detail-col" style="margin-top : 30px">
                     
                     <div class="recru-detail-user">
-                        <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"  name="profile_img" alt="profile img">
+                        <img :src="'http://13.125.95.210:85/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"  name="profile_img" alt="profile img">
                         <p><span>{{recruPost.nickname}}</span></p>
                         <p>{{yyyyMMddhhmmss(recruPost.writeDate) }}</p>
                         <button class="report-btn" @click="reportItem">🚨신고</button>
@@ -49,7 +49,7 @@
                         <p><span>도착지 </span>{{recruPost.campingPoint}} <button class="findCamp" @click="isCampViewed=!isCampViewed">🚩</button></p>  
                         <div v-if="isCampViewed"  class="show_region_camp">
                             <h4>이 지역의 캠핑스팟</h4>
-                            <p v-if="campSites.length==0" style="text-align:center">등록된 캠핑스팟이 없습니다!
+                            <p v-if="campSites.length==0" style="text-align:center">등록된 캠핑지가 없습니다!
                                 <br>새로운 정보를 등록해주세요
                                 <br><button @click="$router.push({name:'CampRegister'})">등록하러 가기</button>
                             </p>
@@ -175,7 +175,7 @@ export default{
     data:function(){
         return{
             //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
-            memberId : sessionStorage.getItem("email"),
+            memberId : this.$store.state.email,
             storedProfile : '',
             userRole : 0,
             recruPost : {},
@@ -246,14 +246,14 @@ export default{
             // 서버에서 단건조회
             let recruId = this.recruId;
             let component = this;
-            fetch("/java/recru/"+recruId)
+            fetch("http://13.125.95.210:85/java/recru/"+recruId)
             .then((response) =>response.json()) 
             .then(data => { 
                 component.recruPost = data;  
                 console.log(component.recruPost);
 
                 //프로필 이미지 가져오기
-                fetch('/java/profile/' + component.recruPost.memberId)
+                fetch('http://13.125.95.210:85/java/profile/' + component.recruPost.memberId)
                 .then(result => result.json())
                 .then(result => {
                     component.storedProfile = result;
@@ -262,17 +262,16 @@ export default{
                 //캠핑장 정보 조회
                 var region = component.recruPost.campingPoint;
                 console.log(region)
-                fetch(`/java/recru/campingPoint/${region}`)
+                fetch(`http://13.125.95.210:85/java/recru/campingPoint/${region}`)
                 .then(result => result.json())
                 .then(result => {
                     component.campSites = result;
-                    console.log(component.campSites)
                 }).catch(err => console.log(err));
 
                 //서버에서 모집글에 대한 참가목록 조회
                 let recruId = 0;
                 recruId = this.recruId;
-                fetch("/java/recru/entry/"+recruId)
+                fetch("http://13.125.95.210:85/java/recru/entry/"+recruId)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     component.entryPost = data;  
@@ -343,7 +342,7 @@ export default{
                         component.sendRecruInfo.recruId = component.recruId;
                         component.sendRecruInfo.memberId = component.memberId;
                         component.sendRecruInfo.recruStatus = 1;
-                        fetch('/java/recru',{
+                        fetch('http://13.125.95.210:85/java/recru',{
                             method : "PUT",
                             headers : {"Content-Type" : "application/json"},
                             body :  JSON.stringify(component.sendRecruInfo)
@@ -402,7 +401,7 @@ export default{
                         }
 
                         console.log(fetchData);
-                        fetch('http://localhost:8087/java/report', {
+                        fetch('http://13.125.95.210:85/java/report', {
                             method: 'POST',
                             headers: {'Content-Type': 'application/json' },
                             body: JSON.stringify(fetchData)
@@ -498,7 +497,7 @@ export default{
                 status : status
             };
             console.log(changeInfo)
-            fetch('/java/recru/showStatus', {
+            fetch('http://13.125.95.210:85/java/recru/showStatus', {
                 method : "PUT",
                 headers : {"Content-Type" : "application/json"},
                 body :  JSON.stringify(changeInfo)

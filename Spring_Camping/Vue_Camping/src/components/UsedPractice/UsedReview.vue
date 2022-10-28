@@ -97,7 +97,7 @@
                 })
         }else{
 
-            fetch('http://localhost:8087/java/used/usedReview',{
+            fetch('http://13.125.95.210:85/java/used/usedReview',{
                     method : "POST",
                     headers : { },
                     body : fetchData

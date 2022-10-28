@@ -17,13 +17,15 @@
 	<resources mapping="/css/**" location="/css/" />
 	<resources mapping="/js/**" location="/js/" />
 	<resources mapping="/img/**" location="/img/" />
-	<resources mapping="index.html" location="index.html" />
-	<resources mapping="favicon.ico" location="favicon.ico" />
+	<resources mapping="/index.html" location="/index.html" />
+	<resources mapping="/favicon.ico" location="/favicon.ico" />
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
+		<!-- <beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" /> -->
+		<beans:property name="prefix" value="/"/>
+		<beans:property name="suffix" value=".html"/>
 	</beans:bean>
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -6,11 +6,11 @@
 	</select>
 	<select id="findByPage" parameterType="Integer" resultType="CampVO">
 		<![CDATA[
-		SELECT camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
+		SELECT camp_id, camp_name, camp_address, camp_price, camp_site, camp_info, camp_detail
 		FROM ( 
-        	SELECT SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
+        	SELECT SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info, camp_detail
         	FROM (
-                SELECT ROWNUM AS SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info
+                SELECT ROWNUM AS SEQ, camp_id, camp_name, camp_address, camp_price, camp_site, camp_info, camp_detail
                 FROM ( SELECT * FROM camp WHERE status=2 ORDER BY camp_id )
             	)
         	WHERE SEQ >= ((#{page}-1)*10+1)
@@ -42,7 +42,8 @@
 			#{campPrice},
 			#{campSite},
 			#{campInfo},
-			2
+			2,
+			#{campDetail}
 		)
 	</insert>
 	<insert id="insertCampImage" parameterType="CampImageVO">
@@ -77,7 +78,7 @@
 			#{campInfo},
 			#{campId},
 			#{email},
-			#{status}
+			#{campDetail}
 		)
 	</insert>
 	<select id="findMaxByCampModifyId" resultType="Integer">

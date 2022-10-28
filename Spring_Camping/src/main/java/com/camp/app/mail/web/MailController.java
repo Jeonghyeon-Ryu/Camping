@@ -25,7 +25,7 @@ import com.camp.app.mail.service.MailVO;
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
 //@CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/mail")
+@RequestMapping("/java/mail")
 public class MailController {
 	
 	@Autowired

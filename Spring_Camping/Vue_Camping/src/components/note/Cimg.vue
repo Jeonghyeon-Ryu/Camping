@@ -10,7 +10,7 @@
       <div class='used-insert-image-preview'>
         <div v-if="data.length != 0" class="image-preview-container">
           <div v-for="(temp, index) of data" :id="'a'+index" class="image-preview-div">
-            <img :src="'http://localhost:8087/java/GoMyNote/' + temp.imgPath + '/' + temp.storedName" />
+            <img :src="'http://13.125.95.210:85/java/GoMyNote/' + temp.imgPath + '/' + temp.storedName" />
             <input type="button" value="X" @click="deleteImage($event)" class="image-preview-delete-button" />
           </div>
           <div v-for="(img, index) of imagesUrl" :id="'b'+index" class="image-preview-div">
@@ -26,30 +26,8 @@
         </label>
       </div>
     </div>
-    <!-- <div class="show_img" v-for="(info,i) in data" :key="i">
-    <img :src="'http://localhost:8087/java/GoMyNote/' +info.imgPath+'/'+info.storedName">
-  </div> -->
-
 
   </div>
-
-
-
-  <!--<div class='used-insert-image-preview'>
-          <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
-  </div>
-  <div class="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
-    <label>사진등록
-      <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
-        @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
-    </label>
-    <div class="show_img" v-for="(info,i) in data" :key="i">
-    <img :src="'http://localhost:8087/java/GoMyNote/' +info.imgPath+'/'+info.storedName">
-  </div>
-  </div>-->
-  <!-- <div class="show_img" v-for="(info,i) in data" :key="i">
-    <img :src="'http://localhost:8087/java/GoMyNote/' +info.imgPath+'/'+info.storedName">
-  </div> -->
 </template>
 
 <script>

@@ -10,7 +10,7 @@
     <div class="card-pic">
       <!-- <img v-bind:src="cardImg"> -->
       <div v-for="usedImage of images"><img
-          :src="'http://localhost:8087/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
+          :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
     </div>
     <!-- 카드정보 -->
     <div class="card-info">
@@ -107,7 +107,7 @@ export default {
         console.log(save.boardId);
 
         if (this.liked === true) {
-          fetch('http://localhost:8087/java/save', {
+          fetch('http://13.125.95.210:85/java/save', {
             method: 'DELETE',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(save)
@@ -135,7 +135,7 @@ export default {
 
 
         } else if (this.liked === false) {
-          fetch('http://localhost:8087/java/save', {
+          fetch('http://13.125.95.210:85/java/save', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(save)
@@ -173,7 +173,7 @@ export default {
     updateLike: function () {
       let fetchData = this.usedCard.usedId;
 
-      fetch('http://localhost:8087/java/used/updateLike', {
+      fetch('http://13.125.95.210:85/java/used/updateLike', {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(fetchData)
@@ -182,7 +182,7 @@ export default {
     }
   },
   created() {
-    fetch('http://localhost:8087/java/used/usedImage/' + this.usedCard.usedId)
+    fetch('http://13.125.95.210:85/java/used/usedImage/' + this.usedCard.usedId)
       .then(result => result.json())
       .then(result => {
         this.images = result;
@@ -190,7 +190,7 @@ export default {
       .catch(err => console.log(err))
 
     if (this.$store.state.email != null) {
-      fetch('http://localhost:8087/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
+      fetch('http://13.125.95.210:85/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
         .then(result => result.text())
         .then(result => {
           if (result == 'true') {

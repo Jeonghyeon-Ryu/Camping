@@ -157,7 +157,7 @@ export default{
         searchImg : img2,
         wishAge :[],
         recruInfo : {  
-            memberId :sessionStorage.getItem("email"),
+            memberId : this.$store.state.email,
             wishSex : 0,
             wishAge : '',
             carYn : 0,
@@ -266,7 +266,7 @@ export default{
             
             let recruVO = this.recruInfo;
             //서버를 통해 게시글 내용 insert
-            fetch('/java/recru',{
+            fetch('http://13.125.95.210:85/java/recru',{
                 method : "POST",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(recruVO )
@@ -302,7 +302,7 @@ export default{
             this.files.forEach(file=>{
                 formData.append('files', file);
             })
-            fetch('/java/recruImg',{
+            fetch('http://13.125.95.210:85/java/recruImg',{
                     method : "POST",
                     headers : {},
                     body : formData
@@ -310,7 +310,10 @@ export default{
                 .then(Response => Response.text())  
                 .then(data => { 
                     console.log(data)
-                }).catch(err=>console.log(err))
+                }).catch(err=>{
+                    Swal.fire('등록 실패','문제가 계속될 경우 문의해주세요','error')
+                    console.log(err)
+                })
         },
         addGear : function(menu){                
             const box = document.getElementById(menu);

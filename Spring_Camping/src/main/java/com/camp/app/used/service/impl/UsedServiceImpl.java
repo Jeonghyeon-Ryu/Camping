@@ -20,6 +20,8 @@ import com.camp.app.used.service.UsedVO;
 
 @Service
 public class UsedServiceImpl implements UsedService {
+	private String imagePath = "/home/upload/used/";
+//	private String imagePath = "d:\\upload\\used\\";
 	
 	@Autowired
 	UsedMapper mapper;
@@ -64,7 +66,7 @@ public class UsedServiceImpl implements UsedService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\used\\" + directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
 			uploadPathDir.mkdirs();
