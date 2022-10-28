@@ -25,6 +25,11 @@ ul{
   display: flex;
 }
 /*사진*/
+.pic-insert{
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #e6e6e6;
+}
 .pic-upload{
   display:none;
 }

@@ -114,6 +114,7 @@
 
   export default {
     created(){
+
       //created-페이지 열자마자 실행
       fetch('http://localhost:8087/java/used/usedDetail/'+this.usedId) 
                 .then(Response => Response.json())  //json 파싱 
@@ -131,9 +132,6 @@
                         //el.options[i].selected = true;
                       //}
                     //}  
-
-
-
                     // if(data.usedPlace != '전체' && data.usedPlace != null){
                     //   let places = data.usedPlace.split(' ')
                     //   console.log(places)
@@ -141,7 +139,6 @@
                     //   document.querySelector('#citySelect').value = places[1]
                     // }
                 }).catch(err=>console.log(err))
-
 
     },
     components:{

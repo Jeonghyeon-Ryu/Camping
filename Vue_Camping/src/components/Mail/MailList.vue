@@ -1,6 +1,7 @@
 <template>
     <div class="container">
     <h3 style="text-align:center; padding-bottom: 20px;">쪽지함</h3>
+
     <div class="container2">
       <div class="rcvMail">
         <div class="mail-head">
@@ -11,14 +12,16 @@
           <div class="rcvMailList">
             <div v-for="mail in rcvMailList" :key="mail.id" class="mail-detail" @click="mailDetail(mail)">
               <ul>
-                <li><b>{{mail.mailSender}}</b></li>
+                <li style="padding:5px 10px"> 📥 <b>{{mail.mailSender}}</b></li>
               <template v-if="mail.mailContent != null">
-                <li v-if="mail.mailContent.length <30" >내용 : {{mail.mailContent}}</li>
-                <li v-if="mail.mailContent.length >=30 " >내용 : {{mail.mailContent.slice(0,30)}} . . .더보기</li>
+                <li v-if="mail.mailContent.length <30" style="padding:10px;" >{{mail.mailContent}}</li>
+                <li v-if="mail.mailContent.length >=30" style="padding:10px;" >{{mail.mailContent.slice(0,30)}} . . .더보기</li>
               </template>
-                <li style="color:gray; font-size:small; margin-left: 80%;">{{mail.mailDate}}</li>
-                <li style="color:#2e2e2e; font-size:small; margin-left: 89%;" v-if="mail.mailStatus === 0">읽지않음</li>
-                <li style="color:gray; font-size:small; margin-left: 90%;" v-if="mail.mailStatus != 0">읽음</li>
+                <div class="mail-flex" style="display:flex; justify-content: space-between; padding: 5px 8px 0 5px;">
+                  <li style="color:gray; font-size:small; margin: 3px 5px 0 5px;">{{mail.mailDate}}</li>
+                  <li style="color:#2e2e2e; font-size:small;" v-if="mail.mailStatus === 0">읽지않음</li>
+                  <li style="color:gray; font-size:small;" v-if="mail.mailStatus != 0">읽음</li>
+                </div>
               </ul>
             </div>
           </div>
@@ -33,13 +36,13 @@
           <div class="rcvMailList">
             <div v-for="mail in sendMailList" :key="mail.id" class="mail-detail" @click="mailDetail">
               <ul>
-                <li>받는사람 : <b>{{mail.mailReceiver}}</b></li>
+                <li> 📤<b> {{mail.mailReceiver}}</b></li>
                 <template v-if="mail.mailContent != null">
                   <li v-if="mail.mailContent.length <27" >내용 : {{mail.mailContent}}</li>
                   <li v-if="mail.mailContent.length >=27 " >내용 : {{mail.mailContent.slice(0,27)}}<br>…더보기</li>
                 </template>
                 <li style="color:gray; font-size:small; margin-left: 80%;">{{mail.mailDate}}</li>
-                <li style="color:#2e2e2e; font-size:small; margin-left: 89%;" v-if="mail.mailStatus === 0">읽지않음</li>
+                <li style="color:#212121; font-size:small; margin-left: 89%;" v-if="mail.mailStatus === 0">읽지않음</li>
                 <li style="color:gray; font-size:small; margin-left: 93%;" v-if="mail.mailStatus != 0">읽음</li>
               </ul>
 
@@ -49,6 +52,7 @@
       </div>
     </div>
   </div>
+  <button v-on:click='sendMail()'>+</button>
 </template>
 
 <script>
@@ -105,7 +109,7 @@ export default {
           html: 
           '<div class="mail-info" style="dislay:flex; border-radius:2px; width:80%; margin: 0 auto; padding: 5px; background-color:#f7f7f7"><div class="mail-usedName"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품ID </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'+mail.usedId
             +'</span></div></div>'+
-            '<div class="mailContents" style="width:80%; margin: 0 auto; padding: 10px; height:100px; border: 1px solid #e6e6e6; font-size:0.9em;">'+mail.mailContent+'</div><textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 100px; font-size:12px; overflow-y:scroll" maxlength="500" placeholder="답장할 내용을 입력하세요"></textarea>',
+            '<div class="mailContents" style="width:80%; margin: 0 auto; padding: 10px; height:100px; border: 1px solid #e6e6e6; font-size:0.9em;">'+mail.mailContent+'</div><textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 100px; font-size:12px; overflow-y:auto;" maxlength="500" placeholder="답장할 내용을 입력하세요"></textarea>',
           focusConfirm: false,
           showCancelButton: true,
           confirmButtonText: '답장하기',
