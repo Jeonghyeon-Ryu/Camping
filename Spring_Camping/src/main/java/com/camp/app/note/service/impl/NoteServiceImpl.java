@@ -22,7 +22,9 @@ import com.camp.app.note.service.NoteVO;
 
 @Service
 public class NoteServiceImpl implements NoteService {
-
+	private String imagePath = "/home/upload/note/";
+	//집에서 밑에꺼 주석풀기 위에꺼는 주석막기
+//	private String imagePath = "d:\\upload\\note\\";
 	@Autowired
 	NoteMapper mapper;
 	@Autowired
@@ -42,7 +44,7 @@ public class NoteServiceImpl implements NoteService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "c:\\upload\\note\\" + directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		// 폴더 주소
 		
 		if (files != null && files.size() != 0) {
@@ -134,7 +136,7 @@ public class NoteServiceImpl implements NoteService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "c:\\upload\\note\\" + directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		// 폴더 주소
 		System.out.println("-----------------------------------files");
 		System.out.println(files);

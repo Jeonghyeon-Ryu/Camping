@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,11 +24,11 @@ import com.camp.app.note.service.NoteImgService;
 import com.camp.app.note.service.NoteImgVO;
 import com.camp.app.note.service.NoteService;
 import com.camp.app.note.service.NoteVO;
-
+@RequestMapping("/java")
 @RestController
 @CrossOrigin
 public class NoteController {
-	
+
 	@Autowired
 	NoteService service;
 	@Autowired
