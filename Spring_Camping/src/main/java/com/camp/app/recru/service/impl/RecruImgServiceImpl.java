@@ -31,7 +31,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\recru\\"+directoryPath;
+		String uploadPath = "/home/upload/recru/"+directoryPath;
 		//폴더 주소
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
@@ -78,7 +78,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "d:\\upload\\recru\\"+directoryPath;
+		String uploadPath = "/home/upload/recru/"+directoryPath;
 		//폴더 주소
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
