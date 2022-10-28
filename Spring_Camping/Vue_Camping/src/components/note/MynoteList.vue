@@ -140,7 +140,7 @@ export default {
         //card에 들어갈 info
         getMyListInfo() {
             const email = sessionStorage.getItem("email");
-            fetch(`http://localhost:8087/java/MyNoteList/${email}`, {
+            fetch(`http://13.125.95.210:85/java/${email}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -186,7 +186,7 @@ export default {
                     let fetchData = {
                         "noteIds": noteIds
                     }
-                    fetch(`http://localhost:8087/java/MyNoteList`, {
+                    fetch(`http://13.125.95.210:85/java/MyNoteList`, {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(fetchData)
@@ -243,7 +243,7 @@ export default {
                 "noteId": noteId,
                 "invitedMember": userEmails
             }
-            fetch('http://localhost:8087/java/inviteUser', {
+            fetch('http://13.125.95.210:85/java/inviteUser', {
                 method: 'PUT',
                 //mode: 'cors',
                 headers: { "Content-Type": "application/json" },
@@ -285,7 +285,7 @@ export default {
         getInvitedMember() {
             let noteId = this.oneNoteId;
             console.log(noteId);
-            fetch(`http://localhost:8087/java/showBlockMember/${noteId}`, {
+            fetch(`http://13.125.95.210:85/java/showBlockMember/${noteId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -322,7 +322,7 @@ export default {
             console.log(fetchData);
 
 
-            fetch(`http://localhost:8087/java/blockMember`, {
+            fetch(`http://13.125.95.210:85/java/blockMember`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(fetchData)

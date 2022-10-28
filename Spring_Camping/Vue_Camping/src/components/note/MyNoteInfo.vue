@@ -184,7 +184,7 @@ export default {
         // this.noteId = this.$router.params.myNoteId;
         
 
-        fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
+        fetch("http://13.125.95.210:85/java/GoMyNote/" + this.noteId)
             .then(result => result.json())
             .then(result => {
                 this.title = result.title;

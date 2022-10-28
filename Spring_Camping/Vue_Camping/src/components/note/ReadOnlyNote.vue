@@ -81,7 +81,7 @@ export default {
   },
   created() {
     //this.noteId = this.$router.params.myNoteId;
-    fetch("http://localhost:8087/java/GoMyNote/" + this.noteId)
+    fetch("http://13.125.95.210:85/java/GoMyNote/" + this.noteId)
       .then(result => result.json())
       .then(result => {
         this.title = result.title;
@@ -138,9 +138,9 @@ export default {
                 data: values
               }
             )
-          } else if (result.noteContents[i].indexOf('IMG') >= 0) {
+          } /*else if (result.noteContents[i].indexOf('IMG') >= 0) {
             let values = [];
-            fetch('http://localhost:8087/java/campImage/' + this.noteId)
+            fetch('http://13.125.95.210:85/java/WriteNoteInfo' + this.noteId)
               .then(result => result.json())
               .then(result => {
 
@@ -151,7 +151,7 @@ export default {
                 console.log(this.resultImages);
               })
               .catch(err => console.log(err))
-          }
+          }*/
         }
         this.$forceUpdate();
       })
