@@ -93,6 +93,31 @@
     display: inline-block;
     width: 70px;
 }
+/* 캠핑장 검색 */
+.search-camp{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    border: none;
+    width: 100%;
+    padding: 10px;    
+}
+.search-camp>div{
+    padding: 10px;
+    width: 95%;
+    border-radius: 2px;
+    background: rgb(219, 230, 217);
+}
+.search-camp input{
+    width: 80%;
+}
+.search-camp p{
+    font-size: smaller;
+}
+.search-camp button{
+    background-color: rgb(124, 149, 135);
+}
 /* 버튼 */
 .recru-info-btn{
     margin: 5px;

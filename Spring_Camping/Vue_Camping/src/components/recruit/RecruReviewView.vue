@@ -112,7 +112,7 @@
                     if(data>="1"){
                       // 성공
                       console.log("입력되었습니다.")
-                      this.$router.push({name : 'usedMain'})
+                      this.$router.push({name : 'recruList'})
                       let component = this;
                     } else {
                       // 실패                    

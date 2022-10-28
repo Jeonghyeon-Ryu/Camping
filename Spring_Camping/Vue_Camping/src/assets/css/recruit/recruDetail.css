@@ -115,6 +115,7 @@
 }
 .recruPost_camp{
     cursor: pointer;
+    overflow-x: hidden;
 }
 .recruPost_camp:hover{
     color: rgb(155, 194, 165);

@@ -267,6 +267,9 @@ export default{
             const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; //특수문자 체크 정규식
             let myGearNames = document.querySelectorAll('.recru-mygear-name');
             let needGearNames = document.querySelectorAll('.recru-mygear-name');
+            if(myGearNames.length==0 ||needGearNames.length==0){
+                Swal.fire('장비를 등록해주세요',"보유장비와 필요장비는 각각 적어도 하나 이상 등록해야 합니다.",'warning');
+            }
             for(let i=0 ; i<myGearNames.length ; i++){
                 if(regExp.test(myGearNames[i].value)){
                     Swal.fire('장비 이름을 확인해주세요',"< > @ . , ; : & * ^ / $ 등의 특수문자는 입력할 수 없습니다.",'warning');

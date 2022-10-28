@@ -211,8 +211,17 @@
 	</insert>
 	
 	<!-- 캠핑장 검색 -->
-	<select id="searchCamp" parameterType="String" resultType="campVO">
+	<select id="searchCamp" parameterType="CampVO" resultType="CampVO">
 		SELECT camp_id, camp_name, camp_address FROM  camp
-		WHERE camp_address LIKE '%'||#{region}||'%'
+		<where>
+			<if test="region != null">
+				camp_address LIKE '%'||#{region}||'%'
+			</if>
+			<if test="campName != null">
+				camp_name LIKE '%'||#{campName}||'%'
+			</if>
+		</where> 
+		
 	</select>
+	
 </mapper>
