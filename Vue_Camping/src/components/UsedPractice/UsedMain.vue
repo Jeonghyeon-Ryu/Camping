@@ -169,15 +169,9 @@
   import "swiper/css";
   import { Navigation, Pagination } from "swiper";
 
-  // 슬라이더
-  import VueSimpleRangeSlider from "vue-simple-range-slider";
-  import "vue-simple-range-slider/css";
-  import { reactive, defineComponent } from "vue";
-
   export default{
     components:{
     UsedCard,
-    VueSimpleRangeSlider,
     Swiper,
     SwiperSlide,
     },
