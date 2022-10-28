@@ -6,9 +6,9 @@
       <!-- <input type="button" @click="doClear" value="X"> -->
     </div>
     <div class="sns-search-list-container">
-      <div class="sns-search-list" v-for="searchHashTagKeyword of searchResult" @focusout="focusOut()">
+      <div class="sns-search-list" v-for="searchHashTagKeyword of searchResult">
         <input v-show="this.doSearchTag" type="text" @click="getSnsHashtagList(searchHashTagKeyword)"
-          v-bind:value="searchHashTagKeyword" v-on:change="search()" >
+          v-bind:value="searchHashTagKeyword" v-on:change="search()">
       </div>
     </div>
     <div class="sns-search-list-container">
@@ -24,7 +24,6 @@
 // import sns from "@/components/SnS/snsMember.js"
 
 export default {
-
   //DB연결
   created: function () {
     fetch('http://13.125.95.210:85/java/hashtag')
@@ -49,8 +48,6 @@ export default {
     //닉네임 검색... 왜안되ㅈ는지....그지같음...
     fetch('http://13.125.95.210:85/java/snsnickname')
       .then(result => result.text())
-
-
       .then(result => result.substring(2, result.length - 2))
       .then(result => result.replaceAll('","', ' '))
       .then(result => result.split(' '))
@@ -62,13 +59,9 @@ export default {
       })
     // .then(result => console.log(result))
     // .catch(err => console.log(err));
-
   },
-
-  components: {},
   data: () => {
     return {
-
       searchText: '',
       //해시태그모음
       snsData: [],
@@ -78,15 +71,13 @@ export default {
       searchResult: [],
       //닉네임결과값
       searchResultNick: [],
-
     }
   },
   //검색
   methods: {
-    search: function(){
+    search: function () {
       this.doSearchTag = !this.doSearchTag;
-    }
-    ,
+    },
     doSearch() {
       console.log(this.searchText)
     },
@@ -97,13 +88,13 @@ export default {
       let result1 = searchValue.substr(0, 1);
       // #이면 -> 태그검색 함수로 function doSearchTag
       if (result1 == '#') {
-        document.querySelectorAll('.sns-search-list-container')[0].style.display="block";
-        document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
+        document.querySelectorAll('.sns-search-list-container')[0].style.display = "block";
+        document.querySelectorAll('.sns-search-list-container')[1].style.display = "none";
         this.doSearchTag(searchValue); //searchVal의 흐름 2. 여기서 searchValue  =  searchVal인 것을 인지시켜줌
         // #이 없으면 -> 아이디검색 함수로 function doSearchId
       } else {
-        document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
-        document.querySelectorAll('.sns-search-list-container')[1].style.display="block";
+        document.querySelectorAll('.sns-search-list-container')[0].style.display = "none";
+        document.querySelectorAll('.sns-search-list-container')[1].style.display = "block";
         this.doSearchId(searchValue);
       }
 
@@ -118,7 +109,7 @@ export default {
       //   document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
       // }
 
-        //onblur 아웃포커스
+      //onblur 아웃포커스
       // let focus = document.querySelector('.sns-searchbox input')
       //for문으로 함 해봄...
       // for(let i; i<this.searchResult.length; i++){
@@ -131,27 +122,27 @@ export default {
       // }
 
     },
-    
-    //onblur 아웃포커스
-   // let focus = document.querySelector('.sns-searchbox input')
-  //  let focus = e.target;
-  //  focus.onblur = function(e){
-  //    console.log(focus);
-  //    // document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
-  //    document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
-  //  },
-  focusOut(){
-    let focus = document.querySelectorAll('.sns-search-list input');
-    focus.onfocusout;
-        document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
-  },
 
+    //onblur 아웃포커스
+    // let focus = document.querySelector('.sns-searchbox input')
+    //  let focus = e.target;
+    //  focus.onblur = function(e){
+    //    console.log(focus);
+    //    // document.querySelectorAll('.sns-search-list-container')[1].style.display="none";
+    //    document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
+    //  },
+    setTag(searchHashTagKeyword) {
+      // let focus = document.querySelectorAll('.sns-search-list input');
+      // focus.onfocusout;
+      // document.querySelectorAll('.sns-search-list-container')[0].style.display="none";
+      this.searchText = searchHashTagKeyword;
+    },
     // 태그검색 함수
     doSearchTag(searchVal) { //searchVal의 흐름 1. 여기서 searchValue의 공간을 만들어주고
       // if(searchVal.substr(0, 1) == '#'){
-        // document.querySelector('.sns-search-list-container').style.display="block";
-        this.searchResult = [];
-        console.log(searchVal);
+      // document.querySelector('.sns-search-list-container').style.display="block";
+      this.searchResult = [];
+      console.log(searchVal);
       for (let snsList of this.snsData) {
         // console.log(snsList.hashtag);
         //result2 = hashtag와 searchVal이 일치하는게있으면 0보다 같,크고 아니면 -1
@@ -163,31 +154,23 @@ export default {
           //result3 = 나열된 해시태그들의 문자를 공백기준으로 각각 자른다
           let results3 = snsList.split(' ');
           // console.log(results3);
-
-          
           let result5 = results3.filter(results4 => results4.includes(searchVal));
           console.log(result5)
           // this.searchResult.concat(result5);
-
           result5.forEach((element) => {
             if (!this.searchResult.includes(element)) {
               this.searchResult.push(element);
-              console.log(element);
             }
           });
         }
       }
       console.log(this.searchResult);
 
-      for (let clickHashtag of this.searchResult){
+      for (let clickHashtag of this.searchResult) {
         let hashtag = clickHashtag;
-        console.log(hashtag);
       }
       // console.log(this.searchResult[0]);
-
       // document.querySelector('.sns-search-list-container').style.display="none";
-    
-
     },
     // snsData -> for문 HashTag를 하나씩 읽으면서
     // searchValue 가 있는지 확인
@@ -223,19 +206,19 @@ export default {
     },
     //해시태그검색시 해시태그 검색되서 해당하는 이미지 리스트 화면으로...
     getSnsHashtagList(hashtag) {
+      document.querySelectorAll('.sns-search-list-container')[0].style.display = "none";
+      let kkk = window.location.href;
+      if (kkk.indexOf('sns/%') > 0 || kkk.indexOf('sns/undefined') > 0) {
+        this.$emit('showHashList', hashtag);
+      } else {
+        this.$router.push({ name: 'SnsMain', params: { hashtag } });
+      }
       // console.log("자식" + hashtag);
-      // this.$emit('showHashList', hashtag)
-      this.$router.push({ name : 'SnsMain', params : {hashtag}});
     }
   }
 }
-
-
 </script>
-
 <style scoped>
-
-
 .sns-container {
   margin-top: 150px;
 }

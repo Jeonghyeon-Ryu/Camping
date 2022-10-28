@@ -40,7 +40,7 @@ import com.camp.app.sns.service.SnsVO;
 public class SnsController {
 	private String imagePath = "/home/upload/sns/";
 //	private String imagePath = "d:\\upload\\sns\\";
-	
+
 	@Autowired
 	SnsService service;
 	@Autowired
@@ -102,12 +102,13 @@ public class SnsController {
 		service.snsDelete(writeNo);
 	}
 
-	//admin 삭제
+	// admin 삭제
 	@DeleteMapping("/snsDeleteByAdmin")
 	public void snsDeleteByAdmin(@RequestParam int writeNo) {
 //		System.out.println(writeNo);
 		service.snsDeleteByAdmin(writeNo);
 	}
+
 	/// 이미지
 	// 글 등록
 	@PostMapping("/sns")
@@ -133,16 +134,15 @@ public class SnsController {
 	// 이미지 (jpg 등 불러오기)
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
-		String fullPath = this.imagePath+ imagePath + "\\" + storedName;
+		String fullPath = this.imagePath + imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
-		
-		if(!resource.exists()) {
+		if (!resource.exists()) {
 			System.out.println("File Not Found ! ");
 			fullPath = this.imagePath + "default.png";
 			resource = new FileSystemResource(fullPath);
-			if(!resource.exists()) {
+			if (!resource.exists()) {
 				return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 			}
 		}
@@ -215,20 +215,28 @@ public class SnsController {
 		return service.countLikeSnsByUser(email);
 	}
 
+	// 게시글에 좋아요한 수 배포 후 추가
+	@GetMapping("/memberLikeCount/{boardId}")
+	public int getLikeSnsToWriteNo(@PathVariable("boardId") String boardId) {
+		System.out.println(boardId);
+		return service.countLikeSnsToWriteNo(boardId);
+	}
+
 	// 유저가 좋아요한 게시글 리스트 출력
 	@GetMapping("/memberSnsLikeList/{email}/{page}")
 	public List<SnsImageVO> getSnsLikeListByUser(@PathVariable("email") String email, @PathVariable("page") int page) {
 		return service.showSnsLikeByPageByUser(email, page);
 	}
-	
-	//해시태그검색한 게시글 이미지리스트 출력
+
+	// 해시태그검색한 게시글 이미지리스트 출력
 	@GetMapping("/hashtagList/{hashtag}/{page}")
-	public List<SnsImageVO> getSnsListByHashtag(@PathVariable("hashtag") String hashtag, @PathVariable("page") int page) {
-		System.out.println(hashtag +","+ page);
+	public List<SnsImageVO> getSnsListByHashtag(@PathVariable("hashtag") String hashtag,
+			@PathVariable("page") int page) {
+		System.out.println(hashtag + "," + page);
 		return service.showSnsByPageByHashtag(hashtag, page);
 	}
-	
-	//해시태그당한 페이지!
+
+	// 해시태그당한 페이지!
 	// 유저가 해시태그당한 총게시글 수
 	@GetMapping("/memberTagCount/{nickname}")
 	public int getTagCountSnsByUser(@PathVariable("nickname") String nickname) {
@@ -238,7 +246,8 @@ public class SnsController {
 
 	// 유저가 해시태그당한 게시글 리스트 출력
 	@GetMapping("/memberSnsTagList/{nickname}/{page}")
-	public List<SnsImageVO> getSnsTagListByUser(@PathVariable("nickname") String nickname, @PathVariable("page") int page) {
+	public List<SnsImageVO> getSnsTagListByUser(@PathVariable("nickname") String nickname,
+			@PathVariable("page") int page) {
 		return service.showSnsTagByPageByUser(nickname, page);
 	}
 
