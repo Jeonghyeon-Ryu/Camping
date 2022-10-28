@@ -147,7 +147,7 @@
         const keyword = this.keyword;
         this.keywordValue = keyword;
         console.log(data)
-        fetch("http://localhost:8087/java/used/usedSearch",{
+        fetch("http://13.125.95.210:85/java/used/usedSearch",{
           method : "POST",
           headers : {"Content-Type" : "application/json"},
           body : JSON.stringify(data)
@@ -184,7 +184,7 @@
     //created-페이지 열자마자 실행
     created(){
       //전체조회
-      fetch('http://localhost:8087/java/used/usedMain') 
+      fetch('http://13.125.95.210:85/java/used/usedMain') 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     console.log(data);

@@ -1,6 +1,6 @@
 <template>
     <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
-        <swiper-slide v-for="usedImage of images"><img :src="'http://localhost:8087/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></swiper-slide>
+        <swiper-slide v-for="usedImage of images"><img :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName" onclick="window.open(this.src)"></swiper-slide>
     </swiper>
 </template>
 <script>
@@ -22,7 +22,7 @@ export default {
         }
     },
     created : function() {
-      fetch('http://localhost:8087/java/used/usedImage/'+this.usedId)
+      fetch('http://13.125.95.210:85/java/used/usedImage/'+this.usedId)
         .then(result => result.json())
         .then(result => {
             this.images = result;
@@ -30,7 +30,7 @@ export default {
         })
         .catch(err => console.log(err))
 
-        console.log('http://localhost:8087/java/used/usedImage/'+this.usedId)
+        console.log('http://13.125.95.210:85/java/used/usedImage/'+this.usedId)
     },  
     components: {
         Swiper,

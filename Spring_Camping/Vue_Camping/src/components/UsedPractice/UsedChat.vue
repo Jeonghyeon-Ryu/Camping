@@ -54,7 +54,7 @@ export default {
       }
     },    
     connect() {
-      const serverURL = "http://localhost:8087/java/websockethandler"
+      const serverURL = "http://13.125.95.210:85:8087/java/websockethandler"
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)

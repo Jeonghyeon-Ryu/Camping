@@ -6,7 +6,7 @@
       <div class="used-headd">
         <div class="used-title">
           <div class="used-nav"></div>
-          <div class="used-main">
+          <div class="used-main" v-if="usedAd">
             <!-- <swiper :autoplay="true" 
             :modules="modules" class="mySwiper">
               <swiper-slide><img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고" /></swiper-slide>
@@ -149,9 +149,9 @@
       <router-link tag="div" v-if="this.$store.state.email != null" v-bind:to="{name:'myUsedSave'}">
         <button>💗</button> 
       </router-link>
-      <router-link tag="div" v-bind:to="{name:'usedReview'}">
+      <!-- <router-link tag="div" v-bind:to="{name:'usedReview'}">
         <button>review</button> 
-      </router-link>
+      </router-link> -->
       <button v-on:click='usedInsert'>+</button>
       <!--<button v-on:click='usedInsert'>♥</button> -->
     </div>
@@ -189,6 +189,7 @@
         dealStatus: 9,
         pageNum: 1,
         usedMsg: false,
+        usedAd: true,
       }
     },
     methods : {
@@ -201,14 +202,13 @@
         }else{
           Swal.fire({
                     icon: 'warning',
-                    title: '로그인 후에 작성해주세요',
+                    title: '로그인 후에 작성할 수 있어요',
                     toast: true,
                     showConfirmButton: false,
                     timer: 1300,
                     didOpen: (toast) => {
                         toast.addEventListener('mouseenter', Swal.stopTimer)
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        this.$router.push({name:"LoginSignup"});
                     }
                 })
         }
@@ -256,6 +256,7 @@
       },
       searchList : function(){
         //키워드 검색+필터검색 결과 받아오기
+        this.usedAd = false;
         let data = {
           keyword: this.keyword,
           usedCategory: this.myCategory,
@@ -270,7 +271,7 @@
         const keyword = this.keyword;
         this.keywordValue = keyword;
         console.log(data)
-        fetch("http://localhost:8087/java/used/usedSearch",{
+        fetch("http://13.125.95.210:85/java/used/usedSearch",{
           method : "POST",
           headers : {"Content-Type" : "application/json"},
           body : JSON.stringify(data)
@@ -315,7 +316,7 @@
             })
       },
       loadDataPage: function(){
-        fetch('http://localhost:8087/java/used/usedMain/'+this.pageNum) 
+        fetch('http://13.125.95.210:85/java/used/usedMain/'+this.pageNum) 
                 .then(Response => Response.json())  //json 파싱 
                 .then(data => { 
                     for(let key in data){
