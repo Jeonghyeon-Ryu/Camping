@@ -19,15 +19,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camp.app.sns.service.InputSnsVO;
+import com.camp.app.sns.service.MySnsLikeVO;
 import com.camp.app.sns.service.SnsCommentService;
 import com.camp.app.sns.service.SnsCommentVO;
 import com.camp.app.sns.service.SnsImageVO;
-import com.camp.app.sns.service.MySnsLikeVO;
 import com.camp.app.sns.service.SnsService;
 import com.camp.app.sns.service.SnsVO;
 
@@ -35,8 +36,11 @@ import com.camp.app.sns.service.SnsVO;
 @RestController
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE,
 		RequestMethod.PUT })
+@RequestMapping("/java")
 public class SnsController {
-
+	private String imagePath = "/home/upload/sns/";
+//	private String imagePath = "d:\\upload\\sns\\";
+	
 	@Autowired
 	SnsService service;
 	@Autowired
@@ -129,14 +133,14 @@ public class SnsController {
 	// 이미지 (jpg 등 불러오기)
 	@GetMapping("/showSnsImage/{imagePath}/{storedName}")
 	public ResponseEntity<Resource> showImage(@PathVariable String imagePath, @PathVariable String storedName) {
-		String fullPath = "d:\\upload\\sns\\" + imagePath + "\\" + storedName;
+		String fullPath = this.imagePath+ imagePath + "\\" + storedName;
 		System.out.println("*** FullPath : " + fullPath);
 		Resource resource = new FileSystemResource(fullPath);
 
 		
 		if(!resource.exists()) {
 			System.out.println("File Not Found ! ");
-			fullPath = "d:\\upload\\default.png";
+			fullPath = this.imagePath + "default.png";
 			resource = new FileSystemResource(fullPath);
 			if(!resource.exists()) {
 				return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);

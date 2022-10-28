@@ -15,7 +15,7 @@
       <div class="sns-write-id-container">
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <img :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+            <img :src="'http://13.125.95.210:85/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
           </div>
         </div>
         <div class="sns-write-form-id">
@@ -41,7 +41,7 @@
         @click="getSnsDetail(snsMyLikeList.writeNo)">
         <div class="sns-img">
           <input type="text" :value="snsMyLikeList.writeNo" style="display :none;" readonly>
-          <img :src="'http://localhost:8087/java/showSnsImage/'+snsMyLikeList.snsPath+'/'+snsMyLikeList.storedName">
+          <img :src="'http://13.125.95.210:85/java/showSnsImage/'+snsMyLikeList.snsPath+'/'+snsMyLikeList.storedName">
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ import SnsSearch from './SnsSearch.vue';
 export default {
   created: function () {
     // 이메일 + 프로필소개글 + 닉네임 가져오기
-    fetch('http://localhost:8087/java/member/' + this.email)
+    fetch('http://13.125.95.210:85/java/member/' + this.email)
       .then(response => response.json())
       .then(result => {
         console.log(result);
@@ -66,7 +66,7 @@ export default {
     console.log(this.snsMyData);
 
     // 작성자의 좋아요 총 게시글 숫자 표시
-    fetch('http://localhost:8087/java/memberLikeCount/' + this.email)
+    fetch('http://13.125.95.210:85/java/memberLikeCount/' + this.email)
       .then(response => response.json())
       .then(result => {
         console.log(result);
@@ -77,7 +77,7 @@ export default {
     console.log(this.snsMyCount);
 
     // 로그인한 유저가 좋아요한 게시글목록 리스트
-    fetch('http://localhost:8087/java/memberSnsLikeList/' + this.email + "/" + this.page)
+    fetch('http://13.125.95.210:85/java/memberSnsLikeList/' + this.email + "/" + this.page)
       .then(response => response.json())
       .then(result => {
         console.log(result);
@@ -88,7 +88,7 @@ export default {
     console.log(this.snsMyLikeList);
 
     //프로필 이미지
-    fetch('http://localhost:8087/java/profile/' + this.email)
+    fetch('http://13.125.95.210:85/java/profile/' + this.email)
       .then(result => result.json())
       .then(result => {
         this.storedProfile = result;
