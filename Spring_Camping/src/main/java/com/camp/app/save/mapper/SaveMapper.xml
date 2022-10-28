@@ -31,7 +31,7 @@
 	</select>
 	
 	<!-- 게시글에 좋아요한 수 배포 후 추가 -->
-	<select id="countLikeSnsToWriteNo" resultType="Integer" parameterType="String">
+	<select id="countLikeSnsToWriteNo" resultType="Integer" parameterType="Integer">
 	SELECT COUNT(*) FROM save WHERE board_id = #{boardId} AND board_division = 3
 	</select>
 	
