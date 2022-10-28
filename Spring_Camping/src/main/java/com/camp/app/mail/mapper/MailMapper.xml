@@ -7,14 +7,20 @@
 	<selectKey keyProperty="mailId" resultType="Integer" order="BEFORE">
 		SELECT NVL(MAX(mail_id),0)+1 FROM mail <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
 	</selectKey>
-		 INSERT INTO mail VALUES
+		 INSERT INTO mail 
+		 (mail_id, mail_sender, mail_receiver, mail_content, 
+		 mail_status, used_id, mail_date, used_name, sendnick, rcvnick)
+		 VALUES
 		 (#{mailId}
 		  ,#{mailSender}
 		  ,#{mailReceiver}
 		  ,#{mailContent}
 		  ,0
 		  ,#{usedId}
-		  ,sysdate)
+		  ,sysdate
+		  ,#{usedName}
+		  ,#{sendNick}
+		  ,#{rcvNick})
 	</insert>
 	
 	<!-- 전체조회 -->

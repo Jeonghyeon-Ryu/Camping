@@ -16,4 +16,7 @@ public class MailVO {
 	private int usedId;
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date mailDate;
+	private String usedName;
+	private String sendNick;
+	private String rcvNick;
 }
