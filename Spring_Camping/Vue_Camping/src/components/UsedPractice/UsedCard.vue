@@ -12,7 +12,7 @@
       <div v-for="usedImage of images"><img
           :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
     </div>
-    <!-- 카드정보 -->
+    <!-- 카드정보  -->
     <div class="card-info">
       <div class="card-top">
         <ul class="card-info-l">

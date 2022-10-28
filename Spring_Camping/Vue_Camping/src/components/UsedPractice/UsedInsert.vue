@@ -33,6 +33,7 @@
                 <input type="number" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요">
                 <div class="won">원</div>
               </li>
+              
               <hr>
               <li>
                 <label for="inputCate">카테고리<span class="essential">*</span></label>

@@ -27,6 +27,7 @@
                 </li>
               </div>
             </div>
+            
             <li>
               <h3>￦ {{usedList.usedPrice.toLocaleString('ko-KR')}}</h3>
             </li>

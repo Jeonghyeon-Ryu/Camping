@@ -31,7 +31,7 @@
     </div>
     <div class="sendMail">
       <div class="mail-head">
-        <h4 style="padding: 5px;">📤 보낸 쪽지함</h4>
+        <h4 style="padding: 5px;">📤 보낸 쪽지함</h4> 
         <button class="sendBtn" v-on:click='sendMail()'>쪽지 보내기</button>
         <!-- <div class="mail-more" @onclick="mvSend">더보기 > </div> -->
       </div>
