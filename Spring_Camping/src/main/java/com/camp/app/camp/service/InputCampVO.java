@@ -15,5 +15,6 @@ public class InputCampVO {
 	private int campPrice;
 	private int campSite;
 	private List<String> campInfo;
+	private String campDetail;
 	private List<MultipartFile> files;
 }

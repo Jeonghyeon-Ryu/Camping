@@ -37,7 +37,7 @@
 </template>
 <script>
 export default {
-  props: ['data']
+  props: ['datas']
 }
 </script>
 <style scoped src="./VerticalCard.css"></style>

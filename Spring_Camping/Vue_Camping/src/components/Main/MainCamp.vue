@@ -2,7 +2,7 @@
   <div class="main-container">
     <h3>추천 캠핑장</h3>
     <div class="camp-card-container">
-      <VerticalCard></VerticalCard>
+      <VerticalCard :datas="mainCampData"></VerticalCard>
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
       fetch('http://13.125.95.210:85/java/camp/'+1)
       .then(result=>result.json())
       .then(result => {
-        console.log(result)
+        this.mainCampData.push(result);
       })
     },
     components: { VerticalCard }

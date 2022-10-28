@@ -10,4 +10,5 @@ public class CampVO {
 	private int campPrice;
 	private int campSite;
 	private String campInfo;
+	private String campDetail;
 }
