@@ -32,7 +32,7 @@
     <div class="sendMail">
       <div class="mail-head">
         <h4 style="padding: 5px;">📤 보낸 쪽지함</h4>
-        <button v-on:click='sendMail()' style="padding:0 10px 0 10px; border: none; background-color: #81bd7b; border-radius: 5px; color:white; font-weight: bold;cursor: pointer">쪽지 보내기</button>
+        <button class="sendBtn" v-on:click='sendMail()'>쪽지 보내기</button>
         <!-- <div class="mail-more" @onclick="mvSend">더보기 > </div> -->
       </div>
       <hr style="margin: 5px; border: 0.5px solid #e6e6e6; border-collapse: none;">
@@ -269,8 +269,7 @@ deleteMail: function(mail){
             body: JSON.stringify(fetchData)
           }).then(result => result.text())
             .then(result => {
-              console.log(result);
-              if (result === "true") {
+              if (result == "true") {
                 Swal.fire({
                   icon: 'success',
                   title: '삭제되었습니다',
@@ -337,12 +336,10 @@ created(){
     margin: 0 auto;
     margin-top: 7%;
     padding: 2% 2% 3% 2%;
-
     /* border: 1px solid #e6e6e6; */
-    background-color: #fcfcfc;
+    background-color: #f7f7f7;
     border-radius: 5px;
     box-shadow: 1px 1px 6px 0.2px #e6e6e6;
-
   }
   .container2{
     width: 85%;
@@ -357,6 +354,18 @@ created(){
     display: flex;
     justify-content: space-between;
     padding: 10px;
+  }
+  .sendBtn{
+    padding:0 10px 0 10px; 
+    border: none; 
+    background-color: #81bd7b; 
+    border-radius: 5px; 
+    color:white; 
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .sendBtn:hover{
+    background-color: #7ab475; 
   }
   .mail-more{
     font-weight: bold;
@@ -374,7 +383,11 @@ created(){
     padding: 15px;
     margin: 10px;
     border: 1px solid #e6e6e6;
+    border-radius: 4px;
     background-color: white;
+  }
+  .rcvMail:hover, .sendMail:hover{
+    box-shadow: 1px 1px 6px 0.2px #e6e6e6;
   }
   .mails{
     overflow: scroll;
