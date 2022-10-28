@@ -49,7 +49,7 @@
                         <p><span>도착지 </span>{{recruPost.campingPoint}} <button class="findCamp" @click="isCampViewed=!isCampViewed">🚩</button></p>  
                         <div v-if="isCampViewed"  class="show_region_camp">
                             <h4>이 지역의 캠핑스팟</h4>
-                            <p v-if="campSites.length==0" style="text-align:center">등록된 캠핑스팟이 없습니다!
+                            <p v-if="campSites.length==0" style="text-align:center">등록된 캠핑지가 없습니다!
                                 <br>새로운 정보를 등록해주세요
                                 <br><button @click="$router.push({name:'CampRegister'})">등록하러 가기</button>
                             </p>
@@ -175,7 +175,7 @@ export default{
     data:function(){
         return{
             //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
-            memberId : sessionStorage.getItem("email"),
+            memberId : this.$store.state.email,
             storedProfile : '',
             userRole : 0,
             recruPost : {},
@@ -266,7 +266,6 @@ export default{
                 .then(result => result.json())
                 .then(result => {
                     component.campSites = result;
-                    console.log(component.campSites)
                 }).catch(err => console.log(err));
 
                 //서버에서 모집글에 대한 참가목록 조회

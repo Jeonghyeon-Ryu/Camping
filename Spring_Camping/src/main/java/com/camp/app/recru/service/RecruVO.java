@@ -14,7 +14,7 @@ public class RecruVO {
 	private String memberId;			//작성자 이메일
 	private String nickname;			//작성자 닉네임
 	
-	private String birth;				//작성자 생일 (200101)
+	private String birth;				//작성자 생일 (2001-01-03)
 	private String sex;					//작성자 성별
 	
 	private String recruTitle;		//모집글 제목
