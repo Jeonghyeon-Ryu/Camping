@@ -18,4 +18,5 @@ public class RecruImgVO {
 	private int recruId;
 	
 	private int isSaved;	//게시글의 저장여부
+	private String[] imgList;	//이미지 이름 리스트
 }

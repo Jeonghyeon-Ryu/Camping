@@ -29,9 +29,8 @@ public class RecruController {
 	
 	//등록
 	@PostMapping("/recru")
-	public RecruVO recruInsert(@RequestBody RecruVO recruVO) {
-		service.insertRecru(recruVO);
-		return recruVO;
+	public int recruInsert(@RequestBody RecruVO recruVO) {
+		return service.insertRecru(recruVO);
 	}
 	//전체조회
 	@GetMapping("/recru")

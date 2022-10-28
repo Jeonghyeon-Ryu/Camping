@@ -78,7 +78,7 @@
 	<!-- 전체조회 - 페이징 -->
 	<select id="findAllPaging" parameterType="RecruVO" resultType ="RecruVO">
 		SELECT B.* 
-		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
+		FROM (SELECT CEIL(ROWNUM/48) page, A.* 
 			  FROM( SELECT * FROM recruitment 
 				  <where>
 					  <if test="memberRole!=3">
@@ -92,7 +92,7 @@
 	<!-- 검색조회 -->
 	<select id="findKeyword" parameterType="RecruVO" resultType="RecruVO">
 		SELECT B.* 
-		FROM (SELECT CEIL(ROWNUM/12) page, A.* 
+		FROM (SELECT CEIL(ROWNUM/48) page, A.* 
 			  FROM(SELECT * FROM recruitment
 			<where>
 				1=1

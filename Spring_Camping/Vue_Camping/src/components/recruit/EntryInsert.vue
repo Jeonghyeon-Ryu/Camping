@@ -121,7 +121,7 @@ export default{
             //신청 테이블에 인서트하기 
             this.recruEntry.recruId = this.recruId;
             let recruEntry = this.recruEntry;
-            fetch('http://localhost:8087/java/recru/entry',{
+            fetch('/java/recru/entry',{
                 method : "POST",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(recruEntry )

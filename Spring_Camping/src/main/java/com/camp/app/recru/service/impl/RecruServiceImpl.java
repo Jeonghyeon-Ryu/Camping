@@ -177,12 +177,13 @@ public class RecruServiceImpl implements RecruService {
 	//캠핑장검색
 	@Override
 	public List<CampVO> searchCamp(String region) {
-		System.out.println("초기지역 : "+region);
 		List<CampVO> list = mapper.searchCamp(region);
 		if(list.size()== 0) {
 			String city[] = region.split(" ");
-			region= city[0]+" "+city[1];
-			System.out.println("지역 : "+region);
+			region= city[0];
+			if(city.length>1) {
+				region +=" "+city[1];
+			}
 			list = mapper.searchCamp(region);
 		}
 		return list;

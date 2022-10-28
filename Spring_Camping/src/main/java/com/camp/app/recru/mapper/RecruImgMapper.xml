@@ -4,9 +4,31 @@
 	
 	<!-- 입력 -->
 	<insert id="insertRecru" parameterType="RecruImgVO">
-		<selectKey keyProperty="imgId" resultType="Integer" order="BEFORE">
+		<selectKey keyProperty="imageId" resultType="Integer" order="BEFORE">
 			SELECT NVL(MAX(image_id),0)+1 FROM recru_image
 		</selectKey>
+		INSERT INTO recru_image(
+				image_id,
+				origin_name,
+				stored_name,
+				img_format,
+				img_size,
+				img_path,
+				recru_id
+				)
+			VALUES(
+				#{imageId},
+				#{originName},
+				#{storedName},
+				#{imgFormat},
+				#{imgSize},
+				#{imgPath},
+				#{recruId}
+		)
+	</insert>
+	
+	<!-- 수정 입력 -->
+	<insert id="addImg" parameterType="RecruImgVO">
 		INSERT INTO recru_image(
 				image_id,
 				origin_name,
@@ -37,8 +59,15 @@
 	
 	
 	<!-- 삭제 -->
-	<delete id="deleteImg">
-		DELETE FROM recru_image 
-			WHERE image_id= #{imageId}
+	<delete id="deleteImg" parameterType="RecruImgVO" >
+		DELETE recru_image 
+			WHERE  image_id IN (
+			SELECT image_id FROM recru_image 
+			WHERE origin_name IN
+			<foreach collection="imgList" item="name"  open="(" close=")" separator=",">
+				#{name}
+			</foreach>
+			AND recru_id = #{recruId})
+			AND recru_id = #{recruId}
 	</delete>
 </mapper>
