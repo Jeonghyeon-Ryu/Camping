@@ -308,7 +308,7 @@ export default {
             formData.forEach((value, key) => {
                 console.log(value);
             })
-            fetch('http://localhost:8087/java/WriteNoteInfo', {
+            fetch('http://13.125.95.210:85/java/WriteNoteInfo', {
                 method: 'POST',
                 headers: {},
                 body: formData

@@ -35,7 +35,7 @@ export default {
             "noteIds" : noteIds
         }
         
-        fetch(`http://localhost:8087/java/MyNoteList`,{
+        fetch(`http://13.125.95.210:85/java/MyNoteList`,{
             method : "DELETE",
             headers : {"Content-Type" : "application/json"},
             body : JSON.stringify(fetchData)
