@@ -89,6 +89,9 @@ export default {
       responsiveFlag: false,
     }
   },
+  created: function() {
+    this.setInfo();
+  },
   methods: {
     showLoginForm() {
       this.$router.push({ name: "LoginSignup" });
