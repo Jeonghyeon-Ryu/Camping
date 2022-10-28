@@ -11,8 +11,8 @@
       </div>
       <div class="mails">
         <div class="rcvMailList">
+          <div v-if="rcvMailList.length< 1" style="margin-top:30%; text-align: center; font-size: 1.2em; color:gray;"><img src="@/assets/img/used/empty.png" style="width:50px"><div style="text-align: center;">받은 쪽지가 없어요</div></div>
           <div v-for="mail in rcvMailList" :key="mail.id" class="mail-detail" @click="mailDetail(mail)">
-            <div v-if="mail.id < 0"> 받은 쪽지가 없어요 T.T</div>
             <ul>
               <li style="padding:5px 10px"> ✉ <b>{{mail.mailSender}}</b></li>
             <template v-if="mail.mailContent != null">
@@ -32,14 +32,15 @@
     <div class="sendMail">
       <div class="mail-head">
         <h4 style="padding: 5px;">📤 보낸 쪽지함</h4>
+        <button v-on:click='sendMail()' style="padding:0 10px 0 10px; border: none; background-color: #81bd7b; border-radius: 5px; color:white; font-weight: bold;cursor: pointer">쪽지 보내기</button>
         <!-- <div class="mail-more" @onclick="mvSend">더보기 > </div> -->
       </div>
       <div class="mails">
         <div class="rcvMailList">
+          <div v-if="sendMailList.length< 1" style="margin-top:30%; text-align: center; font-size: 1.2em; color:gray;"><img src="@/assets/img/used/empty.png" style="width:50px"><div style="text-align: center;">보낸 쪽지가 없어요</div></div>
           <div v-for="mail in sendMailList" :key="mail.id" class="mail-detail" @click="mailDetail2(mail)">
-            <div v-if="mail.id < 0 "> 보낸 쪽지가 없어요 T.T</div>
             <ul>
-              <li style="padding:5px 10px"> ✉ <b> {{mail.mailReceiver}}</b></li>
+              <li><div style="padding:5px 10px;display:flex;justify-content: space-between;"> <div><b>✉ {{mail.mailReceiver}}</b></div><div>✖</div></div></li> 
               <template v-if="mail.mailContent != null">
                 <li v-if="mail.mailContent.length <30" style="padding:10px;">{{mail.mailContent}}</li>
                 <li v-if="mail.mailContent.length >=30" style="padding:10px;">{{mail.mailContent.slice(0,27)}}···<span style="margin-left: 10px; font-size: small; color:gray">더보기</span></li>
@@ -57,7 +58,7 @@
     </div>
   </div>
 </div>
-<button v-on:click='sendMail()'>+</button>
+
 </template>
 
 <script>
@@ -161,7 +162,7 @@ methods: {
         title: '<div class="mail-Title" style="font-size:0.6em; color: green;">'+mail.mailReceiver+'님에게 보낸 쪽지</div>',
         html: 
         '<div class="mail-info" style="dislay:flex; border-radius:2px; width:80%; margin: 0 auto; padding: 5px; background-color:#f7f7f7"><div class="mail-usedName"> <span style="font-size:0.8em; color:#54b06d; font-weight:bold;">상품ID </span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a">'+mail.usedId
-          +'</span></div></div>'+
+          +'</span><span style="font-size:0.9em; font-weight:bold; color: #4a4a4a"></span></div></div>'+
           '<div class="mailContents" style="width:80%; margin: 0 auto; padding: 10px; height:100px; border: 1px solid #e6e6e6; font-size:0.9em;">'+mail.mailContent+'</div>',
         showConfirmButton: false,
         showCancelButton: true,
@@ -189,7 +190,65 @@ methods: {
               }
             }).catch(err => console.log(err))
   
-}
+},
+sendMail: function(){
+  let item = Swal.fire({
+        title: '<div class="mail-Title" style="font-size:0.6em; color: green;">쪽지 보내기</div>',
+        html: '보내는사람 '+this.$store.state.nickname+
+          '<br><input type="text" class="receiverMail" placeholder="받는분의이메일작성하세요"><textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 100px; font-size:12px; overflow-y:auto;" maxlength="500" placeholder="답장할 내용을 입력하세요"></textarea>',
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: '전송하기',
+        cancelButtonText: '취소',
+        confirmButtonColor: '#54b06d',
+        preConfirm: () => {
+          let fetchData = {
+            "mailSender": this.$store.state.email,
+            "mailReceiver": document.querySelector('.receiverMail').value,
+            "mailContent": document.getElementById('swal-input2').value,
+          }
+
+          console.log(fetchData);
+          fetch('http://13.125.95.210:85/java/mail/sendMail', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(fetchData)
+          }).then(result => result.text())
+            .then(result => {
+              if (result == "true") {
+                Swal.fire({
+                  icon: 'success',
+                  title: '전송되었습니다',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 900,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: '전송 실패 !',
+                  text: '계속 실패하면 고객센터에 문의해주세요.',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 900,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+              }
+              console.log(result);
+            })
+
+          return false;
+        }
+      })
+      console.log(item);
+},
 },
 created(){
       //받은 쪽지
@@ -232,11 +291,12 @@ created(){
 
   }
   .container2{
-    width: 90%;
+    width: 85%;
     display: flex;
     margin: 0 auto;
     /* background-color:white; */
     display: flex;
+    border-radius: 2px;
     justify-content: space-between;
   }
   .mail-head{

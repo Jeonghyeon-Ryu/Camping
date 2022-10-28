@@ -9,8 +9,8 @@
               <div class='used-insert-image-preview'>
                 <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
               </div>
-              <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
-                <label>사진등록(정사각형 권장)
+              <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px; background-color:rgb(115, 197, 122);text-align:center;color:white;font-weight: bold;font-size:1.1em;cursor:pointer">
+                <label style="padding:20px; background-color:rgb(115, 197, 122);text-align:center;color:white;font-weight: bold;font-size:1.1em;cursor:pointer">사진등록
                   <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
                     @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
                 </label>
