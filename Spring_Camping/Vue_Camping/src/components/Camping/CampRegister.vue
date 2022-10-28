@@ -100,7 +100,7 @@
               </div>
             </div>
           </div>
-          <label>기타정보<textarea name="camp_detail_info" class="camp-register-etc-info"></textarea></label>
+          <label>기타정보<textarea name="campDetail" class="camp-register-etc-info"></textarea></label>
         </form>
       </div>
       <div class="camp-register-form-button-container">

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camp.app.camp.service.CampVO;
@@ -21,6 +22,7 @@ import com.camp.app.save.service.SaveVO;
  * 
  */
 @CrossOrigin(origins = "*")
+@RequestMapping("/java")
 @RestController
 public class RecruController {
 
@@ -30,6 +32,7 @@ public class RecruController {
 	//등록
 	@PostMapping("/recru")
 	public int recruInsert(@RequestBody RecruVO recruVO) {
+		System.out.println(recruVO.getMemberId());
 		return service.insertRecru(recruVO);
 	}
 	//전체조회
@@ -100,8 +103,8 @@ public class RecruController {
 		return service.insertReview(recruVO);
 	}
 	//캠핑장검색
-	@GetMapping("/recru/campingPoint/{region}")
-	public List<CampVO> searchCamp(@PathVariable String region) {
-		return service.searchCamp(region);
+	@PostMapping("/recru/campingPoint")
+	public List<CampVO> searchCamp(@RequestBody CampVO campVO) {
+		return service.searchCamp(campVO);
 	}
 }

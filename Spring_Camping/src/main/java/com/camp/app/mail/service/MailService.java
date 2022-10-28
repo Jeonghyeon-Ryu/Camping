@@ -18,4 +18,7 @@ public interface MailService {
 	
 	//쪽지읽음처리
 	public void updateMail(MailVO mail);
+	
+	//쪽지삭제
+	public void deleteMail(MailVO mail);
 }

@@ -70,7 +70,7 @@
             loadDataPage : function(){
                 //로그인한 유저의 아이디로 신청정보를 받아온다
                 const component = this;
-                fetch(`/java/recru/entry/mypage/${this.memberId}/${this.pageNum}`)
+                fetch(`http://13.125.95.210:85/java/recru/entry/mypage/${this.memberId}/${this.pageNum}`)
                 .then((response) =>response.json()) 
                 .then(data => { 
                     for(let key in data){
@@ -105,7 +105,7 @@
                     }else if(status==1){
                         return '신청완료'
                     }else if(status==2){
-                        return '거절됨'
+                        return '거절/취소됨'
                     }else if(status==3){
                         return '취소대기'
                     }else{
@@ -132,7 +132,7 @@
                     }).then(result => {
                         if(result.isConfirmed){
                              //등록상태변화
-                             fetch("/java/recru/entry",{
+                             fetch("http://13.125.95.210:85/java/recru/entry",{
                                 method : "PUT",
                                 headers : {"Content-Type" : "application/json"},
                                 body : JSON.stringify(updateInfo)
@@ -159,7 +159,7 @@
                     }).then(result => {
                         if(result.isConfirmed){
                              //등록상태변화
-                             fetch("/java/recru/entry",{
+                             fetch("http://13.125.95.210:85/java/recru/entry",{
                                 method : "PUT",
                                 headers : {"Content-Type" : "application/json"},
                                 body : JSON.stringify(updateInfo)

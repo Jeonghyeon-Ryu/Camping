@@ -36,7 +36,7 @@
         },
         methods: {
             findAllRoom: function() {
-                fetch('http://localhost:8087/chat/rooms',{
+                fetch('http://13.125.95.210:85/chat/rooms',{
                     method :"GET"
                     
                 }).then(response => { this.chatrooms = response.data; });

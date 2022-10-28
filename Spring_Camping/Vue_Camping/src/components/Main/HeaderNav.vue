@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="aside-right-container">
-        <AsideRight @hideMenu="hideMenuForm"></AsideRight>
+        <AsideRight @hideMenu="hideMenuForm" @loginout="setInfo"></AsideRight>
       </div>
       <div class="header-middle-container">
         <!-- <NavbarDefault dark transparent></NavbarDefault> -->
@@ -89,6 +89,9 @@ export default {
       responsiveFlag: false,
     }
   },
+  beforeUpdate: function() {
+    this.setInfo();
+  },
   methods: {
     showLoginForm() {
       this.$router.push({ name: "LoginSignup" });
@@ -152,7 +155,7 @@ export default {
   watch: {
     isLogin: function () {
       if (!this.isLogin) {
-        middleCategory = [
+        this.middleCategory = [
           {
             "캠핑장 리스트": ["/CampList", true],
             "캠핑장 등록": ["/CampRegister", false],
@@ -183,7 +186,7 @@ export default {
           },
         ]
       } else {
-        middleCategory = [
+        this.middleCategory = [
           {
             "캠핑장 리스트": ["/CampList", true],
             "캠핑장 등록": ["/CampRegister", true],

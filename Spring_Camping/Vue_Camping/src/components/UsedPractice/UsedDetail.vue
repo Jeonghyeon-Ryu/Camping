@@ -86,7 +86,7 @@
           <div class="used-writer-info">
             <input type="hidden" :value="usedList.email">
             <div class="used-pf"><img
-                :src="'http://localhost:8087/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"></div>
+                :src="'http://13.125.95.210:85/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName"></div>
             <div class="used-nk"><b>{{usedList.nickName}}</b></div>
           </div>
           <hr class="horizontal_line2">
@@ -199,10 +199,13 @@ export default {
               "mailSender": this.$store.state.email,
               "mailReceiver": this.usedList.email,
               "mailContent": document.getElementById('swal-input2').value,
+              "usedName": this.usedList.usedName,
+              "sendNick": this.$store.state.nickname,
+              "rcvNick": this.usedList.nickName,
             }
 
             console.log(fetchData);
-            fetch('http://localhost:8087/java/mail/sendMail', {
+            fetch('http://13.125.95.210:85/java/mail/sendMail', {
               method: 'POST',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify(fetchData)
@@ -287,7 +290,7 @@ export default {
         console.log(save.boardId);
 
         if (this.liked === true) {
-          fetch('http://localhost:8087/java/save', {
+          fetch('http://13.125.95.210:85/java/save', {
             method: 'DELETE',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(save)
@@ -313,7 +316,7 @@ export default {
             }).catch(err => console.log(err))
           // this.$router.go()
         } else if (this.liked === false) {
-          fetch('http://localhost:8087/java/save', {
+          fetch('http://13.125.95.210:85/java/save', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(save)
@@ -368,7 +371,7 @@ export default {
         .then(result => {
           // 만약 Promise리턴을 받으면,
           if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-            fetch('http://localhost:8087/java/used/dealUpdate', {
+            fetch('http://13.125.95.210:85/java/used/dealUpdate', {
               method: "PUT",
               // body : fetchData
               headers: { "Content-Type": "application/json" },
@@ -413,7 +416,7 @@ export default {
       }).then(result => {
         // 만약 Promise리턴을 받으면,
         if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-          fetch('http://localhost:8087/java/used/statusUpdate', {
+          fetch('http://13.125.95.210:85/java/used/statusUpdate', {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(fetchData)
@@ -476,7 +479,7 @@ export default {
       }).then(result => {
         // 만약 Promise리턴을 받으면,
         if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
-          fetch('http://localhost:8087/java/used/statusRestrict', {
+          fetch('http://13.125.95.210:85/java/used/statusRestrict', {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(fetchData)
@@ -544,7 +547,7 @@ export default {
             }
 
             console.log(fetchData);
-            fetch('http://localhost:8087/java/report', {
+            fetch('http://13.125.95.210:85/java/report', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -599,13 +602,13 @@ export default {
     // data L) 
     //내용조회
     const component = this;
-    fetch('http://localhost:8087/java/used/usedDetail/' + this.usedId)
+    fetch('http://13.125.95.210:85/java/used/usedDetail/' + this.usedId)
       .then(Response => Response.json())  //json 파싱 
       .then(data => {
         console.log(data)
         component.usedList = data;
 
-        fetch('http://localhost:8087/java/profile/' + component.usedList.email)
+        fetch('http://13.125.95.210:85/java/profile/' + component.usedList.email)
           .then(result => result.json())
           .then(result => {
             this.storedProfile = result;
@@ -613,21 +616,21 @@ export default {
       }).catch(err => console.log(err))
 
 
-    fetch('http://localhost:8087/java/used/usedImage/' + this.usedId)
+    fetch('http://13.125.95.210:85/java/used/usedImage/' + this.usedId)
       .then(result => result.json())
       .then(result => {
         this.images = result;
       })
       .catch(err => console.log(err))
 
-    // fetch('http://localhost:8087/java/profile/' + component.usedList.email)
+    // fetch('http://13.125.95.210:85/java/profile/' + component.usedList.email)
     //   .then(result => result.json())
     //   .then(result => {
     //     this.storedProfile = result;
     //   }).catch(err => console.log(err));
 
     if (this.$store.state.email != null) {
-      fetch('http://localhost:8087/java/save?boardId=' + this.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
+      fetch('http://13.125.95.210:85/java/save?boardId=' + this.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
         .then(result => result.text())
         .then(result => {
           if (result == 'true') {
@@ -640,7 +643,7 @@ export default {
     }
 
     //좋아요count
-    fetch('http://localhost:8087/java/used/updateLike/' + this.usedId)
+    fetch('http://13.125.95.210:85/java/used/updateLike/' + this.usedId)
       .then(result => result.json())
       .then(result => {
         this.likeCnt = result;

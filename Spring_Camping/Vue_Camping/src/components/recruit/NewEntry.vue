@@ -1,7 +1,6 @@
 <template>
     <div> 
-        <img v-if="isHeart" class="recru-heart" src='@/assets/img/used/heart2.png' @click.stop="noSaveItem" alt="찜한 카드">
-        <img v-if="!isHeart" class="recru-heart" src='@/assets/img/noheart.png' @click.stop="saveItem" alt="카드">
+        <p v-if="isEntry" class="recru-entry">!</p>
     </div>
     
     </template>
@@ -10,12 +9,8 @@
         props : {recruId : Number},
         data : function(){
             return{
-                isHeart: false,
-                save : {
-                    boardId: this.recruId,
-                    boardDivision: 1,
-                    email: this.$store.state.email
-                }
+                isEntry: false,
+                entryList :[]
             }
         },
         created (){
@@ -25,10 +20,15 @@
             loadSaveData: function () {
                 const recruId = this.recruId;
                 const component = this;
-                fetch(`http://13.125.95.210:85/java/recru/save/${this.save.email}/${this.save.boardDivision}/${this.save.boardId}`)
-                    .then(result => result.text())
+                fetch(`http://13.125.95.210:85/java/recru/entry/${recruId}`)
+                    .then(result => result.json())
                     .then(result => {
-                    component.isHeart = result == "true" ? true : false;
+                    component.entryList = result 
+                    component.entryList.forEach(info=>{
+                        if(info.entryStatus==0){
+                            component.isEntry=true;
+                        }
+                    })
                 })
                     .catch(err => console.log(err));
             },
@@ -44,7 +44,7 @@
                     }).then(result => result.text())
                     .then(result => {
                         if (result == "true") {
-                            component.isHeart = !component.isHeart;
+                            component.isEntry = !component.isEntry;
                         }
                     })
                     .catch(err => console.log(err));
@@ -62,7 +62,7 @@
                     }).then(result => result.text())
                     .then(result => {
                         if (result == "true") {
-                            component.isHeart = !component.isHeart;
+                            component.isEntry = !component.isEntry;
                         }
                     })
                     .catch(err => console.log(err));
@@ -71,4 +71,13 @@
         }
     }
     </script>
-    <style scoped src="@/assets/css/recruit/recruCard.css" />
+    <style scoped>
+    .recru-entry{
+        width: 25px;
+        height: 25px;
+        background: crimson;
+        border-radius: 50%;
+        color: white;
+        font-weight: 600;
+    }
+</style>

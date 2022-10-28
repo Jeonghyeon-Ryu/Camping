@@ -2,11 +2,11 @@
     <div class="entry-card-box ">
         <div class="entry-card-row row">
             <div class="entry-card-img col">
-              <img :src="'/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+              <img :src="'http://13.125.95.210:85/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
             </div>
             <div class="entry-card-info col">
                 <div class="entry-card-contents">
-                    <h3>{{user.nickname}}</h3>
+                    <h4>{{user.nickname}}</h4>
                     <p class="entry-date">{{entryCard.entryDate}}</p>
                     <p>{{user.sex}}, {{userage}}, 차 {{entryCard.entryCar==1?'있음' :'없음'}}</p>
                     <p><span>보유장비 : </span> {{gearList}}</p>
@@ -38,13 +38,13 @@
           created(){
               this.entryCard.entryDate = this.entryCard.entryDate.toLocaleString('en-US');
               var email = this.entryCard.memberId;
-              fetch('/java/member/' +email)
+              fetch('http://13.125.95.210:85/java/member/' +email)
                   .then(result => result.json())
                   .then(result => {
                       this.user = result;
                   }).catch(err => console.log(err));
   
-                  fetch('/java/profile/' + email)
+                  fetch('http://13.125.95.210:85/java/profile/' + email)
                   .then(result => result.json())
                   .then(result => {
                       this.storedProfile = result;
@@ -94,7 +94,7 @@
                           this.updateStatus.entryId = this.entryCard.entryId;
                           let updateInfo = this.updateStatus;
                           //등록상태변화
-                          fetch("/java/recru/entry",{
+                          fetch("http://13.125.95.210:85/java/recru/entry",{
                               method : "PUT",
                               headers : {"Content-Type" : "application/json"},
                               body : JSON.stringify(updateInfo)
@@ -122,7 +122,7 @@
                           let updateInfo = this.updateStatus;
                           let component = this;
                            //등록상태변화
-                           fetch("/java/recru/entry",{
+                           fetch("http://13.125.95.210:85/java/recru/entry",{
                               method : "PUT",
                               headers : {"Content-Type" : "application/json"},
                               body : JSON.stringify(updateInfo)

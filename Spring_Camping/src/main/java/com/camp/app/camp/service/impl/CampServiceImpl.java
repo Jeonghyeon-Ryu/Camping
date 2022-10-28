@@ -68,6 +68,7 @@ public class CampServiceImpl implements CampService{
 		resultCamp.setCampName(camp.getCampName());
 		resultCamp.setCampPrice(camp.getCampPrice());
 		resultCamp.setCampSite(camp.getCampSite());
+		resultCamp.setCampDetail(camp.getCampDetail());
 		String campInfo="";
 		for(int i=0; i<camp.getCampInfo().size(); i++) {
 			if(campInfo == "") {
@@ -142,6 +143,7 @@ public class CampServiceImpl implements CampService{
 		resultCamp.setCampPrice(camp.getCampPrice());
 		resultCamp.setCampSite(camp.getCampSite());
 		resultCamp.setEmail(camp.getEmail());
+		resultCamp.setCampDetail(camp.getCampDetail());
 		String campInfo="";
 		for(int i=0; i<camp.getCampInfo().size(); i++) {
 			if(campInfo == "") {
@@ -239,6 +241,7 @@ public class CampServiceImpl implements CampService{
 		resultCamp.setCampName(camp.getCampName());
 		resultCamp.setCampPrice(camp.getCampPrice());
 		resultCamp.setCampSite(camp.getCampSite());
+		resultCamp.setCampDetail(camp.getCampDetail());
 		String campInfo="";
 		for(int i=0; i<camp.getCampInfo().size(); i++) {
 			if(campInfo == "") {

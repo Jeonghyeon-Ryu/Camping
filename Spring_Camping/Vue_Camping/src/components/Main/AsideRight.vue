@@ -32,6 +32,7 @@ export default {
         logout() {
             this.$emit("hideMenu");
             this.$store.commit('delUserInfo');
+            this.$emit("loginout");
             this.$router.push({ name: "Home" });
         },
         clickMenu() {

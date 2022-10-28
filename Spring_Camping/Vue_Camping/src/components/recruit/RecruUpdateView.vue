@@ -34,8 +34,8 @@
                 <div class="recru-info-box">
                     <div class="recru-mygear-header">
                         <span>보유한 장비</span>
-                        <button class="btn badge bg-info badge-md " type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
-                        <button class="btn badge bg-dark badge-md " type="button" @click="getGearList">내 장비 가져오기</button>
+                        <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
+                        <button class="gear-mylist-btn recru-info-btn" type="button" @click="getGearList">내 장비 가져오기</button>
                     </div>
                     <ul @click="removeGear" id="recru-mygear-body">
                          
@@ -44,19 +44,19 @@
                 <div class="recru-info-box">
                     <div class="recru-needgear-header">
                         <span>필요한 장비</span>
-                        <button class="btn badge bg-info badge-md " type="button" v-on:click="addGear('recru-needgear-body')">추가</button>                    
+                        <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-needgear-body')">추가</button>                    
                     </div>
                     <ul @click="removeGear" id="recru-needgear-body">
                        
                     </ul>
                 </div>
                 <div class="recru-info-box">
-                   <span>현재 이미지</span> (클릭시 삭제)
+                   <span>기존에 등록된 이미지</span> (클릭시 삭제)
                     <div class="recru-show-image">
                         <div class="recru-show-image-box" v-for="image of images">
                             <div v-if="image.imageId!=0">
                                 <p class="existing-img">{{image.originName}}</p>
-                                <img class="show-image" :src="'/java/recruImg/'+image.imgPath+'/'+image.storedName">
+                                <img class="show-image" :src="'http://13.125.95.210:85/java/recruImg/'+image.imgPath+'/'+image.storedName">
                                 <img class="delete-image" src="@/assets/img/icons/close.png" @click="deleteImg">
                             </div>
                         </div>    
@@ -110,7 +110,8 @@
                             <label>모집인원 <input type="number" name="recru_input_recruNum" :value="recruInfo.recruNum" min="1" de></label>
                         </li>
                         <li class="recru-info-day">
-                            <label>여행 날짜 <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"></label> 
+                            <label>여행 날짜 </label>
+                                <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"> 
                             ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate">
                         </li>
                     </ul>
@@ -177,7 +178,7 @@ export default{
             // 서버에서 단건조회
             let recruId = this.recruId;
             let component = this;
-            fetch("/java/recru/"+recruId)
+            fetch("http://13.125.95.210:85/java/recru/"+recruId)
             .then((response) =>response.json()) 
             .then(data => { 
                 component.recruInfo = data;  
@@ -228,7 +229,7 @@ export default{
         loadImgs: function () {
             const recruId = this.recruId;
             const component = this;
-            fetch("/java/recruImg/" + recruId)
+            fetch("http://13.125.95.210:85/java/recruImg/" + recruId)
                 .then(result => result.json())
                 .then(result => {
                 component.images=result;
@@ -266,6 +267,9 @@ export default{
             const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; //특수문자 체크 정규식
             let myGearNames = document.querySelectorAll('.recru-mygear-name');
             let needGearNames = document.querySelectorAll('.recru-mygear-name');
+            if(myGearNames.length==0 ||needGearNames.length==0){
+                Swal.fire('장비를 등록해주세요',"보유장비와 필요장비는 각각 적어도 하나 이상 등록해야 합니다.",'warning');
+            }
             for(let i=0 ; i<myGearNames.length ; i++){
                 if(regExp.test(myGearNames[i].value)){
                     Swal.fire('장비 이름을 확인해주세요',"< > @ . , ; : & * ^ / $ 등의 특수문자는 입력할 수 없습니다.",'warning');
@@ -311,7 +315,7 @@ export default{
             console.log(recruVO);
 
             //서버를 통해 게시글 내용 insert
-            fetch('/java/recru/updateAll',{
+            fetch('http://13.125.95.210:85/java/recru/updateAll',{
                 method : "PUT",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(recruVO )
@@ -357,7 +361,7 @@ export default{
             }
             formData.append('recruId', this.recruId);
         
-            fetch('/java/recruImg/update',{
+            fetch('http://13.125.95.210:85/java/recruImg/update',{
                     method : "POST",
                     headers :{},
                     body : formData

@@ -10,14 +10,14 @@
     <div class="card-pic">
       <!-- <img v-bind:src="cardImg"> -->
       <div v-for="usedImage of images"><img
-          :src="'http://localhost:8087/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
+          :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName"></div>
     </div>
     <!-- 카드정보 -->
     <div class="card-info">
       <div class="card-top">
         <ul class="card-info-l">
-          <li>
-            <h3>{{usedCard.usedName}}</h3>
+          <li class="blue-btn">
+            <a class="first-link" href=""><h3>{{usedCard.usedName}}</h3></a>
             <input class="used-id" type="hidden" :value="usedCard.usedId">
           </li>
           <li>
@@ -107,7 +107,7 @@ export default {
         console.log(save.boardId);
 
         if (this.liked === true) {
-          fetch('http://localhost:8087/java/save', {
+          fetch('http://13.125.95.210:85/java/save', {
             method: 'DELETE',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(save)
@@ -135,7 +135,7 @@ export default {
 
 
         } else if (this.liked === false) {
-          fetch('http://localhost:8087/java/save', {
+          fetch('http://13.125.95.210:85/java/save', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(save)
@@ -173,7 +173,7 @@ export default {
     updateLike: function () {
       let fetchData = this.usedCard.usedId;
 
-      fetch('http://localhost:8087/java/used/updateLike', {
+      fetch('http://13.125.95.210:85/java/used/updateLike', {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(fetchData)
@@ -182,7 +182,7 @@ export default {
     }
   },
   created() {
-    fetch('http://localhost:8087/java/used/usedImage/' + this.usedCard.usedId)
+    fetch('http://13.125.95.210:85/java/used/usedImage/' + this.usedCard.usedId)
       .then(result => result.json())
       .then(result => {
         this.images = result;
@@ -190,7 +190,7 @@ export default {
       .catch(err => console.log(err))
 
     if (this.$store.state.email != null) {
-      fetch('http://localhost:8087/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
+      fetch('http://13.125.95.210:85/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
         .then(result => result.text())
         .then(result => {
           if (result == 'true') {
@@ -207,6 +207,55 @@ export default {
 
 }
 </script>
-<style scoped src="@/assets/css/used/UsedMain.css">
+<style scoped src="@/assets/css/used/UsedMain.css" />
+<style>
+
+.blue-btn{
+  width: 190px;
+  height: 30px;
+}
+.blue-btn a{
+  color: rgb(34, 34, 34);
+  text-decoration:none;
+  /* margin-top: 0em; */
+  text-align: center;
+  display:inline-block; /* important */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blue-btn, .first-link{
+  -webkit-transition: 3.3s;
+  -moz-transition: 3.3s;
+  transition: 3.3s;     
+  -webkit-transition-timing-function: linear;
+  -moz-transition-timing-function: linear;
+  transition-timing-function: linear;
+}
+
+
+.blue-btn{
+  height: 25px;
+  overflow: hidden;
+  width: 190px;
+  background-color: #ffffff;
+}
+
+.blue-btn:hover{
+   background-color: #ffffff;
+}
+
+.blue-btn a:hover{
+  text-decoration: none;
+}
+
+.first-link{
+  margin-left: 0em;   
+}
+
+.blue-btn:hover .first-link{
+  margin-left: -270px;
+}
 
 </style>

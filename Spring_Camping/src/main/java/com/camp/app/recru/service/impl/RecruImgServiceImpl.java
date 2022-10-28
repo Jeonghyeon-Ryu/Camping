@@ -18,7 +18,9 @@ import com.camp.app.recru.service.RecruImgVO;
 
 @Service
 public class RecruImgServiceImpl implements RecruImgService {
-
+	private String imagePath = "/home/upload/recru/";
+//	private String imagePath = "d:\\upload\\recru\\";
+	
 	@Autowired
 	RecruMapper recruMapper;
 	@Autowired
@@ -31,7 +33,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "/home/upload/recru/"+directoryPath;
+		String uploadPath = this.imagePath+directoryPath;
 		//폴더 주소
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {
@@ -78,7 +80,7 @@ public class RecruImgServiceImpl implements RecruImgService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		String directoryPath = sdf.format(date);
-		String uploadPath = "/home/upload/recru/"+directoryPath;
+		String uploadPath = this.imagePath + directoryPath;
 		//폴더 주소
 		File uploadPathDir = new File(uploadPath);
 		if(!uploadPathDir.exists()) {

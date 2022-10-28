@@ -2,11 +2,11 @@
     <div class="entry-card-box ">
         <div class="entry-card-row row">
             <div class="entry-card-img col">
-              <img :src="'/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
+              <img :src="'http://13.125.95.210:85/java/profile/'+storedProfile.imagePath+'/'+storedProfile.storedName">
             </div>
             <div class="entry-card-info col">
                 <div class="entry-card-contents">
-                    <h3>{{user.nickname}}</h3>
+                    <h4>{{user.nickname}}</h4>
                     <p>{{user.sex}}, {{userage}}, 차 {{entryCard.entryCar==1?'있음':'없음'}}</p>
                     <p><span>보유장비 : </span> {{gearList}}</p>
                 </div>
@@ -27,13 +27,13 @@
           },
           created(){
               var email = this.entryCard.memberId;
-              fetch('/java/member/' +email)
+              fetch('http://13.125.95.210:85/java/member/' +email)
                   .then(result => result.json())
                   .then(result => {
                       this.user = result;
                   }).catch(err => console.log(err));
   
-                  fetch('/java/profile/' + email)
+                  fetch('http://13.125.95.210:85/java/profile/' + email)
                   .then(result => result.json())
                   .then(result => {
                       this.storedProfile = result;

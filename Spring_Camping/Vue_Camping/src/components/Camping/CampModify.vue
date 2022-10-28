@@ -107,6 +107,11 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <span>기타정보</span>
+                    <div v-text="camp.campDetail" class="prev"></div>
+                    <textarea name="campDetail" class="camp-register-etc-info"></textarea>
+                </div>
             </div>
             <div class="camp-detail-info-right">
                 <RButton v-if="$store.state.auth!=0" :inputColor="'white'" :inputSize="'lg'" :inputValue="'수정신청'"
@@ -186,7 +191,10 @@ export default {
                     fetchData.set('campSite', this.camp.campSite);
                 } else if (key == 'campPrice' && value == '') {
                     fetchData.set('campPrice', this.camp.campPrice);
+                } else if (key == 'campDetail' && value == ''){
+                    fetchData.set('campDetail', this.camp.campDetail);
                 }
+                
             })
             if (this.$store.state.auth != 0) {
                 Swal.fire({

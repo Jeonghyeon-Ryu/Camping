@@ -65,14 +65,14 @@
       loadData : function(){
         var recruId = this.recruId;
         //게시글 정보 
-        fetch(`/java/recru/${recruId}`)
+        fetch(`http://13.125.95.210:85/java/recru/${recruId}`)
         .then((response) =>response.json()) 
         .then(data => { 
             console.log(data);
             this.recruInfo = data;  
         }).catch(err=>console.log(err));
         //모임 참여자 정보
-        fetch(`/java/recru/members/${recruId}`)
+        fetch(`http://13.125.95.210:85/java/recru/members/${recruId}`)
         .then((response) =>response.json()) 
         .then(data => { 
             this.recruMember = data;  
@@ -102,7 +102,7 @@
           })
         }else{
 
-            fetch('/java/recru/review',{
+            fetch('http://13.125.95.210:85/java/recru/review',{
                     method : "POST",
                     headers : { },
                     body : fetchData
@@ -112,7 +112,7 @@
                     if(data>="1"){
                       // 성공
                       console.log("입력되었습니다.")
-                      this.$router.push({name : 'usedMain'})
+                      this.$router.push({name : 'recruList'})
                       let component = this;
                     } else {
                       // 실패                    
