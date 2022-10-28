@@ -34,8 +34,8 @@
                 <div class="recru-info-box">
                     <div class="recru-mygear-header">
                         <span>보유한 장비</span>
-                        <button class="btn badge bg-info badge-md " type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
-                        <button class="btn badge bg-dark badge-md " type="button" @click="getGearList">내 장비 가져오기</button>
+                        <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
+                        <button class="gear-mylist-btn recru-info-btn" type="button" @click="getGearList">내 장비 가져오기</button>
                     </div>
                     <ul @click="removeGear" id="recru-mygear-body">
                          
@@ -44,14 +44,14 @@
                 <div class="recru-info-box">
                     <div class="recru-needgear-header">
                         <span>필요한 장비</span>
-                        <button class="btn badge bg-info badge-md " type="button" v-on:click="addGear('recru-needgear-body')">추가</button>                    
+                        <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-needgear-body')">추가</button>                    
                     </div>
                     <ul @click="removeGear" id="recru-needgear-body">
                        
                     </ul>
                 </div>
                 <div class="recru-info-box">
-                   <span>현재 이미지</span> (클릭시 삭제)
+                   <span>기존에 등록된 이미지</span> (클릭시 삭제)
                     <div class="recru-show-image">
                         <div class="recru-show-image-box" v-for="image of images">
                             <div v-if="image.imageId!=0">
