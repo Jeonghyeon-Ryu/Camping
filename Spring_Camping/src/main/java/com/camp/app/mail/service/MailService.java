@@ -20,5 +20,5 @@ public interface MailService {
 	public void updateMail(MailVO mail);
 	
 	//쪽지삭제
-	public void deleteMail(MailVO mail);
+	public boolean deleteMail(MailVO mail);
 }

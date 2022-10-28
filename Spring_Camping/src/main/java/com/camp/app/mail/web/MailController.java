@@ -57,7 +57,7 @@ public class MailController {
 	
 	//쪽지삭제
 	@PutMapping("/deleteMail")
-	public void deleteMail(@RequestBody MailVO mail) {
-		service.deleteMail(mail);
+	public boolean deleteMail(@RequestBody MailVO mail) {
+		return service.deleteMail(mail);
 	}
 }

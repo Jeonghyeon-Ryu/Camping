@@ -45,8 +45,13 @@ public class MailServiceImpl implements MailService{
 	}
 
 	@Override
-	public void deleteMail(MailVO mail) {
-		mapper.deleteMail(mail);
+	public boolean deleteMail(MailVO mail) {
+		int result = mapper.deleteMail(mail);
+		if(result > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

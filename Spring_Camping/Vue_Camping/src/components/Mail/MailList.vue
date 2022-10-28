@@ -268,7 +268,8 @@ deleteMail: function(mail){
             body: JSON.stringify(fetchData)
           }).then(result => result.text())
             .then(result => {
-              if (result == "true") {
+              console.log(result);
+              if (result === "true") {
                 Swal.fire({
                   icon: 'success',
                   title: '삭제되었습니다',

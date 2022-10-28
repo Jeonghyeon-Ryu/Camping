@@ -67,7 +67,7 @@
           <div class="sns-push-button-container">
             <div class="sns-push-button-container1">
               <div>
-                <p>{{this.snsWriteCount}}</p>
+                <p v-text="snsWriteCount"></p>
               </div>
               <div class="sns-write-like-button">
                 
@@ -355,6 +355,7 @@ export default {
                 confirmButtonText: '확인',
                 title: '좋아요한 게시글에 저장되었습니다.',
               })
+              this.snsWriteCount++;
               // .then((result) => {
               //   /* Read more about isConfirmed, isDenied below */
               //   // if (result.isConfirmed) {
@@ -397,6 +398,7 @@ export default {
               confirmButtonText: '확인',
               title: '좋아요가 취소되었습니다.',
             })
+            this.snsWriteCount--;
             // .then((result) => {
             //   /* Read more about isConfirmed, isDenied below */
             //   // if (result.isConfirmed) {

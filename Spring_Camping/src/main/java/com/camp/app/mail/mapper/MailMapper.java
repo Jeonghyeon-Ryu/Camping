@@ -21,6 +21,6 @@ public interface MailMapper {
 	public void updateMail(MailVO mail);
 	
 	//쪽지삭제
-	public void deleteMail(MailVO mail);
+	public int deleteMail(MailVO mail);
 	
 }
