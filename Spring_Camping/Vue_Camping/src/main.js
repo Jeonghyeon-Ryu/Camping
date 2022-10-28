@@ -107,14 +107,14 @@ const store = createStore({
 
 
 
-stompClient.connect({},
-    (frame) => { // 콜백함수
-        console.log("소켓 연결 완료", frame);
-    },
-    (error) => {
-        console.log("소켓 연결 실패", error);
-    }
-);
+// stompClient.connect({},
+//     (frame) => { // 콜백함수
+//         console.log("소켓 연결 완료", frame);
+//     },
+//     (error) => {
+//         console.log("소켓 연결 실패", error);
+//     }
+// );
 const app = createApp(App);
 app.config.globalProperties.$filters = {
     formatDate(value) {

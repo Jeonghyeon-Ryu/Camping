@@ -13,14 +13,14 @@ import VerticalCard from '../Card/VerticalCard.vue';
 export default {
     data: function () {
         return {
-            mainCampData: []
+            mainCampData: '',
         };
     },
     created: function () {
       fetch('http://13.125.95.210:85/java/camp/'+1)
       .then(result=>result.json())
       .then(result => {
-        this.mainCampData.push(result);
+        this.mainCampData = result
       })
     },
     components: { VerticalCard }

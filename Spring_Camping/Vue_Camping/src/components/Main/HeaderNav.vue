@@ -89,7 +89,7 @@ export default {
       responsiveFlag: false,
     }
   },
-  created: function() {
+  beforeUpdate: function() {
     this.setInfo();
   },
   methods: {

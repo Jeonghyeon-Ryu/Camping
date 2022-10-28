@@ -39,9 +39,9 @@ export default {
         // scrollY:스크롤 상단 + innerHeight:현재화면 높이 = 현재까지 스크롤된 부분 하단
         let currScrollY = target.innerHeight + target.scrollY;
 
-        setTimeout(()=>{
+        setTimeout(() => {
           this.waiting = false;
-        },100);
+        }, 100);
       }
     },
     loginout() {
@@ -179,6 +179,16 @@ export default {
 
     },
   },
+  watch: {
+    '$route': function (to, from) {
+      console.log(to);
+      console.log('현재 ',from);
+      if(from.name == undefined) {
+        this.$router.push({name:to.name});
+        this.$refs.headerNav.setInfo();
+      }
+    }
+  }
 }
 </script>
 
@@ -191,6 +201,9 @@ export default {
   list-style: none;
   font-style: none;
   box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;  
 }
 
 @font-face {
@@ -210,6 +223,7 @@ export default {
   -moz-osx-font-smoothing: grayscale; */
   text-align: center;
   color: #2c3e50;
+  overflow-x: hidden;  
   overflow-y: auto;
 }
 
