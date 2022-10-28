@@ -26,7 +26,7 @@
               :src="'http://13.125.95.210:85/java/profile/' + storedProfile.imagePath + '/' + storedProfile.storedName">
             <!-- <ImagePreviewOne ref="previewOne" v-if="profile-image!=[]" :image="profile_image"></ImagePreviewOne> -->
           </div>
-          <label>사진변경
+          <label v-if="isModify">사진변경
             <input @change="changeImage($event)" type="file" name="file" style="display:none;">
           </label>
         </div>
