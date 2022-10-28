@@ -9,7 +9,7 @@
 	</selectKey>
 		 INSERT INTO mail 
 		 (mail_id, mail_sender, mail_receiver, mail_content, 
-		 mail_status, used_id, mail_date, used_name, sendnick, rcvnick)
+		 mail_status, used_id, mail_date, used_name, sendnick, rcvnick, mail_del)
 		 VALUES
 		 (#{mailId}
 		  ,#{mailSender}
@@ -20,7 +20,8 @@
 		  ,sysdate
 		  ,#{usedName}
 		  ,#{sendNick}
-		  ,#{rcvNick})
+		  ,#{rcvNick}
+		  ,0)
 	</insert>
 	
 	<!-- 전체조회 -->
@@ -29,6 +30,7 @@
 			select * 
 			from mail 
 			where mail_receiver = #{mailReceiver}
+			and mail_del = 0
 			order by mail_status, mail_id desc
 		</select>
 		
@@ -37,6 +39,7 @@
 			select * 
 			from mail 
 			where mail_sender = #{mailSender}
+			and mail_del = 0
 			order by mail_status, mail_id desc
 		</select>
 	
@@ -50,6 +53,13 @@
 	<update id="updateMail" parameterType="Integer">
 		UPDATE mail 
 		SET mail_status = 1 
+		WHERE mail_id = #{mailId}
+	</update>
+	
+	<!-- 쪽지삭제(mail_del:1)로 변경-->
+	<update id="deleteMail" parameterType="Integer">
+		UPDATE mail 
+		SET mail_del = 1 
 		WHERE mail_id = #{mailId}
 	</update>
 	

@@ -14,7 +14,7 @@
           <div v-if="rcvMailList.length< 1" style="margin-top:30%; text-align: center; font-size: 1.2em; color:gray;"><img src="@/assets/img/used/empty.png" style="width:50px"><div style="text-align: center;">받은 쪽지가 없어요</div></div>
           <div v-for="mail in rcvMailList" :key="mail.id" class="mail-detail" @click="mailDetail(mail)">
             <ul>
-              <li style="padding:5px 10px"> ✉ <b>{{mail.mailSender}}</b></li>
+              <li><div style="padding:5px 10px;display:flex;justify-content: space-between;"> <div><b>✉ {{mail.mailSender}}</b></div><div @click="deleteMail(mail)">✖</div></div></li> 
             <template v-if="mail.mailContent != null">
               <li v-if="mail.mailContent.length <30" style="padding:10px;" >{{mail.mailContent}}</li>
               <li v-if="mail.mailContent.length >=30" style="padding:10px;">{{mail.mailContent.slice(0,27)}}···<span style="margin-left: 10px; font-size: small; color:gray">더보기</span></li>
@@ -40,7 +40,7 @@
           <div v-if="sendMailList.length< 1" style="margin-top:30%; text-align: center; font-size: 1.2em; color:gray;"><img src="@/assets/img/used/empty.png" style="width:50px"><div style="text-align: center;">보낸 쪽지가 없어요</div></div>
           <div v-for="mail in sendMailList" :key="mail.id" class="mail-detail" @click="mailDetail2(mail)">
             <ul>
-              <li><div style="padding:5px 10px;display:flex;justify-content: space-between;"> <div><b>✉ {{mail.mailReceiver}}</b></div><div>✖</div></div></li> 
+              <li><div style="padding:5px 10px;display:flex;justify-content: space-between;"> <div><b>✉ {{mail.mailReceiver}}</b></div><div style="width:20px;height: 20px;line-height: 27px; border-radius: 3px; text-align: center;" @click="deleteMail(mail)">✖</div></div></li> 
               <template v-if="mail.mailContent != null">
                 <li v-if="mail.mailContent.length <30" style="padding:10px;">{{mail.mailContent}}</li>
                 <li v-if="mail.mailContent.length >=30" style="padding:10px;">{{mail.mailContent.slice(0,27)}}···<span style="margin-left: 10px; font-size: small; color:gray">더보기</span></li>
@@ -249,6 +249,58 @@ sendMail: function(){
       })
       console.log(item);
 },
+deleteMail: function(mail){
+  event.stopPropagation()
+  Swal.fire({
+        title: '쪽지를 삭제할까요?',
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        confirmButtonColor: '#54b06d',
+        preConfirm: () => {
+          let fetchData = {}
+          fetchData["mailId"] = mail.mailId;
+          console.log(fetchData);
+          fetch('http://13.125.95.210:85/java/mail/deleteMail', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(fetchData)
+          }).then(result => result.text())
+            .then(result => {
+              if (result == "true") {
+                Swal.fire({
+                  icon: 'success',
+                  title: '삭제되었습니다',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 900,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: '삭제 실패 !',
+                  text: '계속 실패하면 고객센터에 문의해주세요.',
+                  toast: true,
+                  showConfirmButton: false,
+                  timer: 900,
+                  didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                  }
+                })
+              }
+              console.log(result);
+            })
+
+          return false;
+        }
+      })
+}
 },
 created(){
       //받은 쪽지

@@ -44,4 +44,9 @@ public class MailServiceImpl implements MailService{
 		mapper.updateMail(mail);
 	}
 
+	@Override
+	public void deleteMail(MailVO mail) {
+		mapper.deleteMail(mail);
+	}
+
 }
