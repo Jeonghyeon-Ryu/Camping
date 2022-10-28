@@ -8,7 +8,7 @@
             <img src="@/assets/img/bg9.jpg" alt="camping gear">
           </div>
           <div v-if="image.imageId>0">
-            <img :src="'/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
+            <img :src="'http://13.125.95.210:85/java/recruImg/'+image.imgPath+'/'+image.storedName" alt="캠핑도구 사진"/>
           </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
           loadImgs: function () {
               const recruId = this.recruCard.recruId;
               const component = this;
-              fetch("/java/recruImg/" + recruId)
+              fetch("http://13.125.95.210:85/java/recruImg/" + recruId)
                   .then(result => result.json())
                   .then(result => {
                   component.image = result[0];

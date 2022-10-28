@@ -56,7 +56,7 @@ export default{
             //신청상태 : 0 신청중, 1 수락, 2 취소대기, 3 취소 4 거절
             //모집상태 : 0 모집중, 1 모집완료, 2 실패
             const component = this;
-            fetch("/java/recru/entry/success/"+component.memberId,{
+            fetch("http://13.125.95.210:85/java/recru/entry/success/"+component.memberId,{
                 method : "post",
                 headers : {"Content-Type" : "application/json"},
                 body : JSON.stringify(component.memberId)

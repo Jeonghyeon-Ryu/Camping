@@ -61,7 +61,7 @@ export default {
     const recruId = this.recruId;
     const memberId = this.$store.state.email;
     const component = this;
-    fetch(`/java/recru/deposit/${memberId}/${recruId}`)
+    fetch(`http://13.125.95.210:85/java/recru/deposit/${memberId}/${recruId}`)
     .then(Response => Response.json()) 
     .then(data => { 
       component.depositList = data;
