@@ -1,5 +1,5 @@
 <template>
-    <template>
+    
         <div class="myNoteList">
             <!-- 화면 -->
             <div class="mynote_container">
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-    </template>
+    
 </template>
        
 <script>
@@ -97,9 +97,11 @@ export default {
             })
                 .then((response) => response.json())
                 .then(data => {
-
                     this.listInfo = data;
-
+                    console.log('====data')
+                    console.log(data);
+                    console.log('====listInfo')
+                    console.log(this.listInfo);
                 }).catch(err => console.log(err));
         },
         findId(e) {

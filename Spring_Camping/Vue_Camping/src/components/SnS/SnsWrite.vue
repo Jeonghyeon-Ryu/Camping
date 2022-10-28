@@ -1,9 +1,7 @@
 <template>
   <div class="sns-container">
     <div class="sns-searchbox">
-      <input type="search" @keyup="checkEnter($event)" v-model="searchText" placeholder="검색어를 입력해주세요.">
-      <button @click="doSearch" style="display: none;">조회</button>
-      <!-- <input type="button" @click="doClear" value="X"> -->
+      <SnsSearch @showHashList="showHashList"></SnsSearch>
     </div>
     <div class="sns-write-container">
       <div class="sns-write-button">
@@ -38,8 +36,8 @@
             </div>
             <div class="sns-write-form-id">
               <div class="sns-write-id">
-                <input type="text" :value=this.nickname name="nickname">
-                <input type="text" :value=this.email name="email" style="display :none;">
+                <input type="text" :value=this.nickname name="nickname" readonly>
+                <input type="text" :value=this.email name="email" style="display :none;" readonly>
               </div>
             </div>
           </div>
@@ -73,9 +71,8 @@
 </template>
 
 <script>
-import img1 from "@/assets/img/sns/이미지1.jpg";
+import SnsSearch from './SnsSearch.vue';
 import KakaoMap from '../KakaoMap.vue';
-
 import ImagePreview from '../ImagePreview.vue';
 import Swal from 'sweetalert2';
 export default {
@@ -166,6 +163,9 @@ export default {
       // location.value = (document.querySelector('.info h5').value);
       // console.log(location);
 
+      //null이 아닌 값들이 null일때
+
+
       fetch('http://localhost:8087/java/sns', {
         method: 'POST',
         headers: {},
@@ -188,7 +188,24 @@ export default {
                 this.$router.push({ name: 'SnsMain' })
               }
             })
+          }else if(result != "true"){
+            // alert("사진과 내용은 필수입력항목입니다.");
+            Swal.fire({
+                    icon: 'info',
+                    title: '사진과 내용을 반드시 입력해주세요.',
+                    // text: '계속해서 등록되지 않으면 고객센터로 문의해주세요.',
+                    toast: true,
+                    position: 'center-center',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.addEventListener('mouseenter', Swal.stopTimer)
+                      toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                  })
           }
+          //null이 아닌 값들이 null일때
         })
     },
 
@@ -206,7 +223,7 @@ export default {
       this.images = dt.files;
       e.target.files = dt.files;
     },
-    //정현님 위치지도 쌔빔
+    //정현님 위치지도 참고
     snsAddress() {
       let search = document.querySelector('.sns-register-address').value;
       let kakaoContainer = document.querySelector('.sns-register-kakaomap');
@@ -254,41 +271,12 @@ export default {
 
     },
   },
+  components: {
+    SnsSearch
+  },
 }
 
 </script>
 
 <style scoped src="@/assets/css/sns/SnsWrite.css">
-
-/* 정현님 이미지프리뷰 쌔빔 */
-.image-preview-div {
-  display: inline-block;
-  position: relative;
-  width: 150px;
-  height: 120px;
-  margin: 5px;
-  border: 1px solid #00f;
-  z-index: 1;
-}
-
-.image-preview-div img {
-  width: 100%;
-  height: 100%;
-  z-index: none;
-}
-
-.image-preview-delete-button {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  font-size: 24px;
-  right: 0px;
-  bottom: 0px;
-  z-index: 999;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #f00;
-  border: none;
-  cursor: pointer;
-}
-
 </style>

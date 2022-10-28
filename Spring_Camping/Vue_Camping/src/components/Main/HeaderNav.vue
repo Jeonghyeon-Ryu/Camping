@@ -53,8 +53,8 @@ export default {
         "어디갈래?": "/CampList",
         "같이갈래?": "/RecruList",
         "중고장터": "/used/usedMain",
-        "후기피드": "/sns",
-        "나의노트": "/MynoteList"
+        "후기피드": "/sns/"+undefined,
+        "나의노트": "/MynoteList",
       },
       middleCategory: [
         {
@@ -63,28 +63,28 @@ export default {
           "저장 목록": ["/StoredCampList", false],
         },
         {
-          "같이 갈래?": "/RecruList",
-          "같이 가자!": "/recru/RecruInsert",
-          "나의 동행 모집글": "/recru/RecruMypage",
-          "나의 신청 목록": "/recru/EntryMypage",
-          "보증금 관리": "/recru/DepositMypage"
+          "같이 갈래?": ["/RecruList", true],
+          "같이 가자!": ["/recru/RecruInsert", true],
+          "나의 동행 모집글": ["/recru/RecruMypage", true],
+          "나의 신청 목록": ["/recru/EntryMypage", true],
+          "보증금 관리": ["/recru/DepositMypage", true],
         },
         {
-          "물건 사기": "/used/UsedMain",
-          "물건 팔기": "/used/UsedInsert",
-          "채팅방": "/chat/rooms2",
+          "물건 사기": ["/used/UsedMain", true],
+          "물건 팔기": ["/used/UsedInsert", true],
+          "채팅방": ["/chat/rooms2", true],
         },
         {
-          "게시글": "/sns",
-          "글쓰기": "/sns/write",
-          "좋아요": "/sns/myLikeFeed/" + this.$store.state.email,
-          "나의피드": "/sns/myFeed/" + this.$store.state.email,
+          "게시글": ["/sns", true],
+          "글쓰기": ["/sns/write", true],
+          "좋아요": ["/sns/myLikeFeed/" + this.$store.state.email, true],
+          "나의피드": ["/sns/myFeed/" + this.$store.state.email, true],
         },
         {
-          "이용방법": "/MynoteList",
-          "내가 작성한 노트": "/MynoteList",
-          "내가 초대받은 노트": "/InvitedList",
-          "노트 작성하기": "/WriteNote"
+          "이용방법": ["/MynoteList", true],
+          "내가 작성한 노트": ["/MynoteList", true],
+          "내가 초대받은 노트": ["/InvitedList", true],
+          "노트 작성하기": ["/WriteNote", true],
         },
       ],
       responsiveFlag: false,

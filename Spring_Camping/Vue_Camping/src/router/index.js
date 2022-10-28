@@ -10,8 +10,9 @@ const routes = [{
   },
   {
     name: 'SnsMain',
-    path: '/sns',
+    path: '/sns/:hashtag',
     component: () => import('../components/SnS/SnsMain.vue'),
+    props :true
   },
   {
     name: 'SnsDetail',
@@ -34,8 +35,13 @@ const routes = [{
     component: () => import('../components/SnS/SnsMyFeed.vue'),
   },
   {
+    name: 'SnsMyTagFeed',
+    path: '/sns/myTagFeed/:nickname',
+    component: () => import('../components/SnS/SnsMyTagFeed.vue'),
+  },
+  {
     name: 'SnsMyLikeFeed',
-    path: '/sns/myLikeFeed/:email',
+    path: '/sns/myLikeFeed/:nickname',
     component: () => import('../components/SnS/SnsMyLikeFeed.vue'),
   },
   {
@@ -45,19 +51,19 @@ const routes = [{
     props: true
   },
   {
-    path: '/used/usedInsert',
     name: 'usedInsert',
+    path: '/used/usedInsert',
     component: () => import('@/components/UsedPractice/UsedInsert.vue'),
   },
   {
-    path: '/used/usedDetail/:usedId',
     name: 'usedDetail',
+    path: '/used/usedDetail/:usedId',
     component: () => import('@/components/UsedPractice/UsedDetail.vue'),
     props: true
   },
   {
-    path: '/used/usedUpdate/:usedId',
     name: 'usedUpdate',
+    path: '/used/usedUpdate/:usedId',
     component: () => import('@/components/UsedPractice/UsedUpdate.vue'),
     props: true
   },
@@ -138,13 +144,13 @@ const routes = [{
     component: () => import('@/components/note/InvitedList.vue'),
   },
   {
-    path: '/used/usedMain',
     name: 'usedMain',
+    path: '/used/usedMain',
     component: () => import('@/components/UsedPractice/UsedMain.vue'),
   },
   {
-    path: '/used/usedReview',
     name: 'usedReview',
+    path: '/used/usedReview',
     component: () => import('@/components/UsedPractice/UsedReview.vue'),
   },
   {
@@ -158,9 +164,10 @@ const routes = [{
     component: () => import('@/components/Admin/ReportManage.vue'),
   },
   {
-    path: '/used/myUsed',
     name: 'myUsed',
+    path: '/used/myUsed/:email',
     component: () => import('@/components/UsedPractice/UsedMyPage.vue'),
+    props: true
   },
   {
     name: 'StoredCampList',
@@ -196,6 +203,29 @@ const routes = [{
     name: 'RecruReview',
     path: '/recru/review/:recruId',
     component: () => import('@/components/recruit/RecruReviewView.vue'),
+    props: true
+  },
+  {
+    name: 'UsedSearch',
+    path: '/used/usedSearch',
+    component: () => import('@/components/UsedPractice/UsedSearch.vue'),
+  },
+  {
+    name: 'myUsedSave',
+    path: '/used/mySave',
+    component: () => import('@/components/UsedPractice/UsedMySave.vue'),
+    props: true
+  },
+  {
+    name: 'SendMail',
+    path: '/mail/sendMail',
+    component: () => import('@/components/Mail/SendMail.vue'),
+    props: true
+  },
+  {
+    name: 'MailList',
+    path: '/mail/mailList',
+    component: () => import('@/components/Mail/MailList.vue'),
     props: true
   },
 ]

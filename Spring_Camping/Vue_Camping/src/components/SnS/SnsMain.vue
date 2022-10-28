@@ -21,6 +21,7 @@
 import SnsSearch from './SnsSearch.vue';
 
 export default {
+  props: ['hashtag'],
   data: function () {
     return {
       page: 1,
@@ -28,13 +29,18 @@ export default {
     };
   },
   created: function () {
-    fetch("http://localhost:8087/java/sns/" + this.page)
+    if(this.hashtag != undefined && this.hashtag != 'undefined'){
+      this.showHashList();
+    }else{
+
+      fetch('http://localhost:8087/java/sns/' + this.page)
       .then(result => result.json())
       .then(result => {
         
         this.snsImgs = result;
       })
       .catch(err => console.log(err));
+    }
   },
   // components: { SnsDetailImage },
   //검색
@@ -50,12 +56,12 @@ export default {
     getSnsDetail(writeNo) {
       this.$router.push({ name: 'SnsDetail', params: { writeNo: writeNo } });
     },
-    showHashList(hashtag){
+    showHashList(){
       // console.log("부모" + hashtag);
-      hashtag = hashtag.substring(1, hashtag.length);
+      let hash = this.hashtag.substring(1, this.hashtag.length);
       
-      console.log("http://localhost:8087/java/hashtagList/" + hashtag + "/" +this.page);
-        fetch("http://localhost:8087/java/hashtagList/" + hashtag + "/" +this.page)
+      console.log('http://localhost:8087/java/hashtagList/' + hash + "/" +this.page);
+        fetch('http://localhost:8087/java/hashtagList/' + hash + "/" +this.page)
         .then(result => result.json())
         .then(result => {
           console.log(result);
@@ -71,8 +77,6 @@ export default {
   },
 }
 </script>
-
-
 
 <style scoped>
 .sns-container{
@@ -120,6 +124,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  position: absolute;
+  margin-top: 240px;
 }
 
 .sns-img-row-container {

@@ -61,7 +61,7 @@ ul{
   cursor: pointer;
 }
 .used-insert-image-container{
-  width: 100%;
+  width: 90%;
   height: 700px;
   flex-wrap: nowrap;
 }
