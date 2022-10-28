@@ -207,7 +207,7 @@ public class SnsServiceImpl implements SnsService {
 
 	// 게시글에 좋아요한 수 배포 후 추가
 	@Override
-	public int countLikeSnsToWriteNo(String boardId) {
+	public int countLikeSnsToWriteNo(int boardId) {
 		return saveMapper.countLikeSnsToWriteNo(boardId);
 	}
 
