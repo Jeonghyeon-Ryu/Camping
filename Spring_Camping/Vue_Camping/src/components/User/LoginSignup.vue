@@ -20,12 +20,12 @@
         </div>
         <div class="cont_back_info">
           <div class="cont_img_back_grey">
-            <img src="@/assets/img/login/login_background.jpg" alt="" />
+            <img src="@/assets/img/Login/login_background.jpg" alt="" />
           </div>
         </div>
         <div class="cont_forms">
           <div class="cont_img_back_">
-            <img src="@/assets/img/login/login_background.jpg" alt="" />
+            <img src="@/assets/img/Login/login_background.jpg" alt="" />
           </div>
           <div class="cont_form_login">
             <a href="#" @render-tracked="showLoginSignup()"><i class="material-icons">&#xE5C4;</i></a>
@@ -33,7 +33,9 @@
             <input type="text" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <button class="btn_login" @click="clickLogin($event)">LOGIN</button>
-            <button class="btn_login">KAKAO</button>
+            <button class="btn_social btn_login">
+              <KakaoLogin></KakaoLogin>
+            </button>
             <button class="btn_login">NAVER</button>
             <button class="btn_login" @click="searchIDPW($event)">FORGET ID/PW ?</button>
           </div>
@@ -59,143 +61,147 @@
 </template>
 <script>
 import Swal from 'sweetalert2';
+import KakaoLogin from './KakaoLogin.vue';
 const { IMP } = window;
 export default {
+  mounted: function() {
+    console.log(this.$route.query.code);
+    if(this.$route.query.code != undefined){
+      fetch('http://localhost:8087/java/login?code='+this.$route.query.code)
+      .then()
+    }
+  },
   methods: {
     click_login: () => {
-      document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_login";
-      document.querySelector('.cont_form_login').style.display = "block";
-      document.querySelector('.cont_form_sign_up').style.opacity = "0";
-
-      setTimeout(function () { document.querySelector('.cont_form_login').style.opacity = "1"; }, 400);
-
+      document.querySelector(".cont_forms").className = "cont_forms cont_forms_active_login";
+      document.querySelector(".cont_form_login").style.display = "block";
+      document.querySelector(".cont_form_sign_up").style.opacity = "0";
+      setTimeout(function () { document.querySelector(".cont_form_login").style.opacity = "1"; }, 400);
       setTimeout(function () {
-        document.querySelector('.cont_form_sign_up').style.display = "none";
+        document.querySelector(".cont_form_sign_up").style.display = "none";
       }, 200);
     },
     click_sign_up: () => {
-      document.querySelector('.cont_forms').className = "cont_forms cont_forms_active_sign_up";
-      document.querySelector('.cont_form_sign_up').style.display = "block";
-      document.querySelector('.cont_form_login').style.opacity = "0";
-
+      document.querySelector(".cont_forms").className = "cont_forms cont_forms_active_sign_up";
+      document.querySelector(".cont_form_sign_up").style.display = "block";
+      document.querySelector(".cont_form_login").style.opacity = "0";
       setTimeout(function () {
-        document.querySelector('.cont_form_sign_up').style.opacity = "1";
+        document.querySelector(".cont_form_sign_up").style.opacity = "1";
       }, 100);
-
       setTimeout(function () {
-        document.querySelector('.cont_form_login').style.display = "none";
+        document.querySelector(".cont_form_login").style.display = "none";
       }, 400);
     },
     clickLogin: function (e) {
       let loginForm = e.target.parentElement;
       let member = {
-        "email": loginForm.querySelector('input[type="text"]').value,
-        "password": loginForm.querySelector('input[type="password"]').value
+        "email": loginForm.querySelector("input[type=\"text\"]").value,
+        "password": loginForm.querySelector("input[type=\"password\"]").value
       };
-      console.log(member)
-      fetch('http://13.125.95.210:85/java/login', {
+      console.log(member);
+      fetch("http://13.125.95.210:85/java/login", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(member)
       }).then(result => result.json())
         .then(result => {
-          if(result.status == 0) {
+          if (result.status == 0) {
             Swal.fire({
-              icon: 'error',
-              title: '탈퇴한 회원입니다 !',
+              icon: "error",
+              title: "탈퇴한 회원입니다 !",
               toast: true,
               showConfirmButton: false,
               timer: 1500,
               timerProgressBar: true,
               didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
               }
-            })
-          } else if(result.status == 1) {
+            });
+          }
+          else if (result.status == 1) {
             Swal.fire({
-              icon: 'error',
-              title: '접속이 제한된 회원입니다 !',
+              icon: "error",
+              title: "접속이 제한된 회원입니다 !",
               toast: true,
               showConfirmButton: false,
               timer: 1500,
               timerProgressBar: true,
               didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
               }
-            })
-          } else {
+            });
+          }
+          else {
             let info = {
-              nickname : result.nickname,
-              email : result.email,
-              auth : result.auth
-            }
+              nickname: result.nickname,
+              email: result.email,
+              auth: result.auth
+            };
             console.log(info);
-            this.$store.commit('getUserInfo',info);
-
+            this.$store.commit("getUserInfo", info);
             Swal.fire({
-              icon: 'success',
-              title: '로그인 성공!',
+              icon: "success",
+              title: "로그인 성공!",
               toast: true,
               showConfirmButton: false,
               timer: 1500,
               timerProgressBar: true,
               didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
                 this.$emit("loginout");
-                this.$router.replace('/');
+                this.$router.replace("/");
               }
-            })
+            });
           }
         }).catch(error => {
           Swal.fire({
-            icon: 'error',
-            title: '아이디 또는 비밀번호가 일치하지 않습니다.',
+            icon: "error",
+            title: "아이디 또는 비밀번호가 일치하지 않습니다.",
             toast: true,
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-              loginForm.querySelector('input[type="password"]').value = '';
-              loginForm.querySelector('input[type="text"]').focus();
+              toast.addEventListener("mouseenter", Swal.stopTimer);
+              toast.addEventListener("mouseleave", Swal.resumeTimer);
+              loginForm.querySelector("input[type=\"password\"]").value = "";
+              loginForm.querySelector("input[type=\"text\"]").focus();
             }
-          })
+          });
         });
     },
     clickSignup: function (e) {
       let signupForm = e.target.parentElement;
-      let identify = signupForm.querySelector('input[name="identify"]').value;
-      let sex = '';
-      let birth = '';
-
+      let identify = signupForm.querySelector("input[name=\"identify\"]").value;
+      let sex = "";
+      let birth = "";
       if (identify.substr(-1, 1) % 2 == 0) {
         sex = "여";
-      } else {
+      }
+      else {
         sex = "남";
       }
       if (identify.substr(-1, 1) == 1 || identify.substr(-1, 1) == 2) {
-        birth = '19';
-      } else if (identify.substr(-1, 1) == 3 || identify.substr(-1, 1) == 4) {
-        birth = '20';
+        birth = "19";
       }
-      birth = birth + identify.substr(0, 2) + '-' + identify.substr(2, 2) + '-' + identify.substr(4, 2);
-
+      else if (identify.substr(-1, 1) == 3 || identify.substr(-1, 1) == 4) {
+        birth = "20";
+      }
+      birth = birth + identify.substr(0, 2) + "-" + identify.substr(2, 2) + "-" + identify.substr(4, 2);
       let signupData = {
-        "email": signupForm.querySelector('input[name="email"]').value,
-        "name": signupForm.querySelector('input[name="name"]').value,
-        "nickname": signupForm.querySelector('input[name="nickname"]').value,
-        "password": signupForm.querySelector('input[name="password"]').value,
+        "email": signupForm.querySelector("input[name=\"email\"]").value,
+        "name": signupForm.querySelector("input[name=\"name\"]").value,
+        "nickname": signupForm.querySelector("input[name=\"nickname\"]").value,
+        "password": signupForm.querySelector("input[name=\"password\"]").value,
         "birth": birth,
         "sex": sex,
-        "phoneNumber": signupForm.querySelector('input[name="phoneNumber"]').value
-      }
-
+        "phoneNumber": signupForm.querySelector("input[name=\"phoneNumber\"]").value
+      };
       // 본인인증 시작
       let access_token;
       let imp_uid;
@@ -208,22 +214,22 @@ export default {
           console.log("성공", result.imp_uid);
           imp_uid = result.imp_uid;
           console.log(imp_uid);
-          fetch('http://13.125.95.210:85/java/auth?impUid=' + imp_uid)
+          fetch("http://13.125.95.210:85/java/auth?impUid=" + imp_uid)
             .then(result => result.json())
             .then(result => {
-              if (result.name != signupForm.querySelector('input[name="name"]').value) {
-                document.querySelector('input[name="name"]').value = result.name;
+              if (result.name != signupForm.querySelector("input[name=\"name\"]").value) {
+                document.querySelector("input[name=\"name\"]").value = result.name;
               }
-              if (result.phoneNumber != signupForm.querySelector('input[name="phoneNumber"]').value) {
-                document.querySelector('input[name="name"]').value = result.phoneNumber;
+              if (result.phoneNumber != signupForm.querySelector("input[name=\"phoneNumber\"]").value) {
+                document.querySelector("input[name=\"name\"]").value = result.phoneNumber;
               }
             }).catch(err => console.log("본인인증 오류", err))
             .finally(() => {
               // 본인인증 성공 후, 회원가입 자동 요청
-              fetch('http://13.125.95.210:85/java/member', {
+              fetch("http://13.125.95.210:85/java/member", {
                 method: "POST",
                 headers: {
-                  'Content-Type': 'application/json'
+                  "Content-Type": "application/json"
                 },
                 body: JSON.stringify(signupData)
               }).then(result => result.text())
@@ -231,70 +237,71 @@ export default {
                   console.log(this);
                   if (result == "true") {
                     Swal.fire({
-                      icon: 'success',
-                      title: '회원가입 성공!',
+                      icon: "success",
+                      title: "회원가입 성공!",
                       toast: true,
                       showConfirmButton: false,
                       timer: 2000,
                       timerProgressBar: true,
                       didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        component.$router.push({ path: '/', name: 'Home' });
+                        toast.addEventListener("mouseenter", Swal.stopTimer);
+                        toast.addEventListener("mouseleave", Swal.resumeTimer);
+                        component.$router.push({ path: "/", name: "Home" });
                       }
-                    })
-                  } else {
-                    Swal.fire({
-                      icon: 'error',
-                      title: '알수없는 오류로 회원가입에 실패하였습니다.',
-                      toast: true,
-                      showConfirmButton: false,
-                      timer: 2000,
-                      timerProgressBar: true,
-                      didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                      }
-                    })
+                    });
                   }
-                }).catch(err => console.log("회원가입 오류", err))
-            })
-
-        } else {
+                  else {
+                    Swal.fire({
+                      icon: "error",
+                      title: "알수없는 오류로 회원가입에 실패하였습니다.",
+                      toast: true,
+                      showConfirmButton: false,
+                      timer: 2000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener("mouseenter", Swal.stopTimer);
+                        toast.addEventListener("mouseleave", Swal.resumeTimer);
+                      }
+                    });
+                  }
+                }).catch(err => console.log("회원가입 오류", err));
+            });
+        }
+        else {
           console.log("실패", result);
         }
-      })
+      });
     },
     showLoginSignup: () => {
-      document.querySelector('.cont_forms').className = "cont_forms";
-      document.querySelector('.cont_form_sign_up').style.opacity = "0";
-      document.querySelector('.cont_form_login').style.opacity = "0";
-
+      document.querySelector(".cont_forms").className = "cont_forms";
+      document.querySelector(".cont_form_sign_up").style.opacity = "0";
+      document.querySelector(".cont_form_login").style.opacity = "0";
       setTimeout(function () {
-        document.querySelector('.cont_form_sign_up').style.display = "none";
-        document.querySelector('.cont_form_login').style.display = "none";
+        document.querySelector(".cont_form_sign_up").style.display = "none";
+        document.querySelector(".cont_form_login").style.display = "none";
       }, 500);
     },
     regCheck: function (regExp, asValue) {
       if (regExp.test(asValue.value)) {
-        asValue.style.background = 'rgba(0,255,0,0.1)';
-      } else {
-        asValue.style.background = 'rgba(255,0,0,0.1)';
+        asValue.style.background = "rgba(0,255,0,0.1)";
+      }
+      else {
+        asValue.style.background = "rgba(255,0,0,0.1)";
         Swal.fire({
-          icon: 'error',
-          title: '형식에 맞게 입력해주세요.',
+          icon: "error",
+          title: "형식에 맞게 입력해주세요.",
           toast: true,
           showConfirmButton: false,
           timer: 2000,
           timerProgressBar: true,
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
           }
         }).then((result => {
-          asValue.value = '';
+          asValue.value = "";
           asValue.focus();
-        }))
+        }));
       }
     },
     isPhoneNumber: function (e) {
@@ -302,60 +309,61 @@ export default {
       let regExp = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
       this.regCheck(regExp, asValue);
     },
-
     isEmail: function (e) {
       let asValue = e.target;
       let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-      let url = 'http://13.125.95.210:85/java/email?email=' + e.target.value
+      let url = "http://13.125.95.210:85/java/email?email=" + e.target.value;
       fetch(url).then(result => result.text())
         .then(result => {
           if (result == "true") {
             this.regCheck(regExp, asValue);
-          } else {
-            asValue.style.background = 'rgba(255,0,0,0.1)';
+          }
+          else {
+            asValue.style.background = "rgba(255,0,0,0.1)";
             Swal.fire({
-              icon: 'error',
-              title: '이미 존재하는 이메일입니다.',
+              icon: "error",
+              title: "이미 존재하는 이메일입니다.",
               toast: true,
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
               didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
               }
             }).then((result => {
-              asValue.value = '';
+              asValue.value = "";
               asValue.focus();
-            }))
+            }));
           }
         })
         .catch(error => console.log(error));
     },
     isNickname: function (e) {
       let asValue = e.target;
-      let url = 'http://13.125.95.210:85/java/nickname?nickname=' + e.target.value
+      let url = "http://13.125.95.210:85/java/nickname?nickname=" + e.target.value;
       fetch(url).then(result => result.text())
         .then(result => {
           if (result == "true") {
-            asValue.style.background = 'rgba(0,255,0,0.1)';
-          } else {
-            asValue.style.background = 'rgba(255,0,0,0.2)';
+            asValue.style.background = "rgba(0,255,0,0.1)";
+          }
+          else {
+            asValue.style.background = "rgba(255,0,0,0.2)";
             Swal.fire({
-              icon: 'error',
-              title: '이미 존재하는 닉네임입니다.',
+              icon: "error",
+              title: "이미 존재하는 닉네임입니다.",
               toast: true,
               showConfirmButton: false,
               timer: 2000,
               timerProgressBar: true,
               didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
               }
             }).then((result => {
-              asValue.value = '';
+              asValue.value = "";
               asValue.focus();
-            }))
+            }));
           }
         })
         .catch(error => console.log(error));
@@ -363,32 +371,31 @@ export default {
     isPassword: function (e) {
       let asValue = e.target;
       let regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*^?&\\(\\)\-_=+]).{8,16}$/;
-
       this.regCheck(regExp, asValue);
     },
-
     isPasswordConfirm: function (e) {
       let password = e.target.previousSibling.value;
       let passwordConfirm = e.target.value;
       if (password == passwordConfirm) {
-        e.target.style.background = 'rgba(0,255,0,0.2)';
-      } else {
-        e.target.style.background = 'rgba(255,0,0,0.2)';
+        e.target.style.background = "rgba(0,255,0,0.2)";
+      }
+      else {
+        e.target.style.background = "rgba(255,0,0,0.2)";
         Swal.fire({
-          icon: 'error',
-          title: '비밀번호가 일치하지 않습니다.',
+          icon: "error",
+          title: "비밀번호가 일치하지 않습니다.",
           toast: true,
           showConfirmButton: false,
           timer: 2000,
           timerProgressBar: true,
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
           }
         }).then((result => {
-          e.target.value = '';
+          e.target.value = "";
           e.target.focus();
-        }))
+        }));
       }
     },
     isIdentify: function (e) {
@@ -397,9 +404,9 @@ export default {
       this.regCheck(regExp, asValue);
     },
     searchIDPW: function (e) {
-      
     }
-  }
+  },
+  components: { KakaoLogin }
 }
 </script>
 
