@@ -20,12 +20,12 @@
         </div>
         <div class="cont_back_info">
           <div class="cont_img_back_grey">
-            <img src="@/assets/img/Login/login_background.jpg" alt="" />
+            <img src="@/assets/img/login/login_background.jpg" alt="" />
           </div>
         </div>
         <div class="cont_forms">
           <div class="cont_img_back_">
-            <img src="@/assets/img/Login/login_background.jpg" alt="" />
+            <img src="@/assets/img/login/login_background.jpg" alt="" />
           </div>
           <div class="cont_form_login">
             <a href="#" @render-tracked="showLoginSignup()"><i class="material-icons">&#xE5C4;</i></a>

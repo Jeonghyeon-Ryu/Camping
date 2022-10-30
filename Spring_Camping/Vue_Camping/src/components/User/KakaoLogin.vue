@@ -1,6 +1,6 @@
 <template>
     <a :href="AUTH_URL+REDIRECT_URL" class="kakao-login-container">
-        <img src="@/assets/img/Login/kakao_button.png" />
+        <img src="@/assets/img/login/kakao_button.png" />
     </a>
 </template>
 <script>
