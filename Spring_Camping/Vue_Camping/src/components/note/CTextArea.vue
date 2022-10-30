@@ -6,10 +6,9 @@
         <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
       </div>
     </div>
-    <div>
-      <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)"
-        v-on:keydown.enter="creTextarea($event)" :value="data">
-    </textarea>
+    <div class="textarea_container">
+        <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)"
+        v-on:keydown.enter="creTextarea($event)" :value="data"  @input="resize"></textarea>
     </div>
   </div>
 </template>
@@ -22,7 +21,9 @@ export default {
       shiftSatus: false
     }
   },
+  
   methods: {
+    
     shiftfUp: function (e) {
       this.shiftSatus = false;
     },
@@ -36,21 +37,11 @@ export default {
         this.$emit('creArea');
       }
     },
-  }
+    
+  },
 }
 </script>
 
-<style scoped src="@/assets/css/note/WriteNote.css">
-.textbox {
-  background-color: beige;
-  border: 3px solid beige;
-  line-height: 10px;
-}
+<style scoped src="@/assets/css/note/CTextArea.css">
 
-.write_place {
-  display: inline-block;
-  height: fit-content;
-  width: 90%;
-  border: none;
-}
 </style>

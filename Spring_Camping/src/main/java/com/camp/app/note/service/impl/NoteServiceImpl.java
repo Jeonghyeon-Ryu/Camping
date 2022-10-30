@@ -24,7 +24,7 @@ import com.camp.app.note.service.NoteVO;
 public class NoteServiceImpl implements NoteService {
 	//private String imagePath = "/home/upload/note/";
 	//집에서 밑에꺼 주석풀기 위에꺼는 주석막기
-	private String imagePath = "d:\\upload\\note\\";
+	private String imagePath = "c:\\upload\\note\\";
 	@Autowired
 	NoteMapper mapper;
 	@Autowired

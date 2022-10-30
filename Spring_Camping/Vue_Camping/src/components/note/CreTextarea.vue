@@ -6,19 +6,18 @@
                 <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
             </div>
         </div>
-        <div v-if="type=='textBox'">
+        <div v-if="type == 'textBox'" class="textarea_container">
             <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)"
-                v-on:keydown.enter="creTextarea($event)">
-            </textarea>
+                v-on:keydown.enter="creTextarea($event)"></textarea>
         </div>
-        <div v-if="type=='tableBox'" class='maked_table_place' v-on:keydown.enter="creTextarea($event)">
+        <div v-if="type == 'tableBox'" class='maked_table_place' v-on:keydown.enter="creTextarea($event)">
             <div class='table_container'>
                 <button class='row_addbtn'><img src="@/assets/img/note/down_arrow.png" @click="addRow"
                         @mouseover="changeShow"></button>
                 <table class='maked_table'>
                     <tr class='item'>
                         <td class="row-button-container" @mouseover="showBtn">
-                            <button class='row_delbtn' v-if="btnActive==true"><img src="@/assets/img/note/trash.png"
+                            <button class='row_delbtn' v-if="btnActive == true"><img src="@/assets/img/note/trash.png"
                                     @click="delRow($event)" @mouseout="hideBtn"></button>
                         </td>
                         <td class='item_td'><input type="text" class="input_text"></td>
@@ -35,28 +34,28 @@
                 <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button>
             </div>
         </div>
-        <div v-if="type=='checkboxBox'" class="checkbox_place">
-            <div  class='check_box_list'>
+        <div v-if="type == 'checkboxBox'" class="checkbox_place" @click="checkListFn($event)">
+            <div class='checkbox_list'>
                 <div class="box_container">
                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
                     <input type="text" class="checkbox_text" name="myCheck">
                 </div>
                 <div class="checkbox_button_container">
                     <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img"
-                            @click="addCheckList"></button>
+                            ></button>
                     <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img"
-                            @click="delCheckList"></button>
+                            ></button>
                 </div>
             </div>
-        </div>        
-        <div class="img_container" v-if="type=='imgBox'">
-            <div  class='used-insert-image-preview'>
+        </div>
+        <div class="img_container" v-if="type == 'imgBox'">
+            <div class='used-insert-image-preview'>
                 <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
             </div>
             <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
                 <label>사진등록
-                <input name="files" @change="changeImage($event)" @dragenter.prevent @dragover.prevent
-                    @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
+                    <input name="files" @change="changeImage($event)" @dragenter.prevent @dragover.prevent
+                        @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
                 </label>
             </div>
         </div>
@@ -66,7 +65,7 @@
 <script>
 import { append, width } from 'dom7';
 import $ from 'jquery'
-import ImagePreview from '../ImagePreview.vue'; 
+import ImagePreview from '../ImagePreview.vue';
 
 export default {
     data() {
@@ -78,16 +77,9 @@ export default {
         };
     },
     props: ["type"],
-    
-    methods: {
-         // startDrag
-         startDrag(event, item) {
-            event.dataTransfer.dropEffect = "move"
-            event.dataTransfer.effectAllowed = "move"
-            event.dataTransfer.setData("selectedItem", item.content)
-        },
 
-        /**드래그 연습*/
+    methods: {
+    
         creTextarea: function (e) {
             if (!this.shiftSatus) {
                 e.preventDefault();
@@ -116,12 +108,25 @@ export default {
 
         },
         addCol: function (e) {
-            let thisTable = e.target.parentElement.previousSibling;
-
-            for (let i = 0; i < $('.maked_table').children().length; i++) {
-                $(thisTable).children().eq(i).append('<td class="item_td"><input type="text" class="input_text"></td>');
+            let tableContainer = e.target.parentElement;
+            while (!tableContainer.classList.contains('table_container')) {
+                tableContainer = tableContainer.parentElement;
             }
-            console.log('CreTextarea')
+
+            let table = tableContainer.querySelector('.maked_table');
+            let trs = table.querySelectorAll('tr');
+
+            for (let tr of trs) {
+                let td = document.createElement('td');
+                td.setAttribute('class', 'item_td');
+                td.setAttribute('style', 'width:100px; height:fit-content; border:2px solid lightgray;')
+                let input = document.createElement('input');
+                input.setAttribute('type', 'text');
+                input.setAttribute('class', 'input_text');
+                input.setAttribute('style', 'border:none; outline:none; width:98%; height:100%;')
+                td.append(input);
+                tr.append(td);
+            }
         },
         delRow: function (e) {
             let findRow = e.target.parentElement.parentElement.parentElement;
@@ -144,7 +149,7 @@ export default {
             let dt = new DataTransfer();
             for (let i = 0; i < e.target.files.length; i++) {
                 dt.items.add(e.target.files[i]);
-        }
+            }
             this.images = dt.files;
             e.target.files = dt.files;
         },
@@ -157,85 +162,103 @@ export default {
         changShow(e) {
             this.style.opacity = "opacity: 0.6";
         },
+        checkListFn(e){
+            let btnName = e.target.classList[0];
+            console.log('...',btnName)
+            if(btnName == 'add_checkbox' || btnName=='add_img'){
+                console.log('...!!!!!!!!!!!!!')
+                this.addCheckList(e);
+            }else if(btnName == 'del_checkbox' || btnName=='del_img'){
+                console.log('...!!!!!!!!!!!!!')
+                this.delCheckList(e);
+            }
+        },
         addCheckList: function (e) {
+            
+            let checkboxPlace = e.target;
 
-             let checkboxPlace = e.target;
-                          
-            while(!checkboxPlace.classList.contains('checkbox_place')){ 
+            while (!checkboxPlace.classList.contains('checkbox_place')) {
                 checkboxPlace = checkboxPlace.parentElement;
             }
-            console.log(checkboxPlace);
+            console.log("...",checkboxPlace)
+            //checkboxPlace.setAttribute('style', 'display: flex; width: 300px;')
+
+            let checkboxList = document.createElement('div');
+            checkboxList.setAttribute('class', 'checkbox_list');
+            checkboxList.setAttribute('style', 'display:flex;');
+
+            let boxContainer = document.createElement('div');
+            boxContainer.setAttribute('class', 'box_container');
+            boxContainer.setAttribute('style', 'padding:0; display:flex; margin-left: 1%;');
+
+
+            let btnContainer = document.createElement('div');
+            btnContainer.setAttribute('class', 'checkbox_button_container');
+            btnContainer.setAttribute('style', 'display:flex; margin-left: 5px; width:40px;');
+
+            let checkbox = document.createElement('input');
+            checkbox.setAttribute('type', 'checkbox');
+            checkbox.setAttribute('class', 'noteCheckbox');
+            checkbox.setAttribute('name', 'myCheck');
+            checkbox.setAttribute('style', 'border:none;');
+
+            let textbox = document.createElement('input');
+            textbox.setAttribute('type', 'text');
+            textbox.setAttribute('class', 'checkbox_text');
+            textbox.setAttribute('name', 'myCheck');
+            textbox.setAttribute('style', 'margin: 10px 0px 5px 10px; border: 1px solid lightgray; border-radius: 5%;');
+
+
+            //boxcontatiner 완성
+            boxContainer.append(checkbox);
+            boxContainer.append(textbox);
+
+
+            let addButton = document.createElement('button');
+            addButton.setAttribute('class', 'add_checkbox');
+            addButton.setAttribute('style', 'width: 25px; height: 25px; background-color: transparent; border: none;  padding: 10px; margin: 0;');
+            addButton.style.cssText
+
+            //add버튼
+            let addImg = document.createElement('img')
+            addImg.setAttribute('class', 'add_img')
+            let addImgSrc = document.querySelector('.add_img')
+            addImg.src = addImgSrc.src;
+
+            //버튼에 이미지
+            addButton.append(addImg);
+
+            //del버튼
+            let delButton = document.createElement('button');
+            delButton.setAttribute('class', 'del_checkbox');
+            delButton.setAttribute('style', 'width: 25px; height: 25px; background-color: transparent; border: none;  padding: 10px; margin: 0;');
+            let delImg = document.createElement('img')
+            delImg.setAttribute('class', 'del_img');
+            delImg.src = "src/assets/img/note/minus.png"
+            let delImgSrc = document.querySelector('.del_img')
+            delImg.src = delImgSrc.src;
             
-            //let checkboxList = checkboxPlace.querySelector('.check_box_list');
-            //let btnContainer = checkboxPlace.querySelector('.checkbox_button_container');
+            delButton.append(delImg);
+
+            btnContainer.append(addButton);
+            btnContainer.append(delButton);
             
-                checkboxPlace.setAttribute('style', 'display: flex; width: 300px;')
-                
-                 let checkboxList = document.createElement('div');
-                 checkboxList.setAttribute('class', 'check_box_list');
-                 //checkboxList.setAttribute('style', 'display:flex;');
-
-                 let boxContainer = document.createElement('div');
-                 boxContainer.setAttribute('class', 'box_container');
-                 boxContainer.setAttribute('style', 'padding:0; display:inline-block; margin-left: 1%; width: 40px;');
-
-                 let btnContainer = document.createElement('div');
-                 btnContainer.setAttribute('class', 'checkbox_button_container');
-                 btnContainer.setAttribute('style', 'display:flex; margin-left: 5px; width:40px;');
-
-                 let checkbox = document.createElement('input');
-                 checkbox.setAttribute('type', 'checkbox');
-                 checkbox.setAttribute('class', 'noteCheckbox');
-                 checkbox.setAttribute('name','myCheck');
-                 checkbox.setAttribute('style', 'border:none;');
-                
-                 boxContainer.append(checkbox);
-
-                 let textbox = document.createElement('input');
-                 textbox.setAttribute('type', 'text');
-                 textbox.setAttribute('class', 'checkbox_text');
-                 textbox.setAttribute('name','myCheck');
-                 textbox.setAttribute('style', 'margin: 10px 0px 5px 10px; border: 1px solid lightgray; border-radius: 5%;');
-
-                 boxContainer.append(textbox);
-
-                 let addButton = document.createElement('button');
-                 addButton.setAttribute('class', 'add_checkbox');
-                 addButton.setAttribute('style', 'width: 25px; height: 25px;, background-color: transparent; border: none;  padding: 10px; margin: 0;');
-                 addButton.style.cssText
-                
-                 //add버튼
-                 let addImg = document.createElement('img')
-                 addImg.setAttribute('class', 'add_img');
-                 let addImgSrc = document.querySelector('.add_img')
-                 addImg.src = addImgSrc.src;
-                 addButton.append(addImg);
-
-                 //del버튼
-                 let delButton = document.createElement('button');
-                 delButton.setAttribute('class', 'del_checkbox');
-                 delButton.setAttribute('style', 'width: 25px; height: 25px;, background-color: transparent; border: none;  padding: 10px; margin: 0;');
-                let delImg = document.createElement('img')
-                 delImg.setAttribute('class', 'del_img');
-                 delImg.src = "src/assets/img/note/minus.png"
-                 let delImgSrc = document.querySelector('.del_img')
-                 delImg.src = delImgSrc.src;
-                 delButton.append(delImg);
-
-                 btnContainer.append(addButton);
-                 btnContainer.append(delButton);
-                
-                 checkboxList.append(boxContainer);
-                 checkboxList.append(btnContainer)
-                 checkboxPlace.append(checkboxList);
-        
+            checkboxList.append(boxContainer);
+            checkboxList.append(btnContainer);
+            checkboxPlace.append(checkboxList);
         },
+
         delCheckList: function (e) {
-            let checkboxPlace = e.target.parentElement.parentElement.parentElement;
+  
+            let target = e.target.classList[0];
+            
+            /*  여기서부터 시작
+            if(target == 'add_' )
+            
             let checkboxList = e.target.parentElement.parentElement;
             if ($(checkboxPlace).children().length > 1) {
                 $(checkboxList).remove();
-            }
+            }*/
         },
         deleteImages(updatedImages) {
             this.images = updatedImages;
@@ -246,18 +269,18 @@ export default {
             let dt = new DataTransfer();
             for (let i = 0; i < e.target.files.length; i++) {
                 dt.items.add(e.target.files[i]); //kind와 type
-                
+
             }
-            for(let i=0; i < this.images.length; i++){ 
+            for (let i = 0; i < this.images.length; i++) {
                 dt.items.add(this.images[i]);
             }
-            this.images=dt.files; //파일 name, date
+            this.images = dt.files; //파일 name, date
             e.target.files = dt.files;
-           
-            
+
+
             this.$emit("saveImg", this.images);
         },
-        
+
     },
     components: { ImagePreview }
 }

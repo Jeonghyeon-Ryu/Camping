@@ -134,6 +134,12 @@ const routes = [{
 
   },
   {
+    name: 'ReadOnlyNote',
+    path: '/ReadOnlyNote/:noteId',
+    component: () => import('@/components/note/ReadOnlyNote.vue'),
+
+  },
+  {
     name: 'MynoteList',
     path: '/MynoteList',
     component: () => import('@/components/note/MynoteList.vue'),

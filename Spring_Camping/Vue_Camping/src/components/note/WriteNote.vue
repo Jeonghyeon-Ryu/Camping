@@ -101,11 +101,13 @@
                             <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
                                 @creArea="CreArea($event)"></CreateLine>
                         </template>-->
-                        <template v-for="(child, i) of childOrder" :key="i">
-                            <CreTextarea :type="child" @saveImg="saveImg" @creArea="CreArea($event)"
-                                v-if="textAmount >= i + 1">
-                            </CreTextarea>
-                        </template>
+                        
+                                <template v-for="(child, i) of childOrder" :key="i" class="creTextarea">
+                                        <CreTextarea :type="child" @saveImg="saveImg" @creArea="CreArea($event)"
+                                            v-if="textAmount >= i + 1" ref="childComponent{}">
+                                        </CreTextarea>
+                                </template>
+                           
                         <!--<CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)"
                             v-if="textAmount >= 2">
                         </CreTextarea>
@@ -181,6 +183,7 @@ import MyNoteList from './MynoteList.vue';
 
 
 export default {
+    
     data() {
         return {
             textAmount: 1,
@@ -193,6 +196,7 @@ export default {
         }
     },
     methods: {
+        
         CreArea: function (e) {
             this.childOrder.push('textBox');
             this.textAmount++;
