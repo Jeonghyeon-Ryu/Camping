@@ -168,6 +168,9 @@
   margin-top: 15px;
   cursor: pointer;
 }
+.btn_social {
+  padding:0 !important;
+}
 
 .col_md_sign_up {
   position: relative;
