@@ -27,8 +27,9 @@
                 </li>
               </div>
             </div>
+            
             <li>
-              <h3>￦{{usedList.usedPrice}}</h3>
+              <h3>￦ {{usedList.usedPrice.toLocaleString('ko-KR')}}</h3>
             </li>
             <hr>
             <!-- 좋아요, 조회수, 신고 -->
@@ -104,7 +105,7 @@
             <div class="used-writer-home" @click="writerDetail()">
               <b>{{usedList.nickName}}</b> 님의 판매상품 더 구경하기
             </div>
-            <div class="used-writer-sns" @click="writerSns(usedList.nickName)">
+            <div class="used-writer-sns" @click="writerSns(usedList.nickname)">
               <b>{{usedList.nickName}}</b> 님의 피드 방문하기
             </div>
           </div>
@@ -152,7 +153,7 @@ export default {
       usedStatus: img1,
       liked: true,
       likeCnt: 0,
-      storedProfile: ''
+      storedProfile: '',
     }
   },
   components: {
@@ -162,8 +163,8 @@ export default {
     writerDetail: function () {
       this.$router.push({ name: 'myUsed', params: { email: this.usedList.email } })
     },
-    writerSns: function (nickName) {
-      this.$router.push({ name: 'SnsMyFeed', params: { nickname: this.usedList.email } })
+    writerSns: function (nickname) {
+      this.$router.push({ name: 'SnsMyFeed', params: { nickname: this.usedList.nickName } })
     },
     //쪽지보내기
     sendingMsg: function(){

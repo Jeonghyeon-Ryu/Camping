@@ -5,26 +5,26 @@
   height: 100%;
   display: flex;
   flex-wrap: nowrap;
-  overflow-x : auto;
+  overflow-x : hidden;
 }
 @media screen and (max-width:767px) {
   .card {
-    width: 100vw;
+    width: 100%;
   }
 }
 @media screen and (min-width:768px) and (max-width:991px) {
   .card {
-    width: 50vw;
+    width: calc(50% - 1rem);
   }
 }
 @media screen and (min-width:992px) and (max-width:1200px) {
   .card {
-    width: calc(100% / 3);
+    width: calc(100% / 3 - 1rem);
   }
 }
 @media screen and (min-width:1201px) {
   .card {
-    width: calc(25%);
+    width: calc(25% - 1rem);
   }
 }
 
@@ -35,11 +35,13 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
   padding: 1rem;
   margin: 0.5rem;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .card-image {
   width: 100%;
-  height: calc(100% - 200px);
+  height: calc(100% - 100px);
   position: relative;
 }
 
@@ -51,13 +53,14 @@
   box-shadow: 0 4px 6px -1px #0000001a,0 2px 4px -1px #0000000f !important;
 }
 .card-info {
-  height:200px;
+  height:100px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  overflow-y: auto;
+  overflow-y: hidden;
+  color: #ffffff;
 }
 .card-title {
   font-weight: 400;

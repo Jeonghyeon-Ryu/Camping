@@ -1,12 +1,12 @@
 <template>
   <div class="vertical-card-container">
-    <div class="card" v-for="data of resultDatas">
+    <div class="card" v-for="data of resultDatas" @click="moreInfo(data.campId)">
       <div class="card-image">
         <CampListImage :campId="data.campId"></CampListImage>
       </div>
       <div class="card-info">
         <div class="card-title">{{ data.campName }}</div>
-        <div class="card-detail">{{ data.campDetail }}</div>
+        <!-- <div class="card-detail">{{ data.campDetail }}</div> -->
         <div class="card-footer">
           <p class="card-description">
             <img v-if="data.campInfo.toilet" width="20" src="@/assets/img/Camping/toilet.png" />
@@ -20,7 +20,7 @@
             <img v-if="data.campInfo.lease" width="20" src="@/assets/img/Camping/lease.png" />
           </p>
         </div>
-        <button class="card-button" type="button" @click="moreInfo(data.campId)">More Info</button>
+        <!-- <button class="card-button" type="button" @click="moreInfo(data.campId)">More Info</button> -->
       </div>
     </div>
   </div>

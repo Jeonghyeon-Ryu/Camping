@@ -9,6 +9,7 @@
         <h4 style="padding: 5px;">📥 받은 쪽지함</h4>
         <!-- <div class="mail-more" @click="mvReceive()">더보기 > </div> -->
       </div>
+      <hr style="margin: 5px; border: 0.5px solid #e6e6e6; border-collapse: none;">
       <div class="mails">
         <div class="rcvMailList">
           <div v-if="rcvMailList.length< 1" style="margin-top:30%; text-align: center; font-size: 1.2em; color:gray;"><img src="@/assets/img/used/empty.png" style="width:50px"><div style="text-align: center;">받은 쪽지가 없어요</div></div>
@@ -31,10 +32,11 @@
     </div>
     <div class="sendMail">
       <div class="mail-head">
-        <h4 style="padding: 5px;">📤 보낸 쪽지함</h4>
-        <button v-on:click='sendMail()' style="padding:0 10px 0 10px; border: none; background-color: #81bd7b; border-radius: 5px; color:white; font-weight: bold;cursor: pointer">쪽지 보내기</button>
+        <h4 style="padding: 5px;">📤 보낸 쪽지함</h4> 
+        <button class="sendBtn" v-on:click='sendMail()'>쪽지 보내기</button>
         <!-- <div class="mail-more" @onclick="mvSend">더보기 > </div> -->
       </div>
+      <hr style="margin: 5px; border: 0.5px solid #e6e6e6; border-collapse: none;">
       <div class="mails">
         <div class="rcvMailList">
           <div v-if="sendMailList.length< 1" style="margin-top:30%; text-align: center; font-size: 1.2em; color:gray;"><img src="@/assets/img/used/empty.png" style="width:50px"><div style="text-align: center;">보낸 쪽지가 없어요</div></div>
@@ -195,7 +197,7 @@ sendMail: function(){
   let item = Swal.fire({
         title: '<div class="mail-Title" style="font-size:0.6em; color: green;">쪽지 보내기</div>',
         html: '보내는사람 '+this.$store.state.nickname+
-          '<br><input type="text" class="receiverMail" placeholder="받는분의이메일작성하세요"><textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 100px; font-size:12px; overflow-y:auto;" maxlength="500" placeholder="답장할 내용을 입력하세요"></textarea>',
+          '<br><input type="text" class="receiverMail" placeholder="받는 사람(이메일)"><textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 100px; font-size:12px; overflow-y:auto;" maxlength="500" placeholder="답장할 내용을 입력하세요"></textarea>',
         focusConfirm: false,
         showCancelButton: true,
         confirmButtonText: '전송하기',
@@ -268,14 +270,13 @@ deleteMail: function(mail){
             body: JSON.stringify(fetchData)
           }).then(result => result.text())
             .then(result => {
-              console.log(result);
-              if (result === "true") {
+              if (result == "true") {
                 Swal.fire({
                   icon: 'success',
                   title: '삭제되었습니다',
                   toast: true,
                   showConfirmButton: false,
-                  timer: 900,
+                  timer: 700,
                   didOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer)
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -336,12 +337,10 @@ created(){
     margin: 0 auto;
     margin-top: 7%;
     padding: 2% 2% 3% 2%;
-
     /* border: 1px solid #e6e6e6; */
-    background-color: #fcfcfc;
+    background-color: #f7f7f7;
     border-radius: 5px;
     box-shadow: 1px 1px 6px 0.2px #e6e6e6;
-
   }
   .container2{
     width: 85%;
@@ -357,6 +356,18 @@ created(){
     justify-content: space-between;
     padding: 10px;
   }
+  .sendBtn{
+    padding:0 10px 0 10px; 
+    border: none; 
+    background-color: #81bd7b; 
+    border-radius: 5px; 
+    color:white; 
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .sendBtn:hover{
+    background-color: #7ab475; 
+  }
   .mail-more{
     font-weight: bold;
     font-size: 0.8em;
@@ -365,6 +376,7 @@ created(){
     padding:3px 10px 3px 10px;
     border-radius: 4px;
     cursor: pointer;
+    margin: 0 auto;
   }
   .rcvMail, .sendMail{
     width: 47%;
@@ -372,7 +384,11 @@ created(){
     padding: 15px;
     margin: 10px;
     border: 1px solid #e6e6e6;
+    border-radius: 4px;
     background-color: white;
+  }
+  .rcvMail:hover, .sendMail:hover{
+    box-shadow: 1px 1px 6px 0.2px #e6e6e6;
   }
   .mails{
     overflow: scroll;

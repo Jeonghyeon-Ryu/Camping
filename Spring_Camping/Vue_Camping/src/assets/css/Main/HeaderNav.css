@@ -28,9 +28,10 @@
     cursor:pointer;
 }
 .header-title img {
+    margin-top:5px;
     width:auto;
-    height:50px;
-    filter:drop-shadow(1px 1px 5px #ffffff);
+    height:40px;
+    filter:drop-shadow(0px 0px 5px #c4c4c4a6);
 }
 .header-title .header-name {
     font-size: 1.2rem;
@@ -53,6 +54,9 @@
     color:white;
     font-size: 1.1rem;
     font-weight: bold;
+}
+.header-top-category a:hover{
+    filter:drop-shadow(0px 0px 5px #bcbcbccf);
 }
 .header-top-button { 
     width:fit-content;
