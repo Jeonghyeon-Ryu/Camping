@@ -35,7 +35,7 @@
                     <div class="recru-mygear-header">
                         <span>보유한 장비</span>
                         <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
-                        <button class="gear-mylist-btn recru-info-btn" type="button" @click="getGearList">내 장비 가져오기</button>
+                        <!-- <button class="gear-mylist-btn recru-info-btn" type="button" @click="getGearList">내 장비 가져오기</button> -->
                     </div>
                     <ul @click="removeGear" id="recru-mygear-body">
                         <li><input type="text" class="recru-mygear-name" placeholder="장비 이름">
@@ -98,7 +98,9 @@
                         <div>
                             <span>나의 노트</span>
                             <ul v-for="note in myNote" v-bind:key="myNote.noteId">
-                                <li class="recru-mynote-select in-level"><input type="radio" v-model="recruInfo.noteId">{{note.noteTitle}}</li>
+                                <li class="recru-mynote-select in-level">
+                                    <label><input type="radio" v-model="recruInfo.noteId" :value="note.noteId">{{note.title}}</label>
+                                </li>
                             </ul>
                         </div>
                         <div>
@@ -130,10 +132,12 @@
                                 <div v-if="isCampViewed"  class="show-camp-list">
                                     <p v-if="campSites.length==0" style="text-align:center">
                                         등록된 캠핑지가 없습니다!
-                                        <br>새로운 정보를 등록해주세요</p>
-                                    <button  class="recru-info-btn"  @click="$router.push({name:'CampRegister'})">등록하러 가기</button>
-                                    <p v-for="site in campSites" :key="site.campId">
-                                        <span class="recruPost_camp" @click="getCampDetail(site.campAddress, $event)">{{site.campName}}</span> {{site.campAddress}}
+                                        <br>새로운 정보를 등록해주세요
+                                        <br><button  class="recru-info-btn"  @click="$router.push({name:'CampRegister'})">캠핑장 등록하러 가기</button>
+                                    </p>
+                                    <p v-for="site in campSites" :key="site.campId" class="recruPost_camp"  @click="getCampDetail(site.campAddress, $event)">
+                                        <span class="recruPost_camp_name">{{site.campName}}</span> 
+                                        <span class="recruPost_camp_address" >{{site.campAddress}}</span>
                                     </p>                      
                                 </div>
                             </div>
@@ -194,17 +198,11 @@ export default{
         isCampViewed : false,
         campName : '',
         campSites : [],
-        myNote:[{
-            noteId : 1,
-            noteTitle : '노트제목입니다'
-            },
-            {
-            noteId : 2,
-            noteTitle : '노트제목입니다'
-        }]
+        myNote:[]
       }
     },
     created(){
+        //로그인 체크
         if(this.$store.state.email==null){
                 Swal.fire({
                         title: '로그인이 필요한 서비스입니다.',
@@ -223,6 +221,14 @@ export default{
                     }
                 })
         }
+        //나의 노트 정보 가져오기
+        const email = this.$store.state.email;
+        fetch(`http://13.125.95.210:85/java//MyNoteList/${email}`) 
+            .then(Response => Response.json())  
+            .then(data => { 
+                this.myNote = data;
+                console.log(this.myNote)
+            })
     },
     methods : {
         uploadContent : function(){
@@ -436,7 +442,7 @@ export default{
         searchCamp : function(){
             this.isCampViewed =true;
             //이름으로 캠핑장 검색
-            var campName = document.querySelector('#search_camp_name')
+            var campName = document.querySelector('#search_camp_name').value
             var regionInfo = {
                     campName : campName
                 }
@@ -447,7 +453,8 @@ export default{
                 }) 
                 .then(result => result.json())
                 .then(result => {
-                    component.campSites = result;
+                    this.campSites = result;
+                    console.log(this.campSites)
                 }).catch(err => console.log(err));
         },
         toastSwal: Swal.mixin({

@@ -66,11 +66,10 @@
 #recru-form input[type=number]{
     width: 50px;
 }
-#recru-form p, #recru-form span{
+#recru-form p{
     margin: 10px 0;
     font-weight: bold;
 }
-
 #recru-form hr{
     margin: 5px;
 }
@@ -101,7 +100,8 @@
     text-align: center;
     border: none;
     width: 100%;
-    padding: 10px;    
+    padding: 10px;   
+    cursor: pointer; 
 }
 .search-camp>div{
     padding: 10px;
@@ -117,6 +117,16 @@
 }
 .search-camp button{
     background-color: rgb(124, 149, 135);
+}
+.recruPost_camp_name{
+    margin: 5px 10px 0 0;
+    color: rgb(86, 135, 128);
+}
+.recruPost_camp:hover .recruPost_camp_address{
+    padding: 3px;
+    border: none;
+    border-radius: 4px;
+    background-color: white;
 }
 /* 버튼 */
 .recru-info-btn{
