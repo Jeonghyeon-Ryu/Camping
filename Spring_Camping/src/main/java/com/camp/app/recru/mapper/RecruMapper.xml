@@ -214,8 +214,8 @@
 	<select id="searchCamp" parameterType="CampVO" resultType="CampVO">
 		SELECT camp_id, camp_name, camp_address FROM  camp
 		<where>
-			<if test="region != null">
-				camp_address LIKE '%'||#{region}||'%'
+			<if test="campAddress != null">
+				camp_address LIKE '%'||#{campAddress}||'%'
 			</if>
 			<if test="campName != null">
 				camp_name LIKE '%'||#{campName}||'%'
