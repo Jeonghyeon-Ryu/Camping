@@ -22,10 +22,10 @@
           <div class="sns-write-id">
             <input type="text" :value="snsItem.nickname" readonly>
           </div>
-          <div class="sns-write-location">
+          <div class="sns-write-location" v-show="snsItem.location != null">
             <input type="text" :value="snsItem.location" readonly>
           </div>
-          <div class="sns-write-place">
+          <div class="sns-write-place" v-show="snsItem.place != null">
             <input type="text" :value="snsItem.place" readonly>
           </div>
         </div>
@@ -40,7 +40,7 @@
       <div class="sns-detail-container">
         <div class="sns-detail-form1">
           <div class="sns-img-container">
-            <swiper :navigation="true" :pagination="{ clickable: true, }" :modules="modules" class="mySwiper">
+            <swiper :navigation="false" :pagination="{ clickable: true, }" :modules="modules" class="mySwiper">
               <swiper-slide v-for="snsImg of snsImgs">
                 <input type="text" :value="snsImg.writeNo" style="display :none;" readonly>
                 <img
@@ -55,8 +55,8 @@
               <textarea placeholder="글내용 글내용" :value="snsItem.content" readonly></textarea>
               <input type="text" :value="snsItem.writeNo" style="display :none;" name="writeNo" readonly>
             </div>
-            <div class="sns-write-hashtag">
-              <div placeholder="#태그" v-for="hashOne of snsItem.hashtag" readonly>
+            <div class="sns-write-hashtag-list">
+              <div class="sns-write-hashtag" placeholder="#태그" v-for="hashOne of snsItem.hashtag" readonly>
                 <div v-html="hashOne" @click="ClickHashtag($event)"></div>
               </div>
             </div>
@@ -66,11 +66,7 @@
           </form>
           <div class="sns-push-button-container">
             <div class="sns-push-button-container1">
-              <div>
-                <p v-text="snsWriteCount"></p>
-              </div>
               <div class="sns-write-like-button">
-                
                 <img v-if="liked == true" v-on:click='hearted()' v-bind:src="heartImg">
                 <img v-if="liked == false" v-on:click="hearted()" v-bind:src="heartImg2">
               </div>
@@ -83,6 +79,18 @@
             <div class="sns-push-button-container2">
               <div class="sns-notification">
                 <img v-bind:src="notifyImg" @click="reportItem()">
+              </div>
+            </div>
+          </div>
+          <div class="sns-push-button-container" v-show="snsWriteCount != 0">
+            <div class="sns-push-button-container3">
+              <div class="sns-like-count-img">
+                <img v-bind:src="blackheartImg">
+              </div>
+            </div>
+              <div class="sns-push-button-container3">
+              <div class="sns-like-count">
+                <p v-text="snsWriteCount"></p>
               </div>
             </div>
           </div>
@@ -131,6 +139,7 @@
 import SnsSearch from './SnsSearch.vue';
 import likeImg from "@/assets/img/sns/heart.png"
 import dislikeImg from "@/assets/img/sns/heart2.png"
+import blackCountImg from "@/assets/img/sns/blackheart.png"
 import commentImage from "@/assets/img/sns/comment.png"
 import notify from "@/assets/img/sns/notify.png"
 import control from "@/assets/img/sns/snsControll.png"
@@ -160,10 +169,12 @@ export default {
       //댓글 이미지
       commentImg: commentImage,
       //좋아요
-      snsWriteCount : "",
+      snsWriteCount: "",
       heartImg: likeImg,
       heartImg2: dislikeImg,
       liked: true,
+      //좋아요 카운트 이미지
+      blackheartImg: blackCountImg,
       //신고 이미지
       notifyImg: notify,
       //글수정삭제

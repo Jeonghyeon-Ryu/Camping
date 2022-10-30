@@ -231,8 +231,9 @@ export default {
 
   },
   components: {
-    SnsSearch
-  },
+    SnsSearch,
+    KakaoMap
+},
 }
 
 
