@@ -39,6 +39,7 @@ export default {
         addCheckList: function (e) {
             //let checkboxPlace = e.target.parentElement.parentElement.parentElement.parentElement;
             let checkBoxPlace = e.target.parentElement;
+            console.log(">>>",checkBoxPlace)
             while(!checkboxPlace.classList.contains('checkbox_place')){ 
                 checkboxPlace = checkBoxPlace.parentElement;
             }
@@ -76,27 +77,6 @@ export default {
             
             
         },
-       /* addCol: function (e) {
-      let tableContainer = e.target.parentElement;
-      while (!tableContainer.classList.contains('table_container')) {
-        tableContainer = tableContainer.parentElement;
-      }
-      
-      let table = tableContainer.querySelector('.maked_table');
-      let trs = table.querySelectorAll('tr');
-
-      for (let tr of trs) {
-        let td = document.createElement('td');
-        td.setAttribute('class', 'item_td');
-        td.setAttribute('style', 'width:100px; height:fit-content; border:2px solid lightgray;')
-        let input = document.createElement('input');
-        input.setAttribute('type', 'text');
-        input.setAttribute('class', 'input_text');
-        input.setAttribute('style', 'border:none; outline:none; width:98%; height:100%;')
-        td.append(input);
-        tr.append(td);
-      }
-    },*/
         delCheckList: function (e) {
             let checkboxPlace = e.target;
             //target이 checkbox_place를 찾을때까지 부모로 올라가도록

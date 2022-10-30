@@ -1,0 +1,43 @@
+.write_fn {
+    cursor: pointer;
+    /*display: inline-block;
+    position: relative;
+    display: flex;
+    height: fit-content;*/
+    margin-bottom: 10px;
+    border: none;
+    width: 90%;   
+}
+.btn_container {
+    display: flex;
+    flex-direction: row;
+    opacity: 0.6;
+    transition-duration: 0.5s;
+}
+.drag_btn {
+    width: 25px;
+    height: 25px;
+    font-size: 5px;
+    cursor: pointer;
+}
+.del_line {
+    width: 25px;
+    height: 25px;
+    font-size: 5px;
+    cursor: pointer;
+}
+.textarea_container{ 
+  width : 100%;
+  /*height: fit-content;*/
+}
+textarea{ 
+    /*display: inline-block;*/
+    height: 10%;
+    width: 100%; 
+    border : none;
+    padding: 10px 10px;
+    font-size: 15px;
+    /*height: fit-content;*/
+    
+  
+}

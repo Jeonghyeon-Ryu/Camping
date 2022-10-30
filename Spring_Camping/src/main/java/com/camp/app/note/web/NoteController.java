@@ -24,7 +24,7 @@ import com.camp.app.note.service.NoteImgService;
 import com.camp.app.note.service.NoteImgVO;
 import com.camp.app.note.service.NoteService;
 import com.camp.app.note.service.NoteVO;
-@RequestMapping("/java")
+//@RequestMapping("/java")
 @RestController
 @CrossOrigin
 public class NoteController {
@@ -95,6 +95,7 @@ public class NoteController {
 	//저장된 이미지 경로, 이름 가져오기
 	@GetMapping("/getImageInfo/{noteId}")
 	public List<NoteImgVO> findNoteImg(@PathVariable int noteId){ 
+		
 		return imgService.findImg(noteId);
 	}
 	

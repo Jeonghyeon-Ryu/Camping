@@ -22,9 +22,9 @@ import com.camp.app.note.service.NoteVO;
 
 @Service
 public class NoteServiceImpl implements NoteService {
-	private String imagePath = "/home/upload/note/";
+	//private String imagePath = "/home/upload/note/";
 	//집에서 밑에꺼 주석풀기 위에꺼는 주석막기
-//	private String imagePath = "d:\\upload\\note\\";
+	private String imagePath = "c:\\upload\\note\\";
 	@Autowired
 	NoteMapper mapper;
 	@Autowired
@@ -99,7 +99,7 @@ public class NoteServiceImpl implements NoteService {
 
 					for (int j = temp; j < tempLimit; j++) {
 
-						noteContent = noteContent + "imgPath:" + imgInfo.get(j).getImgPath() + ",storedName:"
+						noteContent = noteContent + "imgPath:" + imgInfo.get(j).getImgPath() + "|storedName:"
 								+ imgInfo.get(j).getStoredName() + "$";
 						temp++;
 					}
@@ -201,12 +201,16 @@ public class NoteServiceImpl implements NoteService {
 				// 이부분 다 수정해야댐
 				// System.out.println(nvo.getNoteContents().get(i).substring(4,
 				// nvo.getNoteContents().get(i).length()));
-
+				System.out.println("얘확인 " +i + ">>>" + nvo.getNoteContents().get(i).substring(0, 7));
 				if (nvo.getNoteContents().get(i).substring(0, 7).equals("imgPath")) {// 줄 수
-
+					
 					int imgCnt = Integer
 							.parseInt(nvo.getNoteContents().get(i).substring(nvo.getNoteContents().get(i).length()-1, nvo.getNoteContents().get(i).length()));
+					
 					// 줄 이미지 개수
+					System.out.println("sbustring전>>>" + nvo.getNoteContents().get(i) );
+					System.out.println("ASdas>>>" + nvo.getNoteContents().get(i).substring(nvo.getNoteContents().get(i).length()-1, nvo.getNoteContents().get(i).length()));
+					System.out.println("length>>>" + nvo.getNoteContents().get(i).length());
 					System.out.println("이미지카운트"+ imgCnt);
 					int tempLimit = imgCnt + temp;
 					
@@ -216,15 +220,13 @@ public class NoteServiceImpl implements NoteService {
 					
 					for (int j = temp; j < tempLimit; j++) {
 						
-						noteContent = noteContent + "imgPath:" + imgInfo.get(j).getImgPath() + ",stroedName:"
-								+ imgInfo.get(j).getStoredName() + "$";
+						noteContent = noteContent + "imgPath:" + imgInfo.get(j).getImgPath() + "|storedName:" + imgInfo.get(j).getStoredName() + "$";
 						temp++;
 					}
 					noteContent = noteContent + "|||||||||";
 				} else {
 					noteContent += nvo.getNoteContents().get(i) + "|||||||||";
 				}
-				
 			};
 			System.out.println("노트컨텐츠 " + noteContent);
 			nvo.setNoteContent(noteContent); 

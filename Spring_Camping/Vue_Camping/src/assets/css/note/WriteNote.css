@@ -14,6 +14,7 @@
     min-width: 200px;
 }
 .mynote_menu>div {
+    
     width: 20%;
     border: 1px solid lightgray;
     padding: 10px;
@@ -67,12 +68,12 @@
 }
 textarea{ 
     /*display: inline-block;*/
-    height: fit-content;
+    
     width: 100%; 
     border : none;
     padding: 10px 10px;
     font-size: 15px;
-    height: 100px;
+    height: 50%;
     outline-color:rgb(127, 199, 175);
     resize: none;
 }
@@ -89,19 +90,21 @@ textarea{
 .text_highlighter {
     margin-top: 30px;
 }
-
+.textarea_container{ 
+    width : 100%;
+    /*height: fit-content;*/
+  }
 .write_fn {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
+    
+    
     display: flex;
+    height: fit-content;
+    cursor: pointer;
     margin-bottom: 10px;
     border: none;
-    height: fit-content;
     width: 90%;
     
 }
-
 .fn_menu>div {
     width: 100%;
     cursor: pointer;
@@ -302,8 +305,8 @@ select:disabled {
 }
 .checkbox_place{ 
     display: flex;
-    flex-direction: row;
-    width: 400px;
+    flex-direction: column;
+    width: 50%;
 }
 .checkbox_list{ 
     display : flex;
