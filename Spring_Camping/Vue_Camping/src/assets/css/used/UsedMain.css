@@ -29,7 +29,7 @@ a:active {
 
 #container {
   margin: 0 auto;
-  margin-top: 8%;
+  margin-top: 150px;
   width: 100%;
 }
 
@@ -51,11 +51,7 @@ a:active {
   margin: 0 auto;
 }
 
-.used-main img {
-  width: 85%;
-  height: 250px;
-  object-fit: cover;
-}
+
 
 .used-head ul,
 .used-head li {
@@ -397,4 +393,33 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@media screen and (max-width:767px) {
+  .used-main img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+@media screen and (min-width:768px) and (max-width:991px) {
+  .used-main img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
+}
+@media screen and (min-width:992px) and (max-width:1200px) {
+  .used-main img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
+}
+@media screen and (min-width:1201px) {
+  .used-main img {
+    width: calc(100%);
+    height: 250px;
+    object-fit: cover;
+  }
 }

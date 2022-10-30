@@ -5,7 +5,8 @@
       <form onsubmit="return false">
       <div class="used-headd">
         <div class="used-title">
-          <h2>중고장터 {{this.usedList.nickName}}님이 쓴 글</h2>
+          <h2 v-if="this.usedList[0] != null">중고장터 {{this.usedList[0].nickName}} 님이 쓴 글</h2>
+          
         </div>
       </div>
 
@@ -40,7 +41,7 @@
   export default{
     props:[
       'email'
-  ],
+    ],
     components:{
     UsedCard,
     },
@@ -85,25 +86,30 @@
     //created-페이지 열자마자 실행
     created(){
       // const email = this.usedList.email;
-      console.log(this.usedList.nickname)
-      
+      let email;
+      if(this.email == 'myPage'){
+        email = this.$store.state.email;
+      }else{
+        email = this.email;
+      }
       //내가쓴글전체조회
-      fetch("http://13.125.95.210:85/java/used/myUsed/"+this.email,{
+      fetch("http://13.125.95.210:85/java/used/myUsed/"+email,{
         method: "POST",
         headers : {"Content-Type" : "application/json"},
-        body : JSON.stringify(this.email)
+        body : JSON.stringify(email)
       }) 
-            .then((Response) => Response.json())  //json 파싱 
-            .then(data => { 
-              console.log(data)
-              this.usedList = data;
-            if(this.usedList.length<1){
-              this.recruMsg="중고거래 게시물이 없습니다"
-            }else{
-               this.recruMsg="";
-            }
-          }).catch(err=>console.log(err));
-
+      .then((Response) => Response.json())  //json 파싱 
+      .then(data => { 
+        console.log(data)
+        this.usedList = data;
+        if(this.usedList.length<1){
+          this.recruMsg="중고거래 게시물이 없습니다"
+        }else{
+          this.recruMsg="";
+        }
+      }).catch(err=>console.log(err));
+      
+      console.log(this.usedList.nickName)
     }
   }
 

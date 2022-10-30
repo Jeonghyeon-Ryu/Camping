@@ -5,7 +5,7 @@
       <form onsubmit="return false">
       <div class="used-headd">
         <div class="used-title">
-          <h2>중고장터 {{this.usedList.nickName}}님이 찜한 글</h2>
+          <!-- <h2>중고장터 {{this.usedList[0].nickName}}님이 찜한 글</h2> -->
         </div>
       </div>
 
@@ -14,7 +14,7 @@
 
         <h2>{{recruMsg}}</h2>
         <div class="cards">
-          <div v-for="card in usedList" :key="card.id">
+          <div v-for="card of usedList" :key="card.id">
             <router-link tag="div" v-bind:to="{name:'usedDetail',params : {usedId : card.usedId}}">
               <UsedCard v-bind:usedCard="card"></UsedCard>
             </router-link>
@@ -43,6 +43,7 @@
     },
     data(){
       return{
+        saveList:[],
         usedList: [],
         myGearType: '',
         regionSelect: '',
@@ -83,22 +84,33 @@
     //created-페이지 열자마자 실행
     created(){
       // const email = this.usedList.email;
-      console.log(this.email)
-      
-      //내가쓴글전체조회
-      fetch("http://13.125.95.210:85/java/used/mySave/"+this.email)
+
+      //내가찜한글전체조회
+      fetch("http://localhost:8087/java/used/mySave/"+this.email)
             .then((Response) => Response.json())  //json 파싱 
             .then(data => { 
               console.log(data)
-              this.usedList = data;
-            if(this.usedList.length<1){
+              this.saveList = data;
+            if(this.saveList.length<1){
               this.recruMsg="중고거래 게시물이 없습니다"
             }else{
                this.recruMsg="";
+               for(let save of this.saveList){
+                 fetch("http://localhost:8087/java/used/usedDetail/"+save.boardId)
+                 .then(result => result.json())
+                 .then(result => {
+                    this.usedList.push(result);
+                 })
+               }
             }
           }).catch(err=>console.log(err));
 
+          console.log(this.email)
     }
+
+
+
+      
   }
 
 </script>

@@ -106,7 +106,7 @@
               <b>{{usedList.nickName}}</b> 님의 판매상품 더 구경하기
             </div>
             <div class="used-writer-sns" @click="writerSns(usedList.nickname)">
-              <b>{{usedList.nickname}}</b> 님의 피드 방문하기
+              <b>{{usedList.nickName}}</b> 님의 피드 방문하기
             </div>
           </div>
         </div>

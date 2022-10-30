@@ -215,7 +215,16 @@ export default{
         }
     },
     created(){
+        let searchdata = this.$route.query.search;
+        
+        if (searchdata != undefined) {
+        //메인에서 서치하면 접근하는 경로
+        this.mainSearch();
+        }else{
+        //전체조회
         this.loadDataPage();
+        }
+
     },
     mounted(){
         this.addScrollWatcher();       
@@ -227,6 +236,25 @@ export default{
         }
     },
     methods: {
+        mainSearch: function(){
+            var keyword = this.$route.query.search;
+            var memberRole = this.memberRole;
+            var pageNum = this.pageNum;
+            this.keywordValue = keyword;    //현재 키워드 저장
+            fetch(`http://13.125.95.210:85/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
+            .then((response) =>response.json()) 
+            .then(data => { 
+                for(let key in data){
+                    this.recruPosts.push(data[key]);  
+                }
+                if(this.recruPosts.length<1){
+                    this.recruMsg="검색 결과가 없습니다."
+                }else{
+                    this.recruMsg="";
+                }
+            }).catch(err=>console.log(err));
+            console.log(this.recruPosts)
+        },
         resetPage : function(){
             this.pageNum=1;
             this.recruPosts=[];

@@ -73,7 +73,7 @@
 	
 	<!-- 내가찜한글 -->
 	<select id="findUsedSave" parameterType="String" resultType="UsedVO">
-		select * from save where email = #{email}
+		select * from save where email = #{email} and board_division=2 
 	</select>
 	
 	<!-- 수정 -->

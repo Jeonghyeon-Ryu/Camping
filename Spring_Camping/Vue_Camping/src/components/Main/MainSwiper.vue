@@ -1,8 +1,8 @@
 <template>
-  <swiper :autoplay="{ delay:2000, disableOnInteraction:false }" :pagination="true" :navigation="true"
+  <swiper :autoplay="{ delay:30000, disableOnInteraction:false }" :pagination="false" :navigation="false"
     :modules="modules" class="mySwiper">
     <swiper-slide><img src="@/assets/img/main-image/main_1.jpg" /></swiper-slide>
-    <swiper-slide><img src="@/assets/img/main-image/main_2.jpg" /></swiper-slide>
+    <!-- <swiper-slide><img src="@/assets/img/main-image/main_2.jpg" /></swiper-slide> -->
     <swiper-slide><img src="@/assets/img/main-image/main_3.jpg" /></swiper-slide>
     <swiper-slide><img src="@/assets/img/main-image/main_4.jpg" /></swiper-slide>
     <swiper-slide><img src="@/assets/img/main-image/main_5.jpg" /></swiper-slide>

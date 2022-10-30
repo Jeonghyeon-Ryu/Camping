@@ -9,6 +9,7 @@
         <h4 style="padding: 5px;">📥 받은 쪽지함</h4>
         <!-- <div class="mail-more" @click="mvReceive()">더보기 > </div> -->
       </div>
+      <hr style="margin: 5px; border: 0.5px solid #e6e6e6; border-collapse: none;">
       <div class="mails">
         <div class="rcvMailList">
           <div v-if="rcvMailList.length< 1" style="margin-top:30%; text-align: center; font-size: 1.2em; color:gray;"><img src="@/assets/img/used/empty.png" style="width:50px"><div style="text-align: center;">받은 쪽지가 없어요</div></div>
