@@ -95,9 +95,9 @@
             <li id="textbox">
               <label for="used_content">상품설명<span class="essential">*</span></label>
               <div class="used-desc">
-                <textarea name="usedContent" class="used_content"
+                <input type="text" name="usedContent" class="used_content"
                   placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"
-                  :value="usedList.usedContent"></textarea>
+                  :value="usedList.usedContent">
               </div>
             </li>
           </ul>
@@ -123,20 +123,6 @@ export default {
       .then(Response => Response.json())  //json 파싱 
       .then(data => {
         console.log(data)
-
-        //const el = document.getElementById('fruit');  //select box
-        //const len = el.options.length; //select box의 option 갯수
-        //const str = document.getElementById('searchValue').value; //입력 받은 value 값
-        //select box의 option 갯수만큼 for문 돌림
-        //for (let i=0; i<len; i++){  
-        //select box의 option value가 입력 받은 value의 값과 일치할 경우 selected
-        //if(el.options[i].value == str){
-        //el.options[i].selected = true;
-        //}
-        //}  
-
-
-
         if (data.usedPlace != '전체' && data.usedPlace != null) {
           let places = data.usedPlace.split(' ')
           data.usedPlace = places;

@@ -135,6 +135,12 @@ label {
 
   /* grid-template-columns: 1fr minmax(384px, 1fr) 1fr; */
 }
+.used-filter-ur label{
+  font-weight: bold;
+  font-size: 1.1em;
+
+}
+
 
 .used-filter li {
   flex-wrap: wrap;
@@ -404,7 +410,8 @@ label {
 
 /* select */
 select {
-  width: 100px;
+  width: 107px;
+  padding: 10px;
 }
 
 input,
@@ -428,4 +435,11 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.font-green{
+  color: #2d6128;
+  font-size: 1.1em;
+}
+#districtSelect{
+  margin-right: 10px;
 }
