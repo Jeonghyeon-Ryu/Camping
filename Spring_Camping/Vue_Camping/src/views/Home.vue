@@ -38,7 +38,7 @@ import MainSwiper from '../components/Main/MainSwiper.vue';
   }
   .search-camp{
     position: relative;
-    top: -450px;
+    top: -500px;
     z-index: 1008;
   }
   .note{
