@@ -31,7 +31,6 @@
               <li>
                 <label for="inputPrice">가격<span class="essential">*</span></label>
                 <input type="number" name="usedPrice" id="inputPrice" placeholder="가격을 숫자로 입력하세요">
-                <div class="won">원</div>
               </li>
               
               <hr>
@@ -95,7 +94,7 @@
               <li id="textbox">
                 <label for="used_content">상품설명<span class="essential">*</span></label>
                 <div class="used-desc">
-                  <textarea name="usedContent" class="used_content" maxlength="500" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상 500자 이하)"></textarea>
+                  <pre><textarea name="usedContent" class="used_content" maxlength="500" placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상 500자 이하)"></textarea></pre>
                 </div>
               </li>
             </ul>
