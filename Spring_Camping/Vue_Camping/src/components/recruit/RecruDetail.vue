@@ -61,6 +61,7 @@
                         <br>
                         <p><span>갖고있어요  </span>{{ gearList(recruPost.myGear)}}</p>
                         <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
+
                         <br>
                         <div class="recruPost-content" style="white-space:pre;">{{recruPost.recruContent}}</div>
                     </div>
@@ -123,15 +124,22 @@
             </a>
             <div class="recru-entry-btn">
                 <!-- 모집자/신청자가 아닌 경우 -->
-                <button v-if="userRole==0 && rStatus==0" class="btn-green hover-shadow" type="button" @click="entryInsertForm">동행신청</button>
+                <button v-if="userRole==0 && rStatus==0" class="btn-green hover-shadow" type="button" 
+                        @click="entryInsertForm">
+                    동행신청
+                </button>
                 <!-- 신청자인 경우 -->
-                <button v-if="userRole==2" type="button" style="color: green;background: rgba(228,239,231,0.7);font-weight: bold;">신청 중</button>
-                <button v-if="userRole==2||userRole==3" class="hover-shadow" type="button" @click="entryDelete" style="color:gray; background: nlightgray; ">신청 취소</button>
+                <button v-if="userRole==2" type="button" style="color: green;background: rgba(228,239,231,0.7);font-weight: bold;">
+                    신청 중
+                </button>
+                <button v-if="userRole==2||userRole==3" class="hover-shadow btn-lightgray" type="button" @click="entryDelete">
+                    신청 취소
+                </button>
             </div>
             <div v-if="userRole==1" class="recru-writer-btn">
                 <!-- 모집자(작성자)인 경우 -->
-                <button v-if="rStatus==0" type="button" @click="recruFinish">모집완료</button>
-                <button v-if="rStatus==0" type="button" @click="recruUpdate">수정</button>
+                <button v-if="rStatus==0" type="button" @click="recruFinish" class="btn-green">모집완료</button>
+                <button v-if="rStatus==0" type="button" @click="recruUpdate" class="btn-orange">수정</button>
                 <button type="button" @click="userDelete">삭제</button>
                 <button v-if="rStatus==1" type="button" @click="recruReview">후기등록</button>
             </div>
@@ -199,7 +207,7 @@ export default{
     },
     computed : {
         userage(){
-            //희망 연령대 계산
+            //연령대 계산
             const today = new Date();          
             let birth = this.recruPost.birth;
             birth = typeof birth === 'string' ? birth.substring(0, 4) : '';
