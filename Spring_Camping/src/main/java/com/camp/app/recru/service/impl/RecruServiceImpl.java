@@ -50,15 +50,15 @@ public class RecruServiceImpl implements RecruService {
 	public List<RecruVO> recruAllList() {
 		Date now = new Date();
 		List<RecruVO> list = mapper.findAll();
-		for(RecruVO recru : list) {
-			if(recru.getRecruStatus()==1 && recru.getGoDate()!=null) {
-				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
-				if(status>=0 ) {//공개상태
-					recru.setRecruStatus(3);//여행완료
-					mapper.updateRecru(recru);//상태 업데이트
-				}
-			}
-		}
+//		for(RecruVO recru : list) {
+//			if(recru.getRecruStatus()==1 && recru.getGoDate()!=null) {
+//				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
+//				if(status>=0 ) {//공개상태
+//					recru.setRecruStatus(3);//여행완료
+//					mapper.updateRecru(recru);//상태 업데이트
+//				}
+//			}
+//		}
 		return list;
 	}
 	//전체조회 - 페이징
@@ -66,15 +66,15 @@ public class RecruServiceImpl implements RecruService {
 	public List<RecruVO> findAllPaging(RecruVO recruVO) {
 		Date now = new Date();
 		List<RecruVO> list = mapper.findAllPaging(recruVO);
-		for(RecruVO recru : list) {
-			if(recru.getRecruStatus()==1 && recru.getGoDate()!=null) {
-				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
-				if(status>=0 ) {//공개상태
-					recru.setRecruStatus(3);//여행완료
-					mapper.updateRecru(recru);//상태 업데이트
-				}
-			}
-		}
+//		for(RecruVO recru : list) {
+//			if(recru.getRecruStatus()==1 && recru.getGoDate()!=null) {
+//				int status = now.compareTo(recru.getGoDate()); //오늘날짜와 출발일 비교
+//				if(status>=0 ) {//공개상태
+//					recru.setRecruStatus(3);//여행완료
+//					mapper.updateRecru(recru);//상태 업데이트
+//				}
+//			}
+//		}
 		return list;
 	};
 	//검색 조회

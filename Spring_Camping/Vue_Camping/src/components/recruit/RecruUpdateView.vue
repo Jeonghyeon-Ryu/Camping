@@ -35,7 +35,6 @@
                     <div class="recru-mygear-header">
                         <span>보유한 장비</span>
                         <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
-                        <button class="gear-mylist-btn recru-info-btn" type="button" @click="getGearList">내 장비 가져오기</button>
                     </div>
                     <ul @click="removeGear" id="recru-mygear-body">
                          

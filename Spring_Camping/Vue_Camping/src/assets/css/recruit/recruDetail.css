@@ -140,10 +140,19 @@
     border-radius: 2px;
     margin: 5px;
     font-weight: bold;
+    cursor: pointer;
+}
+.btn-orange{
+    background: rgb(238, 100, 50);
+    color: white;
 }
 .btn-green{
     background: #4caf50;
     color: white;
+}
+.btn-lightgray{
+    color:gray; 
+    background: nlightgray;
 }
 .hover-shadow:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)
