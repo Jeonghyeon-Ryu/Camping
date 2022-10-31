@@ -170,6 +170,8 @@
 }
 .btn_social {
   padding:0 !important;
+  background:none;
+  box-shadow:none;
 }
 
 .col_md_sign_up {

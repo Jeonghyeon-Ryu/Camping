@@ -35,13 +35,11 @@ export default {
       if (!this.waiting) {
         this.waiting = true;
         let target = e.target;
-        console.log('scrollY ', window.scrollY); // 스크롤 위
-        console.log('top ', document.body.scrollTop);
-        console.log('height ', document.body.scrollHeight); // 전체 높이
+        console.log('window height : ', window.innerHeight);  // 스크롤 제외 높이
         console.log('top - height ', document.body.scrollHeight - window.scrollY) // 스크롤 높이
         // scrollY:스크롤 상단 + innerHeight:현재화면 높이 = 현재까지 스크롤된 부분 하단
         let currScrollY = target.innerHeight + target.scrollY;
-
+        console.log(this.currScrollY);
         setTimeout(() => {
           this.waiting = false;
         }, 100);

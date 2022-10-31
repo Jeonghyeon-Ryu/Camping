@@ -33,11 +33,13 @@
             <input type="text" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <button class="btn_login" @click="clickLogin($event)">LOGIN</button>
-            <button class="btn_social btn_login" style="background:none; box-shadow:none;">
+            <button class="btn_social btn_login">
               <KakaoLogin></KakaoLogin>
             </button>
-            <button class="btn_login">NAVER</button>
-            <button class="btn_login" @click="searchIDPW($event)">FORGET ID/PW ?</button>
+            <button class="btn_social btn_login">
+              <NaverLogin></NaverLogin>
+            </button>
+            <!-- <button class="btn_login" @click="searchIDPW($event)">FORGET ID/PW ?</button> -->
           </div>
           <div class="cont_form_sign_up">
             <a href="#" @click="showLoginSignup()"><i class="material-icons">&#xE5C4;</i></a>
@@ -62,6 +64,7 @@
 <script>
 import Swal from 'sweetalert2';
 import KakaoLogin from './KakaoLogin.vue';
+import NaverLogin from './NaverLogin.vue';
 const { IMP } = window;
 export default {
   mounted: function() {
@@ -434,7 +437,7 @@ export default {
     searchIDPW: function (e) {
     }
   },
-  components: { KakaoLogin }
+  components: { KakaoLogin, NaverLogin }
 }
 </script>
 
