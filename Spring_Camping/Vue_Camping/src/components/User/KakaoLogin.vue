@@ -7,7 +7,7 @@
 export default {
     data: function() {
         return {
-            REDIRECT_URL : "http://localhost:8080/Login",
+            REDIRECT_URL : "http://localhost:8081/Login",
             AUTH_URL : "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=b0f34304cdd8f262ee81a86644e1a33e&redirect_uri="
         };
     },

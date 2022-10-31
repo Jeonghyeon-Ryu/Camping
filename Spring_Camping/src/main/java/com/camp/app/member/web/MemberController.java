@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,7 +179,7 @@ public class MemberController {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=b0f34304cdd8f262ee81a86644e1a33e"); // 본인이 발급받은 key
-			sb.append("&redirect_uri=http://localhost:8080/Login"); // 본인이 설정해 놓은 경로
+			sb.append("&redirect_uri=http://localhost:8081/Login"); // 본인이 설정해 놓은 경로
 			sb.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -206,9 +207,41 @@ public class MemberController {
 
 			System.out.println("access_token : " + access_Token);
 			System.out.println("refresh_token : " + refresh_Token);
-
+			
 			br.close();
 			bw.close();
+			
+			url = new URL("https://kapi.kakao.com/v2/user/me");
+			conn = (HttpsURLConnection) url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setDoOutput(true);
+			bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+			bw.flush();
+
+			br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			String inputLine = "";
+			sb = new StringBuilder();
+			while ((inputLine = br.readLine()) != null) {
+				sb.append(inputLine);
+			}
+			System.out.println("sb : " + sb);
+			// 무식하게 가져오는 방법 | JSONParsor 이용하면 쉬움 
+			String temp = sb.toString().substring(sb.indexOf("\"email\":") + 9, sb.length());
+			String kakaoId = temp.substring(0, temp.indexOf("\",\""));
+//			String profileImgUrl = sb.toString().substring(sb.indexOf("\"profile_image_url\":") + 21,
+//					sb.toString().indexOf("\"is_default_image\":") - 2); 
+			// Kakao유저 정보 vs DB유저 정보 비교 
+			// DB 이전 kakao 로그인 기록 있으면 : 로그인 성공 -> Session저장 -> 메인화면
+			// DB 이전 kakao 로그인 기록 없으면 : 카카오 연동페이지 -> 회원가입 OR 로그인 -> 메인화면
+			MemberVO member = service.findBySocialEmail(kakaoId);
+			System.out.println("kakao id : " + kakaoId);
+			System.out.println("member " + member);
+			br.close();
+			bw.close();
+			
+//			return member;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
