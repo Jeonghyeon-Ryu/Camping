@@ -62,7 +62,7 @@
                         <p><span>갖고있어요  </span>{{ gearList(recruPost.myGear)}}</p>
                         <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
                         <br>
-                        <div class="recruPost-content">{{recruPost.recruContent}}</div>
+                        <div class="recruPost-content" style="white-space:pre;">{{recruPost.recruContent}}</div>
                     </div>
                 </div>
             </div>
@@ -99,10 +99,10 @@
                     </div>
                 </div>
             </div>
-            <div v-if="(userRole==1&&recruPost.recruStatus>0)||userRole==3" class="recru-detail-sol deposit-status-box">
+            <!-- <div v-if="(userRole==1&&recruPost.recruStatus>0)||userRole==3" class="recru-detail-sol deposit-status-box">
                 <h3>보증금 상태</h3>
                 <DepositStatus :recruId="recruId"></DepositStatus>
-            </div>
+            </div> -->
         </div>     
          <!-- 동행신청 버튼 모달창 -->
          <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">

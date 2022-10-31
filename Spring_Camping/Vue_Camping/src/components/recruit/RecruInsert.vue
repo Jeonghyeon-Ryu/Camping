@@ -89,7 +89,7 @@
                         <label><span>제목 </span><input type="text" name="recru_input_title" v-model="recruInfo.recruTitle"></label>
                     </div>
                     <div class="recru-info-content">
-                        <label><span>내용</span> <textarea  name="recru_input_content" v-model="recruInfo.recruContent" cols="30" rows="5"></textarea></label>
+                        <label><span style="float:left;margin-right:4px">내용</span> <textarea  name="recru_input_content" v-model="recruInfo.recruContent" cols="30" rows="5"></textarea></label>
                     </div>
                 </div>
                 <hr>
@@ -122,12 +122,12 @@
                             <label >도착지</label>
                             <input type="text" name="campP_address_kakao" readonly @click="searchAddr" placeholder="도로명 주소 검색">
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
-                            <input type="text" name="campP_address_detail" placeholder="상세주소" @click="chkSearchAddr" />
+                            <input type="text" name="campP_address_detail" placeholder="상세주소" @click="chkSearchAddr"/>
                             <button type="button" class="recru-info-btn" @click="isCampFindView=!isCampFindView">캠핑장 검색</button>
                         </li>
                         <div v-if="isCampFindView" class="search-camp">
                             <div>
-                                <input type="text" id="search_camp_name" placeholder="캠핑장 이름 입력">
+                                <input type="text" id="search_camp_name" placeholder="캠핑장 이름 입력"  v-on:keydown.enter.prevent="searchCamp">
                                 <button type="button" class="recru-info-btn" @click="searchCamp">검색</button>
                                 <div v-if="isCampViewed"  class="show-camp-list">
                                     <p v-if="campSites.length==0" style="text-align:center">
