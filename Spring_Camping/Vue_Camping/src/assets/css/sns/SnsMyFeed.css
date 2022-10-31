@@ -47,7 +47,7 @@
   background-color: rgba(100, 181, 122, 0.7);
   width: 60vw;
   height: 40px;
-  max-width: 920px;
+  /* max-width: 920px; */
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -102,16 +102,15 @@
 }
 
 .sns-img-container {
-  width: 70%;
+  width: 60vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .sns-img-row-container {
-  margin-bottom: 10px;
-  margin-right: 10px;
-  width: 30%;
+  margin: 5px 5px;
+  width: calc(100% / 3 - 10px);
   height: 20vw;
   cursor: pointer;
 }

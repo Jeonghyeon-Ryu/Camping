@@ -12,7 +12,7 @@
         <div class="sns-write-form">
           <div class="sns-upload-image-container">
             <div class="sns-register-image-preview">
-              <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
+              <ImageSnsPreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImageSnsPreview>
           </div>
             <form class="sns-upload-image-preview" id="sns-register-image-form" encrypt="multipart/form-data"
               style="padding:20px;">
@@ -65,7 +65,7 @@
 import SnsSearch from './SnsSearch.vue';
 import Swal from 'sweetalert2';
 import KakaoMap from '../KakaoMap.vue';
-import ImagePreview from '../ImagePreview.vue';
+import ImageSnsPreview from './ImageSnsPreview.vue';
 export default {
   data: function () {
     return {
@@ -88,7 +88,7 @@ export default {
   },
   components: {
     KakaoMap,
-    ImagePreview
+    ImageSnsPreview
   },
   //DB연결
   created: function () {
@@ -264,7 +264,7 @@ export default {
   components: {
     SnsSearch,
     KakaoMap,
-    ImagePreview
+    ImageSnsPreview
 },
 }
 
