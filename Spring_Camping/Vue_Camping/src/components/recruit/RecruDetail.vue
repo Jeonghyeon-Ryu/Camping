@@ -290,6 +290,7 @@ export default{
                 .then((response) =>response.json()) 
                 .then(data => { 
                     component.entryPost = data;  
+                    console.log(data)
                     //참가목록 저장         
                     //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
                     component.entryPost.forEach(entry => {
@@ -364,7 +365,12 @@ export default{
                         }) 
                         .then(Response => Response.json())  
                         .then(data => { 
-                            Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success');
+                            Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success')
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                    this.$router.go(-1)
+                                }
+                            })
                             component.recruPost.recruStatus=1;
                             component.loadRecruData();
                         }).catch(err=>console.log(err))

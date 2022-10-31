@@ -113,6 +113,12 @@ const routes = [{
     component: () => import('@/components/recruit/RecruInsert.vue'),
   },
   {
+    name: 'RecruInsertByCamp',
+    path: '/recru/RecruInsert/:campName/:campAddress',
+    component: () => import('@/components/recruit/RecruInsert.vue'),
+    props : true
+  },
+  {
     name: 'RecruMypage',
     path: '/recru/RecruMypage',
     component: () => import('@/components/recruit/RecruMypageView.vue'),

@@ -123,9 +123,8 @@
                 <div class="recru-info-last">
                     <label><span>마감일</span> <input type="date" name="recru_input_closingDate" :value="recruInfo.closingDate" class="select-date" :max="recruInfo.goDate" :min="todayDate"></label>
                 </div>
-                <div class="recru-info-btn" style="text-align: center;">
-                    <button class="btn bg-gradient-success btn-md"
-                    v-on:click.prevent="updateContent">수정</button>
+                <div style="text-align: center;">
+                    <button class="recru-submit-btn recru-info-btn" v-on:click.prevent="updateContent">수정</button>
                 </div>
             </form>
         </div>
@@ -270,7 +269,7 @@ export default{
             //장비 입력 확인
             const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; //특수문자 체크 정규식
             let myGearNames = document.querySelectorAll('.recru-mygear-name');
-            let needGearNames = document.querySelectorAll('.recru-mygear-name');
+            let needGearNames = document.querySelectorAll('.recru-needgear-name');
             if(myGearNames.length==0 ||needGearNames.length==0){
                 Swal.fire('장비를 등록해주세요',"보유장비와 필요장비는 각각 적어도 하나 이상 등록해야 합니다.",'warning');
             }

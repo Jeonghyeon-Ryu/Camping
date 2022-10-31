@@ -166,8 +166,8 @@ public class RecruServiceImpl implements RecruService {
 	}
 	//완료된 모집의 참가자들 조회(모집자+참가자)
 	@Override
-	public List<RecruVO> findRecruMembers(int recruId) {
-		return mapper.findRecruMembers(recruId);
+	public List<RecruVO> findRecruMembers(RecruVO recruVO) {
+		return mapper.findRecruMembers(recruVO);
 	}
 	//후기등록
 	@Override

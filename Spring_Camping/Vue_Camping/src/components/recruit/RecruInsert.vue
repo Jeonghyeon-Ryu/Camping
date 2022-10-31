@@ -175,6 +175,7 @@ import Swal from 'sweetalert2';
 import img2 from "@/assets/img/search.png"
 
 export default{
+    props : ['campAddress','campName'],
     data : function(){
       return {
         searchImg : img2,
@@ -200,7 +201,6 @@ export default{
         files:[],
         isCampFindView:false,
         isCampViewed : false,
-        campName : '',
         campSites : [],
         myNote:[],
         todayDate : new Date().toISOString().substring(0, 10)
@@ -226,7 +226,6 @@ export default{
                     }
                 })
         }
-        console.log(this.todayDate)
         //나의 노트 정보 가져오기
         const email = this.$store.state.email;
         fetch(`http://13.125.95.210:85/java/MyNoteList/${email}`) 
@@ -235,6 +234,15 @@ export default{
                 this.myNote = data;
                 console.log(this.myNote)
             })
+    },
+    mounted(){
+        console.log(this.campName)
+        //주소정보 받았다면 도착지에 넣어주기
+        if(this.campAddress != ''){
+            document.getElementsByName('campP_address_kakao')[0].value = this.campAddress;
+            document.getElementsByName('campP_address_detail')[0].value = this.campName;
+            document.getElementsByName('campP_address_detail')[0].focus();
+        }
     },
     methods : {
         uploadContent : function(){
@@ -260,7 +268,7 @@ export default{
             //장비 입력 확인
             const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; //특수문자 체크 정규식
             let myGearNames = document.querySelectorAll('.recru-mygear-name');
-            let needGearNames = document.querySelectorAll('.recru-mygear-name');
+            let needGearNames = document.querySelectorAll('.recru-needgear-name');
             for(let i=0 ; i<myGearNames.length ; i++){
                 if(regExp.test(myGearNames[i].value)){
                     Swal.fire('장비 이름을 확인해주세요',"< > @ . , ; : & * ^ / $ 등의 특수문자는 입력할 수 없습니다.",'warning');

@@ -72,11 +72,21 @@
             this.recruInfo = data;  
         }).catch(err=>console.log(err));
         //모임 참여자 정보
-        fetch(`http://13.125.95.210:85/java/recru/members/${recruId}`)
+        var memberId = this.$store.state.email;
+        fetch(`http://localhost:8087/java/java/recru/members/${recruId}/${memberId}`)
         .then((response) =>response.json()) 
         .then(data => { 
             this.recruMember = data;  
-            //this.recruMember.forEach(member=>{})
+            console.log(data)
+            if(data.length==0){
+              Swal.fire({
+                        title: '작성 가능한 후기가 없습니다',
+                        text: "모든 참가자에 대한 평가를 완료했습니다",
+                        icon: 'warning',
+                    }).then((result) => {
+                        this.$router.go(-1);
+                })
+            }
         }).catch(err=>console.log(err));
           
       },
