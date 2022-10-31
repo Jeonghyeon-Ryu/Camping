@@ -1,7 +1,7 @@
 <template>
   <div class="article-container">
     <div class="article-left">
-      <!-- <div class="recru-card-box">
+      <div class="recru-card-box">
         <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
           <p class="card-status-btn" v-if="recruInfo.status == 1">작성자 삭제</p>
           <p class="card-status-btn" v-if="recruInfo.status == 2">관리자 삭제</p>
@@ -12,7 +12,7 @@
             <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
           </router-link>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="article-right">
       <h2>지금 거래중..</h2>
@@ -130,7 +130,7 @@ export default {
   flex-wrap: wrap;
   height: 690px;
   overflow: hidden;
-  justify-content: space-around;
+  /* justify-content: space-around; */
 }
 .sns-card {
   width: 300px;
