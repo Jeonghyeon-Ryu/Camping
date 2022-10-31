@@ -57,7 +57,7 @@ export default {
       for (let tr of trs) {
         let td = document.createElement('td');
         td.setAttribute('class', 'item_td');
-        td.setAttribute('style', 'width:100px; height:fit-content; border:2px solid lightgray;')
+        td.setAttribute('style', 'width:200px; height:fit-content; border:2px solid lightgray;')
         let input = document.createElement('input');
         input.setAttribute('type', 'text');
         input.setAttribute('class', 'input_text');
