@@ -35,7 +35,6 @@
                     <div class="recru-mygear-header">
                         <span>보유한 장비</span>
                         <button class="gear-add-btn recru-info-btn" type="button" v-on:click="addGear('recru-mygear-body')">추가</button>                    
-                        <!-- <button class="gear-mylist-btn recru-info-btn" type="button" @click="getGearList">내 장비 가져오기</button> -->
                     </div>
                     <ul @click="removeGear" id="recru-mygear-body">
                         <li><input type="text" class="recru-mygear-name" placeholder="장비 이름">
@@ -104,7 +103,7 @@
                             </ul>
                         </div>
                         <div>
-                            <button type="button" class="write-note-btn recru-info-btn" @click="writeNewNote">새 노트 쓰기</button>
+                            <button type="button" class="write-note-btn recru-info-btn" @click="$router.push({name:'WriteNote'})">새 노트 쓰기</button>
                         </div>
                     </div>
                 </div>
@@ -345,8 +344,8 @@ export default{
             const li = document.createElement('li');
             menu = menu.substring(0,menu.indexOf("-b"));
 
-            let str = "<input type='text' class='"+menu+"-name' style='padding:5px;margin:3px;border:white;' placeholder='장비 이름'>"
-                        +" <select class='"+menu+"-type' style='padding:5px;margin:3px;border:white;'>"
+            let str = "<input type='text' class='"+menu+"-name' style='padding:5px;margin-left:3px;border:white;' placeholder='장비 이름'>"
+                        +" <select class='"+menu+"-type' style='padding:5px;margin-right:3px;border:white;'>"
                             +"<option selected disabled>장비 분류</option>"
                             +"<option value='기타' value='텐트'>텐트</option>"
                             +"<option value='타프'>타프</option>"
@@ -360,7 +359,7 @@ export default{
                             +"<option value='기타'>기타</option>"
                         +"</select>"
                         +"<input type='number' class='"+menu+"-num gear-num' style='width:50px;padding:5px;margin:3px;border:white;' value='1' placeholder='수량' min='1'>개"
-                        +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px;max-width:210px;' name='mygear' @change='addFile'>"
+                        +"<input type='file' class='btn "+menu+"-img img' style='margin:0 5px 0 16px;max-width:210px;' name='mygear' @change='addFile'>"
                         +"<button type='button' class='btn' style='width:17px; height:17px;border-radius:50%;background:crimson;border:none;color:white;margin-left:2px' >x</button>";
             li.innerHTML = str;
             box.appendChild(li);
@@ -401,12 +400,6 @@ export default{
             this.recruInfo.startingPoint = document.getElementsByName('startP_address_kakao')[0].value+' '+document.getElementsByName('startP_address_detail')[0].value;
             this.recruInfo.campingPoint = document.getElementsByName('campP_address_kakao')[0].value+' '+document.getElementsByName('campP_address_detail')[0].value;
         },
-        writeNewNote : function(){
-            this.toastSwal.fire({
-            icon:'error',
-            text : '준비중입니다'
-           })
-        },
         getGearList : function(){
             
             this.toastSwal.fire({
@@ -422,11 +415,6 @@ export default{
                     e.target.nextSibling.nextSibling.focus(); //상세입력 포커싱
                 }
             }).open();
-        },
-        getCampDetail(address, e) {
-            e.preventDefault();
-            document.getElementsByName('campP_address_kakao')[0].value = address;
-            document.getElementsByName('campP_address_detail')[0].value = '';
         },
         chkSearchAddr : function(e){
             //상제 주소 입력 전 도로명 주소 체크
@@ -456,6 +444,11 @@ export default{
                     this.campSites = result;
                     console.log(this.campSites)
                 }).catch(err => console.log(err));
+        },
+        getCampDetail(address, e) {
+            e.preventDefault();
+            document.getElementsByName('campP_address_kakao')[0].value = address;
+            document.getElementsByName('campP_address_detail')[0].value = '';
         },
         toastSwal: Swal.mixin({
             toast: true,
