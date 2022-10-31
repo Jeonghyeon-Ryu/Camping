@@ -67,10 +67,9 @@
                     </div>
                 </div>
             </div>
-            <div class="recru-detail-row mynote-page">
-                <div>
-                    {{notePost.id}}
-                </div>
+            <div v-if="recruPost.noteId" class="recru-detail-row mynote-page">
+                <h3>마이 노트<span class="what-is-note">❔</span></h3>
+                <ReadOnlyNoteVue :noteId="recruPost.noteId"></ReadOnlyNoteVue>
             </div>
 
             
@@ -164,6 +163,7 @@ import ModalView from '@/components/recruit/ModalView.vue';
 import Swal from 'sweetalert2';
 import RecruStatus from '@/components/recruit/RecruStatus.vue';
 import RecruSaveHeart from './RecruSaveHeart.vue';
+import ReadOnlyNoteVue from '@/components/note/ReadOnlyNote.vue';
 export default{
     name : "RecruDetail",
     props : {
@@ -178,7 +178,8 @@ export default{
     EntryInsert,
     ModalView,
     RecruStatus,
-    RecruSaveHeart
+    RecruSaveHeart,
+    ReadOnlyNoteVue
 },
     data:function(){
         return{
@@ -199,7 +200,7 @@ export default{
             },
             isModalViewed : false,
             isCampViewed : false,
-            campSites :[]
+            campSites :[],
         }
     },
     created (){

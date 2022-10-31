@@ -45,9 +45,10 @@
     display: inline-block;
     width: 120px;
 }
-.recru-detail-post h3{
+.recru-detail-post h3, .mynote-page h3{
     color: rgb(132, 167, 147);
     font-weight: bold;
+    margin: 10px 0;
 }
  /* 제목 */
  .recru-detail-title{
@@ -119,6 +120,19 @@
 }
 .recruPost_camp:hover{
     color: rgb(155, 194, 165);
+}
+/* 마이노트 */
+.mynote-page{
+    margin: 10px 50px;
+}
+.mynote-page h3{
+    margin : 20px
+}
+.what-is-note{
+    font-size:small;
+    border: 2px solid gainsboro;
+    border-radius: 50%;
+    margin-bottom: 20px;
 }
 /* 버튼 */
 .recru-detail-btn{

@@ -96,8 +96,11 @@
                     <div class="recru-info-mynote">
                         <div>
                             <span>나의 노트</span>
-                            <ul v-for="note in myNote" v-bind:key="myNote.noteId">
-                                <li class="recru-mynote-select in-level">
+                            <ul>
+                                <li  class="recru-mynote-select in-level">
+                                    <label><input type="radio" v-model="recruInfo.noteId" value="">선택하지 않기</label>
+                                </li>
+                                <li  v-for="note in myNote" v-bind:key="myNote.noteId" class="recru-mynote-select in-level">
                                     <label><input type="radio" v-model="recruInfo.noteId" :value="note.noteId">{{note.title}}</label>
                                 </li>
                             </ul>
@@ -146,14 +149,16 @@
                         </li>
                         <li class="recru-info-day">
                             <label for="recru-insert-goDate">여행 날짜</label> 
-                            <input type="date" id="recru-insert-goDate" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"> 
-                            ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate">
+                            <input type="date" id="recru-insert-goDate" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"  :min="todayDate" :max="recruInfo.comeDate"> 
+                            ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate" :min="recruInfo.goDate">
                         </li>
                     </ul>
                 </div>
                 <div class="recru-info-box">    
                     <div class="recru-info-last">
-                        <label><span>마감일</span> <input type="date" name="recru_input_closingDate" v-model="recruInfo.closingDate" class="select-date"></label>
+                        <label><span>마감일</span> 
+                            <input type="date" name="recru_input_closingDate" class="select-date"  
+                                    v-model="recruInfo.closingDate" :max="recruInfo.goDate" :min="todayDate"></label>
                     </div>
                 </div>
                 <div class="recru-insert-btn" style="text-align: center;">
@@ -197,7 +202,8 @@ export default{
         isCampViewed : false,
         campName : '',
         campSites : [],
-        myNote:[]
+        myNote:[],
+        todayDate : new Date().toISOString().substring(0, 10)
       }
     },
     created(){
@@ -220,9 +226,10 @@ export default{
                     }
                 })
         }
+        console.log(this.todayDate)
         //나의 노트 정보 가져오기
         const email = this.$store.state.email;
-        fetch(`http://13.125.95.210:85/java//MyNoteList/${email}`) 
+        fetch(`http://13.125.95.210:85/java/MyNoteList/${email}`) 
             .then(Response => Response.json())  
             .then(data => { 
                 this.myNote = data;
