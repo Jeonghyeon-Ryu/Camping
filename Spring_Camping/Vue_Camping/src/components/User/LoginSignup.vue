@@ -6,14 +6,14 @@
           <div class="col_md_login">
             <div class="cont_ba_opcitiy">
               <h2>Login</h2>
-              <p>드루와드루와</p>
+              <p>로그인</p>
               <button class="btn_login" @click="click_login()">LOGIN</button>
             </div>
           </div>
           <div class="col_md_sign_up">
             <div class="cont_ba_opcitiy">
               <h2>Sign Up</h2>
-              <p>캠핑 가족이 되어주세요 !</p>
+              <p>캠핑갈래 가족이 되어주세요</p>
               <button class="btn_sign_up" @click="click_sign_up()">SIGN UP</button>
             </div>
           </div>
@@ -33,7 +33,7 @@
             <input type="text" placeholder="Email" />
             <input type="password" placeholder="Password" />
             <button class="btn_login" @click="clickLogin($event)">LOGIN</button>
-            <button class="btn_social btn_login">
+            <button class="btn_social btn_login" style="background:none; box-shadow:none;">
               <KakaoLogin></KakaoLogin>
             </button>
             <button class="btn_login">NAVER</button>
@@ -68,7 +68,35 @@ export default {
     console.log(this.$route.query.code);
     if(this.$route.query.code != undefined){
       fetch('http://localhost:8087/java/login?code='+this.$route.query.code)
-      .then()
+      .then(result => result.json())
+      .then(result => {
+        if(result.email == null) {
+          this.click_sign_up();
+          document.querySelector('input[name="email"]').value=result.socialEmail;
+        } else {
+          let info = {
+              nickname: result.nickname,
+              email: result.email,
+              auth: result.auth
+            };
+            console.log(info);
+            this.$store.commit("getUserInfo", info);
+            Swal.fire({
+              icon: "success",
+              title: "로그인 성공!",
+              toast: true,
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener("mouseenter", Swal.stopTimer);
+                toast.addEventListener("mouseleave", Swal.resumeTimer);
+                this.$emit("loginout");
+                this.$router.replace("/");
+              }
+            });
+        }
+      })
     }
   },
   methods: {
@@ -148,7 +176,7 @@ export default {
               title: "로그인 성공!",
               toast: true,
               showConfirmButton: false,
-              timer: 1500,
+              timer: 1000,
               timerProgressBar: true,
               didOpen: (toast) => {
                 toast.addEventListener("mouseenter", Swal.stopTimer);

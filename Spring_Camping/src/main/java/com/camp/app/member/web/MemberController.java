@@ -236,12 +236,16 @@ public class MemberController {
 			// DB 이전 kakao 로그인 기록 있으면 : 로그인 성공 -> Session저장 -> 메인화면
 			// DB 이전 kakao 로그인 기록 없으면 : 카카오 연동페이지 -> 회원가입 OR 로그인 -> 메인화면
 			MemberVO member = service.findBySocialEmail(kakaoId);
-			System.out.println("kakao id : " + kakaoId);
-			System.out.println("member " + member);
+			
+			if(member == null) {
+				member = new MemberVO();
+				member.setSocialEmail(kakaoId);
+			}
+			
 			br.close();
 			bw.close();
 			
-//			return member;
+			return member;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

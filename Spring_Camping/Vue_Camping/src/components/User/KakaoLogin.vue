@@ -1,7 +1,7 @@
 <template>
-    <a :href="AUTH_URL+REDIRECT_URL" class="kakao-login-container">
+    <div @click="kakaoLogin" class="kakao-login-container">
         <img src="@/assets/img/login/kakao_button.png" />
-    </a>
+    </div>
 </template>
 <script>
 export default {
@@ -13,7 +13,7 @@ export default {
     },
     methods: {
         kakaoLogin() {
-            window.open(this.AUTH_URL+this.REDIRECT_URL,"","menubart=no, status=no");
+            window.location.replace(this.AUTH_URL+this.REDIRECT_URL);
         },  
     }
 }
@@ -21,7 +21,7 @@ export default {
 <style scoped>
 .kakao-login-container {
     width:100%;
-    height:35px;
+    height:fit-content;
 }
 .kakao-login-container img {
     width: 200px;
