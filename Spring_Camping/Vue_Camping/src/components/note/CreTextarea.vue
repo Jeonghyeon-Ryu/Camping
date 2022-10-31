@@ -16,8 +16,8 @@
                         @mouseover="changeShow"></button>
                 <table class='maked_table'>
                     <tr class='item'>
-                        <td class="row-button-container" @mouseover="showBtn">
-                            <button class='row_delbtn' v-if="btnActive == true"><img src="@/assets/img/note/trash.png"
+                        <td class="row-button-container" @mouseover="showBtn($event)">
+                            <button class='row_delbtn' @mouseover="showBtn($event)"><img src="@/assets/img/note/trash.png"
                                     @click="delRow($event)" @mouseout="hideBtn"></button>
                         </td>
                         <td class='item_td'><input type="text" class="input_text"></td>
@@ -34,17 +34,15 @@
                 <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button>
             </div>
         </div>
-        <div v-if="type == 'checkboxBox'" class="checkbox_place" @click="checkListFn($event)">
+        <div v-if="type == 'checkboxBox'" class="checkbox_place" @click="checkListFn($event)" @mouseover="showImg($event)">
             <div class='checkbox_list'>
                 <div class="box_container">
                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
                     <input type="text" class="checkbox_text" name="myCheck">
                 </div>
-                <div class="checkbox_button_container">
-                    <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img"
-                            ></button>
-                    <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img"
-                            ></button>
+                <div class="checkbox_button_container" >
+                    <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img"></button>
+                    <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img"></button>
                 </div>
             </div>
         </div>
@@ -63,7 +61,6 @@
 </template>
 
 <script>
-import { append, width } from 'dom7';
 import $ from 'jquery'
 import ImagePreview from '../ImagePreview.vue';
 
@@ -119,7 +116,7 @@ export default {
             for (let tr of trs) {
                 let td = document.createElement('td');
                 td.setAttribute('class', 'item_td');
-                td.setAttribute('style', 'width:100px; height:fit-content; border:2px solid lightgray;')
+                td.setAttribute('style', 'width:200px; height:fit-content; border:2px solid lightgray;')
                 let input = document.createElement('input');
                 input.setAttribute('type', 'text');
                 input.setAttribute('class', 'input_text');
@@ -160,7 +157,9 @@ export default {
             this.btnActive = false;
         },
         changShow(e) {
+            
             this.style.opacity = "opacity: 0.6";
+            console.log("asdasd");
         },
         checkListFn(e){
             let btnName = e.target.classList[0];
@@ -194,7 +193,7 @@ export default {
 
             let btnContainer = document.createElement('div');
             btnContainer.setAttribute('class', 'checkbox_button_container');
-            btnContainer.setAttribute('style', 'display:flex; margin-left: 5px; width:40px;');
+            btnContainer.setAttribute('style', 'display:flex; margin-left: 5px; width:40px; ');
 
             let checkbox = document.createElement('input');
             checkbox.setAttribute('type', 'checkbox');
@@ -206,7 +205,7 @@ export default {
             textbox.setAttribute('type', 'text');
             textbox.setAttribute('class', 'checkbox_text');
             textbox.setAttribute('name', 'myCheck');
-            textbox.setAttribute('style', 'margin: 10px 0px 5px 10px; border: 1px solid lightgray; border-radius: 5%;');
+            textbox.setAttribute('style', 'width:200px; height:90%; margin: 0 0px 10px 10px; border: 1px solid lightgray; border-radius: 5%;');
 
 
             //boxcontatiner 완성
@@ -222,6 +221,7 @@ export default {
             //add버튼
             let addImg = document.createElement('img')
             addImg.setAttribute('class', 'add_img')
+            addImg.setAttribute('style', 'padding-bottom:20px;') 
             let addImgSrc = document.querySelector('.add_img')
             addImg.src = addImgSrc.src;
 
@@ -234,6 +234,7 @@ export default {
             delButton.setAttribute('style', 'width: 25px; height: 25px; background-color: transparent; border: none;  padding: 10px; margin: 0;');
             let delImg = document.createElement('img')
             delImg.setAttribute('class', 'del_img');
+            delImg.setAttribute('style', 'padding-bottom:20px;') 
             delImg.src = "src/assets/img/note/minus.png"
             let delImgSrc = document.querySelector('.del_img')
             delImg.src = delImgSrc.src;
@@ -247,7 +248,6 @@ export default {
             checkboxList.append(btnContainer);
             checkboxPlace.append(checkboxList);
         },
-
         delCheckList: function (e) {
   
             let target = e.target.classList[0];

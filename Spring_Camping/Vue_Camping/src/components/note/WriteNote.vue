@@ -8,7 +8,7 @@
                         </div>
                         <div class="cre_checkbox"><img src="@/assets/img/note/checkList.png"
                                 @click="creCheckbox($event)"></div>
-                        <div class="cre_textbox"><img src="@/assets/img/note/textbox.png"></div>
+                        <div class="cre_textbox" style="display:none"><img src="@/assets/img/note/textbox.png"></div>
                         <div class="img_capture"><img src="@/assets/img/note/img_capture.png"
                                 @click="creImgBox($event)"></div>
                     </div>
@@ -196,7 +196,6 @@ export default {
         }
     },
     methods: {
-        
         CreArea: function (e) {
             this.childOrder.push('textBox');
             this.textAmount++;
@@ -204,7 +203,6 @@ export default {
         creTableBox: function (e) {
             this.childOrder.push('tableBox');
             this.textAmount++;
-
         },
         creCheckbox: function (e) {
             this.childOrder.push('checkboxBox');
@@ -216,19 +214,16 @@ export default {
         },
         showCheckBox(e) {
             this.show = !this.show;
-
         },
         saveNote: function (e) {
             let lineAll = document.querySelectorAll('.write_fn');
-            let lineText = [];
-            let lineTable = [];
+            //let lineText = [];
+            //let lineTable = [];
             let textTag;
             let tableTag;
             let checkBoxTag;
-            let imgTag;
+            //let imgTag;
             let contents = [];
-            console.log(contents);
-            //작성되는 거 구분해서 객체화
             for (let i = 0; i < lineAll.length; i++) {
                 let lineValue = '';
 
@@ -281,23 +276,17 @@ export default {
                             text: lineCheckText
                         });
                     };
-                    checkBoxTag += `</div>`
-                    //체크박스 content
+                    checkBoxTag += `</div>`    
                     contents.push(checkBoxTag);
-                    //이미지
+                   
                 } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) {
                     
                     let imgContainer = lineAll[i].querySelector('.img_container');
                     let imgBox = imgContainer.querySelectorAll('.image-preview-div');
                     let imgCount = imgBox.length;
-
                     contents.push(
                         'IMG:' + imgCount
-                    );
-                    console.log("contents에 imgCount와 잘 들어갔나 확인")
-                    console.log(contents);
-                    //console.log("contents");
-                    //console.log(contents);     
+                    );    
                 }
             };
             //작성한 내용 보내기
