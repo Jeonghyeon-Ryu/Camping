@@ -140,7 +140,7 @@ export default {
             .then(result => {
                 result.campInfo = result.campInfo.split(" ");
                 this.camp = result;
-                fetch("http://13.125.95.210:85/java/hashtagList/" + this.camp.campName + "/" + this.page)
+                fetch("http://13.125.95.210:85/java/hashtagList/" + this.camp.campName.substring(0,this.camp.campName.length-4) + "/" + this.page)
                     .then(result => result.json())
                     .then(result => {
                         this.snsImgs = result;

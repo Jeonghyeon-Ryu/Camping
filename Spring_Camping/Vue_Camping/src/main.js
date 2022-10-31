@@ -143,6 +143,17 @@ app.config.globalProperties.$filters = {
             return "오류";
         }
     },
+    formatBoardDivision(value) {
+        if (value == 0) {
+            return "캠핑장";
+        } else if (value == 1) {
+            return "동행모집";
+        } else if (value == 2) {
+            return "중고장터";
+        } else {
+            return "후기피드";
+        }
+    },
 }
 app.use(router);
 app.use(store);

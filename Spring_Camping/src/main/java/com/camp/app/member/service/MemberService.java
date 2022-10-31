@@ -36,4 +36,6 @@ public interface MemberService {
 	public ResponseEntity<Resource> showImage(String imagePath, String storedName);
 	//닉네임으로 이메일 찾기
 	public MemberVO findByNickname(String nickname);
+	// 소셜 이메일 확인
+	public MemberVO findBySocialEmail(String socialEmail);
 }

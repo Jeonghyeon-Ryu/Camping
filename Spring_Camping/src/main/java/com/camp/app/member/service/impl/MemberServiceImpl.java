@@ -166,4 +166,9 @@ public class MemberServiceImpl implements MemberService{
 		result.setEmail(member.getEmail());
 		return result;
 	}
+
+	@Override
+	public MemberVO findBySocialEmail(String socialEmail) {
+		return mapper.findBySocialEmail(socialEmail);
+	}
 }

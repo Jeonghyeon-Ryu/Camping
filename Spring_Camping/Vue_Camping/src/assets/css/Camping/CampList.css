@@ -1,7 +1,16 @@
+.camplist-container {
+  margin-top:150px;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.camplist-search-container {
+  width:60%;
+}
 .cards {
   --surface-color: #fff;
   --curve: 40;
-  margin-top:150px;
   font-family: 'Noto Sans JP', sans-serif;
   width:100%;
   display: grid;
@@ -16,6 +25,7 @@
 .card {
   position: relative;
   display: block;
+  margin-top: 2rem;
   height: 100%;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;

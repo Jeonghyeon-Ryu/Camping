@@ -84,22 +84,27 @@ export default {
     checkEnter(event) {
       // console.log(event.target.value);
       let searchValue = event.target.value;
-      // searchValue 에서 맨앞이 #인지 확인
-      let result1 = searchValue.substr(0, 1);
-      // #이면 -> 태그검색 함수로 function doSearchTag
-      if (result1 == '#') {
-        document.querySelectorAll('.sns-search-list-container')[0].style.display = "block";
-        document.querySelectorAll('.sns-search-list-container')[1].style.display = "none";
-        this.doSearchTag(searchValue); //searchVal의 흐름 2. 여기서 searchValue  =  searchVal인 것을 인지시켜줌
-        // #이 없으면 -> 아이디검색 함수로 function doSearchId
-      } else {
-        document.querySelectorAll('.sns-search-list-container')[0].style.display = "none";
-        document.querySelectorAll('.sns-search-list-container')[1].style.display = "block";
-        this.doSearchId(searchValue);
-      }
+      if (searchValue.length > 1) {
 
-      if (event.keyCode == 13) {
-        this.doSearch()
+
+        // searchValue 에서 맨앞이 #인지 확인
+        let result1 = searchValue.substr(0, 1);
+        // #이면 -> 태그검색 함수로 function doSearchTag
+        if (result1 == '#') {
+          document.querySelectorAll('.sns-search-list-container')[0].style.display = "block";
+          document.querySelectorAll('.sns-search-list-container')[1].style.display = "none";
+          this.doSearchTag(searchValue); //searchVal의 흐름 2. 여기서 searchValue  =  searchVal인 것을 인지시켜줌
+          // #이 없으면 -> 아이디검색 함수로 function doSearchId
+        } else {
+          document.querySelectorAll('.sns-search-list-container')[0].style.display = "none";
+          document.querySelectorAll('.sns-search-list-container')[1].style.display = "block";
+          this.doSearchId(searchValue);
+        }
+
+        if (event.keyCode == 13) {
+          this.doSearch()
+        }
+
       }
       //onblur 아웃포커스
       // let focus = document.querySelector('.sns-searchbox input')
@@ -221,6 +226,7 @@ export default {
 <style scoped>
 .sns-container {
   margin-top: 150px;
+  position: relative;
 }
 
 .sns-searchbox {
@@ -233,20 +239,46 @@ export default {
 }
 
 .sns-searchbox input[type=search] {
+  width: 10%;
+  min-width: 300px;
+  border-radius: 10px;
   padding: 15px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+}
+
+.sns-searchbox input[type=search]::placeholder {
+  text-align: center;
+}
+
+.sns-search-list-container {
+  position: absolute;
+  top: 60px;
+}
+
+.sns-search-list {
+  width: 100%;
 }
 
 .sns-search-list input {
   cursor: pointer;
   position: relative;
   z-index: 2;
+  padding: 8px 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  color: black;
+  font-weight: bold;
 }
 
 .sns-search-nick-list input {
   cursor: pointer;
   position: relative;
   z-index: 2;
+  padding: 5px 10px;
+  border: 1px solid gray;
+  background: rgba(255, 255, 255, 0.8);
+  color: black;
+  font-weight: bold;
 }
 </style>

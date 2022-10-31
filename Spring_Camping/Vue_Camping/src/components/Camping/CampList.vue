@@ -1,41 +1,47 @@
 <template>
-  <ul class="cards">
-    <li v-for="camp of camps" @click="getCampDetail(camp.campId, $event)">
-      <a href="" class="card">
-        <div class="card-img-container">
-          <CampListImage :campId="camp.campId"></CampListImage>
-        </div>
-        <div class="card-overlay">
-          <div class="card-header">
-            <svg class="card-arc" xmlns="http://www.w3.org/2000/svg">
-              <path />
-            </svg>
-            <!-- <img class="card-thumb" src="img/img1.jpg" alt="" /> -->
-            <div class="card-header-text">
-              <div v-text="camp.campId" class="camp-id" style="display:none"></div>
-              <h3 v-text="camp.campName" class="card-title"></h3>
-              <span v-text="camp.campAddress" class="card-tagline"></span>
-              <span v-text="camp.regdate" class="card-status"></span>
-            </div>
+  <div class="camplist-container">
+    <div class="camplist-search-container">
+      <CampSearch></CampSearch>
+    </div>
+    <ul class="cards">
+      <li v-for="camp of camps" @click="getCampDetail(camp.campId, $event)">
+        <a href="" class="card">
+          <div class="card-img-container">
+            <CampListImage :campId="camp.campId"></CampListImage>
           </div>
-          <p class="card-description">
-            <img v-if="camp.campInfo.toilet" width="20" src="@/assets/img/Camping/toilet.png" />
-            <img v-if="camp.campInfo.parking" width="20" src="@/assets/img/Camping/parking.png" />
-            <img v-if="camp.campInfo.shower" width="20" src="@/assets/img/Camping/shower.png" />
-            <img v-if="camp.campInfo.disposal" width="20" src="@/assets/img/Camping/disposal.png" />
-            <img v-if="camp.campInfo.deck" width="20" src="@/assets/img/Camping/deck.png" />
-            <img v-if="camp.campInfo.bbq" width="20" src="@/assets/img/Camping/bbq.png" />
-            <img v-if="camp.campInfo.swim" width="20" src="@/assets/img/Camping/swim.png" />
-            <img v-if="camp.campInfo.spoon" width="20" src="@/assets/img/Camping/spoon.png" />
-            <img v-if="camp.campInfo.lease" width="20" src="@/assets/img/Camping/lease.png" />
-          </p>
-        </div>
-      </a>
-    </li>
-  </ul>
+          <div class="card-overlay">
+            <div class="card-header">
+              <svg class="card-arc" xmlns="http://www.w3.org/2000/svg">
+                <path />
+              </svg>
+              <!-- <img class="card-thumb" src="img/img1.jpg" alt="" /> -->
+              <div class="card-header-text">
+                <div v-text="camp.campId" class="camp-id" style="display:none"></div>
+                <h3 v-text="camp.campName" class="card-title"></h3>
+                <span v-text="camp.campAddress" class="card-tagline"></span>
+                <span v-text="camp.regdate" class="card-status"></span>
+              </div>
+            </div>
+            <p class="card-description">
+              <img v-if="camp.campInfo.toilet" width="20" src="@/assets/img/Camping/toilet.png" />
+              <img v-if="camp.campInfo.parking" width="20" src="@/assets/img/Camping/parking.png" />
+              <img v-if="camp.campInfo.shower" width="20" src="@/assets/img/Camping/shower.png" />
+              <img v-if="camp.campInfo.disposal" width="20" src="@/assets/img/Camping/disposal.png" />
+              <img v-if="camp.campInfo.deck" width="20" src="@/assets/img/Camping/deck.png" />
+              <img v-if="camp.campInfo.bbq" width="20" src="@/assets/img/Camping/bbq.png" />
+              <img v-if="camp.campInfo.swim" width="20" src="@/assets/img/Camping/swim.png" />
+              <img v-if="camp.campInfo.spoon" width="20" src="@/assets/img/Camping/spoon.png" />
+              <img v-if="camp.campInfo.lease" width="20" src="@/assets/img/Camping/lease.png" />
+            </p>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
 </template>
 <script>
 import CampListImage from './CampListImage.vue';
+import CampSearch from './CampSearch.vue';
 export default {
   data: function () {
     return {
@@ -126,7 +132,7 @@ export default {
         .catch(err => console.log(err));
     },
   },
-  components: { CampListImage }
+  components: { CampListImage, CampSearch }
 }
 </script>
 <style scoped src="@/assets/css/Camping/CampList.css">
