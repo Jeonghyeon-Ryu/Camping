@@ -201,7 +201,7 @@ public class NoteServiceImpl implements NoteService {
 				// 이부분 다 수정해야댐
 				// System.out.println(nvo.getNoteContents().get(i).substring(4,
 				// nvo.getNoteContents().get(i).length()));
-				System.out.println("얘확인 " +i + ">>>" + nvo.getNoteContents().get(i).substring(0, 7));
+				
 				if (nvo.getNoteContents().get(i).substring(0, 7).equals("imgPath")) {// 줄 수
 					
 					int imgCnt = Integer
