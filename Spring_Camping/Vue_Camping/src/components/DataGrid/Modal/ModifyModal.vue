@@ -7,7 +7,7 @@
       <input v-if="key == 'password'" type="password" v-model="modifyData[key]"/>
     </div>
     <div class="modify-button-container">
-      <RButton :inputColor="'lightGreen'" :inputSize="'md'" :inputValue="'처리완료'" @clickBtn="confirm()"></RButton>
+      <RButton :inputColor="'lightGreen'" :inputSize="'md'" :inputValue="'수정'" @clickBtn="confirm()"></RButton>
       <RButton :inputColor="'cream'" :inputSize="'md'" :inputValue="'취소'" @clickBtn="cancel()"></RButton>
     </div>
   </form>

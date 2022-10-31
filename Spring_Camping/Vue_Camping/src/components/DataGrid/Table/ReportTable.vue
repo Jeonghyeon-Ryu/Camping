@@ -14,7 +14,8 @@
       <li v-for="data of rows" class="table-body row">
         <input type="checkbox" name="checkedUser" value="" />
         <div class="table-column" v-for="column of columns">
-          <div v-if="column.type!=Date">{{data[column.prop]}}</div>
+          <div v-if="column.type!=Date && column.prop!='boardDivision'">{{data[column.prop]}}</div>
+          <div v-if="column.type!=Date && column.prop=='boardDivision'">{{ $filters.formatBoardDivision(data[column.prop]) }}</div>
           <div v-if="column.type==Date">{{ $filters.formatDate(data[column.prop]) }}</div>
         </div>
         <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data)"></TableButton>

@@ -10,15 +10,18 @@
       <MainCamp></MainCamp>
     </div>
     <div class="note">
-      <img src="@/assets/img/main-note.jpg">
+      <NoteBanner></NoteBanner>
     </div>
+    <MainArticle></MainArticle>
   </div>
 </template>
 
 
 <script setup>
+import MainArticle from '@/components/Main/MainArticle.vue';
 import MainCamp from '@/components/Main/MainCamp.vue';
 import MainSearch from '@/components/Main/MainSearch.vue';
+import NoteBanner from '@/components/Main/NoteBanner.vue';
 import MainSwiper from '../components/Main/MainSwiper.vue';
 </script>
 <style scoped>
@@ -42,7 +45,5 @@ import MainSwiper from '../components/Main/MainSwiper.vue';
     position: relative;
     top: -400px;
   }
-  .note img{
-    width: 100%;
-  }
+
 </style>
