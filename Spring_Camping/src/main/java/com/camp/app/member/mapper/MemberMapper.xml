@@ -75,4 +75,7 @@
 	<select id="findByEmailToProfileImage" parameterType="String" resultType="ProfileImageVO">
 		SELECT * FROM profile_image WHERE profile_image_id = (SELECT MAX(profile_image_id) FROM profile_image WHERE email = #{email})
 	</select>
+	<select id="findBySocialEmail" parameterType="String" resultType="MemberVO">
+		SELECT * FROM member WHERE social_email = #{socialEmail}
+	</select>
 </mapper>

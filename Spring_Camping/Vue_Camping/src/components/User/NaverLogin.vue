@@ -1,6 +1,6 @@
 <template>
-    <div @click="kakaoLogin" class="kakao-login-container">
-        <img src="@/assets/img/login/kakao_button.png" />
+    <div @click="kakaoLogin" class="naver-login-container">
+        <img src="@/assets/img/login/naver_button.png" />
     </div>
 </template>
 <script>
@@ -13,17 +13,17 @@ export default {
     },
     methods: {
         kakaoLogin() {
-            window.location.replace(this.AUTH_URL+this.REDIRECT_URL);
+            // window.location.replace(this.AUTH_URL+this.REDIRECT_URL);
         },  
     }
 }
 </script>
 <style scoped>
-.kakao-login-container {
+.naver-login-container {
     width:100%;
     height:fit-content;
 }
-.kakao-login-container img {
+.naver-login-container img {
     width: 200px;
     height:35px;
     object-fit: fill;
