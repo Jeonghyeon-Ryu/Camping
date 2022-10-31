@@ -5,7 +5,7 @@
 	<!-- 메시지 전송 -->
 	<insert id="sendMsg" parameterType="MailVO">
 	<selectKey keyProperty="mailId" resultType="Integer" order="BEFORE">
-		SELECT NVL(MAX(mail_id),0)+1 FROM mail <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+		SELECT NVL(MAX(mail_id),0)+1 FROM mail 
 	</selectKey>
 		 INSERT INTO mail 
 		 (mail_id, mail_sender, mail_receiver, mail_content, 

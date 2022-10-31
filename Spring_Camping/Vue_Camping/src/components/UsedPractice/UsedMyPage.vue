@@ -5,9 +5,9 @@
       <form onsubmit="return false">
       <div class="used-headd">
         <div class="used-title">
-          <h2 v-if="this.usedList[0] != null">중고장터 {{this.usedList[0].nickName}} 님이 쓴 글</h2>
-          
+          <h2 v-if="this.usedList[0] != null">중고장터 <span class="font-green">{{this.usedList[0].nickName}}</span> 님이 쓴 글</h2>
         </div>
+        <hr>
       </div>
 
       <!--본문-->
