@@ -155,6 +155,11 @@
                 <li v-if="filter.searchNeedGear != ''" @click="filter.searchNeedGear=[]">필요해요 : {{toStringList(filter.searchNeedGear)}} X</li>
             </ul>
         </div>
+        <!-- <select v-model="filter.recruStatus" id="recru-status-select" name='rStatus' @change="statusChange"> 
+            <option value=''>전체</option> 
+            <option value='0'>모집중</option>
+            <option value='1'>모집완료</option>
+        </select> -->
         <!-- 리스트 -->
         <div class="container">
             <!-- 카드 -->
