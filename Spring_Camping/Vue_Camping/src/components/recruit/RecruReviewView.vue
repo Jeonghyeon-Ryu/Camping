@@ -9,10 +9,8 @@
         </div>
         <div>
           <select name="review-member" id="">
-            <option value="기타" selected disabled>동행자 선택</option>
-           
-              <option v-for="member in recruMember" :value="member.nickname">{{member.nickname}}</option>
-        
+            <option value="기타" selected disabled>동행자 선택</option>        
+              <option v-for="member in recruMember" :value="member.nickname">{{member.nickname}}</option>      
           </select>
         </div>
         <div class="reviewRate">
@@ -73,7 +71,7 @@
         }).catch(err=>console.log(err));
         //모임 참여자 정보
         var memberId = this.$store.state.email;
-        fetch(`http://localhost:8087/java/java/recru/members/${recruId}/${memberId}`)
+        fetch(`http://13.125.95.210:85/java/recru/members/${recruId}/${memberId}`)
         .then((response) =>response.json()) 
         .then(data => { 
             this.recruMember = data;  
@@ -111,7 +109,6 @@
           confirmButtonText: '확인', // confirm 버튼 텍스트 지정
           })
         }else{
-
             fetch('http://13.125.95.210:85/java/recru/review',{
                     method : "POST",
                     headers : { },
