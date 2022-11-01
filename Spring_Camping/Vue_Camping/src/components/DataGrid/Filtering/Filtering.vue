@@ -44,8 +44,6 @@ export default {
     }
   },
   created: function () {
-    console.log(this.column);
-    console.log(this.type);
     if (this.type == String) {
       this.filterOption = this.filterOptions[0];
     } else if (this.type == Number) {
