@@ -1,10 +1,9 @@
 <template>
   <div class="article-container">
     <div class="article-left">
-      <!-- <div class="recru-card-box">
-        <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
-          <p class="card-status-btn" v-if="recruInfo.status == 1">작성자 삭제</p>
-          <p class="card-status-btn" v-if="recruInfo.status == 2">관리자 삭제</p>
+      <div class="article-left-title">같이갈래?</div>
+      <div class="recru-card-box">
+        <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative;">
           <RecruStatus :recruStatus="recruInfo.recruStatus"
             style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
           <router-link tag="div" v-bind:to="{ name: 'recruDetail', params: { recruId: recruInfo.recruId } }"
@@ -12,11 +11,11 @@
             <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
           </router-link>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="article-right">
-      <h2>지금 거래중..</h2>
       <div class="article-right-top">
+        <div class="article-left-title">중고장터</div>
         <div class="used-cards">
           <div v-for="card in usedList" :key="card.id">
             <router-link tag="div" v-bind:to="{ name: 'usedDetail', params: { usedId: card.usedId } }">
@@ -26,7 +25,7 @@
         </div>
       </div>
       <div class="article-right-bottom">
-        <h2>추천 후기</h2>
+        <div class="article-left-title">추천 후기</div>
         <div class="sns-cards">
           <div class="sns-card" v-for="snsImg of snsImgs" @click="clickSnsCard(snsImg.writeNo)">
             <input type="text" :value="snsImg.writeNo" style="display :none;">
@@ -83,32 +82,59 @@ export default {
 } 
 </script>
 <style scoped>
+a{
+  text-decoration: none;
+}
+a:visited{
+  color:black;
+}
 .article-container {
   width: 100%;
   height: fit-content;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
   position: relative;
   top: -400px;
 }
-
 .article-left {
-  width: 50%;
-  display: flex;
+  width: 100%;
   flex-wrap: wrap;
+  /* padding: 20px; */
 }
-
-.article-right {
-  width: 50%;
+.article-left-title{
+  width:100%;
+  height: 40px;
+  /* background-color: rgb(49, 69, 53); */
+  padding: 10px 10px 10px 50px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.1em;
+  color: rgb(54, 91, 61);
+}
+.recru-card-box{
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  padding: 0 1.5% 1.5% 1.5%;
+  /* overflow-x: scroll; */
+  margin: 0 auto;
+}
+.article-right {
+  padding: 0 10px 0 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: flex-start;
+  justify-content: flex-start; */
 }
 
 .article-right-top {
-  width: 100%;
+  width: 50%;
+  height: 385px;
+  padding: 10px;
+  display: block;
+  overflow-y: hidden;
 }
 
 .used-cards {
@@ -123,14 +149,18 @@ export default {
 }
 
 .article-right-bottom {
-  width: 100%;
+  width: 50%;
+  height: 380px;
+  padding: 10px;
+  display: block;
+  overflow-y: hidden;
 }
 .sns-cards {
   display: flex;
   flex-wrap: wrap;
   height: 690px;
   overflow: hidden;
-  justify-content: space-around;
+  /* justify-content: space-around; */
 }
 .sns-card {
   width: 300px;

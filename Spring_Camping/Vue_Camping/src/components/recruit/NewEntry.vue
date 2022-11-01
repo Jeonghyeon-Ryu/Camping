@@ -31,43 +31,7 @@
                     })
                 })
                     .catch(err => console.log(err));
-            },
-            saveItem(e) {
-                //저장하기 (=찜, 하트)
-                e.preventDefault();
-                const component = this;
-                if (this.$store.state.email != null) {
-                    fetch("http://13.125.95.210:85/java/save", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(component.save)
-                    }).then(result => result.text())
-                    .then(result => {
-                        if (result == "true") {
-                            component.isEntry = !component.isEntry;
-                        }
-                    })
-                    .catch(err => console.log(err));
-                }
-            },
-            noSaveItem(e) {
-                //저장 해체
-                e.preventDefault();
-                const component = this;
-                if (this.$store.state.email != null) {
-                    fetch("http://13.125.95.210:85/java/save", {
-                        method: "DELETE",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(component.save)
-                    }).then(result => result.text())
-                    .then(result => {
-                        if (result == "true") {
-                            component.isEntry = !component.isEntry;
-                        }
-                    })
-                    .catch(err => console.log(err));
-                }
-            },
+            }
         }
     }
     </script>

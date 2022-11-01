@@ -185,7 +185,7 @@
 	<!-- 게시글 등록 -->
 	<insert id="insertUsed" parameterType="UsedVO">
 	<selectKey keyProperty="usedId" resultType="Integer" order="BEFORE">
-		SELECT NVL(MAX(used_id),0)+1 FROM used <!-- xml안에서는 세미콜론빠짐. NULL처리항상해주기 -->
+		SELECT NVL(MAX(used_id),0)+1 FROM used
 	</selectKey>
 		INSERT INTO used
 						(used_id,
@@ -198,7 +198,7 @@
 						email,
 						nickname
 						)
-				VALUES <!-- VO에 있는 필드명 가져오기 -->
+				VALUES 
 					 (#{usedId}
 					 ,#{usedName}
 					 ,#{usedCategory}

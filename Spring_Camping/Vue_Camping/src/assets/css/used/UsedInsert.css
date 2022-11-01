@@ -251,3 +251,8 @@ select{
 select:focus{
   border: 1px solid black;
 }
+.used-content input{
+  width: 500px !important;
+  height: 300px;
+  border: 1px solid #e6e6e6 !important;
+}

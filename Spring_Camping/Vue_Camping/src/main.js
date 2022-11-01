@@ -143,6 +143,15 @@ app.config.globalProperties.$filters = {
             return "오류";
         }
     },
+    formatReportStatus(value) {
+        if (value == 0) {
+            return "미처리";
+        } else if (value == 1) {
+            return "처리완료";
+        } else if (value == 2) {
+            return "반려";
+        }
+    },
     formatBoardDivision(value) {
         if (value == 0) {
             return "캠핑장";
@@ -154,6 +163,7 @@ app.config.globalProperties.$filters = {
             return "후기피드";
         }
     },
+    
 }
 app.use(router);
 app.use(store);

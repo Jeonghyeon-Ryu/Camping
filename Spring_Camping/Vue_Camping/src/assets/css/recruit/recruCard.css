@@ -18,6 +18,7 @@
       margin : 10px;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       overflow: hidden;
+      position: relative;
     }
   }
   @media (max-width:549px) {
@@ -30,30 +31,38 @@
       margin : 10px;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       overflow: hidden;
-      
+      position: relative;
     }
   }
   
   /* 카드 헤더 */
   .recru-card-header {
     width: 100%;
-    height: 65%;
+    height: 100%;
     border-radius: 15px 15px 0 0;
     display: flex;
     justify-content: space-between;
     
   }
   .card-header-img{
-    width: 70%;
+    width: 100%;
+    height: 100%;
+  }
+  .card-header-img > div{
+    width: 100%;
+    height: 100%;
   }
   /* 카드 헤더 이미지 */
   .card-header-img img{
-    height: 320px;
-    min-width: 100%;
+    width: auto;
+    height: 100%;
+    min-width: 100%
   }
-  .recru-card:hover .recru-card-header{
-    opacity: 0.2;
-    height:8%;
+  .recru-card:hover .recru-card-body{
+    transform: translateY(-65%);
+    background-color: rgba(255, 255, 255, 0.8);
+    /* opacity: 0.2; */
+    /* height:8%; */
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
   }
@@ -69,11 +78,14 @@
   }
   /* 카드 바디 - 준상세 */
   .recru-card-body{
-    padding: 17px;
-    margin-top: 10px;
-    height: 85%;
+    padding: 20px 17px 17px 17px;
+    /* margin-top: 10px; */
+    width: 100%;
+    height: 100%;
     transition: all 0.3s;
     text-align: left;
+    position: absolute;
+    top:65%;
   }
   .recru-card-body span{
     color: darkred;

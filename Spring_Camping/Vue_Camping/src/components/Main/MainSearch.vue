@@ -4,7 +4,7 @@
         <div class="search-top">
             <div class="select-container">
                 <select class="search-select">
-                    <option disabled selected>게시판 선택 </option>
+                    <option disabled selected>게시판 </option>
                     <option>어디갈래?</option>
                     <option>같이갈래?</option>
                     <option>중고장터</option>
@@ -15,13 +15,13 @@
             <input type="text" class="main-search" @keyup.enter="search()">
             <img class="search-icon" src="@/assets/img/search.png" @click="search()">
         </div>
-        <div class="hashtag" @click="hashtag()">
-            <span>#서울</span>
-            <span>#대구</span>
-            <span>#대전</span>
-            <span>#인천</span>
-            <span>#부산</span>
-            <span>#광주</span>
+        <div class="hashtag">
+            <span @click="hashtag($event)">#서울</span>
+            <span @click="hashtag($event)">#대구</span>
+            <span @click="hashtag($event)">#대전</span>
+            <span @click="hashtag($event)">#인천</span>
+            <span @click="hashtag($event)">#부산</span>
+            <span @click="hashtag($event)">#광주</span>
         </div>
     </div>
 </template>
@@ -42,7 +42,8 @@ export default {
                 location.href = "http://localhost:8082/sns/undefined?search=" + search
             }
         },
-        hashtag: function(){
+        hashtag: function(e){
+            document.querySelector('.main-search').value = e.target.innerText.substring(1,e.target.innerText.length);
             document.querySelector('.main-search').value;
         }
 
