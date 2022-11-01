@@ -12,7 +12,14 @@
                 <swiper-slide><img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고" /></swiper-slide>
                 <swiper-slide><img src="@/assets/img/bg11.png" alt="의자 중고거래 광고" /></swiper-slide>
               </swiper> -->
-              <img src="@/assets/img/used/bg10.png" alt="텐트 중고거래 광고">
+              <swiper :autoplay="{ delay:1000, disableOnInteraction:false }" :navigation="false" :pagination="{ clickable: false, }" :modules="modules" class="mySwiper">
+                <swiper-slide>
+                  <img src="@/assets/img/used/bg10.png" alt="텐트 중고거래 광고">
+                </swiper-slide>
+                <swiper-slide>
+                  <img src="@/assets/img/used/ad2.png" alt="텐트 중고거래 광고">
+                </swiper-slide>
+              </swiper>
             </div>
           </div>
           <!--검색-->
@@ -337,7 +344,7 @@ export default {
       let data = {
         keyword: this.$route.query.search,
       }
-      
+
       fetch("http://13.125.95.210:85/java/used/usedSearch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -362,11 +369,11 @@ export default {
   created() {
     console.log(this.$route.query.search);
     let searchdata = this.$route.query.search;
-    
+
     if (searchdata != undefined) {
       //메인에서 서치하면 접근하는 경로
       this.mainSearch();
-    }else{
+    } else {
       //전체조회
       this.loadDataPage();
     }
@@ -378,6 +385,8 @@ export default {
 }
 
 </script>
+
+
 
 
 
