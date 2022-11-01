@@ -10,13 +10,6 @@
                             <button id="delete_btn" @click="[modalOpen = true, checkedInfo($event)]">삭제</button>
                         </div>
                     </div>
-                    <div class="select_note">
-                        <select class="select">
-                            <option value="orderby_current">최신순</option>
-                            <option value="orderby_order">오래된 순</option>
-                            <option vlaue="orderby_shared">공유중</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="container-fluid">
                     <div class="row">
@@ -86,6 +79,8 @@
 <script>
 import Modal from "./modal.vue"
 import Swal from 'sweetalert2';
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
 
 export default {
     name: "MynoteList",
@@ -267,7 +262,7 @@ export default {
             inputContainer.setAttribute('style', 'display:flex; flex-direction:column;')
             let inputEmail = document.createElement('input');
             inputEmail.setAttribute('class', 'input_email');
-            inputEmail.setAttribute('style', 'width: 600px; margin: 3% 0 0 10%; height: 50px; outline: none !important; text-align: center; box-shadow: 0 0 10px #9cfbe0; font-size: 20px; color:black;')
+            inputEmail.setAttribute('style', 'width: 450px; margin: 3% 0 0 12.5%; border:none; height: 50px; outline: none !important; text-align: center; box-shadow: 0 0 10px #26ce42; font-size: 20px; color:black;')
 
             inputContainer.append(inputEmail);
         },

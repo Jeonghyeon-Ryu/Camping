@@ -160,7 +160,7 @@ a:visited{
   flex-wrap: wrap;
   height: 690px;
   overflow: hidden;
-  justify-content: space-around;
+  /* justify-content: space-around; */
 }
 .sns-card {
   width: 300px;

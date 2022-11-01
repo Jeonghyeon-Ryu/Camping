@@ -8,11 +8,11 @@
             <div class="used-nav"></div>
             <div class="used-main" v-if="usedAd">
               <!-- <swiper :autoplay="true" 
-            :modules="modules" class="mySwiper">
-              <swiper-slide><img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고" /></swiper-slide>
-              <swiper-slide><img src="@/assets/img/bg11.png" alt="의자 중고거래 광고" /></swiper-slide>
-            </swiper> -->
-              <img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고">
+              :modules="modules" class="mySwiper">
+                <swiper-slide><img src="@/assets/img/bg10.png" alt="텐트 중고거래 광고" /></swiper-slide>
+                <swiper-slide><img src="@/assets/img/bg11.png" alt="의자 중고거래 광고" /></swiper-slide>
+              </swiper> -->
+              <img src="@/assets/img/used/bg10.png" alt="텐트 중고거래 광고">
             </div>
           </div>
           <!--검색-->

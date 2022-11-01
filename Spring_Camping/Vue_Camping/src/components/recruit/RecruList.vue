@@ -141,10 +141,10 @@
             </div>
         </form>
         <!-- 필터 결과-->
+        <div v-if="keywordValue" class="used-selected" style="justify-content:center">
+            <span>'{{keywordValue}}'</span>검색 결과
+        </div>
         <div class="used-selected">
-            <ul v-if="keywordValue">
-                <span>'{{keywordValue}}'</span>검색 결과
-            </ul>
             <ul>
                 <li v-if="filter.wishSex" @click="filter.wishSex=''">희망 성별 : {{filter.wishSex==0? '무관': filter.wishSex==1? '남자' : '여자'}} X</li>
                 <li v-if="filter.wishAge != ''" @click="filter.wishAge=[]">희망 연령 : {{toStringList(filter.wishAge)}} X</li>
@@ -241,6 +241,7 @@ export default{
             var memberRole = this.memberRole;
             var pageNum = this.pageNum;
             this.keywordValue = keyword;    //현재 키워드 저장
+            //검색 조회
             fetch(`http://13.125.95.210:85/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
             .then((response) =>response.json()) 
             .then(data => { 
@@ -333,6 +334,7 @@ export default{
             var keyword = this.keyword;
             var memberRole = this.memberRole;
             var pageNum = this.pageNum;
+            this.deleteFilter();
             this.keywordValue = keyword;    //현재 키워드 저장
             fetch(`http://13.125.95.210:85/java/recru/search/${memberRole}/${keyword}/${pageNum}`)
             .then((response) =>response.json()) 
@@ -575,6 +577,11 @@ export default{
             this.resetFilter;
             this.keyword='';
             this.keywordValue='';
+            this.recruMsg='';
+            this.deleteFilter();
+            this.loadDataPage();
+        },    
+        deleteFilter(){
             //필터 초기화버튼
             this.filter.wishSex=0;
             this.filter.wishAge=[];
@@ -584,8 +591,7 @@ export default{
             this.filter.goDateMax='';
             this.filter.searchMyGear=[];
             this.filter.searchNeedGear=[];
-            this.loadDataPage();
-        },       
+        }   
     }
 }
 </script>

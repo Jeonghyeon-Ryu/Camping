@@ -204,7 +204,7 @@ export default {
                 .catch(err => console.log(err));
         },
         getCompanion() {
-
+            this.$router.push()
         },
         modifyItemByUser() {
             if (this.$store.state.email != null) {
