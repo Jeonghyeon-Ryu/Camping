@@ -29,7 +29,14 @@
             <input type="text" :value="snsItem.place" readonly>
           </div>
         </div>
-        <div class="sns-control-button" v-show="$store.state.email == this.snsItem.email">
+        <div class="sns-control-button userControll" v-show="$store.state.email == this.snsItem.email">
+          <img v-bind:src="snsControlImg" @click="doSnsController">
+          <select disabled @change="doSelectController($event)" name="choose-control-reason" value="게시글 관리">
+            <option v-if="$store.state.auth != 0" value="글 수정" id="btn-update">글 수정</option>
+            <option value="글 삭제" id="btn-delete">글 삭제</option>
+          </select>
+        </div>
+        <div class="sns-control-button adminControll" v-show="$store.state.auth == 0">
           <img v-bind:src="snsControlImg" @click="doSnsController">
           <select disabled @change="doSelectController($event)" name="choose-control-reason" value="게시글 관리">
             <option v-if="$store.state.auth != 0" value="글 수정" id="btn-update">글 수정</option>
@@ -88,7 +95,7 @@
                 <img v-bind:src="blackheartImg">
               </div>
             </div>
-              <div class="sns-push-button-container3">
+            <div class="sns-push-button-container3">
               <div class="sns-like-count">
                 <p v-text="snsWriteCount"></p>
               </div>
@@ -377,7 +384,13 @@ export default {
             }
           })
           .catch(err => console.log(err))
+      } else {
+        Swal.fire({
+          confirmButtonText: '확인',
+          title: '로그인해주세요.',
+        })
       }
+
     },
     //좋아요 저장하기 delete
     doDislike() {
@@ -423,14 +436,22 @@ export default {
     },
     //글 수정삭제 버튼
     doSnsController() {
-      //if안쓰고 active시키는방법인듯.. 싱기함...
-      document.querySelector('.sns-control-button select').classList.toggle('active');
-      if (document.querySelector('.sns-control-button select').disabled) {
-        document.querySelector('.sns-control-button select').disabled = false;
+      if (this.$store.state.auth != 0) {
+        //if안쓰고 active시키는방법인듯.. 싱기함...
+        document.querySelector('.userControll select').classList.toggle('active');
+        if (document.querySelector('.userControll select').disabled) {
+          document.querySelector('.userControll select').disabled = false;
+        } else {
+          document.querySelector('.userControll select').disabled = true;
+        }
       } else {
-        document.querySelector('.sns-control-button select').disabled = true;
+        document.querySelector('.adminControll select').classList.toggle('active');
+        if (document.querySelector('.adminControll select').disabled) {
+          document.querySelector('.adminControll select').disabled = false;
+        } else {
+          document.querySelector('.adminControll select').disabled = true;
+        }
       }
-      // this.snsControlshow = !this.snsControlshow;
     },
     // @click="getUpdate(snsItem.writeNo)"
     //글 수정삭제 컨트롤
@@ -464,33 +485,69 @@ export default {
 
       console.log(snsInfo);
 
-      if (confirm("삭제하시겠습니까?")) {
-        fetch('http://13.125.95.210:85/java/snsDelete?writeNo=' + snsInfo.writeNo, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
+      Swal.fire({
+        title: '',
+        text: '정말로 삭제하시겠습니까?',
+        icon: 'warning',
 
-          },
-          body: JSON.stringify(snsInfo)
-        })
-          .then(result => result.text())
-          .then(result => {
-            this.$router.push({ path: "/sns" })
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+        confirmButtonText: '네', // confirm 버튼 텍스트 지정
+        showCancelButton: true,
+        cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
+
+        reverseButtons: false, // 버튼 순서
+
+      }).then(result => {
+
+        if (result.isConfirmed) {
+          fetch('http://13.125.95.210:85/java/snsDelete?writeNo=' + snsInfo.writeNo, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+
+            },
+            body: JSON.stringify(snsInfo)
           })
-          .catch(err => console.log(err))
-      }
+            .then(result => result.text())
+            .then(result => {
+              this.$router.push({ path: "/sns/" + undefined })
+            })
+            .catch(err => console.log(err))
+            .then(Swal.fire('삭제되었습니다'))
+            .finally(this.$router.push({ path: "/sns/" + undefined }))
+        }
+      });
     },
     //관리자 삭제
     getDeleteByAdmin() {
-      if (confirm("삭제하시겠습니까?")) {
+      Swal.fire({
+        title: '',
+        text: '정말로 삭제하시겠습니까?',
+        icon: 'warning',
 
-        fetch('http://13.125.95.210:85/java/snsDeleteByAdmin?writeNo=' + this.writeNo, {
-          method: 'DELETE'
-        }).then(result => result.text())
-          .then(result => {
-            this.$router.push({ path: "/sns" })
-          }).catch(err => console.log(err))
-      }
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+        confirmButtonText: '네', // confirm 버튼 텍스트 지정
+        showCancelButton: true,
+        cancelButtonText: '아니오', // cancel 버튼 텍스트 지정
+
+        reverseButtons: false, // 버튼 순서
+
+      }).then(result => {
+
+        if (result.isConfirmed) {
+
+          fetch('http://13.125.95.210:85/java/snsDeleteByAdmin?writeNo=' + this.writeNo, {
+            method: 'DELETE'
+          }).then(result => result.text())
+            .then(result => {
+              this.$router.push({ path: "/sns/" + undefined })
+            }).catch(err => console.log(err))
+            .then(Swal.fire('삭제되었습니다'))
+            .finally(this.$router.push({ path: "/sns/" + undefined }))
+        }
+      });
     },
 
     testClick: function () {
@@ -542,31 +599,39 @@ export default {
       // debugger
       console.log(comment);
 
-      fetch('http://13.125.95.210:85/java/comment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(comment)
-      }).then(result => result.text())
-        .then(result => {
-          console.log(result);
-          if (result == "true") {
-            Swal.fire({
-              title: '댓글이 등록되었습니다',
-              confirmButtonText: '확인',
-            }).then((result) => {
-              /* Read more about isConfirmed, isDenied below */
-              if (result.isConfirmed) {
-                //현재페이지 새로고침!
-                this.$router.go(0)
-              }
-            })
+      if (this.$store.state.email != null) {
+
+        fetch('http://13.125.95.210:85/java/comment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(comment)
+        }).then(result => result.text())
+          .then(result => {
+            console.log(result);
+            if (result == "true") {
+              Swal.fire({
+                title: '댓글이 등록되었습니다',
+                confirmButtonText: '확인',
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                  //현재페이지 새로고침!
+                  this.$router.go(0)
+                }
+              })
 
 
-          }
+            }
+          })
+          .catch(err => console.log(err))
+      } else {
+        Swal.fire({
+          confirmButtonText: '확인',
+          title: '로그인 후 이용해주세요.',
         })
-        .catch(err => console.log(err))
+      }
     },
 
     //댓글에서 @닉네임 부분 가져오기

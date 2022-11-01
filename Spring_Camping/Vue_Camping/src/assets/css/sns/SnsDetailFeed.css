@@ -465,7 +465,8 @@
   right: 10px;
   cursor: pointer;
   background-color: #337ab7;
-  border: 1px solid #2e6da4;
+  border: none;
+  /* border: 1px solid #2e6da4; */
   border-radius: 5px;
   font-weight: bold;
   color: azure;

@@ -175,7 +175,7 @@ export default {
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
-                this.$router.push({ name: 'SnsMain' })
+                this.$router.push({ path : "/sns/" + undefined })
               }
             })
           }else if(result != "true"){
