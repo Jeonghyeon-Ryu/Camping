@@ -306,8 +306,6 @@ export default {
                 headers: {},
                 body: formData
             }).then(result => {
-                console.log("insert fetch 결과")
-                console.log(result);
                 this.$router.push({
                     name: "MynoteList"
                 })
