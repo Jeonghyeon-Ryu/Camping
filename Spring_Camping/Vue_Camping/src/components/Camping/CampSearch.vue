@@ -40,14 +40,14 @@ export default {
             this.resultItem=[];
             if (select == '이름') {
                 // location.href = "http://localhost:8082/used/usedMain?search=" + search
-                fetch('http://localhost:8087/java/camp/name?campName=' + search)
+                fetch('http://13.125.95.210:85/java/camp/name?campName=' + search)
                     .then(result => result.json())
                     .then(result => {
                         this.$emit("search", result);
                     })
             } else if (select == '주소') {
                 // location.href = "http://localhost:8082/CampList?search=" + search
-                fetch('http://localhost:8087/java/camp/address?campAddress=' + search)
+                fetch('http://13.125.95.210:85/java/camp/address?campAddress=' + search)
                     .then(result => result.json())
                     .then(result => {
                         console.log(result);

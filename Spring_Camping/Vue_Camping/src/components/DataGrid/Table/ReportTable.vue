@@ -205,7 +205,7 @@ export default {
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch('http://localhost:8087/java/report', {
+          fetch('http://13.125.95.210:85/java/report', {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -230,7 +230,7 @@ export default {
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch('http://localhost:8087/java/report', {
+          fetch('http://13.125.95.210:85/java/report', {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -256,7 +256,7 @@ export default {
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch('http://localhost:8087/java/report', {
+          fetch('http://13.125.95.210:85/java/report', {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
