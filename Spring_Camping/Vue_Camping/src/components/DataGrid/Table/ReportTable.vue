@@ -14,8 +14,11 @@
       <li v-for="data of rows" class="table-body row">
         <input type="checkbox" name="checkedUser" value="" />
         <div class="table-column" v-for="column of columns">
-          <div v-if="column.type!=Date && column.prop!='boardDivision'">{{data[column.prop]}}</div>
-          <div v-if="column.type!=Date && column.prop=='boardDivision'">{{ $filters.formatBoardDivision(data[column.prop]) }}</div>
+          <div v-if="column.type!=Date && column.prop!='boardDivision' && column.prop!='status'">{{data[column.prop]}}</div>
+          <div v-if="column.type!=Date && column.prop=='boardDivision' && column.prop!='status'">{{
+          $filters.formatBoardDivision(data[column.prop]) }}</div>
+          <div v-if="column.type!=Date && column.prop!='boardDivision' && column.prop=='status'">{{
+          $filters.formatReportStatus(data[column.prop]) }}</div>
           <div v-if="column.type==Date">{{ $filters.formatDate(data[column.prop]) }}</div>
         </div>
         <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data)"></TableButton>
@@ -27,9 +30,9 @@
     </ul>
     <Pagination :startPage="startPage" :endPage="endPage" :totalPage="totalPage" @changePage="changePage">
     </Pagination>
-    <ModifyModal v-if="isModify" :columns="columns" :modifyData="modifyData" @cancelModify="cancelModify"
+    <ModifyModalReport v-if="isModify" :columns="columns" :modifyData="modifyData" @cancelModify="cancelModify"
       @confirmModify="confirmModify">
-    </ModifyModal>
+    </ModifyModalReport>
 
   </div>
 </template>
@@ -42,6 +45,7 @@ import TableButton from "../TableButton/TableButton.vue";
 import Swal from 'sweetalert2';
 import ModifyModal from "../Modal/ModifyModal.vue";
 import ExcelExport from "../Export/ExcelExport.vue";
+import ModifyModalReport from "../Modal/ModifyModalReport.vue";
 
 export default {
   props: ["reportData", "perPage"],
@@ -74,6 +78,12 @@ export default {
           name: "신고일자",
           prop: "regdate",
           type: Date
+        },
+        {
+          name: "상태",
+          prop: "status",
+          sortable: true,
+          type: Number
         }
       ],
       rows: [],
@@ -184,8 +194,8 @@ export default {
     },
     remove: function (data) {
       Swal.fire({
-        title: '회원정보를 삭제하시겠습니까?',
-        text: '회원정보가 영구히 삭제됩니다.',
+        title: '신고내용을 삭제하시겠습니까?',
+        text: '산고내용이 영구히 삭제됩니다.',
         showCancelButton: true,
         confirmButtonText: '삭제',
         cancelButtonText: '취소'
@@ -197,34 +207,44 @@ export default {
     },
     limit: function (data) {
       Swal.fire({
-        title: '회원 접근을 제한하시겠습니까?',
-        text: '회원의 접근이 제한됩니다.',
+        title: '신고 처리를 반려하시겠습니까?',
         showCancelButton: true,
-        confirmButtonText: '제한',
+        confirmButtonText: '반려',
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('접근제한 완료 !', '', 'success')
+          Swal.fire('반려 완료 !', '', 'success')
         }
       })
     },
     active: function (data) {
       Swal.fire({
-        title: '회원 접근을 허용하시겠습니까?',
-        text: '회원의 접근제한이 해제됩니다.',
+        title: '신고 처리 완료 하시겠습니까?',
+        text: '신고 내용이 정상적으로 처리되었음을 알립니다.',
         showCancelButton: true,
-        confirmButtonText: '해제',
+        confirmButtonText: '완료',
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('접근제한 해제 완료 !', '', 'success')
+          Swal.fire('처리완료 알림 완료 !', '', 'success')
         }
       })
     },
     cancelModify: function () {
       this.modifyData = [];
       this.isModify = false;
-    }
+    },
+    confirmModify: function (modifyData) {
+      if (modifyData.boardDivision == 0) {
+        this.$router.push({name:'CampDetail', params: {campId:modifyData.boardId}});
+      } else if (modifyData.boardDivision == 1) {
+        this.$router.push({name:'recruDetail', params: {recruId:modifyData.boardId}});
+      } else if (modifyData.boardDivision == 2) {
+        this.$router.push({name:'usedDetail', params: {writeNo:modifyData.boardId}});
+      } else if (modifyData.boardDivision == 3) {
+        this.$router.push({name:'SnsDetail', params: {writeNo:modifyData.boardId}});
+      }
+    },
   },
   watch: {
     currentPage: function () {
@@ -258,7 +278,7 @@ export default {
       this.$forceUpdate();
     }
   },
-  components: { Pagination, Sort, Filtering, TableButton, ModifyModal, ExcelExport }
+  components: { Pagination, Sort, Filtering, TableButton, ModifyModal, ExcelExport, ModifyModalReport }
 }
 </script>
 

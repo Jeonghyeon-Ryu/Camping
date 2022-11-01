@@ -134,6 +134,11 @@ const routes = [{
     component: () => import('@/components/recruit/EntryMypageView.vue'),
   },
   {
+    name: 'Usage',
+    path: '/Usage',
+    component: () => import('@/components/note/Usage.vue'),
+  },
+  {
     name: 'WriteNote',
     path: '/WriteNote',
     component: () => import('@/components/note/WriteNote.vue'),

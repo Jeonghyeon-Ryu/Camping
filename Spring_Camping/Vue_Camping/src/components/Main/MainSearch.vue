@@ -4,7 +4,7 @@
         <div class="search-top">
             <div class="select-container">
                 <select class="search-select">
-                    <option disabled selected>게시판 선택 </option>
+                    <option disabled selected>게시판 </option>
                     <option>어디갈래?</option>
                     <option>같이갈래?</option>
                     <option>중고장터</option>
