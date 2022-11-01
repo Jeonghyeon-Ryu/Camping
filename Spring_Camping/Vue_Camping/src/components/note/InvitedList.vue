@@ -14,7 +14,7 @@
                 </div>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="card text-white bg-success mb-3" v-for="info in listInfo" :key="info.noteId">
+                        <div class="card text-white bg-info mb-3" v-for="info in listInfo" :key="info.noteId">
                             <div class="card-header">
                                 <div class="noteId">{{ info.noteId }}</div>
                                 <div class="note_state">{{ info.noteState }}</div>
@@ -50,13 +50,6 @@ export default {
             noteId: [],
             myNoteId: this.$route.params.noteId,
             listInfo: [],
-            cardClass: [
-                "card text-white bg-secondary mb-3",
-                "card text-white bg-success mb-3",
-                "card text-white bg-dark mb-3",
-                "card text-dark bg-info mb-3",
-                "card text-white bg-danger mb-3"
-            ],
             /*체크박스 상태 */
             show: false,
             /*모달창 상태*/
@@ -80,14 +73,6 @@ export default {
         },
         deleteInvite() {
             this.visible = !this.visible;
-        },
-        changeCardColor() {
-            if (this.noteState === "공유중") {
-                this.cardClass = "card text-white bg-dark mb-3";
-            }
-            else {
-                this.cardClass = "card text-white bg-success mb-3";
-            }
         },
         //card에 들어갈 info
         getInvitedListInfo() {
@@ -217,6 +202,9 @@ export default {
 };
 </script>
     
-<style scoped src="@/assets/css/note/MynoteList.css">
-
+<style scoped lang="scss">
+::v-deep .myNoteList {
+    @import "bootstrap/dist/css/bootstrap.min.css";
+    @import "@/assets/css/note/InvitedList.css";
+}
 </style>

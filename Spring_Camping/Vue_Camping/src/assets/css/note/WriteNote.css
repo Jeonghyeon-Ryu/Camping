@@ -47,20 +47,21 @@
     display: flex;
     flex-direction: row;
     position: relative;
+    min-width: 1100px;
 }
 .mynote_region>div{ 
     margin: 0 0 10px 20px;
 }
 .write_menu {
-    width: 120px;
+    width: 17%;
     margin-right: 10px;
 }
 
 .write_region {
     position: absolute;
     left :15%;
-    width: calc(100% - 120px);
-    min-width: 100px;
+    width: calc(100% - 200px);
+    min-width: 1000px;
 }
 
 .sortable {
@@ -76,8 +77,17 @@ textarea{
     padding: 10px 10px;
     font-size: 15px;
     height: 50%;
-    outline-color:rgb(127, 199, 175);
-   
+    outline-color:rgb(127, 199, 175);   
+    min-height: 20px;
+    resize: none;
+    overflow: hidden;
+    background-color: transparent;
+    border: 2px solid #000;
+    border-radius: 4px;
+    font-family: "Inconsolata", monospace;
+    font-size: 1rem;
+    color: #000;
+    border: none;
 }
 
 .note_title {
@@ -91,21 +101,23 @@ textarea{
 
 .text_highlighter {
     margin-top: 30px;
+    width: 40%;
+}
+.css_button{
+    background-color: transparent;
 }
 .textarea_container{ 
     width : 100%;
     /*height: fit-content;*/
   }
 .write_fn {
-    
-    
     display: flex;
     height: fit-content;
     cursor: pointer;
     margin-bottom: 10px;
     border: none;
-    width: 90%;
-    
+    width: 80%;
+    min-width: 800px;
 }
 .fn_menu>div {
     
@@ -120,11 +132,12 @@ textarea{
 .fn_menu {
     margin-left: 45px;
     border: 1px solid lightgray;
-    width: 100%;
+    width: 65%;
     display: flex;
     flex-direction: column;
     top: 30px;
     align-items: center;
+    min-width:200px;
 }
 .add_fn_container {
     margin-top: 20px;
@@ -135,19 +148,25 @@ textarea{
     margin-bottom: 10px;
     text-align: center;
 }
+.add_fn_container>div>img {
+    margin-top: 10px;
+    width: 40px;
+    align-content: center;
+}
 
 .text_fn_container {
     display: flex;
     flex-direction: column;
 }
-
 .highlighter_menu {
     display: flex;
     flex-direction: row;
 }
-
 .highlighter_menu>button {
     margin: 0 3px 0 3px;
+}
+.highlighter_menu>button>img{
+    width:25px;
 }
 #foreColor{ 
     width: 107px;
@@ -255,6 +274,7 @@ select:disabled {
 
 .del_row {
     width: 50px;
+    opacity:0;
 }
 
 .col_addbtn {
@@ -281,14 +301,15 @@ select:disabled {
 .row-button-container {
     width: 30px;
     border: none !important;
-
+    
 }
 
 .row_delbtn {
-    opacity: 0.6;
+    opacity: 0;
     transition-duration: 0.5s;
     background-color: transparent;
     border: none;
+    
 
 }
 
@@ -369,7 +390,7 @@ select:disabled {
 .btn_container {
     display: flex;
     flex-direction: row;
-    opacity: 0.6;
+    opacity:0;
     transition-duration: 0.5s;
 }
 
@@ -385,6 +406,8 @@ select:disabled {
 }
 .save_btn{ 
     margin : 10px 0 10px 0;
+    background-color: transparent;
+    color: black;
 }
 .textbox {
     background-color: beige;
