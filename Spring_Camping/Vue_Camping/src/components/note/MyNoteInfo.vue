@@ -449,7 +449,7 @@ export default {
                 console.log(key + " : ", value);
             })
 
-            fetch('http://localhost:8087/java/UpdateNoteInfo', {
+            fetch('http://13.125.95.210:85/java/UpdateNoteInfo', {
                 method: 'POST',
                 headers: {},
                 body: formData

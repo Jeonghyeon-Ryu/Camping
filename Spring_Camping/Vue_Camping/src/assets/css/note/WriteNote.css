@@ -2,7 +2,8 @@
 .mynote_container {
     margin-top: 150px;
     width: 100%;
-    min-width: 650px;
+    min-width: 800px;
+    height: 2000px;
 }
 .mynote_menu {
     width: 100%;
@@ -42,7 +43,7 @@
     margin-top: 5px;
     padding: 5px;
     width: 100%;
-    height: 600px;
+    height: 100%;
     vertical-align: left;
     display: flex;
     flex-direction: row;
@@ -58,9 +59,10 @@
 
 .write_region {
     position: absolute;
-    left :15%;
+    left :8%;
     width: calc(100% - 120px);
-    min-width: 100px;
+    min-width: 1000px;
+    height: 100%;
 }
 
 .sortable {
@@ -75,7 +77,8 @@ textarea{
     border : none;
     padding: 10px 10px;
     font-size: 15px;
-    height: 50%;
+    height: 100px;
+    min-width: 1000px;
     outline-color:rgb(127, 199, 175);
    
 }
@@ -93,7 +96,7 @@ textarea{
     margin-top: 30px;
 }
 .textarea_container{ 
-    width : 100%;
+    width : 80%;
     /*height: fit-content;*/
   }
 .write_fn {
