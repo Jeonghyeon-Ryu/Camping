@@ -19,7 +19,7 @@ export default {
             perPage: 20
         }
     },
-    created : function(){
+    created: function () {
         fetch('http://13.125.95.210:85/java/report')
             .then(result => result.json())
             .then(result => {

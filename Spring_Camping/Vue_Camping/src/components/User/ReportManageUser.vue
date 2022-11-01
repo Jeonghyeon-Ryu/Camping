@@ -20,7 +20,7 @@ export default {
         }
     },
     created : function(){
-        fetch('http://13.125.95.210:85/java/report')
+        fetch('http://localhost:8087/java/report/'+this.$store.state.email)
             .then(result => result.json())
             .then(result => {
                 console.log(result);

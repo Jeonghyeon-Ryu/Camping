@@ -141,6 +141,9 @@ select option {
     align-items: center;
     position: relative;
 }
+.search-top>img{
+    cursor: pointer;
+}
 
 .search-select {
     width: 100%;

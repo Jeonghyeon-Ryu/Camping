@@ -3,7 +3,7 @@
     <ul>
       <li class="table-header row">
         <input @click="checkAll($event)" type="checkbox" name="checkedUser" value="" />
-        <div class="table-column" v-for="column of columns">{{column.name}}
+        <div class="table-column" v-for="column of columns">{{ column.name }}
           <Sort v-if="column.sortable" :column="column.prop" @sort="getSortData"></Sort>
           <Filtering :datas="reportData" :column="column.prop" :type="column.type"></Filtering>
         </div>
@@ -11,21 +11,26 @@
           <ExcelExport :inputData="reportData"></ExcelExport>
         </div>
       </li>
-      <li v-for="data of rows" class="table-body row">
+      <li v-for="(data, index) of rows" class="table-body row">
         <input type="checkbox" name="checkedUser" value="" />
         <div class="table-column" v-for="column of columns">
-          <div v-if="column.type!=Date && column.prop!='boardDivision' && column.prop!='status'">{{data[column.prop]}}</div>
-          <div v-if="column.type!=Date && column.prop=='boardDivision' && column.prop!='status'">{{
-          $filters.formatBoardDivision(data[column.prop]) }}</div>
-          <div v-if="column.type!=Date && column.prop!='boardDivision' && column.prop=='status'">{{
-          $filters.formatReportStatus(data[column.prop]) }}</div>
-          <div v-if="column.type==Date">{{ $filters.formatDate(data[column.prop]) }}</div>
+          <div v-if="column.type != Date && column.prop != 'boardDivision' && column.prop != 'status'">{{
+              data[column.prop]
+          }}
+          </div>
+          <div v-if="column.type != Date && column.prop == 'boardDivision' && column.prop != 'status'">{{
+              $filters.formatBoardDivision(data[column.prop])
+          }}</div>
+          <div v-if="column.type != Date && column.prop != 'boardDivision' && column.prop == 'status'">{{
+              $filters.formatReportStatus(data[column.prop])
+          }}</div>
+          <div v-if="column.type == Date">{{ $filters.formatDate(data[column.prop]) }}</div>
         </div>
-        <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data)"></TableButton>
-        <TableButton v-if="removebtn" :type="'remove'" @remove="remove(data)"></TableButton>
+        <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data, index)"></TableButton>
+        <TableButton v-if="removebtn && $store.state.auth==0" :type="'remove'" @remove="remove(data, index)"></TableButton>
         <!-- v-if="data.status == 0 ? 1? 판별해서 limit active 둘중 하나만 띄우는거 필요" -->
-        <TableButton :type="'limit'" @limit="limit(data)"></TableButton>
-        <TableButton :type="'active'" @active="active(data)"></TableButton>
+        <TableButton v-if="$store.state.auth==0" :type="'limit'" @limit="limit(data, index)"></TableButton>
+        <TableButton v-if="$store.state.auth==0" :type="'active'" @active="active(data, index)"></TableButton>
       </li>
     </ul>
     <Pagination :startPage="startPage" :endPage="endPage" :totalPage="totalPage" @changePage="changePage">
@@ -188,24 +193,36 @@ export default {
       styleResult = styleResult + ' 25px 25px';
       document.querySelector('.table').style.setProperty('--gridTemplate', styleResult);
     },
-    modify: function (data) {
+    modify: function (data, index) {
       this.modifyData = data;
       this.isModify = true;
     },
-    remove: function (data) {
+    remove: function (data, index) {
       Swal.fire({
-        title: '신고내용을 삭제하시겠습니까?',
-        text: '산고내용이 영구히 삭제됩니다.',
+        title: '신고를 미처리로 변경하시겠습니까?',
         showCancelButton: true,
-        confirmButtonText: '삭제',
+        confirmButtonText: '미처리',
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('삭제 취소 !', '', 'success')
+          fetch('http://localhost:8087/java/report', {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              reportId: data.reportId,
+              status: 0
+            })
+          }).then(result => result.text())
+            .then(result => {
+              if (result == "true") {
+                this.rows[index].status = 0;
+                Swal.fire('미처리 변경 !', '', 'success')
+              }
+            })
         }
       })
     },
-    limit: function (data) {
+    limit: function (data, index) {
       Swal.fire({
         title: '신고 처리를 반려하시겠습니까?',
         showCancelButton: true,
@@ -213,11 +230,24 @@ export default {
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('반려 완료 !', '', 'success')
+          fetch('http://localhost:8087/java/report', {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              reportId: data.reportId,
+              status: 2
+            })
+          }).then(result => result.text())
+            .then(result => {
+              if (result == "true") {
+                this.rows[index].status = 2;
+                Swal.fire('반려 완료 !', '', 'success');
+              }
+            })
         }
       })
     },
-    active: function (data) {
+    active: function (data, index) {
       Swal.fire({
         title: '신고 처리 완료 하시겠습니까?',
         text: '신고 내용이 정상적으로 처리되었음을 알립니다.',
@@ -226,7 +256,20 @@ export default {
         cancelButtonText: '취소'
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('처리완료 알림 완료 !', '', 'success')
+          fetch('http://localhost:8087/java/report', {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              reportId: data.reportId,
+              status: 1
+            })
+          }).then(result => result.text())
+            .then(result => {
+              if (result == "true") {
+                this.rows[index].status = 1;
+                Swal.fire('처리 완료 !', '', 'success')
+              }
+            })
         }
       })
     },
@@ -236,13 +279,13 @@ export default {
     },
     confirmModify: function (modifyData) {
       if (modifyData.boardDivision == 0) {
-        this.$router.push({name:'CampDetail', params: {campId:modifyData.boardId}});
+        this.$router.push({ name: 'CampDetail', params: { campId: modifyData.boardId } });
       } else if (modifyData.boardDivision == 1) {
-        this.$router.push({name:'recruDetail', params: {recruId:modifyData.boardId}});
+        this.$router.push({ name: 'recruDetail', params: { recruId: modifyData.boardId } });
       } else if (modifyData.boardDivision == 2) {
-        this.$router.push({name:'usedDetail', params: {writeNo:modifyData.boardId}});
+        this.$router.push({ name: 'usedDetail', params: { writeNo: modifyData.boardId } });
       } else if (modifyData.boardDivision == 3) {
-        this.$router.push({name:'SnsDetail', params: {writeNo:modifyData.boardId}});
+        this.$router.push({ name: 'SnsDetail', params: { writeNo: modifyData.boardId } });
       }
     },
   },

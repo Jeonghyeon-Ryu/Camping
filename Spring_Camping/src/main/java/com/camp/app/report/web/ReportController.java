@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,11 +34,19 @@ public class ReportController {
 //		} else {
 //			return service.showReportByUser(email);
 //		}
-		
+	}
+	@GetMapping("/report/{email}")
+	public List<ReportVO> showReportByUser(@PathVariable String email) {
+		return service.showReportByUser(email);
 	}
 	
 	@PostMapping("/report")
 	public boolean addReport(@RequestBody ReportVO report) {
 		return service.addReport(report);
+	}
+	
+	@PutMapping("/report")
+	public boolean modifyReport(@RequestBody ReportVO report) {
+		return service.modifyReport(report);
 	}
 }

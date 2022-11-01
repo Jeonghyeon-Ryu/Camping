@@ -204,7 +204,7 @@ const routes = [{
   {
     name: 'ReportUser',
     path: '/User/Report',
-    component: () => import('@/components/User/ReportManage.vue'),
+    component: () => import('@/components/User/ReportManageUser.vue'),
   },
   {
     name: 'RecruReview',
