@@ -216,54 +216,54 @@ export default {
 }
 </script>
 <style scoped src="@/assets/css/used/UsedMain.css" />
-<style>
+<style scoped>
 
 .blue-btn{
-  width: 190px;
-  height: 30px;
+  width: 190px  !important;
+  height: 30px  !important;
 }
 .blue-btn a{
-  color: rgb(34, 34, 34);
-  text-decoration:none;
+  color: rgb(34, 34, 34) !important;
+  text-decoration:none !important;
   /* margin-top: 0em; */
-  text-align: center;
-  display:inline-block; /* important */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: center !important;
+  display:inline-block !important; /* important */
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .blue-btn, .first-link{
-  -webkit-transition: 3.3s;
-  -moz-transition: 3.3s;
-  transition: 3.3s;     
-  -webkit-transition-timing-function: linear;
-  -moz-transition-timing-function: linear;
-  transition-timing-function: linear;
+  -webkit-transition: 3.3s !important;
+  -moz-transition: 3.3s !important;
+  transition: 3.3s !important;     
+  -webkit-transition-timing-function: linear !important;
+  -moz-transition-timing-function: linear !important;
+  transition-timing-function: linear !important;
 }
 
 
 .blue-btn{
-  height: 25px;
-  overflow: hidden;
-  width: 190px;
-  background-color: #ffffff;
+  height: 25px !important;
+  overflow: hidden !important;
+  width: 190px !important;
+  background-color: #ffffff !important;
 }
 
 .blue-btn:hover{
-   background-color: #ffffff;
+   background-color: #ffffff !important;
 }
 
 .blue-btn a:hover{
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .first-link{
-  margin-left: 0em;   
+  margin-left: 0em !important;   
 }
 
 .blue-btn:hover .first-link{
-  margin-left: -210px;
+  margin-left: -210px !important;
 }
 
 </style>
