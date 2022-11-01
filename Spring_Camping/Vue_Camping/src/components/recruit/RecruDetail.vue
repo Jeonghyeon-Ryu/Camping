@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div v-if="recruPost.noteId" class="recru-detail-row mynote-page">
-                <h3>마이 노트<span class="what-is-note">❔</span></h3>
+                <h3>{{recruPost.nickname}}님의 노트<span class="what-is-note">?</span></h3>
                 <ReadOnlyNoteVue :noteId="recruPost.noteId"></ReadOnlyNoteVue>
             </div>
 

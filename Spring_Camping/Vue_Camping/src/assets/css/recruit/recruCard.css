@@ -59,22 +59,15 @@
     min-width: 100%
   }
   .recru-card:hover .recru-card-body{
-    transform: translateY(-65%);
+    transform: translateY(-70%);
     background-color: rgba(255, 255, 255, 0.8);
     /* opacity: 0.2; */
     /* height:8%; */
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
-  }
-  /* 카드 헤더 글씨 - 모집상태 */
-  .card-header-text{
-    font-weight: bold;
-    margin: 10px 10px;
-    min-width: 50px;
-    color: greenyellow;
-  } 
-  .recru-card:hover .card-header-text{
-    display: none;
+  }  
+  .recru-card:hover h1{
+    margin: 30px 0 0 0;
   }
   /* 카드 바디 - 준상세 */
   .recru-card-body{
@@ -85,10 +78,18 @@
     transition: all 0.3s;
     text-align: left;
     position: absolute;
-    top:65%;
+    top:70%;
   }
   .recru-card-body span{
-    color: darkred;
+    font-size: small;
+    display: inline-block;
+    color: rgb(255, 255, 255);
+    background: rgb(124, 182, 218);
+    border-radius: 5px;
+    padding: 3px 5px;
+  }
+  .card-body-need>span{
+    background: rgb(155, 129, 168);
   }
   .recru-card-body h1 {
     color: white;

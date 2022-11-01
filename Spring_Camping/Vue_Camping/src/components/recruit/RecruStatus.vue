@@ -51,4 +51,7 @@ export default{
     background: gray;
     color: white;
  }
+ p{
+  margin: 0;
+ }
 </style>

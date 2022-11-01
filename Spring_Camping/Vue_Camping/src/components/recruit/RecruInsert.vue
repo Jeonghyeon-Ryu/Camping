@@ -238,7 +238,7 @@ export default{
     mounted(){
         console.log(this.campName)
         //주소정보 받았다면 도착지에 넣어주기
-        if(this.campAddress != ''){
+        if(this.campAddress != '' && this.campAddress != null){
             document.getElementsByName('campP_address_kakao')[0].value = this.campAddress;
             document.getElementsByName('campP_address_detail')[0].value = this.campName;
             document.getElementsByName('campP_address_detail')[0].focus();

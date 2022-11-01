@@ -163,7 +163,7 @@
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
                     <p class="card-status-btn" v-if="recruInfo.status==1" >작성자 삭제</p>
                     <p class="card-status-btn" v-if="recruInfo.status==2" >관리자 삭제</p>
-                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
+                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;z-index: 10;"></RecruStatus>
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
