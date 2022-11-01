@@ -143,11 +143,27 @@ export default {
         },
         body: JSON.stringify(snsInfo)
       }).then(result => result.text())
-        .then(result => console.log(result))
+        .then(result => 
+        console.log(result))
         .catch(err => console.log(err))
 
       // window.alert("수정이 완료되었습니다.")
-      if (confirm("수정하시겠습니까?")) {
+      Swal.fire({
+        title: '',
+        text: '게시글을 공유하겠습니까?',
+        icon: 'question',
+
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+        confirmButtonText: '등록', // confirm 버튼 텍스트 지정
+        showCancelButton: true,
+        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+
+        reverseButtons: false, // 버튼 순서
+
+      }).then(result => {
+
+        if (result.isConfirmed) {
         window.location.href = ("/sns/detail/" + this.writeNo)
       }
 
@@ -175,6 +191,7 @@ export default {
       //     }
       //   });
       // }
+    });
     },
     //정현님 위치지도 참고
     snsAddress() {

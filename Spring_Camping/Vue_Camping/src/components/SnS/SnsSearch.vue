@@ -183,7 +183,7 @@ export default {
 
     /////////////////////////////////////////////////////
 
-    // 사용자 Id(숫자) 검색 함수
+    //닉네임 검색 함수
     doSearchId(searchVal) {//searchValue의 공간만들어주기
       this.searchResultNick = [];
       console.log(searchVal); // 내가 입력한거
