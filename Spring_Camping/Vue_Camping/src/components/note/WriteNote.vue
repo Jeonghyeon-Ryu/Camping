@@ -97,10 +97,77 @@
                 <div id="pdfDiv">
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
-                        <template v-for="(child, i) of childOrder" :key="i" class="creTextarea">
-                                <CreTextarea :type="child" @saveImg="saveImg" @creArea="CreArea($event)">
-                                </CreTextarea>
-                        </template>
+                        <!--<template v-if="datas">
+                            <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
+                                @creArea="CreArea($event)"></CreateLine>
+                        </template>-->
+                        
+                                <template v-for="(child, i) of childOrder" :key="i" class="creTextarea">
+                                        <CreTextarea :type="child" @saveImg="saveImg" @creArea="CreArea($event)"
+                                            v-if="textAmount >= i + 1" ref="childComponent{}">
+                                        </CreTextarea>
+                                </template>
+                           
+                        <!--<CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 2">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[2]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 3">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[3]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 4">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[4]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 5">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[5]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 6">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[6]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 7">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[7]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 8">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[8]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 9">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[9]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 10">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[10]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 11">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[11]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 12">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[12]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 13">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[13]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 14">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[14]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 15">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[15]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 16">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[16]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 17">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[17]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 18">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[18]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 19">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[19]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 20">
+                        </CreTextarea>
+                        <CreTextarea :type="childOrder[20]" @saveImg="saveImg" @creArea="CreArea($event)"
+                            v-if="textAmount >= 21">
+                        </CreTextarea>-->
                     </div>
                 </div>
             </div>
@@ -112,6 +179,8 @@
 <script>
 import $ from 'jquery';
 import CreTextarea from './CreTextarea.vue';
+import MyNoteList from './MynoteList.vue';
+
 
 export default {
     
@@ -255,19 +324,13 @@ export default {
             }
             this.images = dt.files;
             console.log('image ', this.images);
-        },
-        /*resize() {
-      let element = this.$refs["textarea"];
-
-      element.style.height = "18px";
-      element.style.height = element.scrollHeight + "px";
-    },*/
+        }
     },
     components: { CreTextarea }
 }
 
 </script>
 <style scoped src="@/assets/css/note/WriteNote.css">
-/*@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');*/
+
 </style>
 

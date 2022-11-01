@@ -11,11 +11,8 @@
 .btn_container {
     display: flex;
     flex-direction: row;
-    opacity: 0;
+    opacity: 0.6;
     transition-duration: 0.5s;
-}
-.btn_active {
-    opacity: 0.6 !important;
 }
 .drag_btn {
     width: 25px;
@@ -34,22 +31,13 @@
   /*height: fit-content;*/
 }
 textarea{ 
+    /*display: inline-block;*/
+    height: 10%;
     width: 100%; 
     border : none;
     padding: 10px 10px;
     font-size: 15px;
-    height: 50%;
-    outline-color:rgb(127, 199, 175);   
-    min-height: 20px;
-    resize: none;
-    overflow: hidden;
-    background-color: transparent;
-    border: 2px solid #000;
-    border-radius: 4px;
-    font-family: "Inconsolata", monospace;
-    font-size: 1rem;
-    color: #000;
-    border: none;
+    /*height: fit-content;*/
     
   
 }
