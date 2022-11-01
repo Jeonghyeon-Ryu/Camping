@@ -16,6 +16,7 @@
                         <div class="text_highlighter"></div>
 
                         <div class="highlighter_menu">
+                            ....
                             <button id="bold" class="css_button"><img src="@/assets/img/note/bold.png"></button>
                             <button id="italic" class="css_button"><img src="@/assets/img/note/italic.png"> </button>
                             <button id="underLine" class="css_button"><img

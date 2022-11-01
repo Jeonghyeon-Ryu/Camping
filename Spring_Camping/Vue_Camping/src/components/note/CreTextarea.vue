@@ -1,32 +1,31 @@
 <template>
-    <div class="write_fn" @mouseover="showBtn($event)" @mouseleave="hideBtn($event)">
-        <div class="left_container" >
-            <div class="btn_container" >
+    <div class="write_fn">
+        <div class="left_container">
+            <div class="btn_container">
                 <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
                 <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
             </div>
         </div>
         <div v-if="type == 'textBox'" class="textarea_container">
             <textarea class="write_place" v-on:keyup.shift="shiftfUp($event)" v-on:keydown.shift="shiftfDown($event)"
-                v-on:keydown.enter="creTextarea($event)" ></textarea>
+                v-on:keydown.enter="creTextarea($event)"></textarea>
         </div>
-        <div v-if="type == 'tableBox'" class='maked_table_place' @click="tableFn($event)">
+        <div v-if="type == 'tableBox'" class='maked_table_place' v-on:keydown.enter="creTextarea($event)">
             <div class='table_container'>
                 <button class='row_addbtn'><img src="@/assets/img/note/down_arrow.png" @click="addRow"
                         @mouseover="changeShow"></button>
                 <table class='maked_table'>
                     <tr class='item'>
-                        <td class="row-button-container">
-                            <button class='row_delbtn'><img src="@/assets/img/note/trash.png" class="rowDel_img"
-                                    @click="delRow($event)"></button>
+                        <td class="row-button-container" @mouseover="showBtn($event)">
+                            <button class='row_delbtn' @mouseover="showBtn($event)"><img src="@/assets/img/note/trash.png"
+                                    @click="delRow($event)" @mouseout="hideBtn"></button>
                         </td>
                         <td class='item_td'><input type="text" class="input_text"></td>
                         <td class='item_td'><input type="text" class="input_text"></td>
                     </tr>
                     <tr class='item'>
                         <td class="row-button-container">
-                            <button class='row_delbtn'><img src="@/assets/img/note/trash.png"
-                                @click="delRow($event)"></button>
+                            <button class='row_delbtn'><img src="@/assets/img/note/trash.png"></button>
                         </td>
                         <td class='item_td'><input type="text" class="input_text"></td>
                         <td class='item_td'><input type="text" class="input_text"></td>
@@ -77,21 +76,7 @@ export default {
     props: ["type"],
 
     methods: {
-        showBtn(e){ 
-            let target = e.target;
-            while (!target.classList.contains("write_fn")) {
-                target = target.parentElement;
-            }
-            target.querySelector('.btn_container').classList.add('btn_active');
-        },
-        hideBtn(e){
-            let target = e.target;
-            while (!target.classList.contains("write_fn")) {
-                target = target.parentElement;
-            }
-            target.querySelector('.btn_container').classList.remove('btn_active');
-            target.querySelector('.row_delbtn').classList.remove('btn_active');
-        },
+    
         creTextarea: function (e) {
             if (!this.shiftSatus) {
                 e.preventDefault();
@@ -112,70 +97,11 @@ export default {
             this.shiftSatus = true;
         },
         addRow: function (e) {
-            /*let thisTable = e.target.parentNode.nextSibling;
+            let thisTable = e.target.parentNode.nextSibling;
             let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
             copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
             $(thisTable).append(copyRow);
-            console.log('CreTextarea')*/
-            /*
-                <table class='maked_table'>
-                    <tr class='item'>
-                        <td class="row-button-container">
-                            <button class='row_delbtn'><img src="@/assets/img/note/trash.png"
-                                    @click="delRow($event)"></button>
-                        </td>
-                        <td class='item_td'><input type="text" class="input_text"></td>
-                        <td class='item_td'><input type="text" class="input_text"></td>
-                    </tr>*/
-            let tableContainer = e.target.parentElement;
-            while (!tableContainer.classList.contains('table_container')) {
-                tableContainer = tableContainer.parentElement;
-            }
-            let table = tableContainer.querySelector('.maked_table');
-            let tr = document.createElement('tr');
-            tr.setAttribute('class', 'item');
-            let firstTd = document.createElement('td');
-            firstTd.setAttribute('class', 'row-button-container');
-            
-            
-            let delBtn =  document.createElement('td');
-            delBtn.setAttribute('class', 'row_delbtn');
-            delBtn.setAttribute('style', 'opacity: 0; transition-duration: 0.5s; background-color: transparent; border: none;');
-
-           
-            let delImg =  document.createElement('img');
-            delImg.setAttribute('class', 'rowDel_img')
-            //delImg.setAttribute('style', 'padding-bottom:20px;') 
-            let delImgSrc = document.querySelector('.rowDel_img')
-            delImg.src = delImgSrc.src;
-
-            let secondTd = document.createElement('td');
-            secondTd.setAttribute('class', 'item_td')
-            secondTd.setAttribute('style', 'border: 2px solid lightgray; width: 200px; height: fit-content;')
-            
-            let inputText = document.createElement('input');
-            inputText.setAttribute('class', 'input_text')
-            inputText.setAttribute('type', 'text')
-            inputText.setAttribute('style', 'border:none; width: 100px; outline:none; height: 100%;')
-            
-            let thirdTd = document.createElement('td');
-            thirdTd.setAttribute('class', 'item_td')
-            thirdTd.setAttribute('style', 'border: 2px solid lightgray; width: 200px; height: fit-content;')
-
-            let inputText2 = document.createElement('input');
-            inputText2.setAttribute('class', 'input_text')
-            inputText2.setAttribute('type', 'text')
-            inputText2.setAttribute('style', 'border:none; width: 100px; outline:none; height: 100%;')
-
-            thirdTd.append(inputText2);
-            secondTd.append(inputText);
-            delBtn.append(delImg);
-            firstTd.append(delBtn);
-
-            tr.append(firstTd);
-            tr.append(secondTd);
-            tr.append(thirdTd);
-            table.append(tr);
+            console.log('CreTextarea')
 
         },
         addCol: function (e) {
@@ -200,29 +126,9 @@ export default {
             }
         },
         delRow: function (e) {
-            /*let findRow = e.target.parentElement.parentElement.parentElement;
+            let findRow = e.target.parentElement.parentElement.parentElement;
             if ($('.item').length > 1) {
                 $(findRow).remove();
-            }*/
-            let tableContainer = e.target.parentElement;
-            while (!tableContainer.classList.contains('table_container')) {
-                tableContainer = tableContainer.parentElement;
-            }
-            let delTrs = tableContainer.querySelectorAll('tr').length;
-            
-            let delTr = e.target.parentElement.parentElement.parentElement;
-            if(delTrs > 1){
-                delTr.remove();
-            }   
-        },
-        //여기서부터
-        tableFn(e){
-            let btnName = e.target.classList[0];
-            console.log('...',btnName)
-            if(btnName == 'row_delbtn'|| btnName == 'rowDel_img' ){
-                target.querySelector('.btn_container').classList.add('btn_active');
-                this.delRow(e);
-                
             }
         },
         creTablebox: function (e) {
@@ -243,6 +149,17 @@ export default {
             }
             this.images = dt.files;
             e.target.files = dt.files;
+        },
+        showBtn(e) {
+            this.btnActive = true;
+        },
+        hideBtn(e) {
+            this.btnActive = false;
+        },
+        changShow(e) {
+            
+            this.style.opacity = "opacity: 0.6";
+            console.log("asdasd");
         },
         checkListFn(e){
             let btnName = e.target.classList[0];
@@ -363,19 +280,11 @@ export default {
 
             this.$emit("saveImg", this.images);
         },
-       /* resize() {
-      let element = this.$refs["textarea"];
-
-      element.style.height = "18px";
-      element.style.height = element.scrollHeight + "px";
-    },*/
-  
 
     },
     components: { ImagePreview }
 }
 </script>
 <style scoped src="@/assets/css/note/WriteNote.css">
-/*@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');*/
 
 </style>
