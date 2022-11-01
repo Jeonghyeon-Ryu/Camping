@@ -129,10 +129,13 @@
     margin : 20px
 }
 .what-is-note{
+    width: 15px;
+    height: 15px;
+
     font-size:small;
     border: 2px solid gainsboro;
-    border-radius: 50%;
-    margin-bottom: 20px;
+    border-radius: 10%;
+
 }
 /* 버튼 */
 .recru-detail-btn{

@@ -155,6 +155,11 @@
                 <li v-if="filter.searchNeedGear != ''" @click="filter.searchNeedGear=[]">필요해요 : {{toStringList(filter.searchNeedGear)}} X</li>
             </ul>
         </div>
+        <!-- <select v-model="filter.recruStatus" id="recru-status-select" name='rStatus' @change="statusChange"> 
+            <option value=''>전체</option> 
+            <option value='0'>모집중</option>
+            <option value='1'>모집완료</option>
+        </select> -->
         <!-- 리스트 -->
         <div class="container">
             <!-- 카드 -->
@@ -163,7 +168,7 @@
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
                     <p class="card-status-btn" v-if="recruInfo.status==1" >작성자 삭제</p>
                     <p class="card-status-btn" v-if="recruInfo.status==2" >관리자 삭제</p>
-                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
+                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;z-index: 10;"></RecruStatus>
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
