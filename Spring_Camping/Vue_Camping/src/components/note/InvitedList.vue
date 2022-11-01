@@ -3,15 +3,6 @@
         <div class="myNoteList">
             <!-- 화면 -->
             <div class="mynote_container">
-                <div class="select_container">
-                    <div class="select_note">
-                        <select class="select">
-                            <option value="orderby_current">최신순</option>
-                            <option value="orderby_order">오래된 순</option>
-                            <option vlaue="orderby_shared">공유중</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="container-fluid">
                     <div class="row">
                         <div class="card text-white bg-success mb-3" v-for="info in listInfo" :key="info.noteId">
@@ -100,10 +91,6 @@ export default {
                 .then((response) => response.json())
                 .then(data => {
                     this.listInfo = data;
-                    console.log('====data')
-                    console.log(data);
-                    console.log('====listInfo')
-                    console.log(this.listInfo);
                 }).catch(err => console.log(err));
         },
         findId(e) {
@@ -116,7 +103,6 @@ export default {
             let checkedId = [];
             let checkedIds = {};
             for (let i = 0; i < checkBoxes.length; i++) {
-
                 if (checkBoxes[i].checked == true) {
                     this.noteId.push(checkBoxes[i].id);
                 }

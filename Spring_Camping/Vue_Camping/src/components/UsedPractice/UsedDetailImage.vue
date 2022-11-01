@@ -1,6 +1,8 @@
 <template>
     <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
-        <swiper-slide v-for="usedImage of images"><img :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName" onclick="window.open(this.src)"></swiper-slide>
+        <swiper-slide v-for="usedImage of images">
+            <img :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName" onclick="window.open(this.src)">
+        </swiper-slide>
     </swiper>
 </template>
 <script>
@@ -49,7 +51,6 @@ export default {
     width: 100%;
     height: 100%;
 }
-
 .swiper-slide{
     text-align: center;
     font-size: 18px;
@@ -84,7 +85,6 @@ export default {
     color: #F7EDDA;
     vertical-align: bottom;
 }
-
 .swiper-pagination-bullet {
     background: #F7EDDA;
     vertical-align: bottom;

@@ -24,9 +24,9 @@ import com.camp.app.note.service.NoteImgService;
 import com.camp.app.note.service.NoteImgVO;
 import com.camp.app.note.service.NoteService;
 import com.camp.app.note.service.NoteVO;
-//@RequestMapping("/java")
+@RequestMapping("/java")
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class NoteController {
 
 	@Autowired

@@ -655,15 +655,4 @@ export default {
 
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
 <style scoped src="@/assets/css/used/UsedDetail.css" />

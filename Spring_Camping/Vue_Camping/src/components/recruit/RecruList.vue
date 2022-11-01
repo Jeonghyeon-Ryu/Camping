@@ -155,15 +155,20 @@
                 <li v-if="filter.searchNeedGear != ''" @click="filter.searchNeedGear=[]">필요해요 : {{toStringList(filter.searchNeedGear)}} X</li>
             </ul>
         </div>
+        <!-- <select v-model="filter.recruStatus" id="recru-status-select" name='rStatus' @change="statusChange"> 
+            <option value=''>전체</option> 
+            <option value='0'>모집중</option>
+            <option value='1'>모집완료</option>
+        </select> -->
         <!-- 리스트 -->
-        <div class="container">
+        <div class="recru-card-container">
             <!-- 카드 -->
             <h2>{{recruMsg}}</h2>
             <div class="recru-card-box">
                 <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative">
                     <p class="card-status-btn" v-if="recruInfo.status==1" >작성자 삭제</p>
                     <p class="card-status-btn" v-if="recruInfo.status==2" >관리자 삭제</p>
-                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
+                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;z-index: 10;"></RecruStatus>
                     <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}" @click.prevent.stop>
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                     </router-link>
@@ -595,5 +600,39 @@ export default{
     }
 }
 </script>
-<style scoped src="@/assets/css/used/UsedMain.css"/>
 <style scoped src="@/assets/css/recruit/recruList.css"/>
+<style scoped >
+    .used-searchbox {
+    display: flex !important;
+    justify-content: center !important;
+    padding-bottom: 3% !important;
+    padding-bottom: 1% !important;
+    /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png') !important; */
+    }
+    .used-searchbox input {
+    width: 100% !important;
+    height: 60px !important;
+    text-align: center !important;
+    font-size: 1.2em !important;
+    padding: 10px !important;
+    border: 2px solid #e6e6e6 !important;
+    /* border-radius: 7px !important; */
+    /* box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px !important; */
+    margin-bottom: 2% !important;
+    }
+
+    .used-searchbox>div {
+    width: 55% !important;
+    height: fit-content !important;
+    position: relative !important;
+    }
+
+    .used-searchbox img {
+    width: 50px !important;
+    position: absolute !important;
+    right: 10px !important;
+    top: 5px !important;
+    cursor: pointer !important;
+    }
+
+</style>

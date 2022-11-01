@@ -10,7 +10,7 @@
       <div class='used-insert-image-preview'>
         <div v-if="data.length != 0" class="image-preview-container">
           <div v-for="(temp, index) of data" :id="'a'+index" class="image-preview-div">
-            <img :src="'http://localhost:8087/java/GoMyNote/' + temp.imgPath + '/' + temp.storedName" />
+            <img :src="'http://13.125.95.210:85/java/GoMyNote/' + temp.imgPath + '/' + temp.storedName" />
             <input type="button" value="X" @click="deleteImage($event)" class="image-preview-delete-button" />
           </div>
           <div v-for="(img, index) of imagesUrl" :id="'b'+index" class="image-preview-div">

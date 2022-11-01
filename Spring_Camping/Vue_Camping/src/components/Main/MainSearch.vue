@@ -33,13 +33,13 @@ export default {
             let search = document.querySelector('.main-search').value;
 
             if (select == '중고장터') {
-                location.href = "http://localhost:8082/used/usedMain?search=" + search
+                location.href = "http://13.125.95.210:85/java/used/usedMain?search=" + search
             } else if (select == '어디갈래?') {
-                location.href = "http://localhost:8082/CampList?search=" + search
+                location.href = "http://13.125.95.210:85/java/CampList?search=" + search
             } else if (select == '같이갈래?') {
-                location.href = "http://localhost:8082/RecruList?search=" + search
+                location.href = "http://13.125.95.210:85/java/RecruList?search=" + search
             } else if (select == '후기피드') {
-                location.href = "http://localhost:8082/sns/undefined?search=" + search
+                location.href = "http://13.125.95.210:85/java/sns/undefined?search=" + search
             }
         },
         hashtag: function(e){

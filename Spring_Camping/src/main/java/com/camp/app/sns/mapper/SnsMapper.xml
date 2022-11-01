@@ -44,37 +44,38 @@ order by write_no desc </select>
 
 <!-- 글 등록 텍스트1013 -->
 <insert id="insertSns" parameterType="SnsVO">
-
-<selectKey resultType="Integer" keyProperty="writeNo" order="BEFORE">
-SELECT NVL(MAX(write_no),0)+1 FROM sns 
-</selectKey>
-INSERT INTO sns
-VALUES
-(
-#{writeNo},
-#{content},
-#{location},
-#{place},
-#{hashtag},
-SYSDATE,
-2,
-#{nickname},
-#{email},
-#{implement}
-) 
+	<selectKey resultType="Integer" keyProperty="writeNo" order="BEFORE">
+		SELECT NVL(MAX(write_no),0)+1 FROM sns 
+	</selectKey>
+	INSERT INTO sns
+	VALUES
+	(
+		#{writeNo},
+		#{content},
+		#{location},
+		#{place},
+		#{hashtag},
+		SYSDATE,
+		2,
+		#{nickname},
+		#{email},
+		#{implement}
+	) 
 </insert>
 
 <!-- 글 등록(이미지)1014 -->
 <insert id="insertSnsImage" parameterType="SnsImageVO">
-INSERT INTO sns_image 
-VALUES(
-#{snsImageNo},
-#{originName},
-#{storedName},
-#{snsFormat},
-#{snsSize},
-#{snsPath},
-#{writeNo}) 
+	INSERT INTO sns_image 
+	VALUES
+	(
+		#{snsImageNo},
+		#{originName},
+		#{storedName},
+		#{snsFormat},
+		#{snsSize},
+		#{snsPath},
+		#{writeNo}
+	) 
 </insert>
 
 <!-- 글 갯수 -->
@@ -177,10 +178,7 @@ WHERE write_no = #{writeNo}
 <!-- 해시태그 검색한 이미지리스트 -->
 <!-- 페이징? -->
  <select id="showSnsByPageByHashtag" resultType="SnsImageVO" parameterType="SnsHashtagVO">
-
 <![CDATA[
-
-      
       SELECT write_no, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path
       FROM ( 
            SELECT SEQ, sns_image_no, origin_name, stored_name, sns_format, sns_size, sns_path, write_no
@@ -194,14 +192,12 @@ WHERE write_no = #{writeNo}
                                     WHERE write_no IN (SELECT write_no
                                                                 FROM sns
                                                                 WHERE status=2  and hashtag like '%'||#{hashtag}||'%')
-                                                       
                                     GROUP BY write_no)
                             ORDER BY write_no desc)
                )
            WHERE SEQ >= ((#{page}-1)*10+1)
           )
       WHERE ROWNUM < 11
-     
 		]]>
 </select> 
 </mapper>

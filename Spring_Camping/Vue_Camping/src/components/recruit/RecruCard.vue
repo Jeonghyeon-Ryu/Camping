@@ -20,8 +20,8 @@
       </div>
       <!--  카드 바디 내용 -->
       <div class="card-body-content">
-        <p class="card-body-my"><span>갖고있어요 : </span> {{gearList(recruCard.myGear)}} </p>
-        <p class="card-body-need"><span>필요해요 : </span>{{gearList(recruCard.needGear)}}</p>
+        <p class="card-body-my"><span>있어요</span> {{gearList(recruCard.myGear)}} </p>
+        <p class="card-body-need"><span>필요해요</span> {{gearList(recruCard.needGear)}}</p>
         <hr >
         <p class="card-body-go">{{recruCard.goDate}}</p>
         <p class="card-body-spot">{{recruCard.campingPoint}}</p>

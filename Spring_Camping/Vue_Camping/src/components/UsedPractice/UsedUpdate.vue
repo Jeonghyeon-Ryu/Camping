@@ -5,16 +5,21 @@
       <div class="used-heads">
         <div class="usedId" name="usedId"></div>
         <!-- 사진  -->
-        <div class="used-insert-image-container">
-          <h3>상품 사진</h3>
-          <div class='used-insert-image-preview'>
-            <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
-          </div>
-          <div id="camp-register-image-form" encrypt="multipart/form-data" style="padding:20px;">
-            <label>사진등록(정사각형 권장)
+        <div class="used-inserts">
+          <div id="camp-register-image-form" encrypt="multipart/form-data">
+            <label class="insert-btn">사진등록
               <input @change="changeImage($event)" @dragenter.prevent @dragover.prevent
                 @drop.prevent="dropImage($event)" type="file" multiple style="display:none;">
             </label>
+          </div>
+          <div class="used-insert-image-container">
+            <h3>상품 사진</h3>
+            <div class='used-insert-image-preview'>
+              <div class="used-pic">
+                <UsedDetailImage :usedId="usedId"></UsedDetailImage>
+              </div>
+              <ImagePreview :images="images" :isNotList="false" @deleteImages="deleteImages"></ImagePreview>
+            </div>
           </div>
         </div>
         <!-- 상품 -->
@@ -95,9 +100,9 @@
             <li id="textbox">
               <label for="used_content">상품설명<span class="essential">*</span></label>
               <div class="used-desc">
-                <input type="text" name="usedContent" class="used_content"
+                <textarea name="usedContent" class="used_content"
                   placeholder="여러 장의 상품 사진과 구입 연도, 브랜드, 사용감, 하자 유무 등 구매자에게 필요한 정보를 꼭 포함해 주세요. (10자 이상)"
-                  :value="usedList.usedContent">
+                  :value="usedList.usedContent"></textarea>
               </div>
             </li>
           </ul>
@@ -114,6 +119,7 @@
 import district from "@/assets/district.js"
 import Swal from 'sweetalert2';
 import ImagePreview from '../ImagePreview.vue';
+import UsedDetailImage from "./UsedDetailImage.vue";
 
 
 export default {
@@ -141,7 +147,7 @@ export default {
 
   },
   components: {
-    ImagePreview
+    ImagePreview, UsedDetailImage
   },
   data() {
     return {
@@ -303,7 +309,5 @@ export default {
 
 }
 </script>
-
-
 <style scoped src="@/assets/css/used/UsedInsert.css" />
 

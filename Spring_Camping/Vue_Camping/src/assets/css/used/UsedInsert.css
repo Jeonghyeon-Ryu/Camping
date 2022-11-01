@@ -1,258 +1,270 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing: border-box;
-  text-align: left;
-}
+
 #container{
-  width: 100%;
-  margin-top: 10%;
-  padding: 2%;
+  width: 100% ;
+  margin-top: 10% ;
+  padding: 2% ;
 }
 #container2{
-  width: 75%;
-  margin: 0 auto;
+  width: 75% ;
+  margin: 0 auto ;
 }
 h2, h3, h4{
-  padding: 1%;
+  padding: 1% ;
 }
 ul{
-  list-style: none;
+  list-style: none ;
 }
 .used-heads{
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
+  width: 100% ;
+  margin: 0 auto ;
+  display: flex ;
 }
 /*사진*/
 .pic-insert{
-  padding: 10px;
-  border-radius: 4px;
-  background-color: #e6e6e6;
+  padding: 10px ;
+  border-radius: 4px ;
+  background-color: #e6e6e6 ;
 }
 .pic-upload{
-  display:none;
+  display:none ;
 }
 .image-preview-container{
-  overflow: scroll;
+  overflow: scroll ;
 }
 .image-preview-div {
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  height: 120px;
-  margin: 5px;
-  border: 1px solid #e6e6e6;
-  z-index: 1;
-  overflow: scroll;
+  display: inline-block ;
+  position: relative ;
+  width: 100% ;
+  height: 120px ;
+  margin: 5px ;
+  border: 1px solid #e6e6e6 ;
+  z-index: 1 ;
+  overflow: scroll ;
 }
 
 .image-preview-div img {
-  width: 100%;
-  height: 100%;
-  z-index: none;
+  width: 100% ;
+  height: 100% ;
+  z-index: none ;
 }
 .image-preview-delete-button {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  font-size: 24px;
-  right: 0px;
-  bottom: 0px;
-  z-index: 999;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #f00;
-  border: none;
-  cursor: pointer;
+  width: 30px ;
+  height: 30px ;
+  position: absolute ;
+  font-size: 24px ;
+  right: 0px ;
+  bottom: 0px ;
+  z-index: 999 ;
+  background-color: rgba(255, 255, 255, 0.1) ;
+  color: #f00 ;
+  border: none ;
+  cursor: pointer ;
 }
-.used-insert-image-container{
-  width: 90%;
-  height: 700px;
-  flex-wrap: nowrap;
+.used-inserts{
+  width: 90% ;
+  height: 700px ;
+  flex-wrap: nowrap ;
+  display: flex;
+  flex-direction: column;
+}
+#camp-register-image-form{
+  position: relative;
 }
 .used-insert-image-preview{
-  width: 100%;
-  height: 450px;
-  padding: 2%;
-  /* background-color: #ebcbcb; */
-  border: 1px solid #e6e6e6;
+  width: 100% ;
+  height: 470px ;
+  padding: 2% ;
+  /* background-color: #ebcbcb ; */
+  border: 1px solid #e6e6e6 ;
 }
 /*정보*/
 .used-info{
-  width: 60%;
-  height: 80%;
-  padding: 2%;
-  flex-wrap: nowrap;
+  width: 60% ;
+  height: 80% ;
+  padding: 2% ;
+  flex-wrap: nowrap ;
 }
 .used-info textarea:focus{
-  outline: none;
+  outline: none ;
 }
 .used-info input:focus{
-  outline: none;
-  border-bottom: 1px solid black;
+  outline: none ;
+  border-bottom: 1px solid black ;
 }
 .used-info hr{
-  margin: 3% 0 3% 0;
-  height: 0.5px;
-  border: none;
-  background-color: #e6e6e6;
+  margin: 3% 0 3% 0 ;
+  height: 0.5px ;
+  border: none ;
+  background-color: #e6e6e6 ;
 }
 .used-info p{
-  line-height: 40px;
-  font-weight: bold;
+  line-height: 40px ;
+  font-weight: bold ;
 }
 .used-info li{
-  display: flex;
+  display: flex ;
   justify-content:space-between
 }
 .used-info label{
-  margin-left: 15px;
-  padding: 2px;
-  font-weight: bold;
-  display: inline-block;
-  line-height: 40px;
-  color: #1b482d;
-  min-width: 80px;
+  margin-left: 15px ;
+  padding: 2px ;
+  font-weight: bold ;
+  display: inline-block ;
+  line-height: 40px ;
+  color: #1b482d ;
+  min-width: 80px ;
 }
 .used-info input{
-  width: 60%;
-  height: 35px;
-  padding: 5px;
-  border: 1px solid #b6b6b6;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  text-align: right;
+  width: 60% ;
+  height: 35px ;
+  padding: 5px ;
+  border: 1px solid #b6b6b6 ;
+  border-top: none ;
+  border-left: none ;
+  border-right: none ;
+  text-align: right ;
 }
 .used-info input[id='inputemail']{
-  border: none;
-  font-weight: bold;
+  border: none ;
+  font-weight: bold ;
 }
 .used-info select{
-  width: 250px;
-  height: 35px;
-  padding: 5px;
-  margin: 5px;
+  width: 250px ;
+  height: 35px ;
+  padding: 5px ;
+  margin: 5px ;
 }
 #districtSelect, #citySelect{
-  width: 120px;
+  width: 120px ;
 }
 /*설명textarea*/
 #textbox{
-  display:flex;
-  flex-direction: column;
+  display:flex ;
+  flex-direction: column ;
 }
 .used_content{
-  width: 100%;
-  height: 170px;
-  padding: 4%;
-  border: 1px solid #e6e6e6;
-  resize: none;
-  font-size: 1.2em;
-  white-space: pre-wrap;
-  /* margin-left: 15px; */
+  width: 100% ;
+  height: 170px ;
+  padding: 4% ;
+  border: 1px solid #e6e6e6 ;
+  resize: none ;
+  font-size: 1.2em ;
+  white-space: pre-wrap ;
+  /* margin-left: 15px ; */
 
 }
 .used_content:focus{
-  border: 1px solid black;
+  border: 1px solid black ;
 }
 /* 하단*/
 .used-foot{
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  background-color: #f9f9f9;
-  border-top: 1px solid #efefef;
-  padding: 10px;
-  text-align: center;
-  z-index: 999;
+  width: 100% ;
+  position: fixed ;
+  bottom: 0 ;
+  right: 0 ;
+  background-color: #f9f9f9 ;
+  border-top: 1px solid #efefef ;
+  padding: 10px ;
+  text-align: center ;
+  z-index: 999 ;
 }
 .used-foot button{
-  margin-left: 58%;
-  width: 120px;
-  height: 45px;
-  padding: 10px;
-  text-align: center;
-  font-size: 1em;
-  /* font-weight: bold; */
-  color: white;
-  border: 1px solid #eeeeee;
-  border-radius: 2px;
-  box-shadow: 1px 1px 6px 0.2px #e6e6e6;
-  background-color: rgb(115, 197, 122);
+  margin-left: 58% ;
+  width: 120px ;
+  height: 45px ;
+  padding: 10px ;
+  text-align: center ;
+  font-size: 1em ;
+  /* font-weight: bold ; */
+  color: white ;
+  border: 1px solid #eeeeee ;
+  border-radius: 2px ;
+  box-shadow: 1px 1px 6px 0.2px #e6e6e6 ;
+  background-color: rgb(115, 197, 122) ;
   cursor: pointer
 }
 
 
 /* 라디오버튼 */
 #align {
-  white-space: nowrap;
-  font-size: 0;
-  margin: 5px;
-  display: flex;
+  white-space: nowrap ;
+  font-size: 0 ;
+  margin: 5px ;
+  display: flex ;
 }
 
 #align input {
-  display: none;
-  flex-wrap: wrap;
+  display: none ;
+  flex-wrap: wrap ;
 }
 
 #align label {
-  text-align: center;
-  display: inline-block;
-  margin: -2px 0 0;
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 20px;
-  color: rgb(83, 83, 83);
-  vertical-align: middle;
-  cursor: pointer;
-  background-color: #f5f5f5;
-  width: 83.4px;
-  height: 33px;
-  padding: 5px;
-  line-height: 25px;
+  text-align: center ;
+  display: inline-block ;
+  margin: -2px 0 0 ;
+  font-size: 13px ;
+  font-weight: bold ;
+  line-height: 20px ;
+  color: rgb(83, 83, 83) ;
+  vertical-align: middle ;
+  cursor: pointer ;
+  background-color: #f5f5f5 ;
+  width: 83.4px ;
+  height: 33px ;
+  padding: 5px ;
+  line-height: 25px ;
 }
 
 #align input:checked+label {
-  outline: 0;
-  color: rgb(255, 255, 255);
-  background-color: rgb(115, 197, 122);
+  outline: 0 ;
+  color: rgb(255, 255, 255) ;
+  background-color: rgb(115, 197, 122) ;
 }
 
 /* 필수정보 */
 .essential{
 
-  padding: 1px;
-  color:red;
-  font-weight: bold;
+  padding: 1px ;
+  color:red ;
+  font-weight: bold ;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    -webkit-appearance: none ;
+    margin: 0 ;
 }
 .usedId{
-  display: none;
+  display: none ;
 }
 #inputUsedWriter{
-  border: none;
+  border: none ;
 }
-
 /* select */
 select{
-  border: 1px solid #e6e6e6;
-  outline: 0 none;
-  margin: 1px;
+  border: 1px solid #e6e6e6 ;
+  outline: 0 none ;
+  margin: 1px ;
 }
-
 select:focus{
-  border: 1px solid black;
+  border: 1px solid black ;
 }
-.used-content input{
-  width: 500px !important;
-  height: 300px;
-  border: 1px solid #e6e6e6 !important;
+.insert-btn{
+position: absolute;
+top: 10px;
+left: 90%;
+padding:2px 8px 2px 8px;
+border-radius: 4px;
+background-color:rgb(123, 184, 128);
+text-align:center;
+color:white;
+font-weight: 400;
+font-size:1em;
+cursor:pointer;
+}
+.used-pic{
+  width: 150px;
+  height: 120px;
+  margin: 5px;
+  border: 1px solid rgb(220,220,220);
 }

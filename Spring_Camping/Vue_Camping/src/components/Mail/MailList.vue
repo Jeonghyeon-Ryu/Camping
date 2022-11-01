@@ -196,8 +196,8 @@ methods: {
 sendMail: function(){
   let item = Swal.fire({
         title: '<div class="mail-Title" style="font-size:0.6em; color: green;">쪽지 보내기</div>',
-        html: '보내는사람 '+this.$store.state.nickname+
-          '<br><input type="text" class="receiverMail" placeholder="받는 사람(이메일)"><textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 100px; font-size:12px; overflow-y:auto;" maxlength="500" placeholder="답장할 내용을 입력하세요"></textarea>',
+        html: '<span style="font-size:0.8em; color:#54b06d; font-weight:bold; padding:10px;">보내는사람</span><input type="text" class="senderMail" value='+this.$store.state.nickname+
+          ' style="padding:10px; border:none; text-align:center" readonly><br><span style="font-size:0.8em; color:#54b06d; font-weight:bold; padding:5px 15px 5px 5px;">받는사람</span><input type="text" class="receiverMail" placeholder="받는 사람의 이메일 입력" style="padding:10px; border: 1px solid #e6e6e6;" autofocus><textarea id="swal-input2" class="swal2-textarea" style="resize:none; width:80%; height: 100px; font-size:12px; overflow-y:auto;" maxlength="500" placeholder="답장할 내용을 입력하세요"></textarea>',
         focusConfirm: false,
         showCancelButton: true,
         confirmButtonText: '전송하기',
@@ -326,10 +326,7 @@ created(){
 </script>
 
 <style scoped>
-    *{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
+  li{
     text-align: left;
   }
   .container{

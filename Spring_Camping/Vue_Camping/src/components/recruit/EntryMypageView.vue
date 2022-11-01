@@ -14,6 +14,8 @@
                     <div class="entry-mypage-btn">
                             <button v-if="entryPost.recruStatus==0 && (entryPost.entryStatus==0||entryPost.entryStatus==1)" 
                                     @click="cencelEntry(entryPost.entryId)" class="entry-review-btn">참가 취소</button>
+                            <!-- <button v-if="entryPost.recruStatus==1 && (entryPost.entryStatus==1)" 
+                                    @click="deleteEntry(entryPost.entryId)" class="entry-review-btn">취소 신청</button> -->
                             <button v-if="entryPost.recruStatus==3" @click="recruReview(entryPost.recruId)" class="entry-review-btn">후기 등록</button>
                             <button v-if="entryPost.recruStatus==3" class="entry-status-btn" disabled>여행완료</button>
                     </div>
