@@ -600,40 +600,39 @@ export default{
     }
 }
 </script>
-<!-- <style scoped src="@/assets/css/used/UsedMain.css"/> -->
 <style scoped src="@/assets/css/recruit/recruList.css"/>
 <style scoped >
-.used-searchbox {
-  display: flex !important;
-  justify-content: center !important;
-  padding-bottom: 3% !important;
-  padding-bottom: 1% !important;
-  /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png') !important; */
-}
-.used-searchbox input {
-  width: 100% !important;
-  height: 60px !important;
-  text-align: center !important;
-  font-size: 1.2em !important;
-  padding: 10px !important;
-  border: 2px solid #e6e6e6 !important;
-  /* border-radius: 7px !important; */
-  /* box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px !important; */
-  margin-bottom: 2% !important;
-}
+    .used-searchbox {
+    display: flex !important;
+    justify-content: center !important;
+    padding-bottom: 3% !important;
+    padding-bottom: 1% !important;
+    /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png') !important; */
+    }
+    .used-searchbox input {
+    width: 100% !important;
+    height: 60px !important;
+    text-align: center !important;
+    font-size: 1.2em !important;
+    padding: 10px !important;
+    border: 2px solid #e6e6e6 !important;
+    /* border-radius: 7px !important; */
+    /* box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px !important; */
+    margin-bottom: 2% !important;
+    }
 
-.used-searchbox>div {
-  width: 55% !important;
-  height: fit-content !important;
-  position: relative !important;
-}
+    .used-searchbox>div {
+    width: 55% !important;
+    height: fit-content !important;
+    position: relative !important;
+    }
 
-.used-searchbox img {
-  width: 50px !important;
-  position: absolute !important;
-  right: 10px !important;
-  top: 5px !important;
-  cursor: pointer !important;
-}
+    .used-searchbox img {
+    width: 50px !important;
+    position: absolute !important;
+    right: 10px !important;
+    top: 5px !important;
+    cursor: pointer !important;
+    }
 
 </style>

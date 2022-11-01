@@ -584,8 +584,8 @@ export default{
                 imageUrl:
                     'https://ifh.cc/g/dTGkp9.jpg',
                 link: {
-                    mobileWebUrl: 'http://localhost:8088/RecruList',
-                    webUrl: 'http://localhost:8088/RecruList',
+                    mobileWebUrl: 'http://13.125.95.210:85/java/RecruList',
+                    webUrl: 'http://13.125.95.210:85/java/RecruList',
                 },
                 },
                 
@@ -598,15 +598,15 @@ export default{
                 {
                     title: '캠핑갈래 홈',
                     link: {
-                    mobileWebUrl: 'http://localhost:8087/',
-                    webUrl: 'http://localhost:8087/',
+                    mobileWebUrl: 'http://13.125.95.210:85/java/',
+                    webUrl: 'http://13.125.95.210:85/java/',
                     },
                 },
                 {
                     title: '페이지 이동',
                     link: {
-                    mobileWebUrl: 'http://localhost:8087/recru/detail/'+num,
-                    webUrl: 'http://localhost:8087/recru/detail/'+num,
+                    mobileWebUrl: 'http://13.125.95.210:85/java/recru/detail/'+num,
+                    webUrl: 'http://13.125.95.210:85/java/recru/detail/'+num,
                     },
                 },
                 ],
