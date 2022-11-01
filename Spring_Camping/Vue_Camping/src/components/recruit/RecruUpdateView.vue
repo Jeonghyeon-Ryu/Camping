@@ -75,8 +75,13 @@
                     <div class="recru-info-mynote">
                         <div>
                             <span>나의 노트</span>
-                            <ul v-for="note in myNote" v-bind:key="myNote.noteId">
-                                <li class="recru-mynote-select"><input type="radio" v-model="recruInfo.noteId">{{note.noteTitle}}</li>
+                            <ul>
+                                <li  class="recru-mynote-select in-level">
+                                    <label><input type="radio" v-model="recruInfo.noteId" value="">선택하지 않기</label>
+                                </li>
+                                <li  v-for="note in myNote" v-bind:key="myNote.noteId" class="recru-mynote-select in-level">
+                                    <label><input type="radio" v-model="recruInfo.noteId" :value="note.noteId">{{note.title}}</label>
+                                </li>
                             </ul>
                         </div>
                         <div>
@@ -110,17 +115,16 @@
                         </li>
                         <li class="recru-info-day">
                             <label>여행 날짜 </label>
-                                <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"> 
-                            ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate">
+                                <input type="date" class="select-date" name="recru_input_goDate" v-model="recruInfo.goDate"  :min="todayDate" :max="recruInfo.comeDate"> 
+                            ~ <input type="date" class="select-date" name="recru_input_comeDate" v-model="recruInfo.comeDate"  :min="recruInfo.goDate">
                         </li>
                     </ul>
                 </div>
                 <div class="recru-info-last">
-                    <label><span>마감일</span> <input type="date" name="recru_input_closingDate" :value="recruInfo.closingDate" class="select-date"></label>
+                    <label><span>마감일</span> <input type="date" name="recru_input_closingDate" :value="recruInfo.closingDate" class="select-date" :max="recruInfo.goDate" :min="todayDate"></label>
                 </div>
-                <div class="recru-info-btn" style="text-align: center;">
-                    <button class="btn bg-gradient-success btn-md"
-                    v-on:click.prevent="updateContent">수정</button>
+                <div style="text-align: center;">
+                    <button class="recru-submit-btn recru-info-btn" v-on:click.prevent="updateContent">수정</button>
                 </div>
             </form>
         </div>
@@ -157,15 +161,9 @@ export default{
             },
         deleteFiles :[],
         files:[],
-        myNote:[{
-            noteId : 1,
-            noteTitle : '노트제목입니다'
-            },
-            {
-            noteId : 2,
-            noteTitle : '노트제목입니다'
-        }],
-        images:[]
+        myNote:[],
+        images:[],
+        todayDate : new Date().toISOString().substring(0, 10)
       }
     },
     mounted (){
@@ -221,8 +219,14 @@ export default{
                     box.appendChild(li);
                 }
 
-            // noteId
-                
+            //나의 노트 정보 가져오기
+            const email = this.$store.state.email;
+            fetch(`http://13.125.95.210:85/java/MyNoteList/${email}`) 
+                .then(Response => Response.json())  
+                .then(data => { 
+                    this.myNote = data;
+                    console.log(this.myNote)
+                })                 
             })
         },
         loadImgs: function () {
@@ -265,7 +269,7 @@ export default{
             //장비 입력 확인
             const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g; //특수문자 체크 정규식
             let myGearNames = document.querySelectorAll('.recru-mygear-name');
-            let needGearNames = document.querySelectorAll('.recru-mygear-name');
+            let needGearNames = document.querySelectorAll('.recru-needgear-name');
             if(myGearNames.length==0 ||needGearNames.length==0){
                 Swal.fire('장비를 등록해주세요',"보유장비와 필요장비는 각각 적어도 하나 이상 등록해야 합니다.",'warning');
             }

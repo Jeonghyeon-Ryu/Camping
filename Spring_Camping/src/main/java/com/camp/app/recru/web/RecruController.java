@@ -89,13 +89,15 @@ public class RecruController {
 	//접근 상태 변경
 	@PutMapping("/recru/showStatus")
 	public int changeShowStatus(@RequestBody RecruVO recruVO) {
-		System.out.println(recruVO.getStatus());
 		return service.changeShowStatus(recruVO);
 	}
 	//완료된 모집의 참가자들 조회(모집자+참가자)
-	@GetMapping("/recru/members/{recruId}")
-	public List<RecruVO> findRecruMembers(@PathVariable int recruId){
-		return service.findRecruMembers(recruId);
+	@GetMapping("/recru/members/{recruId}/{memberId}")
+	public List<RecruVO> findRecruMembers(@PathVariable int recruId,@PathVariable String memberId){
+		RecruVO vo = new RecruVO();
+		vo.setRecruId(recruId);
+		vo.setMemberId(memberId);
+		return service.findRecruMembers(vo);
 	}
 	//후기등록
 	@PostMapping("/recru/review")

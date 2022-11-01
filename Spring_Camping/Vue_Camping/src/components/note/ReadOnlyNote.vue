@@ -1,5 +1,5 @@
 <template>
-  <div class="mynote_container">
+  <div class="mynote_container" style="border: 5px solid lightgray; border-radius: 10px;">
     <div class="mynote_region">
       <div class="write_region">
         <div id="pdfDiv">
@@ -67,19 +67,19 @@ import CreateLine from './CreateLine.vue';
 
 
 export default {
+  props :['noteId'],
   data() {
     return {
       title: '',
       textAmount: 1,
       childOrder: ['textBox'],
-      noteInfo: [],
-      noteId: this.$route.params.noteId,
+      noteInfo: [],    
       showInfo: {},
       datas: [],
-
     }
   },
   created() {
+    console.log(this.noteId)
     //this.noteId = this.$router.params.myNoteId;
     fetch("http://13.125.95.210:85/java/GoMyNote/" + this.noteId)
       .then(result => result.json())
@@ -269,6 +269,4 @@ export default {
 }
 
 </script>
-<style scoped src="@/assets/css/note/WriteNote.css">
-
-</style>
+<style scoped src="@/assets/css/note/ReadOnly.css"/>

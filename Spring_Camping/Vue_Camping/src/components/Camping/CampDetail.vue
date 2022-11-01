@@ -204,7 +204,7 @@ export default {
                 .catch(err => console.log(err));
         },
         getCompanion() {
-            this.$router.push()
+            this.$router.push({name : 'RecruInsertByCamp', params: {campAddress:this.camp.campAddress, campName:this.camp.campName }})
         },
         modifyItemByUser() {
             if (this.$store.state.email != null) {

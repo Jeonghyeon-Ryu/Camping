@@ -181,18 +181,25 @@
 	</select>
 	
 	<!-- 모임에 참가한 사람들 목록(모집자+신청자) -->
-	<select id="findRecruMembers" parameterType="Integer" resultType="RecruVO">
+	<select id="findRecruMembers" parameterType="RecruVO" resultType="RecruVO">
 		SELECT recru_id, member_id, nickname
 		FROM(	select recru_id, member_id
 		        from recruitment 
-		        WHERE recru_id=3
+		        WHERE recru_id=#{recruId}
 		        UNION
 		        select recru_id, member_id
 		        from recru_entry
-		        WHERE recru_id= #{recruId}
+		        WHERE recru_id=#{recruId}
+                AND entry_status=1
+                MINUS
+                SELECT recru_id, review_target as member_id
+                FROM recru_review
+                WHERE recru_id=3
+                AND member_id = #{memberId}
 		        ) a
 		JOIN member b
 		ON (a.member_id = b.email)
+        WHERE member_id != #{memberId}
 	</select>
 	
 	<!-- 후기 등록 -->

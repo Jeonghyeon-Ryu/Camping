@@ -67,10 +67,9 @@
                     </div>
                 </div>
             </div>
-            <div class="recru-detail-row mynote-page">
-                <div>
-                    {{notePost.id}}
-                </div>
+            <div v-if="recruPost.noteId" class="recru-detail-row mynote-page">
+                <h3>마이 노트<span class="what-is-note">❔</span></h3>
+                <ReadOnlyNoteVue :noteId="recruPost.noteId"></ReadOnlyNoteVue>
             </div>
 
             
@@ -164,6 +163,7 @@ import ModalView from '@/components/recruit/ModalView.vue';
 import Swal from 'sweetalert2';
 import RecruStatus from '@/components/recruit/RecruStatus.vue';
 import RecruSaveHeart from './RecruSaveHeart.vue';
+import ReadOnlyNoteVue from '@/components/note/ReadOnlyNote.vue';
 export default{
     name : "RecruDetail",
     props : {
@@ -178,7 +178,8 @@ export default{
     EntryInsert,
     ModalView,
     RecruStatus,
-    RecruSaveHeart
+    RecruSaveHeart,
+    ReadOnlyNoteVue
 },
     data:function(){
         return{
@@ -199,7 +200,7 @@ export default{
             },
             isModalViewed : false,
             isCampViewed : false,
-            campSites :[]
+            campSites :[],
         }
     },
     created (){
@@ -289,6 +290,7 @@ export default{
                 .then((response) =>response.json()) 
                 .then(data => { 
                     component.entryPost = data;  
+                    console.log(data)
                     //참가목록 저장         
                     //롤 지정 : 0일반유저, 1모집자, 2신청중인 사람, 3신청수락된 사람, 4관리자 
                     component.entryPost.forEach(entry => {
@@ -363,7 +365,12 @@ export default{
                         }) 
                         .then(Response => Response.json())  
                         .then(data => { 
-                            Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success');
+                            Swal.fire('승인이 완료되었습니다.', '즐거운 여행 되세요!', 'success')
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                    this.$router.go(-1)
+                                }
+                            })
                             component.recruPost.recruStatus=1;
                             component.loadRecruData();
                         }).catch(err=>console.log(err))
