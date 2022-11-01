@@ -32,11 +32,12 @@
 }
 textarea{ 
     /*display: inline-block;*/
-    height: 10%;
-    width: 100%; 
+    width: 90%; 
     border : none;
     padding: 10px 10px;
-    font-size: 15px;
+    font-size: 18px;
+    height: 100px;
+    outline-color:rgb(127, 199, 175);
     /*height: fit-content;*/
     
   

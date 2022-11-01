@@ -34,7 +34,7 @@
                 <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button>
             </div>
         </div>
-        <div v-if="type == 'checkboxBox'" class="checkbox_place" @click="checkListFn($event)" @mouseover="showImg($event)">
+        <div v-if="type == 'checkboxBox'" class="checkbox_place" @click="checkListFn($event)">
             <div class='checkbox_list'>
                 <div class="box_container">
                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">

@@ -29,9 +29,9 @@ import com.camp.app.note.service.NoteVO;
 @Service
 public class NoteImgServiceImpl implements NoteImgService{
 	//이미지저장
-	//private String imagePath = "/home/upload/note/";
+	private String imagePath = "/home/upload/note/";
 	//집에서 밑에꺼 주석풀기 위에꺼는 주석막기
-	private String imagePath = "c:\\upload\\note\\";
+	//private String imagePath = "c:\\upload\\note\\";
 	@Autowired
 	NoteImgMapper imgMapper;
 	@Autowired
@@ -88,9 +88,10 @@ public class NoteImgServiceImpl implements NoteImgService{
 			return imgMapper.findNoteImgInfo(noteId);
 		}
 		//src에 넣을 경로와 이름 가져오기
+		//local에서 할때 : String fullPath =  this.imagePath + imgPath + "\\" + storedName;
 		@Override
 		public ResponseEntity<Resource> showImg(String imgPath, String storedName) {
-			String fullPath =  this.imagePath + imgPath + "\\" + storedName;
+			String fullPath =  this.imagePath + imgPath + "/" + storedName;
 			Resource resource = new FileSystemResource(fullPath);
 			
 			if(!resource.exists()) {

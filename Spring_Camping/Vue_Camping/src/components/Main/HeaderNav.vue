@@ -179,7 +179,7 @@ export default {
             "나의피드": ["/sns/myFeed/" + this.$store.state.nickname, false],
           },
           {
-            "이용방법": ["/MynoteList", true],
+            "이용방법": ["/Usage", true],
             "내가 작성한 노트": ["/MynoteList", false],
             "내가 초대받은 노트": ["/InvitedList", false],
             "노트 작성하기": ["/WriteNote", false],
