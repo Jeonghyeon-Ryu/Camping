@@ -224,12 +224,6 @@ const routes = [{
     props: true
   },
   {
-    name: 'SendMail',
-    path: '/mail/sendMail',
-    component: () => import('@/components/Mail/SendMail.vue'),
-    props: true
-  },
-  {
     name: 'MailList',
     path: '/mail/mailList',
     component: () => import('@/components/Mail/MailList.vue'),

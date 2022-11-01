@@ -1,445 +1,445 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
 a {
-  text-decoration: none;
-  color: black;
+  text-decoration: none !important;
+  color: black !important;
 }
 
 a:visited {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a:hover {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a:focus {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a:hover,
 a:active {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 
 #container {
-  margin: 0 auto;
-  margin-top: 150px;
-  width: 100%;
+  margin: 0 auto !important;
+  margin-top: 150px !important;
+  width: 100% !important;
 }
 
 #container2 {
-  width: 90%;
-  flex-direction: column;
-  margin: 0 auto;
-  padding-bottom: 10%;
+  width: 90% !important;
+  flex-direction: column !important;
+  margin: 0 auto !important;
+  padding-bottom: 10% !important;
 }
 
 /*상단*/
 .used-headd {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
 }
 .used-headd hr{
-  margin: 0 auto;
-  width: 80%;
-  border: 1px solid #e6e6e6;
-  border-collapse: none;
+  margin: 0 auto !important;
+  width: 80% !important;
+  border: 1px solid #e6e6e6 !important;
+  border-collapse: none !important;
 }
 
 .used-main {
-  width: 90%;
-  margin: 0 auto;
-  margin-top: -25px;
+  width: 90% !important;
+  margin: 0 auto !important;
+  margin-top: -25px !important;
 }
 
 @media screen and (max-width:767px) {
   .used-main img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
   }
 }
 @media screen and (min-width:768px) and (max-width:991px) {
   .used-main img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover !important;
   }
 }
 @media screen and (min-width:992px) and (max-width:1200px) {
   .used-main img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover !important;
   }
 }
 @media screen and (min-width:1201px) {
   .used-main img {
-    width: calc(100%);
-    height: 250px;
-    object-fit: cover;
+    width: calc(100%) !important;
+    height: 250px !important;
+    object-fit: cover !important;
   }
 }
 
 
 .used-head ul,
 .used-head li {
-  list-style: none;
-  display: flex;
+  list-style: none !important;
+  display: flex !important;
 }
 .used-selected li{
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .used-filter-ul {
-  display: flex;
-  font-size: 1.2em;
-  font-weight: bold;
+  display: flex !important;
+  font-size: 1.2em !important;
+  font-weight: bold !important;
 }
 
 .used-filter li {
-  display: flex;
+  display: flex !important;
 }
 
 label {
-  width: 100px;
-  display: inline-block;
-  text-align: center;
-  line-height: 40px;
+  width: 100px !important;
+  display: inline-block !important;
+  text-align: center !important;
+  line-height: 40px !important;
 }
 
 .used-title h2 {
-  padding: 20px;
+  padding: 20px !important;
 }
 
 .used-filter {
-  width: 65%;
-  min-width: 400px;
-  padding: 10px;
-  /* background-color: rgb(150, 192, 168); */
-  /* box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px; */
-  margin: 0 auto;
-  /* text-align: center; */
-  display: flex;
-  justify-content: center;
+  width: 65% !important;
+  min-width: 400px !important;
+  padding: 10px !important;
+  /* background-color: rgb(150, 192, 168) !important; */
+  /* box-shadow: #e6e6e6 0.5px 0.5px 3px 0.1px !important; */
+  margin: 0 auto !important;
+  /* text-align: center !important; */
+  display: flex !important;
+  justify-content: center !important;
 }
 
 .used-filter ul {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
 
-  /* grid-template-columns: 1fr minmax(384px, 1fr) 1fr; */
+  /* grid-template-columns: 1fr minmax(384px, 1fr) 1fr !important; */
 }
 .used-filter-ur label{
-  font-weight: bold;
-  font-size: 1.1em;
+  font-weight: bold !important;
+  font-size: 1.1em !important;
 
 }
 
 
 .used-filter li {
-  flex-wrap: wrap;
+  flex-wrap: wrap !important;
 }
 
 .used-filter p {
-  line-height: 40px;
+  line-height: 40px !important;
   color: #e6e6e6
 }
 
 .used-filter-ul input,
 .used-filter-ul select {
-  width: 140px;
-  height: 40px;
-  padding: 10px;
+  width: 140px !important;
+  height: 40px !important;
+  padding: 10px !important;
 }
 
 .used-search {
-  display: flex;
-  text-align: center;
-  flex-direction: column;
+  display: flex !important;
+  text-align: center !important;
+  flex-direction: column !important;
 }
 
 .used-searchbox {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 3%;
-  padding-bottom: 1%;
-  /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png'); */
+  display: flex !important;
+  justify-content: center !important;
+  padding-bottom: 3% !important;
+  padding-bottom: 1% !important;
+  /* background-image: url('C:\Users\admin\git\Final\Camping\Vue_Camping\src\assets\img\search.png') !important; */
 }
 
 .used-searchbox input {
-  width: 100%;
-  height: 60px;
-  text-align: center;
-  font-size: 1.2em;
-  padding: 10px;
-  border: 2px solid #e6e6e6;
-  /* border-radius: 7px; */
-  /* box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px; */
-  margin-bottom: 2%;
+  width: 100% !important;
+  height: 60px !important;
+  text-align: center !important;
+  font-size: 1.2em !important;
+  padding: 10px !important;
+  border: 2px solid #e6e6e6 !important;
+  /* border-radius: 7px !important; */
+  /* box-shadow: #f9f9f9 0.5px 0.5px 3px 0.1px !important; */
+  margin-bottom: 2% !important;
 }
 
 .used-searchbox>div {
-  width: 55%;
-  height: fit-content;
-  position: relative;
+  width: 55% !important;
+  height: fit-content !important;
+  position: relative !important;
 }
 
 .used-searchbox img {
-  width: 50px;
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  cursor: pointer;
+  width: 50px !important;
+  position: absolute !important;
+  right: 10px !important;
+  top: 5px !important;
+  cursor: pointer !important;
 }
 
 
 .used-selected {
-  display: flex;
-  flex-wrap: wrap;
-  width: 70%;
-  height: 65px;
-  padding-top: 20px;
-  margin: 0 auto;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  width: 70% !important;
+  height: 65px !important;
+  padding-top: 20px !important;
+  margin: 0 auto !important;
 }
 
 .used-selected ul {
-  display: flex;
-  margin: 0 auto;
-  height: 40px;
+  display: flex !important;
+  margin: 0 auto !important;
+  height: 40px !important;
 }
 
 .used-selected li {
-  text-align: center;
-  font-weight: bold;
-  font-size: 0.6em;
-  color: #747474;
-  padding: 7px;
-  background-color: #ebebeb;
-  border-radius: 6px;
-  margin: 5px;
+  text-align: center !important;
+  font-weight: bold !important;
+  font-size: 0.6em !important;
+  color: #747474 !important;
+  padding: 7px !important;
+  background-color: #ebebeb !important;
+  border-radius: 6px !important;
+  margin: 5px !important;
 }
 
 /*본문*/
 .used-body {
-  display: flex;
-  margin-top: 20px;
-  flex-direction: column;
+  display: flex !important;
+  margin-top: 20px !important;
+  flex-direction: column !important;
 }
 
 .searched-filter {
-  width: 80%;
-  background-color: #f3f3f3;
-  border-radius: 100px;
-  margin: 0 auto;
-  margin-top: 1%;
-  margin-bottom: 10px;
+  width: 80% !important;
+  background-color: #f3f3f3 !important;
+  border-radius: 100px !important;
+  margin: 0 auto !important;
+  margin-top: 1% !important;
+  margin-bottom: 10px !important;
 }
 
 .used-main-msg{
-  margin-left: 10%;
-  text-align: left;
-  font-size: 1.2em;
-  font-weight: bold;
-  color: rgb(7, 107, 7);
+  margin-left: 10% !important;
+  text-align: left !important;
+  font-size: 1.2em !important;
+  font-weight: bold !important;
+  color: rgb(7, 107, 7) !important;
 }
 .usedMsg{
-  padding: 7%;
+  padding: 7% !important;
 }
 
 /*본문-카드*/
 .cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 90%;
-  margin: 0 auto;
-  padding: 10px;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  width: 90% !important;
+  margin: 0 auto !important;
+  padding: 10px !important;
 
 }
 
 /* .cards::after {
-  display: block;
-  content:"";
-  width: 380px;
-  margin: 10px;
+  display: block !important;
+  content:"" !important;
+  width: 380px !important;
+  margin: 10px !important;
 } */
 .card {
-  width: 302px;
-  /* padding: 2px; */
-  margin: 10px;
-  /* border-radius: 5px; */
-  border: 1px solid #e6e6e6;
-  /* box-shadow: #e1e1e1 1px 1px 2px 1px; */
-  position: relative;
+  width: 302px !important;
+  /* padding: 2px !important; */
+  margin: 10px !important;
+  /* border-radius: 5px !important; */
+  border: 1px solid #e6e6e6 !important;
+  /* box-shadow: #e1e1e1 1px 1px 2px 1px !important; */
+  position: relative !important;
 }
 
 .card>.like img {
-  width: 28px;
-  position: absolute;
-  right: 12px;
-  top: 10px;
+  width: 28px !important;
+  position: absolute !important;
+  right: 12px !important;
+  top: 10px !important;
 
 }
 
 .card:hover {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 .card-pic {
-  margin: 0 auto;
-  width: 300px;
-  height: 200px;
-  overflow: hidden;
-  border: 1px solid #e6e6e6;
+  margin: 0 auto !important;
+  width: 300px !important;
+  height: 200px !important;
+  overflow: hidden !important;
+  border: 1px solid #e6e6e6 !important;
 }
 
 .card-pic img,
 .card-pic div {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
 }
 
 .card-info {
-  padding: 8px;
-  width: 300px;
-  height: 120px;
-  display: flex;
-  flex-direction: column;
+  padding: 8px !important;
+  width: 300px !important;
+  height: 120px !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .card-top {
-  display: flex;
-  justify-content: space-between;
+  display: flex !important;
+  justify-content: space-between !important;
 }
 
 .card-bottom {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  padding: 0px 8px 0px 8px;
-  font-size: 0.8em;
-  font-weight: 500;
-  width: 100%;
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: 10px !important;
+  padding: 0px 8px 0px 8px !important;
+  font-size: 0.8em !important;
+  font-weight: 500 !important;
+  width: 100% !important;
 }
 
 .card-info-l {
-  padding: 10px;
-  text-align: left;
-  word-wrap: normal;
+  padding: 10px !important;
+  text-align: left !important;
+  word-wrap: normal !important;
 }
 
 .card-info-r {
-  padding: 10px;
+  padding: 10px !important;
 }
 
 /*하단 글쓰기 플로팅 버튼*/
 .used-foote {
-  position: fixed;
-  right: 5vw;
-  bottom: 4vw;
-  display: flex;
-  flex-direction: column;
+  position: fixed !important;
+  right: 5vw !important;
+  bottom: 4vw !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .used-foote button {
-  width: 60px;
-  height: 60px;
-  padding: 10px;
-  margin: 3px;
-  border: none;
-  border-radius: 50%;
-  background-color: rgb(85, 189, 85);
-  box-shadow: #dadada 1px 1px 3px 0.5px;
-  color: white;
-  font-size: 1.7em;
-  font-weight: 100;
-  /* position:fixed; */
+  width: 60px !important;
+  height: 60px !important;
+  padding: 10px !important;
+  margin: 3px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background-color: rgb(85, 189, 85) !important;
+  box-shadow: #dadada 1px 1px 3px 0.5px !important;
+  color: white !important;
+  font-size: 1.7em !important;
+  font-weight: 100 !important;
+  /* position:fixed !important; */
 }
 
 .used-foote button:hover {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 /* 글자색 */
 .font-gray {
-  color: rgb(160, 160, 160);
+  color: rgb(160, 160, 160) !important;
 }
 
 .dealGreen {
-  color: rgb(62, 170, 62);
-  font-size: 0.8em;
-  font-weight: bold;
-  background-color: rgb(232, 250, 200);
-  padding: 1px 2px 1px 2px;
-  border-radius: 3px;
+  color: rgb(62, 170, 62) !important;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+  background-color: rgb(232, 250, 200) !important;
+  padding: 1px 2px 1px 2px !important;
+  border-radius: 3px !important;
 }
 
 .dealRed {
-  color: rgb(216, 47, 17);
-  font-size: 0.8em;
-  font-weight: bold;
-  background-color: rgb(252, 225, 225);
-  padding: 1px 2px 1px 2px;
-  border-radius: 3px;
+  color: rgb(216, 47, 17) !important;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+  background-color: rgb(252, 225, 225) !important;
+  padding: 1px 2px 1px 2px !important;
+  border-radius: 3px !important;
 }
 
 .dealGray {
-  color: darkgray;
-  font-size: 0.8em;
-  font-weight: bold;
-  background-color: rgba(226, 226, 226, 0.459);
-  padding: 1px 2px 1px;
-  border-radius: 3px;
+  color: darkgray !important;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+  background-color: rgba(226, 226, 226, 0.459) !important;
+  padding: 1px 2px 1px !important;
+  border-radius: 3px !important;
 }
 
 .statusBlack {
-  color: rgb(255, 255, 255);
-  font-size: 0.8em;
-  font-weight: bold;
-  background-color: rgb(0, 0, 0);
-  padding: 2px;
-  border-radius: 3px;
+  color: rgb(255, 255, 255) !important;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+  background-color: rgb(0, 0, 0) !important;
+  padding: 2px !important;
+  border-radius: 3px !important;
 }
 
 /* select */
 select {
-  width: 107px;
-  padding: 10px;
+  width: 107px !important;
+  padding: 10px !important;
 }
 
 input,
 select {
-  border: 1px solid #e6e6e6;
-  outline: 0 none;
-  margin: 1px;
+  border: 1px solid #e6e6e6 !important;
+  outline: 0 none !important;
+  margin: 1px !important;
 }
 
 input:focus,
 select:focus {
-  border: 1px solid black;
+  border: 1px solid black !important;
 }
 
 input[type="number"] {
-  padding: 10px;
-  height: 40px;
+  padding: 10px !important;
+  height: 40px !important;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  -webkit-appearance: none !important;
+  margin: 0 !important;
 }
 .font-green{
-  color: #2d6128;
-  font-size: 1.1em;
+  color: #2d6128 !important;
+  font-size: 1.1em !important;
 }
 #districtSelect{
-  margin-right: 10px;
+  margin-right: 10px !important;
 }

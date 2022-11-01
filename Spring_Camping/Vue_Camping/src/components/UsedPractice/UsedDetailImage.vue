@@ -1,6 +1,8 @@
 <template>
     <swiper :navigation="true" :pagination="{clickable: true,}" :modules="modules" class="mySwiper">
-        <swiper-slide v-for="usedImage of images"><img :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName" onclick="window.open(this.src)"></swiper-slide>
+        <swiper-slide v-for="usedImage of images">
+            <img :src="'http://13.125.95.210:85/java/used/showImage/'+usedImage.usedPath+'/'+usedImage.usedStoredName" onclick="window.open(this.src)">
+        </swiper-slide>
     </swiper>
 </template>
 <script>
