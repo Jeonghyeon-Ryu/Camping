@@ -63,7 +63,7 @@
                         <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
 
                         <br>
-                        <div class="recruPost-content" style="white-space:pre;">{{recruPost.recruContent}}</div>
+                        <div class="recruPost-content">{{recruPost.recruContent}}</div>
                     </div>
                 </div>
             </div>

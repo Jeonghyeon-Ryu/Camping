@@ -9,10 +9,10 @@
               <!-- 카드 -->
               <div class="recru-card-box row">
                   <div v-for="recruInfo in recruPosts" :key="recruInfo.title" style="position:relative">
-                    <div class = "recru-entry-chk" style="position:absolute; top:21px; right: 21px;" >
+                    <div class = "recru-entry-chk" style="position:absolute; top:21px; right: 21px;z-index:10;" >
                         <NewEntry :recruId="recruInfo.recruId"></NewEntry>
                     </div>
-                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;"></RecruStatus>
+                    <RecruStatus :recruStatus="recruInfo.recruStatus" style="position:absolute;width:70px;font-size:small;font-weight: bold; top:0;left: 20px;z-index: 10;"></RecruStatus>
                       <router-link tag="div" v-bind:to="{name:'recruDetail',params : {recruId : recruInfo.recruId}}">
                         <RecruCard v-bind:recruCard="recruInfo"></RecruCard>
                       </router-link>
