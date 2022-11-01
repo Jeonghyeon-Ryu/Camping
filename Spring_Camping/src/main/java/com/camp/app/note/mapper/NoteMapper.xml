@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.camp.app.note.mapper.NoteMapper">
-	
 		
 	<select id="getMaxNoteId" resultType="Integer">
 		SELECT NVL(MAX(note_id), 0)+1 
@@ -23,11 +22,9 @@
 	</insert>
 	
 	<update id="updateContents" parameterType="NoteVO">
-
 		UPDATE NOTE
 		SET note_content = #{noteContent}, title = #{title}
 		WHERE note_id = #{noteId}
-		
 	</update>
 
 	<!-- select : MynoteList -->
@@ -37,41 +34,33 @@
 		WHERE email = #{email}
 		ORDER BY write_date
 	</select>
-	<!--  -->
+	<!-- 노트삭제 -->
 	<delete id="deleteNote" parameterType="Integer">
 		{CALL del_note(#{ note_id, mode=IN })}
 	</delete>
-	
 	<!-- select : MynoteInfo -->
 	<select id="getMyNoteInfo" resultType="NoteVO">
 		SELECT *
 		FROM NOTE
 		WHERE note_id = #{noteId}
-		
 	</select>
-	
 	<!-- 노트 이미지 불러오기 -->
 	<select id="findByNoteIdToImg" parameterType="Integer" resultType="NoteImgVO">
 		SELECT * FROM note_img 
 		WHERE note_id = #{note_id}
 	</select>
-	
 	<!-- 노트 초대하기(invitedMember추가) -->
 	<update id="invitedMember" parameterType="NoteVO">
-
 		UPDATE NOTE
 		SET invited_member = #{invitedMember}
 		WHERE note_id = #{noteId}
-		
 	</update>
 	<!-- 공유중인 노트 -->
 	<select id="getInvitedNoteList" resultType="NoteVO">
-	
 		SELECT * 
 		FROM NOTE 
 		WHERE REGEXP_LIKE(invited_member, #{email})
 		ORDER BY write_date
-		
 	</select>
 	<!-- 공유중인 맴버 리스트 -->
  	<select id="getInvitedMember" resultType="String">
