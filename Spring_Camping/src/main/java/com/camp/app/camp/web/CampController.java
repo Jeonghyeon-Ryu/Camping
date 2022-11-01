@@ -118,4 +118,15 @@ public class CampController {
 	public int getEndPage() {
 		return service.count();
 	}
+	
+//	캠핑장 탐색
+	@GetMapping("/camp/name")
+	public List<CampVO> findByCampName(String campName) {
+		return service.findByCampName(campName);
+	}
+	
+	@GetMapping("/camp/address")
+	public List<CampVO> findByCampAddress(String campAddress) {
+		return service.findByCampAddress(campAddress);
+	}
 }

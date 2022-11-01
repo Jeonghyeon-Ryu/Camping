@@ -90,33 +90,6 @@
     height: 100%;
 }
 
-/* total width */
-.image-preview-container::-webkit-scrollbar {
-    background-color: #fff;
-    width: 16px;
-}
-
-/* background of the scrollbar except button or resizer */
-.image-preview-container::-webkit-scrollbar-track {
-    background-color: #fff;
-}
-
-.image-preview-container::-webkit-scrollbar-track:hover {
-    background-color: #f4f4f4;
-}
-
-/* scrollbar itself */
-.image-preview-container::-webkit-scrollbar-thumb {
-    background-color: rgb(228, 239, 231);
-    border-radius: 16px;
-    border: 5px solid #fff;
-}
-
-.image-preview-container::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(6, 68, 32);
-    border: 4px solid #f4f4f4;
-}
-
 /* set button(top and bottom of the scrollbar) */
 .image-preview-container::-webkit-scrollbar-button {
     display: none;

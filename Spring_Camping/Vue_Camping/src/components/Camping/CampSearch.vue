@@ -24,23 +24,74 @@
     </div>
 </template>
 <script>
+import Swal from 'sweetalert2';
 export default {
+    data() {
+        return {
+            resultItem:[]
+        }
+    },
     methods: {
         search: function () {
             let select = document.querySelector('.search-select').value;
             let search = document.querySelector('.main-search').value;
-
+            console.log(select);
+            console.log(search);
+            this.resultItem=[];
             if (select == '이름') {
                 // location.href = "http://localhost:8082/used/usedMain?search=" + search
+                fetch('http://localhost:8087/java/camp/name?campName=' + search)
+                    .then(result => result.json())
+                    .then(result => {
+                        this.$emit("search", result);
+                    })
             } else if (select == '주소') {
                 // location.href = "http://localhost:8082/CampList?search=" + search
+                fetch('http://localhost:8087/java/camp/address?campAddress=' + search)
+                    .then(result => result.json())
+                    .then(result => {
+                        console.log(result);
+                        this.$emit("search", result);
+                    })
             } else {
-                
+                if (select == "검색 조건") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '검색 카테고리를 선택해주세요',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            document.querySelector('.search-select').focus();
+                        }
+                    })
+                } else if (search == '') {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '검색 내용을 입력해주세요',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            document.querySelector('.main-search').focus();
+                        }
+                    })
+                }
+            }
+            console.log(this.resultItem)
+            if(this.resultItem.length != 0) {
+                this.$emit("search", this.resultItem);
             }
         },
-        hashtag: function(e){
-            document.querySelector('.search-select').value="주소";
-            document.querySelector('.main-search').value=e.target.innerText.substring(1,e.target.innerText.length);
+        hashtag: function (e) {
+            document.querySelector('.search-select').value = "주소";
+            document.querySelector('.main-search').value = e.target.innerText.substring(1, e.target.innerText.length);
         }
 
     }
@@ -55,7 +106,8 @@ export default {
     padding: 0.8em 0.8em 0.4em 0.8em;
     letter-spacing: 4px;
 }
-.select-container{
+
+.select-container {
     width: 8rem;
     height: 3.5rem;
     padding: 0.8rem;
@@ -65,16 +117,19 @@ export default {
     position: relative;
     cursor: pointer;
 }
-.select-container img{
+
+.select-container img {
     position: absolute;
     width: 10px;
     height: 10px;
     right: 15px;
     top: calc(50% - 5px);
 }
-select option{
-    color:black;
+
+select option {
+    color: black;
 }
+
 .search-container {
     width: 100%;
     display: flex;
@@ -85,6 +140,9 @@ select option{
     display: flex;
     align-items: center;
     position: relative;
+}
+.search-top>img{
+    cursor: pointer;
 }
 
 .search-select {

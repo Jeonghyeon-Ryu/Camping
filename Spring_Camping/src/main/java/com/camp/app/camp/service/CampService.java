@@ -25,4 +25,8 @@ public interface CampService {
 	
 //	관리자 캠핑장 수정
 	public boolean modifyCampByAdmin(InputCampVO camp);
+	
+//	캠핑장 탐색
+	public List<CampVO> findByCampName(String campName);
+	public List<CampVO> findByCampAddress(String campAddress);
 }

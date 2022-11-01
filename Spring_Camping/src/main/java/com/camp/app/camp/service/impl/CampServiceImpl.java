@@ -295,5 +295,13 @@ public class CampServiceImpl implements CampService{
 		System.out.println("Camp Info : " + resultCamp);
 		return true;
 	}
+	@Override
+	public List<CampVO> findByCampName(String campName) {
+		return mapper.findByCampName(campName);
+	}
+	@Override
+	public List<CampVO> findByCampAddress(String campAddress) {
+		return mapper.findByCampAddress(campAddress);
+	}
 
 }
