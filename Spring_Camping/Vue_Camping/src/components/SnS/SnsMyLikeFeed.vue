@@ -20,7 +20,7 @@
         </div>
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <p>{{this.snsMyCount}}</p>
+            <p>좋아요 게시글 수 : {{this.snsMyCount}}</p>
           </div>
         </div>
       </div>

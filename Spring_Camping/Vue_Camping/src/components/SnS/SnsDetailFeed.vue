@@ -303,9 +303,7 @@ export default {
       let target = e.target
       console.log(target);
       target = target.innerText;
-
       this.$router.push({ name: 'SnsMain', params: { hashtag: target } });
-
       // for(let cutTag of cutTags ){
       //   console.log(cutTag);
       // }
@@ -355,7 +353,6 @@ export default {
         boardDivision: boardDivision,
         email: email
       }
-
       // console.log(like);
       if (this.$store.state.email != null) {
         fetch('http://13.125.95.210:85/java/save', {
@@ -562,29 +559,16 @@ export default {
       //닉네임, 글번호, 이메일, 작성 텍스트 가져오기
       //작성텍스트
       let commentContent = document.querySelector('.sns-write-comment-container textarea').value;
-
       console.log(commentContent, "=======================");
       //닉네임만 스판태그로 감싸기
       commentContent = commentContent.replace(/(\@[a-zA-Z가-힣0-9]*)/gi, '<span style="cursor: pointer; color:#3f729b;" class="ttt">$1</span>');
-
       console.log(document.querySelectorAll('.ttt')[1]);
-
-      // console.log(document.querySelectorAll('.ttt').innerText);
-
-      // console.log(document.querySelectorAll('.ttt').value);
-
-      // console.log(document.querySelectorAll('.ttt').innerHtml);
-
-      // console.log(document.querySelectorAll('.sns-search-list-container').innerHtml);
-
       //글번호
       let writeNo = document.querySelector('.sns-write-context input').value;
       //닉네임
       let nickname = this.$store.state.nickname;
-      // let nickname = "유저2";
       //이메일
       let email = this.$store.state.email;
-      // let email = "user2";
 
       let comment = {
         commentContent: commentContent,
@@ -592,15 +576,8 @@ export default {
         nickname: nickname,
         email: email
       }
-
-      // //닉네임만 스판태그로 감싸기
-      // this.commentTextarea = this.commentTextarea.replace(/(\@[a-zA-Z]*)/gi, '<span>$1</span>');
-
-      // debugger
       console.log(comment);
-
       if (this.$store.state.email != null) {
-
         fetch('http://13.125.95.210:85/java/comment', {
           method: 'POST',
           headers: {
@@ -621,8 +598,6 @@ export default {
                   this.$router.go(0)
                 }
               })
-
-
             }
           })
           .catch(err => console.log(err))
@@ -633,7 +608,6 @@ export default {
         })
       }
     },
-
     //댓글에서 @닉네임 부분 가져오기
     clickCommentHash(e) {
       let target = e.target;
@@ -716,14 +690,10 @@ export default {
       let temp = this.commentTextarea.substring(0, this.nameTagIndex + 1) + item + this.commentTextarea.substring(this.spaceIndex, this.commentTextarea.length);
       console.log(temp);
       this.commentTextarea = temp;
-
       this.searchResultNick = '';
-
       //  console.log(this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex));
       //  console.log(this.commentTextarea.replace((this.commentTextarea.substring(this.nameTagIndex+1, this.spaceIndex)), item));
-
     },
-
 
     //유리언니..
     yyyyMMddhhmmss: function (value) {

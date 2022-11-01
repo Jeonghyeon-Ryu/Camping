@@ -44,7 +44,7 @@
   background-color: rgba(100, 181, 122, 0.7);
   width: 60vw;
   height: 40px;
-  max-width: 920px;
+  /* max-width: 920px; */
   border-radius: 5px;
   display: flex;
   justify-content: center;
