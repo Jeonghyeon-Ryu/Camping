@@ -105,4 +105,10 @@
 	<select id="findByEmail" parameterType="String" resultType="CampVO">
 		SELECT * FROM camp WHERE email = #{email} AND status=2
 	</select>
+	<select id="findByCampName" parameterType="String" resultType="CampVO">
+		SELECT * FROM camp WHERE camp_name LIKE '%'||#{campName}||'%'	
+	</select>
+	<select id="findByCampAddress" parameterType="String" resultType="CampVO">
+		SELECT * FROM camp WHERE camp_address LIKE '%'||#{campAddress}||'%'	
+	</select>
 </mapper>

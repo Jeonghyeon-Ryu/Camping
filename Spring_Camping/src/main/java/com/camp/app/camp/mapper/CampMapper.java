@@ -28,4 +28,8 @@ public interface CampMapper {
 	
 //	저장 캠핑 보기
 	public List<CampVO> findByEmail(String email);
+	
+//	캠핑장 탐색
+	public List<CampVO> findByCampName(String campName);
+	public List<CampVO> findByCampAddress(String campAddress);
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="camplist-container">
     <div class="camplist-search-container">
-      <CampSearch></CampSearch>
+      <CampSearch @search="search"></CampSearch>
     </div>
     <ul class="cards">
       <li v-for="camp of camps" @click="getCampDetail(camp.campId, $event)">
@@ -55,25 +55,7 @@ export default {
     fetch("http://13.125.95.210:85/java/camp/" + this.page)
       .then(result => result.json())
       .then(result => {
-        for (let i = 0; i < result.length; i++) {
-          result[i].campInfo = result[i].campInfo.split(" ");
-          let info = {
-            toilet: false,
-            parking: false,
-            shower: false,
-            disposal: false,
-            deck: false,
-            bbq: false,
-            swin: false,
-            spoon: false,
-            lease: false
-          };
-          for (let infoTemp of result[i].campInfo) {
-            info[infoTemp] = true;
-          }
-          result[i].campInfo = info;
-        }
-        this.camps = result;
+        this.camps = this.campInfoProcess(result);
         console.log(this.camps);
       })
       .catch(err => console.log(err));
@@ -84,6 +66,30 @@ export default {
       })
   },
   methods: {
+    search(resultItem) {
+      this.camps = this.campInfoProcess(resultItem);
+    },
+    campInfoProcess(result) {
+      for (let i = 0; i < result.length; i++) {
+        result[i].campInfo = result[i].campInfo.split(" ");
+        let info = {
+          toilet: false,
+          parking: false,
+          shower: false,
+          disposal: false,
+          deck: false,
+          bbq: false,
+          swin: false,
+          spoon: false,
+          lease: false
+        };
+        for (let infoTemp of result[i].campInfo) {
+          info[infoTemp] = true;
+        }
+        result[i].campInfo = info;
+      }
+      return result;
+    },
     getCampDetail(campId, e) {
       e.preventDefault();
       let id = campId;
