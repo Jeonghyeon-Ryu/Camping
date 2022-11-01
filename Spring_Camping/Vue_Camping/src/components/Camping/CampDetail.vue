@@ -170,7 +170,6 @@ export default {
                 boardDivision: 0,
                 email: this.$store.state.email
             }
-            console.log(save);
             if (this.$store.state.email != null) {
                 fetch('http://13.125.95.210:85/java/save', {
                     method: 'POST',
