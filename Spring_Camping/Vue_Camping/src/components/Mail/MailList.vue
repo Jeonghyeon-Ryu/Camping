@@ -326,6 +326,9 @@ created(){
 </script>
 
 <style scoped>
+  li{
+    text-align: left;
+  }
   .container{
     width: 80%;
     margin: 0 auto;
