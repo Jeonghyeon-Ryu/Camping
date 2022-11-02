@@ -31,14 +31,12 @@
   /*height: fit-content;*/
 }
 textarea{ 
-    /*display: inline-block;*/
-    width: 90%; 
+    margin-left: 10px;
+    width: 100%; 
     border : none;
     padding: 10px 10px;
     font-size: 18px;
     height: 100px;
+    min-width: 1000px;
     outline-color:rgb(127, 199, 175);
-    /*height: fit-content;*/
-    
-  
 }

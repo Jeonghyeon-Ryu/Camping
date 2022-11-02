@@ -12,8 +12,11 @@
 .btn_container {
     display: flex;
     flex-direction: row;
-    opacity: 0.6;
+    opacity: 0;
     transition-duration: 0.5s;
+}
+.left_container{
+  margin-right: 10px;
 }
 .drag_btn {
     width: 25px;

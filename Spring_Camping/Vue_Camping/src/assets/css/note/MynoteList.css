@@ -2,64 +2,60 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
     
-:root {
---button-color: rgba(228,239,231,0.7);
---button-bg-color: #0d6efd;
---button-hover-bg-color: #025ce2;
-}
 
+.card_container{
+    height: 250px;
+	width: 500px;
+	border-radius: 15px;
+	display: inline-block;
+    margin : 2%;  
+	position: relative;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.40);
+	overflow: hidden;
+    background-color:#2c6e3b;
+    color:white;
+}
 button {
--webkit-appearance: none;
--moz-appearance: none;
-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 
-background: var(--button-bg-color);
-color: var(--button-color);
+    background: var(--button-bg-color);
+    color: var(--button-color);
 
-margin: 0;
-padding: 0.5rem 1rem;
+    margin: 0;
+    padding: 0.5rem 1rem;
 
-font-family: 'Noto Sans KR', sans-serif;
-font-size: 1rem;
-font-weight: 400;
-text-align: center;
-text-decoration: none;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
 
-border: none;
-border-radius: 4px;
+    border: none;
+    border-radius: 4px;
 
-display: inline-block;
-width: auto;
+    display: inline-block;
+    width: auto;
 
-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
-cursor: pointer;
+    cursor: pointer;
 
-transition: 0.5s;
+    transition: 0.5s;
 }
 
-button.success {
---button-bg-color: #83f0ad;
---button-hover-bg-color:  #9cfbe0;
-}
-button.modal_delbtn {
---button-bg-color: #c72939;
---button-hover-bg-color: #e04958;
-}
-button.warning {
---button-color: #212529;
---button-bg-color: #ffc107;
---button-hover-bg-color: #e0a800;
-}
-
-button:active,
-button:hover,
-button:focus {
-background: var(--button-hover-bg-color);
-outline: 0;
-}
 button:disabled {
 opacity: 0.5;
+}
+.check_note{
+    margin-right: 5px;
+}
+.hr{
+    background:lightgray;
+    width: 300px;
+    height:1px;
+    border:0;
 }
 /* 모달임 */
 .black-bg { 
@@ -152,6 +148,21 @@ opacity: 0.5;
     box-shadow: 0 0 10px #26ce42;
    
   }
+  .invited_list_info>input{
+    scale: 1.5;
+  }
+  .invitedMemberInfo{
+    font-size: 17px;
+  }
+  .success{
+    background-color: #3a6944;
+    color: white;
+  }
+  .success:hover{
+    background-color: #51905f;
+    color: white;
+  }
+  
   .input:focus {
     animation-name: border-focus;
     animation-duration: 1s;
@@ -209,20 +220,13 @@ opacity: 0.5;
     -moz-appearance: none;
     appearance: none;
 }
-* {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-style: none;
-    box-sizing: border-box;
-}
 .row{ 
     width: 100%;
 }
 /* page_section*/
 .mynote_container {
     width: 100%;
-    min-width: 650px;
+    min-width: 1130px;
     margin-top: 150px;
     position: relative;
 }
@@ -352,9 +356,10 @@ font-size: 20px;
     position: relative;
     height: 60px;
 }
-.card-body{ 
-padding: 20px 0 20px 0;
-text-align: justify;
+.card_body{
+    padding: 40px 0 20px 0;
+    text-align: justify;
+    cursor : pointer;
 }
 
 .card-title{ 
