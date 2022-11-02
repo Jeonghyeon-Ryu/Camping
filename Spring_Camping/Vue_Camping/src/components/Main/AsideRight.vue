@@ -6,7 +6,7 @@
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 캠핑</router-link>
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/used/myUsed/myPage" tag="div"
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 중고장터</router-link>
-        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div"
+        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" :to="snsMypage" tag="div"
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 피드</router-link>
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div"
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 노트</router-link>
@@ -28,6 +28,11 @@
 <script>
 export default {
     props: ['responsiveFlag'],
+    data () {
+        return {
+            snsMypage : '/sns/myFeed/' + this.$store.state.nickname
+        }
+    },
     methods: {
         logout() {
             this.$emit("hideMenu");

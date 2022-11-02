@@ -33,6 +33,7 @@ export default {
     return {
       filterImg: filter,
       isFilter: false,
+      isFiltered: false,
       filterOptions: [
         ['Equal', 'Contain', 'Start', 'End'],
         ['Equal', '>=', '<=', '>', '<'],
@@ -208,6 +209,7 @@ export default {
     },
     executeFilter: function() {
       this.$emit('filterData', this.filterDatas);
+      this.isFiltered = true;
     }
   }
 }
