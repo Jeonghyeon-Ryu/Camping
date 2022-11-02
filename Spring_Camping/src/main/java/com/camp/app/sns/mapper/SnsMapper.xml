@@ -156,7 +156,7 @@ WHERE write_no = #{writeNo}
                 FROM ( SELECT *
                             FROM sns_image 
                             WHERE sns_image_no = ANY
-                                    (SELECT MAX(sns_image_no) 
+                                    (SELECT MIN(sns_image_no) 
                                     FROM sns_image
                                     WHERE write_no IN (SELECT write_no
                                                                 FROM sns
@@ -187,7 +187,7 @@ WHERE write_no = #{writeNo}
                 FROM ( SELECT *
                             FROM sns_image 
                             WHERE sns_image_no = ANY
-                                    (SELECT MAX(sns_image_no) 
+                                    (SELECT MIN(sns_image_no) 
                                     FROM sns_image
                                     WHERE write_no IN (SELECT write_no
                                                                 FROM sns

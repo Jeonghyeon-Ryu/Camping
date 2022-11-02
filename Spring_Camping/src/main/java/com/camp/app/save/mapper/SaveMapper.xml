@@ -46,7 +46,7 @@
                 FROM ( SELECT *
                        FROM sns_image 
                        WHERE sns_image_no = ANY
-                             (SELECT MAX(sns_image_no) 
+                             (SELECT MIN(sns_image_no) 
                               FROM sns_image
                               WHERE write_no IN (SELECT board_id AS write_no
                                                  FROM save
