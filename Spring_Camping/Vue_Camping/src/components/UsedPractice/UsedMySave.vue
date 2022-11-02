@@ -89,7 +89,7 @@
       console.log('-----------------')
       console.log(this.email)
       //내가찜한글전체조회\
-      fetch("http://localhost:8087/java/used/mySave?email="+this.$store.state.email)
+      fetch("http://l13.125.95.210:85/java/used/mySave?email="+this.$store.state.email)
             .then((Response) => Response.json())  //json 파싱 
             .then(data => { 
               console.log(data)
@@ -100,7 +100,7 @@
                this.recruMsg="";
                for(let save of this.saveList){
                  console.log(save)
-                 fetch("http://localhost:8087/java/used/usedDetail/"+save.boardId)
+                 fetch("http://13.125.95.210:85/java/used/usedDetail/"+save.boardId)
                  .then(result => result.json())
                  .then(result => {
                     this.usedList.push(result);
