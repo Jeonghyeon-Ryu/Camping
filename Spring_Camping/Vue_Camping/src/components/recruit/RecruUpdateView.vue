@@ -109,6 +109,26 @@
                                 class="recru-addr-kakao" @click="searchAddr" placeholder="새로운 위치 검색" >
                             <img v-bind:src="searchImg" style="width:20px;margin:auto 0">
                             <input type="text" name="campP_addr_detail" class="recru-addr-detail" placeholder="상세주소" @click="chkSearchAddr"/>
+                            <button type="button" class="recru-info-btn" @click="isCampFindView=!isCampFindView">캠핑장 검색</button>
+                        </li>
+                        <li>
+                            <div v-if="isCampFindView" class="search-camp">
+                            <div>
+                                <input type="text" id="search_camp_name" placeholder="캠핑장 이름 입력"  v-on:keydown.enter.prevent="searchCamp">
+                                <button type="button" class="recru-info-btn" @click="searchCamp">검색</button>
+                                <div v-if="isCampViewed"  class="show-camp-list">
+                                    <p v-if="campSites.length==0" style="text-align:center">
+                                        등록된 캠핑지가 없습니다!
+                                        <br>새로운 정보를 등록해주세요
+                                        <br><button  class="recru-info-btn"  @click="$router.push({name:'CampRegister'})">캠핑장 등록하러 가기</button>
+                                    </p>
+                                    <p v-for="site in campSites" :key="site.campId" class="recruPost_camp"  @click="getCampDetail(site.campAddress, $event)">
+                                        <span class="recruPost_camp_name">{{site.campName}}</span> 
+                                        <span class="recruPost_camp_address" >{{site.campAddress}}</span>
+                                    </p>                      
+                                </div>
+                            </div>
+                        </div>
                         </li>
                         <li class="recru-info-number">
                             <label>모집인원 <input type="number" name="recru_input_recruNum" :value="recruInfo.recruNum" min="1" de></label>
@@ -163,7 +183,10 @@ export default{
         files:[],
         myNote:[],
         images:[],
-        todayDate : new Date().toISOString().substring(0, 10)
+        todayDate : new Date().toISOString().substring(0, 10),
+        isCampFindView : false,
+        isCampViewed : false,
+        campSites : []
       }
     },
     mounted (){
@@ -313,7 +336,7 @@ export default{
             this.setWishAge();
             //파일 배열에 이미지 넣기
             this.addFile(); 
-            
+          
             let recruVO = this.recruInfo;
             console.log(recruVO);
 
@@ -342,24 +365,24 @@ export default{
         fileUpdate : async function () {
             //서버에 이미지 수정
             const formData = new FormData();
+
             if(this.files.length<=1){
                 this.files ={};
                 console.log('추가이미지없음')
             }else{
                 this.files.forEach(file=>{
                     formData.append('files', file);
-                })
-                
+                })            
                 console.log(this.files)
             }
+
             if(this.deleteFiles.length<=0){
                 this.deleteFiles =[0];
                 console.log('삭제이미지없음')
             }else{
                 this.deleteFiles.forEach(file=>{
                     formData.append('imgList', file);
-                })
-                
+                })         
                 console.log(this.deleteFiles)
             }
             formData.append('recruId', this.recruId);
@@ -473,6 +496,29 @@ export default{
                 })
                 searchAddr.focus();
             }
+        },
+        searchCamp : function(){
+            this.isCampViewed =true;
+            //이름으로 캠핑장 검색
+            var campName = document.querySelector('#search_camp_name').value
+            var regionInfo = {
+                    campName : campName
+                }
+                fetch(`http://13.125.95.210:85/java/recru/campingPoint`,{
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(regionInfo)
+                }) 
+                .then(result => result.json())
+                .then(result => {
+                    this.campSites = result;
+                    console.log(this.campSites)
+                }).catch(err => console.log(err));
+        },
+        getCampDetail(address, e) {
+            e.preventDefault();
+            document.getElementsByName('campP_addr_kakao')[0].value = address;
+            document.getElementsByName('campP_addr_detail')[0].value = '';
         },
         toastSwal: Swal.mixin({
             toast: true,
