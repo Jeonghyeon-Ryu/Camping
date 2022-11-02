@@ -283,7 +283,6 @@ export default {
       }
       const keyword = this.keyword;
       this.keywordValue = keyword;
-      console.log(data)
       fetch("http://13.125.95.210:85/java/used/usedSearch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -344,7 +343,6 @@ export default {
       let data = {
         keyword: this.$route.query.search,
       }
-
       fetch("http://13.125.95.210:85/java/used/usedSearch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

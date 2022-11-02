@@ -31,8 +31,6 @@
 <script>
 import Modal from "./modal.vue"
 import Swal from 'sweetalert2';
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap"
 
 export default {
     name: "MynoteList",
