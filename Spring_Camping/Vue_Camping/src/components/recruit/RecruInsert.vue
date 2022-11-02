@@ -129,7 +129,11 @@
                         </li>
                         <div v-if="isCampFindView" class="search-camp">
                             <div>
-                                <input type="text" id="search_camp_name" placeholder="캠핑장 이름 입력"  v-on:keydown.enter.prevent="searchCamp">
+                                <select name="search-camp-by" id="search-camp-by">
+                                    <option value="name">이름</option>
+                                    <option value="address">주소</option>
+                                </select>
+                                <input type="text" id="search_camp_name" placeholder="검색 내용 입력"  v-on:keydown.enter.prevent="searchCamp">
                                 <button type="button" class="recru-info-btn" @click="searchCamp">검색</button>
                                 <div v-if="isCampViewed"  class="show-camp-list">
                                     <p v-if="campSites.length==0" style="text-align:center">
@@ -444,21 +448,26 @@ export default{
         },
         searchCamp : function(){
             this.isCampViewed =true;
-            //이름으로 캠핑장 검색
-            var campName = document.querySelector('#search_camp_name').value
-            var regionInfo = {
-                    campName : campName
-                }
-                fetch(`http://13.125.95.210:85/java/recru/campingPoint`,{
-                method : "POST",
-                headers : {"Content-Type" : "application/json"},
-                body : JSON.stringify(regionInfo)
-                }) 
-                .then(result => result.json())
-                .then(result => {
-                    this.campSites = result;
-                    console.log(this.campSites)
-                }).catch(err => console.log(err));
+            var regionInfo = {};//서버로 보낼 정보
+            //검색 기준 : 이름 또는 주소
+            var searchBy = document.querySelector('#search-camp-by').value; 
+            //입력한 값
+            var campInfo = document.querySelector('#search_camp_name').value;
+            if(searchBy=='name'){
+                regionInfo .campName = campInfo;    //이름으로 검색
+            }else{
+                regionInfo.campAddress = campInfo;  //주소로 검색
+            }
+            fetch(`http://13.125.95.210:85/java/recru/campingPoint`,{
+            method : "POST",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(regionInfo)
+            }) 
+            .then(result => result.json())
+            .then(result => {
+                this.campSites = result;
+                console.log(this.campSites)
+            }).catch(err => console.log(err));
         },
         getCampDetail(address, e) {
             e.preventDefault();
