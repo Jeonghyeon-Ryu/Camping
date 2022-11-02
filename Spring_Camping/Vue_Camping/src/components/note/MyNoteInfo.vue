@@ -16,7 +16,6 @@
                         <div class="text_highlighter"></div>
 
                         <div class="highlighter_menu">
-                            ....
                             <button id="bold" class="css_button"><img src="@/assets/img/note/bold.png"></button>
                             <button id="italic" class="css_button"><img src="@/assets/img/note/italic.png"> </button>
                             <button id="underLine" class="css_button"><img
@@ -141,9 +140,8 @@ export default {
         }
     },
     created() {
+        window.scrollTo(0,0);
         // this.noteId = this.$router.params.myNoteId;
-
-
         fetch("http://13.125.95.210:85/java/GoMyNote/" + this.noteId)
             .then(result => result.json())
             .then(result => {
@@ -309,13 +307,20 @@ export default {
                                 </div>`;
                     contents.push(tableTag);
                 } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
+                   
                     lineValue = [];
-                    let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
-                    checkBoxTag = `<div class='check_box_list'>`;
+                    let checkBoxList = lineAll[i].querySelectorAll('input[type="checkbox"]');
+                    let checkBoxText = lineAll[i].querySelectorAll('input[type="text"]');
+                    
+                    checkBoxTag = `<div class='check_box_list'>`;   
                     for (let j = 0; j < checkBoxList.length; j++) {
-                        let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
-                        let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
-                        let isChecked = lineCheckbox.checked;
+                        //let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
+                        let lineCheckText = checkBoxText[j].value;
+                        //console.log(">>>>>>lineCheckbox", lineCheckbox)
+                        console.log("lineCheckText>>>>>>", lineCheckText)
+
+                        let isChecked = checkBoxList[j].checked;
+                        console.log("isChecked>>>>>>", isChecked)
                         checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="` + isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
                                             <div class="box_container">
                                                 <div class="checkbox_button_container">
@@ -327,10 +332,10 @@ export default {
                             status: isChecked,
                             text: lineCheckText
                         });
+
                     };
-                    checkBoxTag += `</div>`
-                    //체크박스 content
-                    contents.push(checkBoxTag);
+                    checkBoxTag += `</div>`    
+                    contents.push(checkBoxTag);lineValue = [];
                     //이미지
                 } else if (lineAll[i].querySelector('.image-preview-div') != undefined) {
                     console.log('>>>>', (lineAll[i].querySelector('.image-preview-div')));
@@ -356,41 +361,11 @@ export default {
                             temp = temp.substring(temp.indexOf('/'), temp.length);
 
                             let storedName = temp.substring(1, temp.length);
-                            //console.log('storedName', storedName)
-                            //console.log('imgPath',imgPath);
                             imgValue += 'imgPath:' + imgPath + '|storedName:' + storedName + '$';
                         }
-
-                    }
-                    //console.log(newImgCount);
+                    } 
                     imgValue += newImgCount;
                     contents.push(imgValue);
-
-
-                    console.log('contents>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', contents);
-                    //temp += 'IMG' + newImgCount
-                    // 기존 있던 값은 contents.push(temp)
-
-                    // let temp = '';
-                    // for(let i=0; i<imgBox.length; i++){
-
-                    //     temp = imgBox[i].querySelector('img').src;
-                    //     let imagePathIndex = temp.substring(temp.indexOf('GoMyNote/' + 9, temp.length))                        
-                    //     //imagePath = substring(temp.substring(imagePathIndex, ))
-                    //     console.log("---" , imagePathIndex);
-
-                    // }
-                    //이 형식은 IMG:0으로 contents에 push된다.
-
-                    // console.log("lineAll :", lineAll[i].querySelectorAll('.image-preview-div'))
-                    // let imgContainer = lineAll[i].querySelector('.img_container');
-                    // let imgBox = imgContainer.querySelectorAll('.image-preview-div');
-                    // let imgCount = imgBox.length;
-
-                    // contents.push(
-                    //     'IMG:' + imgCount
-                    //);
-
                 }
             };
             //작성한 DB에 저장(수정버튼)
