@@ -119,43 +119,13 @@ export default {
     //게시글 공유
     //-텍스트
     doPost() {
-
-
-      // let snsInfo = {};
-      // console.log(new FormData(document.querySelector('#snsForm')));
-      // new FormData(document.querySelector('#snsForm')).forEach((value, key) => snsInfo[key] = value);
-      // console.log(snsInfo);
-
-      // fetch('http://13.125.95.210:85/java/sns', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-
-      //   },
-      //   body: JSON.stringify(snsInfo)
-      // }).then(result => result.text())
-      //   .then(result => console.log(result))
-      //   .catch(err => console.log(err))
-
-
       let sns = new FormData(document.querySelector('#snsForm'));
-
       for (let image of this.images) {
         sns.append("files", image);
       }
       sns.forEach((value, key) => {
         console.log(value);
       })
-      // console.log((document.querySelector('.info h5').text));
-
-
-
-      // location.value = (document.querySelector('.info h5').value);
-      // console.log(location);
-
-      //null이 아닌 값들이 null일때
-
-
       fetch('http://13.125.95.210:85/java/sns', {
         method: 'POST',
         headers: {},
@@ -195,7 +165,6 @@ export default {
                     }
                   })
           }
-          //null이 아닌 값들이 null일때
         })
     },
 

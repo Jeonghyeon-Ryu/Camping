@@ -8,8 +8,6 @@
         <span>{{snsMyData.nickname}}</span>
       </div>
     </div>
-
-
     <!--  -->
     <div class="sns-detail-page-container">
       <div class="sns-write-id-container">
@@ -20,7 +18,7 @@
         </div>
         <div class="sns-write-form-id">
           <div class="sns-write-id">
-            <p>{{this.snsMyCount}}</p>
+            <p>피드 게시글 수 : {{this.snsMyCount}}</p>
           </div>
         </div>
       </div>
@@ -35,7 +33,6 @@
       </div>
     </div>
     <!--  -->
-
     <div class="sns-img-container">
       <div class="sns-img-row-container" :key="snsMyList.writeNo" v-for="snsMyList in snsMyLists"
         @click="getSnsDetail(snsMyList.writeNo)">
