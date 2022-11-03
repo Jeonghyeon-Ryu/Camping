@@ -1,12 +1,12 @@
 <template>
-    <div class="write_fn" @mouseenter="show($event)" @mouseleave="hide($event)">
+    <div class="write_fn">
         <div class="left_container">
             <div class="btn_container">
                 <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
                 <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
             </div>
         </div>
-        <div class="checkbox_place" @click="checkListFn($event)">
+        <div class="checkbox_place" @click="checkListFn($event)" @mouseenter="show($event)" @mouseleave="hide($event)">
             <div class='checkbox_list' v-for="i of count">
                 <div class="box_container">
                     <input type='checkbox' class='noteCheckbox' name="myCheck" v-model="data[0][i - 1]">
@@ -37,18 +37,28 @@ export default {
     },
     methods: {
         show(e) {
+            
             let target = e.target;
-            let showTarget = target.querySelector('.btn_container');
-            showTarget.setAttribute('style', 'opacity:0.6');
-            let showAddDel = target.querySelector('.checkbox_button_container');
-            showAddDel.setAttribute('style', 'opacity:0.6');
+            while (!target.classList.contains('checkbox_place')) {
+                target = target.parentElement;
+            }
+           
+            let asd= target.querySelectorAll('.checkbox_button_container');
+            for(let i=0; i<asd.length; i++){
+                let checkBtn = asd[i];
+                checkBtn.setAttribute('style','opacity:0.6');
+            }
         },
         hide(e) {
             let target = e.target;
-            let showTarget = target.querySelector('.btn_container');
-            showTarget.setAttribute('style', 'opacity:0');
-            let showAddDel = target.querySelector('.checkbox_button_container');
-            showAddDel.setAttribute('style', 'opacity:0');
+            while (!target.classList.contains('checkbox_place')) {
+            target = target.parentElement;
+            }
+            let asd= target.querySelectorAll('.checkbox_button_container');
+            for(let i=0; i<asd.length; i++){
+                let checkBtn = asd[i];
+                checkBtn.setAttribute('style','opacity:0');
+            } 
         },
         checkListFn(e) {
             let btnName = e.target.classList[0];

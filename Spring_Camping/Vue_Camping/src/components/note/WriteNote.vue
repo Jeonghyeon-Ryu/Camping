@@ -198,13 +198,8 @@ export default {
                     
                     checkBoxTag = `<div class='check_box_list'>`;   
                     for (let j = 0; j < checkBoxList.length; j++) {
-                        //let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
                         let lineCheckText = checkBoxText[j].value;
-                        //console.log(">>>>>>lineCheckbox", lineCheckbox)
-                        console.log("lineCheckText>>>>>>", lineCheckText)
-
                         let isChecked = checkBoxList[j].checked;
-                        console.log("isChecked>>>>>>", isChecked)
                         checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="` + isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
                                             <div class="box_container">
                                                 <div class="checkbox_button_container">
@@ -220,9 +215,7 @@ export default {
                     };
                     checkBoxTag += `</div>`    
                     contents.push(checkBoxTag);lineValue = [];
-                   
                 } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) {
-                    
                     let imgContainer = lineAll[i].querySelector('.img_container');
                     let imgBox = imgContainer.querySelectorAll('.image-preview-div');
                     let imgCount = imgBox.length;
@@ -241,15 +234,12 @@ export default {
             formData.append("noteContents", contents);
             formData.append("email", this.$store.state.email);
             formData.forEach((value, key) => {
-                console.log(value);
             })
            fetch('http://13.125.95.210:85/java/WriteNoteInfo', {
                 method: 'POST',
                 headers: {},
                 body: formData
             }).then(result => {
-                console.log("insert fetch 결과")
-                console.log(result);
                 this.$router.push({
                     name: "MynoteList"
                 })
@@ -265,7 +255,6 @@ export default {
                 dt.items.add(this.images[i]);
             }
             this.images = dt.files;
-            console.log('image ', this.images);
         }
     },
     components: { CreTextarea }

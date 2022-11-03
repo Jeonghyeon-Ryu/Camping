@@ -74,11 +74,11 @@ textarea{
     width: 100%; 
     border : none;
     padding: 10px 10px;
-    font-size: 15px;
+    font-size: 18px;
+    font-weight:550;
     height: 100px;
     min-width: 1000px;
     outline-color:rgb(127, 199, 175);
-    
    
 }
 
@@ -87,15 +87,17 @@ textarea{
     height: 50px;
     margin: 5px 10px 10px 10px;
     border: none;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
+    border-bottom: 1px solid lightgray;
+    box-shadow: 3px 3px 3px 2px rgba(211, 211, 211, 0.925);
 }
 
 .text_highlighter {
     margin-top: 20px;
 }
 .textarea_container{ 
-    width : 80%;
+    width : 70%;
     /*height: fit-content;*/
 }
 .write_fn {

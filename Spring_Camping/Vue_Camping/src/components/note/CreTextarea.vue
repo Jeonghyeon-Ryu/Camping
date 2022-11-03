@@ -34,7 +34,7 @@
                 <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol"></button>
             </div>
         </div>
-        <div v-if="type == 'checkboxBox'" class="checkbox_place" @click="checkListFn($event)">
+        <div v-if="type == 'checkboxBox'" class="checkbox_place" @click="checkListFn($event)" @mouseenter="showBtn($event)" @mouseleave="hideBtn($event)">
             <div class='checkbox_list'>
                 <div class="box_container">
                     <input type='checkbox' class='noteCheckbox' name="myCheck" value="true">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="checkbox_button_container">
                     <button class="add_checkbox"><img src="@/assets/img/note/plus.png" class="add_img"></button>
-                    <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img"></button>
+                    <button class="del_checkbox"><img src="@/assets/img/note/minus.png" class="del_img" ></button>
                 </div>
             </div>
         </div>
@@ -88,11 +88,8 @@ export default {
       let colAddBtn = target.querySelector('.col_addbtn');
       colAddBtn.setAttribute('style','opacity:0.6');
 
-      let rowAddBtn = target.querySelector('.row_addbtn');
-      rowAddBtn.setAttribute('style','opacity:0.6');
-           
-      let showAddDel = target.querySelector('.checkbox_button_container');
-      showAddDel.setAttribute('style', 'opacity:0.6');
+       let rowAddBtn = target.querySelector('.row_addbtn');
+       rowAddBtn.setAttribute('style','opacity:0.6');
     },
     hide(e){
         
@@ -113,10 +110,30 @@ export default {
       let rowAddBtn = target.querySelector('.row_addbtn');
       rowAddBtn.setAttribute('style','opacity:0');
 
-      let showAddDel = target.querySelector('.checkbox_button_container');
-      showAddDel.setAttribute('style', 'opacity:0');
     },
-    
+    showBtn(e){
+        let target = e.target;
+        while (!target.classList.contains('checkbox_place')) {
+            target = target.parentElement;
+            }
+        //let checkBtn = target.querySelector('.checkbox_button_container');
+        let asd= target.querySelectorAll('.checkbox_button_container');
+        for(let i=0; i<asd.length; i++){
+        let checkBtn = asd[i];
+        checkBtn.setAttribute('style','opacity:0.6');
+      }
+    },
+    hideBtn(e){
+        let target = e.target;
+        while (!target.classList.contains('checkbox_place')) {
+            target = target.parentElement;
+            }
+        let asd= target.querySelectorAll('.checkbox_button_container');
+        for(let i=0; i<asd.length; i++){
+        let checkBtn = asd[i];
+        checkBtn.setAttribute('style','opacity:0');
+      }
+    },
         creTextarea: function (e) {
             if (!this.shiftSatus) {
                 e.preventDefault();
@@ -146,8 +163,8 @@ export default {
         },
         addRow: function (e) {
             let thisTable = e.target.parentNode.nextSibling;
-            let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
-            copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
+            let copyRow = $(thisTable).children().eq(0).clone(true);
+            copyRow.children().children(".input_text").val(""); 
             $(thisTable).append(copyRow);
 
         },
@@ -156,7 +173,6 @@ export default {
             while (!tableContainer.classList.contains('table_container')) {
                 tableContainer = tableContainer.parentElement;
             }
-
             let table = tableContainer.querySelector('.maked_table');
             let trs = table.querySelectorAll('tr');
             console.log(trs);
@@ -167,7 +183,7 @@ export default {
                 let input = document.createElement('input');
                 input.setAttribute('type', 'text');
                 input.setAttribute('class', 'input_text');
-                input.setAttribute('style', 'border:none; outline:none; width:98%; height:100%;')
+                input.setAttribute('style', 'border:none; outline:none; width:98%; height:100%; font-size:18px;')
                 td.append(input);
                 tr.append(td);
             }
@@ -206,19 +222,16 @@ export default {
             console.log('...',btnName)
             if(btnName=='add_checkbox'||btnName=='add_img'){ 
                 this.addCheckList(e);
-            }else if(btnName=='add_checkbox'||btnName=='add_img'){
+            }else if(btnName=='del_checkbox'||btnName=='del_img'){
                 this.delCheckList(e);
             }
         },
         addCheckList: function (e) {
-            
-            e.preventDefault();
             let checkboxPlace = e.target;
 
             while (!checkboxPlace.classList.contains('checkbox_place')) {
                 checkboxPlace = checkboxPlace.parentElement;
             }
-
             let checkboxList = document.createElement('div');
             checkboxList.setAttribute('class', 'checkbox_list');
             checkboxList.setAttribute('style', 'display:flex;');
@@ -226,7 +239,6 @@ export default {
             let boxContainer = document.createElement('div');
             boxContainer.setAttribute('class', 'box_container');
             boxContainer.setAttribute('style', 'padding:0; display:flex; margin-left:1%; margin-bottom:6px;');
-
 
             let btnContainer = document.createElement('div');
             btnContainer.setAttribute('class', 'checkbox_button_container');
@@ -260,7 +272,7 @@ export default {
             let addImgSrc = document.querySelector('.add_img')
             addImg.src = addImgSrc.src;
 
-            //버튼에 이미지
+            //버튼 이미지
             addButton.append(addImg);
 
             //del버튼
@@ -284,12 +296,18 @@ export default {
             checkboxPlace.append(checkboxList);
         },
         delCheckList: function (e) {
+            let checkboxPlace = e.target;
+            //target이 특정요소를 찾을때까지 부모로 올라가도록
+            while (!checkboxPlace.classList.contains('checkbox_place')) {
+                checkboxPlace = checkboxPlace.parentElement;
+            }
             let checkboxList = e.target.parentElement.parentElement.parentElement;
+        
+            let checkboxLists = checkboxPlace.querySelectorAll('.checkbox_list');
 
-             let checkboxLists = checkboxPlace.querySelectorAll('.checkbox_list');
-             if (checkboxLists.length > 1) {
-                 checkboxList.remove();
-             }
+            if (checkboxLists.length > 1) {
+                checkboxList.remove();
+            }
         },
         deleteImages(updatedImages) {
             this.images = updatedImages;
