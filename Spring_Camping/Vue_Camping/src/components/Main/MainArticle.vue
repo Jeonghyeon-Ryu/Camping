@@ -95,8 +95,8 @@ a:visited{
   flex-direction: column;
   /* justify-content: center;
   align-items: center; */
-  position: relative;
-  top: -400px;
+  position: absolute;
+  top: calc(120vh + 20px);
 }
 .article-left {
   width: 100%;

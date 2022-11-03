@@ -27,23 +27,26 @@ import MainSwiper from '../components/Main/MainSwiper.vue';
 <style scoped>
   .container{
     position: relative;
+    height: 2100px;
   }
   .search-container{
     width: 800px;
     min-width: 500px;
     position: absolute;
-    top: 100px;
+    top: 200px;
     left:calc(50% - 400px);
     z-index: 1005;
   }
   .search-camp{
-    position: relative;
-    top: -550px;
-    z-index: 1008;
+    position: absolute;
+    width:100%;
+    top: 500px;
+    z-index: 2010;
   }
   .note{
-    position: relative;
-    top: -400px;
+    position: absolute;
+    top: calc(120vh - 150px);
+    z-index: 1020;
   }
 
 </style>
