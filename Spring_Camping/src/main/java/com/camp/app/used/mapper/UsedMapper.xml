@@ -72,7 +72,7 @@
 	</select>
 	
 	<!-- 내가찜한글 -->
-	<select id="findUsedSave" parameterType="String" resultType="UsedVO">
+	<select id="findUsedSave" parameterType="String" resultType="SaveVO">
 		select * from save where email = #{email} and board_division=2 
 	</select>
 	

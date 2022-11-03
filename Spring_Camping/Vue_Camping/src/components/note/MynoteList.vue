@@ -80,7 +80,6 @@
 import Modal from "./modal.vue"
 import Swal from 'sweetalert2';
 
-
 export default {
     name: "MynoteList",
     data() {

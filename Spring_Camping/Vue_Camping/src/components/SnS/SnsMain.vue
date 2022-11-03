@@ -6,7 +6,7 @@
 
     <div class="sns-img-container">
       <!-- <SnsDetailImage></SnsDetailImage> -->
-      <div class="sns-img-row-container" :key="snsImg.writeNo" v-for="snsImg in snsImgs" @click="getSnsDetail(snsImg.writeNo)">
+      <div class="sns-img-row-container" :key="snsImg.writeNo" v-for="snsImg of snsImgs" @click="getSnsDetail(snsImg.writeNo)">
         <div class="sns-img">
           <input type="text" :value="snsImg.writeNo" style="display :none;">
           <img :src="'http://13.125.95.210:85/java/showSnsImage/'+snsImg.snsPath+'/'+snsImg.storedName">
@@ -35,11 +35,11 @@ export default {
       fetch('http://13.125.95.210:85/java/sns/' + this.page)
       .then(result => result.json())
       .then(result => {
-        
         this.snsImgs = result;
       })
       .catch(err => console.log(err));
     }
+
   },
   // components: { SnsDetailImage },
   //검색

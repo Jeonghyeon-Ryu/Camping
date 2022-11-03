@@ -207,12 +207,28 @@ export default {
         })
         .catch(err => console.log(err));
     }
+  },
+  watch : {
+    usedCard : function() {
+      fetch('http://13.125.95.210:85/java/used/usedImage/' + this.usedCard.usedId)
+      .then(result => result.json())
+      .then(result => {
+        this.images = result;
+      })
+      .catch(err => console.log(err))
+
+    if (this.$store.state.email != null) {
+      fetch('http://13.125.95.210:85/java/save?boardId=' + this.usedCard.usedId + '&email=' + this.$store.state.email + '&boardDivision=' + 2)
+        .then(result => result.text())
+        .then(result => {
+          if (result == 'true') {
+            this.liked = false;
+          }
+        })
+        .catch(err => console.log(err));
+    }
+    }
   }
-
-
-
-
-
 }
 </script>
 <style scoped src="@/assets/css/used/UsedMain.css" />

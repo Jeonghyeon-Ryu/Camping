@@ -33,6 +33,7 @@ export default {
     return {
       filterImg: filter,
       isFilter: false,
+      isFiltered: false,
       filterOptions: [
         ['Equal', 'Contain', 'Start', 'End'],
         ['Equal', '>=', '<=', '>', '<'],
@@ -44,8 +45,6 @@ export default {
     }
   },
   created: function () {
-    console.log(this.column);
-    console.log(this.type);
     if (this.type == String) {
       this.filterOption = this.filterOptions[0];
     } else if (this.type == Number) {
@@ -210,6 +209,7 @@ export default {
     },
     executeFilter: function() {
       this.$emit('filterData', this.filterDatas);
+      this.isFiltered = true;
     }
   }
 }

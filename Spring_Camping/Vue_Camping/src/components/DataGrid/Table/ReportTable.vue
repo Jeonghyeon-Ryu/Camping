@@ -5,7 +5,8 @@
         <input @click="checkAll($event)" type="checkbox" name="checkedUser" value="" />
         <div class="table-column" v-for="column of columns">{{ column.name }}
           <Sort v-if="column.sortable" :column="column.prop" @sort="getSortData"></Sort>
-          <Filtering :datas="reportData" :column="column.prop" :type="column.type"></Filtering>
+          <Filtering v-if="column.filtering" :datas="reportData" :column="column.prop" :type="column.type"
+            @filterData="filterData"></Filtering>
         </div>
         <div class="excel-export-container">
           <ExcelExport :inputData="reportData"></ExcelExport>
@@ -27,10 +28,11 @@
           <div v-if="column.type == Date">{{ $filters.formatDate(data[column.prop]) }}</div>
         </div>
         <TableButton v-if="modifybtn" :type="'modify'" @modify="modify(data, index)"></TableButton>
-        <TableButton v-if="removebtn && $store.state.auth==0" :type="'remove'" @remove="remove(data, index)"></TableButton>
+        <TableButton v-if="removebtn && $store.state.auth == 0" :type="'remove'" @remove="remove(data, index)">
+        </TableButton>
         <!-- v-if="data.status == 0 ? 1? 판별해서 limit active 둘중 하나만 띄우는거 필요" -->
-        <TableButton v-if="$store.state.auth==0" :type="'limit'" @limit="limit(data, index)"></TableButton>
-        <TableButton v-if="$store.state.auth==0" :type="'active'" @active="active(data, index)"></TableButton>
+        <TableButton v-if="$store.state.auth == 0" :type="'limit'" @limit="limit(data, index)"></TableButton>
+        <TableButton v-if="$store.state.auth == 0" :type="'active'" @active="active(data, index)"></TableButton>
       </li>
     </ul>
     <Pagination :startPage="startPage" :endPage="endPage" :totalPage="totalPage" @changePage="changePage">
@@ -61,6 +63,7 @@ export default {
           name: "캠핑장 번호",
           prop: "boardId",
           sortable: true,
+          filtering: true,
           type: Number
         },
         {
@@ -82,6 +85,7 @@ export default {
         {
           name: "신고일자",
           prop: "regdate",
+          filtering: true,
           type: Date
         },
         {
@@ -272,6 +276,10 @@ export default {
             })
         }
       })
+    },
+    filterData: function (result) {
+      console.log('filtering data ', result);
+      this.rows = result;
     },
     cancelModify: function () {
       this.modifyData = [];

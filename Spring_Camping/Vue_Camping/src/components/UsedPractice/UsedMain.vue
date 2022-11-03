@@ -14,6 +14,9 @@
               </swiper> -->
               <swiper :autoplay="{ delay:1000, disableOnInteraction:false }" :navigation="false" :pagination="{ clickable: false, }" :modules="modules" class="mySwiper">
                 <swiper-slide>
+                  <img src="@/assets/img/used/ad3.png" alt="텐트 중고거래 광고">
+                </swiper-slide>
+                <swiper-slide>
                   <img src="@/assets/img/used/bg10.png" alt="텐트 중고거래 광고">
                 </swiper-slide>
                 <swiper-slide>
@@ -283,7 +286,6 @@ export default {
       }
       const keyword = this.keyword;
       this.keywordValue = keyword;
-      console.log(data)
       fetch("http://13.125.95.210:85/java/used/usedSearch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -344,7 +346,6 @@ export default {
       let data = {
         keyword: this.$route.query.search,
       }
-
       fetch("http://13.125.95.210:85/java/used/usedSearch", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -385,10 +386,5 @@ export default {
 }
 
 </script>
-
-
-
-
-
 
 <style scoped src="@/assets/css/used/UsedMain.css" />

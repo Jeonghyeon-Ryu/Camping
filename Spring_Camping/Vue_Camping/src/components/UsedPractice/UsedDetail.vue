@@ -79,7 +79,7 @@
           <p><b>상품 설명</b></p>
           <hr class="horizontal-line">
           <div class="used-content">
-            {{usedList.usedContent}}
+            <textarea class="used-textarea" disabled readonly>{{usedList.usedContent}}</textarea>
           </div>
         </div>
         <!-- 작성자 정보-->
@@ -654,16 +654,5 @@ export default {
 }
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
 
 <style scoped src="@/assets/css/used/UsedDetail.css" />

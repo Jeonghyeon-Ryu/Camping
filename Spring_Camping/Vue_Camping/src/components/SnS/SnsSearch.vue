@@ -85,8 +85,6 @@ export default {
       // console.log(event.target.value);
       let searchValue = event.target.value;
       if (searchValue.length > 1) {
-
-
         // searchValue 에서 맨앞이 #인지 확인
         let result1 = searchValue.substr(0, 1);
         // #이면 -> 태그검색 함수로 function doSearchTag
@@ -104,7 +102,6 @@ export default {
         if (event.keyCode == 13) {
           this.doSearch()
         }
-
       }
       //onblur 아웃포커스
       // let focus = document.querySelector('.sns-searchbox input')

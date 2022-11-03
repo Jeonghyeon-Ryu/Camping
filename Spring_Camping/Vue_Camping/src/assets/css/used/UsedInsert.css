@@ -1,13 +1,9 @@
-*{
-  margin:0 ;
-  padding:0 ;
-  box-sizing: border-box ;
-  text-align: left ;
-}
+
 #container{
   width: 100% ;
   margin-top: 10% ;
   padding: 2% ;
+  text-align: left;
 }
 #container2{
   width: 75% ;

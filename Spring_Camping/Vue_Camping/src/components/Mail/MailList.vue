@@ -326,16 +326,14 @@ created(){
 </script>
 
 <style scoped>
-    *{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
+  li{
     text-align: left;
   }
   .container{
     width: 80%;
     margin: 0 auto;
     margin-top: 7%;
+    margin-bottom: 6%;
     padding: 2% 2% 3% 2%;
     /* border: 1px solid #e6e6e6; */
     background-color: #f7f7f7;
