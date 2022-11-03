@@ -52,9 +52,9 @@ export default {
       topCategory: {
         "어디갈래?": "/CampList",
         "같이갈래?": "/RecruList",
-        "중고장터": "/used/usedMain",
-        "후기피드": "/sns/" + undefined,
         "나의노트": "/Usage",
+        "SNS": "/sns/" + undefined,
+        "중고장터": "/used/usedMain",
       },
       middleCategory: [
         {
@@ -69,8 +69,10 @@ export default {
           "나의 신청 목록": ["/recru/EntryMypage", false],
         },
         {
-          "물건 사기": ["/used/UsedMain", true],
-          "물건 팔기": ["/used/UsedInsert", false],
+          "이용방법": ["/MynoteList", true],
+          "내가 작성한 노트": ["/MynoteList", false],
+          "내가 초대받은 노트": ["/InvitedList", false],
+          "노트 작성하기": ["/WriteNote", false],
         },
         {
           "게시글": ["/sns/" + undefined, true],
@@ -80,10 +82,8 @@ export default {
           "나의피드": ["/sns/myFeed/" + this.$store.state.nickname, false],
         },
         {
-          "이용방법": ["/MynoteList", true],
-          "내가 작성한 노트": ["/MynoteList", false],
-          "내가 초대받은 노트": ["/InvitedList", false],
-          "노트 작성하기": ["/WriteNote", false],
+          "물건 사기": ["/used/UsedMain", true],
+          "물건 팔기": ["/used/UsedInsert", false],
         },
       ],
       responsiveFlag: false,
@@ -113,13 +113,13 @@ export default {
         sessionStorage.setItem('currentCategory', '2');
       } else if (key == "중고장터") {
         // this.$store.state.currentCategory = 5;
-        sessionStorage.setItem('currentCategory', '3');
-      } else if (key == "후기피드") {
+        sessionStorage.setItem('currentCategory', '5');
+      } else if (key == "SNS") {
         // this.$store.state.currentCategory = 3;
         sessionStorage.setItem('currentCategory', '4');
       } else if (key == "나의노트") {
         // this.$store.state.currentCategory = 4;
-        sessionStorage.setItem('currentCategory', '5');
+        sessionStorage.setItem('currentCategory', '3');
       } else if (key == "메인") {
         // this.$store.state.currentCategory = 0;
         sessionStorage.setItem('currentCategory', '0');
