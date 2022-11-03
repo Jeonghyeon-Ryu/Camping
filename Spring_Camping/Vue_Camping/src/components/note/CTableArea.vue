@@ -1,20 +1,20 @@
 <template>
-  <div class="write_fn">
-    <div class="left_container">
+  <div class="write_fn" @mouseenter="show($event)" @mouseleave="hide($event)">
+    <div class="left_container" >
       <div class="btn_container">
         <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
         <div class="del_line"><img src="@/assets/img/note/trash.png" @click="delLine($event)"></div>
       </div>
     </div>
-    <div class='table_container'>
+    <div class='table_container' style="margin-bottom : 20px">
       <button class='row_addbtn'><img src="@/assets/img/note/down_arrow.png" @click="addRow($event)"
-                        @mouseover="changeShow"></button>
-      <table class='maked_table'>
+          @mouseover="changeShow"></button>
+      <table class='maked_table' @click="tableListFn($event)">
         <template v-for="(tr, i) in data" :key="i">
           <tr class='item'>
-            <td class="row-button-container" @mouseover="showBtn">
-              <button class='row_delbtn' v-if="btnActive==true"><img src="@/assets/img/note/trash.png"
-                  @click="delRow($event)" @mouseout="hideBtn"></button>
+            <td class="row-button-container">
+              <button class='row_delbtn'><img src="@/assets/img/note/trash.png"
+                  @click="delRow($event)" class="row_delimg"></button>
             </td>
             <template v-for="(td, j) in tr" :key="j">
               <td class='item_td'><input width="100px" type="text" class="input_text" :value="td"></td>
@@ -27,6 +27,7 @@
   </div>
 </template>
 <script>
+import $ from 'jquery'
 export default {
   props: ['data'],
   data: function () {
@@ -35,14 +36,53 @@ export default {
     }
   },
   methods: {
-    // addRow: function (e) {
-    //   let thisTable = e.target.parentNode.nextSibling;
-    //   let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
+    show(e){
+      let target = e.target;
+      let showTarget = target.querySelector('.btn_container');
+      showTarget.setAttribute('style','opacity:0.6');
+      
+      let showDelRowTargets = target.querySelectorAll('.row-button-container');
+      for(let i=0; i<showDelRowTargets.length; i++){
+        let showDelRowTarget = showDelRowTargets[i];
+        showDelRowTarget.setAttribute('style','opacity:0.6');
+      }
 
-    //   copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
-    //   $(thisTable).append(copyRow);
-    //   console.log(thisTable);
+      let colAddBtn = target.querySelector('.col_addbtn');
+      colAddBtn.setAttribute('style','opacity:0.6');
 
+      let rowAddBtn = target.querySelector('.row_addbtn');
+      rowAddBtn.setAttribute('style','opacity:0.6');
+    },
+    hide(e){
+      let target = e.target;
+      let showTarget = target.querySelector('.btn_container');
+      showTarget.setAttribute('style','opacity:0');
+      
+      let showDelRowTargets = target.querySelectorAll('.row-button-container');
+      for(let i=0; i<showDelRowTargets.length; i++){
+        let showDelRowTarget = showDelRowTargets[i];
+        showDelRowTarget.setAttribute('style','opacity:0');
+      }
+      
+      let colAddBtn = target.querySelector('.col_addbtn');
+      colAddBtn.setAttribute('style','opacity:0');
+
+      let rowAddBtn = target.querySelector('.row_addbtn');
+      rowAddBtn.setAttribute('style','opacity:0');
+    },
+    
+    tableListFn(e) {
+      let btnName = e.target.classList[0];
+      console.log('...', btnName)
+      if (btnName == 'add_delbtn' || btnName == 'row_delimg') {
+        this.delRow(e);
+      }
+    },
+    addRow: function (e) {
+      let thisTable = e.target.parentNode.nextSibling;
+      let copyRow = $(thisTable).children().eq(0).clone(true); //첫번째tr복사
+      copyRow.children().children(".input_text").val(""); //복사한 tr의 input박스 안에꺼 지우기
+      $(thisTable).append(copyRow);
 
     },
     addCol: function (e) {
@@ -50,7 +90,7 @@ export default {
       while (!tableContainer.classList.contains('table_container')) {
         tableContainer = tableContainer.parentElement;
       }
-      
+
       let table = tableContainer.querySelector('.maked_table');
       let trs = table.querySelectorAll('tr');
 
@@ -67,13 +107,14 @@ export default {
       }
     },
     delRow: function (e) {
-      let item = e.target.parentElement;
-      while (!item.classList.contains('item')) {
-        item = item.parentElement;
-      }
-      item.remove();
+      let findRow = e.target.parentElement.parentElement.parentElement;  
+        if ($('.item').length > 1) {
+            $(findRow).remove();
+        }
     },
-  }
+  },
+
+}
 
 </script>
 

@@ -13,12 +13,12 @@
                 </div>
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="card text-white bg-success mb-3" v-for="info in listInfo" :key="info.noteId">
-                            <div class="card-header">
+                        <div class="card_container" v-for="info in listInfo" :key="info.noteId">
+                            <div class="card_header">
                                 <div class="noteId" style="opacity : 0">{{ info.noteId }}</div>
                                 <div class="note_state">{{ info.noteState }}</div>
                                 <div class="checkbox">
-                                    <input type="checkbox" v-bind:id="info.noteId" name="check_one" v-if="show">
+                                    <input type="checkbox" v-bind:id="info.noteId" name="check_one" v-if="show" class="check_note">
                                     <label for="select_card"></label>
                                 </div>
                                 <div class="header_button">
@@ -29,7 +29,7 @@
                                         @click="[inviteCancleModalOpen = true, inviteCancleForm($event)]">공유취소</button>
                                 </div>
                             </div>
-                            <div class="card-body" @click="goMynote($event)">
+                            <div class="card_body" @click="goMynote($event)">
                                 <div class="card-text">{{ info.writeDate }}</div>
                                 <hr>
                                 <div class="card-title">{{ info.title }}</div>
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="invite_btn_container">
-                            <button class="success" @click="blockMember($event)">공유끊기</button>
+                            <button class="success" @click="[blockMember($event), delMemberList($event)]">공유끊기</button>
                             <button class="modal_cancel"
                                 @click="[inviteCancleModalOpen = false, delMemberList($event)]">취소</button>
                         </div>
@@ -88,15 +88,9 @@ export default {
             noteId: [],
             blockMeber: [],
             myNoteId: this.$route.params.noteId,
+            status: '',
             listInfo: [],
             InvitedmemberList: [],
-            cardClass: [
-                "card text-white bg-secondary mb-3",
-                "card text-white bg-success mb-3",
-                "card text-white bg-dark mb-3",
-                "card text-dark bg-info mb-3",
-                "card text-white bg-danger mb-3"
-            ],
             /*체크박스 상태 */
             show: false,
             /*모달창 상태*/
@@ -107,6 +101,7 @@ export default {
     },
     created() {
         this.getMyListInfo();
+
 
     },
     methods: {
@@ -122,14 +117,7 @@ export default {
         deleteInvite() {
             this.visible = !this.visible;
         },
-        changeCardColor() {
-            if (this.noteState === "공유중") {
-                this.cardClass = "card text-white bg-dark mb-3";
-            }
-            else {
-                this.cardClass = "card text-white bg-success mb-3";
-            }
-        },
+        
         //card에 들어갈 info
         getMyListInfo() {
             const email = this.$store.state.email;
@@ -139,7 +127,9 @@ export default {
             })
                 .then((response) => response.json())
                 .then(data => {
-                    this.listInfo = data;
+                    this.listInfo = data; 
+                    console.log(this.status);
+                    console.log(this.listInfo);
                 }).catch(err => console.log(err));
         },
         findId(e) {
@@ -149,8 +139,6 @@ export default {
         },
         checkedInfo(e) {
             let checkBoxes = document.querySelectorAll('input[type="checkbox"]');
-            let checkedId = [];
-            let checkedIds = {};
             for (let i = 0; i < checkBoxes.length; i++) {
                 if (checkBoxes[i].checked == true) {
                     this.noteId.push(checkBoxes[i].id);
@@ -158,6 +146,7 @@ export default {
             }
             this.delNote();
         },
+        
         goList() {
             this.$router.push({ name: "MynoteList" });
         },
@@ -185,7 +174,7 @@ export default {
                         body: JSON.stringify(fetchData)
                     })
                         .then((response) => {
-                            this.$router.go(0)
+                            this.$router.go(0);
                         }).catch(err => {
                             console.log(err)
                         });
@@ -194,13 +183,12 @@ export default {
         },
         goMynote(e) {
             let target = e.target.parentElement;
-            while (!target.classList.contains('card')) {
+            while (!target.classList.contains('card_container')) {
                 target = target.parentElement
             }
             let noteId = target.querySelector('.noteId').innerText;
             this.myNoteId = noteId;
-            console.log("====나와야대")
-            console.log(this.myNoteId)
+
             this.$router.push({
                 name: "MyNoteInfo",
                 params: {
@@ -211,7 +199,7 @@ export default {
         //초대하기(폼열기)
         inviteForm(e) {
             let target = e.target;
-            while (!target.classList.contains('card')) {
+            while (!target.classList.contains('card_container')) {
                 target = target.parentElement;
             }
             let noteId = target.querySelector('.noteId').innerText;
@@ -264,20 +252,23 @@ export default {
 
             inputContainer.append(inputEmail);
         },
+        delInviteMember(e) {
+            let parent = e.target.parentElement.parentElement;
+            let delList = parent.querySelectorAll('.input_email');
+            console.log(parent.lastChild);
+            if (delList.length > 1) {
+                parent.lastChild.remove();
+            }
+            console.log(delList);
+        },
         //폼 닫기
         inviteCancleForm(e) {
             let target = e.target;
-            while (!target.classList.contains('card')) {
+            while (!target.classList.contains('card_container')) {
                 target = target.parentElement;
             }
             let noteId = target.querySelector('.noteId').innerText;
             this.oneNoteId = noteId;
-            this.getInvitedMember();
-        },
-        //공유중인 맴버 보여주기
-        getInvitedMember() {
-            let noteId = this.oneNoteId;
-            console.log(noteId);
             fetch(`http://13.125.95.210:85/java/showBlockMember/${noteId}`, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
@@ -293,7 +284,7 @@ export default {
                     this.InvitedmemberList.push(invitedMember[i]);
                 }
             }).catch(err => console.log(err));
-    },
+        },
         //공유 끊기
         blockMember(e) {
             let noteId = this.oneNoteId;
@@ -346,9 +337,10 @@ export default {
                 }).catch(err => {
                     console.log(err)
                 });
-
-            console.log(this.blockMeber);
         },
+        delMemberList(e) {
+            this.InvitedmemberList = [];
+        }
     },
     components: { Modal }
 };

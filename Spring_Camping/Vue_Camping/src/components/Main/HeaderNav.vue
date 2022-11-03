@@ -54,7 +54,7 @@ export default {
         "같이갈래?": "/RecruList",
         "중고장터": "/used/usedMain",
         "후기피드": "/sns/" + undefined,
-        "나의노트": "/MynoteList",
+        "나의노트": "/Usage",
       },
       middleCategory: [
         {

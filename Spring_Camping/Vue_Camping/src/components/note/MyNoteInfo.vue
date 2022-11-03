@@ -16,7 +16,6 @@
                         <div class="text_highlighter"></div>
 
                         <div class="highlighter_menu">
-                            ....
                             <button id="bold" class="css_button"><img src="@/assets/img/note/bold.png"></button>
                             <button id="italic" class="css_button"><img src="@/assets/img/note/italic.png"> </button>
                             <button id="underLine" class="css_button"><img
@@ -110,46 +109,6 @@
                                 v-if="textAmount >= i + 1">
                             </CreTextarea>
                         </template>
-                        <!-- <CreTextarea :type="childOrder[1]" @creArea="CreArea($event)" v-if="textAmount >= 2">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[2]" @creArea="CreArea($event)" v-if="textAmount >= 3">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[3]" @creArea="CreArea($event)" v-if="textAmount >= 4">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[4]" @creArea="CreArea($event)" v-if="textAmount >= 5">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[5]" @creArea="CreArea($event)" v-if="textAmount >= 6">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[6]" @creArea="CreArea($event)" v-if="textAmount >= 7">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[7]" @creArea="CreArea($event)" v-if="textAmount >= 8">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[8]" @creArea="CreArea($event)" v-if="textAmount >= 9">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[9]" @creArea="CreArea($event)" v-if="textAmount >= 10">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[10]" @creArea="CreArea($event)" v-if="textAmount >= 11">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[11]" @creArea="CreArea($event)" v-if="textAmount >= 12">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[12]" @creArea="CreArea($event)" v-if="textAmount >= 13">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[13]" @creArea="CreArea($event)" v-if="textAmount >= 14">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[14]" @creArea="CreArea($event)" v-if="textAmount >= 15">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[15]" @creArea="CreArea($event)" v-if="textAmount >= 16">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[16]" @creArea="CreArea($event)" v-if="textAmount >= 17">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[17]" @creArea="CreArea($event)" v-if="textAmount >= 18">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[18]" @creArea="CreArea($event)" v-if="textAmount >= 19">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[19]" @creArea="CreArea($event)" v-if="textAmount >= 20">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[20]" @creArea="CreArea($event)" v-if="textAmount >= 21">
-                        </CreTextarea>  -->
                     </div>
                 </div>
             </div>
@@ -181,9 +140,8 @@ export default {
         }
     },
     created() {
+        window.scrollTo(0,0);
         // this.noteId = this.$router.params.myNoteId;
-
-
         fetch("http://13.125.95.210:85/java/GoMyNote/" + this.noteId)
             .then(result => result.json())
             .then(result => {
@@ -349,13 +307,20 @@ export default {
                                 </div>`;
                     contents.push(tableTag);
                 } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
+                   
                     lineValue = [];
-                    let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
-                    checkBoxTag = `<div class='check_box_list'>`;
+                    let checkBoxList = lineAll[i].querySelectorAll('input[type="checkbox"]');
+                    let checkBoxText = lineAll[i].querySelectorAll('input[type="text"]');
+                    
+                    checkBoxTag = `<div class='check_box_list'>`;   
                     for (let j = 0; j < checkBoxList.length; j++) {
-                        let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
-                        let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
-                        let isChecked = lineCheckbox.checked;
+                        //let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
+                        let lineCheckText = checkBoxText[j].value;
+                        //console.log(">>>>>>lineCheckbox", lineCheckbox)
+                        console.log("lineCheckText>>>>>>", lineCheckText)
+
+                        let isChecked = checkBoxList[j].checked;
+                        console.log("isChecked>>>>>>", isChecked)
                         checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="` + isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
                                             <div class="box_container">
                                                 <div class="checkbox_button_container">
@@ -367,10 +332,10 @@ export default {
                             status: isChecked,
                             text: lineCheckText
                         });
+
                     };
-                    checkBoxTag += `</div>`
-                    //체크박스 content
-                    contents.push(checkBoxTag);
+                    checkBoxTag += `</div>`    
+                    contents.push(checkBoxTag);lineValue = [];
                     //이미지
                 } else if (lineAll[i].querySelector('.image-preview-div') != undefined) {
                     console.log('>>>>', (lineAll[i].querySelector('.image-preview-div')));
@@ -396,41 +361,11 @@ export default {
                             temp = temp.substring(temp.indexOf('/'), temp.length);
 
                             let storedName = temp.substring(1, temp.length);
-                            //console.log('storedName', storedName)
-                            //console.log('imgPath',imgPath);
                             imgValue += 'imgPath:' + imgPath + '|storedName:' + storedName + '$';
                         }
-
-                    }
-                    //console.log(newImgCount);
+                    } 
                     imgValue += newImgCount;
                     contents.push(imgValue);
-
-
-                    console.log('contents>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', contents);
-                    //temp += 'IMG' + newImgCount
-                    // 기존 있던 값은 contents.push(temp)
-
-                    // let temp = '';
-                    // for(let i=0; i<imgBox.length; i++){
-
-                    //     temp = imgBox[i].querySelector('img').src;
-                    //     let imagePathIndex = temp.substring(temp.indexOf('GoMyNote/' + 9, temp.length))                        
-                    //     //imagePath = substring(temp.substring(imagePathIndex, ))
-                    //     console.log("---" , imagePathIndex);
-
-                    // }
-                    //이 형식은 IMG:0으로 contents에 push된다.
-
-                    // console.log("lineAll :", lineAll[i].querySelectorAll('.image-preview-div'))
-                    // let imgContainer = lineAll[i].querySelector('.img_container');
-                    // let imgBox = imgContainer.querySelectorAll('.image-preview-div');
-                    // let imgCount = imgBox.length;
-
-                    // contents.push(
-                    //     'IMG:' + imgCount
-                    //);
-
                 }
             };
             //작성한 DB에 저장(수정버튼)

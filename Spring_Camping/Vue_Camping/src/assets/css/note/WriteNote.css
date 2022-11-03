@@ -15,7 +15,6 @@
     min-width: 200px;
 }
 .mynote_menu>div {
-    
     width: 20%;
     border: 1px solid lightgray;
     padding: 10px;
@@ -44,9 +43,9 @@
     padding: 5px;
     width: 100%;
     height: 100%;
-    vertical-align: left;
+    /*vertical-align: left;*/
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     position: relative;
 }
 .mynote_region>div{ 
@@ -59,9 +58,9 @@
 
 .write_region {
     position: absolute;
-    left :8%;
-    width: calc(100% - 120px);
-    min-width: 1000px;
+    left :310px;
+    width: calc(100% - 240px);
+    min-width: 1060px;
     height: 100%;
 }
 
@@ -72,11 +71,11 @@
 }
 textarea{ 
     /*display: inline-block;*/
-    
     width: 100%; 
     border : none;
     padding: 10px 10px;
-    font-size: 15px;
+    font-size: 18px;
+    font-weight:550;
     height: 100px;
     min-width: 1000px;
     outline-color:rgb(127, 199, 175);
@@ -88,27 +87,26 @@ textarea{
     height: 50px;
     margin: 5px 10px 10px 10px;
     border: none;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
+    border-bottom: 1px solid lightgray;
+    box-shadow: 3px 3px 3px 2px rgba(211, 211, 211, 0.925);
 }
 
 .text_highlighter {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 .textarea_container{ 
-    width : 80%;
+    width : 70%;
     /*height: fit-content;*/
-  }
+}
 .write_fn {
-    
-    
     display: flex;
     height: fit-content;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border: none;
-    width: 90%;
-    
+    width: 70%;
 }
 .fn_menu>div {
     
@@ -119,15 +117,19 @@ textarea{
     flex-direction: column;
     align-items: center;
 }
-
+.left_container{
+    margin-right: 10px;
+    margin-top : 10px;
+}
 .fn_menu {
     margin-left: 45px;
     border: 1px solid lightgray;
-    width: 100%;
+    width: 240px;
     display: flex;
     flex-direction: column;
     top: 30px;
     align-items: center;
+    height: 830px;
 }
 .add_fn_container {
     margin-top: 20px;
@@ -147,6 +149,7 @@ textarea{
 .highlighter_menu {
     display: flex;
     flex-direction: row;
+    margin-bottom: 25px;
 }
 
 .highlighter_menu>button {
@@ -184,27 +187,22 @@ select {
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
-
     font-family: "Noto Sansf KR", sans-serif;
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: bold;
     line-height: 1.5;
-
     color: #444;
     background-color: #fff;
-
     padding: .6em 1.4em .5em .8em;
-
     margin-top: 10px;
-
+    margin-bottom: 5px;
     border: 1px solid #aaa;
     border-radius: .5em;
     box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
     width: fit-content;
 }
-
-select:hover {
-    border-color: #888;
+#fontName{
+    margin-top: 30px;
 }
 
 select:focus {
@@ -253,7 +251,9 @@ select:disabled {
 
 .input_text {
     width: 100px;
-    height: 100%;
+    height: 40px;
+    font-size: 18px;
+
 }
 
 .del_row {
@@ -264,7 +264,7 @@ select:disabled {
     right: 0;
     border: none;
     background-color: transparent;
-    opacity: 0.6;
+    opacity: 0;
     transition-duration: 0.5s;
     padding: 10px;
 }
@@ -277,14 +277,14 @@ select:disabled {
     left: 11%;
     background-color: transparent;
     border: none;
-    opacity: 0.6;
+    opacity: 0;
     transition-duration: 0.5s;
 }
 
 .row-button-container {
     width: 30px;
     border: none !important;
-
+    opacity: 0;
 }
 
 .row_delbtn {
@@ -328,30 +328,31 @@ select:disabled {
     margin-left: 1%;
     margin-bottom: 6px;
 }
-
 .checkbox_text {
-    width : 200px;
-    height: 80%;
+    width : 250px;
+    height: 30px;
     font-size: 15px;
     margin: 10px 0px 5px 10px;
     border: 1px solid lightgray;
-    border-radius: 5%;
+    border-radius: 4px;
 }
 .noteCheckbox{ 
     margin-top: 10px;
+    scale: 1.5;
 }
 .checkbox_button_container {
     display: flex;
     margin-left: 5px;
     width: 40px;
-    
+    margin-top: 6px;
+    opacity: 0;
+    transition-duration: 0.4s; 
 }
-
 .checkbox_button_container>button {
     width: 25px;
     height: 25px;
-    opacity: 0.6;
-    transition-duration: 0.4s;
+    /*opacity: 0;
+    transition-duration: 0.4s;*/
     background-color: transparent;
     border: none;
     padding: 10px;
@@ -372,7 +373,7 @@ select:disabled {
 .btn_container {
     display: flex;
     flex-direction: row;
-    opacity: 0.6;
+    opacity: 0;
     transition-duration: 0.5s;
 }
 
@@ -381,14 +382,37 @@ select:disabled {
 }
 
 #savePdf {
-    
+    margin: 10px 0 10px 0;
     height: fit-content;
     background-color: transparent;
     border: #fff;
 }
-.save_btn{ 
+.fn_menu > button, .css_button, .add_fn_container>div{ 
     margin : 10px 0 10px 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: var(--button-bg-color);
+    color: var(--button-color);
+    margin-top: 10px;
+    padding: 0.5rem 1rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    display: inline-block;
+    width: auto;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.8), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: 0.5s;
 }
+.fn_menu > button:hover, .css_button:hover, .add_fn_container>div:hover{
+    background-color: lightgray;
+}
+
 .textbox {
     background-color: beige;
     border: 3px solid beige;
