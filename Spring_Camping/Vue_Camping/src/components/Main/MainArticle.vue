@@ -1,7 +1,7 @@
 <template>
   <div class="article-container">
     <div class="article-left">
-      <div class="article-left-title">같이갈래?</div>
+      <!-- <div class="article-left-title">같이갈래?</div> -->
       <div class="recru-card-box">
         <div v-for="recruInfo in recruPosts" :key="recruInfo.recruId" style="position:relative;">
           <RecruStatus :recruStatus="recruInfo.recruStatus"
@@ -15,7 +15,7 @@
     </div>
     <div class="article-right">
       <div class="article-right-top">
-        <div class="article-left-title">중고장터</div>
+        <!-- <div class="article-left-title">중고장터</div> -->
         <div class="used-cards">
           <div v-for="card in usedList" :key="card.id">
             <router-link tag="div" v-bind:to="{ name: 'usedDetail', params: { usedId: card.usedId } }">
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="article-right-bottom">
-        <div class="article-left-title">추천 후기</div>
+        <!-- <div class="article-left-title">추천 후기</div> -->
         <div class="sns-cards">
           <div class="sns-card" v-for="snsImg of snsImgs" @click="clickSnsCard(snsImg.writeNo)">
             <input type="text" :value="snsImg.writeNo" style="display :none;">
@@ -107,49 +107,54 @@ a:visited{
   width:100%;
   height: 40px;
   /* background-color: rgb(49, 69, 53); */
-  padding: 10px 10px 10px 50px;
+  padding: 10px 10px 10px 10vw;
   text-align: left;
   font-weight: bold;
   font-size: 1.1em;
   color: rgb(54, 91, 61);
 }
 .recru-card-box{
-  width: 100%;
+  width: calc(80vw + 80px);
+  min-width: 1040px;
   display: flex;
-  padding: 0 1.5% 1.5% 1.5%;
+  /* padding: 0 1.5% 1.5% 1.5%; */
   /* overflow-x: scroll; */
   margin: 0 auto;
+  overflow: hidden;
 }
 .article-right {
   padding: 0 10px 0 10px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   /* align-items: flex-start;
   justify-content: flex-start; */
 }
 
 .article-right-top {
-  width: 50%;
-  height: 385px;
+  width: 100%;
+  height: 355px;
   padding: 10px;
   display: block;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .used-cards {
+  width: 1320px;
   display: flex;
   flex-wrap: wrap;
   height: 690px;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .used-cards>div {
-  width: 50%;
+  width: fit-content;
 }
 
 .article-right-bottom {
-  width: 50%;
+  width: 100%;
   height: 380px;
   padding: 10px;
   display: block;
@@ -157,7 +162,7 @@ a:visited{
 }
 .sns-cards {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   height: 690px;
   overflow: hidden;
   /* justify-content: space-around; */
