@@ -111,6 +111,13 @@
     border-radius: 10px;
     padding: 15px;    
 }
+.recruPost-content >  textarea{
+    border: none;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    background: none;
+}
 .show_region_camp h4{
     color: cadetblue;
 }

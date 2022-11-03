@@ -63,12 +63,14 @@
                         <p><span>필요해요  </span>{{gearList(recruPost.needGear)}}</p>
 
                         <br>
-                        <div class="recruPost-content">{{recruPost.recruContent}}</div>
+                        <div class="recruPost-content">
+                            <textarea name="recruPost-content-detail" id="recruPost-content-detail" disabled>{{recruPost.recruContent}}</textarea>
+                        </div>
                     </div>
                 </div>
             </div>
             <div v-if="recruPost.noteId" class="recru-detail-row mynote-page">
-                <h3>{{recruPost.nickname}}님의 노트<span class="what-is-note">?</span></h3>
+                <h3>{{recruPost.nickname}}님의 노트</h3>
                 <ReadOnlyNoteVue :noteId="recruPost.noteId"></ReadOnlyNoteVue>
             </div>
 
@@ -584,8 +586,8 @@ export default{
                 imageUrl:
                     'https://ifh.cc/g/dTGkp9.jpg',
                 link: {
-                    mobileWebUrl: 'http://13.125.95.210:85/java/RecruList',
-                    webUrl: 'http://13.125.95.210:85/java/RecruList',
+                    mobileWebUrl: 'http://13.125.95.210:85/RecruList',
+                    webUrl: 'http://13.125.95.210:85/RecruList',
                 },
                 },
                 
@@ -598,15 +600,15 @@ export default{
                 {
                     title: '캠핑갈래 홈',
                     link: {
-                    mobileWebUrl: 'http://13.125.95.210:85/java/',
-                    webUrl: 'http://13.125.95.210:85/java/',
+                    mobileWebUrl: 'http://13.125.95.210:85',
+                    webUrl: 'http://13.125.95.210:85',
                     },
                 },
                 {
                     title: '페이지 이동',
                     link: {
-                    mobileWebUrl: 'http://13.125.95.210:85/java/recru/detail/'+num,
-                    webUrl: 'http://13.125.95.210:85/java/recru/detail/'+num,
+                    mobileWebUrl: 'http://13.125.95.210:85/recru/detail/'+num,
+                    webUrl: 'http://13.125.95.210:85/recru/detail/'+num,
                     },
                 },
                 ],

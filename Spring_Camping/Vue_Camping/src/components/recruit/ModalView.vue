@@ -1,7 +1,7 @@
 <template>
-    <div class="modal">
-        <div class="overlay" @click="$emit('close-modal')"> </div>
-        <div class="modal-card">
+    <div class="recru-modal">
+        <div class="recru-overlay" @click="$emit('close-modal')"> </div>
+        <div class="recru-modal-card">
             <slot/>
         </div>
     </div>
@@ -12,10 +12,10 @@ export default{}
 </script>
 <style scoped>
 /* Modal 컴포넌트를 감싸고 있는 부모 */
-.modal{
+.recru-modal{
     z-index: 1000;
 }
-.modal, .overlay{
+.recru-modal, .recru-overlay{
     width: 100%;
     height: 100%;
     position: fixed;
@@ -23,12 +23,12 @@ export default{}
     top: 0;  
 }
 /* 컴포넌트 영역과 같은 크기를 가진 배경 */
-.overlay{
+.recru-overlay{
     opacity: 0.5;
     background-color: black;
 }
 /* 내용이 보이는 부분 */
-.modal-card{
+.recru-modal-card{
     position: relative;
     max-width: 50%;
     margin: auto;
