@@ -5,7 +5,7 @@
                 <input @click="checkAll($event)" type="checkbox" name="checkedUser" value="" />
                 <div class="table-column" v-for="column of columns">{{column.name}}
                     <Sort v-if="column.sortable" :column="column.prop" @sort="getSortData"></Sort>
-                    <Filtering :datas="rows" :column="column.prop" :type="column.type" @filterData="filterData"></Filtering>
+                    <Filtering v-if="column.filtering" :datas="rows" :column="column.prop" :type="column.type" @filterData="filterData"></Filtering>
                 </div>
                 <div class="excel-export-container">
                     <ExcelExport :inputData="rows"></ExcelExport>
@@ -66,6 +66,7 @@ export default {
                 {
                     name: "성별",
                     prop: "sex",
+                    filtering: true,
                     type: String
                 },
                 {
@@ -76,6 +77,7 @@ export default {
                 {
                     name: "가입일",
                     prop: "regdate",
+                    sortable: true,
                     type: Date
                 },
                 {

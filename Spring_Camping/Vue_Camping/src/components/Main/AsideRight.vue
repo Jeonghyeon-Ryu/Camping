@@ -8,7 +8,7 @@
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 중고장터</router-link>
         <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" :to="snsMypage" tag="div"
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 피드</router-link>
-        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div"
+        <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/MynoteList" tag="div"
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">나의 노트</router-link>
         <!-- <router-link v-if="($store.state.email != null)&&($store.state.auth == 1)" to="/" tag="div"
             class="aside-right-button" @click="clickMenu" style="font-weight:bold">저장 목록</router-link> -->

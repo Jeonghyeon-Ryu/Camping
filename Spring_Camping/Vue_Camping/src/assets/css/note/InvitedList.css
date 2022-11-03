@@ -1,73 +1,232 @@
 /*버튼임*/
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
     
-:root {
---button-color: rgba(228,239,231,0.7);
---button-bg-color: #0d6efd;
---button-hover-bg-color: #025ce2;
-}
 
+.card_container{
+    height: 250px;
+	width: 500px;
+	border-radius: 15px;
+	display: inline-block;
+    margin : 2%;  
+	position: relative;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.40);
+	overflow: hidden;
+    background-color:#2c6e3b;
+    color:white;
+}
 button {
--webkit-appearance: none;
--moz-appearance: none;
-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 
-background: var(--button-bg-color);
-color: var(--button-color);
+    background: var(--button-bg-color);
+    color: var(--button-color);
 
-margin: 0;
-padding: 0.5rem 1rem;
+    margin: 0;
+    padding: 0.5rem 1rem;
 
-font-family: 'Noto Sans KR', sans-serif;
-font-size: 1rem;
-font-weight: 400;
-text-align: center;
-text-decoration: none;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
 
-border: none;
-border-radius: 4px;
+    border: none;
+    border-radius: 4px;
 
-display: inline-block;
-width: auto;
+    display: inline-block;
+    width: auto;
 
-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
-cursor: pointer;
+    cursor: pointer;
 
-transition: 0.5s;
+    transition: 0.5s;
 }
 
-button.success {
---button-bg-color: #28a745;
---button-hover-bg-color: #218838;
-}
-button.modal_delbtn {
---button-bg-color: #c72939;
---button-hover-bg-color: #e04958;
-}
-button.warning {
---button-color: #212529;
---button-bg-color: #ffc107;
---button-hover-bg-color: #e0a800;
-}
-
-button:active,
-button:hover,
-button:focus {
-background: var(--button-hover-bg-color);
-outline: 0;
-}
 button:disabled {
 opacity: 0.5;
 }
+.check_note{
+    margin-right: 5px;
+}
+.hr{
+    background:lightgray;
+    width: 300px;
+    height:1px;
+    border:0;
+}
+/* 모달임 */
+.black-bg { 
+    width : 100%;
+    height: 100%;
+    background-color: rgba(222, 221, 221, 0.469);
+    position: fixed;
+    padding: 20px;
+    z-index: 100;
+    /*align-items: center;*/
+    border : 1px solid rgb(59, 155, 59);
+    top: 5%;
+}
+ #del_modal { 
+    width : 100%;
+    height: 100%;
+    background-color: rgba(232, 232, 232, 0.346);
+    position: fixed;
+    padding: 20px;
+    z-index: 100;
+    align-items: center;
+    border : 1px solid rgb(59, 155, 59);
+    left : 0px;
+    top : 250px;
+} 
 
+.white-bg{ 
+    width: 500px;
+    height: 500px;
+    background-color: rgb(255, 251, 251);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 30% 30% 15% 40%;  
+}
+.modal_text { 
+    margin: 20px 0 20px 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+.modal_btn_container{
+    margin-top: 30px;
+    align-items: center;
+}
+.modal_btn_container>button{ 
+    margin-right: 20px;
+}
+.modal_delbtn{ 
+    color: #fff;
+}
+.modal_btn_container{ 
+    font-weight: bolder;
+   color: #218838;
+}
+/* 초대모달임 */
+.invite-white-bg{
+    display: flex;
+    flex-direction: column;
+    position: relative; 
+    width: 800px;
+    height: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10% 30% 15% 30%; 
+}
+.modal_info{ 
+    font-size: 25px;
+    font-weight: bolder;
+    margin: 10px 0 15px 0;
+}
+.invitedUser_list{ 
+    width: 700px;
+    margin: 0 0 3% 4%;
+    height: 600px;
+    outline: none !important; 
+    border-color: #26ce42; 
+    box-shadow: 0 0 10px #26ce42;
+}
+.input_email {
+    width: 450px;
+    height: 50px;
+    text-align: center;
+    margin: 30px 30px;
+    font-size: 20px;
+    color: black;
+    border: none;
+    outline: none !important; 
+    border-color: #26ce42; 
+    box-shadow: 0 0 10px #26ce42;
+   
+  }
+  .invited_list_info>input{
+    scale: 1.5;
+  }
+  .invitedMemberInfo{
+    font-size: 17px;
+  }
+  .success{
+    background-color: #3a6944;
+    color: white;
+  }
+  .success:hover{
+    background-color: #51905f;
+    color: white;
+  }
+  
+  .input:focus {
+    animation-name: border-focus;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    outline: none !important; 
+    border-color: #26ce42; 
+    box-shadow: 0 0 10px #26ce42;
+  }
+  @keyframes border-focus {
+    from {
+      border-radius: 0;
+    }
+    to {
+      border-radius: 15px;
+    }
+  }
+.invite_btn_container{ 
+    margin-top : 30px;
+}
+.invite_btn_container>button{ 
+    margin-right: 10px;
+}
+/* 공유끊기 모달임*/
+.invite-cancel-white-bg{ 
+    width: 35%;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10% 10% 10% 32%; 
+}
+.block_user_container{ 
+    margin-top: 10px;  
+}
+.invited_list_info{ 
+    display : flex;
+    margin-bottom: 5%;
+    left: 20%;
+}
+.invitedMemberInfo{ 
+    margin-left: 3%;
+}
+
+.textbox input[type="text"],
+.textbox input[type="password"] {
+    width: 100%;  /* 원하는 너비 설정 */ 
+    height: auto;  /* 높이값 초기화 */
+    line-height : normal;  /* line-height 초기화 */
+    padding: .8em .5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
+    font-family: inherit;  /* 폰트 상속 */
+    border: 1px solid #999;
+    border-radius: 0;  /* iSO 둥근모서리 제거 */
+    outline-style: none;  /* 포커스시 발생하는 효과 제거를 원한다면 */
+    -webkit-appearance: none;  /* 브라우저별 기본 스타일링 제거 */
+    -moz-appearance: none;
+    appearance: none;
+}
 .row{ 
     width: 100%;
 }
 /* page_section*/
 .mynote_container {
     width: 100%;
-    min-width: 650px;
+    min-width: 1130px;
     margin-top: 150px;
     position: relative;
 }
@@ -137,6 +296,7 @@ opacity: 0.5;
 }
 
 /* card_section css */ 
+
 .column{    
     padding-top: 10px;    
     padding-bottom: 10px;
@@ -162,6 +322,7 @@ color: white;
 font-weight: bold;
 font-size: 20px;
 }
+
 /* 이동 타켓 */  
 .card-placeholder {    
     border: 1px dotted black;    
@@ -182,9 +343,9 @@ font-size: 20px;
     padding: 20px 0 20px 0; 
 }
 .header_button{ 
-position : absolute;
-right: 45px;
-top : 15px; 
+    position : absolute;
+    right: 45px;
+    top : 15px; 
 }
 .checkbox {
     position: absolute;
@@ -193,21 +354,29 @@ top : 15px;
 }
 .select_container{ 
     position: relative;
+    height: 60px;
 }
-.card-body{ 
-padding: 20px 0 20px 0;
-text-align: justify;
+.card_body{
+    padding: 40px 0 20px 0;
+    text-align: justify;
+    cursor : pointer;
 }
 
 .card-title{ 
-margin-top: 10px;
+margin : 10px 10px 0 10px;
+font-size: 20px;
+}
+.card-text{
+    margin: 0 0 10px 10px;
+    margin-left: 10px;
+    font-size: 15px;
 }
 /* fn_btn */
 .mynote_btn{ 
     padding : 5px 0 5px 0;
     justify-content: right;
     position: absolute;
-    right: 230px;          
+    right: 4%;          
 }
 
 .header_button>button{ 

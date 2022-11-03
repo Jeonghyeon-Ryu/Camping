@@ -97,77 +97,11 @@
                 <div id="pdfDiv">
                     <input placeholder="제목" class="note_title">
                     <div class="sortable">
-                        <!--<template v-if="datas">
-                            <CreateLine v-for="item of datas" :type="item.type" :data="item.data"
-                                @creArea="CreArea($event)"></CreateLine>
-                        </template>-->
-                        
-                                <template v-for="(child, i) of childOrder" :key="i" class="creTextarea">
-                                        <CreTextarea :type="child" @saveImg="saveImg" @creArea="CreArea($event)"
-                                            v-if="textAmount >= i + 1" ref="childComponent{}">
-                                        </CreTextarea>
-                                </template>
-                           
-                        <!--<CreTextarea :type="childOrder[1]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 2">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[2]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 3">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[3]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 4">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[4]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 5">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[5]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 6">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[6]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 7">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[7]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 8">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[8]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 9">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[9]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 10">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[10]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 11">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[11]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 12">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[12]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 13">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[13]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 14">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[14]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 15">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[15]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 16">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[16]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 17">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[17]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 18">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[18]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 19">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[19]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 20">
-                        </CreTextarea>
-                        <CreTextarea :type="childOrder[20]" @saveImg="saveImg" @creArea="CreArea($event)"
-                            v-if="textAmount >= 21">
-                        </CreTextarea>-->
+                        <template v-for="(child, i) of childOrder" :key="i" class="creTextarea">
+                                <CreTextarea :type="child" @saveImg="saveImg" @creArea="CreArea($event)"
+                                    v-if="textAmount >= i + 1" ref="childComponent{}">
+                                </CreTextarea>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -179,7 +113,7 @@
 <script>
 import $ from 'jquery';
 import CreTextarea from './CreTextarea.vue';
-import MyNoteList from './MynoteList.vue';
+
 
 
 export default {
@@ -224,6 +158,7 @@ export default {
             let checkBoxTag;
             //let imgTag;
             let contents = [];
+           
             for (let i = 0; i < lineAll.length; i++) {
                 let lineValue = '';
 
@@ -256,14 +191,15 @@ export default {
                                 <button class='col_addbtn'><img src="@/assets/img/note/right_arrow.png" @click="addCol($event)"></button> 
                                 </div>`;
                     contents.push(tableTag);
-                } else if (lineAll[i].querySelector('input[type="checkbox"]') != undefined) {
+                } else if (lineAll[i].querySelector('.checkbox_text') != undefined) {
                     lineValue = [];
-                    let checkBoxList = lineAll[i].querySelectorAll('.check_box_list');
-                    checkBoxTag = `<div class='check_box_list'>`;
+                    let checkBoxList = lineAll[i].querySelectorAll('input[type="checkbox"]');
+                    let checkBoxText = lineAll[i].querySelectorAll('input[type="text"]');
+                    
+                    checkBoxTag = `<div class='check_box_list'>`;   
                     for (let j = 0; j < checkBoxList.length; j++) {
-                        let lineCheckbox = checkBoxList[j].querySelector('.noteCheckbox');
-                        let lineCheckText = checkBoxList[j].querySelector('.checkbox_text').value;
-                        let isChecked = lineCheckbox.checked;
+                        let lineCheckText = checkBoxText[j].value;
+                        let isChecked = checkBoxList[j].checked;
                         checkBoxTag += `<input type='checkbox' class='noteCheckbox' name="myCheck" value="` + isChecked + `"><input type="text" class="checkbox_text" name="myCheck" value="` + lineCheckText + `">
                                             <div class="box_container">
                                                 <div class="checkbox_button_container">
@@ -275,12 +211,11 @@ export default {
                             status: isChecked,
                             text: lineCheckText
                         });
+
                     };
                     checkBoxTag += `</div>`    
-                    contents.push(checkBoxTag);
-                   
+                    contents.push(checkBoxTag);lineValue = [];
                 } else if (lineAll[i].querySelector('.used-insert-image-preview') != undefined) {
-                    
                     let imgContainer = lineAll[i].querySelector('.img_container');
                     let imgBox = imgContainer.querySelectorAll('.image-preview-div');
                     let imgCount = imgBox.length;
@@ -299,15 +234,12 @@ export default {
             formData.append("noteContents", contents);
             formData.append("email", this.$store.state.email);
             formData.forEach((value, key) => {
-                console.log(value);
             })
-            fetch('http://13.125.95.210:85/java/WriteNoteInfo', {
+           fetch('http://13.125.95.210:85/java/WriteNoteInfo', {
                 method: 'POST',
                 headers: {},
                 body: formData
             }).then(result => {
-                console.log("insert fetch 결과")
-                console.log(result);
                 this.$router.push({
                     name: "MynoteList"
                 })
@@ -323,7 +255,6 @@ export default {
                 dt.items.add(this.images[i]);
             }
             this.images = dt.files;
-            console.log('image ', this.images);
         }
     },
     components: { CreTextarea }
@@ -333,4 +264,3 @@ export default {
 <style scoped src="@/assets/css/note/WriteNote.css">
 
 </style>
-

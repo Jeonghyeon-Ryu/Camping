@@ -1,5 +1,5 @@
 <template>
-  <div class="write_fn">
+  <div class="write_fn" @mouseenter="show($event)" @mouseleave="hide($event)">
     <div class="left_container">
       <div class="btn_container">
         <div class="drag_btn"><img src="@/assets/img/note/drag.png"> </div>
@@ -30,6 +30,17 @@ export default {
     shiftfDown: function (e) {
       this.shiftSatus = true;
     },
+    show(e){
+      let target = e.target;
+      let showTarget = target.querySelector('.btn_container');
+      showTarget.setAttribute('style','opacity:0.6');
+    },
+    hide(e){
+      let target = e.target;
+      let showTarget = target.querySelector('.btn_container');
+      showTarget.setAttribute('style','opacity:0');
+    },
+    
     creTextarea: function (e) {
       if (!this.shiftSatus) {
         e.preventDefault();

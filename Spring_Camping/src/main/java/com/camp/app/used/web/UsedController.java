@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.camp.app.save.service.SaveVO;
 import com.camp.app.used.service.InputUsedVO;
 import com.camp.app.used.service.UsedImageVO;
 import com.camp.app.used.service.UsedReviewVO;
@@ -33,8 +35,8 @@ import com.camp.app.used.service.UsedVO;
  * 중고거래 게시판
  *
  */
-@CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
 //@CrossOrigin(origins="*")
+@CrossOrigin(originPatterns = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PUT})
 @RestController
 @RequestMapping("/java/used")
 public class UsedController {
@@ -108,8 +110,8 @@ public class UsedController {
 	}
 	
 	//내가찜한글조회
-	@GetMapping("/mySave/{email}")
-	public List<UsedVO> findUsedSave(@PathVariable String email){
+	@GetMapping("/mySave")
+	public List<SaveVO> findUsedSave(String email){
 		return service.findUsedSave(email);
 	}
 	
@@ -128,6 +130,7 @@ public class UsedController {
 	//단건조회
 	@GetMapping("/usedDetail/{usedId}")
 	public UsedVO findDetail(@PathVariable int usedId) {
+		System.out.println(usedId);
 		service.updateCnt(usedId);
 		return service.findDetail(usedId);
 	}

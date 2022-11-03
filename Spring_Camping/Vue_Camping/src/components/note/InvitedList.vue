@@ -5,16 +5,16 @@
             <div class="mynote_container">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="card text-white bg-success mb-3" v-for="info in listInfo" :key="info.noteId">
-                            <div class="card-header">
-                                <div class="noteId">{{ info.noteId }}</div>
+                        <div class="card_container" v-for="info in listInfo" :key="info.noteId">
+                            <div class="card_header">
+                                <div class="noteId" style="opacity : 0">{{ info.noteId }}</div>
                                 <div class="note_state">{{ info.noteState }}</div>
                                 <div class="checkbox">
                                     <input type="checkbox" v-bind:id="info.noteId" name="check_one" v-if="show">
                                     <label for="select_card"></label>
                                 </div>
                             </div>
-                            <div class="card-body" @click="goMynote($event)">
+                            <div class="card_body" @click="goMynote($event)">
                                 <div class="card-text">{{ info.writeDate }}</div>
                                 <hr>
                                 <div class="card-title">{{ info.title }}</div>
@@ -143,7 +143,7 @@ export default {
         },
         goMynote(e) {
             let target = e.target.parentElement;
-            while (!target.classList.contains('card')) {
+            while (!target.classList.contains('card_container')) {
                 target = target.parentElement
             }
             let noteId = target.querySelector('.noteId').innerText;
@@ -159,7 +159,7 @@ export default {
         //초대하기
         inviteForm(e) {
             let target = e.target;
-            while (!target.classList.contains('card')) {
+            while (!target.classList.contains('card_container')) {
                 target = target.parentElement;
             }
             let noteId = target.querySelector('.noteId').innerText;
@@ -173,11 +173,6 @@ export default {
             //email입력
             let userEmails = document.querySelector('.input_email').value;
             
-            //let inviteUserObj = this.inviteUserEmail;
-
-            /*for (let i = 0; i < inviteUserObj.length; i++) {
-                invitedUser.push(inviteUserObj[i])
-            }*/
             let fetchData = {
                 "noteId": noteId,
                 "invitedMember": userEmails
@@ -201,6 +196,6 @@ export default {
 };
 </script>
     
-<style scoped src="@/assets/css/note/MynoteList.css">
+<style scoped src="@/assets/css/note/InvitedList.css">
 
 </style>
