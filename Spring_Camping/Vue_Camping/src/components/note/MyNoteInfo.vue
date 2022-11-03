@@ -135,8 +135,8 @@ export default {
             showInfo: {},
             datas: [],
             images: [],
-            storedImages: []
-
+            storedImages: [],
+            writer :''
         }
     },
     created() {
@@ -146,6 +146,7 @@ export default {
             .then(result => result.json())
             .then(result => {
                 this.title = result.title;
+                this.writer = result.email;
                 console.log('=============기존에 작성했던 정보======================')
                 console.log(result)
                 for (let i = 0; i < result.noteContents.length; i++) {
@@ -391,9 +392,15 @@ export default {
             }).then(result => {
                 console.log("이미지 fetch 결과")
                 console.log(result);
-                this.$router.push({
-                    name: "MynoteList"
-                })
+                if(this.writer == this.$store.state.email){
+                    this.$router.push({
+                        name: "MynoteList"
+                    })
+                } else {
+                    this.$router.push({
+                        name: "InvitedList"
+                    })
+                }
             })
 
         },
