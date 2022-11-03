@@ -127,7 +127,7 @@ public class UsedServiceImpl implements UsedService {
 	
 	//내가찜한글조회
 	@Override
-	public List<UsedVO> findUsedSave(String email) {
+	public List<SaveVO> findUsedSave(String email) {
 		return mapper.findUsedSave(email);
 	}
 	 

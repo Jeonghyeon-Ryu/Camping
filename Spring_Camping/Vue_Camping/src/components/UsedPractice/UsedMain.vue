@@ -14,6 +14,9 @@
               </swiper> -->
               <swiper :autoplay="{ delay:1000, disableOnInteraction:false }" :navigation="false" :pagination="{ clickable: false, }" :modules="modules" class="mySwiper">
                 <swiper-slide>
+                  <img src="@/assets/img/used/ad3.png" alt="텐트 중고거래 광고">
+                </swiper-slide>
+                <swiper-slide>
                   <img src="@/assets/img/used/bg10.png" alt="텐트 중고거래 광고">
                 </swiper-slide>
                 <swiper-slide>

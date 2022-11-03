@@ -333,6 +333,7 @@ created(){
     width: 80%;
     margin: 0 auto;
     margin-top: 7%;
+    margin-bottom: 6%;
     padding: 2% 2% 3% 2%;
     /* border: 1px solid #e6e6e6; */
     background-color: #f7f7f7;

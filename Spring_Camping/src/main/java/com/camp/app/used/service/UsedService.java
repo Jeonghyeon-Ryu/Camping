@@ -30,7 +30,7 @@ public interface UsedService {
 	public List<UsedVO> findMyUsed(String usedWriter);
 	
 	//내가찜한글조회
-	public List<UsedVO> findUsedSave(String email);
+	public List<SaveVO> findUsedSave(String email);
 	
 	//게시글 조건조회
 	public List<UsedVO> searchUsedList(UsedVO used);

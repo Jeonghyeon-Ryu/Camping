@@ -314,7 +314,7 @@ export default {
         title: '',
         text: '거래지역은 필수 선택 사항입니다',
         icon: 'warning',
-
+        toast: 'true',
         confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
         cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
         confirmButtonText: '확인', // confirm 버튼 텍스트 지정
