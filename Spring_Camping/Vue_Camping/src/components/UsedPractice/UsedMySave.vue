@@ -89,7 +89,7 @@
       console.log('-----------------')
       console.log(this.email)
       //내가찜한글전체조회\
-      fetch("http://l13.125.95.210:85/java/used/mySave?email="+this.$store.state.email)
+      fetch("http://13.125.95.210:85/java/used/mySave?email="+this.$store.state.email)
             .then((Response) => Response.json())  //json 파싱 
             .then(data => { 
               console.log(data)

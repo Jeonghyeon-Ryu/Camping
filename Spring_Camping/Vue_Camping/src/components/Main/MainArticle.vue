@@ -82,12 +82,14 @@ export default {
 } 
 </script>
 <style scoped>
-a{
+a {
   text-decoration: none;
 }
-a:visited{
-  color:black;
+
+a:visited {
+  color: black;
 }
+
 .article-container {
   width: 100%;
   height: fit-content;
@@ -98,30 +100,13 @@ a:visited{
   position: absolute;
   top: calc(120vh + 20px);
 }
+
 .article-left {
   width: 100%;
   flex-wrap: wrap;
   /* padding: 20px; */
 }
-.article-left-title{
-  width:100%;
-  height: 40px;
-  /* background-color: rgb(49, 69, 53); */
-  padding: 10px 10px 10px 10vw;
-  text-align: left;
-  font-weight: bold;
-  font-size: 1.1em;
-  color: rgb(54, 91, 61);
-}
-.recru-card-box{
-  width: calc(80vw + 80px);
-  min-width: 1040px;
-  display: flex;
-  /* padding: 0 1.5% 1.5% 1.5%; */
-  /* overflow-x: scroll; */
-  margin: 0 auto;
-  overflow: hidden;
-}
+
 .article-right {
   padding: 0 10px 0 10px;
   width: 100%;
@@ -160,6 +145,7 @@ a:visited{
   display: block;
   overflow-y: hidden;
 }
+
 .sns-cards {
   display: flex;
   flex-wrap: nowrap;
@@ -167,14 +153,41 @@ a:visited{
   overflow: hidden;
   /* justify-content: space-around; */
 }
+
 .sns-card {
   width: 300px;
-  height:320px;
-  margin:10px;
+  height: 320px;
+  margin: 10px;
 }
-.sns-card img{
-  border:1px solid gray;
-  height:320px;;
-  width:300px;
+
+.sns-card img {
+  border: 1px solid gray;
+  height: 320px;
+  ;
+  width: 300px;
+}
+
+@media screen and (max-width:767px) {}
+
+@media screen and (min-width:768px) and (max-width:991px) {}
+
+@media screen and (min-width:992px) and (max-width:1200px) {
+  .recru-card-box {
+    width: calc(60vw + 60px);
+    min-width: 1040px;
+    display: flex;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-width:1201px) {
+  .recru-card-box {
+    width: calc(80vw + 80px);
+    min-width: 1040px;
+    display: flex;
+    margin: 0 auto;
+    overflow: hidden;
+  }
 }
 </style>

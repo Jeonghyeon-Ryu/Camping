@@ -110,6 +110,7 @@ ul{
   background-color: #f9f9f9 !important;
   border-top: 1px solid #efefef !important;
   padding-left: 70% !important;
+  z-index: 1000;
 }
 .like-button,.like-button2, .chat-button, .chat-button2, .update-button, .update-button2, .delete-button, .delete-button2, .restrict-button
 ,.used-head-btns > input{
